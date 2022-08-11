@@ -1,0 +1,38 @@
+{
+  "name": "@wakeadmin/component-adapter",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "exports": "./lib/index.js",
+  "module": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "engines": {
+    "node": ">= 16"
+  },
+  "bin": {
+    "wakeadmin-adapter-switch": "bin/wakeadmin-adapter-switch.js"
+  },
+  "files": [
+    "lib",
+    "bin",
+    "dist",
+    "scripts"
+  ],
+  "scripts": {
+    "postinstall": "node ./scripts/postinstall.js",
+    "start": "tsc -b tsconfig.build.json --watch",
+    "prebuild": "rimraf dist .tsBuildInfo",
+    "build": "tsc -b tsconfig.build.json",
+    "type-check": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@wakeadmin/demi": "^0.1.1"
+  },
+  "devDependencies": {
+    "element-plus": "^2.2.12",
+    "element-ui": "^2.15.9"
+  }
+}
