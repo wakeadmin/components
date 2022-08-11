@@ -9,5 +9,8 @@
     "components"
   ],
   "author": "ivan-lee",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@wakeadmin/utils": "^0.1.1"
+  }
 }

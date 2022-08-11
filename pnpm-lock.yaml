@@ -95,7 +95,10 @@ importers:
       element-ui: 172.26.59.72+4873/element-ui/2.15.9
 
   packages/components:
-    specifiers: {}
+    specifiers:
+      '@wakeadmin/utils': ^0.1.1
+    dependencies:
+      '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.1
 
   packages/playground-vue2:
     specifiers:
