@@ -1,0 +1,17 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+dist-node
+*.local
+.idea
+yarn-error.log
+*.Identifier
+env.local.json
+env.*.local.json
+.umi/**
+wk-docs-out
+wk-docs
+.tsBuildInfo*
+*.log
+.pnpm-store/

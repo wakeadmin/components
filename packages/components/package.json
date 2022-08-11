@@ -1,0 +1,13 @@
+{
+  "name": "@wakeadmin/components",
+  "version": "0.1.0",
+  "description": "wakeadmin 组件库",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "wakeadmin",
+    "components"
+  ],
+  "author": "ivan-lee",
+  "license": "MIT"
+}
