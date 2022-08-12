@@ -22,7 +22,5 @@
     "@wakeadmin/h": "^0.1.2",
     "@wakeadmin/utils": "^0.1.1"
   },
-  "devDependencies": {
-    "typescript": "4.5"
-  }
+  "devDependencies": {}
 }

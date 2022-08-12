@@ -97,14 +97,11 @@ importers:
       '@wakeadmin/demi': ^0.1.1
       '@wakeadmin/h': ^0.1.2
       '@wakeadmin/utils': ^0.1.1
-      typescript: '4.5'
     dependencies:
       '@wakeadmin/component-adapter': link:../adapter
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.1.1
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.1.2
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.1
-    devDependencies:
-      typescript: 172.26.59.72+4873/typescript/4.5.5
 
   packages/playground-vue2:
     specifiers:
@@ -159,7 +156,6 @@ importers:
       '@wakeadmin/docker-build': latest
       '@wakeadmin/framework': latest
       '@wakeadmin/h': latest
-      '@wakeadmin/i18n': latest
       '@wakeadmin/vue-cli-plugin-i18n': latest
       babel-preset-wakeadmin: latest
       core-js: ^3.23.5
@@ -167,17 +163,14 @@ importers:
       sass: ^1.54.0
       sass-loader: ^12.6.0
       vue: ^3.2.37
-      vue-i18n: 9.1.10
       vue-router: ^4.1.2
     dependencies:
       '@wakeadmin/components': link:../components
       '@wakeadmin/framework': 172.26.59.72+4873/@wakeadmin/framework/0.1.2
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.1.2
-      '@wakeadmin/i18n': 172.26.59.72+4873/@wakeadmin/i18n/0.1.3
       core-js: 172.26.59.72+4873/core-js/3.24.1
       element-plus: 172.26.59.72+4873/element-plus/2.2.13_vue@3.2.37
       vue: 172.26.59.72+4873/vue/3.2.37
-      vue-i18n: 172.26.59.72+4873/vue-i18n/9.1.10
       vue-router: 172.26.59.72+4873/vue-router/4.1.3
     devDependencies:
       '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@3.2.37
@@ -2153,76 +2146,6 @@ packages:
     name: '@humanwhocodes/object-schema'
     version: 1.2.1
     dev: true
-
-  172.26.59.72+4873/@intlify/core-base/9.1.10:
-    resolution: {integrity: sha512-So9CNUavB/IsZ+zBmk2Cv6McQp6vc2wbGi1S0XQmJ8Vz+UFcNn9MFXAe9gY67PreIHrbLsLxDD0cwo1qsxM1Nw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fcore-base/-/core-base-9.1.10.tgz}
-    name: '@intlify/core-base'
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dependencies:
-      '@intlify/devtools-if': 172.26.59.72+4873/@intlify/devtools-if/9.1.10
-      '@intlify/message-compiler': 172.26.59.72+4873/@intlify/message-compiler/9.1.10
-      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
-      '@intlify/runtime': 172.26.59.72+4873/@intlify/runtime/9.1.10
-      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
-      '@intlify/vue-devtools': 172.26.59.72+4873/@intlify/vue-devtools/9.1.10
-    dev: false
-
-  172.26.59.72+4873/@intlify/devtools-if/9.1.10:
-    resolution: {integrity: sha512-SHaKoYu6sog3+Q8js1y3oXLywuogbH1sKuc7NSYkN3GElvXSBaMoCzW+we0ZSFqj/6c7vTNLg9nQ6rxhKqYwnQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fdevtools-if/-/devtools-if-9.1.10.tgz}
-    name: '@intlify/devtools-if'
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dependencies:
-      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
-    dev: false
-
-  172.26.59.72+4873/@intlify/message-compiler/9.1.10:
-    resolution: {integrity: sha512-+JiJpXff/XTb0EadYwdxOyRTB0hXNd4n1HaJ/a4yuV960uRmPXaklJsedW0LNdcptd/hYUZtCkI7Lc9J5C1gxg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fmessage-compiler/-/message-compiler-9.1.10.tgz}
-    name: '@intlify/message-compiler'
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dependencies:
-      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
-      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
-      source-map: 172.26.59.72+4873/source-map/0.6.1
-    dev: false
-
-  172.26.59.72+4873/@intlify/message-resolver/9.1.10:
-    resolution: {integrity: sha512-5YixMG/M05m0cn9+gOzd4EZQTFRUu8RGhzxJbR1DWN21x/Z3bJ8QpDYj6hC4FwBj5uKsRfKpJQ3Xqg98KWoA+w==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fmessage-resolver/-/message-resolver-9.1.10.tgz}
-    name: '@intlify/message-resolver'
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dev: false
-
-  172.26.59.72+4873/@intlify/runtime/9.1.10:
-    resolution: {integrity: sha512-7QsuByNzpe3Gfmhwq6hzgXcMPpxz8Zxb/XFI6s9lQdPLPe5Lgw4U1ovRPZTOs6Y2hwitR3j/HD8BJNGWpJnOFA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fruntime/-/runtime-9.1.10.tgz}
-    name: '@intlify/runtime'
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dependencies:
-      '@intlify/message-compiler': 172.26.59.72+4873/@intlify/message-compiler/9.1.10
-      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
-      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
-    dev: false
-
-  172.26.59.72+4873/@intlify/shared/9.1.10:
-    resolution: {integrity: sha512-Om54xJeo1Vw+K1+wHYyXngE8cAbrxZHpWjYzMR9wCkqbhGtRV5VLhVc214Ze2YatPrWlS2WSMOWXR8JktX/IgA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fshared/-/shared-9.1.10.tgz}
-    name: '@intlify/shared'
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dev: false
-
-  172.26.59.72+4873/@intlify/vue-devtools/9.1.10:
-    resolution: {integrity: sha512-5l3qYARVbkWAkagLu1XbDUWRJSL8br1Dj60wgMaKB0+HswVsrR6LloYZTg7ozyvM621V6+zsmwzbQxbVQyrytQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fvue-devtools/-/vue-devtools-9.1.10.tgz}
-    name: '@intlify/vue-devtools'
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dependencies:
-      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
-      '@intlify/runtime': 172.26.59.72+4873/@intlify/runtime/9.1.10
-      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
-    dev: false
 
   172.26.59.72+4873/@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha1-/T2x1Z7PfPEh6AZQu4ZxL5tV7O0=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@istanbuljs%2fload-nyc-config/-/load-nyc-config-1.1.0.tgz}
@@ -4223,17 +4146,6 @@ packages:
       - lodash
     dev: false
 
-  172.26.59.72+4873/@wakeadmin/i18n/0.1.3:
-    resolution: {integrity: sha512-vAvXJcL/HOO8LzrmNltBU3qaqDkBN3fcr8rSjkhNZzYvQWe5FQTty/euvLAwaG4qfVILzRqf8fujuOcROp+sxA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeadmin%2fi18n/-/i18n-0.1.3.tgz}
-    name: '@wakeadmin/i18n'
-    version: 0.1.3
-    dependencies:
-      '@wakeadmin/i18n-shared': 172.26.59.72+4873/@wakeadmin/i18n-shared/0.1.5
-      '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.1
-    transitivePeerDependencies:
-      - lodash
-    dev: false
-
   172.26.59.72+4873/@wakeadmin/utils/0.1.1:
     resolution: {integrity: sha512-VqHsvTbeyDgiJg2XIAePo2LrwCFICW5lbMdq1R5so7q2VS6uG9364Rx4wvLFDsfPZIIpnmLpp9Imw0j7xPLyCg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeadmin%2futils/-/utils-0.1.1.tgz}
     name: '@wakeadmin/utils'
@@ -5681,7 +5593,7 @@ packages:
       lodash: ^4.17.20
       marko: ^3.14.4
       mote: ^0.2.0
-      mustache: ^4.0.1
+      mustache: ^3.0.0
       nunjucks: ^3.2.2
       plates: ~0.4.11
       pug: ^3.0.0
@@ -12992,14 +12904,6 @@ packages:
       mime-types: 172.26.59.72+4873/mime-types/2.1.35
     dev: true
 
-  172.26.59.72+4873/typescript/4.5.5:
-    resolution: {integrity: sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/typescript/-/typescript-4.5.5.tgz}
-    name: typescript
-    version: 4.5.5
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: true
-
   172.26.59.72+4873/typescript/4.7.4:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/typescript/-/typescript-4.7.4.tgz}
     name: typescript
@@ -13196,18 +13100,6 @@ packages:
     resolution: {integrity: sha512-QVzn7u2WVH8F7eSKIM00lujC7x1mnuGPaTnDTmB01Hd709jDtB9kYtBqM+MWmp5AJRx3gnqAdZbee9MelqwFBg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/vue-i18n/-/vue-i18n-8.27.2.tgz}
     name: vue-i18n
     version: 8.27.2
-    dev: false
-
-  172.26.59.72+4873/vue-i18n/9.1.10:
-    resolution: {integrity: sha512-jpr7gV5KPk4n+sSPdpZT8Qx3XzTcNDWffRlHV/cT2NUyEf+sEgTTmLvnBAibjOFJ0zsUyZlVTAWH5DDnYep+1g==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/vue-i18n/-/vue-i18n-9.1.10.tgz}
-    name: vue-i18n
-    version: 9.1.10
-    engines: {node: '>= 10'}
-    dependencies:
-      '@intlify/core-base': 172.26.59.72+4873/@intlify/core-base/9.1.10
-      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
-      '@intlify/vue-devtools': 172.26.59.72+4873/@intlify/vue-devtools/9.1.10
-      '@vue/devtools-api': 172.26.59.72+4873/@vue/devtools-api/6.2.1
     dev: false
 
   172.26.59.72+4873/vue-loader/15.10.0_s4g757tv5ene7lwjfscpdkdhuu:
