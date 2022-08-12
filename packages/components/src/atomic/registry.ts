@@ -4,7 +4,7 @@ import { Atomic, Registry } from './types';
 /**
  * 全局注册器
  */
-let globalRegistry: Registry = new NamedRegistry<Atomic>();
+export const globalRegistry: Registry = new NamedRegistry<Atomic>();
 
 /**
  * 创建注册器

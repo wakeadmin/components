@@ -3,19 +3,9 @@ import { NamedRegistry } from '@wakeadmin/utils';
 
 declare global {
   // 定义原件的 props 映射
+  // key 为 atomic 名称
+  // value 为 props 类型, 除 AtomicCommonProps 之外的字段
   interface AtomicProps {}
-}
-
-export enum AtomicMode {
-  /**
-   * 编辑模式
-   */
-  Editable,
-
-  /**
-   * 预览模式
-   */
-  Preview,
 }
 
 /**
@@ -25,7 +15,7 @@ export interface AtomicCommonProps<T> {
   /**
    * 渲染模式
    */
-  mode?: AtomicMode;
+  mode?: 'editable' | 'preview';
 
   /**
    * 是否已禁用
@@ -53,11 +43,9 @@ export interface AtomicCommonProps<T> {
   style?: CSSProperties;
 
   /**
-   * 验证
-   * @param {T} value 当前值
-   * @param {any} context 上下文，可以获取到其他字段的值
+   * 上下文信息，由具体的应用组件指定
    */
-  validate?: (value: T, context: any) => Promise<void>;
+  context?: any;
 }
 
 /**
@@ -83,6 +71,13 @@ export interface Atomic {
    * 组件实现
    */
   component: FunctionalComponent<AtomicCommonProps<any>>;
+
+  /**
+   * 值验证
+   * @param {T} value 当前值
+   * @param {any} context 上下文，可以获取到其他字段的值
+   */
+  validate?: (value: any, context: any) => Promise<void>;
 }
 
 export interface Registry extends Pick<NamedRegistry<Atomic>, 'register' | 'unregister' | 'subscribe' | 'unsubscribe'> {

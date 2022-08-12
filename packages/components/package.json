@@ -2,8 +2,14 @@
   "name": "@wakeadmin/components",
   "version": "0.1.0",
   "description": "wakeadmin 组件库",
-  "main": "index.js",
-  "scripts": {},
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "start": "tsc -b tsconfig.build.json --watch",
+    "prebuild": "rimraf dist .tsBuildInfo",
+    "build": "tsc -b tsconfig.build.json",
+    "type-check": "tsc"
+  },
   "keywords": [
     "wakeadmin",
     "components"
@@ -11,6 +17,12 @@
   "author": "ivan-lee",
   "license": "MIT",
   "dependencies": {
+    "@wakeadmin/component-adapter": "workspace:^1.0.0",
+    "@wakeadmin/demi": "^0.1.1",
+    "@wakeadmin/h": "^0.1.2",
     "@wakeadmin/utils": "^0.1.1"
+  },
+  "devDependencies": {
+    "typescript": "4.5"
   }
 }

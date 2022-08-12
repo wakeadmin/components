@@ -10,7 +10,7 @@
   },
   "browserslist": "Chrome 60",
   "scripts": {
-    "serve": "wakeadmin-adapter-switch 2 && vue-cli-service serve",
+    "serve": "vue-demi-switch 2 vue2 && wakeadmin-adapter-switch 2 && vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "inspect": "vue-cli-service inspect",
     "build": "vue-cli-service build",
@@ -18,6 +18,7 @@
     "publish:docker": "node ./scripts/docker-publish.js"
   },
   "dependencies": {
+    "@wakeadmin/components": "workspace:^0.1.0",
     "@wakeadmin/framework": "latest",
     "@wakeadmin/h": "latest",
     "@wakeadmin/i18n-legacy": "latest",
