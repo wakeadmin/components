@@ -255,8 +255,9 @@ const FatTableInner = declareComponent({
               total={pagination.total}
               pageSize={pagination.pageSize}
               disabled={loading.value || props.paginationProps?.disabled}
-              onSize-change={handlePageSizeChange}
-              onCurrent-change={handlePageCurrentChange}
+              // @ts-expect-error
+              onSizeChange={handlePageSizeChange}
+              onCurrentChange={handlePageCurrentChange}
             ></Pagination>
           )}
         </div>

@@ -149,6 +149,47 @@ importers:
       sass: 172.26.59.72+4873/sass/1.54.4
       sass-loader: 172.26.59.72+4873/sass-loader/12.6.0_sass@1.54.4
 
+  packages/playground-vue3:
+    specifiers:
+      '@vue/cli-plugin-babel': ~5.0.8
+      '@vue/cli-plugin-router': ~5.0.8
+      '@vue/cli-plugin-typescript': ~5.0.8
+      '@vue/cli-service': ~5.0.8
+      '@wakeadmin/components': workspace:^0.1.0
+      '@wakeadmin/docker-build': latest
+      '@wakeadmin/framework': latest
+      '@wakeadmin/h': latest
+      '@wakeadmin/i18n': latest
+      '@wakeadmin/vue-cli-plugin-i18n': latest
+      babel-preset-wakeadmin: latest
+      core-js: ^3.23.5
+      element-plus: latest
+      sass: ^1.54.0
+      sass-loader: ^12.6.0
+      vue: ^3.2.37
+      vue-i18n: 9.1.10
+      vue-router: ^4.1.2
+    dependencies:
+      '@wakeadmin/components': link:../components
+      '@wakeadmin/framework': 172.26.59.72+4873/@wakeadmin/framework/0.1.2
+      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.1.2
+      '@wakeadmin/i18n': 172.26.59.72+4873/@wakeadmin/i18n/0.1.3
+      core-js: 172.26.59.72+4873/core-js/3.24.1
+      element-plus: 172.26.59.72+4873/element-plus/2.2.13_vue@3.2.37
+      vue: 172.26.59.72+4873/vue/3.2.37
+      vue-i18n: 172.26.59.72+4873/vue-i18n/9.1.10
+      vue-router: 172.26.59.72+4873/vue-router/4.1.3
+    devDependencies:
+      '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@3.2.37
+      '@vue/cli-plugin-router': 172.26.59.72+4873/@vue/cli-plugin-router/5.0.8
+      '@vue/cli-plugin-typescript': 172.26.59.72+4873/@vue/cli-plugin-typescript/5.0.8
+      '@vue/cli-service': 172.26.59.72+4873/@vue/cli-service/5.0.8_sass-loader@12.6.0
+      '@wakeadmin/docker-build': 172.26.59.72+4873/@wakeadmin/docker-build/0.1.8
+      '@wakeadmin/vue-cli-plugin-i18n': 172.26.59.72+4873/@wakeadmin/vue-cli-plugin-i18n/0.1.0
+      babel-preset-wakeadmin: 172.26.59.72+4873/babel-preset-wakeadmin/0.1.0
+      sass: 172.26.59.72+4873/sass/1.54.4
+      sass-loader: 172.26.59.72+4873/sass-loader/12.6.0_sass@1.54.4
+
 packages:
 
   172.26.59.72+4873/@achrinza/node-ipc/9.2.5:
@@ -2043,13 +2084,11 @@ packages:
     name: '@ctrl/tinycolor'
     version: 3.4.1
     engines: {node: '>=10'}
-    dev: true
 
   172.26.59.72+4873/@element-plus/icons-vue/2.0.8:
     resolution: {integrity: sha512-78dqCh4zecIxn14obD//T1kyqRHdpY5y2uJ8tth933YrG1Aqg3i+a1mhspuL8boEkr9ZhH0reYwsJt4EcRZLtQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@element-plus%2ficons-vue/-/icons-vue-2.0.8.tgz}
     name: '@element-plus/icons-vue'
     version: 2.0.8
-    dev: true
 
   172.26.59.72+4873/@eslint/eslintrc/1.3.0:
     resolution: {integrity: sha512-UWW0TMTmk2d7hLcWD1/e2g5HDM/HQ3csaLSqXCfqwh4uNDuNqlaKWXmEsL4Cs41Z0KnILNvwbHAah3C2yt06kw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@eslint%2feslintrc/-/eslintrc-1.3.0.tgz}
@@ -2074,7 +2113,6 @@ packages:
     resolution: {integrity: sha512-buc8BXHmG9l82+OQXOFU3Kr2XQx9ys01U/Q9HMIrZ300iLc8HLMgh7dcCqgYzAzf4BkoQvDcXf5Y+CuEZ5JBYg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@floating-ui%2fcore/-/core-0.7.3.tgz}
     name: '@floating-ui/core'
     version: 0.7.3
-    dev: true
 
   172.26.59.72+4873/@floating-ui/dom/0.5.4:
     resolution: {integrity: sha512-419BMceRLq0RrmTSDxn8hf9R3VCJv2K9PUfugh5JyEFmdjzDo+e8U5EdR8nzKq8Yj1htzLm3b6eQEEam3/rrtg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@floating-ui%2fdom/-/dom-0.5.4.tgz}
@@ -2082,7 +2120,6 @@ packages:
     version: 0.5.4
     dependencies:
       '@floating-ui/core': 172.26.59.72+4873/@floating-ui/core/0.7.3
-    dev: true
 
   172.26.59.72+4873/@hapi/hoek/9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@hapi%2fhoek/-/hoek-9.3.0.tgz}
@@ -2116,6 +2153,76 @@ packages:
     name: '@humanwhocodes/object-schema'
     version: 1.2.1
     dev: true
+
+  172.26.59.72+4873/@intlify/core-base/9.1.10:
+    resolution: {integrity: sha512-So9CNUavB/IsZ+zBmk2Cv6McQp6vc2wbGi1S0XQmJ8Vz+UFcNn9MFXAe9gY67PreIHrbLsLxDD0cwo1qsxM1Nw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fcore-base/-/core-base-9.1.10.tgz}
+    name: '@intlify/core-base'
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dependencies:
+      '@intlify/devtools-if': 172.26.59.72+4873/@intlify/devtools-if/9.1.10
+      '@intlify/message-compiler': 172.26.59.72+4873/@intlify/message-compiler/9.1.10
+      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
+      '@intlify/runtime': 172.26.59.72+4873/@intlify/runtime/9.1.10
+      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
+      '@intlify/vue-devtools': 172.26.59.72+4873/@intlify/vue-devtools/9.1.10
+    dev: false
+
+  172.26.59.72+4873/@intlify/devtools-if/9.1.10:
+    resolution: {integrity: sha512-SHaKoYu6sog3+Q8js1y3oXLywuogbH1sKuc7NSYkN3GElvXSBaMoCzW+we0ZSFqj/6c7vTNLg9nQ6rxhKqYwnQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fdevtools-if/-/devtools-if-9.1.10.tgz}
+    name: '@intlify/devtools-if'
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dependencies:
+      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
+    dev: false
+
+  172.26.59.72+4873/@intlify/message-compiler/9.1.10:
+    resolution: {integrity: sha512-+JiJpXff/XTb0EadYwdxOyRTB0hXNd4n1HaJ/a4yuV960uRmPXaklJsedW0LNdcptd/hYUZtCkI7Lc9J5C1gxg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fmessage-compiler/-/message-compiler-9.1.10.tgz}
+    name: '@intlify/message-compiler'
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dependencies:
+      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
+      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
+      source-map: 172.26.59.72+4873/source-map/0.6.1
+    dev: false
+
+  172.26.59.72+4873/@intlify/message-resolver/9.1.10:
+    resolution: {integrity: sha512-5YixMG/M05m0cn9+gOzd4EZQTFRUu8RGhzxJbR1DWN21x/Z3bJ8QpDYj6hC4FwBj5uKsRfKpJQ3Xqg98KWoA+w==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fmessage-resolver/-/message-resolver-9.1.10.tgz}
+    name: '@intlify/message-resolver'
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dev: false
+
+  172.26.59.72+4873/@intlify/runtime/9.1.10:
+    resolution: {integrity: sha512-7QsuByNzpe3Gfmhwq6hzgXcMPpxz8Zxb/XFI6s9lQdPLPe5Lgw4U1ovRPZTOs6Y2hwitR3j/HD8BJNGWpJnOFA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fruntime/-/runtime-9.1.10.tgz}
+    name: '@intlify/runtime'
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dependencies:
+      '@intlify/message-compiler': 172.26.59.72+4873/@intlify/message-compiler/9.1.10
+      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
+      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
+    dev: false
+
+  172.26.59.72+4873/@intlify/shared/9.1.10:
+    resolution: {integrity: sha512-Om54xJeo1Vw+K1+wHYyXngE8cAbrxZHpWjYzMR9wCkqbhGtRV5VLhVc214Ze2YatPrWlS2WSMOWXR8JktX/IgA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fshared/-/shared-9.1.10.tgz}
+    name: '@intlify/shared'
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dev: false
+
+  172.26.59.72+4873/@intlify/vue-devtools/9.1.10:
+    resolution: {integrity: sha512-5l3qYARVbkWAkagLu1XbDUWRJSL8br1Dj60wgMaKB0+HswVsrR6LloYZTg7ozyvM621V6+zsmwzbQxbVQyrytQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@intlify%2fvue-devtools/-/vue-devtools-9.1.10.tgz}
+    name: '@intlify/vue-devtools'
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dependencies:
+      '@intlify/message-resolver': 172.26.59.72+4873/@intlify/message-resolver/9.1.10
+      '@intlify/runtime': 172.26.59.72+4873/@intlify/runtime/9.1.10
+      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
+    dev: false
 
   172.26.59.72+4873/@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha1-/T2x1Z7PfPEh6AZQu4ZxL5tV7O0=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@istanbuljs%2fload-nyc-config/-/load-nyc-config-1.1.0.tgz}
@@ -2591,7 +2698,6 @@ packages:
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@sxzz%2fpopperjs-es/-/popperjs-es-2.11.7.tgz}
     name: '@sxzz/popperjs-es'
     version: 2.11.7
-    dev: true
 
   172.26.59.72+4873/@testing-library/dom/7.31.2:
     resolution: {integrity: sha1-3zYds49SEriFVQaKuBGfXYQajEo=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@testing-library%2fdom/-/dom-7.31.2.tgz}
@@ -2908,13 +3014,11 @@ packages:
     version: 4.17.6
     dependencies:
       '@types/lodash': 172.26.59.72+4873/@types/lodash/4.14.182
-    dev: true
 
   172.26.59.72+4873/@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@types%2flodash/-/lodash-4.14.182.tgz}
     name: '@types/lodash'
     version: 4.14.182
-    dev: true
 
   172.26.59.72+4873/@types/mime/3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@types%2fmime/-/mime-3.0.1.tgz}
@@ -3051,7 +3155,6 @@ packages:
     resolution: {integrity: sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@types%2fweb-bluetooth/-/web-bluetooth-0.0.14.tgz}
     name: '@types/web-bluetooth'
     version: 0.0.14
-    dev: true
 
   172.26.59.72+4873/@types/webpack-env/1.17.0:
     resolution: {integrity: sha512-eHSaNYEyxRA5IAG0Ym/yCyf86niZUIF/TpWKofQI/CVfh5HsMEUyfE2kwFxha4ow0s5g0LfISQxpDKjbRDrizw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@types%2fwebpack-env/-/webpack-env-1.17.0.tgz}
@@ -3319,6 +3422,64 @@ packages:
       - supports-color
     dev: true
 
+  172.26.59.72+4873/@vue/babel-preset-app/5.0.8_vue@3.2.37:
+    resolution: {integrity: sha512-yl+5qhpjd8e1G4cMXfORkkBlvtPCIgmRf3IYCWYDKIQ7m+PPa5iTm4feiNmCMD6yGqQWMhhK/7M3oWGL9boKwg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fbabel-preset-app/-/babel-preset-app-5.0.8.tgz}
+    id: 172.26.59.72+4873/@vue/babel-preset-app/5.0.8
+    name: '@vue/babel-preset-app'
+    version: 5.0.8
+    peerDependencies:
+      vue: '*'
+    peerDependenciesMeta:
+      core-js:
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@babel/core': 172.26.59.72+4873/@babel/core/7.18.10
+      '@babel/helper-compilation-targets': 172.26.59.72+4873/@babel/helper-compilation-targets/7.18.9_@babel+core@7.18.10
+      '@babel/helper-module-imports': 172.26.59.72+4873/@babel/helper-module-imports/7.18.6
+      '@babel/plugin-proposal-class-properties': 172.26.59.72+4873/@babel/plugin-proposal-class-properties/7.18.6_@babel+core@7.18.10
+      '@babel/plugin-proposal-decorators': 172.26.59.72+4873/@babel/plugin-proposal-decorators/7.18.10_@babel+core@7.18.10
+      '@babel/plugin-syntax-dynamic-import': 172.26.59.72+4873/@babel/plugin-syntax-dynamic-import/7.8.3_@babel+core@7.18.10
+      '@babel/plugin-syntax-jsx': 172.26.59.72+4873/@babel/plugin-syntax-jsx/7.18.6_@babel+core@7.18.10
+      '@babel/plugin-transform-runtime': 172.26.59.72+4873/@babel/plugin-transform-runtime/7.18.10_@babel+core@7.18.10
+      '@babel/preset-env': 172.26.59.72+4873/@babel/preset-env/7.18.10_@babel+core@7.18.10
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.18.9
+      '@vue/babel-plugin-jsx': 172.26.59.72+4873/@vue/babel-plugin-jsx/1.1.1_@babel+core@7.18.10
+      '@vue/babel-preset-jsx': 172.26.59.72+4873/@vue/babel-preset-jsx/1.3.1_pgtv27nvphntwhlka5yb62wur4
+      babel-plugin-dynamic-import-node: 172.26.59.72+4873/babel-plugin-dynamic-import-node/2.3.3
+      core-js: 172.26.59.72+4873/core-js/3.24.1
+      core-js-compat: 172.26.59.72+4873/core-js-compat/3.24.1
+      semver: 172.26.59.72+4873/semver/7.3.7
+      vue: 172.26.59.72+4873/vue/3.2.37
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  172.26.59.72+4873/@vue/babel-preset-jsx/1.3.1_pgtv27nvphntwhlka5yb62wur4:
+    resolution: {integrity: sha512-ml+nqcSKp8uAqFZLNc7OWLMzR7xDBsUfkomF98DtiIBlLqlq4jCQoLINARhgqRIyKdB+mk/94NWpIb4pL6D3xw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fbabel-preset-jsx/-/babel-preset-jsx-1.3.1.tgz}
+    id: 172.26.59.72+4873/@vue/babel-preset-jsx/1.3.1
+    name: '@vue/babel-preset-jsx'
+    version: 1.3.1
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+      vue: '*'
+    peerDependenciesMeta:
+      vue:
+        optional: true
+    dependencies:
+      '@babel/core': 172.26.59.72+4873/@babel/core/7.18.10
+      '@vue/babel-helper-vue-jsx-merge-props': 172.26.59.72+4873/@vue/babel-helper-vue-jsx-merge-props/1.2.1
+      '@vue/babel-plugin-transform-vue-jsx': 172.26.59.72+4873/@vue/babel-plugin-transform-vue-jsx/1.2.1_@babel+core@7.18.10
+      '@vue/babel-sugar-composition-api-inject-h': 172.26.59.72+4873/@vue/babel-sugar-composition-api-inject-h/1.3.0_@babel+core@7.18.10
+      '@vue/babel-sugar-composition-api-render-instance': 172.26.59.72+4873/@vue/babel-sugar-composition-api-render-instance/1.3.0_@babel+core@7.18.10
+      '@vue/babel-sugar-functional-vue': 172.26.59.72+4873/@vue/babel-sugar-functional-vue/1.2.2_@babel+core@7.18.10
+      '@vue/babel-sugar-inject-h': 172.26.59.72+4873/@vue/babel-sugar-inject-h/1.2.2_@babel+core@7.18.10
+      '@vue/babel-sugar-v-model': 172.26.59.72+4873/@vue/babel-sugar-v-model/1.3.0_@babel+core@7.18.10
+      '@vue/babel-sugar-v-on': 172.26.59.72+4873/@vue/babel-sugar-v-on/1.3.0_@babel+core@7.18.10
+      vue: 172.26.59.72+4873/vue/3.2.37
+    dev: true
+
   172.26.59.72+4873/@vue/babel-preset-jsx/1.3.1_tkmmhmvzsavb4fxhxdcfoykbmy:
     resolution: {integrity: sha512-ml+nqcSKp8uAqFZLNc7OWLMzR7xDBsUfkomF98DtiIBlLqlq4jCQoLINARhgqRIyKdB+mk/94NWpIb4pL6D3xw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fbabel-preset-jsx/-/babel-preset-jsx-1.3.1.tgz}
     id: 172.26.59.72+4873/@vue/babel-preset-jsx/1.3.1
@@ -3436,6 +3597,28 @@ packages:
     dependencies:
       '@babel/core': 172.26.59.72+4873/@babel/core/7.18.10
       '@vue/babel-preset-app': 172.26.59.72+4873/@vue/babel-preset-app/5.0.8_vue@2.7.8
+      '@vue/cli-shared-utils': 172.26.59.72+4873/@vue/cli-shared-utils/5.0.8
+      babel-loader: 172.26.59.72+4873/babel-loader/8.2.5_xc6oct4hcywdrbo4ned6ytbybm
+      thread-loader: 172.26.59.72+4873/thread-loader/3.0.4_webpack@5.74.0
+      webpack: 172.26.59.72+4873/webpack/5.74.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - encoding
+      - esbuild
+      - supports-color
+      - uglify-js
+      - vue
+      - webpack-cli
+    dev: true
+
+  172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@3.2.37:
+    resolution: {integrity: sha512-a4qqkml3FAJ3auqB2kN2EMPocb/iu0ykeELwed+9B1c1nQ1HKgslKMHMPavYx3Cd/QAx2mBD4hwKBqZXEI/CsQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcli-plugin-babel/-/cli-plugin-babel-5.0.8.tgz}
+    id: 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8
+    name: '@vue/cli-plugin-babel'
+    version: 5.0.8
+    dependencies:
+      '@babel/core': 172.26.59.72+4873/@babel/core/7.18.10
+      '@vue/babel-preset-app': 172.26.59.72+4873/@vue/babel-preset-app/5.0.8_vue@3.2.37
       '@vue/cli-shared-utils': 172.26.59.72+4873/@vue/cli-shared-utils/5.0.8
       babel-loader: 172.26.59.72+4873/babel-loader/8.2.5_xc6oct4hcywdrbo4ned6ytbybm
       thread-loader: 172.26.59.72+4873/thread-loader/3.0.4_webpack@5.74.0
@@ -3688,7 +3871,6 @@ packages:
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
       estree-walker: 172.26.59.72+4873/estree-walker/2.0.2
       source-map: 172.26.59.72+4873/source-map/0.6.1
-    dev: true
 
   172.26.59.72+4873/@vue/compiler-dom/3.2.37:
     resolution: {integrity: sha512-yxJLH167fucHKxaqXpYk7x8z7mMEnXOw3G2q62FTkmsvNxu4FQSu5+3UMb+L7fjKa26DEzhrmCxAgFLLIzVfqQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcompiler-dom/-/compiler-dom-3.2.37.tgz}
@@ -3697,7 +3879,6 @@ packages:
     dependencies:
       '@vue/compiler-core': 172.26.59.72+4873/@vue/compiler-core/3.2.37
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
-    dev: true
 
   172.26.59.72+4873/@vue/compiler-sfc/2.7.8:
     resolution: {integrity: sha512-2DK4YWKfgLnW9VDR9gnju1gcYRk3flKj8UNsms7fsRmFcg35slVTZEkqwBtX+wJBXaamFfn6NxSsZh3h12Ix/Q==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcompiler-sfc/-/compiler-sfc-2.7.8.tgz}
@@ -3723,7 +3904,6 @@ packages:
       magic-string: 172.26.59.72+4873/magic-string/0.25.9
       postcss: 172.26.59.72+4873/postcss/8.4.16
       source-map: 172.26.59.72+4873/source-map/0.6.1
-    dev: true
 
   172.26.59.72+4873/@vue/compiler-ssr/3.2.37:
     resolution: {integrity: sha512-7mQJD7HdXxQjktmsWp/J67lThEIcxLemz1Vb5I6rYJHR5vI+lON3nPGOH3ubmbvYGt8xEUaAr1j7/tIFWiEOqw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcompiler-ssr/-/compiler-ssr-3.2.37.tgz}
@@ -3732,7 +3912,6 @@ packages:
     dependencies:
       '@vue/compiler-dom': 172.26.59.72+4873/@vue/compiler-dom/3.2.37
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
-    dev: true
 
   172.26.59.72+4873/@vue/component-compiler-utils/3.3.0:
     resolution: {integrity: sha1-+fX7U0ZLDDeyyNLz+/5E32D2Hck=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcomponent-compiler-utils/-/component-compiler-utils-3.3.0.tgz}
@@ -3815,7 +3994,6 @@ packages:
     resolution: {integrity: sha512-OEgAMeQXvCoJ+1x8WyQuVZzFo0wcyCmUR3baRVLmKBo1LmYZWMlRiXlux5jd0fqVJu6PfDbOrZItVqUEzLobeQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fdevtools-api/-/devtools-api-6.2.1.tgz}
     name: '@vue/devtools-api'
     version: 6.2.1
-    dev: true
 
   172.26.59.72+4873/@vue/reactivity-transform/3.2.37:
     resolution: {integrity: sha512-IWopkKEb+8qpu/1eMKVeXrK0NLw9HicGviJzhJDEyfxTR9e1WtpnnbYkJWurX6WwoFP0sz10xQg8yL8lgskAZg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2freactivity-transform/-/reactivity-transform-3.2.37.tgz}
@@ -3827,7 +4005,6 @@ packages:
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
       estree-walker: 172.26.59.72+4873/estree-walker/2.0.2
       magic-string: 172.26.59.72+4873/magic-string/0.25.9
-    dev: true
 
   172.26.59.72+4873/@vue/reactivity/3.2.37:
     resolution: {integrity: sha512-/7WRafBOshOc6m3F7plwzPeCu/RCVv9uMpOwa/5PiY1Zz+WLVRWiy0MYKwmg19KBdGtFWsmZ4cD+LOdVPcs52A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2freactivity/-/reactivity-3.2.37.tgz}
@@ -3835,7 +4012,6 @@ packages:
     version: 3.2.37
     dependencies:
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
-    dev: true
 
   172.26.59.72+4873/@vue/runtime-core/3.2.37:
     resolution: {integrity: sha512-JPcd9kFyEdXLl/i0ClS7lwgcs0QpUAWj+SKX2ZC3ANKi1U4DOtiEr6cRqFXsPwY5u1L9fAjkinIdB8Rz3FoYNQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fruntime-core/-/runtime-core-3.2.37.tgz}
@@ -3844,7 +4020,6 @@ packages:
     dependencies:
       '@vue/reactivity': 172.26.59.72+4873/@vue/reactivity/3.2.37
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
-    dev: true
 
   172.26.59.72+4873/@vue/runtime-dom/3.2.37:
     resolution: {integrity: sha512-HimKdh9BepShW6YozwRKAYjYQWg9mQn63RGEiSswMbW+ssIht1MILYlVGkAGGQbkhSh31PCdoUcfiu4apXJoPw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fruntime-dom/-/runtime-dom-3.2.37.tgz}
@@ -3854,7 +4029,6 @@ packages:
       '@vue/runtime-core': 172.26.59.72+4873/@vue/runtime-core/3.2.37
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
       csstype: 172.26.59.72+4873/csstype/2.6.20
-    dev: true
 
   172.26.59.72+4873/@vue/server-renderer/3.2.37:
     resolution: {integrity: sha512-kLITEJvaYgZQ2h47hIzPh2K3jG8c1zCVbp/o/bzQOyvzaKiCquKS7AaioPI28GNxIsE/zSx+EwWYsNxDCX95MA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fserver-renderer/-/server-renderer-3.2.37.tgz}
@@ -3863,13 +4037,11 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 172.26.59.72+4873/@vue/compiler-ssr/3.2.37
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
-    dev: true
 
   172.26.59.72+4873/@vue/shared/3.2.37:
     resolution: {integrity: sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fshared/-/shared-3.2.37.tgz}
     name: '@vue/shared'
     version: 3.2.37
-    dev: true
 
   172.26.59.72+4873/@vue/test-utils/1.3.0:
     resolution: {integrity: sha1-1WPezc2caKe8oVHUF5or/W1cPhU=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2ftest-utils/-/test-utils-1.3.0.tgz}
@@ -3918,11 +4090,31 @@ packages:
       vue-demi: 172.26.59.72+4873/vue-demi/0.13.7
     dev: true
 
+  172.26.59.72+4873/@vueuse/core/8.9.4_vue@3.2.37:
+    resolution: {integrity: sha512-B/Mdj9TK1peFyWaPof+Zf/mP9XuGAngaJZBwPaXBvU3aCTZlx3ltlrFFFyMV4iGBwsjSCeUCgZrtkEj9dS2Y3Q==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vueuse%2fcore/-/core-8.9.4.tgz}
+    id: 172.26.59.72+4873/@vueuse/core/8.9.4
+    name: '@vueuse/core'
+    version: 8.9.4
+    peerDependencies:
+      '@vue/composition-api': '*'
+      vue: '*'
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@types/web-bluetooth': 172.26.59.72+4873/@types/web-bluetooth/0.0.14
+      '@vueuse/metadata': 172.26.59.72+4873/@vueuse/metadata/8.9.4
+      '@vueuse/shared': 172.26.59.72+4873/@vueuse/shared/8.9.4_vue@3.2.37
+      vue: 172.26.59.72+4873/vue/3.2.37
+      vue-demi: 172.26.59.72+4873/vue-demi/0.13.7
+    dev: false
+
   172.26.59.72+4873/@vueuse/metadata/8.9.4:
     resolution: {integrity: sha512-IwSfzH80bnJMzqhaapqJl9JRIiyQU0zsRGEgnxN6jhq7992cPUJIRfV+JHRIZXjYqbwt07E1gTEp0R0zPJ1aqw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vueuse%2fmetadata/-/metadata-8.9.4.tgz}
     name: '@vueuse/metadata'
     version: 8.9.4
-    dev: true
 
   172.26.59.72+4873/@vueuse/shared/8.9.4:
     resolution: {integrity: sha512-wt+T30c4K6dGRMVqPddexEVLa28YwxW5OFIPmzUHICjphfAuBFTTdDoyqREZNDOFJZ44ARH1WWQNCUK8koJ+Ag==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vueuse%2fshared/-/shared-8.9.4.tgz}
@@ -3939,6 +4131,24 @@ packages:
     dependencies:
       vue-demi: 172.26.59.72+4873/vue-demi/0.13.7
     dev: true
+
+  172.26.59.72+4873/@vueuse/shared/8.9.4_vue@3.2.37:
+    resolution: {integrity: sha512-wt+T30c4K6dGRMVqPddexEVLa28YwxW5OFIPmzUHICjphfAuBFTTdDoyqREZNDOFJZ44ARH1WWQNCUK8koJ+Ag==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vueuse%2fshared/-/shared-8.9.4.tgz}
+    id: 172.26.59.72+4873/@vueuse/shared/8.9.4
+    name: '@vueuse/shared'
+    version: 8.9.4
+    peerDependencies:
+      '@vue/composition-api': '*'
+      vue: '*'
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue: 172.26.59.72+4873/vue/3.2.37
+      vue-demi: 172.26.59.72+4873/vue-demi/0.13.7
+    dev: false
 
   172.26.59.72+4873/@wakeadmin/demi/0.1.1:
     resolution: {integrity: sha512-TzgtqBhm1RdhaZEbRAAGytd4HWPNJCbiRTzN/UZcqr6qGGXBAHId+BLyQq6x4wQ//6GimOzM5U74tQOeF7G9tg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeadmin%2fdemi/-/demi-0.1.1.tgz}
@@ -4008,6 +4218,17 @@ packages:
     name: '@wakeadmin/i18n-shared'
     version: 0.1.5
     dependencies:
+      '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.1
+    transitivePeerDependencies:
+      - lodash
+    dev: false
+
+  172.26.59.72+4873/@wakeadmin/i18n/0.1.3:
+    resolution: {integrity: sha512-vAvXJcL/HOO8LzrmNltBU3qaqDkBN3fcr8rSjkhNZzYvQWe5FQTty/euvLAwaG4qfVILzRqf8fujuOcROp+sxA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeadmin%2fi18n/-/i18n-0.1.3.tgz}
+    name: '@wakeadmin/i18n'
+    version: 0.1.3
+    dependencies:
+      '@wakeadmin/i18n-shared': 172.26.59.72+4873/@wakeadmin/i18n-shared/0.1.5
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.1
     transitivePeerDependencies:
       - lodash
@@ -4582,7 +4803,6 @@ packages:
     resolution: {integrity: sha512-7HhHjtERjqlNbZtqNqy2rckN/SpOOlmDliet+lP7k+eKZEjPk3DgyeU9lIXLdeLz0uBbbVp+9Qdow9wJWgwwfg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/async-validator/-/async-validator-4.2.5.tgz}
     name: async-validator
     version: 4.2.5
-    dev: true
 
   172.26.59.72+4873/async/2.6.4:
     resolution: {integrity: sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/async/-/async-2.6.4.tgz}
@@ -5966,7 +6186,6 @@ packages:
     resolution: {integrity: sha512-/WwNkdXfckNgw6S5R125rrW8ez139lBHWouiBvX8dfMFtcn6V81REDqnH7+CRpRipfYlyU1CmOnOxrmGcFOjeA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/csstype/-/csstype-2.6.20.tgz}
     name: csstype
     version: 2.6.20
-    dev: true
 
   172.26.59.72+4873/csstype/3.1.0:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/csstype/-/csstype-3.1.0.tgz}
@@ -6399,6 +6618,32 @@ packages:
       - vue
     dev: true
 
+  172.26.59.72+4873/element-plus/2.2.13_vue@3.2.37:
+    resolution: {integrity: sha512-dKQ7BPZC8deUPhv+6s4GgOL0GyGj3KpUarywxm6s1nWnHjH6FqeZlUcxPqBvJd7W/d81POayx3B13GP+rfkG9g==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/element-plus/-/element-plus-2.2.13.tgz}
+    id: 172.26.59.72+4873/element-plus/2.2.13
+    name: element-plus
+    version: 2.2.13
+    dependencies:
+      '@ctrl/tinycolor': 172.26.59.72+4873/@ctrl/tinycolor/3.4.1
+      '@element-plus/icons-vue': 172.26.59.72+4873/@element-plus/icons-vue/2.0.8
+      '@floating-ui/dom': 172.26.59.72+4873/@floating-ui/dom/0.5.4
+      '@popperjs/core': 172.26.59.72+4873/@sxzz/popperjs-es/2.11.7
+      '@types/lodash': 172.26.59.72+4873/@types/lodash/4.14.182
+      '@types/lodash-es': 172.26.59.72+4873/@types/lodash-es/4.17.6
+      '@vueuse/core': 172.26.59.72+4873/@vueuse/core/8.9.4_vue@3.2.37
+      async-validator: 172.26.59.72+4873/async-validator/4.2.5
+      dayjs: 172.26.59.72+4873/dayjs/1.11.4
+      escape-html: 172.26.59.72+4873/escape-html/1.0.3
+      lodash: 172.26.59.72+4873/lodash/4.17.21
+      lodash-es: 172.26.59.72+4873/lodash-es/4.17.21
+      lodash-unified: 172.26.59.72+4873/lodash-unified/1.0.2_3ib2ivapxullxkx3xftsimdk7u
+      memoize-one: 172.26.59.72+4873/memoize-one/6.0.0
+      normalize-wheel-es: 172.26.59.72+4873/normalize-wheel-es/1.2.0
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
+
   172.26.59.72+4873/element-ui/2.15.9:
     resolution: {integrity: sha512-dx45nQLt4Hn87/Z9eRr3ex6KFZbxlFAwEU3QoW3wA5EsYftvHTyL9Pq7VnXXD7hu1Eiaup2jcs6kp+/VSFmXuA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/element-ui/-/element-ui-2.15.9.tgz}
     name: element-ui
@@ -6554,7 +6799,6 @@ packages:
     resolution: {integrity: sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/escape-html/-/escape-html-1.0.3.tgz}
     name: escape-html
     version: 1.0.3
-    dev: true
 
   172.26.59.72+4873/escape-string-regexp/1.0.5:
     resolution: {integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz}
@@ -7042,7 +7286,6 @@ packages:
     resolution: {integrity: sha1-UvAQF4wqTBF6d1fP6UKtt9LaTKw=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/estree-walker/-/estree-walker-2.0.2.tgz}
     name: estree-walker
     version: 2.0.2
-    dev: true
 
   172.26.59.72+4873/esutils/2.0.3:
     resolution: {integrity: sha1-dNLrTeC42hKTcRkQ1Qd1ubcQ72Q=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/esutils/-/esutils-2.0.3.tgz}
@@ -9447,7 +9690,6 @@ packages:
     resolution: {integrity: sha1-Q+YmxG5lkbd1C+srUBFzkMYJ4+4=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/lodash-es/-/lodash-es-4.17.21.tgz}
     name: lodash-es
     version: 4.17.21
-    dev: true
 
   172.26.59.72+4873/lodash-unified/1.0.2_3ib2ivapxullxkx3xftsimdk7u:
     resolution: {integrity: sha512-OGbEy+1P+UT26CYi4opY4gebD8cWRDxAT6MAObIVQMiqYdxZr1g3QHWCToVsm31x2NkLS4K3+MC2qInaRMa39g==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/lodash-unified/-/lodash-unified-1.0.2.tgz}
@@ -9462,7 +9704,6 @@ packages:
       '@types/lodash-es': 172.26.59.72+4873/@types/lodash-es/4.17.6
       lodash: 172.26.59.72+4873/lodash/4.17.21
       lodash-es: 172.26.59.72+4873/lodash-es/4.17.21
-    dev: true
 
   172.26.59.72+4873/lodash.debounce/4.0.8:
     resolution: {integrity: sha1-gteb/zCmfEAF/9XiUVMArZyk168=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/lodash.debounce/-/lodash.debounce-4.0.8.tgz}
@@ -9522,7 +9763,6 @@ packages:
     resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/lodash/-/lodash-4.17.21.tgz}
     name: lodash
     version: 4.17.21
-    dev: true
 
   172.26.59.72+4873/log-symbols/4.1.0:
     resolution: {integrity: sha1-P727lbRoOsn8eFER55LlWNSr1QM=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/log-symbols/-/log-symbols-4.1.0.tgz}
@@ -9584,7 +9824,6 @@ packages:
     version: 0.25.9
     dependencies:
       sourcemap-codec: 172.26.59.72+4873/sourcemap-codec/1.4.8
-    dev: true
 
   172.26.59.72+4873/make-dir/3.1.0:
     resolution: {integrity: sha1-QV6WcEazp/HRhSd9hKpYIDcmoT8=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/make-dir/-/make-dir-3.1.0.tgz}
@@ -9643,7 +9882,6 @@ packages:
     resolution: {integrity: sha1-slkbhx7YKUiu5HJ9xqvO7qyMEEU=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/memoize-one/-/memoize-one-6.0.0.tgz}
     name: memoize-one
     version: 6.0.0
-    dev: true
 
   172.26.59.72+4873/meow/6.1.1:
     resolution: {integrity: sha1-GtZMS3ayok37L2Nf3crfMg0lFGc=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/meow/-/meow-6.1.1.tgz}
@@ -10053,7 +10291,6 @@ packages:
     resolution: {integrity: sha512-Wj7+EJQ8mSuXr2iWfnujrimU35R2W4FAErEyTmJoJ7ucwTn2hOUSsRehMb5RSYkxXGTM7Y9QpvPmp++w5ftoJw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/normalize-wheel-es/-/normalize-wheel-es-1.2.0.tgz}
     name: normalize-wheel-es
     version: 1.2.0
-    dev: true
 
   172.26.59.72+4873/normalize-wheel/1.0.1:
     resolution: {integrity: sha1-rsiGr/2wRQcNhWRH32Ls+GFG7EU=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/normalize-wheel/-/normalize-wheel-1.0.1.tgz}
@@ -12008,7 +12245,6 @@ packages:
     resolution: {integrity: sha1-6oBL2UhXQC5pktBaOO8a41qatMQ=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz}
     name: sourcemap-codec
     version: 1.4.8
-    dev: true
 
   172.26.59.72+4873/spawndamnit/2.0.0:
     resolution: {integrity: sha512-j4JKEcncSjFlqIwU5L/rp2N5SIPsdxaRsIv678+TZxZ0SRDJTm8JrxJMjE/XuiEZNEir3S8l0Fa3Ke339WI4qA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/spawndamnit/-/spawndamnit-2.0.0.tgz}
@@ -12962,6 +13198,18 @@ packages:
     version: 8.27.2
     dev: false
 
+  172.26.59.72+4873/vue-i18n/9.1.10:
+    resolution: {integrity: sha512-jpr7gV5KPk4n+sSPdpZT8Qx3XzTcNDWffRlHV/cT2NUyEf+sEgTTmLvnBAibjOFJ0zsUyZlVTAWH5DDnYep+1g==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/vue-i18n/-/vue-i18n-9.1.10.tgz}
+    name: vue-i18n
+    version: 9.1.10
+    engines: {node: '>= 10'}
+    dependencies:
+      '@intlify/core-base': 172.26.59.72+4873/@intlify/core-base/9.1.10
+      '@intlify/shared': 172.26.59.72+4873/@intlify/shared/9.1.10
+      '@intlify/vue-devtools': 172.26.59.72+4873/@intlify/vue-devtools/9.1.10
+      '@vue/devtools-api': 172.26.59.72+4873/@vue/devtools-api/6.2.1
+    dev: false
+
   172.26.59.72+4873/vue-loader/15.10.0_s4g757tv5ene7lwjfscpdkdhuu:
     resolution: {integrity: sha512-VU6tuO8eKajrFeBzMssFUP9SvakEeeSi1BxdTH5o3+1yUyrldp8IERkSdXlMI2t4kxF2sqYUDsQY+WJBxzBmZg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/vue-loader/-/vue-loader-15.10.0.tgz}
     id: 172.26.59.72+4873/vue-loader/15.10.0
@@ -13069,7 +13317,6 @@ packages:
     version: 4.1.3
     dependencies:
       '@vue/devtools-api': 172.26.59.72+4873/@vue/devtools-api/6.2.1
-    dev: true
 
   172.26.59.72+4873/vue-style-loader/4.1.3:
     resolution: {integrity: sha1-bVWGOlH6dXqyTonZNxRlByqnvDU=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/vue-style-loader/-/vue-style-loader-4.1.3.tgz}
@@ -13113,7 +13360,6 @@ packages:
       '@vue/runtime-dom': 172.26.59.72+4873/@vue/runtime-dom/3.2.37
       '@vue/server-renderer': 172.26.59.72+4873/@vue/server-renderer/3.2.37
       '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.37
-    dev: true
 
   172.26.59.72+4873/w3c-hr-time/1.0.2:
     resolution: {integrity: sha1-ConN9cwVgi35w2BUNnaWPgzDCM0=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/w3c-hr-time/-/w3c-hr-time-1.0.2.tgz}

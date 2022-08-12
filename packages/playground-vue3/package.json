@@ -1,0 +1,40 @@
+{
+  "name": "playground-vue3",
+  "imageName": "wkfe/playground-vue3",
+  "workload": "wakeadmin-playground-vue3",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Wakeadmin 应用",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browserslist": "Chrome 60",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "lint": "vue-cli-service lint",
+    "inspect": "vue-cli-service inspect",
+    "build": "vue-cli-service build",
+    "build:docker": "node ./scripts/docker-build.js",
+    "publish:docker": "node ./scripts/docker-publish.js"
+  },
+  "dependencies": {
+    "@wakeadmin/components": "workspace:^0.1.0",
+    "@wakeadmin/framework": "latest",
+    "@wakeadmin/h": "latest",
+    "core-js": "^3.23.5",
+    "element-plus": "latest",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-plugin-router": "~5.0.8",
+    "@vue/cli-plugin-typescript": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
+    "@wakeadmin/docker-build": "latest",
+    "@wakeadmin/vue-cli-plugin-i18n": "latest",
+    "babel-preset-wakeadmin": "latest",
+    "sass": "^1.54.0",
+    "sass-loader": "^12.6.0"
+  }
+}
