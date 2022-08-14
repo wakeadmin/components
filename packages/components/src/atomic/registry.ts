@@ -1,17 +1,7 @@
 import { NamedRegistry, NamedRegistrySubscriber } from '@wakeadmin/utils';
 import { Atomic, Registry } from './types';
 
-/**
- * 全局注册器
- */
-export const globalRegistry: Registry = new NamedRegistry<Atomic>();
-
-/**
- * 创建注册器
- * @param parent
- * @returns
- */
-export function createRegistry(parent: Registry = globalRegistry): Registry {
+function __createRegistry(parent?: Registry): Registry {
   const registry = new NamedRegistry<Atomic>();
 
   return {
@@ -41,4 +31,18 @@ export function createRegistry(parent: Registry = globalRegistry): Registry {
       return value;
     },
   };
+}
+
+/**
+ * 全局注册器
+ */
+export const globalRegistry: Registry = __createRegistry();
+
+/**
+ * 创建注册器
+ * @param parent
+ * @returns
+ */
+export function createRegistry(parent = globalRegistry): Registry {
+  return __createRegistry(parent);
 }

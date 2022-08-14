@@ -1,4 +1,4 @@
-import { FunctionalComponent, CSSProperties } from '@wakeadmin/demi';
+import { CSSProperties } from '@wakeadmin/demi';
 import { NamedRegistry } from '@wakeadmin/utils';
 
 declare global {
@@ -68,9 +68,9 @@ export interface Atomic {
   author?: string;
 
   /**
-   * 组件实现
+   * 组件实现, 就是一个渲染函数
    */
-  component: FunctionalComponent<AtomicCommonProps<any>>;
+  component: (props: AtomicCommonProps<any>) => any;
 
   /**
    * 值验证

@@ -7,7 +7,9 @@
   "scripts": {
     "start": "tsc -b tsconfig.build.json --watch",
     "prebuild": "rimraf dist .tsBuildInfo",
+    "copy": "cpx \"src/**/*.+(scss|jpg|jpeg|gif|png|svg|css)\" ./dist",
     "build": "tsc -b tsconfig.build.json",
+    "postbuild": "npm run copy",
     "type-check": "tsc"
   },
   "keywords": [
