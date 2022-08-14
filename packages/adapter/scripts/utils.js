@@ -18,12 +18,10 @@ export function loadModule(name) {
 
 export function switchVersion(version) {
   const file = path.join(dir, 'index.js');
-  const dtsfile = path.join(dir, 'index.d.ts');
 
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
 
-  fs.writeFileSync(file, `export * from '../dist/v${version}'`);
-  fs.writeFileSync(dtsfile, `export * from '../dist/v${version}'`);
+  fs.writeFileSync(file, `export * from '../src/v${version}'`);
 }

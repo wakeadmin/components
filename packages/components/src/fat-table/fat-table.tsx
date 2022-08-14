@@ -253,7 +253,6 @@ const FatTableInner = declareComponent({
      */
     const initialCacheIfNeed = () => {
       if (route?.query[queryCacheKey] == null) {
-        // @ts-expect-error
         return router?.replace({
           ...route,
           query: {
@@ -462,7 +461,6 @@ const FatTableInner = declareComponent({
               total={pagination.total}
               pageSize={pagination.pageSize}
               disabled={loading.value || props.paginationProps?.disabled}
-              // @ts-expect-error
               onSizeChange={handlePageSizeChange}
               onCurrentChange={handlePageCurrentChange}
             ></Pagination>

@@ -8,9 +8,9 @@ const ELEMENT_UI_SIZE_MAPPER = {
 
 /**
  * 大小映射，以 element-plus 为标准
- * @param s
+ * @param { 'small' | 'default' | 'large'} s
  */
-export function size(s: 'small' | 'default' | 'large') {
+export function size(s) {
   if (isVue2) {
     return ELEMENT_UI_SIZE_MAPPER[s];
   }
