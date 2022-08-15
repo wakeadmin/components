@@ -132,7 +132,7 @@ export interface FatTableColumn<
 }
 
 /**
- * props
+ * fat-table 参数
  */
 export interface FatTableProps<T extends {}, S extends {}> {
   /**
@@ -170,7 +170,7 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 注意，一个页面中，应该只有一个 fat-table 开启缓存，否则会冲突。
    * 这种情况，为了避免冲突，需要手动指定 namespace
    */
-  cacheQuery?: boolean;
+  enableCacheQuery?: boolean;
 
   /**
    * 缓存命名空间，用于避免在同一个页面中缓存键冲突
@@ -186,6 +186,17 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 分页配置
    */
   paginationProps?: PaginationProps;
+
+  /**
+   * 是否开启选择模式， 默认关闭
+   * TODO: 后续支持 ref 参数
+   */
+  enableSelect?: boolean;
+
+  /**
+   * 判断行是否可以选择
+   */
+  selectable?: (row: T, index: number) => boolean;
 }
 
 interface PaginationState {
@@ -201,18 +212,32 @@ interface SearchStateCache {
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
-  props: declareProps<FatTableProps<any, any>>(['showError', 'request', 'remove', 'columns', 'rowKey']),
+  props: declareProps<FatTableProps<any, any>>([
+    'rowKey',
+    'showError',
+    'request',
+    'requestOnMounted',
+    'remove',
+    'columns',
+    'enableCacheQuery',
+    'namespace',
+    'enablePagination',
+    'paginationProps',
+    'enableSelect',
+    'selectable',
+  ]),
   // TODO: 暴露更多事件
   emits: declareEmits<{
     cacheStateChange: () => void;
   }>(),
   slots: declareSlots<{ beforeColumns: never; afterColumns: never }>(),
-  setup(props, { slots, emit }) {
+  setup(props, { slots, expose }) {
     let uid = `${Math.random().toFixed(4).slice(-4)}_${Date.now()}`;
     // 搜索状态缓存 key
     const queryCacheKey = props.namespace ? `_t_${props.namespace}` : '_t';
-    const cacheQuery = props.cacheQuery ?? true;
+    const enableCacheQuery = props.enableCacheQuery ?? true;
     const requestOnMounted = props.requestOnMounted ?? true;
+    const tableRef = ref();
     const router = useRouter();
     const route = useRoute();
 
@@ -279,7 +304,7 @@ const FatTableInner = declareComponent({
      * 缓存请求状态
      */
     const saveCache = debounce(() => {
-      if (!cacheQuery) {
+      if (!enableCacheQuery) {
         return;
       }
 
@@ -345,11 +370,19 @@ const FatTableInner = declareComponent({
 
     // const debouncedSearch = debounce(search, 800, { leading: true });
 
+    // const compare = (a: any, b: any) => {
+    //   if (props.rowKey == null) {
+    //     throw new Error(`[fat-table] 请配置 rowKey `);
+    //   }
+
+    //   return a[props.rowKey] === b[props.rowKey];
+    // };
+
     /**
      * 启动
      */
     onMounted(async () => {
-      if (cacheQuery) {
+      if (enableCacheQuery) {
         // 开启了缓存
         if (route?.query[queryCacheKey] != null) {
           // 恢复搜索缓存
@@ -383,11 +416,54 @@ const FatTableInner = declareComponent({
       fetch();
     };
 
+    const handleSelectionChange = (evt: any[]) => {
+      selected.value = evt;
+    };
+
+    const getSelected = () => {
+      return selected.value;
+    };
+
+    // 选择指定行
+    const select = (items: any[]) => {
+      items.forEach(i => {
+        tableRef.value?.toggleRowSelection(i, true);
+      });
+    };
+
+    const unselect = (items: any[]) => {
+      items.forEach(i => {
+        tableRef.value?.toggleRowSelection(i, false);
+      });
+    };
+
+    // 选择相关方法
+    const selectAll = () => {
+      selected.value = list.value.slice(0);
+      select(selected.value);
+    };
+
+    const unselectAll = () => {
+      selected.value = [];
+      tableRef.value?.clearSelection();
+    };
+
+    expose({
+      getSelected,
+      select,
+      unselect,
+      selectAll,
+      unselectAll,
+    });
+
     return () => {
       return (
         <div class="fat-table">
-          <Table data={list.value} rowKey={props.rowKey}>
+          <Table ref={tableRef} data={list.value} rowKey={props.rowKey} onSelectionChange={handleSelectionChange}>
+            {!!props.enableSelect && <TableColumn type="selection" width="80" selectable={props.selectable} />}
+
             {slots.beforeColumns?.()}
+
             {props.columns?.map((column, index) => {
               const type = column.type ?? 'default';
               const key = `${String(column.prop ?? '')}_${index}`;
