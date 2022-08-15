@@ -1,0 +1,26 @@
+.fat-table-actions {
+  &__btn {
+    margin-left: 20px;
+
+    &.danger {
+      color: var(--wk-color-danger, #f5222d);
+    }
+
+    &.warning {
+      color: var(--wk-color-warning, #ff9c23);
+    }
+  }
+
+  &__dropdown {
+    vertical-align: middle;
+  }
+
+  &__more {
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+    fill: var(--wk-color-primary, #1890ff);
+    margin-left: 20px;
+    outline: none;
+  }
+}

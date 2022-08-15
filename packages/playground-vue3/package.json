@@ -10,7 +10,7 @@
   },
   "browserslist": "Chrome 60",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-demi-switch 3 && wakeadmin-adapter-switch 3 && vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "inspect": "vue-cli-service inspect",
     "build": "vue-cli-service build",

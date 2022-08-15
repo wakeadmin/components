@@ -7,7 +7,7 @@ export interface RouteLike {
   path: string;
 }
 
-type RouteLocation =
+export type RouteLocation =
   | string
   | {
       query?: Record<string, any>;
@@ -15,6 +15,7 @@ type RouteLocation =
       path?: string;
       name?: string;
       params?: Record<string, any>;
+      replace?: boolean;
     };
 
 export interface RouterLike {
