@@ -1,4 +1,4 @@
-import { Table, TableColumn, Pagination } from '@wakeadmin/component-adapter';
+import { Table, TableColumn, Pagination, TableColumnProps } from '@wakeadmin/component-adapter';
 import { VNode, ref, onMounted, reactive, nextTick } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { NoopObject, debounce } from '@wakeadmin/utils';
@@ -457,10 +457,14 @@ const FatTableInner = declareComponent({
     });
 
     return () => {
+      const isSelectionColumnDefined = props.columns?.findIndex(i => i.type === 'selection') !== -1;
+
       return (
         <div class="fat-table">
           <Table ref={tableRef} data={list.value} rowKey={props.rowKey} onSelectionChange={handleSelectionChange}>
-            {!!props.enableSelect && <TableColumn type="selection" width="80" selectable={props.selectable} />}
+            {!!props.enableSelect && !isSelectionColumnDefined && (
+              <TableColumn type="selection" width="80" selectable={props.selectable} />
+            )}
 
             {slots.beforeColumns?.()}
 
@@ -469,6 +473,7 @@ const FatTableInner = declareComponent({
               const key = `${String(column.prop ?? '')}_${index}`;
               const valueType = column.valueType ?? 'text';
               const valueProps = column.valueProps ?? NoopObject;
+              const extraProps: TableColumnProps = {};
 
               let children: any;
 
@@ -500,6 +505,8 @@ const FatTableInner = declareComponent({
                     }
                   },
                 };
+              } else if (type === 'selection') {
+                extraProps.selectable = props.selectable;
               } else if (type === 'actions') {
                 // 操作
               }
@@ -521,6 +528,7 @@ const FatTableInner = declareComponent({
                   fixed={column.fixed}
                   // index 特定属性
                   index={type === 'index' ? column.index : undefined}
+                  {...extraProps}
                 >
                   {children}
                 </TableColumn>
