@@ -1,4 +1,4 @@
-import { SortOrder } from '@wakeadmin/component-adapter';
+import { FilterList, SortOrder } from '@wakeadmin/component-adapter';
 
 import { AtomicCommonProps } from '../atomic';
 import { PaginationProps } from '../definitions';
@@ -34,10 +34,16 @@ export interface FatTableRequestParams<T, S> {
    * 排序
    */
   sort?: FatTableSort;
+
   /**
-   * 搜索字段
+   * 查询字段
    */
   query?: S;
+
+  /**
+   * 过滤条件
+   */
+  filter?: { [prop: string]: any[] };
 
   /**
    * 当前列表
@@ -115,6 +121,23 @@ export interface FatTableColumn<
    * 注意：目前仅支持后端接口排序
    */
   sortable?: boolean | SortOrder;
+
+  // ------------- 过滤 --------------------
+
+  /**
+   * 是否支持过滤, 默认关闭
+   */
+  filterable?: FilterList;
+
+  /**
+   * 过滤是否支持多选, 默认 true
+   */
+  filterMultiple?: boolean;
+
+  /**
+   * 过滤默认已选中的值
+   */
+  filteredValue?: any[];
 
   // -------------- 标题 --------------
   /**
@@ -285,8 +308,12 @@ export interface PaginationState {
   pageSize: number;
 }
 
+/**
+ * 查询状态缓存
+ */
 export interface SearchStateCache {
   query: any;
   pagination: PaginationState;
   sort?: FatTableSort | null;
+  filter?: { [props: string]: any[] };
 }

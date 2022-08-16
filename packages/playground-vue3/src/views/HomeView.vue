@@ -42,6 +42,24 @@
       sortable: 'ascending',
     },
     {
+      prop: 'filter',
+      label: 'filter',
+      filterable: [
+        { text: 'one', value: 1 },
+        { text: 'two', value: 2 },
+      ],
+      filteredValue: [1, 2],
+    },
+    {
+      prop: 'filter2',
+      label: 'filter2',
+      filterable: [
+        { text: 'one', value: 1 },
+        { text: 'two', value: 2 },
+      ],
+      filteredValue: [1, 2],
+    },
+    {
       type: 'actions',
       label: '操作',
       width: 260,

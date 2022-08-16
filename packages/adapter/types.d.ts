@@ -36,6 +36,9 @@ export const Alert: any;
 export const Pagination: any;
 
 export type SortOrder = 'ascending' | 'descending';
+
+export type FilterList = { text: string; value: any }[];
+
 export interface Sort {
   prop: string;
   order: SortOrder;
@@ -141,7 +144,7 @@ export interface TableColumnProps {
   reserveSelection?: boolean;
   filterMethod?: (value: any, row: any, column: any) => boolean;
   filteredValue?: string[];
-  filters?: { text: string; value: any }[];
+  filters?: FilterList;
   filterPlacement?: string;
   filterMultiple?: boolean;
   index?: number | ((index: number) => number);

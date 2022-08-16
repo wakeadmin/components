@@ -1,5 +1,5 @@
 import { Table, TableColumn, Pagination, TableColumnProps, SortOrder } from '@wakeadmin/component-adapter';
-import { VNode, ref, onMounted, reactive, nextTick } from '@wakeadmin/demi';
+import { VNode, ref, onMounted, reactive, nextTick, set } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { NoopObject, debounce, NoopArray } from '@wakeadmin/utils';
 
@@ -9,7 +9,7 @@ import { toUndefined } from '../utils';
 
 import { FatTableProps, PaginationState, SearchStateCache, FatTableRequestParams, FatTableColumn } from './types';
 import { FatTableAction, FatTableActions } from './table-actions';
-import { validateColumns } from './utils';
+import { validateColumns, genKey } from './utils';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -41,6 +41,7 @@ const FatTableInner = declareComponent({
     const enableCacheQuery = props.enableCacheQuery ?? true;
     const requestOnMounted = props.requestOnMounted ?? true;
     const requestOnSortChange = props.requestOnSortChange ?? true;
+    const requestOnFilterChange = props.requestOnFilterChange ?? true;
 
     const tableRef = ref();
     const router = useRouter();
@@ -81,18 +82,25 @@ const FatTableInner = declareComponent({
     // 用户是否手动定义了 selection
     let isSelectionColumnDefined: boolean;
     // 默认排序的字段
-    const defaultSort = ref<{ prop: string; order: 'ascending' | 'descending' } | undefined | null>();
+    const sort = ref<{ prop: string; order: 'ascending' | 'descending' } | undefined | null>();
+    // 过滤条件
+    const filter = reactive<{ [prop: string]: any[] }>({});
 
+    // 字段状态初始化
     for (const column of props.columns) {
       if (column.type === 'selection') {
         isSelectionColumnDefined = true;
       }
 
       if (column.sortable && typeof column.sortable === 'string') {
-        defaultSort.value = {
+        sort.value = {
           prop: column.prop as string,
           order: column.sortable,
         };
+      }
+
+      if (column.filterable) {
+        set(filter, column.prop, column.filteredValue ?? []);
       }
     }
 
@@ -122,7 +130,11 @@ const FatTableInner = declareComponent({
         query.value = cache.query;
 
         if (cache.sort !== undefined) {
-          defaultSort.value = cache.sort;
+          sort.value = cache.sort;
+        }
+
+        if (cache.filter) {
+          Object.assign(filter, cache.filter);
         }
       }
     };
@@ -138,8 +150,9 @@ const FatTableInner = declareComponent({
       const key = `__fat-table(${uid})__`;
       const payload: SearchStateCache = {
         pagination,
+        filter,
         query: query.value,
-        sort: defaultSort.value,
+        sort: sort.value,
       };
       window.sessionStorage.setItem(key, JSON.stringify(payload));
       initialCacheIfNeed();
@@ -169,7 +182,8 @@ const FatTableInner = declareComponent({
         },
         query: query.value,
         list: list.value,
-        sort: toUndefined(defaultSort.value),
+        filter,
+        sort: toUndefined(sort.value),
       };
 
       try {
@@ -207,6 +221,14 @@ const FatTableInner = declareComponent({
     //   return a[props.rowKey] === b[props.rowKey];
     // };
 
+    // 缓存回复
+    if (enableCacheQuery && route?.query[queryCacheKey] != null) {
+      // 开启了缓存
+      // 恢复搜索缓存
+      uid = route.query[queryCacheKey] as string;
+      restoreFromCache();
+    }
+
     /**
      * 启动
      */
@@ -214,10 +236,6 @@ const FatTableInner = declareComponent({
       if (enableCacheQuery) {
         // 开启了缓存
         if (route?.query[queryCacheKey] != null) {
-          // 恢复搜索缓存
-          uid = route.query[queryCacheKey] as string;
-          restoreFromCache();
-
           if (requestOnMounted) {
             await nextTick();
             fetch();
@@ -250,9 +268,29 @@ const FatTableInner = declareComponent({
     };
 
     const handleSortChange = (evt: { column?: FatTableColumn<any>; prop?: string; order?: SortOrder }) => {
-      defaultSort.value = evt.prop == null ? null : { prop: evt.prop, order: evt.order! };
+      sort.value = evt.prop == null ? null : { prop: evt.prop, order: evt.order! };
 
       if (requestOnSortChange) {
+        fetch();
+      }
+    };
+
+    const handleFilterChange = (evt: { [columnKey: string]: any[] }) => {
+      const keys = Object.keys(evt);
+      let dirty = false;
+
+      for (const key of keys) {
+        const column = props.columns.find((i, idx) => {
+          return key === genKey(i, idx);
+        });
+
+        if (column) {
+          filter[column.prop as string] = evt[key];
+          dirty = true;
+        }
+      }
+
+      if (dirty && requestOnFilterChange) {
         fetch();
       }
     };
@@ -310,7 +348,8 @@ const FatTableInner = declareComponent({
             rowKey={props.rowKey}
             onSelectionChange={handleSelectionChange}
             onSortChange={handleSortChange}
-            defaultSort={toUndefined(defaultSort.value)}
+            onFilterChange={handleFilterChange}
+            defaultSort={toUndefined(sort.value)}
           >
             {!!props.enableSelect && !isSelectionColumnDefined && (
               <TableColumn type="selection" width="80" selectable={props.selectable} />
@@ -320,7 +359,7 @@ const FatTableInner = declareComponent({
 
             {props.columns?.map((column, index) => {
               const type = column.type ?? 'default';
-              const key = `${String(column.prop ?? '')}_${index}`;
+              const key = genKey(column, index);
               const valueType = column.valueType ?? 'text';
               const valueProps = column.valueProps ?? NoopObject;
               const extraProps: TableColumnProps = {};
@@ -379,12 +418,21 @@ const FatTableInner = declareComponent({
                     );
                   },
                 };
+              } else if (type === 'index') {
+                extraProps.index = column.index;
+              }
+
+              if (column.filterable && column.filterable.length) {
+                extraProps.filters = column.filterable;
+                extraProps.filteredValue = filter[column.prop as string] ?? [];
+                extraProps.filterMultiple = column.filterMultiple;
               }
 
               return (
                 <TableColumn
                   type={type}
                   key={key}
+                  columnKey={key}
                   prop={column.prop as string}
                   label={column.label}
                   renderHeader={column.renderLabel?.bind(null, index, column)}
@@ -397,8 +445,6 @@ const FatTableInner = declareComponent({
                   headerAlign={column.labelAlign}
                   fixed={column.fixed}
                   sortable={column.sortable ? 'custom' : undefined}
-                  // index 特定属性
-                  index={type === 'index' ? column.index : undefined}
                   {...extraProps}
                 >
                   {children}

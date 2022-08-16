@@ -11,5 +11,13 @@ export function validateColumns(columns?: FatTableColumn<any>[]) {
     if (column.sortable && !column.prop) {
       throw new Error(`[fat-table] 开启了排序的列(${column.label ?? i})必须配置 prop 字段`);
     }
+
+    if (column.filterable && !column.prop) {
+      throw new Error(`[fat-table] 开启了过滤的列(${column.label ?? i})必须配置 prop 字段`);
+    }
   }
+}
+
+export function genKey(column: FatTableColumn<any>, index: number): string {
+  return `${String(column.prop)}_${index}`;
 }
