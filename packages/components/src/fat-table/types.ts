@@ -1,8 +1,15 @@
+import { SortOrder } from '@wakeadmin/component-adapter';
+
 import { AtomicCommonProps } from '../atomic';
 import { PaginationProps } from '../definitions';
 import { ClassValue } from '../types';
 
 import { FatTableAction, FatTableActionsProps } from './table-actions';
+
+export interface FatTableSort {
+  prop: string;
+  order: SortOrder;
+}
 
 /**
  * 表格查询参数
@@ -22,10 +29,15 @@ export interface FatTableRequestParams<T, S> {
      */
     offset: number;
   };
+
+  /**
+   * 排序
+   */
+  sort?: FatTableSort;
   /**
    * 搜索字段
    */
-  query: S;
+  query?: S;
 
   /**
    * 当前列表
@@ -94,6 +106,15 @@ export interface FatTableColumn<
    * 字段选项
    */
   valueProps?: ValueProps & Partial<AtomicCommonProps<any>>;
+
+  /**
+   * 是否支持排序, 默认 false
+   *
+   * 可以配置默认排序， 但是仅支持一个字段配置默认排序
+   *
+   * 注意：目前仅支持后端接口排序
+   */
+  sortable?: boolean | SortOrder;
 
   // -------------- 标题 --------------
   /**
@@ -203,6 +224,16 @@ export interface FatTableProps<T extends {}, S extends {}> {
   requestOnMounted?: boolean;
 
   /**
+   * 排序规则变动时重新请求, 默认为 true
+   */
+  requestOnSortChange?: boolean;
+
+  /**
+   * 过滤规则变动时重新请求, 默认为 true
+   */
+  requestOnFilterChange?: boolean;
+
+  /**
    * 数据删除
    */
   remove?: (ids: any[], list: T[]) => Promise<void>;
@@ -244,6 +275,8 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 判断行是否可以选择
    */
   selectable?: (row: T, index: number) => boolean;
+
+  // TODO: 其他表格属性
 }
 
 export interface PaginationState {
@@ -255,4 +288,5 @@ export interface PaginationState {
 export interface SearchStateCache {
   query: any;
   pagination: PaginationState;
+  sort?: FatTableSort | null;
 }

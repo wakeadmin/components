@@ -1,13 +1,15 @@
-import { Table, TableColumn, Pagination, TableColumnProps } from '@wakeadmin/component-adapter';
+import { Table, TableColumn, Pagination, TableColumnProps, SortOrder } from '@wakeadmin/component-adapter';
 import { VNode, ref, onMounted, reactive, nextTick } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { NoopObject, debounce, NoopArray } from '@wakeadmin/utils';
 
 import { useAtomicRegistry, useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
+import { toUndefined } from '../utils';
 
-import { FatTableProps, PaginationState, SearchStateCache, FatTableRequestParams } from './types';
+import { FatTableProps, PaginationState, SearchStateCache, FatTableRequestParams, FatTableColumn } from './types';
 import { FatTableAction, FatTableActions } from './table-actions';
+import { validateColumns } from './utils';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -31,11 +33,15 @@ const FatTableInner = declareComponent({
   }>(),
   slots: declareSlots<{ beforeColumns: never; afterColumns: never }>(),
   setup(props, { slots, expose }) {
+    validateColumns(props.columns);
+
     let uid = `${Math.random().toFixed(4).slice(-4)}_${Date.now()}`;
     // 搜索状态缓存 key
     const queryCacheKey = props.namespace ? `_t_${props.namespace}` : '_t';
     const enableCacheQuery = props.enableCacheQuery ?? true;
     const requestOnMounted = props.requestOnMounted ?? true;
+    const requestOnSortChange = props.requestOnSortChange ?? true;
+
     const tableRef = ref();
     const router = useRouter();
     const route = useRoute();
@@ -72,6 +78,24 @@ const FatTableInner = declareComponent({
      */
     const query = ref<any>({});
 
+    // 用户是否手动定义了 selection
+    let isSelectionColumnDefined: boolean;
+    // 默认排序的字段
+    const defaultSort = ref<{ prop: string; order: 'ascending' | 'descending' } | undefined | null>();
+
+    for (const column of props.columns) {
+      if (column.type === 'selection') {
+        isSelectionColumnDefined = true;
+      }
+
+      if (column.sortable && typeof column.sortable === 'string') {
+        defaultSort.value = {
+          prop: column.prop as string,
+          order: column.sortable,
+        };
+      }
+    }
+
     /**
      * 初始化缓存
      */
@@ -96,6 +120,10 @@ const FatTableInner = declareComponent({
         Object.assign(pagination, cache.pagination);
 
         query.value = cache.query;
+
+        if (cache.sort !== undefined) {
+          defaultSort.value = cache.sort;
+        }
       }
     };
 
@@ -111,6 +139,7 @@ const FatTableInner = declareComponent({
       const payload: SearchStateCache = {
         pagination,
         query: query.value,
+        sort: defaultSort.value,
       };
       window.sessionStorage.setItem(key, JSON.stringify(payload));
       initialCacheIfNeed();
@@ -140,6 +169,7 @@ const FatTableInner = declareComponent({
         },
         query: query.value,
         list: list.value,
+        sort: toUndefined(defaultSort.value),
       };
 
       try {
@@ -219,6 +249,20 @@ const FatTableInner = declareComponent({
       selected.value = evt;
     };
 
+    const handleSortChange = (evt: { column?: FatTableColumn<any>; prop?: string; order?: SortOrder }) => {
+      defaultSort.value = evt.prop == null ? null : { prop: evt.prop, order: evt.order! };
+
+      if (requestOnSortChange) {
+        fetch();
+      }
+    };
+
+    /**
+     *---------------------------------------+
+     *          以下是公开方法                |
+     *---------------------------------------+
+     */
+
     const getSelected = () => {
       return selected.value;
     };
@@ -258,11 +302,16 @@ const FatTableInner = declareComponent({
     expose(tableInstance);
 
     return () => {
-      const isSelectionColumnDefined = props.columns?.findIndex(i => i.type === 'selection') !== -1;
-
       return (
         <div class="fat-table">
-          <Table ref={tableRef} data={list.value} rowKey={props.rowKey} onSelectionChange={handleSelectionChange}>
+          <Table
+            ref={tableRef}
+            data={list.value}
+            rowKey={props.rowKey}
+            onSelectionChange={handleSelectionChange}
+            onSortChange={handleSortChange}
+            defaultSort={toUndefined(defaultSort.value)}
+          >
             {!!props.enableSelect && !isSelectionColumnDefined && (
               <TableColumn type="selection" width="80" selectable={props.selectable} />
             )}
@@ -347,6 +396,7 @@ const FatTableInner = declareComponent({
                   align={column.align}
                   headerAlign={column.labelAlign}
                   fixed={column.fixed}
+                  sortable={column.sortable ? 'custom' : undefined}
                   // index 特定属性
                   index={type === 'index' ? column.index : undefined}
                   {...extraProps}

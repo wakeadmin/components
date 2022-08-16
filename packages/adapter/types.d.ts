@@ -34,7 +34,88 @@ export const Button: (props: ButtonProps) => any;
 
 export const Alert: any;
 export const Pagination: any;
-export const Table: any;
+
+export type SortOrder = 'ascending' | 'descending';
+export interface Sort {
+  prop: string;
+  order: SortOrder;
+  init?: any;
+  silent?: any;
+}
+
+export interface TableProps {
+  data?: any[];
+  size?: string;
+  width?: string | number;
+  height?: string | number;
+  maxHeight?: string | number;
+  fit?: boolean;
+  stripe?: boolean;
+  border?: boolean;
+  rowKey?: string | ((row: any) => string);
+  showHeader?: boolean;
+  showSummary?: boolean;
+  sumText?: string;
+  summaryMethod?: (data: { columns: any; data: any[] }) => string[];
+  rowClassName?: ClassValue;
+  rowStyle?: StyleValue;
+  cellClassName?: ClassValue | ((data: { row: any; rowIndex: number; column: any; columnIndex: number }) => ClassValue);
+  cellStyle?: StyleValue | ((data: { row: any; rowIndex: number; column: any; columnIndex: number }) => StyleValue);
+  headerRowClassName?: ClassValue;
+  headerRowStyle?: StyleValue;
+  headerCellClassName?:
+    | ClassValue
+    | ((data: { row: any; rowIndex: number; column: any; columnIndex: number }) => ClassValue);
+  headerCellStyle?:
+    | StyleValue
+    | ((data: { row: any; rowIndex: number; column: any; columnIndex: number }) => StyleValue);
+
+  highlightCurrentRow?: boolean;
+  currentRowKey?: string | number;
+  emptyText?: string;
+  expandRowKeys?: any[];
+  defaultExpandAll?: boolean;
+  defaultSort?: Sort;
+  tooltipEffect?: string;
+  spanMethod?: (data: { row: any; rowIndex: number; column: any; columnIndex: number }) =>
+    | number[]
+    | {
+        rowspan: number;
+        colspan: number;
+      }
+    | undefined;
+  selectOnIndeterminate?: boolean;
+  indent?: number;
+  treeProps?: any;
+  lazy?: boolean;
+  load?: (row: any, treeNode: any, resolve: (data: any[]) => void) => void;
+  style?: StyleValue;
+  className?: ClassValue;
+  tableLayout?: 'auto' | 'fixed';
+  scrollbarAlwaysOn?: boolean;
+  flexible?: boolean;
+
+  onSelect?: (...args: any[]) => any;
+  onExpandChange?: (...args: any[]) => any;
+  onCurrentChange?: (...args: any[]) => any;
+  onSelectAll?: (...args: any[]) => any;
+  onSelectionChange?: (...args: any[]) => any;
+  onCellMouseEnter?: (...args: any[]) => any;
+  onCellMouseLeave?: (...args: any[]) => any;
+  onCellContextmenu?: (...args: any[]) => any;
+  onCellClick?: (...args: any[]) => any;
+  onCellDblclick?: (...args: any[]) => any;
+  onRowClick?: (...args: any[]) => any;
+  onRowContextmenu?: (...args: any[]) => any;
+  onRowDblclick?: (...args: any[]) => any;
+  onHeaderClick?: (...args: any[]) => any;
+  onHeaderContextmenu?: (...args: any[]) => any;
+  onSortChange?: (evt: { column?: any; prop?: string; order?: SortOrder }) => any;
+  onFilterChange?: (...args: any[]) => any;
+  onHeaderDragend?: (...args: any[]) => any;
+}
+
+export const Table: (props: TableProps) => any;
 
 export interface TableColumnProps {
   type?: string;
@@ -45,10 +126,7 @@ export interface TableColumnProps {
   width?: string | number;
   minWidth?: string | number;
   renderHeader?: (data: { column: any; $index: number }) => any;
-  sortable?: {
-    type: (boolean | string)[];
-    default: boolean;
-  };
+  sortable?: boolean | string;
   sortMethod?: (a: any, b: any) => number;
   sortBy?: string | string[] | ((row: any, index: number) => string);
   resizable?: boolean;

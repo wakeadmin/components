@@ -15,9 +15,11 @@
   const tableRef = ref();
 
   const request = async params => {
+    console.log('request', params);
     const {
       pagination: { pageSize, page },
     } = params;
+
     return {
       total: 100,
       list: new Array(pageSize).fill(0).map((_, index) => {
@@ -33,6 +35,11 @@
     {
       prop: 'name',
       label: 'Name',
+    },
+    {
+      prop: 'age',
+      label: 'Age',
+      sortable: 'ascending',
     },
     {
       type: 'actions',
