@@ -119,6 +119,54 @@ export interface TableProps {
   onHeaderDragend?: (...args: any[]) => any;
 }
 
+export interface TableMethods {
+  /** Clear selection. Might be useful when `reserve-selection` is on */
+  clearSelection(): void;
+
+  /**
+   * Toggle or set if a certain row is selected
+   *
+   * @param row The row that is going to set its selected state
+   * @param selected Whether the row is selected. The selected state will be toggled if not set
+   */
+  toggleRowSelection(row: nay, selected?: boolean): void;
+
+  /**
+   * Toggle or set all rows
+   */
+  toggleAllSelection(): void;
+
+  /**
+   * Set a certain row as selected
+   *
+   * @param row The row that is going to set as selected
+   */
+  setCurrentRow(row?: object): void;
+
+  /**
+   * Toggle or set if a certain row is expanded
+   *
+   * @param row The row that is going to set its expanded state
+   * @param expanded Whether the row is expanded. The expanded state will be toggled if not set
+   */
+  toggleRowExpansion(row: any, expanded?: boolean): void;
+
+  /** Clear sort status, reset the table to unsorted  */
+  clearSort(): void;
+
+  /** Clear filter, reset the table to unfiltered  */
+  clearFilter(): void;
+
+  /** Relayout the table, maybe needed when change the table or it's ancestors visibility */
+  doLayout(): void;
+
+  /** Sort Table manually */
+  sort(prop: string, order: string): void;
+
+  /** method for lazy load subtree data */
+  load(row: object, treeNode: treeNode, resolve: Function): void;
+}
+
 export const Table: (props: TableProps) => any;
 
 export interface TableColumnProps {

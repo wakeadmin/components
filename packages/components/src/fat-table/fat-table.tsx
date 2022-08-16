@@ -4,129 +4,34 @@ import {
   Pagination,
   TableColumnProps,
   SortOrder,
-  Form,
-  FormItem,
-  Button,
+  FormMethods,
+  TableMethods,
 } from '@wakeadmin/component-adapter';
-import { VNode, ref, Ref, onMounted, reactive, nextTick, set, watch } from '@wakeadmin/demi';
+import { VNode, ref, onMounted, reactive, nextTick, watch } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { NoopObject, debounce, NoopArray, get, set as _set } from '@wakeadmin/utils';
+import { NoopObject, debounce, NoopArray, set as _set, clone, equal } from '@wakeadmin/utils';
 
 import { useAtomicRegistry, useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
 import { toUndefined } from '../utils';
 
-import { FatTableProps, PaginationState, SearchStateCache, FatTableRequestParams, FatTableColumn } from './types';
+import {
+  FatTableProps,
+  PaginationState,
+  SearchStateCache,
+  FatTableRequestParams,
+  FatTableColumn,
+  FatTableSort,
+  FatTableFilter,
+} from './types';
 import { FatTableAction, FatTableActions } from './table-actions';
-import { validateColumns, genKey } from './utils';
-import { Registry } from '../atomic';
-
-/**
- * 获取原件
- * @param column
- * @returns
- */
-const getAtom = (column: FatTableColumn<any>, registry: Registry) => {
-  const valueType = column.valueType ?? 'text';
-  // 按照 valueType 渲染
-  const atom = typeof valueType === 'function' ? valueType : registry.registered(valueType);
-  if (atom == null) {
-    throw new Error(`[fat-table] 未能识别类型为 ${valueType} 的原件`);
-  }
-
-  const comp = typeof atom === 'function' ? atom : atom.component;
-
-  return {
-    comp,
-    validate: typeof atom === 'function' ? undefined : atom.validate,
-  };
-};
-
-const Query = declareComponent({
-  name: 'FatTableQuery',
-  props: declareProps<{ query: Ref<any>; formProps: any; columns: FatTableColumn<any>[] }>([
-    'query',
-    'formProps',
-    'columns',
-  ]),
-  setup(props) {
-    const atomics = useAtomicRegistry();
-    const query = props.query;
-
-    return () => {
-      return (
-        <div class="fat-table__query">
-          <Form model={query.value} inline {...props.formProps}>
-            {props.columns?.map((column, index) => {
-              if (column.type !== 'query' && !column.queryable) {
-                return null;
-              }
-
-              const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
-              const key = `${prop}_${index}`;
-              const { comp, validate } = getAtom(column, atomics);
-              const rules = column.formItemProps?.rules ?? [];
-
-              // 原件内置的验证规则
-              if (validate) {
-                // 验证
-                rules.push(async (rule: any, value: any, callback: any) => {
-                  try {
-                    await validate(value, query.value);
-                    callback();
-                  } catch (err) {
-                    callback(err);
-                  }
-                });
-              }
-
-              return (
-                <FormItem
-                  key={key}
-                  prop={prop}
-                  label={column.label}
-                  {...column.formItemProps}
-                  v-slots={
-                    column.renderLabel
-                      ? {
-                          label: () => {
-                            return column.renderLabel?.(index, column);
-                          },
-                        }
-                      : undefined
-                  }
-                  rules={rules}
-                >
-                  {comp({
-                    mode: 'editable',
-                    disabled: column.disabled,
-                    value: get(query.value, prop),
-                    onChange: value => {
-                      _set(query.value, prop, value);
-                    },
-                    context: query.value,
-                    ...column.valueProps,
-                  })}
-                </FormItem>
-              );
-            })}
-
-            <FormItem>
-              <Button>搜索</Button>
-              <Button>重置</Button>
-            </FormItem>
-          </Form>
-        </div>
-      );
-    };
-  },
-});
+import { validateColumns, genKey, getAtom } from './utils';
+import { Query } from './query';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
   props: declareProps<FatTableProps<any, any>>([
     'rowKey',
-    'showError',
     'request',
     'requestOnMounted',
     'requestOnSortChange',
@@ -144,6 +49,10 @@ const FatTableInner = declareComponent({
     'enableQueryWatch',
     'queryWatchDelay',
     'formProps',
+    'enableSearchButton',
+    'enableResetButton',
+    'searchText',
+    'resetText',
   ]),
   // TODO: 暴露更多事件
   emits: declareEmits<{
@@ -159,12 +68,15 @@ const FatTableInner = declareComponent({
     const enableCacheQuery = props.enableCacheQuery ?? true;
     const enableQuery = props.enableQuery ?? true;
     const enableQueryWatch = props.enableQueryWatch ?? true;
+    const enableSearchButton = props.enableSearchButton ?? true;
+    const enableResetButton = props.enableResetButton ?? true;
     const queryWatchDelay = props.queryWatchDelay ?? 800;
     const requestOnMounted = props.requestOnMounted ?? true;
     const requestOnSortChange = props.requestOnSortChange ?? true;
     const requestOnFilterChange = props.requestOnFilterChange ?? true;
 
-    const tableRef = ref();
+    const tableRef = ref<TableMethods>();
+    const formRef = ref<FormMethods>();
     const router = useRouter();
     const route = useRoute();
 
@@ -202,9 +114,9 @@ const FatTableInner = declareComponent({
     // 用户是否手动定义了 selection
     let isSelectionColumnDefined: boolean;
     // 默认排序的字段
-    const sort = ref<{ prop: string; order: 'ascending' | 'descending' } | undefined | null>();
+    const sort = ref<FatTableSort | undefined | null>();
     // 过滤条件
-    const filter = reactive<{ [prop: string]: any[] }>({});
+    const filter = reactive<FatTableFilter>({});
 
     /**
      * 初始化缓存
@@ -263,9 +175,9 @@ const FatTableInner = declareComponent({
     }, 800);
 
     /**
-     * 重置表格状态
+     * 重置临时表格状态, 包括分页、选中、加载、错误等信息
      */
-    const reset = () => {
+    const resetTempState = () => {
       loading.value = false;
       error.value = null;
       list.value = [];
@@ -311,11 +223,14 @@ const FatTableInner = declareComponent({
      * 执行搜索
      */
     const search = () => {
-      reset();
+      resetTempState();
       fetch();
+
+      // TODO: 检查校验状态
     };
 
-    const debouncedSearch = debounce(search, queryWatchDelay);
+    const leadingDebouncedSearch = debounce(search, queryWatchDelay, { leading: true });
+    const debouncedSearch = debounce(leadingDebouncedSearch, queryWatchDelay);
 
     // const compare = (a: any, b: any) => {
     //   if (props.rowKey == null) {
@@ -326,7 +241,10 @@ const FatTableInner = declareComponent({
     // };
 
     // 字段状态初始化
-    const queryInitialValue: any = {};
+    const initialQuery: any = {};
+    let initialSort: FatTableSort | undefined;
+    const initialFilter: FatTableFilter = {};
+
     for (const column of props.columns) {
       if (column.type === 'selection') {
         isSelectionColumnDefined = true;
@@ -334,7 +252,7 @@ const FatTableInner = declareComponent({
 
       // 排序字段初始化
       if (column.sortable && typeof column.sortable === 'string') {
-        sort.value = {
+        initialSort = {
           prop: column.prop as string,
           order: column.sortable,
         };
@@ -342,16 +260,41 @@ const FatTableInner = declareComponent({
 
       // 过滤字段初始化
       if (column.filterable) {
-        set(filter, column.prop, column.filteredValue ?? []);
+        _set(initialFilter, column.prop!, column.filteredValue ?? []);
       }
 
       // 查询字段初始化
       if (column.queryable || column.type === 'query') {
         const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
-        _set(queryInitialValue, prop, column.initialValue);
+        _set(initialQuery, prop, column.initialValue);
       }
     }
-    query.value = queryInitialValue;
+
+    /**
+     * 设置表单状态为初始值
+     *
+     * @param updateTable 是否更新表格状态。因为垃圾element-ui 的排序、筛选状态不支持双向绑定，某些场景需要手动更新
+     */
+    const setInitialValue = (updateTable = false) => {
+      query.value = clone(initialQuery);
+      sort.value = initialSort ? { ...initialSort } : undefined;
+
+      // element-ui 不支持后续通过方法重置 filter 状态，
+      // 因此这里只有在初始化时才会执行
+      if (!updateTable) {
+        Object.assign(filter, clone(initialFilter));
+      }
+
+      if (updateTable && tableRef.value) {
+        if (sort.value) {
+          tableRef.value.sort(sort.value.prop, sort.value.order);
+        } else {
+          tableRef.value.clearSort();
+        }
+      }
+    };
+
+    setInitialValue();
 
     // 缓存恢复
     if (enableCacheQuery && route?.query[queryCacheKey] != null) {
@@ -404,7 +347,7 @@ const FatTableInner = declareComponent({
 
     const handlePageSizeChange = (value: number) => {
       pagination.pageSize = value;
-      search();
+      leadingDebouncedSearch();
     };
 
     const handlePageCurrentChange = (value: number) => {
@@ -417,10 +360,16 @@ const FatTableInner = declareComponent({
     };
 
     const handleSortChange = (evt: { column?: FatTableColumn<any>; prop?: string; order?: SortOrder }) => {
-      sort.value = evt.prop == null ? null : { prop: evt.prop, order: evt.order! };
+      const value = evt.prop == null ? null : { prop: evt.prop, order: evt.order! };
+
+      if (equal(sort.value, value)) {
+        return;
+      }
+
+      sort.value = value;
 
       if (requestOnSortChange) {
-        fetch();
+        leadingDebouncedSearch();
       }
     };
 
@@ -449,6 +398,13 @@ const FatTableInner = declareComponent({
      *          以下是公开方法                |
      *---------------------------------------+
      */
+
+    const reset = async () => {
+      // 重置表单状态、排序状态、筛选状态
+      setInitialValue(true);
+
+      debouncedSearch();
+    };
 
     const getSelected = () => {
       return selected.value;
@@ -491,7 +447,20 @@ const FatTableInner = declareComponent({
     return () => {
       return (
         <div class="fat-table">
-          {!!enableQuery && <Query query={query} formProps={props.formProps} columns={props.columns} />}
+          {!!enableQuery && (
+            <Query
+              formRef={formRef}
+              query={query}
+              formProps={props.formProps}
+              columns={props.columns}
+              enableSearchButton={enableSearchButton}
+              enableResetButton={enableResetButton}
+              searchText={props.searchText}
+              resetText={props.resetText}
+              onSubmit={leadingDebouncedSearch}
+              onReset={reset}
+            />
+          )}
 
           <div class="fat-table__body">
             <Table

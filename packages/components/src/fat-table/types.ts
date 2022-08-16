@@ -11,6 +11,10 @@ export interface FatTableSort {
   order: SortOrder;
 }
 
+export interface FatTableFilter {
+  [prop: string]: any[];
+}
+
 /**
  * 表格查询参数
  */
@@ -43,7 +47,7 @@ export interface FatTableRequestParams<T, S> {
   /**
    * 过滤条件
    */
-  filter?: { [prop: string]: any[] };
+  filter?: FatTableFilter;
 
   /**
    * 当前列表
@@ -256,11 +260,6 @@ export interface FatTableProps<T extends {}, S extends {}> {
   rowKey?: string;
 
   /**
-   * 是否显示 request 错误信息
-   */
-  showError?: boolean;
-
-  /**
    * 数据请求
    */
   request: (params: FatTableRequestParams<T, S>) => Promise<FatTableRequestResponse<T>>;
@@ -349,6 +348,31 @@ export interface FatTableProps<T extends {}, S extends {}> {
    */
   formProps?: FormProps;
 
+  /**
+   * 是否显示 request 错误信息, 默认开启
+   */
+  enableErrorCapture?: boolean;
+
+  /**
+   * 开启搜索按钮, 默认开启
+   */
+  enableSearchButton?: boolean;
+
+  /**
+   * 开启重置按钮, 默认开启
+   */
+  enableResetButton?: boolean;
+
+  /**
+   * 搜索按钮文本
+   */
+  searchText?: string;
+
+  /**
+   * 重置按钮文本
+   */
+  resetText?: string;
+
   // TODO: 其他表格属性
 }
 
@@ -365,5 +389,5 @@ export interface SearchStateCache {
   query: any;
   pagination: PaginationState;
   sort?: FatTableSort | null;
-  filter?: { [props: string]: any[] };
+  filter?: FatTableFilter;
 }

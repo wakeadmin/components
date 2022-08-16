@@ -1,4 +1,5 @@
 import { FatTableColumn } from './types';
+import { Registry } from '../atomic';
 
 export function validateColumns(columns?: FatTableColumn<any>[]) {
   if (columns == null) {
@@ -31,3 +32,24 @@ export function validateColumns(columns?: FatTableColumn<any>[]) {
 export function genKey(column: FatTableColumn<any>, index: number): string {
   return `${String(column.prop)}_${index}`;
 }
+
+/**
+ * 获取原件
+ * @param column
+ * @returns
+ */
+export const getAtom = (column: FatTableColumn<any>, registry: Registry) => {
+  const valueType = column.valueType ?? 'text';
+  // 按照 valueType 渲染
+  const atom = typeof valueType === 'function' ? valueType : registry.registered(valueType);
+  if (atom == null) {
+    throw new Error(`[fat-table] 未能识别类型为 ${valueType} 的原件`);
+  }
+
+  const comp = typeof atom === 'function' ? atom : atom.component;
+
+  return {
+    comp,
+    validate: typeof atom === 'function' ? undefined : atom.validate,
+  };
+};
