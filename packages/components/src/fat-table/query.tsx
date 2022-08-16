@@ -19,7 +19,16 @@ export const Query = declareComponent({
     searchText?: string;
     resetText?: string;
     formRef?: Ref<FormMethods | undefined>;
-  }>(['query', 'formProps', 'columns', 'enableSearchButton', 'enableResetButton', 'searchText', 'resetText']),
+  }>([
+    'query',
+    'formProps',
+    'columns',
+    'enableSearchButton',
+    'enableResetButton',
+    'searchText',
+    'resetText',
+    'formRef',
+  ]),
   emits: declareEmits<{
     submit: () => void;
     reset: () => void;

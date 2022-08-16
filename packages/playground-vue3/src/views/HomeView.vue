@@ -40,6 +40,13 @@
       valueProps: {
         placeholder: '关键字',
       },
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+          },
+        ],
+      },
     },
     {
       prop: 'name',

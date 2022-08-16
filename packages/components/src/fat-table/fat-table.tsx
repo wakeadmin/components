@@ -221,12 +221,20 @@ const FatTableInner = declareComponent({
 
     /**
      * 执行搜索
+     * TODO: 处理表单输入后点击搜索，会重复请求两次
      */
-    const search = () => {
-      resetTempState();
-      fetch();
+    const search = async () => {
+      // 检查校验状态
+      try {
+        if (enableQuery && formRef.value) {
+          await formRef.value.validate();
+        }
 
-      // TODO: 检查校验状态
+        resetTempState();
+        fetch();
+      } catch (err) {
+        console.warn(err);
+      }
     };
 
     const leadingDebouncedSearch = debounce(search, queryWatchDelay, { leading: true });
