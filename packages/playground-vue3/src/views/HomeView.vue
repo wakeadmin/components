@@ -5,23 +5,14 @@
     <button @click="selectAll">select all</button>
     <button @click="unselectAll">unselect all</button>
     <button @click="getSelected">getSelected</button>
-    <FatTableActions :options="actions" />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { FatTable, FatTableActions } from '@wakeadmin/components';
+  import { FatTable } from '@wakeadmin/components';
 
   const tableRef = ref();
-
-  const actions = [
-    { name: 'Hello', onClick: () => console.log('Hello'), type: 'danger' },
-    { name: 'World', type: 'warning' },
-    { name: 'Bar', disabled: true },
-    { name: 'Foo', disabled: true },
-    { name: 'Baz', visible: false },
-  ];
 
   const request = async params => {
     const {
@@ -42,6 +33,19 @@
     {
       prop: 'name',
       label: 'Name',
+    },
+    {
+      type: 'actions',
+      label: '操作',
+      width: 260,
+      labelAlign: 'center',
+      actions: [
+        { name: 'Hello', onClick: () => console.log('Hello'), type: 'danger' },
+        { name: 'World', type: 'warning' },
+        { name: 'Bar', disabled: true },
+        { name: 'Foo', disabled: true },
+        { name: 'Baz', visible: false },
+      ],
     },
   ];
 

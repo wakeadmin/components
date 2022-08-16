@@ -2,7 +2,13 @@ export type Size = 'small' | 'default' | 'large';
 
 export function size(s: Size): string;
 
-// TODO: 详细类型信息
+export type ClassValue = string | undefined | { [key: string]: any } | ClassValue[];
+export type StyleValue = string | CSSProperties;
+
+export interface CommonProps {
+  class?: ClassValue;
+  style?: StyleValue;
+}
 
 export interface ButtonProps {
   size?: string;
@@ -33,8 +39,8 @@ export const Table: any;
 export interface TableColumnProps {
   type?: string;
   label?: string;
-  className?: string;
-  labelClassName?: string;
+  className?: ClassValue;
+  labelClassName?: ClassValue;
   prop?: string;
   width?: string | number;
   minWidth?: string | number;
