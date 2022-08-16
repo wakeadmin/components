@@ -342,130 +342,137 @@ const FatTableInner = declareComponent({
     return () => {
       return (
         <div class="fat-table">
-          <Table
-            ref={tableRef}
-            data={list.value}
-            rowKey={props.rowKey}
-            onSelectionChange={handleSelectionChange}
-            onSortChange={handleSortChange}
-            onFilterChange={handleFilterChange}
-            defaultSort={toUndefined(sort.value)}
-          >
-            {!!props.enableSelect && !isSelectionColumnDefined && (
-              <TableColumn type="selection" width="80" selectable={props.selectable} />
-            )}
+          <div class="fat-table__body">
+            <Table
+              ref={tableRef}
+              data={list.value}
+              rowKey={props.rowKey}
+              onSelectionChange={handleSelectionChange}
+              onSortChange={handleSortChange}
+              onFilterChange={handleFilterChange}
+              defaultSort={toUndefined(sort.value)}
+            >
+              {!!props.enableSelect && !isSelectionColumnDefined && (
+                <TableColumn type="selection" width="80" selectable={props.selectable} />
+              )}
 
-            {slots.beforeColumns?.()}
+              {slots.beforeColumns?.()}
 
-            {props.columns?.map((column, index) => {
-              const type = column.type ?? 'default';
-              const key = genKey(column, index);
-              const valueType = column.valueType ?? 'text';
-              const valueProps = column.valueProps ?? NoopObject;
-              const extraProps: TableColumnProps = {};
+              {props.columns?.map((column, index) => {
+                const type = column.type ?? 'default';
+                const key = genKey(column, index);
+                const valueType = column.valueType ?? 'text';
+                const valueProps = column.valueProps ?? NoopObject;
+                const extraProps: TableColumnProps = {};
 
-              let children: any;
+                let children: any;
 
-              if (type === 'default' || type === 'expand') {
-                children = {
-                  default: (scope: { row: any; $index: number }) => {
-                    // 自定义渲染
-                    const prop = column.prop;
-                    const row = scope.row;
-                    const idx = scope.$index;
-                    const value = prop ? row[prop] : undefined;
+                if (type === 'query') {
+                  return null;
+                } else if (type === 'default' || type === 'expand') {
+                  children = {
+                    default: (scope: { row: any; $index: number }) => {
+                      // 自定义渲染
+                      const prop = column.prop;
+                      const row = scope.row;
+                      const idx = scope.$index;
+                      const value = prop ? row[prop] : undefined;
 
-                    if (column.render) {
-                      return column.render(value, row, idx);
-                    } else {
-                      // 按照 valueType 渲染
-                      const atom = atomics.registered(valueType);
-                      if (atom == null) {
-                        throw new Error(`[fat-table] 未能识别类型为 ${valueType} 的原件`);
+                      if (column.render) {
+                        return column.render(value, row, idx);
+                      } else {
+                        // 按照 valueType 渲染
+                        const atom = typeof valueType === 'function' ? valueType : atomics.registered(valueType);
+                        if (atom == null) {
+                          throw new Error(`[fat-table] 未能识别类型为 ${valueType} 的原件`);
+                        }
+
+                        const comp = typeof atom === 'function' ? atom : atom.component;
+
+                        return comp({
+                          mode: 'preview',
+                          value,
+                          ...valueProps,
+                        });
                       }
+                    },
+                  };
+                } else if (type === 'selection') {
+                  extraProps.selectable = props.selectable;
+                } else if (type === 'actions') {
+                  // 操作
+                  children = {
+                    default: (scope: { row: any; $index: number }) => {
+                      return (
+                        <FatTableActions
+                          options={(column.actions ?? NoopArray).map(action => {
+                            return {
+                              ...action,
+                              onClick: a => {
+                                return action.onClick(tableInstance, scope.row, a, scope.$index);
+                              },
+                            } as FatTableAction;
+                          })}
+                          max={column.actionsMax}
+                          class={column.actionsClass}
+                          type={column.actionsType}
+                          size={column.actionsSize}
+                        />
+                      );
+                    },
+                  };
+                } else if (type === 'index') {
+                  extraProps.index = column.index;
+                }
 
-                      const comp = atom.component;
+                if (column.filterable && column.filterable.length) {
+                  extraProps.filters = column.filterable;
+                  extraProps.filteredValue = filter[column.prop as string] ?? [];
+                  extraProps.filterMultiple = column.filterMultiple;
+                }
 
-                      return comp({
-                        mode: 'preview',
-                        value,
-                        ...valueProps,
-                      });
-                    }
-                  },
-                };
-              } else if (type === 'selection') {
-                extraProps.selectable = props.selectable;
-              } else if (type === 'actions') {
-                // 操作
-                children = {
-                  default: (scope: { row: any; $index: number }) => {
-                    return (
-                      <FatTableActions
-                        options={(column.actions ?? NoopArray).map(action => {
-                          return {
-                            ...action,
-                            onClick: a => {
-                              return action.onClick(tableInstance, scope.row, a, scope.$index);
-                            },
-                          } as FatTableAction;
-                        })}
-                        max={column.actionsMax}
-                        class={column.actionsClass}
-                        type={column.actionsType}
-                        size={column.actionsSize}
-                      />
-                    );
-                  },
-                };
-              } else if (type === 'index') {
-                extraProps.index = column.index;
-              }
+                return (
+                  <TableColumn
+                    type={type}
+                    key={key}
+                    columnKey={key}
+                    prop={column.prop as string}
+                    label={column.label}
+                    renderHeader={column.renderLabel?.bind(null, index, column)}
+                    // 样式
+                    className={column.class}
+                    labelClassName={column.labelClass}
+                    width={column.width}
+                    minWidth={column.minWidth}
+                    align={column.align}
+                    headerAlign={column.labelAlign}
+                    fixed={column.fixed}
+                    sortable={column.sortable ? 'custom' : undefined}
+                    {...extraProps}
+                  >
+                    {children}
+                  </TableColumn>
+                );
+              })}
+              {slots.afterColumns?.()}
+            </Table>
+          </div>
 
-              if (column.filterable && column.filterable.length) {
-                extraProps.filters = column.filterable;
-                extraProps.filteredValue = filter[column.prop as string] ?? [];
-                extraProps.filterMultiple = column.filterMultiple;
-              }
-
-              return (
-                <TableColumn
-                  type={type}
-                  key={key}
-                  columnKey={key}
-                  prop={column.prop as string}
-                  label={column.label}
-                  renderHeader={column.renderLabel?.bind(null, index, column)}
-                  // 样式
-                  className={column.class}
-                  labelClassName={column.labelClass}
-                  width={column.width}
-                  minWidth={column.minWidth}
-                  align={column.align}
-                  headerAlign={column.labelAlign}
-                  fixed={column.fixed}
-                  sortable={column.sortable ? 'custom' : undefined}
-                  {...extraProps}
-                >
-                  {children}
-                </TableColumn>
-              );
-            })}
-            {slots.afterColumns?.()}
-          </Table>
-          {props.enablePagination !== false && (
-            <Pagination
-              {...DEFAULT_PAGINATION_PROPS}
-              {...props.paginationProps}
-              class={['fat-table__pagination', props.paginationProps?.class]}
-              currentPage={pagination.current}
-              total={pagination.total}
-              pageSize={pagination.pageSize}
-              disabled={loading.value || props.paginationProps?.disabled}
-              onSizeChange={handlePageSizeChange}
-              onCurrentChange={handlePageCurrentChange}
-            ></Pagination>
-          )}
+          <div class="fat-table__footer">
+            {props.enablePagination !== false && (
+              <Pagination
+                {...DEFAULT_PAGINATION_PROPS}
+                {...props.paginationProps}
+                class={['fat-table__pagination', props.paginationProps?.class]}
+                currentPage={pagination.current}
+                total={pagination.total}
+                pageSize={pagination.pageSize}
+                disabled={loading.value || props.paginationProps?.disabled}
+                onSizeChange={handlePageSizeChange}
+                onCurrentChange={handlePageCurrentChange}
+              ></Pagination>
+            )}
+          </div>
         </div>
       );
     };

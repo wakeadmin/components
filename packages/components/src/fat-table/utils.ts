@@ -15,6 +15,16 @@ export function validateColumns(columns?: FatTableColumn<any>[]) {
     if (column.filterable && !column.prop) {
       throw new Error(`[fat-table] 开启了过滤的列(${column.label ?? i})必须配置 prop 字段`);
     }
+
+    if (column.type === 'query' || column.queryable) {
+      if (column.prop == null && typeof column.queryable !== 'string') {
+        throw new Error(`[fat-table] 表单列 (${column.label ?? i})必须配置 prop 或 queryable 字段`);
+      }
+
+      if (column.valueType == null) {
+        throw new Error(`[fat-table] 表单列 (${column.label ?? i})必须配置 valueType 字段`);
+      }
+    }
   }
 }
 

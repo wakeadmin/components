@@ -1,4 +1,4 @@
-import { FilterList, SortOrder } from '@wakeadmin/component-adapter';
+import { FilterList, SortOrder, FormProps, FormItemProps } from '@wakeadmin/component-adapter';
 
 import { AtomicCommonProps } from '../atomic';
 import { PaginationProps } from '../definitions';
@@ -84,9 +84,10 @@ export interface FatTableColumn<
    * selection 选择器
    * expand 展开
    * actions 表单操作
+   * query 纯表单字段, 该列不会出现在表格中
    * default 默认
    */
-  type?: 'index' | 'selection' | 'expand' | 'actions' | 'default';
+  type?: 'index' | 'selection' | 'expand' | 'actions' | 'default' | 'query';
 
   /**
    * 对齐方式
@@ -106,7 +107,7 @@ export interface FatTableColumn<
   /**
    * 字段类型, 默认为 text
    */
-  valueType?: ValueType;
+  valueType?: ValueType | ((props: AtomicCommonProps<any>) => any);
 
   /**
    * 字段选项
@@ -220,6 +221,29 @@ export interface FatTableColumn<
    * 操作栏 class
    */
   actionsClass?: ClassValue;
+
+  // ---------------- 表单搜索特定参数  --------------------
+  /**
+   * 该字段是否开启表单搜索, 默认关闭
+   * 如果值为 string, 将覆盖 prop 作为表单的字段名
+   * 表单需要指定 valueType，由它来执行表单的渲染
+   */
+  queryable?: boolean | string;
+
+  /**
+   * 是否禁用表单
+   */
+  disabled?: boolean;
+
+  /**
+   * 表单项配置
+   */
+  formItemProps?: FormItemProps;
+
+  /**
+   * 表单的默认值
+   */
+  initialValue?: any;
 }
 
 /**
@@ -298,6 +322,32 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 判断行是否可以选择
    */
   selectable?: (row: T, index: number) => boolean;
+
+  /**
+   * 是否开启表单搜索, 默认关闭
+   */
+  enableQuery?: boolean;
+
+  /**
+   * 用于 request 查询的额外参数，一旦变化会触发重新加载
+   * 也可以用它来实现自定义查询表单
+   */
+  query?: any;
+
+  /**
+   * 是否监听 query 的变动，并触发重新加载，默认为 true
+   */
+  enableQueryWatch?: boolean;
+
+  /**
+   * query 防抖时长，默认为 800ms
+   */
+  queryWatchDelay?: number;
+
+  /**
+   * 搜索表单属性
+   */
+  formProps?: FormProps;
 
   // TODO: 其他表格属性
 }

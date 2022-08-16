@@ -183,3 +183,36 @@ export interface DropdownItemProps {
 export const DropdownItem = (props: DropdownItemProps) => any;
 
 export const DropdownMenu = (props: {}) => any;
+
+export interface FormProps {
+  model?: any;
+  rules?: Record<string, any>;
+  labelPosition?: 'left' | 'right' | 'top';
+  labelWidth?: string;
+  labelSuffix?: string;
+  inline?: boolean;
+  inlineMessage?: boolean;
+  statusIcon?: boolean;
+  showMessage?: boolean;
+  size?: string;
+  disabled?: string;
+  validateOnRuleChange?: string;
+  hideRequiredAsterisk?: boolean;
+
+  ref: { value?: { validate: () => Promise<boolean>; resetFields: () => void; clearValidate: () => void } };
+}
+
+export const Form = (props: FormProps) => any;
+
+export interface FormItemProps {
+  label?: string;
+  labelWidth?: string | number;
+  prop?: string;
+  required?: boolean;
+  rules?: any[];
+  error?: string;
+  inlineMessage?: boolean;
+  showMessage?: boolean;
+  size?: string;
+}
+export const FormItem = (props: FormItemProps) => any;
