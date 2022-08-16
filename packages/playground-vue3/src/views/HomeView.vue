@@ -33,6 +33,15 @@
 
   const columns = [
     {
+      type: 'query',
+      renderLabel: () => '关键字',
+      prop: 'query',
+      valueType: 'input',
+      valueProps: {
+        placeholder: '关键字',
+      },
+    },
+    {
       prop: 'name',
       label: 'Name',
       valueType: 'input',

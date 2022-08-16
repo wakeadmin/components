@@ -8,7 +8,7 @@ import {
   FormItem,
   Button,
 } from '@wakeadmin/component-adapter';
-import { VNode, ref, Ref, onMounted, reactive, nextTick, set } from '@wakeadmin/demi';
+import { VNode, ref, Ref, onMounted, reactive, nextTick, set, watch } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { NoopObject, debounce, NoopArray, get, set as _set } from '@wakeadmin/utils';
 
@@ -157,6 +157,9 @@ const FatTableInner = declareComponent({
     // 搜索状态缓存 key
     const queryCacheKey = props.namespace ? `_t_${props.namespace}` : '_t';
     const enableCacheQuery = props.enableCacheQuery ?? true;
+    const enableQuery = props.enableQuery ?? true;
+    const enableQueryWatch = props.enableQueryWatch ?? true;
+    const queryWatchDelay = props.queryWatchDelay ?? 800;
     const requestOnMounted = props.requestOnMounted ?? true;
     const requestOnSortChange = props.requestOnSortChange ?? true;
     const requestOnFilterChange = props.requestOnFilterChange ?? true;
@@ -312,7 +315,7 @@ const FatTableInner = declareComponent({
       fetch();
     };
 
-    // const debouncedSearch = debounce(search, 800, { leading: true });
+    const debouncedSearch = debounce(search, queryWatchDelay);
 
     // const compare = (a: any, b: any) => {
     //   if (props.rowKey == null) {
@@ -356,6 +359,23 @@ const FatTableInner = declareComponent({
       // 恢复搜索缓存
       uid = route.query[queryCacheKey] as string;
       restoreFromCache();
+    }
+
+    // 监听 query 变动
+    if (enableQueryWatch) {
+      watch(
+        () => [query.value, props.query],
+        () => {
+          if (!ready.value) {
+            return;
+          }
+          debouncedSearch();
+        },
+        {
+          deep: true,
+          flush: 'post',
+        }
+      );
     }
 
     /**
@@ -471,7 +491,7 @@ const FatTableInner = declareComponent({
     return () => {
       return (
         <div class="fat-table">
-          {props.enableQuery !== false && <Query query={query} formProps={props.formProps} columns={props.columns} />}
+          {!!enableQuery && <Query query={query} formProps={props.formProps} columns={props.columns} />}
 
           <div class="fat-table__body">
             <Table
