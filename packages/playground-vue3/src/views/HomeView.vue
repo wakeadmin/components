@@ -35,6 +35,11 @@
     {
       prop: 'name',
       label: 'Name',
+      valueType: 'input',
+      queryable: true,
+      valueProps: {
+        placeholder: '评论',
+      },
     },
     {
       prop: 'age',

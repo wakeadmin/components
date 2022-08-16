@@ -5,3 +5,4 @@ export * from './Table';
 export * from './TableColumn';
 export * from './Dropdown';
 export * from './Form';
+export * from './Input';

@@ -324,7 +324,7 @@ export interface FatTableProps<T extends {}, S extends {}> {
   selectable?: (row: T, index: number) => boolean;
 
   /**
-   * 是否开启表单搜索, 默认关闭
+   * 是否开启表单搜索, 默认开启
    */
   enableQuery?: boolean;
 

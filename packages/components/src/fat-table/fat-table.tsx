@@ -1,7 +1,16 @@
-import { Table, TableColumn, Pagination, TableColumnProps, SortOrder } from '@wakeadmin/component-adapter';
-import { VNode, ref, onMounted, reactive, nextTick, set } from '@wakeadmin/demi';
+import {
+  Table,
+  TableColumn,
+  Pagination,
+  TableColumnProps,
+  SortOrder,
+  Form,
+  FormItem,
+  Button,
+} from '@wakeadmin/component-adapter';
+import { VNode, ref, Ref, onMounted, reactive, nextTick, set } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { NoopObject, debounce, NoopArray } from '@wakeadmin/utils';
+import { NoopObject, debounce, NoopArray, get, set as _set } from '@wakeadmin/utils';
 
 import { useAtomicRegistry, useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
@@ -10,6 +19,108 @@ import { toUndefined } from '../utils';
 import { FatTableProps, PaginationState, SearchStateCache, FatTableRequestParams, FatTableColumn } from './types';
 import { FatTableAction, FatTableActions } from './table-actions';
 import { validateColumns, genKey } from './utils';
+import { Registry } from '../atomic';
+
+/**
+ * 获取原件
+ * @param column
+ * @returns
+ */
+const getAtom = (column: FatTableColumn<any>, registry: Registry) => {
+  const valueType = column.valueType ?? 'text';
+  // 按照 valueType 渲染
+  const atom = typeof valueType === 'function' ? valueType : registry.registered(valueType);
+  if (atom == null) {
+    throw new Error(`[fat-table] 未能识别类型为 ${valueType} 的原件`);
+  }
+
+  const comp = typeof atom === 'function' ? atom : atom.component;
+
+  return {
+    comp,
+    validate: typeof atom === 'function' ? undefined : atom.validate,
+  };
+};
+
+const Query = declareComponent({
+  name: 'FatTableQuery',
+  props: declareProps<{ query: Ref<any>; formProps: any; columns: FatTableColumn<any>[] }>([
+    'query',
+    'formProps',
+    'columns',
+  ]),
+  setup(props) {
+    const atomics = useAtomicRegistry();
+    const query = props.query;
+
+    return () => {
+      return (
+        <div class="fat-table__query">
+          <Form model={query.value} inline {...props.formProps}>
+            {props.columns?.map((column, index) => {
+              if (column.type !== 'query' && !column.queryable) {
+                return null;
+              }
+
+              const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
+              const key = `${prop}_${index}`;
+              const { comp, validate } = getAtom(column, atomics);
+              const rules = column.formItemProps?.rules ?? [];
+
+              // 原件内置的验证规则
+              if (validate) {
+                // 验证
+                rules.push(async (rule: any, value: any, callback: any) => {
+                  try {
+                    await validate(value, query.value);
+                    callback();
+                  } catch (err) {
+                    callback(err);
+                  }
+                });
+              }
+
+              return (
+                <FormItem
+                  key={key}
+                  prop={prop}
+                  label={column.label}
+                  {...column.formItemProps}
+                  v-slots={
+                    column.renderLabel
+                      ? {
+                          label: () => {
+                            return column.renderLabel?.(index, column);
+                          },
+                        }
+                      : undefined
+                  }
+                  rules={rules}
+                >
+                  {comp({
+                    mode: 'editable',
+                    disabled: column.disabled,
+                    value: get(query.value, prop),
+                    onChange: value => {
+                      _set(query.value, prop, value);
+                    },
+                    context: query.value,
+                    ...column.valueProps,
+                  })}
+                </FormItem>
+              );
+            })}
+
+            <FormItem>
+              <Button>搜索</Button>
+              <Button>重置</Button>
+            </FormItem>
+          </Form>
+        </div>
+      );
+    };
+  },
+});
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -18,6 +129,8 @@ const FatTableInner = declareComponent({
     'showError',
     'request',
     'requestOnMounted',
+    'requestOnSortChange',
+    'requestOnFilterChange',
     'remove',
     'columns',
     'enableCacheQuery',
@@ -26,6 +139,11 @@ const FatTableInner = declareComponent({
     'paginationProps',
     'enableSelect',
     'selectable',
+    'enableQuery',
+    'query',
+    'enableQueryWatch',
+    'queryWatchDelay',
+    'formProps',
   ]),
   // TODO: 暴露更多事件
   emits: declareEmits<{
@@ -56,7 +174,6 @@ const FatTableInner = declareComponent({
     // 加载中
     const loading = ref(false);
 
-    // const ready = ref(false);
     const error = ref<Error | null>(null);
 
     // 表格是否就绪
@@ -87,6 +204,7 @@ const FatTableInner = declareComponent({
     const filter = reactive<{ [prop: string]: any[] }>({});
 
     // 字段状态初始化
+    // TODO: 表单初始值初始化
     for (const column of props.columns) {
       if (column.type === 'selection') {
         isSelectionColumnDefined = true;
@@ -342,6 +460,8 @@ const FatTableInner = declareComponent({
     return () => {
       return (
         <div class="fat-table">
+          {props.enableQuery !== false && <Query query={query} formProps={props.formProps} columns={props.columns} />}
+
           <div class="fat-table__body">
             <Table
               ref={tableRef}
@@ -359,9 +479,9 @@ const FatTableInner = declareComponent({
               {slots.beforeColumns?.()}
 
               {props.columns?.map((column, index) => {
+                // TODO: 性能优化
                 const type = column.type ?? 'default';
                 const key = genKey(column, index);
-                const valueType = column.valueType ?? 'text';
                 const valueProps = column.valueProps ?? NoopObject;
                 const extraProps: TableColumnProps = {};
 
@@ -381,13 +501,7 @@ const FatTableInner = declareComponent({
                       if (column.render) {
                         return column.render(value, row, idx);
                       } else {
-                        // 按照 valueType 渲染
-                        const atom = typeof valueType === 'function' ? valueType : atomics.registered(valueType);
-                        if (atom == null) {
-                          throw new Error(`[fat-table] 未能识别类型为 ${valueType} 的原件`);
-                        }
-
-                        const comp = typeof atom === 'function' ? atom : atom.component;
+                        const { comp } = getAtom(column, atomics);
 
                         return comp({
                           mode: 'preview',

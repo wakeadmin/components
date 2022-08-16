@@ -17,3 +17,20 @@ export function size(s) {
 
   return s;
 }
+
+/**
+ * v-model 兼容
+ */
+export function model(value, onChange) {
+  if (isVue2) {
+    return {
+      value,
+      onInput: onChange,
+    };
+  } else {
+    return {
+      modelValue: value,
+      'onUpdate:modelValue': onChange,
+    };
+  }
+}
