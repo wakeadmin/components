@@ -37,6 +37,7 @@
       label: 'Name',
       valueType: 'input',
       queryable: true,
+      initialValue: 'hello',
       valueProps: {
         placeholder: '评论',
       },

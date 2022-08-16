@@ -203,25 +203,6 @@ const FatTableInner = declareComponent({
     // 过滤条件
     const filter = reactive<{ [prop: string]: any[] }>({});
 
-    // 字段状态初始化
-    // TODO: 表单初始值初始化
-    for (const column of props.columns) {
-      if (column.type === 'selection') {
-        isSelectionColumnDefined = true;
-      }
-
-      if (column.sortable && typeof column.sortable === 'string') {
-        sort.value = {
-          prop: column.prop as string,
-          order: column.sortable,
-        };
-      }
-
-      if (column.filterable) {
-        set(filter, column.prop, column.filteredValue ?? []);
-      }
-    }
-
     /**
      * 初始化缓存
      */
@@ -245,7 +226,9 @@ const FatTableInner = declareComponent({
         const cache = JSON.parse(data) as SearchStateCache;
         Object.assign(pagination, cache.pagination);
 
-        query.value = cache.query;
+        if (cache.query) {
+          query.value = cache.query;
+        }
 
         if (cache.sort !== undefined) {
           sort.value = cache.sort;
@@ -339,7 +322,35 @@ const FatTableInner = declareComponent({
     //   return a[props.rowKey] === b[props.rowKey];
     // };
 
-    // 缓存回复
+    // 字段状态初始化
+    const queryInitialValue: any = {};
+    for (const column of props.columns) {
+      if (column.type === 'selection') {
+        isSelectionColumnDefined = true;
+      }
+
+      // 排序字段初始化
+      if (column.sortable && typeof column.sortable === 'string') {
+        sort.value = {
+          prop: column.prop as string,
+          order: column.sortable,
+        };
+      }
+
+      // 过滤字段初始化
+      if (column.filterable) {
+        set(filter, column.prop, column.filteredValue ?? []);
+      }
+
+      // 查询字段初始化
+      if (column.queryable || column.type === 'query') {
+        const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
+        _set(queryInitialValue, prop, column.initialValue);
+      }
+    }
+    query.value = queryInitialValue;
+
+    // 缓存恢复
     if (enableCacheQuery && route?.query[queryCacheKey] != null) {
       // 开启了缓存
       // 恢复搜索缓存
@@ -539,7 +550,7 @@ const FatTableInner = declareComponent({
                   extraProps.index = column.index;
                 }
 
-                if (column.filterable && column.filterable.length) {
+                if (column.filterable?.length) {
                   extraProps.filters = column.filterable;
                   extraProps.filteredValue = filter[column.prop as string] ?? [];
                   extraProps.filterMultiple = column.filterMultiple;
