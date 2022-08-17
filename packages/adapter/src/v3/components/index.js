@@ -8,3 +8,5 @@ export * from './Form';
 export * from './Input';
 export * from './directives';
 export * from './Empty';
+export * from './MessageBox';
+export * from './Message';

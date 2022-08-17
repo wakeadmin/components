@@ -5,7 +5,7 @@
   "type": "module",
   "exports": "./lib/index.js",
   "module": "./lib/index.js",
-  "typings": "./types.d.ts",
+  "typings": "./types/index.d.ts",
   "engines": {
     "node": ">= 16"
   },
@@ -16,7 +16,7 @@
     "lib",
     "bin",
     "src",
-    "types.d.ts",
+    "types",
     "scripts"
   ],
   "scripts": {
