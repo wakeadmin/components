@@ -37,6 +37,7 @@
       renderLabel: () => '关键字',
       prop: 'query',
       valueType: 'input',
+      initialValue: 'x',
       valueProps: {
         placeholder: '关键字',
       },

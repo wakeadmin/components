@@ -221,7 +221,6 @@ const FatTableInner = declareComponent({
 
     /**
      * 执行搜索
-     * TODO: 处理表单输入后点击搜索，会重复请求两次
      */
     const search = async () => {
       // 检查校验状态
@@ -237,8 +236,16 @@ const FatTableInner = declareComponent({
       }
     };
 
-    const leadingDebouncedSearch = debounce(search, queryWatchDelay, { leading: true });
-    const debouncedSearch = debounce(leadingDebouncedSearch, queryWatchDelay);
+    const debouncedSearch = debounce(search, queryWatchDelay);
+    const leadingDebouncedSearch = debounce(
+      () => {
+        // 取消正在 debounce 的请求
+        debouncedSearch.cancel();
+        search();
+      },
+      queryWatchDelay,
+      { leading: true }
+    );
 
     // const compare = (a: any, b: any) => {
     //   if (props.rowKey == null) {
@@ -317,7 +324,7 @@ const FatTableInner = declareComponent({
       watch(
         () => [query.value, props.query],
         () => {
-          if (!ready.value) {
+          if (!ready.value || loading.value) {
             return;
           }
           debouncedSearch();
