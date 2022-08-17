@@ -1,17 +1,9 @@
-import {
-  Table,
-  TableColumn,
-  Pagination,
-  TableColumnProps,
-  SortOrder,
-  FormMethods,
-  TableMethods,
-} from '@wakeadmin/component-adapter';
+import { Table, TableColumn, Pagination, SortOrder, FormMethods, TableMethods } from '@wakeadmin/component-adapter';
 import { VNode, ref, onMounted, reactive, nextTick, watch } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { NoopObject, debounce, NoopArray, set as _set, clone, equal } from '@wakeadmin/utils';
+import { debounce, set as _set, clone, equal } from '@wakeadmin/utils';
 
-import { useAtomicRegistry, useRoute, useRouter } from '../hooks';
+import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
 import { toUndefined } from '../utils';
 
@@ -24,9 +16,9 @@ import {
   FatTableSort,
   FatTableFilter,
 } from './types';
-import { FatTableAction, FatTableActions } from './table-actions';
-import { validateColumns, genKey, getAtom } from './utils';
+import { validateColumns, genKey } from './utils';
 import { Query } from './query';
+import { Column } from './column';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -95,9 +87,6 @@ const FatTableInner = declareComponent({
     // ready 表示的是已经进行过请求。
     // 这里使用了 ready 避免在 query 从缓存中恢复后又重新请求一次
     const ready = ref(false);
-
-    // 原件
-    const atomics = useAtomicRegistry();
 
     // 分页状态
     const pagination = reactive<PaginationState>({
@@ -494,93 +483,15 @@ const FatTableInner = declareComponent({
               {slots.beforeColumns?.()}
 
               {props.columns?.map((column, index) => {
-                // TODO: 性能优化
-                const type = column.type ?? 'default';
-                const key = genKey(column, index);
-                const valueProps = column.valueProps ?? NoopObject;
-                const extraProps: TableColumnProps = {};
-
-                let children: any;
-
-                if (type === 'query') {
-                  return null;
-                } else if (type === 'default' || type === 'expand') {
-                  children = {
-                    default: (scope: { row: any; $index: number }) => {
-                      // 自定义渲染
-                      const prop = column.prop;
-                      const row = scope.row;
-                      const idx = scope.$index;
-                      const value = prop ? row[prop] : undefined;
-
-                      if (column.render) {
-                        return column.render(value, row, idx);
-                      } else {
-                        const { comp } = getAtom(column, atomics);
-
-                        return comp({
-                          mode: 'preview',
-                          value,
-                          ...valueProps,
-                        });
-                      }
-                    },
-                  };
-                } else if (type === 'selection') {
-                  extraProps.selectable = props.selectable;
-                } else if (type === 'actions') {
-                  // 操作
-                  children = {
-                    default: (scope: { row: any; $index: number }) => {
-                      return (
-                        <FatTableActions
-                          options={(column.actions ?? NoopArray).map(action => {
-                            return {
-                              ...action,
-                              onClick: a => {
-                                return action.onClick(tableInstance, scope.row, a, scope.$index);
-                              },
-                            } as FatTableAction;
-                          })}
-                          max={column.actionsMax}
-                          class={column.actionsClass}
-                          type={column.actionsType}
-                          size={column.actionsSize}
-                        />
-                      );
-                    },
-                  };
-                } else if (type === 'index') {
-                  extraProps.index = column.index;
-                }
-
-                if (column.filterable?.length) {
-                  extraProps.filters = column.filterable;
-                  extraProps.filteredValue = filter[column.prop as string] ?? [];
-                  extraProps.filterMultiple = column.filterMultiple;
-                }
-
                 return (
-                  <TableColumn
-                    type={type}
-                    key={key}
-                    columnKey={key}
-                    prop={column.prop as string}
-                    label={column.label}
-                    renderHeader={column.renderLabel?.bind(null, index, column)}
-                    // 样式
-                    className={column.class}
-                    labelClassName={column.labelClass}
-                    width={column.width}
-                    minWidth={column.minWidth}
-                    align={column.align}
-                    headerAlign={column.labelAlign}
-                    fixed={column.fixed}
-                    sortable={column.sortable ? 'custom' : undefined}
-                    {...extraProps}
-                  >
-                    {children}
-                  </TableColumn>
+                  <Column
+                    key={genKey(column, index)}
+                    column={column}
+                    index={index}
+                    selectable={props.selectable}
+                    filter={filter}
+                    tableInstance={tableInstance}
+                  />
                 );
               })}
               {slots.afterColumns?.()}
