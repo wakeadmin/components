@@ -1,4 +1,11 @@
-import { FilterList, SortOrder, FormProps, FormItemProps } from '@wakeadmin/component-adapter';
+import {
+  FilterList,
+  SortOrder,
+  FormProps,
+  FormItemProps,
+  MessageBoxOptions,
+  MessageOptions,
+} from '@wakeadmin/component-adapter';
 
 import { AtomicCommonProps } from '../atomic';
 import { PaginationProps } from '../definitions';
@@ -67,10 +74,16 @@ export interface FatTableRequestResponse<T> {
  * 表格方法
  */
 export interface FatTableMethods<T> {
+  /**
+   * 获取已选中的记录
+   */
+  getSelected(): T[];
   select(items: T[]): void;
   unselect(items: T[]): void;
   selectAll(): void;
   unselectAll(): void;
+  remove(...items: T[]): Promise<void>;
+  removeSelected(): Promise<void>;
 }
 
 /**
@@ -280,9 +293,31 @@ export interface FatTableProps<T extends {}, S extends {}> {
   requestOnFilterChange?: boolean;
 
   /**
-   * 数据删除
+   * 是否在行删除之后重新请求， 默认 true
+   *
+   * 如果设置为 false，将原地删除对应字段
    */
-  remove?: (ids: any[], list: T[]) => Promise<void>;
+  requestOnRemoved?: boolean;
+
+  /**
+   * 行删除
+   */
+  remove?: (list: T[], ids: any[]) => Promise<void>;
+
+  /**
+   * 是否在删除之前弹出确认提示, 默认开启
+   */
+  confirmBeforeRemove?: boolean | MessageBoxOptions | ((list: T[], ids: any[]) => MessageBoxOptions);
+
+  /**
+   * 是否在删除成功后提示，默认开启
+   */
+  messageOnRemoved?: boolean | MessageOptions | ((list: T[], ids: any[]) => MessageOptions);
+
+  /**
+   * 是否在删除失败后提示，默认开启
+   */
+  messageOnRemoveFailed?: boolean | MessageOptions | ((list: T[], ids: any[], error: Error) => MessageOptions);
 
   /**
    * 列声明
@@ -372,6 +407,11 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 重置按钮文本
    */
   resetText?: string;
+
+  /**
+   * 空状态文本。默认为暂无数据
+   */
+  emptyText?: string;
 
   // TODO: 其他表格属性
 }

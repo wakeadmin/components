@@ -1,10 +1,19 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <FatTable ref="tableRef" :request="request" :columns="columns" :enable-select="true" />
+    <FatTable
+      ref="tableRef"
+      row-key="id"
+      :request="request"
+      :remove="remove"
+      :columns="columns"
+      :request-on-removed="false"
+      :enable-select="true"
+    />
     <button @click="selectAll">select all</button>
     <button @click="unselectAll">unselect all</button>
     <button @click="getSelected">getSelected</button>
+    <button @click="removeSelected">remove selected</button>
   </div>
 </template>
 
@@ -13,6 +22,10 @@
   import { FatTable } from '@wakeadmin/components';
 
   const tableRef = ref();
+
+  const remove = () => {
+    return Promise.resolve();
+  };
 
   const request = async params => {
     console.log('request', params);
@@ -90,6 +103,13 @@
       actions: [
         { name: 'Hello', onClick: () => console.log('Hello'), type: 'danger' },
         { name: 'World', type: 'warning' },
+        {
+          name: 'delete',
+          type: 'danger',
+          onClick: (t, row) => {
+            t.remove(row);
+          },
+        },
         { name: 'Bar', disabled: true },
         { name: 'Foo', disabled: true },
         { name: 'Baz', visible: false },
@@ -107,5 +127,9 @@
 
   const getSelected = () => {
     console.log(tableRef.value?.getSelected());
+  };
+
+  const removeSelected = () => {
+    tableRef.value?.removeSelected();
   };
 </script>

@@ -8,6 +8,10 @@ import {
   Alert,
   Empty,
   vLoading,
+  MessageBoxOptions,
+  Message,
+  MessageBox,
+  MessageOptions,
 } from '@wakeadmin/component-adapter';
 import { VNode, ref, onMounted, reactive, nextTick, watch } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
@@ -38,7 +42,11 @@ const FatTableInner = declareComponent({
     'requestOnMounted',
     'requestOnSortChange',
     'requestOnFilterChange',
+    'requestOnRemoved',
     'remove',
+    'confirmBeforeRemove',
+    'messageOnRemoved',
+    'messageOnRemoveFailed',
     'columns',
     'enableCacheQuery',
     'namespace',
@@ -55,6 +63,7 @@ const FatTableInner = declareComponent({
     'enableResetButton',
     'searchText',
     'resetText',
+    'emptyText',
   ]),
   // TODO: 暴露更多事件
   emits: declareEmits<{
@@ -76,6 +85,7 @@ const FatTableInner = declareComponent({
     const requestOnMounted = props.requestOnMounted ?? true;
     const requestOnSortChange = props.requestOnSortChange ?? true;
     const requestOnFilterChange = props.requestOnFilterChange ?? true;
+    const requestOnRemoved = props.requestOnRemoved ?? true;
 
     const tableRef = ref<TableMethods>();
     const formRef = ref<FormMethods>();
@@ -249,13 +259,16 @@ const FatTableInner = declareComponent({
       { leading: true }
     );
 
-    // const compare = (a: any, b: any) => {
-    //   if (props.rowKey == null) {
-    //     throw new Error(`[fat-table] 请配置 rowKey `);
-    //   }
+    const getId = (a: any) => {
+      if (props.rowKey == null) {
+        throw new Error(`[fat-table] 请配置 rowKey `);
+      }
+      return a[props.rowKey];
+    };
 
-    //   return a[props.rowKey] === b[props.rowKey];
-    // };
+    const compare = (a: any, b: any) => {
+      return getId(a) === getId(b);
+    };
 
     // 字段状态初始化
     const initialQuery: any = {};
@@ -416,6 +429,105 @@ const FatTableInner = declareComponent({
      *---------------------------------------+
      */
 
+    /**
+     * 删除指定行
+     */
+    const remove = async (...items: any[]): Promise<void> => {
+      if (items.length === 0) {
+        return;
+      }
+
+      const ids = items.map(getId);
+
+      try {
+        if (props.confirmBeforeRemove !== false) {
+          const confirmOptions: MessageBoxOptions = {
+            title: '提示',
+            message: '是否确认删除?',
+            type: 'warning',
+            showCancelButton: true,
+            ...(typeof props.confirmBeforeRemove === 'function'
+              ? props.confirmBeforeRemove(items, ids)
+              : typeof props.confirmBeforeRemove === 'object'
+              ? props.confirmBeforeRemove
+              : undefined),
+          };
+
+          try {
+            await MessageBox(confirmOptions);
+          } catch (err) {
+            // ignore
+            return;
+          }
+        }
+
+        // 开始删除
+        if (props.remove == null) {
+          throw new Error('[fat-table] 删除需要配置 remove 参数');
+        }
+
+        await props.remove(items, ids);
+
+        // 删除成功提示
+        if (props.messageOnRemoved !== false) {
+          const messageOptions: MessageOptions = {
+            message: '删除成功',
+            type: 'success',
+            ...(typeof props.messageOnRemoved === 'function'
+              ? props.messageOnRemoved(items, ids)
+              : typeof props.messageOnRemoved === 'object'
+              ? props.messageOnRemoved
+              : undefined),
+          };
+          Message(messageOptions);
+        }
+
+        // 移除
+        if (requestOnRemoved) {
+          fetch();
+        } else {
+          // 原地删除
+          let deleted = 0;
+          for (const item of items) {
+            const idx = list.value.findIndex(i => compare(i, item));
+            if (idx !== -1) {
+              deleted++;
+              list.value.splice(idx, 1);
+            }
+          }
+          pagination.total -= deleted;
+        }
+      } catch (err) {
+        console.error(`[fat-table] 删除失败`, err);
+
+        if (props.messageOnRemoveFailed !== false) {
+          const messageOptions: MessageOptions = {
+            message: `删除失败: ${(err as Error).message}`,
+            type: 'error',
+            ...(typeof props.messageOnRemoveFailed === 'function'
+              ? props.messageOnRemoveFailed(items, ids, err as Error)
+              : typeof props.messageOnRemoveFailed === 'object'
+              ? props.messageOnRemoveFailed
+              : undefined),
+          };
+          Message(messageOptions);
+        }
+      }
+    };
+
+    /**
+     * 删除选中行
+     */
+    const removeSelected = async (): Promise<void> => {
+      if (!selected.value?.length) {
+        return;
+      }
+
+      await remove(...selected.value);
+      // 清理选中
+      selected.value = [];
+    };
+
     const reset = async () => {
       // 重置表单状态、排序状态、筛选状态
       setInitialValue(true);
@@ -452,6 +564,8 @@ const FatTableInner = declareComponent({
     };
 
     const tableInstance = {
+      remove,
+      removeSelected,
       getSelected,
       select,
       unselect,
@@ -495,7 +609,7 @@ const FatTableInner = declareComponent({
               {...withDirectives([[vLoading, loading.value]])}
               v-slots={{
                 empty() {
-                  return <Empty description="暂无数据"></Empty>;
+                  return <Empty description={props.emptyText ?? '暂无数据'}></Empty>;
                 },
               }}
             >
