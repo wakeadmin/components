@@ -3,6 +3,8 @@ export type Size = 'small' | 'default' | 'large';
 export function size(s: Size): string;
 export function model<T>(value: T, onChange: (value: T) => void): any;
 
+export const vLoading: any;
+
 export type ClassValue = string | undefined | { [key: string]: any } | ClassValue[];
 export type StyleValue = string | CSSProperties;
 
@@ -395,3 +397,14 @@ export interface InputProps {
 }
 
 export const Input = (props: InputProps) => any;
+
+export interface EmptyProps {
+  image?: string;
+
+  /* image size (width) */
+  imageSize?: number;
+
+  /* description */
+  description?: string;
+}
+export const Empty = (props: EmptyProps) => any;

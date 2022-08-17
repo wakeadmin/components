@@ -1,6 +1,16 @@
-import { Table, TableColumn, Pagination, SortOrder, FormMethods, TableMethods } from '@wakeadmin/component-adapter';
+import {
+  Table,
+  TableColumn,
+  Pagination,
+  SortOrder,
+  FormMethods,
+  TableMethods,
+  Alert,
+  Empty,
+  vLoading,
+} from '@wakeadmin/component-adapter';
 import { VNode, ref, onMounted, reactive, nextTick, watch } from '@wakeadmin/demi';
-import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
+import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, clone, equal } from '@wakeadmin/utils';
 
 import { useRoute, useRouter } from '../hooks';
@@ -194,12 +204,15 @@ const FatTableInner = declareComponent({
       try {
         loading.value = true;
         error.value = null;
+
         const response = await props.request(params);
+
         pagination.total = response.total;
         list.value = response.list;
         ready.value = true;
       } catch (err) {
         error.value = err as Error;
+        console.error(`[fat-table] 数据加载失败`, err);
       } finally {
         loading.value = false;
 
@@ -453,6 +466,7 @@ const FatTableInner = declareComponent({
         <div class="fat-table">
           {!!enableQuery && (
             <Query
+              loading={loading}
               formRef={formRef}
               query={query}
               formProps={props.formProps}
@@ -467,6 +481,9 @@ const FatTableInner = declareComponent({
           )}
 
           <div class="fat-table__body">
+            {!!error.value && (
+              <Alert title="数据加载失败" type="error" showIcon description={error.value.message} closable={false} />
+            )}
             <Table
               ref={tableRef}
               data={list.value}
@@ -475,6 +492,12 @@ const FatTableInner = declareComponent({
               onSortChange={handleSortChange}
               onFilterChange={handleFilterChange}
               defaultSort={toUndefined(sort.value)}
+              {...withDirectives([[vLoading, loading.value]])}
+              v-slots={{
+                empty() {
+                  return <Empty description="暂无数据"></Empty>;
+                },
+              }}
             >
               {!!props.enableSelect && !isSelectionColumnDefined && (
                 <TableColumn type="selection" width="80" selectable={props.selectable} />

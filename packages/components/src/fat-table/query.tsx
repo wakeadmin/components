@@ -11,6 +11,7 @@ import { FatTableColumn } from './types';
 export const Query = declareComponent({
   name: 'FatTableQuery',
   props: declareProps<{
+    loading: Ref<boolean>;
     query: Ref<any>;
     formProps: any;
     columns: FatTableColumn<any>[];
@@ -20,6 +21,7 @@ export const Query = declareComponent({
     resetText?: string;
     formRef?: Ref<FormMethods | undefined>;
   }>([
+    'loading',
     'query',
     'formProps',
     'columns',
@@ -49,7 +51,7 @@ export const Query = declareComponent({
     return () => {
       return (
         <div class="fat-table__query">
-          <Form ref={props.formRef} model={query.value} inline {...props.formProps}>
+          <Form ref={props.formRef} model={query.value} inline disabled={props.loading.value} {...props.formProps}>
             {ctx.slots.before?.(scope)}
             {props.columns?.map((column, index) => {
               if (column.type !== 'query' && !column.queryable) {
