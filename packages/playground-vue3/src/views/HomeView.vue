@@ -39,6 +39,7 @@
         return {
           id: `${page}_${index}`,
           name: `name_${page}_${index}`,
+          date: new Date(Date.now() + index * 2000),
         };
       }),
     };
@@ -76,6 +77,21 @@
       prop: 'age',
       label: 'Age',
       sortable: 'ascending',
+    },
+    {
+      prop: 'date',
+      label: '时间',
+      valueType: 'date-range',
+      valueProps: {
+        valueFormat: 'YYYY-MM-DD',
+      },
+      initialValue: ['2022-03-13', '2022-03-17'],
+      transform: v => {
+        if (Array.isArray(v)) {
+          return { startTime: v[0], endTime: v[1] };
+        }
+      },
+      queryable: true,
     },
     {
       prop: 'filter',

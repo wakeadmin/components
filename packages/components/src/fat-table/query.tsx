@@ -11,15 +11,15 @@ import { FatTableColumn } from './types';
 export const Query = declareComponent({
   name: 'FatTableQuery',
   props: declareProps<{
-    loading: Ref<boolean>;
-    query: Ref<any>;
+    loading: boolean;
+    query: any;
     formProps: any;
     columns: FatTableColumn<any>[];
     enableSearchButton?: boolean;
     enableResetButton?: boolean;
     searchText?: string;
     resetText?: string;
-    formRef?: Ref<FormMethods | undefined>;
+    formRef?: () => Ref<FormMethods | undefined>;
   }>([
     'loading',
     'query',
@@ -36,22 +36,22 @@ export const Query = declareComponent({
     reset: () => void;
   }>(),
   slots: declareSlots<{
-    before: { query: Ref<any> };
-    beforeButtons: { query: Ref<any> };
-    afterButtons: { query: Ref<any> };
+    before: { query: any };
+    beforeButtons: { query: any };
+    afterButtons: { query: any };
   }>(),
   setup(props, ctx) {
     const atomics = useAtomicRegistry();
-    const query = props.query;
 
     const submit = () => ctx.emit('submit');
     const reset = () => ctx.emit('reset');
-    const scope = { query };
 
     return () => {
+      const query = props.query;
+      const scope = { query };
       return (
         <div class="fat-table__query">
-          <Form ref={props.formRef} model={query.value} inline disabled={props.loading.value} {...props.formProps}>
+          <Form ref={props.formRef?.()} model={query} inline disabled={props.loading} {...props.formProps}>
             {ctx.slots.before?.(scope)}
             {props.columns?.map((column, index) => {
               if (column.type !== 'query' && !column.queryable) {
@@ -68,7 +68,7 @@ export const Query = declareComponent({
                 // 验证
                 rules.push(async (rule: any, value: any, callback: any) => {
                   try {
-                    await validate(value, query.value);
+                    await validate(value, query);
                     callback();
                   } catch (err) {
                     callback(err);
@@ -96,11 +96,11 @@ export const Query = declareComponent({
                   {comp({
                     mode: 'editable',
                     disabled: column.disabled,
-                    value: get(query.value, prop),
+                    value: get(query, prop),
                     onChange: value => {
-                      _set(query.value, prop, value);
+                      _set(query, prop, value);
                     },
-                    context: query.value,
+                    context: query,
                     ...column.valueProps,
                   })}
                 </FormItem>

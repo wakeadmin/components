@@ -139,28 +139,28 @@ export const FatTableActions = declareComponent({
               class="fat-table-actions__dropdown"
               onCommand={handleClick}
               v-slots={{
-                dropdown() {
-                  return (
-                    <DropdownMenu class="fat-table-actions__menu">
-                      {moreList.value.map((i, idx) => {
-                        return (
-                          <DropdownItem
-                            key={`${i.name}_${idx}`}
-                            class={['fat-table-action__menu-item', i.class, i.type]}
-                            style={i.style}
-                            disabled={i.disabled}
-                            command={i}
-                          >
-                            {i.name}
-                          </DropdownItem>
-                        );
-                      })}
-                    </DropdownMenu>
-                  );
-                },
+                dropdown: (
+                  <DropdownMenu class="fat-table-actions__menu">
+                    {moreList.value.map((i, idx) => {
+                      return (
+                        <DropdownItem
+                          key={`${i.name}_${idx}`}
+                          class={['fat-table-action__menu-item', i.class, i.type]}
+                          style={i.style}
+                          disabled={i.disabled}
+                          command={i}
+                        >
+                          {i.name}
+                        </DropdownItem>
+                      );
+                    })}
+                  </DropdownMenu>
+                ),
               }}
             >
-              <More class="fat-table-actions__more" />
+              <i class="fat-table-actions__more">
+                <More />
+              </i>
             </Dropdown>
           )}
         </div>

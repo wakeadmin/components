@@ -10,3 +10,4 @@ export * from './message';
 export * from './pagination';
 export * from './shared';
 export * from './table';
+export * from './date-picker';

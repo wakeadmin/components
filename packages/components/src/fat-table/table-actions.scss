@@ -16,11 +16,16 @@
   }
 
   &__more {
-    width: 1.5em;
-    height: 1.5em;
     cursor: pointer;
-    fill: var(--wk-color-primary, #1890ff);
     margin-left: 20px;
     outline: none;
+    vertical-align: middle;
+    line-height: 1;
+
+    & > svg {
+      width: 1.5em;
+      height: 1.5em;
+      fill: var(--wk-color-primary, #1890ff);
+    }
   }
 }

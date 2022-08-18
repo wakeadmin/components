@@ -113,11 +113,17 @@ export interface FatTableColumn<
 
   /**
    * 字段名
+   * 当列类型为 表单字段、排序字段、筛选字段 时， prop 是必填的
    */
   prop?: K;
 
   /**
-   * 自定义渲染
+   * 手动从行数据中提取数据, 用于取代 prop 以实现复杂数据的提取和格式化
+   */
+  getter?: (row: T, index: number) => any;
+
+  /**
+   * 自定义单元格渲染
    */
   render?: (value: T[K], row: T, index: number) => any;
 
@@ -261,6 +267,18 @@ export interface FatTableColumn<
    * 表单的默认值
    */
   initialValue?: any;
+
+  /**
+   * 用于转换表单的数据，比如前端使用 dataRange 字段来表示时间范围，而后端需要的是 startTime、endTime
+   * 那么就可以在这里设置转换规则。
+   * 假设：
+   *  prop 为  dataRange
+   *  transform 返回的是 {startTime、endTime}
+   *  最后的结果是 dataRange 会从 query 中移除，并且 startTime、endTime 会合并到 query 中
+   *
+   *  如果 transform 返回非对象的值，将被忽略，但是 dataRange 依旧会被移除, 你可以返回 false 来告诉 fat-table 不要移除原有的字段
+   */
+  transform?: (value: any) => any;
 }
 
 /**
@@ -364,7 +382,8 @@ export interface FatTableProps<T extends {}, S extends {}> {
 
   /**
    * 用于 request 查询的额外参数，一旦变化会触发重新加载
-   * 也可以用它来实现自定义查询表单
+   * 也可以用它来实现自定义查询表单。
+   * query 将会合并到 request 参数的 query 字段中
    */
   query?: any;
 

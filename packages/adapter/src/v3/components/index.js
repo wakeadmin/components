@@ -10,3 +10,4 @@ export * from './directives';
 export * from './Empty';
 export * from './MessageBox';
 export * from './Message';
+export * from './DatePicker';

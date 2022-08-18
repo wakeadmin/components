@@ -6,7 +6,7 @@ import { AText } from '../text';
 
 export type AInputProps = AtomicCommonProps<string> & Omit<InputProps, 'value' | 'onChange' | 'disabled'>;
 
-const AInput = (props: AInputProps) => {
+export const AInput = (props: AInputProps) => {
   const { value, mode, onChange, ...other } = props;
   return mode === 'preview' ? AText(props) : <Input {...model(value, onChange!)} {...other} />;
 };

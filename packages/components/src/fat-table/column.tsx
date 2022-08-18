@@ -44,7 +44,7 @@ export const Column = declareComponent({
             const prop = column.prop;
             const row = scope.row;
             const idx = scope.$index;
-            const value = prop ? row[prop] : undefined;
+            const value = typeof column.getter === 'function' ? column.getter(row, idx) : prop ? row[prop] : undefined;
 
             if (column.render) {
               return column.render(value, row, idx);

@@ -1,3 +1,5 @@
+import { cloneDeep, merge, get, isPlainObject } from '@wakeadmin/utils';
+
 import { FatTableColumn } from './types';
 import { Registry } from '../atomic';
 
@@ -27,6 +29,46 @@ export function validateColumns(columns?: FatTableColumn<any>[]) {
       }
     }
   }
+}
+
+export function isQueryable(column: FatTableColumn<any>): boolean {
+  return !!(column.type === 'query' || column.queryable);
+}
+
+/**
+ * 查询参数处理
+ * @param query
+ * @param extraQuery
+ * @param columns
+ */
+export function mergeAndTransformQuery(query: any, extraQuery: any, columns: FatTableColumn<any>[]) {
+  const q = query ? cloneDeep(query) : {};
+
+  // 合并外部参数
+  if (extraQuery != null && typeof extraQuery === 'object') {
+    merge(q, extraQuery);
+  }
+
+  // 转换
+  for (const column of columns) {
+    if (isQueryable(column) && column.prop != null && typeof column.transform === 'function') {
+      const value = get(q, column.prop);
+      const result = column.transform(value);
+
+      if (isPlainObject(result)) {
+        // 处理合并
+        merge(q, result);
+      }
+
+      if (result !== false) {
+        // 移除原有字段
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete q[column.prop];
+      }
+    }
+  }
+
+  return q;
 }
 
 export function genKey(column: FatTableColumn<any>, index: number): string {

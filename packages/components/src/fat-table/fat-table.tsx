@@ -30,7 +30,7 @@ import {
   FatTableSort,
   FatTableFilter,
 } from './types';
-import { validateColumns, genKey } from './utils';
+import { validateColumns, genKey, mergeAndTransformQuery } from './utils';
 import { Query } from './query';
 import { Column } from './column';
 
@@ -199,13 +199,14 @@ const FatTableInner = declareComponent({
      * 数据请求
      */
     const fetch = async () => {
+      const q = mergeAndTransformQuery(query.value, props.query, props.columns);
       const params: FatTableRequestParams<any, any> = {
         pagination: {
           page: pagination.current,
           pageSize: pagination.pageSize,
           offset: (pagination.current - 1) * pagination.pageSize,
         },
-        query: query.value,
+        query: q,
         list: list.value,
         filter,
         sort: toUndefined(sort.value),
@@ -580,9 +581,9 @@ const FatTableInner = declareComponent({
         <div class="fat-table">
           {!!enableQuery && (
             <Query
-              loading={loading}
-              formRef={formRef}
-              query={query}
+              loading={loading.value}
+              formRef={() => formRef}
+              query={query.value}
               formProps={props.formProps}
               columns={props.columns}
               enableSearchButton={enableSearchButton}
