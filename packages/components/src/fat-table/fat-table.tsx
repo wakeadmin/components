@@ -59,6 +59,7 @@ const FatTableInner = declareComponent({
     'enableQueryWatch',
     'queryWatchDelay',
     'formProps',
+    'enableErrorCapture',
     'enableSearchButton',
     'enableResetButton',
     'searchText',
@@ -81,6 +82,7 @@ const FatTableInner = declareComponent({
     const enableQueryWatch = props.enableQueryWatch ?? true;
     const enableSearchButton = props.enableSearchButton ?? true;
     const enableResetButton = props.enableResetButton ?? true;
+    const enableErrorCapture = props.enableErrorCapture ?? true;
     const queryWatchDelay = props.queryWatchDelay ?? 800;
     const requestOnMounted = props.requestOnMounted ?? true;
     const requestOnSortChange = props.requestOnSortChange ?? true;
@@ -596,7 +598,7 @@ const FatTableInner = declareComponent({
           )}
 
           <div class="fat-table__body">
-            {!!error.value && (
+            {!!(error.value && enableErrorCapture) && (
               <Alert title="数据加载失败" type="error" showIcon description={error.value.message} closable={false} />
             )}
             <Table

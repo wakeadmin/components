@@ -91,6 +91,7 @@
       valueProps: {
         valueFormat: 'YYYY-MM-DD',
       },
+      order: 5,
       initialValue: ['2022-03-13', '2022-03-17'],
       transform: v => {
         if (Array.isArray(v)) {

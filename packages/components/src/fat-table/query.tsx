@@ -54,64 +54,65 @@ export const Query = declareComponent({
         <div class="fat-table__query">
           <Form ref={props.formRef?.()} model={query} inline disabled={props.loading} {...props.formProps}>
             {ctx.slots.before?.(scope)}
-            {props.columns?.map((column, index) => {
-              if (column.type !== 'query' && !column.queryable) {
-                return null;
-              }
+            {props.columns
+              ?.filter(column => {
+                return column.type === 'query' || column.queryable;
+              })
+              .sort((i, j) => (i.order ?? 1000) - (j.order ?? 1000))
+              .map((column, index) => {
+                const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
+                const key = `${prop}_${index}`;
+                const { comp, validate } = getAtom(column, atomics);
+                const rules = column.formItemProps?.rules ?? [];
 
-              const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
-              const key = `${prop}_${index}`;
-              const { comp, validate } = getAtom(column, atomics);
-              const rules = column.formItemProps?.rules ?? [];
+                const atomProps = composeAtomProps(
+                  {
+                    mode: 'editable',
+                    disabled: column.disabled,
+                    scene: 'table',
+                    value: get(query, prop),
+                    onChange: value => {
+                      _set(query, prop, value);
+                    },
+                    context: query,
+                  } as AtomicCommonProps<any>,
+                  column.valueProps
+                );
 
-              const atomProps = composeAtomProps(
-                {
-                  mode: 'editable',
-                  disabled: column.disabled,
-                  scene: 'table',
-                  value: get(query, prop),
-                  onChange: value => {
-                    _set(query, prop, value);
-                  },
-                  context: query,
-                } as AtomicCommonProps<any>,
-                column.valueProps
-              );
+                // 原件内置的验证规则
+                if (validate) {
+                  // 验证
+                  rules.push(async (rule: any, value: any, callback: any) => {
+                    try {
+                      await validate(value, atomProps, query);
+                      callback();
+                    } catch (err) {
+                      callback(err);
+                    }
+                  });
+                }
 
-              // 原件内置的验证规则
-              if (validate) {
-                // 验证
-                rules.push(async (rule: any, value: any, callback: any) => {
-                  try {
-                    await validate(value, atomProps, query);
-                    callback();
-                  } catch (err) {
-                    callback(err);
-                  }
-                });
-              }
-
-              return (
-                <FormItem
-                  key={key}
-                  prop={prop}
-                  label={column.label}
-                  {...column.formItemProps}
-                  v-slots={
-                    column.renderLabel
-                      ? {
-                          label: () => {
-                            return column.renderLabel?.(index, column);
-                          },
-                        }
-                      : undefined
-                  }
-                  rules={rules}
-                >
-                  {comp(atomProps)}
-                </FormItem>
-              );
-            })}
+                return (
+                  <FormItem
+                    key={key}
+                    prop={prop}
+                    label={column.label}
+                    {...column.formItemProps}
+                    v-slots={
+                      column.renderLabel
+                        ? {
+                            label: () => {
+                              return column.renderLabel?.(index, column);
+                            },
+                          }
+                        : undefined
+                    }
+                    rules={rules}
+                  >
+                    {comp(atomProps)}
+                  </FormItem>
+                );
+              })}
             {ctx.slots.beforeButtons?.(scope)}
             {(!!props.enableSearchButton || !!props.enableResetButton) && (
               <FormItem>

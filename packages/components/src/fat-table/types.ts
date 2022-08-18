@@ -279,6 +279,12 @@ export interface FatTableColumn<
    *  如果 transform 返回非对象的值，将被忽略，但是 dataRange 依旧会被移除, 你可以返回 false 来告诉 fat-table 不要移除原有的字段
    */
   transform?: (value: any) => any;
+
+  /**
+   * 表单的顺序, 默认为 1000
+   * 值越小，越靠前
+   */
+  order?: number;
 }
 
 /**
