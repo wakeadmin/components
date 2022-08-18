@@ -71,6 +71,12 @@
       initialValue: 'hello',
       valueProps: {
         placeholder: '评论',
+        onBlur: () => {
+          console.log('blur');
+        },
+        onChange: v => {
+          console.log('name change', v);
+        },
       },
     },
     {

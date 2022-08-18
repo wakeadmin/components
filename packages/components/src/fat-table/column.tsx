@@ -5,7 +5,7 @@ import { NoopObject, NoopArray } from '@wakeadmin/utils';
 import { useAtomicRegistry } from '../hooks';
 
 import { FatTableColumn, FatTableFilter, FatTableMethods, FatTableProps } from './types';
-import { genKey, getAtom } from './utils';
+import { composeAtomProps, genKey, getAtom } from './utils';
 import { FatTableActions, FatTableAction } from './table-actions';
 
 export const Column = declareComponent({
@@ -51,11 +51,16 @@ export const Column = declareComponent({
             } else {
               const { comp } = getAtom(column, atomics);
 
-              return comp({
-                mode: 'preview',
-                value,
-                ...valueProps,
-              });
+              return comp(
+                composeAtomProps(
+                  {
+                    mode: 'preview',
+                    scene: 'table',
+                    value,
+                  },
+                  valueProps
+                )
+              );
             }
           },
         };

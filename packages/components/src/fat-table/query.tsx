@@ -4,8 +4,9 @@ import { get, set as _set } from '@wakeadmin/utils';
 import { Ref } from '@wakeadmin/demi';
 
 import { useAtomicRegistry } from '../hooks';
+import { AtomicCommonProps } from '../atomic';
 
-import { getAtom } from './utils';
+import { composeAtomProps, getAtom } from './utils';
 import { FatTableColumn } from './types';
 
 export const Query = declareComponent({
@@ -63,12 +64,26 @@ export const Query = declareComponent({
               const { comp, validate } = getAtom(column, atomics);
               const rules = column.formItemProps?.rules ?? [];
 
+              const atomProps = composeAtomProps(
+                {
+                  mode: 'editable',
+                  disabled: column.disabled,
+                  scene: 'table',
+                  value: get(query, prop),
+                  onChange: value => {
+                    _set(query, prop, value);
+                  },
+                  context: query,
+                } as AtomicCommonProps<any>,
+                column.valueProps
+              );
+
               // 原件内置的验证规则
               if (validate) {
                 // 验证
                 rules.push(async (rule: any, value: any, callback: any) => {
                   try {
-                    await validate(value, query);
+                    await validate(value, atomProps, query);
                     callback();
                   } catch (err) {
                     callback(err);
@@ -93,16 +108,7 @@ export const Query = declareComponent({
                   }
                   rules={rules}
                 >
-                  {comp({
-                    mode: 'editable',
-                    disabled: column.disabled,
-                    value: get(query, prop),
-                    onChange: value => {
-                      _set(query, prop, value);
-                    },
-                    context: query,
-                    ...column.valueProps,
-                  })}
+                  {comp(atomProps)}
                 </FormItem>
               );
             })}

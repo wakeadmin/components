@@ -1,5 +1,5 @@
-import { CSSProperties } from '@wakeadmin/demi';
 import { NamedRegistry } from '@wakeadmin/utils';
+import { ClassValue, StyleValue } from '@wakeadmin/component-adapter';
 
 declare global {
   // 定义原件的 props 映射
@@ -16,6 +16,12 @@ export interface AtomicCommonProps<T> {
    * 渲染模式
    */
   mode?: 'editable' | 'preview';
+
+  /**
+   * 场景值
+   * 场景值给原件提供了额外的信息，从而可以提供更合理的默认行为
+   */
+  scene?: 'table' | 'form';
 
   /**
    * 是否已禁用
@@ -35,15 +41,17 @@ export interface AtomicCommonProps<T> {
   /**
    * 类名
    */
-  class?: string;
+  class?: ClassValue;
 
   /**
    * 样式
    */
-  style?: CSSProperties;
+  style?: StyleValue;
 
   /**
    * 上下文信息，由具体的应用组件指定
+   *
+   * note: 通用原件通常不会直接耦合具体的上下文信息
    */
   context?: any;
 }
@@ -51,7 +59,7 @@ export interface AtomicCommonProps<T> {
 /**
  * 原子组件协议
  */
-export interface Atomic {
+export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonProps<T>> {
   /**
    * 名称，小写驼峰式, 需要避免和其他组件冲突
    */
@@ -70,14 +78,14 @@ export interface Atomic {
   /**
    * 组件实现, 就是一个渲染函数
    */
-  component: (props: AtomicCommonProps<any>) => any;
+  component: (props: P) => any;
 
   /**
    * 值验证
    * @param {T} value 当前值
    * @param {any} context 上下文，可以获取到其他字段的值
    */
-  validate?: (value: any, context: any) => Promise<void>;
+  validate?: (value: any, props: P, context: any) => Promise<void>;
 }
 
 export interface Registry extends Pick<NamedRegistry<Atomic>, 'register' | 'unregister' | 'subscribe' | 'unsubscribe'> {
