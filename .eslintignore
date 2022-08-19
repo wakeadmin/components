@@ -5,3 +5,4 @@ node_modules
 *.min.js
 vendors/
 **/templates/
+.eslintrc.js

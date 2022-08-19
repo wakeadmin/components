@@ -19,7 +19,7 @@ export function validateColumns(columns?: FatTableColumn<any>[]) {
       throw new Error(`[fat-table] 开启了过滤的列(${column.label ?? i})必须配置 prop 字段`);
     }
 
-    if (column.type === 'query' || column.queryable) {
+    if ((column.type === 'query' || column.queryable) && column.renderFormItem == null) {
       if (column.prop == null && typeof column.queryable !== 'string') {
         throw new Error(`[fat-table] 表单列 (${column.label ?? i})必须配置 prop 或 queryable 字段`);
       }
@@ -71,8 +71,14 @@ export function mergeAndTransformQuery(query: any, extraQuery: any, columns: Fat
   return q;
 }
 
+/**
+ * 获取列唯一的 key
+ * @param column
+ * @param index
+ * @returns
+ */
 export function genKey(column: FatTableColumn<any>, index: number): string {
-  return `${String(column.prop)}_${index}`;
+  return column.key ?? `${String(column.prop)}_${index}`;
 }
 
 /**

@@ -87,131 +87,9 @@ export interface FatTableMethods<T> {
 }
 
 /**
- * 列声明
+ * --------------- actions 类型特定参数 -----------------
  */
-export interface FatTableColumn<
-  T extends {},
-  K extends keyof T = keyof T,
-  ValueType extends keyof AtomicProps = keyof AtomicProps,
-  ValueProps = AtomicProps[ValueType]
-> {
-  /**
-   * 列类型
-   * index 索引
-   * selection 选择器
-   * expand 展开
-   * actions 表单操作
-   * query 纯表单字段, 该列不会出现在表格中
-   * default 默认
-   */
-  type?: 'index' | 'selection' | 'expand' | 'actions' | 'default' | 'query';
-
-  /**
-   * 对齐方式
-   */
-  align?: 'left' | 'center' | 'right';
-
-  /**
-   * 字段名
-   * 当列类型为 表单字段、排序字段、筛选字段 时， prop 是必填的
-   */
-  prop?: K;
-
-  /**
-   * 手动从行数据中提取数据, 用于取代 prop 以实现复杂数据的提取和格式化
-   */
-  getter?: (row: T, index: number) => any;
-
-  /**
-   * 自定义单元格渲染
-   */
-  render?: (value: T[K], row: T, index: number) => any;
-
-  /**
-   * 字段类型, 默认为 text
-   */
-  valueType?: ValueType | ((props: AtomicCommonProps<any>) => any);
-
-  /**
-   * 字段选项
-   */
-  valueProps?: ValueProps & Partial<AtomicCommonProps<any>>;
-
-  /**
-   * 是否支持排序, 默认 false
-   *
-   * 可以配置默认排序， 但是仅支持一个字段配置默认排序
-   *
-   * 注意：目前仅支持后端接口排序
-   */
-  sortable?: boolean | SortOrder;
-
-  // ------------- 过滤 --------------------
-
-  /**
-   * 是否支持过滤, 默认关闭
-   */
-  filterable?: FilterList;
-
-  /**
-   * 过滤是否支持多选, 默认 true
-   */
-  filterMultiple?: boolean;
-
-  /**
-   * 过滤默认已选中的值
-   */
-  filteredValue?: any[];
-
-  // -------------- 标题 --------------
-  /**
-   * 文本标题
-   */
-  label?: string;
-
-  /**
-   * 标题类名
-   */
-  labelClass?: ClassValue;
-
-  /**
-   * 自定义标题渲染
-   */
-  renderLabel?: (index: number, column: FatTableColumn<T, K, ValueType, ValueProps>) => any;
-
-  /**
-   * 标题对齐
-   */
-  labelAlign?: 'left' | 'center' | 'right';
-
-  // --------------- 样式  -------------------
-  /**
-   * 字段类名
-   */
-  class?: ClassValue;
-
-  /**
-   * 对应列的宽度
-   */
-  width?: string | number;
-
-  /**
-   * 对应列的最小宽度， 对应列的最小宽度， 与 width 的区别是 width 是固定的，min-width 会把剩余宽度按比例分配给设置了 min-width 的列
-   */
-  minWidth?: string | number;
-
-  /**
-   * 列是否固定在左侧或者右侧。 true 表示固定在左侧
-   */
-  fixed?: true | 'left' | 'right';
-
-  // --------------- index 类型特定参数  -------------------
-  /**
-   * 如果设置了 type=index，可以通过传递 index 属性来自定义索引
-   */
-  index?: number | ((index: number) => number);
-
-  // --------------- actions 类型特定参数 -----------------
+export interface FatTableColumnActions<T> {
   /**
    * 操作
    */
@@ -244,7 +122,9 @@ export interface FatTableColumn<
    * 操作栏 class
    */
   actionsClass?: ClassValue;
+}
 
+export interface FatTableColumnForm<T> {
   // ---------------- 表单搜索特定参数  --------------------
   /**
    * 该字段是否开启表单搜索, 默认关闭
@@ -264,9 +144,17 @@ export interface FatTableColumn<
   formItemProps?: FormItemProps;
 
   /**
-   * 表单的默认值
+   * 自定义表单渲染
+   * 注意，返回的 vnode 需要配置 key
    */
-  initialValue?: any;
+  renderFormItem?: (query: any, column: T) => any;
+
+  /**
+   * 表单的默认值
+   * 如果指定了 prop，initialValue 的值将设置到 prop 中
+   * 否则如何返回一个对象，将合并到 query 中作为初始值
+   */
+  initialValue?: any | (() => any);
 
   /**
    * 用于转换表单的数据，比如前端使用 dataRange 字段来表示时间范围，而后端需要的是 startTime、endTime
@@ -285,6 +173,173 @@ export interface FatTableColumn<
    * 值越小，越靠前
    */
   order?: number;
+}
+
+export interface FatTableColumnStyle {
+  // --------------- 样式  -------------------
+  /**
+   * 对齐方式
+   */
+  align?: 'left' | 'center' | 'right';
+
+  /**
+   * 字段类名
+   */
+  class?: ClassValue;
+
+  /**
+   * 对应列的宽度
+   */
+  width?: string | number;
+
+  /**
+   * 对应列的最小宽度， 对应列的最小宽度， 与 width 的区别是 width 是固定的，min-width 会把剩余宽度按比例分配给设置了 min-width 的列
+   */
+  minWidth?: string | number;
+
+  /**
+   * 列是否固定在左侧或者右侧。 true 表示固定在左侧
+   */
+  fixed?: true | 'left' | 'right';
+
+  /**
+   * 当内容过长被隐藏时显示 tooltip，默认 false
+   */
+  showOverflowTooltip?: boolean;
+
+  /**
+   * 对应列是否可以通过拖动改变宽度（需要在 el-table 上设置 border 属性为真）, 默认 true
+   */
+  resizable?: boolean;
+}
+
+export interface FatTableColumnFilter {
+  // ------------- 过滤 --------------------
+
+  /**
+   * 是否支持过滤, 默认关闭
+   */
+  filterable?: FilterList;
+
+  /**
+   * 过滤是否支持多选, 默认 true
+   */
+  filterMultiple?: boolean;
+
+  /**
+   * 过滤默认已选中的值
+   */
+  filteredValue?: any[];
+}
+
+export interface FatTableColumnLabel<T> {
+  // -------------- 标题 --------------
+  /**
+   * 文本标题
+   */
+  label?: string;
+
+  /**
+   * 标题类名
+   */
+  labelClass?: ClassValue;
+
+  /**
+   * 自定义标题渲染
+   */
+  renderLabel?: (index: number, column: FatTableColumn<T>) => any;
+
+  /**
+   * 标题对齐
+   */
+  labelAlign?: 'left' | 'center' | 'right';
+}
+
+export interface FatTableColumnIndex {
+  // --------------- index 类型特定参数  -------------------
+  /**
+   * 如果设置了 type=index，可以通过传递 index 属性来自定义索引
+   */
+  index?: number | ((index: number) => number);
+}
+
+export interface FatTableColumnSort {
+  /**
+   * 是否支持排序, 默认 false
+   *
+   * 可以配置默认排序， 但是仅支持一个字段配置默认排序
+   *
+   * 注意：目前仅支持后端接口排序
+   */
+  sortable?: boolean | SortOrder;
+}
+
+export interface FatTableColumnSelect<T> {
+  // ---------------- selection 类型特定参数 ------------------------------------
+
+  /**
+   * 判断该行是否可以选择
+   */
+  selectable?: (row: T, index: number) => boolean;
+}
+
+/**
+ * 列声明
+ */
+export interface FatTableColumn<
+  T extends {},
+  K extends keyof T = keyof T,
+  ValueType extends keyof AtomicProps = keyof AtomicProps,
+  ValueProps = AtomicProps[ValueType]
+> extends FatTableColumnActions<T>,
+    FatTableColumnForm<T>,
+    FatTableColumnStyle,
+    FatTableColumnFilter,
+    FatTableColumnLabel<T>,
+    FatTableColumnIndex,
+    FatTableColumnSort,
+    FatTableColumnSelect<T> {
+  /**
+   * 列类型
+   * index 索引
+   * selection 选择器
+   * expand 展开
+   * actions 表单操作
+   * query 纯表单字段, 该列不会出现在表格中
+   * default 默认
+   */
+  type?: 'index' | 'selection' | 'expand' | 'actions' | 'default' | 'query';
+
+  /**
+   * 字段名
+   * 当列类型为 表单字段、排序字段、筛选字段 时， prop 是必填的
+   */
+  prop?: K;
+
+  /**
+   * 可选，用于唯一标记列
+   */
+  key?: string;
+
+  /**
+   * 手动从行数据中提取数据, 用于取代 prop 以实现复杂数据的提取和格式化
+   */
+  getter?: (row: T, index: number) => any;
+
+  /**
+   * 自定义单元格渲染
+   */
+  render?: (value: T[K], row: T, index: number) => any;
+
+  /**
+   * 字段原件类型, 默认为 text
+   */
+  valueType?: ValueType | ((props: AtomicCommonProps<any>) => any);
+
+  /**
+   * 字段选项
+   */
+  valueProps?: ValueProps & Partial<AtomicCommonProps<any>>;
 }
 
 /**
@@ -392,6 +447,11 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * query 将会合并到 request 参数的 query 字段中
    */
   query?: any;
+
+  /**
+   * 表单初始值
+   */
+  initialQuery?: any | (() => any);
 
   /**
    * 是否监听 query 的变动，并触发重新加载，默认为 true

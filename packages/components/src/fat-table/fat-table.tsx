@@ -1,6 +1,5 @@
 import {
   Table,
-  TableColumn,
   Pagination,
   SortOrder,
   FormMethods,
@@ -15,7 +14,7 @@ import {
 } from '@wakeadmin/component-adapter';
 import { VNode, ref, onMounted, reactive, nextTick, watch } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
-import { debounce, set as _set, clone, equal } from '@wakeadmin/utils';
+import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObject } from '@wakeadmin/utils';
 
 import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
@@ -30,7 +29,7 @@ import {
   FatTableSort,
   FatTableFilter,
 } from './types';
-import { validateColumns, genKey, mergeAndTransformQuery } from './utils';
+import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { Query } from './query';
 import { Column } from './column';
 
@@ -56,6 +55,7 @@ const FatTableInner = declareComponent({
     'selectable',
     'enableQuery',
     'query',
+    'initialQuery',
     'enableQueryWatch',
     'queryWatchDelay',
     'formProps',
@@ -153,7 +153,7 @@ const FatTableInner = declareComponent({
         Object.assign(pagination, cache.pagination);
 
         if (cache.query) {
-          query.value = cache.query;
+          Object.assign(query.value, cache.query);
         }
 
         if (cache.sort !== undefined) {
@@ -278,6 +278,15 @@ const FatTableInner = declareComponent({
     let initialSort: FatTableSort | undefined;
     const initialFilter: FatTableFilter = {};
 
+    // 用户定义的表单初始值
+    if (props.initialQuery != null) {
+      const userInitialQuery = typeof props.initialQuery === 'function' ? props.initialQuery() : props.initialQuery;
+
+      if (isPlainObject(userInitialQuery)) {
+        merge(initialQuery, cloneDeep(userInitialQuery));
+      }
+    }
+
     for (const column of props.columns) {
       if (column.type === 'selection') {
         isSelectionColumnDefined = true;
@@ -297,9 +306,15 @@ const FatTableInner = declareComponent({
       }
 
       // 查询字段初始化
-      if (column.queryable || column.type === 'query') {
+      if (isQueryable(column) && column.initialValue !== undefined) {
         const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
-        _set(initialQuery, prop, column.initialValue);
+        const value = typeof column.initialValue === 'function' ? column.initialValue() : column.initialValue;
+
+        if (prop) {
+          _set(initialQuery, prop, value);
+        } else if (isPlainObject(value)) {
+          merge(initialQuery, cloneDeep(value));
+        }
       }
     }
 
@@ -309,13 +324,10 @@ const FatTableInner = declareComponent({
      * @param updateTable 是否更新表格状态。因为垃圾element-ui 的排序、筛选状态不支持双向绑定，某些场景需要手动更新
      */
     const setInitialValue = (updateTable = false) => {
-      query.value = clone(initialQuery);
-      sort.value = initialSort ? { ...initialSort } : undefined;
-
       // element-ui 不支持后续通过方法重置 filter 状态，
       // 因此这里只有在初始化时才会执行
       if (!updateTable) {
-        Object.assign(filter, clone(initialFilter));
+        Object.assign(filter, cloneDeep(initialFilter));
       }
 
       if (updateTable && tableRef.value) {
@@ -325,6 +337,9 @@ const FatTableInner = declareComponent({
           tableRef.value.clearSort();
         }
       }
+
+      query.value = cloneDeep(initialQuery);
+      sort.value = initialSort ? { ...initialSort } : undefined;
     };
 
     setInitialValue();
@@ -579,6 +594,13 @@ const FatTableInner = declareComponent({
     expose(tableInstance);
 
     return () => {
+      const columns = (props.columns ?? NoopArray).filter(i => i.type !== 'query');
+
+      // 注入选择行
+      if (props.enableSelect && !isSelectionColumnDefined) {
+        columns.unshift({ type: 'selection', width: '80', selectable: props.selectable });
+      }
+
       return (
         <div class="fat-table">
           {!!enableQuery && (
@@ -616,19 +638,14 @@ const FatTableInner = declareComponent({
                 },
               }}
             >
-              {!!props.enableSelect && !isSelectionColumnDefined && (
-                <TableColumn type="selection" width="80" selectable={props.selectable} />
-              )}
-
               {slots.beforeColumns?.()}
 
-              {props.columns?.map((column, index) => {
+              {columns?.map((column, index) => {
                 return (
                   <Column
                     key={genKey(column, index)}
                     column={column}
                     index={index}
-                    selectable={props.selectable}
                     filter={filter}
                     tableInstance={tableInstance}
                   />

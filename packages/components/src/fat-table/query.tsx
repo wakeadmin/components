@@ -52,7 +52,7 @@ export const Query = declareComponent({
       const scope = { query };
       return (
         <div class="fat-table__query">
-          <Form ref={props.formRef?.()} model={query} inline disabled={props.loading} {...props.formProps}>
+          <Form ref={props.formRef?.()} model={query} inline {...props.formProps}>
             {ctx.slots.before?.(scope)}
             {props.columns
               ?.filter(column => {
@@ -60,6 +60,11 @@ export const Query = declareComponent({
               })
               .sort((i, j) => (i.order ?? 1000) - (j.order ?? 1000))
               .map((column, index) => {
+                if (column.renderFormItem) {
+                  // 自定义渲染
+                  return column.renderFormItem(query, column);
+                }
+
                 const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
                 const key = `${prop}_${index}`;
                 const { comp, validate } = getAtom(column, atomics);
@@ -117,11 +122,15 @@ export const Query = declareComponent({
             {(!!props.enableSearchButton || !!props.enableResetButton) && (
               <FormItem>
                 {!!props.enableSearchButton && (
-                  <Button type="primary" onClick={submit}>
+                  <Button type="primary" onClick={submit} disabled={props.loading}>
                     {props.searchText ?? '搜索'}
                   </Button>
                 )}
-                {!!props.enableResetButton && <Button onClick={reset}>{props.resetText ?? '重置'}</Button>}
+                {!!props.enableResetButton && (
+                  <Button onClick={reset} disabled={props.loading}>
+                    {props.resetText ?? '重置'}
+                  </Button>
+                )}
               </FormItem>
             )}
             {ctx.slots.afterButtons?.(scope)}

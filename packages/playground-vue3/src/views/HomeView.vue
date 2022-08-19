@@ -9,6 +9,7 @@
       :columns="columns"
       :request-on-removed="false"
       :enable-select="true"
+      :initial-query="initialQuery"
     />
     <button @click="selectAll">select all</button>
     <button @click="unselectAll">unselect all</button>
@@ -17,14 +18,19 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
   import { ref } from 'vue';
   import { FatTable } from '@wakeadmin/components';
+  import { ElFormItem, ElInput, ElCol } from 'element-plus';
 
   const tableRef = ref();
 
   const remove = () => {
     return Promise.resolve();
+  };
+
+  const initialQuery = {
+    query: 'initial',
   };
 
   const request = async params => {
@@ -71,8 +77,11 @@
       initialValue: 'hello',
       valueProps: {
         placeholder: '评论',
+        onFocus: () => {
+          console.log('focus', document.hasFocus(), document.getSelection().focusNode);
+        },
         onBlur: () => {
-          console.log('blur');
+          console.log('blur', document.hasFocus(), document.getSelection().focusNode);
         },
         onChange: v => {
           console.log('name change', v);
@@ -108,6 +117,22 @@
         { text: 'two', value: 2 },
       ],
       filteredValue: [1, 2],
+    },
+    {
+      type: 'query',
+      initialValue: { foo: 'bar', bar: 'baz' },
+      renderFormItem: query => {
+        return (
+          <ElFormItem label="hello">
+            <ElCol span={12}>
+              <ElInput modelValue={query.foo} onUpdate:modelValue={v => (query.foo = v)} />
+            </ElCol>
+            <ElCol span={12}>
+              <ElInput modelValue={query.bar} onUpdate:modelValue={v => (query.bar = v)} />
+            </ElCol>
+          </ElFormItem>
+        );
+      },
     },
     {
       prop: 'filter2',

@@ -4,19 +4,22 @@ import { NoopObject, NoopArray } from '@wakeadmin/utils';
 
 import { useAtomicRegistry } from '../hooks';
 
-import { FatTableColumn, FatTableFilter, FatTableMethods, FatTableProps } from './types';
+import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
 import { composeAtomProps, genKey, getAtom } from './utils';
 import { FatTableActions, FatTableAction } from './table-actions';
+
+const BUILTIN_TYPES = new Set(['index', 'selection', 'expand']);
+
+const normalizeType = (t: string) => (BUILTIN_TYPES.has(t) ? t : undefined);
 
 export const Column = declareComponent({
   name: 'FatTableColumn',
   props: declareProps<{
     column: FatTableColumn<any>;
     index: number;
-    selectable: FatTableProps<any, any>['selectable'];
     tableInstance: FatTableMethods<any>;
     filter: FatTableFilter;
-  }>(['column', 'index', 'selectable', 'tableInstance', 'filter']),
+  }>(['column', 'index', 'tableInstance', 'filter']),
   setup(props) {
     // 原件
     const atomics = useAtomicRegistry();
@@ -24,7 +27,6 @@ export const Column = declareComponent({
     return () => {
       const column = props.column;
       const index = props.index;
-      const selectable = props.selectable;
       const tableInstance = props.tableInstance;
       const filter = props.filter;
 
@@ -65,7 +67,7 @@ export const Column = declareComponent({
           },
         };
       } else if (type === 'selection') {
-        extraProps.selectable = selectable;
+        extraProps.selectable = column.selectable;
       } else if (type === 'actions') {
         // 操作
         children = {
@@ -96,13 +98,13 @@ export const Column = declareComponent({
         extraProps.filters = column.filterable;
         extraProps.filteredValue = filter[column.prop as string] ?? [];
         extraProps.filterMultiple = column.filterMultiple;
+        extraProps.columnKey = key;
       }
 
       return (
         <TableColumn
-          type={type}
+          type={normalizeType(type)}
           key={key}
-          columnKey={key}
           prop={column.prop as string}
           label={column.label}
           renderHeader={column.renderLabel?.bind(null, index, column)}
@@ -114,7 +116,9 @@ export const Column = declareComponent({
           align={column.align}
           headerAlign={column.labelAlign}
           fixed={column.fixed}
+          showOverflowTooltip={column.showOverflowTooltip}
           sortable={column.sortable ? 'custom' : undefined}
+          resizable={column.resizable}
           {...extraProps}
         >
           {children}
