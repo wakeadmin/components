@@ -1,4 +1,4 @@
-import { switchVersion } from './utils.js';
+import { switchVersion } from './utils.mjs';
 
 const version = process.argv[2];
 

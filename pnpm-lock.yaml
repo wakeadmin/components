@@ -20,6 +20,7 @@ importers:
       eslint: ~8.0.1
       eslint-config-wkts: ^0.2.1
       eslint-config-wkvue: ^0.2.1
+      eslint-plugin-jest: ^26.8.3
       fast-glob: ^3.2.11
       fs-extra: ^10.1.0
       husky: ^8.0.1
@@ -59,6 +60,7 @@ importers:
       eslint: 172.26.59.72+4873/eslint/8.0.1
       eslint-config-wkts: 172.26.59.72+4873/eslint-config-wkts/0.2.1_uhaujixt4myxtnzhmcamhb342a
       eslint-config-wkvue: 172.26.59.72+4873/eslint-config-wkvue/0.2.1_eslint@8.0.1
+      eslint-plugin-jest: 172.26.59.72+4873/eslint-plugin-jest/26.8.3_pksmuhr6ofi5ijalpkgc76p5si
       fast-glob: 172.26.59.72+4873/fast-glob/3.2.11
       fs-extra: 172.26.59.72+4873/fs-extra/10.1.0
       husky: 172.26.59.72+4873/husky/8.0.1
@@ -10311,6 +10313,35 @@ packages:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
       - supports-color
+    dev: true
+
+  172.26.59.72+4873/eslint-plugin-jest/26.8.3_pksmuhr6ofi5ijalpkgc76p5si:
+    resolution:
+      {
+        integrity: sha512-2roWu1MkEiihQ/qEszPPoaoqVI1x2D8Jtadk5AmoXTdEeNVPMu01Dtz7jIuTOAmdW3L+tSkPZOtEtQroYJDt0A==,
+        registry: http://npm.wakedata-inc.com/,
+        tarball: http://172.26.59.72:4873/eslint-plugin-jest/-/eslint-plugin-jest-26.8.3.tgz,
+      }
+    id: 172.26.59.72+4873/eslint-plugin-jest/26.8.3
+    name: eslint-plugin-jest
+    version: 26.8.3
+    engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^5.0.0
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+      jest: '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+      jest:
+        optional: true
+    dependencies:
+      '@typescript-eslint/utils': 172.26.59.72+4873/@typescript-eslint/utils/5.33.0_uhaujixt4myxtnzhmcamhb342a
+      eslint: 172.26.59.72+4873/eslint/8.0.1
+      jest: 172.26.59.72+4873/jest/28.1.3_@types+node@17.0.45
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
     dev: true
 
   172.26.59.72+4873/eslint-plugin-n/15.2.4_eslint@8.0.1:

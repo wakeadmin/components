@@ -1,4 +1,4 @@
-import { switchVersion, loadModule } from './utils.js';
+import { switchVersion, loadModule } from './utils.mjs';
 
 const Vue = loadModule('vue');
 

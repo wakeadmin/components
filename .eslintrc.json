@@ -1,5 +1,5 @@
 {
-  "extends": ["wkts", "wkvue/vue3"],
+  "extends": ["wkts", "wkvue/vue3", "plugin:jest/recommended"],
   "plugins": [],
   "globals": {},
   "rules": {

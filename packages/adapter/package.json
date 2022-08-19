@@ -1,8 +1,8 @@
 {
   "name": "@wakeadmin/component-adapter",
   "version": "1.0.0",
-  "description": "",
-  "type": "module",
+  "description": "基础组件适配层",
+  "sideEffects": false,
   "exports": "./lib/index.js",
   "module": "./lib/index.js",
   "typings": "./types/index.d.ts",
@@ -10,7 +10,7 @@
     "node": ">= 16"
   },
   "bin": {
-    "wakeadmin-adapter-switch": "bin/wakeadmin-adapter-switch.js"
+    "wakeadmin-adapter-switch": "bin/wakeadmin-adapter-switch.mjs"
   },
   "files": [
     "lib",
@@ -20,7 +20,8 @@
     "scripts"
   ],
   "scripts": {
-    "postinstall": "node ./scripts/postinstall.js"
+    "postinstall": "node ./scripts/postinstall.mjs",
+    "test": "jest"
   },
   "keywords": [],
   "author": "ivan-lee",
@@ -31,5 +32,17 @@
   "devDependencies": {
     "element-plus": "^2.2.12",
     "element-ui": "^2.15.9"
+  },
+  "peerDependencies": {
+    "element-plus": "^2.2.12",
+    "element-ui": "^2.15.9"
+  },
+  "peerDependenciesMeta": {
+    "element-ui": {
+      "optional": true
+    },
+    "element-plus": {
+      "optional": true
+    }
   }
 }
