@@ -18,7 +18,7 @@ import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObjec
 
 import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
-import { toUndefined } from '../utils';
+import { inheritProps, normalizeClassName, toUndefined } from '../utils';
 
 import {
   FatTableProps,
@@ -41,6 +41,7 @@ const FatTableInner = declareComponent({
     'requestOnMounted',
     'requestOnSortChange',
     'requestOnFilterChange',
+    'requestOnQueryChange',
     'requestOnRemoved',
     'remove',
     'confirmBeforeRemove',
@@ -56,7 +57,6 @@ const FatTableInner = declareComponent({
     'enableQuery',
     'query',
     'initialQuery',
-    'enableQueryWatch',
     'queryWatchDelay',
     'formProps',
     'enableErrorCapture',
@@ -71,22 +71,25 @@ const FatTableInner = declareComponent({
     cacheStateChange: () => void;
   }>(),
   slots: declareSlots<{ beforeColumns: never; afterColumns: never }>(),
-  setup(props, { slots, expose }) {
+  setup(props, { slots, expose, attrs }) {
     validateColumns(props.columns);
 
     let uid = `${Math.random().toFixed(4).slice(-4)}_${Date.now()}`;
+
     // 搜索状态缓存 key
     const queryCacheKey = props.namespace ? `_t_${props.namespace}` : '_t';
+    const queryWatchDelay = props.queryWatchDelay ?? 800;
+
     const enableCacheQuery = props.enableCacheQuery ?? true;
     const enableQuery = props.enableQuery ?? true;
-    const enableQueryWatch = props.enableQueryWatch ?? true;
     const enableSearchButton = props.enableSearchButton ?? true;
     const enableResetButton = props.enableResetButton ?? true;
     const enableErrorCapture = props.enableErrorCapture ?? true;
-    const queryWatchDelay = props.queryWatchDelay ?? 800;
+
     const requestOnMounted = props.requestOnMounted ?? true;
     const requestOnSortChange = props.requestOnSortChange ?? true;
     const requestOnFilterChange = props.requestOnFilterChange ?? true;
+    const requestOnQueryChange = props.requestOnQueryChange ?? true;
     const requestOnRemoved = props.requestOnRemoved ?? true;
 
     const tableRef = ref<TableMethods>();
@@ -266,6 +269,11 @@ const FatTableInner = declareComponent({
       if (props.rowKey == null) {
         throw new Error(`[fat-table] 请配置 rowKey `);
       }
+
+      if (typeof props.rowKey === 'function') {
+        return props.rowKey(a);
+      }
+
       return a[props.rowKey];
     };
 
@@ -353,7 +361,7 @@ const FatTableInner = declareComponent({
     }
 
     // 监听 query 变动
-    if (enableQueryWatch) {
+    if (requestOnQueryChange) {
       watch(
         () => [query.value, props.query],
         () => {
@@ -602,7 +610,7 @@ const FatTableInner = declareComponent({
       }
 
       return (
-        <div class="fat-table">
+        <div class={normalizeClassName('fat-table', attrs.class)} style={attrs.style}>
           {!!enableQuery && (
             <Query
               loading={loading.value}
@@ -624,6 +632,8 @@ const FatTableInner = declareComponent({
               <Alert title="数据加载失败" type="error" showIcon description={error.value.message} closable={false} />
             )}
             <Table
+              {...inheritProps()}
+              {...withDirectives([[vLoading, loading.value]])}
               ref={tableRef}
               data={list.value}
               rowKey={props.rowKey}
@@ -631,7 +641,6 @@ const FatTableInner = declareComponent({
               onSortChange={handleSortChange}
               onFilterChange={handleFilterChange}
               defaultSort={toUndefined(sort.value)}
-              {...withDirectives([[vLoading, loading.value]])}
               v-slots={{
                 empty() {
                   return <Empty description={props.emptyText ?? '暂无数据'}></Empty>;
@@ -660,7 +669,7 @@ const FatTableInner = declareComponent({
               <Pagination
                 {...DEFAULT_PAGINATION_PROPS}
                 {...props.paginationProps}
-                class={['fat-table__pagination', props.paginationProps?.class]}
+                class={['fat-table__pagination', props.paginationProps?.className]}
                 currentPage={pagination.current}
                 total={pagination.total}
                 pageSize={pagination.pageSize}

@@ -83,7 +83,8 @@ export const Column = declareComponent({
                   } as FatTableAction;
                 })}
                 max={column.actionsMax}
-                class={column.actionsClass}
+                class={column.actionsClassName}
+                style={column.actionsStyle}
                 type={column.actionsType}
                 size={column.actionsSize}
               />
@@ -109,8 +110,8 @@ export const Column = declareComponent({
           label={column.label}
           renderHeader={column.renderLabel?.bind(null, index, column)}
           // 样式
-          className={column.class}
-          labelClassName={column.labelClass}
+          className={column.className}
+          labelClassName={column.labelClassName}
           width={column.width}
           minWidth={column.minWidth}
           align={column.align}

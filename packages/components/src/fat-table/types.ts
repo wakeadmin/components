@@ -5,11 +5,13 @@ import {
   FormItemProps,
   MessageBoxOptions,
   MessageOptions,
+  TableProps,
+  StyleValue,
+  ClassValue,
+  PaginationProps,
 } from '@wakeadmin/component-adapter';
 
 import { AtomicCommonProps } from '../atomic';
-import { PaginationProps } from '../definitions';
-import { ClassValue } from '../types';
 
 import { FatTableAction, FatTableActionsProps } from './table-actions';
 
@@ -121,7 +123,8 @@ export interface FatTableColumnActions<T> {
   /**
    * 操作栏 class
    */
-  actionsClass?: ClassValue;
+  actionsClassName?: ClassValue;
+  actionsStyle?: StyleValue;
 }
 
 export interface FatTableColumnForm<T> {
@@ -185,7 +188,7 @@ export interface FatTableColumnStyle {
   /**
    * 字段类名
    */
-  class?: ClassValue;
+  className?: ClassValue;
 
   /**
    * 对应列的宽度
@@ -242,7 +245,7 @@ export interface FatTableColumnLabel<T> {
   /**
    * 标题类名
    */
-  labelClass?: ClassValue;
+  labelClassName?: ClassValue;
 
   /**
    * 自定义标题渲染
@@ -342,35 +345,7 @@ export interface FatTableColumn<
   valueProps?: ValueProps & Partial<AtomicCommonProps<any>>;
 }
 
-/**
- * fat-table 参数
- */
-export interface FatTableProps<T extends {}, S extends {}> {
-  /**
-   * 唯一 id
-   */
-  rowKey?: string;
-
-  /**
-   * 数据请求
-   */
-  request: (params: FatTableRequestParams<T, S>) => Promise<FatTableRequestResponse<T>>;
-
-  /**
-   * 是否在挂载时就进行请求, 默认为 true
-   */
-  requestOnMounted?: boolean;
-
-  /**
-   * 排序规则变动时重新请求, 默认为 true
-   */
-  requestOnSortChange?: boolean;
-
-  /**
-   * 过滤规则变动时重新请求, 默认为 true
-   */
-  requestOnFilterChange?: boolean;
-
+export interface FatTableRemove<T> {
   /**
    * 是否在行删除之后重新请求， 默认 true
    *
@@ -397,14 +372,16 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 是否在删除失败后提示，默认开启
    */
   messageOnRemoveFailed?: boolean | MessageOptions | ((list: T[], ids: any[], error: Error) => MessageOptions);
+}
 
+export interface FatTableQuery<T extends {}, S extends {}> {
   /**
-   * 列声明
+   * 是否开启表单搜索, 默认开启
    */
-  columns: FatTableColumn<T>[];
+  enableQuery?: boolean;
 
   /**
-   * 是否缓存搜索状态, 默认开启
+   * 是否缓存搜索状态(包括查询参数、分页、排序等信息), 默认开启
    * 注意，一个页面中，应该只有一个 fat-table 开启缓存，否则会冲突。
    * 这种情况，为了避免冲突，需要手动指定 namespace
    */
@@ -414,49 +391,23 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 缓存命名空间，用于避免在同一个页面中缓存键冲突
    */
   namespace?: string;
-
   /**
-   * 是否开启分页展示, 默认开启
+   * 是否在表单查询数据变更时重新请求，默认为 true
+   * 可以通过 queryWatchDelay 调整 debounce 的时长
    */
-  enablePagination?: boolean;
-
-  /**
-   * 分页配置
-   */
-  paginationProps?: PaginationProps;
-
-  /**
-   * 是否开启选择模式， 默认关闭
-   * TODO: 后续支持 ref 参数
-   */
-  enableSelect?: boolean;
-
-  /**
-   * 判断行是否可以选择
-   */
-  selectable?: (row: T, index: number) => boolean;
-
-  /**
-   * 是否开启表单搜索, 默认开启
-   */
-  enableQuery?: boolean;
+  requestOnQueryChange?: boolean;
 
   /**
    * 用于 request 查询的额外参数，一旦变化会触发重新加载
    * 也可以用它来实现自定义查询表单。
    * query 将会合并到 request 参数的 query 字段中
    */
-  query?: any;
+  query?: Partial<S>;
 
   /**
    * 表单初始值
    */
-  initialQuery?: any | (() => any);
-
-  /**
-   * 是否监听 query 的变动，并触发重新加载，默认为 true
-   */
-  enableQueryWatch?: boolean;
+  initialQuery?: Partial<S> | (() => Partial<S>);
 
   /**
    * query 防抖时长，默认为 800ms
@@ -467,11 +418,6 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 搜索表单属性
    */
   formProps?: FormProps;
-
-  /**
-   * 是否显示 request 错误信息, 默认开启
-   */
-  enableErrorCapture?: boolean;
 
   /**
    * 开启搜索按钮, 默认开启
@@ -492,10 +438,87 @@ export interface FatTableProps<T extends {}, S extends {}> {
    * 重置按钮文本
    */
   resetText?: string;
+}
+
+export interface FatTableSelect<T> {
+  /**
+   * 是否开启选择模式， 默认关闭
+   */
+  enableSelect?: boolean;
 
   /**
-   * 空状态文本。默认为暂无数据
+   * 判断行是否可以选择
    */
+  selectable?: (row: T, index: number) => boolean;
+}
+
+export interface FatTablePaginationProps
+  extends Omit<PaginationProps, 'total' | 'pageCount' | 'currentPage' | 'onSizeChange' | 'onCurrentChange'> {
+  className?: ClassValue;
+  style?: StyleValue;
+}
+
+export interface FatTablePagination {
+  /**
+   * 是否开启分页展示, 默认开启
+   */
+  enablePagination?: boolean;
+
+  /**
+   * 分页配置
+   */
+  paginationProps?: FatTablePaginationProps;
+}
+
+/**
+ * 原始 table 参数
+ */
+export type FatTableRawProps = Omit<TableProps, 'data' | 'rowKey' | 'defaultSort' | 'emptyText'>;
+
+/**
+ * fat-table 参数
+ */
+export interface FatTableProps<T extends {}, S extends {}>
+  extends FatTableRemove<T>,
+    FatTableQuery<T, S>,
+    FatTableSelect<T>,
+    FatTablePagination,
+    FatTableRawProps {
+  /**
+   * 唯一 id, 用于获取唯一 id
+   */
+  rowKey?: string | ((row: T) => string | number);
+
+  /**
+   * 数据请求
+   */
+  request: (params: FatTableRequestParams<T, S>) => Promise<FatTableRequestResponse<T>>;
+
+  /**
+   * 是否在挂载时就进行请求, 默认为 true
+   */
+  requestOnMounted?: boolean;
+
+  /**
+   * 排序规则变动时重新请求, 默认为 true
+   */
+  requestOnSortChange?: boolean;
+
+  /**
+   * 过滤规则变动时重新请求, 默认为 true
+   */
+  requestOnFilterChange?: boolean;
+
+  /**
+   * 列声明
+   */
+  columns: FatTableColumn<T>[];
+
+  /**
+   * 是否显示 request 错误信息, 默认开启
+   */
+  enableErrorCapture?: boolean;
+
   emptyText?: string;
 
   // TODO: 其他表格属性

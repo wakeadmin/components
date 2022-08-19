@@ -9,7 +9,9 @@
       :columns="columns"
       :request-on-removed="false"
       :enable-select="true"
+      row-class-name="fuck"
       :initial-query="initialQuery"
+      @row-click="handleClick"
     />
     <button @click="selectAll">select all</button>
     <button @click="unselectAll">unselect all</button>
@@ -22,6 +24,10 @@
   import { ref } from 'vue';
   import { FatTable } from '@wakeadmin/components';
   import { ElFormItem, ElInput, ElCol } from 'element-plus';
+
+  const handleClick = () => {
+    console.log('click');
+  };
 
   const tableRef = ref();
 

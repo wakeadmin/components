@@ -2,12 +2,13 @@
  * 纯文本
  */
 import { globalRegistry, AtomicCommonProps } from '../../atomic';
-import './index.scss';
+import { normalizeClassName } from '../../utils';
 
 export const AText = (props: AtomicCommonProps<string>) => {
+  const { value, class: className, style } = props;
   return (
-    <span class={['wk-text', props.class]} style={props.style}>
-      {props.value ?? ''}
+    <span class={normalizeClassName('wk-text', className)} style={style}>
+      {value ?? ''}
     </span>
   );
 };

@@ -12,6 +12,7 @@ import { More } from '@wakeadmin/icons';
 
 import { RouteLocation, useRouter } from '../hooks';
 import { ClassValue, CommonProps, StyleValue } from '../types';
+import { normalizeClassName, normalizeStyle } from '../utils';
 
 import './table-actions.scss';
 
@@ -50,7 +51,11 @@ export interface FatTableAction {
    * 自定义样式
    */
   style?: StyleValue;
-  class?: ClassValue;
+
+  /**
+   * 自定义类名
+   */
+  className?: ClassValue;
 }
 
 export interface FatTableActionsProps extends CommonProps {
@@ -81,7 +86,7 @@ export const FatTableActions = declareComponent({
   emits: declareEmits<{
     click: (action: FatTableAction) => void;
   }>(),
-  setup(props) {
+  setup(props, { attrs }) {
     const propsWithDefault = withDefaults(props, { max: 3, type: 'text' });
     const router = useRouter();
     const max = toRef(propsWithDefault, 'max');
@@ -117,13 +122,15 @@ export const FatTableActions = declareComponent({
 
     return () => {
       return (
-        <div class={['fat-table-actions', props.class]} style={props.style}>
+        <div class={normalizeClassName('fat-table-actions', attrs.class)} style={attrs.style}>
           {list.value.map((i, idx) => {
             return (
               <Button
                 key={`${i.name}_${idx}`}
-                class={['fat-table-actions__btn', i.class, { [i.type ?? 'default']: type.value === 'text' }]}
-                style={i.style}
+                class={normalizeClassName('fat-table-actions__btn', i.className, {
+                  [i.type ?? 'default']: type.value === 'text',
+                })}
+                style={normalizeStyle(i.style)}
                 type={type.value === 'text' ? 'text' : i.type}
                 disabled={i.disabled}
                 onClick={() => handleClick(i)}
@@ -145,8 +152,8 @@ export const FatTableActions = declareComponent({
                       return (
                         <DropdownItem
                           key={`${i.name}_${idx}`}
-                          class={['fat-table-action__menu-item', i.class, i.type]}
-                          style={i.style}
+                          class={normalizeClassName('fat-table-action__menu-item', i.className, i.type)}
+                          style={normalizeStyle(i.style)}
                           disabled={i.disabled}
                           command={i}
                         >

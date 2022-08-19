@@ -20,7 +20,7 @@ export interface TableProps {
   fit?: boolean;
   stripe?: boolean;
   border?: boolean;
-  rowKey?: string | ((row: any) => string);
+  rowKey?: string | ((row: any) => string | number);
   showHeader?: boolean;
   showSummary?: boolean;
   sumText?: string;
@@ -57,8 +57,6 @@ export interface TableProps {
   treeProps?: any;
   lazy?: boolean;
   load?: (row: any, treeNode: any, resolve: (data: any[]) => void) => void;
-  style?: StyleValue;
-  className?: ClassValue;
   tableLayout?: 'auto' | 'fixed';
   scrollbarAlwaysOn?: boolean;
   flexible?: boolean;

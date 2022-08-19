@@ -9,6 +9,8 @@
       :columns="columns"
       :request-on-removed="false"
       :enable-select="true"
+      row-class-name="fuck"
+      @row-click="handleClick"
     />
 
     <button @click="selectAll">select all</button>
@@ -21,6 +23,10 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { FatTable } from '@wakeadmin/components';
+
+  const handleClick = () => {
+    console.log('click');
+  };
 
   const tableRef = ref();
 
