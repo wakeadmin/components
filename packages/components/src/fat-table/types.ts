@@ -187,16 +187,71 @@ export interface FatTableMethods<T, S> {
   reset(): void;
 }
 
-export interface FatTableSlots<T> {
+export interface FatTableSlots<T, S> {
   /**
-   * 头部插槽, 在 query 之后
+   * 渲染标题
    */
-  renderHeader?: () => any;
+  renderTitle?: (table: FatTableMethods<T, S>) => any;
 
   /**
-   * 自定义错误展会
+   * 渲染导航区
    */
-  renderError?: (error: Error) => any;
+  renderNavBar?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染查询表单之前的区域
+   */
+  renderBeforeForm?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染在表单下的前部，用于注入自定义表单
+   */
+  renderFormHeading?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染在搜索、查询按钮之前
+   */
+  renderBeforeSubmit?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染在表单下的后部，即搜索、查询按钮之后
+   */
+  renderFormTrailing?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染查询表单之前的区域
+   */
+  renderAfterForm?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染工具栏
+   */
+  renderToolbar?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染自定义错误
+   */
+  renderError?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染表格前部，可以注入自定义列
+   */
+  renderTableHeading?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 空状态展示
+   */
+  renderEmpty?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染表格后部，可以注入自定义列
+   */
+  renderTableTrailing?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染底部工具栏
+   */
+  renderBottomToolbar?: (table: FatTableMethods<T, S>) => any;
 }
 
 /**
@@ -625,7 +680,8 @@ export interface FatTableProps<T extends {}, S extends {}>
     FatTableSelect<T>,
     FatTablePagination,
     FatTableRawProps,
-    FatTableEvents<T> {
+    FatTableEvents<T>,
+    FatTableSlots<T, S> {
   /**
    * 唯一 id, 用于获取唯一 id
    */
@@ -665,6 +721,11 @@ export interface FatTableProps<T extends {}, S extends {}>
    * 无数据提示文案
    */
   emptyText?: string;
+
+  /**
+   * 标题
+   */
+  title?: string;
 }
 
 export interface PaginationState {

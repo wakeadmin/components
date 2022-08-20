@@ -15,7 +15,7 @@
 | 工具栏(toolbar)                     |  插槽：toolbar、error
 +------------------------------------+
 |                                    |
-|           表格                      | 插槽：tableHeading(可以用于注入自定义列), tableTrailing
+|           表格                      | 插槽：tableHeading(可以用于注入自定义列), tableTrailing、empty
 |                                    |
 +------------------------------------+
 | 底部工具栏(bottomToolbar)            | 插槽：bottomToolbar

@@ -1,6 +1,6 @@
 import { getCurrentInstance, isVue2 } from '@wakeadmin/demi';
 import { LooseClassValue, ClassValue, LooseStyleValue, StyleValue } from '@wakeadmin/component-adapter';
-import { NoopObject, omit } from '@wakeadmin/utils';
+import { NoopObject, omit, upperFirst } from '@wakeadmin/utils';
 
 export function toUndefined<T>(value: T | undefined | null): T | undefined {
   return value != null ? value : undefined;
@@ -50,4 +50,42 @@ export function inheritProps(omitClassAndStyle = true) {
   }
 
   return NoopObject;
+}
+
+/**
+ * 判断是否声明了 slots
+ */
+export function hasSlots(props: any, slots: any, name: string) {
+  return `render${upperFirst(name)}` in props || name in slots;
+}
+
+function safeCall(fn: any, args: any[]) {
+  if (fn == null) {
+    return;
+  }
+
+  if (typeof fn !== 'function' && process.env.NODE_ENV !== 'production') {
+    throw new Error(`[@wakeadmin/components] 期望接收到的是函数，当前为 ${typeof fn}`);
+  }
+
+  return fn.apply(null, args);
+}
+
+/**
+ * 渲染 slot
+ * @param props
+ * @param slots
+ * @param name
+ * @param args
+ * @returns
+ */
+export function renderSlot(props: any, slots: any, name: string, ...args: any[]) {
+  const renderFn = props[`render${upperFirst(name)}`];
+  const slot = slots[name];
+
+  return renderFn && slot
+    ? [safeCall(renderFn, args), safeCall(slot, args)]
+    : slot != null
+    ? safeCall(slot, args)
+    : safeCall(renderFn, args);
 }

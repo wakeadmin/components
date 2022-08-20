@@ -13,12 +13,12 @@ import {
   MessageOptions,
 } from '@wakeadmin/component-adapter';
 import { VNode, ref, onMounted, reactive, nextTick, watch, readonly } from '@wakeadmin/demi';
-import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
+import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObject } from '@wakeadmin/utils';
 
 import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
-import { inheritProps, normalizeClassName, ToHEmitDefinition, toUndefined } from '../utils';
+import { hasSlots, inheritProps, normalizeClassName, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
 
 import {
   FatTableProps,
@@ -67,9 +67,24 @@ const FatTableInner = declareComponent({
     'searchText',
     'resetText',
     'emptyText',
+    'title',
+
+    // slots
+    'renderTitle',
+    'renderNavBar',
+    'renderBeforeForm',
+    'renderFormHeading',
+    'renderBeforeSubmit',
+    'renderFormTrailing',
+    'renderAfterForm',
+    'renderToolbar',
+    'renderError',
+    'renderTableHeading',
+    'renderEmpty',
+    'renderTableTrailing',
+    'renderBottomToolbar',
   ]),
   emits: declareEmits<ToHEmitDefinition<FatTableEvents<any>>>(),
-  slots: declareSlots<{ beforeColumns: never; afterColumns: never }>(),
   setup(props, { slots, expose, attrs, emit }) {
     validateColumns(props.columns);
 
@@ -656,8 +671,16 @@ const FatTableInner = declareComponent({
       return (
         <div class={normalizeClassName('fat-table', attrs.class)} style={attrs.style}>
           <div class="fat-table__header">
+            <div class="fat-table__top">
+              <div class="fat-table__title">
+                {renderSlot(props, slots, 'title', tableInstance)}
+                {props.title}
+              </div>
+              <div class="fat-table__navbar">{renderSlot(props, slots, 'navBar', tableInstance)}</div>
+            </div>
             {!!enableQuery && (
               <div class="fat-table__query">
+                {renderSlot(props, slots, 'beforeForm', tableInstance)}
                 <Query
                   loading={loading.value}
                   formRef={() => formRef}
@@ -670,7 +693,19 @@ const FatTableInner = declareComponent({
                   resetText={props.resetText}
                   onSubmit={leadingDebouncedSearch}
                   onReset={reset}
-                />
+                  v-slots={{
+                    before() {
+                      return renderSlot(props, slots, 'formHeading', tableInstance);
+                    },
+                    beforeButtons() {
+                      return renderSlot(props, slots, 'beforeSubmit', tableInstance);
+                    },
+                    afterButtons() {
+                      return renderSlot(props, slots, 'formTrailing', tableInstance);
+                    },
+                  }}
+                ></Query>
+                {renderSlot(props, slots, 'afterForm', tableInstance)}
               </div>
             )}
           </div>
@@ -678,9 +713,20 @@ const FatTableInner = declareComponent({
           <div class="fat-table__body">
             {!!(error.value && enableErrorCapture) && (
               <div class="fat-table__error">
-                <Alert title="数据加载失败" type="error" showIcon description={error.value.message} closable={false} />
+                {hasSlots(props, slots, 'error') ? (
+                  renderSlot(props, slots, 'error')
+                ) : (
+                  <Alert
+                    title="数据加载失败"
+                    type="error"
+                    showIcon
+                    description={error.value.message}
+                    closable={false}
+                  />
+                )}
               </div>
             )}
+            {renderSlot(props, slots, 'toolbar', tableInstance)}
             <div class="fat-table__table">
               <Table
                 {...inheritProps()}
@@ -694,11 +740,15 @@ const FatTableInner = declareComponent({
                 defaultSort={toUndefined(sort.value)}
                 v-slots={{
                   empty() {
-                    return <Empty description={props.emptyText ?? '暂无数据'}></Empty>;
+                    return hasSlots(props, slots, 'empty') ? (
+                      renderSlot(props, slots, 'empty', tableInstance)
+                    ) : (
+                      <Empty description={props.emptyText ?? '暂无数据'}></Empty>
+                    );
                   },
                 }}
               >
-                {slots.beforeColumns?.()}
+                {renderSlot(props, slots, 'tableHeading', tableInstance)}
 
                 {columns?.map((column, index) => {
                   return (
@@ -712,12 +762,13 @@ const FatTableInner = declareComponent({
                   );
                 })}
 
-                {slots.afterColumns?.()}
+                {renderSlot(props, slots, 'tableTrailing', tableInstance)}
               </Table>
             </div>
           </div>
 
           <div class="fat-table__footer">
+            {renderSlot(props, slots, 'bottomToolbar', tableInstance)}
             {props.enablePagination !== false && (
               <div class="fat-table__pagination">
                 <Pagination
