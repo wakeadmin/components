@@ -18,7 +18,7 @@ import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObjec
 
 import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
-import { hasSlots, inheritProps, normalizeClassName, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
+import { hasSlots, inheritProps, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
 
 import {
   FatTableProps,
@@ -30,10 +30,12 @@ import {
   FatTableFilter,
   FatTableMethods,
   FatTableEvents,
+  FatTableLayout,
 } from './types';
 import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { Query } from './query';
 import { Column } from './column';
+import { BUILTIN_LAYOUTS } from './layouts';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -68,6 +70,7 @@ const FatTableInner = declareComponent({
     'resetText',
     'emptyText',
     'title',
+    'layout',
 
     // slots
     'renderTitle',
@@ -99,6 +102,7 @@ const FatTableInner = declareComponent({
     const enableSearchButton = props.enableSearchButton ?? true;
     const enableResetButton = props.enableResetButton ?? true;
     const enableErrorCapture = props.enableErrorCapture ?? true;
+    const enablePagination = props.enablePagination ?? true;
 
     const requestOnMounted = props.requestOnMounted ?? true;
     const requestOnSortChange = props.requestOnSortChange ?? true;
@@ -661,6 +665,13 @@ const FatTableInner = declareComponent({
     expose(tableInstance);
 
     return () => {
+      const layout = props.layout ?? 'default';
+      const layoutImpl: FatTableLayout = typeof layout === 'function' ? layout : BUILTIN_LAYOUTS[layout];
+
+      if (layoutImpl == null) {
+        throw new Error(`[fat-table]: unknown layout: ${layout}`);
+      }
+
       const columns = (props.columns ?? NoopArray).filter(i => i.type !== 'query');
 
       // 注入选择行
@@ -668,125 +679,117 @@ const FatTableInner = declareComponent({
         columns.unshift({ type: 'selection', width: '80', selectable: props.selectable });
       }
 
-      return (
-        <div class={normalizeClassName('fat-table', attrs.class)} style={attrs.style}>
-          <div class="fat-table__header">
-            <div class="fat-table__top">
-              <div class="fat-table__title">
-                {renderSlot(props, slots, 'title', tableInstance)}
-                {props.title}
-              </div>
-              <div class="fat-table__navbar">{renderSlot(props, slots, 'navBar', tableInstance)}</div>
-            </div>
-            {!!enableQuery && (
-              <div class="fat-table__query">
-                {renderSlot(props, slots, 'beforeForm', tableInstance)}
-                <Query
-                  loading={loading.value}
-                  formRef={() => formRef}
-                  query={query.value}
-                  formProps={props.formProps}
-                  columns={props.columns}
-                  enableSearchButton={enableSearchButton}
-                  enableResetButton={enableResetButton}
-                  searchText={props.searchText}
-                  resetText={props.resetText}
-                  onSubmit={leadingDebouncedSearch}
-                  onReset={reset}
-                  v-slots={{
-                    before() {
-                      return renderSlot(props, slots, 'formHeading', tableInstance);
-                    },
-                    beforeButtons() {
-                      return renderSlot(props, slots, 'beforeSubmit', tableInstance);
-                    },
-                    afterButtons() {
-                      return renderSlot(props, slots, 'formTrailing', tableInstance);
-                    },
-                  }}
-                ></Query>
-                {renderSlot(props, slots, 'afterForm', tableInstance)}
-              </div>
-            )}
-          </div>
-
-          <div class="fat-table__body">
-            {!!(error.value && enableErrorCapture) && (
-              <div class="fat-table__error">
-                {hasSlots(props, slots, 'error') ? (
+      return layoutImpl({
+        rootProps: {
+          class: attrs.class,
+          style: attrs.style,
+        },
+        renderTitle: () =>
+          hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', tableInstance) : props.title,
+        renderNavBar: () => renderSlot(props, slots, 'navBar', tableInstance),
+        renderQuery: enableQuery
+          ? () => [
+              renderSlot(props, slots, 'beforeForm', tableInstance),
+              <Query
+                loading={loading.value}
+                formRef={() => formRef}
+                query={query.value}
+                formProps={props.formProps}
+                columns={props.columns}
+                enableSearchButton={enableSearchButton}
+                enableResetButton={enableResetButton}
+                searchText={props.searchText}
+                resetText={props.resetText}
+                onSubmit={leadingDebouncedSearch}
+                onReset={reset}
+                v-slots={{
+                  before() {
+                    return renderSlot(props, slots, 'formHeading', tableInstance);
+                  },
+                  beforeButtons() {
+                    return renderSlot(props, slots, 'beforeSubmit', tableInstance);
+                  },
+                  afterButtons() {
+                    return renderSlot(props, slots, 'formTrailing', tableInstance);
+                  },
+                }}
+              ></Query>,
+              renderSlot(props, slots, 'afterForm', tableInstance),
+            ]
+          : undefined,
+        renderError:
+          error.value && enableErrorCapture
+            ? () =>
+                hasSlots(props, slots, 'error') ? (
                   renderSlot(props, slots, 'error')
                 ) : (
                   <Alert
                     title="数据加载失败"
                     type="error"
                     showIcon
-                    description={error.value.message}
+                    description={error.value!.message}
                     closable={false}
                   />
-                )}
-              </div>
-            )}
-            {renderSlot(props, slots, 'toolbar', tableInstance)}
-            <div class="fat-table__table">
-              <Table
-                {...inheritProps()}
-                {...withDirectives([[vLoading, loading.value]])}
-                ref={tableRef}
-                data={list.value}
-                rowKey={props.rowKey}
-                onSelectionChange={handleSelectionChange}
-                onSortChange={handleSortChange}
-                onFilterChange={handleFilterChange}
-                defaultSort={toUndefined(sort.value)}
-                v-slots={{
-                  empty() {
-                    return hasSlots(props, slots, 'empty') ? (
-                      renderSlot(props, slots, 'empty', tableInstance)
-                    ) : (
-                      <Empty description={props.emptyText ?? '暂无数据'}></Empty>
-                    );
-                  },
-                }}
-              >
-                {renderSlot(props, slots, 'tableHeading', tableInstance)}
+                )
+            : undefined,
+        renderToolbar: hasSlots(props, slots, 'toolbar')
+          ? () => renderSlot(props, slots, 'toolbar', tableInstance)
+          : undefined,
+        renderTable: () => (
+          <Table
+            {...inheritProps()}
+            {...withDirectives([[vLoading, loading.value]])}
+            ref={tableRef}
+            data={list.value}
+            rowKey={props.rowKey}
+            onSelectionChange={handleSelectionChange}
+            onSortChange={handleSortChange}
+            onFilterChange={handleFilterChange}
+            defaultSort={toUndefined(sort.value)}
+            v-slots={{
+              empty: hasSlots(props, slots, 'empty') ? (
+                renderSlot(props, slots, 'empty', tableInstance)
+              ) : (
+                <Empty description={props.emptyText ?? '暂无数据'}></Empty>
+              ),
+            }}
+          >
+            {renderSlot(props, slots, 'tableHeading', tableInstance)}
 
-                {columns?.map((column, index) => {
-                  return (
-                    <Column
-                      key={genKey(column, index)}
-                      column={column}
-                      index={index}
-                      filter={filter}
-                      tableInstance={tableInstance}
-                    />
-                  );
-                })}
+            {columns?.map((column, index) => {
+              return (
+                <Column
+                  key={genKey(column, index)}
+                  column={column}
+                  index={index}
+                  filter={filter}
+                  tableInstance={tableInstance}
+                />
+              );
+            })}
 
-                {renderSlot(props, slots, 'tableTrailing', tableInstance)}
-              </Table>
-            </div>
-          </div>
-
-          <div class="fat-table__footer">
-            {renderSlot(props, slots, 'bottomToolbar', tableInstance)}
-            {props.enablePagination !== false && (
-              <div class="fat-table__pagination">
-                <Pagination
-                  {...DEFAULT_PAGINATION_PROPS}
-                  {...props.paginationProps}
-                  class={['fat-table__pagination', props.paginationProps?.className]}
-                  currentPage={pagination.current}
-                  total={pagination.total}
-                  pageSize={pagination.pageSize}
-                  disabled={loading.value || props.paginationProps?.disabled}
-                  onSizeChange={handlePageSizeChange}
-                  onCurrentChange={handlePageCurrentChange}
-                ></Pagination>
-              </div>
-            )}
-          </div>
-        </div>
-      );
+            {renderSlot(props, slots, 'tableTrailing', tableInstance)}
+          </Table>
+        ),
+        renderBottomToolbar: hasSlots(props, slots, 'bottomToolbar')
+          ? () => renderSlot(props, slots, 'bottomToolbar', tableInstance)
+          : undefined,
+        renderPagination: enablePagination
+          ? () => (
+              <Pagination
+                {...DEFAULT_PAGINATION_PROPS}
+                {...props.paginationProps}
+                class={['fat-table__pagination', props.paginationProps?.className]}
+                currentPage={pagination.current}
+                total={pagination.total}
+                pageSize={pagination.pageSize}
+                disabled={loading.value || props.paginationProps?.disabled}
+                onSizeChange={handlePageSizeChange}
+                onCurrentChange={handlePageCurrentChange}
+              ></Pagination>
+            )
+          : undefined,
+      });
     };
   },
 });

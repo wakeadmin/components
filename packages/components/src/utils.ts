@@ -56,7 +56,7 @@ export function inheritProps(omitClassAndStyle = true) {
  * 判断是否声明了 slots
  */
 export function hasSlots(props: any, slots: any, name: string) {
-  return `render${upperFirst(name)}` in props || name in slots;
+  return typeof props[`render${upperFirst(name)}`] === 'function' || typeof slots[name] === 'function';
 }
 
 function safeCall(fn: any, args: any[]) {

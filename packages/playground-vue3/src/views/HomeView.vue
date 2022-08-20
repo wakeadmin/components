@@ -8,6 +8,7 @@
       :remove="remove"
       :columns="columns"
       :request-on-removed="false"
+      :request-on-query-change="false"
       :enable-select="true"
       row-class-name="fuck"
       :initial-query="initialQuery"

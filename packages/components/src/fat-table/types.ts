@@ -683,6 +683,15 @@ export interface FatTableProps<T extends {}, S extends {}>
     FatTableEvents<T>,
     FatTableSlots<T, S> {
   /**
+   * 表格页布局
+   * mapp 微前端
+   * default 默认布局
+   *
+   * 也支持自定义
+   */
+  layout?: 'mapp' | 'default' | FatTableLayout;
+
+  /**
    * 唯一 id, 用于获取唯一 id
    */
   rowKey?: string | ((row: T) => string | number);
@@ -743,3 +752,52 @@ export interface QueryStateCache {
   sort?: FatTableSort | null;
   filter?: FatTableFilter;
 }
+/**
+ * 表格页布局
+ */
+export type FatTableLayout = (slots: {
+  /**
+   * 根节点属性
+   */
+  rootProps: { class?: ClassValue; style?: StyleValue; [key: string]: unknown };
+
+  /**
+   * 渲染标题栏
+   */
+  renderTitle?: () => any;
+
+  /**
+   * 渲染导航栏
+   */
+  renderNavBar?: () => any;
+
+  /**
+   * 渲染查询表单
+   */
+  renderQuery?: () => any;
+
+  /**
+   * 渲染错误提示
+   */
+  renderError?: () => any;
+
+  /**
+   * 渲染工具栏
+   */
+  renderToolbar?: () => any;
+
+  /**
+   * 渲染表格
+   */
+  renderTable?: () => any;
+
+  /**
+   * 渲染底部工具栏
+   */
+  renderBottomToolbar?: () => any;
+
+  /**
+   * 渲染分页
+   */
+  renderPagination?: () => any;
+}) => any;
