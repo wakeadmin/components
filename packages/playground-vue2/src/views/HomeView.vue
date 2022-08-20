@@ -11,6 +11,7 @@
       :enable-select="true"
       row-class-name="fuck"
       @row-click="handleClick"
+      @queryCacheRestore="handleCacheRestore"
     />
 
     <button @click="selectAll">select all</button>
@@ -23,6 +24,10 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { FatTable } from '@wakeadmin/components';
+
+  const handleCacheRestore = cache => {
+    console.log('cache', cache);
+  };
 
   const handleClick = () => {
     console.log('click');

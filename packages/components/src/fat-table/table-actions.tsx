@@ -5,13 +5,15 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  ClassValue,
+  CommonProps,
+  StyleValue,
 } from '@wakeadmin/component-adapter';
 import { computed, toRef } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDefaults } from '@wakeadmin/h';
 import { More } from '@wakeadmin/icons';
 
 import { RouteLocation, useRouter } from '../hooks';
-import { ClassValue, CommonProps, StyleValue } from '../types';
 import { normalizeClassName, normalizeStyle } from '../utils';
 
 import './table-actions.scss';

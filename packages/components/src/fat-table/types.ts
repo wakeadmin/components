@@ -164,6 +164,34 @@ export interface FatTableMethods<T> {
 }
 
 /**
+ * 表格事件
+ */
+export interface FatTableEvents<T> {
+  /**
+   * 表格加载完毕
+   * @param list
+   */
+  onLoad?: (list: T[]) => void;
+
+  /**
+   * 加载失败
+   * @param error
+   */
+  onError?: (error: Error) => void;
+
+  /**
+   * 表单重置
+   */
+  onReset?: () => void;
+
+  /**
+   * 查询缓存恢复
+   * @param queryCache
+   */
+  onQueryCacheRestore?: (queryCache: QueryStateCache) => void;
+}
+
+/**
  * --------------- actions 类型特定参数 -----------------
  */
 export interface FatTableColumnActions<T> {
@@ -559,7 +587,8 @@ export interface FatTableProps<T extends {}, S extends {}>
     FatTableQuery<T, S>,
     FatTableSelect<T>,
     FatTablePagination,
-    FatTableRawProps {
+    FatTableRawProps,
+    FatTableEvents<T> {
   /**
    * 唯一 id, 用于获取唯一 id
    */
@@ -610,7 +639,7 @@ export interface PaginationState {
 /**
  * 查询状态缓存
  */
-export interface SearchStateCache {
+export interface QueryStateCache {
   query: any;
   pagination: PaginationState;
   sort?: FatTableSort | null;

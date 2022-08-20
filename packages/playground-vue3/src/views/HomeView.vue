@@ -12,6 +12,7 @@
       row-class-name="fuck"
       :initial-query="initialQuery"
       @row-click="handleClick"
+      @query-cache-restore="handleCacheRestore"
     />
     <button @click="selectAll">select all</button>
     <button @click="unselectAll">unselect all</button>
@@ -27,6 +28,10 @@
 
   const handleClick = () => {
     console.log('click');
+  };
+
+  const handleCacheRestore = cache => {
+    console.log('cache', cache);
   };
 
   const tableRef = ref();

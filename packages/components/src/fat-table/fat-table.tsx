@@ -18,17 +18,18 @@ import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObjec
 
 import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
-import { inheritProps, normalizeClassName, toUndefined } from '../utils';
+import { inheritProps, normalizeClassName, ToHEmitDefinition, toUndefined } from '../utils';
 
 import {
   FatTableProps,
   PaginationState,
-  SearchStateCache,
+  QueryStateCache,
   FatTableRequestParams,
   FatTableColumn,
   FatTableSort,
   FatTableFilter,
   FatTableMethods,
+  FatTableEvents,
 } from './types';
 import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { Query } from './query';
@@ -67,12 +68,9 @@ const FatTableInner = declareComponent({
     'resetText',
     'emptyText',
   ]),
-  // TODO: 暴露更多事件
-  emits: declareEmits<{
-    cacheStateChange: () => void;
-  }>(),
+  emits: declareEmits<ToHEmitDefinition<FatTableEvents<any>>>(),
   slots: declareSlots<{ beforeColumns: never; afterColumns: never }>(),
-  setup(props, { slots, expose, attrs }) {
+  setup(props, { slots, expose, attrs, emit }) {
     validateColumns(props.columns);
 
     let uid = `${Math.random().toFixed(4).slice(-4)}_${Date.now()}`;
@@ -153,7 +151,10 @@ const FatTableInner = declareComponent({
       const data = window.sessionStorage.getItem(key);
 
       if (data) {
-        const cache = JSON.parse(data) as SearchStateCache;
+        const cache = JSON.parse(data) as QueryStateCache;
+
+        emit('queryCacheRestore', cache);
+
         Object.assign(pagination, cache.pagination);
 
         if (cache.query) {
@@ -179,7 +180,7 @@ const FatTableInner = declareComponent({
       }
 
       const key = `__fat-table(${uid})__`;
-      const payload: SearchStateCache = {
+      const payload: QueryStateCache = {
         pagination,
         filter,
         query: query.value,
@@ -226,15 +227,19 @@ const FatTableInner = declareComponent({
 
         pagination.total = response.total;
         list.value = response.list;
-        ready.value = true;
-      } catch (err) {
-        error.value = err as Error;
-        console.error(`[fat-table] 数据加载失败`, err);
-      } finally {
-        loading.value = false;
+
+        emit('load', list.value);
 
         // 缓存请求状态
         saveCache();
+      } catch (err) {
+        error.value = err as Error;
+        console.error(`[fat-table] 数据加载失败`, err);
+
+        emit('error', error.value);
+      } finally {
+        loading.value = false;
+        ready.value = true;
       }
     };
 
@@ -558,6 +563,8 @@ const FatTableInner = declareComponent({
     const reset = async () => {
       // 重置表单状态、排序状态、筛选状态
       setInitialValue(true);
+
+      emit('reset');
 
       debouncedSearch();
     };

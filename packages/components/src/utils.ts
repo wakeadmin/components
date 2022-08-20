@@ -14,6 +14,21 @@ export function normalizeStyle(...list: LooseStyleValue[]) {
   return list.filter(i => (Array.isArray(i) ? i.length : i)).flat() as StyleValue[];
 }
 
+export type TrimOnPrefix<K extends string> = K extends `on${infer E}`
+  ? E extends `${infer F}${infer L}`
+    ? `${Lowercase<F>}${L}`
+    : E
+  : K;
+
+export type TrimOnEvents<T extends {}> = {
+  [K in keyof T as TrimOnPrefix<string & K>]: T[K];
+};
+
+/**
+ * 将 on* 类型的事件转换为 h 库的 emit 类型格式
+ */
+export type ToHEmitDefinition<T> = TrimOnEvents<Required<T>>;
+
 const CLASS_AND_STYLE = ['class', 'style'];
 
 /**
