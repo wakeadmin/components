@@ -30,7 +30,7 @@
     "@wakeadmin/demi": "^0.1.1"
   },
   "devDependencies": {
-    "element-plus": "^2.2.12",
+    "element-plus": "^2.2.14",
     "element-ui": "^2.15.9"
   },
   "peerDependencies": {
