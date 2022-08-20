@@ -102,6 +102,7 @@ export const Query = declareComponent({
                     key={key}
                     prop={prop}
                     label={column.label}
+                    class={column.type === 'query' ? column.className : undefined}
                     {...column.formItemProps}
                     v-slots={
                       column.renderLabel

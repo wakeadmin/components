@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     'no-magic-numbers': 'off',
     'vue/no-deprecated-slot-attribute': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
   },
   parser: 'vue-eslint-parser',
   parserOptions: {

@@ -9,6 +9,8 @@ import {
   StyleValue,
   ClassValue,
   PaginationProps,
+  TableMethods,
+  FormMethods,
 } from '@wakeadmin/component-adapter';
 
 import { AtomicCommonProps } from '../atomic';
@@ -77,15 +79,88 @@ export interface FatTableRequestResponse<T> {
  */
 export interface FatTableMethods<T> {
   /**
+   * 获取底层 el-table 实例
+   */
+  getTableRef(): TableMethods | undefined;
+
+  /**
+   * 获取底层 el-form 实例
+   */
+  getFormRef(): FormMethods | undefined;
+
+  /**
    * 获取已选中的记录
    */
   getSelected(): T[];
-  select(items: T[]): void;
-  unselect(items: T[]): void;
+
+  /**
+   * 选中指定记录
+   * @param items
+   */
+  select(...items: T[]): void;
+
+  /**
+   * 取消选中指定记录
+   * @param items
+   */
+  unselect(...items: T[]): void;
+
+  /**
+   * 全选当前页面
+   */
   selectAll(): void;
+
+  /**
+   * 取消全选
+   */
   unselectAll(): void;
+
+  /**
+   * 删除指定记录
+   * @param items
+   */
   remove(...items: T[]): Promise<void>;
+
+  /**
+   * 删除选中项
+   */
   removeSelected(): Promise<void>;
+
+  /**
+   * 对 Table 进行重新布局。当 Table 或其祖先元素由隐藏切换为显示时，可能需要调用此方法
+   */
+  doLayout(): void;
+
+  /**
+   * 跳转到指定页面
+   */
+  gotoPage(page: number): void;
+
+  /**
+   * 触发搜索, 会重置分页到首页
+   */
+  search(): void;
+
+  /**
+   * 刷新, 搜索参数、分页等不会变动
+   */
+  refresh(): void;
+
+  /**
+   * 重置到初始状态并重新加载
+   */
+  reset(): void;
+
+  /**
+   * 获取当前页数据
+   */
+  getList(): T[];
+
+  /**
+   * 替换当前页面数据
+   * @param list
+   */
+  setList(list: T[]): void;
 }
 
 /**
@@ -187,6 +262,7 @@ export interface FatTableColumnStyle {
 
   /**
    * 字段类名
+   * 如果是 query 列（注意 queryable 不会加），将加载 el-form-item 上
    */
   className?: ClassValue;
 
@@ -519,9 +595,10 @@ export interface FatTableProps<T extends {}, S extends {}>
    */
   enableErrorCapture?: boolean;
 
+  /**
+   * 无数据提示文案
+   */
   emptyText?: string;
-
-  // TODO: 其他表格属性
 }
 
 export interface PaginationState {

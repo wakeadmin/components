@@ -28,6 +28,7 @@ import {
   FatTableColumn,
   FatTableSort,
   FatTableFilter,
+  FatTableMethods,
 } from './types';
 import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { Query } from './query';
@@ -566,13 +567,13 @@ const FatTableInner = declareComponent({
     };
 
     // 选择指定行
-    const select = (items: any[]) => {
+    const select = (...items: any[]) => {
       items.forEach(i => {
         tableRef.value?.toggleRowSelection(i, true);
       });
     };
 
-    const unselect = (items: any[]) => {
+    const unselect = (...items: any[]) => {
       items.forEach(i => {
         tableRef.value?.toggleRowSelection(i, false);
       });
@@ -581,7 +582,7 @@ const FatTableInner = declareComponent({
     // 选择相关方法
     const selectAll = () => {
       selected.value = list.value.slice(0);
-      select(selected.value);
+      select(...selected.value);
     };
 
     const unselectAll = () => {
@@ -589,7 +590,16 @@ const FatTableInner = declareComponent({
       tableRef.value?.clearSelection();
     };
 
-    const tableInstance = {
+    const getTableRef = () => tableRef.value;
+    const getFormRef = () => formRef.value;
+    const doLayout = () => tableRef.value?.doLayout();
+    const gotoPage = (page: number) => handlePageCurrentChange(page);
+    const getList = () => list.value;
+    const setList = (newList: any[]) => (list.value = newList);
+
+    const tableInstance: FatTableMethods<any> = {
+      getTableRef,
+      getFormRef,
       remove,
       removeSelected,
       getSelected,
@@ -597,6 +607,13 @@ const FatTableInner = declareComponent({
       unselect,
       selectAll,
       unselectAll,
+      doLayout,
+      gotoPage,
+      search: leadingDebouncedSearch,
+      refresh: fetch,
+      reset,
+      getList,
+      setList,
     };
 
     expose(tableInstance);
