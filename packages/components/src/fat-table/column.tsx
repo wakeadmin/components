@@ -17,7 +17,7 @@ export const Column = declareComponent({
   props: declareProps<{
     column: FatTableColumn<any>;
     index: number;
-    tableInstance: FatTableMethods<any>;
+    tableInstance: FatTableMethods<any, any>;
     filter: FatTableFilter;
   }>(['column', 'index', 'tableInstance', 'filter']),
   setup(props) {

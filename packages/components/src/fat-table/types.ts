@@ -75,23 +75,58 @@ export interface FatTableRequestResponse<T> {
 }
 
 /**
- * 表格方法
+ * 表格方法、实例属性
  */
-export interface FatTableMethods<T> {
+export interface FatTableMethods<T, S> {
   /**
    * 获取底层 el-table 实例
    */
-  getTableRef(): TableMethods | undefined;
+  readonly tableRef: TableMethods | undefined;
 
   /**
    * 获取底层 el-form 实例
    */
-  getFormRef(): FormMethods | undefined;
+  readonly formRef: FormMethods | undefined;
 
   /**
    * 获取已选中的记录
    */
-  getSelected(): T[];
+  readonly selected: T[];
+
+  /**
+   * 查询表单
+   */
+  readonly query: S;
+
+  /**
+   * 当前排序字段
+   */
+  readonly sort?: FatTableSort;
+
+  /**
+   * 过滤字段
+   */
+  readonly filter: FatTableFilter;
+
+  /**
+   * 是否加载中
+   */
+  readonly loading: boolean;
+
+  /**
+   * 错误信息
+   */
+  readonly error?: Error;
+
+  /**
+   * 分页状态
+   */
+  readonly pagination: PaginationState;
+
+  /**
+   * 当前页数据
+   */
+  list: T[];
 
   /**
    * 选中指定记录
@@ -150,17 +185,18 @@ export interface FatTableMethods<T> {
    * 重置到初始状态并重新加载
    */
   reset(): void;
+}
+
+export interface FatTableSlots<T> {
+  /**
+   * 头部插槽, 在 query 之后
+   */
+  renderHeader?: () => any;
 
   /**
-   * 获取当前页数据
+   * 自定义错误展会
    */
-  getList(): T[];
-
-  /**
-   * 替换当前页面数据
-   * @param list
-   */
-  setList(list: T[]): void;
+  renderError?: (error: Error) => any;
 }
 
 /**
@@ -194,14 +230,14 @@ export interface FatTableEvents<T> {
 /**
  * --------------- actions 类型特定参数 -----------------
  */
-export interface FatTableColumnActions<T> {
+export interface FatTableColumnActions<T, S> {
   /**
    * 操作
    */
   actions?: (Omit<FatTableAction, 'onClick'> & {
     // 重载点击方法
     onClick: (
-      table: FatTableMethods<T>,
+      table: FatTableMethods<T, S>,
       row: T,
       action: FatTableAction,
       index: number
@@ -339,7 +375,7 @@ export interface FatTableColumnFilter {
   filteredValue?: any[];
 }
 
-export interface FatTableColumnLabel<T> {
+export interface FatTableColumnLabel<T, S> {
   // -------------- 标题 --------------
   /**
    * 文本标题
@@ -354,7 +390,7 @@ export interface FatTableColumnLabel<T> {
   /**
    * 自定义标题渲染
    */
-  renderLabel?: (index: number, column: FatTableColumn<T>) => any;
+  renderLabel?: (index: number, column: FatTableColumn<T, S>) => any;
 
   /**
    * 标题对齐
@@ -395,14 +431,15 @@ export interface FatTableColumnSelect<T> {
  */
 export interface FatTableColumn<
   T extends {},
+  S extends {} = {},
   K extends keyof T = keyof T,
   ValueType extends keyof AtomicProps = keyof AtomicProps,
   ValueProps = AtomicProps[ValueType]
-> extends FatTableColumnActions<T>,
+> extends FatTableColumnActions<T, S>,
     FatTableColumnForm<T>,
     FatTableColumnStyle,
     FatTableColumnFilter,
-    FatTableColumnLabel<T>,
+    FatTableColumnLabel<T, S>,
     FatTableColumnIndex,
     FatTableColumnSort,
     FatTableColumnSelect<T> {
@@ -617,7 +654,7 @@ export interface FatTableProps<T extends {}, S extends {}>
   /**
    * 列声明
    */
-  columns: FatTableColumn<T>[];
+  columns: FatTableColumn<T, S>[];
 
   /**
    * 是否显示 request 错误信息, 默认开启

@@ -12,7 +12,7 @@ import {
   MessageBox,
   MessageOptions,
 } from '@wakeadmin/component-adapter';
-import { VNode, ref, onMounted, reactive, nextTick, watch } from '@wakeadmin/demi';
+import { VNode, ref, onMounted, reactive, nextTick, watch, readonly } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObject } from '@wakeadmin/utils';
 
@@ -569,10 +569,6 @@ const FatTableInner = declareComponent({
       debouncedSearch();
     };
 
-    const getSelected = () => {
-      return selected.value;
-    };
-
     // 选择指定行
     const select = (...items: any[]) => {
       items.forEach(i => {
@@ -597,19 +593,45 @@ const FatTableInner = declareComponent({
       tableRef.value?.clearSelection();
     };
 
-    const getTableRef = () => tableRef.value;
-    const getFormRef = () => formRef.value;
     const doLayout = () => tableRef.value?.doLayout();
     const gotoPage = (page: number) => handlePageCurrentChange(page);
-    const getList = () => list.value;
-    const setList = (newList: any[]) => (list.value = newList);
 
-    const tableInstance: FatTableMethods<any> = {
-      getTableRef,
-      getFormRef,
+    const tableInstance: FatTableMethods<any, any> = {
+      get tableRef() {
+        return tableRef.value;
+      },
+      get formRef() {
+        return formRef.value;
+      },
+      get selected() {
+        return selected.value;
+      },
+      get list() {
+        return list.value;
+      },
+      set list(newList: any[]) {
+        list.value = newList;
+      },
+      get loading() {
+        return loading.value;
+      },
+      get error() {
+        return toUndefined(error.value);
+      },
+      get query() {
+        return query.value;
+      },
+      get filter() {
+        return filter;
+      },
+      get sort() {
+        return toUndefined(sort.value);
+      },
+      get pagination() {
+        return readonly(pagination);
+      },
       remove,
       removeSelected,
-      getSelected,
       select,
       unselect,
       selectAll,
@@ -619,8 +641,6 @@ const FatTableInner = declareComponent({
       search: leadingDebouncedSearch,
       refresh: fetch,
       reset,
-      getList,
-      setList,
     };
 
     expose(tableInstance);
@@ -635,72 +655,83 @@ const FatTableInner = declareComponent({
 
       return (
         <div class={normalizeClassName('fat-table', attrs.class)} style={attrs.style}>
-          {!!enableQuery && (
-            <Query
-              loading={loading.value}
-              formRef={() => formRef}
-              query={query.value}
-              formProps={props.formProps}
-              columns={props.columns}
-              enableSearchButton={enableSearchButton}
-              enableResetButton={enableResetButton}
-              searchText={props.searchText}
-              resetText={props.resetText}
-              onSubmit={leadingDebouncedSearch}
-              onReset={reset}
-            />
-          )}
+          <div class="fat-table__header">
+            {!!enableQuery && (
+              <div class="fat-table__query">
+                <Query
+                  loading={loading.value}
+                  formRef={() => formRef}
+                  query={query.value}
+                  formProps={props.formProps}
+                  columns={props.columns}
+                  enableSearchButton={enableSearchButton}
+                  enableResetButton={enableResetButton}
+                  searchText={props.searchText}
+                  resetText={props.resetText}
+                  onSubmit={leadingDebouncedSearch}
+                  onReset={reset}
+                />
+              </div>
+            )}
+          </div>
 
           <div class="fat-table__body">
             {!!(error.value && enableErrorCapture) && (
-              <Alert title="数据加载失败" type="error" showIcon description={error.value.message} closable={false} />
+              <div class="fat-table__error">
+                <Alert title="数据加载失败" type="error" showIcon description={error.value.message} closable={false} />
+              </div>
             )}
-            <Table
-              {...inheritProps()}
-              {...withDirectives([[vLoading, loading.value]])}
-              ref={tableRef}
-              data={list.value}
-              rowKey={props.rowKey}
-              onSelectionChange={handleSelectionChange}
-              onSortChange={handleSortChange}
-              onFilterChange={handleFilterChange}
-              defaultSort={toUndefined(sort.value)}
-              v-slots={{
-                empty() {
-                  return <Empty description={props.emptyText ?? '暂无数据'}></Empty>;
-                },
-              }}
-            >
-              {slots.beforeColumns?.()}
+            <div class="fat-table__table">
+              <Table
+                {...inheritProps()}
+                {...withDirectives([[vLoading, loading.value]])}
+                ref={tableRef}
+                data={list.value}
+                rowKey={props.rowKey}
+                onSelectionChange={handleSelectionChange}
+                onSortChange={handleSortChange}
+                onFilterChange={handleFilterChange}
+                defaultSort={toUndefined(sort.value)}
+                v-slots={{
+                  empty() {
+                    return <Empty description={props.emptyText ?? '暂无数据'}></Empty>;
+                  },
+                }}
+              >
+                {slots.beforeColumns?.()}
 
-              {columns?.map((column, index) => {
-                return (
-                  <Column
-                    key={genKey(column, index)}
-                    column={column}
-                    index={index}
-                    filter={filter}
-                    tableInstance={tableInstance}
-                  />
-                );
-              })}
-              {slots.afterColumns?.()}
-            </Table>
+                {columns?.map((column, index) => {
+                  return (
+                    <Column
+                      key={genKey(column, index)}
+                      column={column}
+                      index={index}
+                      filter={filter}
+                      tableInstance={tableInstance}
+                    />
+                  );
+                })}
+
+                {slots.afterColumns?.()}
+              </Table>
+            </div>
           </div>
 
           <div class="fat-table__footer">
             {props.enablePagination !== false && (
-              <Pagination
-                {...DEFAULT_PAGINATION_PROPS}
-                {...props.paginationProps}
-                class={['fat-table__pagination', props.paginationProps?.className]}
-                currentPage={pagination.current}
-                total={pagination.total}
-                pageSize={pagination.pageSize}
-                disabled={loading.value || props.paginationProps?.disabled}
-                onSizeChange={handlePageSizeChange}
-                onCurrentChange={handlePageCurrentChange}
-              ></Pagination>
+              <div class="fat-table__pagination">
+                <Pagination
+                  {...DEFAULT_PAGINATION_PROPS}
+                  {...props.paginationProps}
+                  class={['fat-table__pagination', props.paginationProps?.className]}
+                  currentPage={pagination.current}
+                  total={pagination.total}
+                  pageSize={pagination.pageSize}
+                  disabled={loading.value || props.paginationProps?.disabled}
+                  onSizeChange={handlePageSizeChange}
+                  onCurrentChange={handlePageCurrentChange}
+                ></Pagination>
+              </div>
             )}
           </div>
         </div>
