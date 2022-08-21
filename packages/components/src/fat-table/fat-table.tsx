@@ -12,7 +12,7 @@ import {
   MessageBox,
   MessageOptions,
 } from '@wakeadmin/component-adapter';
-import { VNode, ref, onMounted, reactive, nextTick, watch, readonly } from '@wakeadmin/demi';
+import { ref, onMounted, reactive, nextTick, watch, readonly } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObject } from '@wakeadmin/utils';
 
@@ -794,4 +794,4 @@ const FatTableInner = declareComponent({
   },
 });
 
-export const FatTable = FatTableInner as any as <T extends {}, S extends {}>(props: FatTableProps<T, S>) => VNode;
+export const FatTable = FatTableInner as any as <T extends {}, S extends {}>(props: FatTableProps<T, S>) => any;

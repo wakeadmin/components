@@ -8,7 +8,7 @@ export const AText = (props: AtomicCommonProps<string>) => {
   const { value, class: className, style } = props;
   return (
     <span class={normalizeClassName('wk-text', className)} style={style}>
-      {value ?? ''}
+      {value ? String(value) : ''}
     </span>
   );
 };

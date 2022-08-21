@@ -68,6 +68,7 @@ function safeCall(fn: any, args: any[]) {
     throw new Error(`[@wakeadmin/components] 期望接收到的是函数，当前为 ${typeof fn}`);
   }
 
+  // eslint-disable-next-line consistent-return
   return fn.apply(null, args);
 }
 
@@ -88,4 +89,17 @@ export function renderSlot(props: any, slots: any, name: string, ...args: any[])
     : slot != null
     ? safeCall(slot, args)
     : safeCall(renderFn, args);
+}
+
+/**
+ * 筛选可枚举的值
+ * @param value
+ * @returns
+ */
+export function pickEnumerable<T extends {}>(value: T): T {
+  return Object.keys(value).reduce<any>((prev, cur) => {
+    prev[cur] = (value as any)[cur];
+
+    return prev;
+  }, {});
 }

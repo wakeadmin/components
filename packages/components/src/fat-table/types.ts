@@ -735,6 +735,10 @@ export interface FatTableProps<T extends {}, S extends {}>
    * 标题
    */
   title?: string;
+
+  // vue 内置，一般不需要显示配置，我们这里配置了主要是为了方便 defineFatTable
+  class?: ClassValue;
+  style?: StyleValue;
 }
 
 export interface PaginationState {
