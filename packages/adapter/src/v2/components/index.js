@@ -12,3 +12,5 @@ export * from './MessageBox';
 export * from './Message';
 export * from './DatePicker';
 export * from './Tooltip';
+export * from './Row';
+export * from './Col';

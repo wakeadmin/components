@@ -12,3 +12,5 @@ export * from './shared';
 export * from './table';
 export * from './date-picker';
 export * from './tooltip';
+export * from './col';
+export * from './row';
