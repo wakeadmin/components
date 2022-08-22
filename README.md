@@ -18,4 +18,4 @@ ts.ensureScriptKind = function (fileName, ...args) {
 
 vue2
 
-暂时有 bug
+升级到 2.7.10+

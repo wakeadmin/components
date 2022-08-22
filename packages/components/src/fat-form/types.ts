@@ -1,4 +1,4 @@
-import { ColProps, FormMethods, RowProps, Size } from '@wakeadmin/component-adapter';
+import { ClassValue, ColProps, FormMethods, RowProps, Size, StyleValue } from '@wakeadmin/component-adapter';
 import { Atomic } from '../atomic';
 
 /**
@@ -15,6 +15,34 @@ export type FatFormMode = 'preview' | 'editable';
  * fat 表单实例方法
  */
 export interface FatFormMethods<S> {
+  /**
+   * 表单模式
+   */
+  readonly mode: FatFormMode;
+
+  /**
+   * 是否已经营
+   */
+  readonly disabled: boolean;
+
+  /**
+   * 错误信息
+   */
+  readonly error?: Error;
+
+  /**
+   * 正在加载中
+   */
+  readonly loading: boolean;
+
+  /**
+   * 表单提交中
+   */
+  readonly submitting: boolean;
+
+  /**
+   * 表单值
+   */
   values: S;
 
   /**
@@ -28,12 +56,18 @@ export interface FatFormMethods<S> {
   submit(): Promise<void>;
 
   /**
+   * 手动发起请求, 当 requestOnMounted 关闭时使用
+   */
+  request(): Promise<void>;
+
+  /**
    * 重置表单
    */
   reset(): void;
 
   /**
    * 对整个表单的内容进行验证。返回 boolean 表示是否验证通过
+   *
    * 注意： 和 element-ui 不一样的是，这个验证通过不会抛出异常
    */
   validate: () => Promise<boolean>;
@@ -47,6 +81,31 @@ export interface FatFormMethods<S> {
    * 清除表单验证
    */
   clearValidate: (props: string | string[]) => void;
+
+  /**
+   * 获取指定字段的值
+   * @param prop
+   */
+  getFieldValue(prop: string): any;
+
+  /**
+   * 设置指定字段的值
+   * @param prop
+   * @param value
+   */
+  setFieldValue(prop: string, value: any): void;
+
+  // 以下是私有方法
+
+  /**
+   * 设置字段值，prop 为字段路径，同 FatFormItemProps
+   *
+   * 这个方法用于初始化 prop，在 vue2 中这是必须的，否则对象无法响应
+   *
+   * @param prop
+   * @param value 初始值，可选
+   */
+  __setInitialValue(prop: string, value?: any): void;
 }
 
 /**
@@ -54,9 +113,19 @@ export interface FatFormMethods<S> {
  */
 export interface FatFormEvents<S> {
   /**
-   * 数据提交时触发
+   * 加载成功时触发
    */
-  onFinish?: (values: S) => Promise<void>;
+  onLoad?: (values: S) => void;
+
+  /**
+   * 数据提交完成时触发
+   */
+  onFinish?: (values: S) => void;
+
+  /**
+   * 提交失败时触发
+   */
+  onSubmitFailed?: (values: S, error: Error) => void;
 
   /**
    * 任一表单项被校验后触发
@@ -104,6 +173,18 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S> {
   request?: () => Promise<S>;
 
   /**
+   * 是否在挂在的时候就发起请求, 默认为 true
+   *
+   * 在新增场景可以关闭
+   */
+  requestOnMounted?: boolean;
+
+  /**
+   * 表单提交
+   */
+  submit?: (values: S) => Promise<void>;
+
+  /**
    * 表单布局， 默认为 horizontal
    */
   layout?: 'horizontal' | 'vertical' | 'inline';
@@ -115,6 +196,8 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S> {
 
   /**
    * 标签的长度，例如 '50px'。 作为 Form 直接子元素的 form-item 会继承该值。 可以使用 auto
+   *
+   * 默认为 'auto'
    */
   labelWidth?: string | number;
 
@@ -161,8 +244,19 @@ export interface FatFormGroupProps {
 /**
  * 用于获取表单实例，实现一些表单联动的场景
  */
-export interface FatFormConsumer<S extends {} = {}> {
-  renderChildren?: (form: FatFormMethods<S>) => any;
+export interface FatFormConsumerProps<S extends {} = {}> {
+  /**
+   * 也可以通过 #default slot
+   */
+  renderDefault?: (form: FatFormMethods<S>) => any;
+}
+
+export interface FatFormItemMethods<S extends {}> {
+  readonly form: FatFormMethods<S>;
+  readonly value: any;
+  readonly prop: string;
+  readonly props: FatFormItemProps<S, any>;
+  readonly disabled: boolean;
 }
 
 /**
@@ -182,7 +276,7 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   /**
    * 自定义标签渲染
    */
-  renderLabel?: () => any;
+  renderLabel?: (inst: FatFormItemMethods<S>) => any;
 
   /**
    * 表单域标签的的宽度，例如 '50px'。支持 auto
@@ -202,7 +296,14 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   /**
    * 字段路径。例如 a.b.c
    */
-  prop?: string;
+  prop: string;
+
+  /**
+   * 字段初始值
+   *
+   * note: 如果与 Form 的 initialValues 冲突则以 Form 为准
+   */
+  initialValue?: any;
 
   /**
    * 原件类型, 默认为 text
@@ -236,7 +337,7 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
    *
    * 禁用后当前字段将不会进行校验
    */
-  disabled?: boolean | ((instance: FatFormMethods<S>) => boolean);
+  disabled?: boolean | ((instance: FatFormItemMethods<S>) => boolean);
 
   /**
    * 表单大小, 会覆盖 FatForm 指定的大小
@@ -248,6 +349,16 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
    * 当列表中的字段变更后，通知当前字段进行重新验证
    */
   dependencies?: string[];
+
+  /**
+   * 原件类名
+   */
+  atomicClassName?: ClassValue;
+
+  /**
+   * 原件内联样式
+   */
+  atomicStyle?: StyleValue;
 
   // TODO: 插槽
   renderBefore?: () => any;

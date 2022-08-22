@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import FormView from '../views/FormView.vue';
 
 Vue.use(VueRouter);
 
@@ -10,6 +11,11 @@ const routes: RouteConfig[] = [
     path: '/',
     name: 'home',
     component: HomeView,
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: FormView,
   },
   {
     path: '/about',

@@ -1,28 +1,31 @@
-/**
- * 纯文本
- */
-import { globalRegistry, AtomicCommonProps } from '../../atomic';
-import { normalizeClassName } from '../../utils';
+import { InputProps, Input, model } from '@wakeadmin/component-adapter';
 
-export const AText = (props: AtomicCommonProps<string>) => {
-  const { value, class: className, style } = props;
-  return (
-    <span class={normalizeClassName('wk-text', className)} style={style}>
+import { globalRegistry, AtomicCommonProps, defineAtomic } from '../../atomic';
+
+export type AInputProps = AtomicCommonProps<string> & Omit<InputProps, 'value' | 'onChange' | 'disabled'>;
+
+export const ATextComponent = (props: AInputProps) => {
+  const { value, mode, onChange, ...other } = props;
+  return mode === 'preview' ? (
+    <span class={other.class} style={other.style}>
       {value ? String(value) : ''}
     </span>
+  ) : (
+    <Input {...model(value, onChange!)} {...other} />
   );
 };
 
-// 类型声明
 declare global {
   interface AtomicProps {
-    text: {};
+    input: AInputProps;
   }
 }
 
-globalRegistry.register('text', {
+export const AText = defineAtomic({
   name: 'text',
-  component: AText,
-  description: '纯文本展示',
+  component: ATextComponent,
+  description: '文本输入',
   author: 'ivan-lee',
 });
+
+globalRegistry.register('text', AText);

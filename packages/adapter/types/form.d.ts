@@ -1,21 +1,22 @@
 export interface FormMethods {
   validate: () => Promise<boolean>;
   resetFields: () => void;
-  clearValidate: () => void;
+  clearValidate: (props?: string | string[]) => void;
+  validateField: (props: string | string[]) => Promise<boolean>;
 }
 
 export interface FormProps {
   model?: any;
   rules?: Record<string, any>;
   labelPosition?: 'left' | 'right' | 'top';
-  labelWidth?: string;
+  labelWidth?: string | number;
   labelSuffix?: string;
   inline?: boolean;
   inlineMessage?: boolean;
   statusIcon?: boolean;
   showMessage?: boolean;
   size?: string;
-  disabled?: string;
+  disabled?: boolean;
   validateOnRuleChange?: string;
   hideRequiredAsterisk?: boolean;
 }
