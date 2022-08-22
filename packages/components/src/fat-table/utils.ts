@@ -23,10 +23,6 @@ export function validateColumns(columns?: FatTableColumn<any>[]) {
       if (column.prop == null && typeof column.queryable !== 'string') {
         throw new Error(`[fat-table] 表单列 (${column.label ?? i})必须配置 prop 或 queryable 字段`);
       }
-
-      if (column.valueType == null) {
-        throw new Error(`[fat-table] 表单列 (${column.label ?? i})必须配置 valueType 字段`);
-      }
     }
   }
 }
@@ -88,17 +84,17 @@ export function genKey(column: FatTableColumn<any>, index: number): string {
  */
 export const getAtom = (column: FatTableColumn<any>, registry: Registry) => {
   const valueType = column.valueType ?? 'text';
+
   // 按照 valueType 渲染
-  const atom = typeof valueType === 'function' ? valueType : registry.registered(valueType);
+  const atom = typeof valueType === 'object' ? valueType : registry.registered(valueType);
+
   if (atom == null) {
     throw new Error(`[fat-table] 未能识别类型为 ${valueType} 的原件`);
   }
 
-  const comp = typeof atom === 'function' ? atom : atom.component;
-
   return {
-    comp,
-    validate: typeof atom === 'function' ? undefined : atom.validate,
+    comp: atom.component,
+    validate: atom.validate,
   };
 };
 

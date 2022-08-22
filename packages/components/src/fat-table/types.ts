@@ -13,7 +13,7 @@ import {
   FormMethods,
 } from '@wakeadmin/component-adapter';
 
-import { AtomicCommonProps } from '../atomic';
+import { Atomic } from '../atomic';
 
 import { FatTableAction, FatTableActionsProps } from './table-actions';
 
@@ -493,8 +493,7 @@ export interface FatTableColumn<
   T extends {},
   S extends {} = {},
   K extends keyof T = keyof T,
-  ValueType extends keyof AtomicProps = keyof AtomicProps,
-  ValueProps = AtomicProps[ValueType]
+  ValueType extends keyof AtomicProps | Atomic = keyof AtomicProps
 > extends FatTableColumnActions<T, S>,
     FatTableColumnForm<T>,
     FatTableColumnStyle,
@@ -538,12 +537,16 @@ export interface FatTableColumn<
   /**
    * 字段原件类型, 默认为 text
    */
-  valueType?: ValueType | ((props: AtomicCommonProps<any>) => any);
+  valueType?: ValueType;
 
   /**
    * 字段选项
    */
-  valueProps?: ValueProps & Partial<AtomicCommonProps<any>>;
+  valueProps?: ValueType extends keyof AtomicProps
+    ? AtomicProps[ValueType]
+    : ValueType extends Atomic<any, infer B>
+    ? B
+    : Record<string, any>;
 }
 
 export interface FatTableRemove<T> {

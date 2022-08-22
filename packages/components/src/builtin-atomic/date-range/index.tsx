@@ -1,22 +1,23 @@
 import { DatePicker, DatePickerProps, model, DatePickerValue } from '@wakeadmin/component-adapter';
 import { formatDate } from '@wakeadmin/utils';
 
-import { globalRegistry, AtomicCommonProps } from '../../atomic';
+import { globalRegistry, AtomicCommonProps, defineAtomic } from '../../atomic';
 import { UNDEFINED_PLACEHOLDER } from '../../constants';
 
-export type ADateRangeProps = AtomicCommonProps<DatePickerValue> &
-  Omit<DatePickerProps, 'value' | 'onChange' | 'disabled' | 'modelValue' | 'onUpdate:modelValue' | 'type'> & {
-    /**
-     * 在 preview 时是否也是展示时间范围, 默认关闭
-     * 大部分场景表格展示的都是一个固定的时间点
-     */
-    previewInRange?: boolean;
+export interface ADateRangeProps
+  extends AtomicCommonProps<DatePickerValue>,
+    Omit<DatePickerProps, 'value' | 'onChange' | 'disabled' | 'modelValue' | 'onUpdate:modelValue' | 'type'> {
+  /**
+   * 在 preview 时是否也是展示时间范围, 默认关闭
+   * 大部分场景表格展示的都是一个固定的时间点
+   */
+  previewInRange?: boolean;
 
-    /**
-     * 预览时日期格式，默认同 format
-     */
-    previewFormat?: string;
-  };
+  /**
+   * 预览时日期格式，默认同 format
+   */
+  previewFormat?: string;
+}
 
 const preview = (value: any, inRange: boolean, format: string, rangeSeparator: string) => {
   const f = (v: any) => {
@@ -39,7 +40,7 @@ const preview = (value: any, inRange: boolean, format: string, rangeSeparator: s
   return UNDEFINED_PLACEHOLDER;
 };
 
-export const ADateRange = (props: ADateRangeProps) => {
+export const ADateRangeComponent = (props: ADateRangeProps) => {
   let { value, mode, onChange, previewFormat, previewInRange, ...other } = props;
 
   previewFormat = other.format ?? 'YYYY-MM-DD';
@@ -58,9 +59,11 @@ declare global {
   }
 }
 
-globalRegistry.register('date-range', {
+export const ADateRange = defineAtomic({
   name: 'date-range',
-  component: ADateRange,
+  component: ADateRangeComponent,
   description: '时间范围',
   author: 'ivan-lee',
 });
+
+globalRegistry.register('date-range', ADateRange);

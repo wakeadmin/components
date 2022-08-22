@@ -1,5 +1,5 @@
 import { ColProps, FormMethods, RowProps, Size } from '@wakeadmin/component-adapter';
-import { AtomicCommonProps } from '../atomic';
+import { Atomic } from '../atomic';
 
 /**
  * 参考 antd-pro https://procomponents.ant.design/components/field-set#%E5%AE%BD%E5%BA%A6
@@ -168,11 +168,7 @@ export interface FatFormConsumer<S extends {} = {}> {
 /**
  * fat 表单项属性
  */
-export interface FatFormItemProps<
-  S extends {} = {},
-  ValueType extends keyof AtomicProps = keyof AtomicProps,
-  ValueProps = AtomicProps[ValueType]
-> {
+export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | Atomic> {
   /**
    * 显式指定字段的模式。适用于编辑模式下，某些字段禁止编辑的场景
    */
@@ -209,20 +205,20 @@ export interface FatFormItemProps<
   prop?: string;
 
   /**
+   * 原件类型, 默认为 text
+   */
+  valueType?: K;
+
+  /**
+   * 原件属性
+   */
+  valueProps?: K extends keyof AtomicProps ? AtomicProps[K] : K extends Atomic<any, infer B> ? B : Record<string, any>;
+
+  /**
    * 验证规则
    * TODO: 完善类型
    */
   rules?: any;
-
-  /**
-   * 原件类型, 默认为 text
-   */
-  valueType?: ValueType | ((props: AtomicCommonProps<any>) => any);
-
-  /**
-   * 原件选项
-   */
-  valueProps?: ValueProps & Partial<AtomicCommonProps<any>>;
 
   /**
    * 网格列配置
@@ -237,9 +233,14 @@ export interface FatFormItemProps<
 
   /**
    * 是否禁用
+   *
+   * 禁用后当前字段将不会进行校验
    */
-  disabled?: boolean;
+  disabled?: boolean | ((instance: FatFormMethods<S>) => boolean);
 
+  /**
+   * 表单大小, 会覆盖 FatForm 指定的大小
+   */
   size?: Size;
 
   /**
