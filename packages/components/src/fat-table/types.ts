@@ -451,6 +451,11 @@ export interface FatTableColumnLabel<T, S> {
    * 标题对齐
    */
   labelAlign?: 'left' | 'center' | 'right';
+
+  /**
+   * 在 label 之后展示一个 icon， hover 提示
+   */
+  tooltip?: any;
 }
 
 export interface FatTableColumnIndex {

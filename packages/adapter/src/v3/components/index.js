@@ -11,3 +11,4 @@ export * from './Empty';
 export * from './MessageBox';
 export * from './Message';
 export * from './DatePicker';
+export * from './Tooltip';

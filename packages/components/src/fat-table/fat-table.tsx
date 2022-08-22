@@ -37,6 +37,8 @@ import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
 
+import './index.scss';
+
 const FatTableInner = declareComponent({
   name: 'FatTable',
   props: declareProps<FatTableProps<any, any>>([

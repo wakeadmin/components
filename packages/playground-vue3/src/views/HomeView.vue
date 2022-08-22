@@ -84,6 +84,7 @@
     {
       prop: 'name',
       label: 'Name',
+      tooltip: 'hello',
       valueType: 'input',
       queryable: true,
       initialValue: 'hello',

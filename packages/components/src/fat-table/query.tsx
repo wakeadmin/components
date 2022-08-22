@@ -1,7 +1,8 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { Form, FormItem, Button, FormMethods } from '@wakeadmin/component-adapter';
+import { Form, FormItem, Button, FormMethods, Tooltip } from '@wakeadmin/component-adapter';
 import { get, set as _set } from '@wakeadmin/utils';
 import { Ref } from '@wakeadmin/demi';
+import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
 import { AtomicCommonProps } from '../atomic';
@@ -105,10 +106,19 @@ export const Query = declareComponent({
                     class={column.type === 'query' ? column.className : undefined}
                     {...column.formItemProps}
                     v-slots={
-                      column.renderLabel
+                      column.renderLabel || column.tooltip
                         ? {
                             label: () => {
-                              return column.renderLabel?.(index, column);
+                              return (
+                                <span>
+                                  {column.renderLabel ? column.renderLabel(index, column) : column.label}
+                                  {!!column.tooltip && (
+                                    <Tooltip content={column.tooltip}>
+                                      <Inquiry class="fat-table__tooltip" />
+                                    </Tooltip>
+                                  )}
+                                </span>
+                              );
                             },
                           }
                         : undefined

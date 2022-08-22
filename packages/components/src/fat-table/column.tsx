@@ -1,6 +1,7 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { TableColumnProps, TableColumn } from '@wakeadmin/component-adapter';
+import { TableColumnProps, TableColumn, Tooltip } from '@wakeadmin/component-adapter';
 import { NoopObject, NoopArray } from '@wakeadmin/utils';
+import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
 
@@ -108,7 +109,21 @@ export const Column = declareComponent({
           key={key}
           prop={column.prop as string}
           label={column.label}
-          renderHeader={column.renderLabel?.bind(null, index, column)}
+          renderHeader={
+            column.renderLabel?.bind(null, index, column) ??
+            (column.tooltip
+              ? () => {
+                  return (
+                    <span>
+                      {column.label}
+                      <Tooltip v-slots={{ content: column.tooltip }}>
+                        <Inquiry class="fat-table__tooltip" />
+                      </Tooltip>
+                    </span>
+                  );
+                }
+              : undefined)
+          }
           // 样式
           className={column.className}
           labelClassName={column.labelClassName}

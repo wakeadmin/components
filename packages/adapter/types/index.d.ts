@@ -11,3 +11,4 @@ export * from './pagination';
 export * from './shared';
 export * from './table';
 export * from './date-picker';
+export * from './tooltip';
