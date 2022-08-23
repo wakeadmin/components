@@ -1,3 +1,5 @@
+import { Rule, Rules } from './async-validator';
+
 export interface FormMethods {
   validate: () => Promise<boolean>;
   resetFields: () => void;
@@ -7,7 +9,7 @@ export interface FormMethods {
 
 export interface FormProps {
   model?: any;
-  rules?: Record<string, any>;
+  rules?: Rules;
   labelPosition?: 'left' | 'right' | 'top';
   labelWidth?: string | number;
   labelSuffix?: string;
@@ -28,7 +30,7 @@ export interface FormItemProps {
   labelWidth?: string | number;
   prop?: string;
   required?: boolean;
-  rules?: any[];
+  rules?: Rule;
   error?: string;
   inlineMessage?: boolean;
   showMessage?: boolean;

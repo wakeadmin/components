@@ -1,5 +1,7 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { FormItem } from '@wakeadmin/component-adapter';
+import { watch, computed } from '@wakeadmin/demi';
+import { get, debounce } from '@wakeadmin/utils';
 
 import { Atomic } from '../atomic';
 
@@ -7,7 +9,6 @@ import { useFatFormContext } from './hooks';
 import { FatFormItemMethods, FatFormItemProps } from './types';
 import { validateFormItemProps } from './utils';
 import { useAtomicRegistry } from '../hooks';
-import { computed } from '@wakeadmin/demi';
 import { normalizeClassName } from '../utils';
 
 const FatFormItemInner = declareComponent({
@@ -87,6 +88,31 @@ const FatFormItemInner = declareComponent({
 
       return fatForm.disabled;
     });
+
+    // 监听 dependencies 重新进行验证
+    watch(
+      (): any[] | undefined => {
+        if (props.dependencies == null) {
+          return;
+        }
+
+        const paths = Array.isArray(props.dependencies) ? props.dependencies : [props.dependencies];
+
+        // eslint-disable-next-line consistent-return
+        return paths.map(p => {
+          return get(fatForm.values, p);
+        });
+      },
+      debounce(values => {
+        // touched 状态下才验证
+        if (values == null || !fatForm.isFieldTouched(props.prop)) {
+          return;
+        }
+
+        // 验证自身
+        fatForm.validateField(props.prop);
+      }, 500)
+    );
 
     expose(instance);
 

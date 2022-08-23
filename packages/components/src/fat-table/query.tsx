@@ -69,7 +69,7 @@ export const Query = declareComponent({
                 const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
                 const key = `${prop}_${index}`;
                 const { comp, validate } = getAtom(column, atomics);
-                const rules = column.formItemProps?.rules ?? [];
+                let rules = column.formItemProps?.rules ?? [];
 
                 const atomProps = composeAtomProps(
                   {
@@ -87,14 +87,20 @@ export const Query = declareComponent({
 
                 // 原件内置的验证规则
                 if (validate) {
+                  if (!Array.isArray(rules)) {
+                    rules = [rules];
+                  }
+
                   // 验证
-                  rules.push(async (rule: any, value: any, callback: any) => {
-                    try {
-                      await validate(value, atomProps, query);
-                      callback();
-                    } catch (err) {
-                      callback(err);
-                    }
+                  rules.push({
+                    validator: async (rule: any, value: any, callback: any) => {
+                      try {
+                        await validate(value, atomProps, query);
+                        callback();
+                      } catch (err) {
+                        callback(err);
+                      }
+                    },
                   });
                 }
 

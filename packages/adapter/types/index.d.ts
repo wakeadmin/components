@@ -14,3 +14,4 @@ export * from './date-picker';
 export * from './tooltip';
 export * from './col';
 export * from './row';
+export * from './async-validator';

@@ -22,6 +22,7 @@ const FatFormInner = declareComponent({
     'labelSuffix',
     'size',
     'disabled',
+    'rules',
   ]),
   setup(props, { slots, expose }) {
     const requestOnMounted = props.requestOnMounted ?? true;
@@ -30,6 +31,7 @@ const FatFormInner = declareComponent({
     const submitting = ref(false);
     const error = ref<Error>();
     const values = ref({});
+    let touched: Record<string, boolean> = {};
 
     /**
      * 初始值
@@ -134,6 +136,8 @@ const FatFormInner = declareComponent({
       formRef.value?.clearValidate();
 
       values.value = cloneDeep(initialValue);
+
+      touched = {};
     };
 
     /**
@@ -152,9 +156,20 @@ const FatFormInner = declareComponent({
      */
     const setFieldValue = (prop: string, value: any) => {
       set(values.value, prop, value);
+      touched[prop] = true;
     };
 
-    // 私有方法
+    const isFieldTouched = (prop: string | string[], allTouched = true): boolean => {
+      const p = Array.isArray(prop) ? prop : [prop];
+
+      if (allTouched) {
+        return p.every(i => touched[i]);
+      } else {
+        return p.some(i => touched[i]);
+      }
+    };
+
+    // ------ 以下是 私有方法 --------
     const __setInitialValue = (prop: string, value: any) => {
       if (!hasByPath(initialValue, prop)) {
         set(initialValue, prop, value);
@@ -197,6 +212,7 @@ const FatFormInner = declareComponent({
       validateField,
       getFieldValue,
       setFieldValue,
+      isFieldTouched,
       __setInitialValue,
     };
 
@@ -211,12 +227,14 @@ const FatFormInner = declareComponent({
       return (
         <Form
           ref={formRef}
+          model={values.value}
           labelWidth={props.labelWidth ?? 'auto'}
           labelPosition={layout === 'vertical' ? 'top' : labelAlign}
           inline={layout === 'inline'}
           labelSuffix={labelSuffix}
           size={props.size && size(props.size)}
           disabled={props.disabled}
+          rules={props.rules}
         >
           {slots.default?.()}
         </Form>

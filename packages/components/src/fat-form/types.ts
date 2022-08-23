@@ -1,4 +1,14 @@
-import { ClassValue, ColProps, FormMethods, RowProps, Size, StyleValue } from '@wakeadmin/component-adapter';
+import {
+  ClassValue,
+  ColProps,
+  FormMethods,
+  RowProps,
+  Size,
+  StyleValue,
+  Rule,
+  Rules,
+} from '@wakeadmin/component-adapter';
+
 import { Atomic } from '../atomic';
 
 /**
@@ -76,6 +86,12 @@ export interface FatFormMethods<S> {
    * 验证某个字段
    */
   validateField: (props: string | string[]) => Promise<boolean>;
+
+  /**
+   * 检查对应字段是否被用户操作过
+   * @param allTouched 如果传递多个 prop, allTouched 用于控制是否所有字段都 touch 了才返回true。默认为 true
+   */
+  isFieldTouched: (props: string | string[], allTouched?: boolean) => boolean;
 
   /**
    * 清除表单验证
@@ -216,6 +232,11 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S> {
    */
   disabled?: false;
 
+  /**
+   * 验证规则
+   */
+  rules?: Rules;
+
   // TODO: 其他 el-form 属性
 }
 
@@ -317,9 +338,8 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
 
   /**
    * 验证规则
-   * TODO: 完善类型
    */
-  rules?: any;
+  rules?: Rule;
 
   /**
    * 网格列配置
@@ -348,7 +368,7 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
    * 声明该字段依赖的字段，格式同 prop
    * 当列表中的字段变更后，通知当前字段进行重新验证
    */
-  dependencies?: string[];
+  dependencies?: string[] | string;
 
   /**
    * 原件类名
@@ -364,3 +384,5 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   renderBefore?: () => any;
   renderChildren?: () => any;
 }
+
+export { Rules, Rule } from '@wakeadmin/component-adapter';
