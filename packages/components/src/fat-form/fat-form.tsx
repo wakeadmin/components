@@ -155,7 +155,8 @@ const FatFormInner = declareComponent({
      * @param value
      */
     const setFieldValue = (prop: string, value: any) => {
-      set(values.value, prop, value);
+      setByPath(values.value, prop, value);
+
       touched[prop] = true;
     };
 
@@ -174,6 +175,7 @@ const FatFormInner = declareComponent({
       if (!hasByPath(initialValue, prop)) {
         set(initialValue, prop, value);
 
+        // vue2 兼容
         setByPath(values.value, prop, value);
       }
     };

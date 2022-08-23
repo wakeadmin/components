@@ -1,4 +1,4 @@
-import { getCurrentInstance, isVue2, set as $set } from '@wakeadmin/demi';
+import { getCurrentInstance, isVue2, set as $set, isReactive } from '@wakeadmin/demi';
 import { LooseClassValue, ClassValue, LooseStyleValue, StyleValue } from '@wakeadmin/component-adapter';
 import { NoopObject, omit, upperFirst, set } from '@wakeadmin/utils';
 import toPath from 'lodash/toPath';
@@ -126,7 +126,7 @@ function isNumeric(str: string) {
 }
 
 /**
- * 通过路径设置, 适用于 vue2
+ * 通过路径设置, 适用于 vue2。
  *
  * fork from https://github.com/kouts/vue-set-path/blob/main/src/vueSetPath.js
  *
@@ -154,8 +154,7 @@ export function setByPath(target: any, key: string, value: any) {
 
       // If objValue exists, is not primitive and is not observable, then make it so using Vue.set
       if (objValue && typeof objValue === 'object') {
-        // eslint-disable-next-line no-prototype-builtins
-        if (!objValue.hasOwnProperty('__ob__')) {
+        if (!isReactive(objValue)) {
           $set(target, prop, objValue);
         }
         // Array to object transformation
