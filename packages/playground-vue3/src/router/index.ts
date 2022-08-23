@@ -1,12 +1,17 @@
-
 import { RouteRecordRaw } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import FormView from '../views/FormView.vue';
 
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: FormView,
   },
   {
     path: '/about',
@@ -17,5 +22,3 @@ export const routes: RouteRecordRaw[] = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
   },
 ];
-
-

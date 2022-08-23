@@ -1,0 +1,31 @@
+.fat-space {
+  display: flex;
+}
+
+.fat-space--inline {
+  display: inline-flex;
+}
+
+.fat-space--vertical {
+  flex-direction: column;
+}
+
+.fat-space--wrap {
+  flex-wrap: wrap;
+}
+
+.fat-space--align-start {
+  align-items: start;
+}
+
+.fat-space--align-end {
+  align-items: end;
+}
+
+.fat-space--align-center {
+  align-items: center;
+}
+
+.fat-space--align-baseline {
+  align-items: baseline;
+}

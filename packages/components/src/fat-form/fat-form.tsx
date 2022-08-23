@@ -6,7 +6,7 @@ import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
 import { hasByPath, setByPath } from '../utils';
 
 import { FatFormMethods, FatFormProps } from './types';
-import { FatFormContext } from './constants';
+import { FatFormContext, FatFormInheritanceContext } from './constants';
 
 const FatFormInner = declareComponent({
   name: 'FatForm',
@@ -185,6 +185,9 @@ const FatFormInner = declareComponent({
       get mode() {
         return props.mode ?? 'editable';
       },
+      get layout() {
+        return props.layout ?? 'horizontal';
+      },
       get disabled() {
         return !!props.disabled;
       },
@@ -223,6 +226,21 @@ const FatFormInner = declareComponent({
     });
 
     provide(FatFormContext, instance);
+    provide(FatFormInheritanceContext, {
+      get mode() {
+        return instance.mode;
+      },
+      get disabled() {
+        return instance.disabled;
+      },
+      get hidden() {
+        return false;
+      },
+      get size() {
+        return props.size;
+      },
+    });
+
     expose(instance);
 
     const handleSubmit = (evt: SubmitEvent) => {
@@ -232,7 +250,7 @@ const FatFormInner = declareComponent({
     };
 
     return () => {
-      const layout = props.layout ?? 'horizontal';
+      const layout = instance.layout;
       const labelAlign = props.labelAlign ?? 'right';
       const labelSuffix = props.labelSuffix ?? '：';
 

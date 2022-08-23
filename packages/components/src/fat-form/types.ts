@@ -7,9 +7,11 @@ import {
   StyleValue,
   Rule,
   Rules,
+  CommonProps,
 } from '@wakeadmin/component-adapter';
 
 import { Atomic } from '../atomic';
+import { FatSpaceSize } from '../fat-space/types';
 
 /**
  * 参考 antd-pro https://procomponents.ant.design/components/field-set#%E5%AE%BD%E5%BA%A6
@@ -21,6 +23,8 @@ export type FatFormWidth = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
  */
 export type FatFormMode = 'preview' | 'editable';
 
+export type FatFormLayout = 'horizontal' | 'vertical' | 'inline';
+
 /**
  * fat 表单实例方法
  */
@@ -29,6 +33,11 @@ export interface FatFormMethods<S> {
    * 表单模式
    */
   readonly mode: FatFormMode;
+
+  /**
+   * 表单布局
+   */
+  readonly layout: FatFormLayout;
 
   /**
    * 是否已经营
@@ -241,28 +250,6 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S> {
 }
 
 /**
- * fat 表单分组属性
- */
-export interface FatFormGroupProps {
-  /**
-   * 标题, 支持字符串或 jsx，也可以使用 renderTitle 或者 title slot
-   */
-  title?: any;
-
-  renderTitle?: () => any;
-
-  /**
-   * 间隔大小
-   */
-  gutter?: number | string;
-
-  /**
-   * 是否作为 el-row
-   */
-  rowProps?: RowProps | boolean;
-}
-
-/**
  * 用于获取表单实例，实现一些表单联动的场景
  */
 export interface FatFormConsumerProps<S extends {} = {}> {
@@ -277,13 +264,12 @@ export interface FatFormItemMethods<S extends {}> {
   readonly value: any;
   readonly prop: string;
   readonly props: FatFormItemProps<S, any>;
-  readonly disabled: boolean;
+  readonly disabled?: boolean;
+  readonly hidden?: boolean;
+  readonly mode?: FatFormMode;
 }
 
-/**
- * fat 表单项属性
- */
-export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | Atomic> {
+export interface FatFormItemShared {
   /**
    * 显式指定字段的模式。适用于编辑模式下，某些字段禁止编辑的场景
    */
@@ -293,11 +279,6 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
    * 标签, 也可以使用 label slot 或 renderLabel
    */
   label?: any;
-
-  /**
-   * 自定义标签渲染
-   */
-  renderLabel?: (inst: FatFormItemMethods<S>) => any;
 
   /**
    * 表单域标签的的宽度，例如 '50px'。支持 auto
@@ -314,6 +295,102 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
    */
   message?: any;
 
+  /**
+   * 网格列配置
+   * 如果配置了该项， 会使用 el-col 包裹
+   */
+  col?: ColProps & CommonProps;
+
+  /**
+   * 字段宽度(不包含label)
+   */
+  width?: number | FatFormWidth;
+
+  /**
+   * 表单大小, 会覆盖 FatForm 指定的大小
+   */
+  size?: Size;
+}
+
+/**
+ * 可以按层级继承的属性
+ */
+export interface FatFormItemInheritableProps {
+  mode?: FatFormMode;
+  disabled?: boolean;
+  size?: Size;
+  hidden?: boolean;
+}
+
+export interface FatFormGroupSlots<S> {
+  renderLabel?: (inst: FatFormMethods<S>) => any;
+  renderDefault?: (inst: FatFormMethods<S>) => any;
+}
+
+/**
+ * fat 表单分组属性
+ */
+export interface FatFormGroupProps<S> extends FatFormItemShared, FatFormGroupSlots<S> {
+  /**
+   * 间隔大小.
+   * 当开启了 row， gutter 会设置 row 的 gutter props
+   * 否则作为  fat-space 组件的 size
+   *
+   * 默认 huge
+   */
+  gutter?: FatSpaceSize;
+
+  /**
+   * 是否作为 el-row, 当设置了改属性，children 会使用 el-row 包裹
+   */
+  row?: RowProps & CommonProps;
+
+  /**
+   * 是否隐藏。下级 form-item 会继承
+   *
+   * 隐藏后当前字段将不会进行校验
+   */
+  hidden?: boolean | ((instance: FatFormMethods<S>) => boolean);
+
+  /**
+   * 是否禁用。下级 form-item 会继承
+   *
+   * 禁用后当前字段将不会进行校验
+   */
+  disabled?: boolean | ((instance: FatFormMethods<S>) => boolean);
+
+  /**
+   * 是否必填，会显示必填符号，但不会有实际作用
+   */
+  required?: boolean;
+}
+
+/**
+ * fat 表单项插槽
+ */
+export interface FatFormItemSlots<S> {
+  /**
+   * 自定义标签渲染
+   */
+  renderLabel?: (inst: FatFormItemMethods<S>) => any;
+
+  /**
+   * 原件之前
+   */
+  renderBefore?: (inst: FatFormItemMethods<S>) => any;
+
+  /**
+   * 原件之后
+   */
+  renderDefault?: (inst: FatFormItemMethods<S>) => any;
+}
+
+/**
+ * fat 表单项属性
+ */
+export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | Atomic>
+  extends FatFormItemShared,
+    FatFormItemSlots<S> {
   /**
    * 字段路径。例如 a.b.c
    */
@@ -342,17 +419,6 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   rules?: Rule | ((values: S, form: FatFormMethods<S>) => Rule);
 
   /**
-   * 网格列配置
-   * 如果配置了该项， 会使用 el-col 包裹
-   */
-  colProps?: ColProps;
-
-  /**
-   * 字段宽度(不包含label)
-   */
-  width?: number | FatFormWidth;
-
-  /**
    * 是否隐藏
    *
    * 隐藏后当前字段将不会进行校验
@@ -365,11 +431,6 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
    * 禁用后当前字段将不会进行校验
    */
   disabled?: boolean | ((instance: FatFormItemMethods<S>) => boolean);
-
-  /**
-   * 表单大小, 会覆盖 FatForm 指定的大小
-   */
-  size?: Size;
 
   /**
    * 声明该字段依赖的字段，格式同 prop
@@ -386,10 +447,6 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
    * 原件内联样式
    */
   atomicStyle?: StyleValue;
-
-  // TODO: 插槽
-  renderBefore?: () => any;
-  renderChildren?: () => any;
 }
 
 export { Rules, Rule } from '@wakeadmin/component-adapter';

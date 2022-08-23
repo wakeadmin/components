@@ -1,15 +1,15 @@
-import { declareComponent, declareProps } from '@wakeadmin/h';
-import { FormItem } from '@wakeadmin/component-adapter';
+import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
+import { FormItem, Col } from '@wakeadmin/component-adapter';
 import { watch, computed } from '@wakeadmin/demi';
 import { get, debounce } from '@wakeadmin/utils';
 
 import { Atomic } from '../atomic';
 
-import { useFatFormContext } from './hooks';
-import { FatFormItemMethods, FatFormItemProps } from './types';
+import { useFatFormContext, useInheritableProps } from './hooks';
+import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
 import { validateFormItemProps } from './utils';
 import { useAtomicRegistry } from '../hooks';
-import { normalizeClassName, normalizeStyle } from '../utils';
+import { hasSlots, normalizeClassName, normalizeStyle, renderSlot, ToHSlotDefinition } from '../utils';
 
 const FatFormItemInner = declareComponent({
   name: 'FatFormItem',
@@ -24,7 +24,7 @@ const FatFormItemInner = declareComponent({
     'valueType',
     'valueProps',
     'rules',
-    'colProps',
+    'col',
     'width',
     'disabled',
     'hidden',
@@ -32,12 +32,19 @@ const FatFormItemInner = declareComponent({
     'dependencies',
     'atomicClassName',
     'atomicStyle',
+
+    // slots here
     'renderLabel',
+    'renderBefore',
+    'renderDefault',
   ]),
-  setup(props, { attrs, expose }) {
+  slots: declareSlots<ToHSlotDefinition<FatFormItemSlots<any>>>(),
+  setup(props, { attrs, expose, slots }) {
     validateFormItemProps(props);
+
     const fatForm = useFatFormContext()!;
     const registry = useAtomicRegistry();
+    const inheritProps = useInheritableProps();
 
     // 初始化
     fatForm.__setInitialValue(props.prop!, props.initialValue);
@@ -62,6 +69,14 @@ const FatFormItemInner = declareComponent({
       return fatForm.getFieldValue(props.prop);
     });
 
+    const mode = computed(() => {
+      return props.mode ?? inheritProps?.mode;
+    });
+
+    const size = computed(() => {
+      return props.size ?? inheritProps?.size;
+    });
+
     const instance: FatFormItemMethods<any> = {
       get form() {
         return fatForm;
@@ -79,21 +94,37 @@ const FatFormItemInner = declareComponent({
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         return disabled.value;
       },
+      get hidden() {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        return hidden.value;
+      },
+      get mode() {
+        return mode.value;
+      },
     };
 
     const disabled = computed(() => {
-      if (typeof props.disabled !== 'undefined') {
-        if (typeof props.disabled === 'function') {
-          return props.disabled(instance);
-        }
-        return props.disabled;
+      let d: boolean | undefined;
+
+      if (typeof props.disabled === 'function') {
+        d = props.disabled(instance);
+      } else {
+        d = props.disabled;
       }
 
-      return fatForm.disabled;
+      return d ?? inheritProps?.disabled;
     });
 
     const hidden = computed(() => {
-      return typeof props.hidden === 'function' ? props.hidden(instance) : props.hidden;
+      let h: boolean | undefined;
+
+      if (typeof props.hidden === 'function') {
+        h = props.hidden(instance);
+      } else {
+        h = props.hidden;
+      }
+
+      return h ?? inheritProps?.hidden;
     });
 
     /**
@@ -105,6 +136,10 @@ const FatFormItemInner = declareComponent({
 
     const rules = computed(() => {
       return typeof props.rules === 'function' ? props.rules(fatForm.values, fatForm) : props.rules;
+    });
+
+    const hasLabel = computed(() => {
+      return !!(props.label || !!props.renderLabel || !!slots.label);
     });
 
     // 监听 dependencies 重新进行验证
@@ -136,21 +171,30 @@ const FatFormItemInner = declareComponent({
 
     return () => {
       const atom = getAtom();
-      const mode = props.mode ?? fatForm.mode;
 
-      return (
+      // 这里要修复一下 element-ui / element-plus 对 label 的处理的一些区别
+      const labelSlot = hasSlots(props, slots, 'label')
+        ? { label: renderSlot(props, slots, 'label') }
+        : // 显式定义了 labelWidth auto, 需要加上 label 占位符
+        !hasLabel.value && props.labelWidth !== undefined
+        ? { label: <span /> }
+        : undefined;
+
+      let node = (
         <FormItem
           prop={props.prop}
-          class={normalizeClassName('fat-form-item', attrs.class)}
-          style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, attrs.style)}
+          class={normalizeClassName('fat-form-item', props.col ? undefined : attrs.class)}
+          style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, props.col ? undefined : attrs.style)}
           label={props.label}
-          labelWidth={props.labelWidth}
+          // element-plus labelWidth auto 情况下，嵌套 form item 使用会创建 label，所以当没有 label 时这里显式设置为 0
+          labelWidth={props.labelWidth ?? (hasLabel.value ? undefined : '0px')}
           rules={validateEnabled.value ? rules.value : undefined}
-          size={props.size}
-          v-slots={props.renderLabel?.bind(instance)}
+          size={size.value}
+          v-slots={labelSlot}
         >
+          {renderSlot(props, slots, 'before')}
           {atom.component({
-            mode,
+            mode: mode.value ?? 'editable',
             scene: 'form',
             value: value.value,
             onChange: handleChange,
@@ -160,8 +204,23 @@ const FatFormItemInner = declareComponent({
             style: props.atomicStyle,
             ...props.valueProps,
           })}
+          {renderSlot(props, slots, 'default')}
         </FormItem>
       );
+
+      if (props.col) {
+        node = (
+          <Col
+            {...props.col}
+            class={normalizeClassName('fat-form-col', props.col?.class, attrs.class)}
+            style={normalizeStyle(props.col?.style, attrs.style)}
+          >
+            {node}
+          </Col>
+        );
+      }
+
+      return node;
     };
   },
 });
