@@ -2,9 +2,9 @@ import { InputProps, Input, model } from '@wakeadmin/component-adapter';
 
 import { globalRegistry, AtomicCommonProps, defineAtomic } from '../../atomic';
 
-export type AInputProps = AtomicCommonProps<string> & Omit<InputProps, 'value' | 'onChange' | 'disabled'>;
+export type ATextProps = AtomicCommonProps<string> & Omit<InputProps, 'value' | 'onChange' | 'disabled'>;
 
-export const ATextComponent = (props: AInputProps) => {
+export const ATextComponent = (props: ATextProps) => {
   const { value, mode, onChange, ...other } = props;
   return mode === 'preview' ? (
     <span class={other.class} style={other.style}>
@@ -17,7 +17,7 @@ export const ATextComponent = (props: AInputProps) => {
 
 declare global {
   interface AtomicProps {
-    input: AInputProps;
+    text: ATextProps;
   }
 }
 

@@ -9,14 +9,13 @@ import { useFatFormContext } from './hooks';
 import { FatFormItemMethods, FatFormItemProps } from './types';
 import { validateFormItemProps } from './utils';
 import { useAtomicRegistry } from '../hooks';
-import { normalizeClassName } from '../utils';
+import { normalizeClassName, normalizeStyle } from '../utils';
 
 const FatFormItemInner = declareComponent({
   name: 'FatFormItem',
   props: declareProps<FatFormItemProps<any, any>>([
     'mode',
     'label',
-    'renderLabel',
     'labelWidth',
     'tooltip',
     'message',
@@ -28,8 +27,12 @@ const FatFormItemInner = declareComponent({
     'colProps',
     'width',
     'disabled',
+    'hidden',
     'size',
     'dependencies',
+    'atomicClassName',
+    'atomicStyle',
+    'renderLabel',
   ]),
   setup(props, { attrs, expose }) {
     validateFormItemProps(props);
@@ -89,6 +92,21 @@ const FatFormItemInner = declareComponent({
       return fatForm.disabled;
     });
 
+    const hidden = computed(() => {
+      return typeof props.hidden === 'function' ? props.hidden(instance) : props.hidden;
+    });
+
+    /**
+     * 是否开启字段验证
+     */
+    const validateEnabled = computed(() => {
+      return !hidden.value && !disabled.value;
+    });
+
+    const rules = computed(() => {
+      return typeof props.rules === 'function' ? props.rules(fatForm.values, fatForm) : props.rules;
+    });
+
     // 监听 dependencies 重新进行验证
     watch(
       (): any[] | undefined => {
@@ -105,7 +123,7 @@ const FatFormItemInner = declareComponent({
       },
       debounce(values => {
         // touched 状态下才验证
-        if (values == null || !fatForm.isFieldTouched(props.prop)) {
+        if (values == null || !fatForm.isFieldTouched(props.prop) || !validateEnabled.value) {
           return;
         }
 
@@ -124,10 +142,10 @@ const FatFormItemInner = declareComponent({
         <FormItem
           prop={props.prop}
           class={normalizeClassName('fat-form-item', attrs.class)}
-          style={attrs.style}
+          style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, attrs.style)}
           label={props.label}
           labelWidth={props.labelWidth}
-          rules={disabled.value ? undefined : props.rules}
+          rules={validateEnabled.value ? rules.value : undefined}
           size={props.size}
           v-slots={props.renderLabel?.bind(instance)}
         >
@@ -148,6 +166,9 @@ const FatFormItemInner = declareComponent({
   },
 });
 
-export const FatFormItem = FatFormItemInner as unknown as <S extends {}, K extends keyof AtomicProps | Atomic>(
+export const FatFormItem = FatFormItemInner as unknown as <
+  S extends {} = any,
+  K extends keyof AtomicProps | Atomic = 'text'
+>(
   props: FatFormItemProps<S, K>
 ) => any;

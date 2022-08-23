@@ -235,7 +235,7 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S> {
   /**
    * 验证规则
    */
-  rules?: Rules;
+  rules?: Rules | ((values: S, form: FatFormMethods<S>) => Rules);
 
   // TODO: 其他 el-form 属性
 }
@@ -339,7 +339,7 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   /**
    * 验证规则
    */
-  rules?: Rule;
+  rules?: Rule | ((values: S, form: FatFormMethods<S>) => Rule);
 
   /**
    * 网格列配置
@@ -348,9 +348,16 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   colProps?: ColProps;
 
   /**
-   * 字段宽度
+   * 字段宽度(不包含label)
    */
   width?: number | FatFormWidth;
+
+  /**
+   * 是否隐藏
+   *
+   * 隐藏后当前字段将不会进行校验
+   */
+  hidden?: boolean | ((instance: FatFormItemMethods<S>) => boolean);
 
   /**
    * 是否禁用

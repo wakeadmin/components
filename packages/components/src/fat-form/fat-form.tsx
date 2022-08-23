@@ -1,6 +1,6 @@
 import { Form, FormMethods, size } from '@wakeadmin/component-adapter';
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { ref, provide } from '@wakeadmin/demi';
+import { ref, provide, computed } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
 
 import { hasByPath, setByPath } from '../utils';
@@ -216,8 +216,18 @@ const FatFormInner = declareComponent({
       __setInitialValue,
     };
 
+    const rules = computed(() => {
+      return typeof props.rules === 'function' ? props.rules(values.value, instance) : props.rules;
+    });
+
     provide(FatFormContext, instance);
     expose(instance);
+
+    const handleSubmit = (evt: SubmitEvent) => {
+      evt.preventDefault();
+
+      submit();
+    };
 
     return () => {
       const layout = props.layout ?? 'horizontal';
@@ -234,7 +244,12 @@ const FatFormInner = declareComponent({
           labelSuffix={labelSuffix}
           size={props.size && size(props.size)}
           disabled={props.disabled}
-          rules={props.rules}
+          rules={rules.value}
+          // @ts-expect-error 原生事件
+          // vue3
+          onSubmit={handleSubmit}
+          // vue2
+          onSubmitNative={handleSubmit}
         >
           {slots.default?.()}
         </Form>

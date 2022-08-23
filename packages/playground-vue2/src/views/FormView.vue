@@ -9,9 +9,21 @@
       <FatFormItem label="姓名(a,b)" prop="a.b" initial-value="bbb" />
       <FatFormItem label="年龄(a.d)" prop="a.d" :rules="{ required: true }" />
       <FatFormItem label="身份证(b.a)" prop="b.a" initial-value="b.a" />
+      <FatFormItem :hidden="true" label="隐藏" prop="a.c" />
       <FatFormItem label="密码" prop="password" :rules="[{ required: true }]" />
-      <FatFormItem label="确认密码" prop="passwordConfirm" :rules="rulesForConfirmPassword" dependencies="password" />
-      <FatFormConsumer v-slot="scope">{{ JSON.stringify(scope.values) }}</FatFormConsumer>
+      <FatFormItem
+        label="确认密码"
+        prop="passwordConfirm"
+        :rules="rulesForConfirmPassword"
+        dependencies="password"
+        :disabled="f => f.form.values.password === 'disabled'"
+      />
+      <FatFormConsumer v-slot="scope">
+        <div>
+          {{ JSON.stringify(scope.values) }}
+          <button type="submit">submit</button>
+        </div>
+      </FatFormConsumer>
     </FatForm>
   </div>
 </template>
