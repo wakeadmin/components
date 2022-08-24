@@ -9,7 +9,14 @@ import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
 import { formItemWidth, validateFormItemProps } from './utils';
 import { useAtomicRegistry } from '../hooks';
-import { hasSlots, normalizeClassName, normalizeStyle, renderSlot, ToHSlotDefinition } from '../utils';
+import {
+  hasSlots,
+  normalizeClassName,
+  normalizeStyle,
+  renderSlot,
+  ToHSlotDefinition,
+  composeAtomProps,
+} from '../utils';
 
 const FatFormItemInner = declareComponent({
   name: 'FatFormItem',
@@ -228,17 +235,22 @@ const FatFormItemInner = declareComponent({
             style={normalizeStyle(contentStyle.value, props.contentStyle)}
           >
             {renderSlot(props, slots, 'before')}
-            {atom.component({
-              mode: mode.value ?? 'editable',
-              scene: 'form',
-              value: value.value,
-              onChange: handleChange,
-              disabled: disabled.value,
-              context: form,
-              class: props.atomicClassName,
-              style: props.atomicStyle,
-              ...props.valueProps,
-            })}
+            {atom.component(
+              composeAtomProps(
+                {
+                  mode: mode.value ?? 'editable',
+                  scene: 'form',
+                  value: value.value,
+                  onChange: handleChange,
+                  disabled: disabled.value,
+                  context: form,
+                  class: props.atomicClassName,
+                  style: props.atomicStyle,
+                },
+                // 外部指定的优先
+                props.valueProps
+              )
+            )}
             {renderSlot(props, slots, 'default')}
           </div>
         </FormItem>

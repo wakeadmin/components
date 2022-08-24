@@ -6,8 +6,9 @@ import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
 import { AtomicCommonProps } from '../atomic';
+import { composeAtomProps } from '../utils';
 
-import { composeAtomProps, getAtom } from './utils';
+import { getAtom } from './utils';
 import { FatTableColumn } from './types';
 
 export const Query = declareComponent({

@@ -4,9 +4,10 @@ import { NoopObject, NoopArray } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
+import { composeAtomProps } from '../utils';
 
 import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
-import { composeAtomProps, genKey, getAtom } from './utils';
+import { genKey, getAtom } from './utils';
 import { FatTableActions, FatTableAction } from './table-actions';
 
 const BUILTIN_TYPES = new Set(['index', 'selection', 'expand']);
