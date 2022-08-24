@@ -27,7 +27,7 @@
         <FatFormItem class="my-item" label="网格1" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem prop="col[1]" label="网格2"></FatFormItem>
         <FatFormGroup>
-          <FatFormItem class="my-item" prop="c" />
+          <FatFormItem width="huge" class="my-item" prop="c" />
         </FatFormGroup>
       </FatFormGroup>
       <FatFormItem

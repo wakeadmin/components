@@ -16,7 +16,7 @@ import { FatSpaceSize } from '../fat-space/types';
 /**
  * 参考 antd-pro https://procomponents.ant.design/components/field-set#%E5%AE%BD%E5%BA%A6
  */
-export type FatFormWidth = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type FatFormItemWidth = 'mini' | 'small' | 'medium' | 'large' | 'huge';
 
 /**
  * 表单模式
@@ -304,12 +304,22 @@ export interface FatFormItemShared {
   /**
    * 字段宽度(不包含label)
    */
-  width?: number | FatFormWidth;
+  width?: number | FatFormItemWidth;
 
   /**
    * 表单大小, 会覆盖 FatForm 指定的大小
    */
   size?: Size;
+
+  /**
+   * 内容区类名
+   */
+  contentClassName?: ClassValue;
+
+  /**
+   * 内容区内联样式
+   */
+  contentStyle?: StyleValue;
 }
 
 /**

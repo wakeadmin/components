@@ -7,7 +7,7 @@ import { Atomic } from '../atomic';
 
 import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
-import { validateFormItemProps } from './utils';
+import { formItemWidth, validateFormItemProps } from './utils';
 import { useAtomicRegistry } from '../hooks';
 import { hasSlots, normalizeClassName, normalizeStyle, renderSlot, ToHSlotDefinition } from '../utils';
 
@@ -32,6 +32,8 @@ const FatFormItemInner = declareComponent({
     'dependencies',
     'atomicClassName',
     'atomicStyle',
+    'contentClassName',
+    'contentStyle',
 
     // slots here
     'renderLabel',
@@ -142,6 +144,14 @@ const FatFormItemInner = declareComponent({
       return !!(props.label || !!props.renderLabel || !!slots.label);
     });
 
+    const contentStyle = computed(() => {
+      if (props.width !== undefined) {
+        return { width: formItemWidth(props.width) };
+      }
+
+      return undefined;
+    });
+
     // 监听 dependencies 重新进行验证
     watch(
       (): any[] | undefined => {
@@ -192,19 +202,24 @@ const FatFormItemInner = declareComponent({
           size={size.value}
           v-slots={labelSlot}
         >
-          {renderSlot(props, slots, 'before')}
-          {atom.component({
-            mode: mode.value ?? 'editable',
-            scene: 'form',
-            value: value.value,
-            onChange: handleChange,
-            disabled: disabled.value,
-            context: fatForm,
-            class: props.atomicClassName,
-            style: props.atomicStyle,
-            ...props.valueProps,
-          })}
-          {renderSlot(props, slots, 'default')}
+          <div
+            class={normalizeClassName('fat-form-item__content', props.contentClassName)}
+            style={normalizeStyle(contentStyle.value, props.contentStyle)}
+          >
+            {renderSlot(props, slots, 'before')}
+            {atom.component({
+              mode: mode.value ?? 'editable',
+              scene: 'form',
+              value: value.value,
+              onChange: handleChange,
+              disabled: disabled.value,
+              context: fatForm,
+              class: props.atomicClassName,
+              style: props.atomicStyle,
+              ...props.valueProps,
+            })}
+            {renderSlot(props, slots, 'default')}
+          </div>
         </FormItem>
       );
 

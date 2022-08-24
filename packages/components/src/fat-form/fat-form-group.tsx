@@ -8,6 +8,7 @@ import { hasSlots, normalizeClassName, normalizeStyle, renderSlot, ToHSlotDefini
 import { FatFormInheritanceContext } from './constants';
 import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormGroupProps, FatFormGroupSlots, FatFormItemInheritableProps } from './types';
+import { formItemWidth } from './utils';
 
 const FatFormGroupInner = declareComponent({
   name: 'FatFormGroup',
@@ -25,6 +26,8 @@ const FatFormGroupInner = declareComponent({
     'hidden',
     'disabled',
     'required',
+    'contentClassName',
+    'contentStyle',
 
     // slots
     'renderLabel',
@@ -76,6 +79,14 @@ const FatFormGroupInner = declareComponent({
       return !!(props.label || !!props.renderLabel || !!slots.label);
     });
 
+    const contentStyle = computed(() => {
+      if (props.width !== undefined) {
+        return { width: formItemWidth(props.width) };
+      }
+
+      return undefined;
+    });
+
     provide(FatFormInheritanceContext, inheritProps);
 
     return () => {
@@ -88,7 +99,13 @@ const FatFormGroupInner = declareComponent({
         children = (
           <Row
             {...props.row}
-            class={normalizeClassName('fat-form-row', props.row?.class)}
+            class={normalizeClassName(
+              'fat-form-row',
+              'fat-form-item__content',
+              props.row?.class,
+              props.contentClassName
+            )}
+            style={normalizeStyle(contentStyle.value, props.contentStyle, props.row.style)}
             gutter={props.row.gutter ?? gutterInNumber}
           >
             {children}
@@ -99,7 +116,8 @@ const FatFormGroupInner = declareComponent({
           <FatSpace
             size={gutter}
             wrap
-            class="fat-form-group-container"
+            class={normalizeClassName('fat-form-group-container', 'fat-form-item__content', props.contentClassName)}
+            style={normalizeStyle(contentStyle.value, props.contentStyle)}
             inline={false}
             align={form.layout === 'vertical' ? 'end' : undefined}
           >

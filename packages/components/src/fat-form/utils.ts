@@ -1,4 +1,5 @@
-import { FatFormItemProps } from './types';
+import { PreDefinedItemWidth } from './constants';
+import { FatFormItemProps, FatFormItemWidth } from './types';
 
 export function validateFormItemProps(props: FatFormItemProps<any, any>) {
   if (props.prop == null) {
@@ -11,4 +12,16 @@ export function validateFormItemProps(props: FatFormItemProps<any, any>) {
  */
 export function pickRootField(prop: string) {
   return prop.split('.').filter(Boolean)?.[0];
+}
+
+export function formItemWidth(width: number | FatFormItemWidth) {
+  if (typeof width === 'string' && width in PreDefinedItemWidth) {
+    return `${PreDefinedItemWidth[width]}px`;
+  }
+
+  if (typeof width === 'number') {
+    return `${width}px`;
+  }
+
+  return width;
 }
