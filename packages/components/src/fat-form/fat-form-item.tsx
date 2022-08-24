@@ -44,12 +44,12 @@ const FatFormItemInner = declareComponent({
   setup(props, { attrs, expose, slots }) {
     validateFormItemProps(props);
 
-    const fatForm = useFatFormContext()!;
+    const form = useFatFormContext()!;
     const registry = useAtomicRegistry();
     const inheritProps = useInheritableProps();
 
     // 初始化
-    fatForm.__setInitialValue(props.prop!, props.initialValue);
+    form.__setInitialValue(props.prop!, props.initialValue);
 
     const getAtom = (): Atomic => {
       const valueType = props.valueType ?? 'text';
@@ -64,11 +64,11 @@ const FatFormItemInner = declareComponent({
     };
 
     const handleChange = (value: any) => {
-      fatForm.setFieldValue(props.prop, value);
+      form.setFieldValue(props.prop, value);
     };
 
     const value = computed(() => {
-      return fatForm.getFieldValue(props.prop);
+      return form.getFieldValue(props.prop);
     });
 
     const mode = computed(() => {
@@ -81,7 +81,7 @@ const FatFormItemInner = declareComponent({
 
     const instance: FatFormItemMethods<any> = {
       get form() {
-        return fatForm;
+        return form;
       },
       get value() {
         return value.value;
@@ -137,7 +137,7 @@ const FatFormItemInner = declareComponent({
     });
 
     const rules = computed(() => {
-      return typeof props.rules === 'function' ? props.rules(fatForm.values, fatForm) : props.rules;
+      return typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
     });
 
     const hasLabel = computed(() => {
@@ -152,6 +152,20 @@ const FatFormItemInner = declareComponent({
       return undefined;
     });
 
+    const labelWidth = computed(() => {
+      if (props.labelWidth !== undefined) {
+        // 自动模式下尝试继承 form 的 label-width 配置
+        if (props.labelWidth === 'auto' && form.labelWidth && form.labelWidth !== 'auto') {
+          return form.labelWidth;
+        }
+
+        return props.labelWidth;
+      } else {
+        // element-plus labelWidth auto 情况下，嵌套 form item 使用会创建 label，所以当没有 label 时这里显式设置为 0
+        return hasLabel.value ? undefined : '0px';
+      }
+    });
+
     // 监听 dependencies 重新进行验证
     watch(
       (): any[] | undefined => {
@@ -163,17 +177,17 @@ const FatFormItemInner = declareComponent({
 
         // eslint-disable-next-line consistent-return
         return paths.map(p => {
-          return get(fatForm.values, p);
+          return get(form.values, p);
         });
       },
       debounce(values => {
         // touched 状态下才验证
-        if (values == null || !fatForm.isFieldTouched(props.prop) || !validateEnabled.value) {
+        if (values == null || !form.isFieldTouched(props.prop) || !validateEnabled.value) {
           return;
         }
 
         // 验证自身
-        fatForm.validateField(props.prop);
+        form.validateField(props.prop);
       }, 500)
     );
 
@@ -196,8 +210,7 @@ const FatFormItemInner = declareComponent({
           class={normalizeClassName('fat-form-item', props.col ? undefined : attrs.class)}
           style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, props.col ? undefined : attrs.style)}
           label={props.label}
-          // element-plus labelWidth auto 情况下，嵌套 form item 使用会创建 label，所以当没有 label 时这里显式设置为 0
-          labelWidth={props.labelWidth ?? (hasLabel.value ? undefined : '0px')}
+          labelWidth={labelWidth.value}
           rules={validateEnabled.value ? rules.value : undefined}
           size={size.value}
           v-slots={labelSlot}
@@ -213,7 +226,7 @@ const FatFormItemInner = declareComponent({
               value: value.value,
               onChange: handleChange,
               disabled: disabled.value,
-              context: fatForm,
+              context: form,
               class: props.atomicClassName,
               style: props.atomicStyle,
               ...props.valueProps,

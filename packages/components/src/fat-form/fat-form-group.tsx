@@ -75,6 +75,7 @@ const FatFormGroupInner = declareComponent({
       },
     };
 
+    // TODO: 以下重复内容可以提取到 hooks 中
     const hasLabel = computed(() => {
       return !!(props.label || !!props.renderLabel || !!slots.label);
     });
@@ -85,6 +86,20 @@ const FatFormGroupInner = declareComponent({
       }
 
       return undefined;
+    });
+
+    const labelWidth = computed(() => {
+      if (props.labelWidth !== undefined) {
+        // 自动模式下尝试继承 form 的 label-width 配置
+        if (props.labelWidth === 'auto' && form.labelWidth && form.labelWidth !== 'auto') {
+          return form.labelWidth;
+        }
+
+        return props.labelWidth;
+      } else {
+        // element-plus labelWidth auto 情况下，嵌套 form item 使用会创建 label，所以当没有 label 时这里显式设置为 0
+        return hasLabel.value ? undefined : '0px';
+      }
     });
 
     provide(FatFormInheritanceContext, inheritProps);
@@ -129,7 +144,7 @@ const FatFormGroupInner = declareComponent({
       // 这里要修复一下 element-ui / element-plus 对 label 的处理的一些区别
       const labelSlot = hasSlots(props, slots, 'label')
         ? { label: renderSlot(props, slots, 'label') }
-        : // 显式定义了 labelWidth auto, 需要加上 label 占位符
+        : // 显式定义了 labelWidth  需要加上 label 占位符
         !hasLabel.value && props.labelWidth !== undefined
         ? { label: <span /> }
         : undefined;
@@ -140,8 +155,7 @@ const FatFormGroupInner = declareComponent({
           class={normalizeClassName('fat-form-group', props.col ? undefined : attrs.class)}
           style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, props.col ? undefined : attrs.style)}
           label={props.label}
-          // element-plus labelWidth auto 情况下，嵌套 form item 使用会创建 label，所以当没有 label 时这里显式设置为 0
-          labelWidth={props.labelWidth ?? (hasLabel.value ? undefined : '0px')}
+          labelWidth={labelWidth.value}
           size={inheritProps.size}
           required={props.required}
           v-slots={labelSlot}

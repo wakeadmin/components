@@ -9,7 +9,7 @@
       >12
       <div>32</div>
     </FatSpace>
-    <FatForm ref="formRef" :initial-value="initialValue" :layout="layout" :submit="handleSubmit">
+    <FatForm ref="formRef" :initial-value="initialValue" :layout="layout" :submit="handleSubmit" label-width="100px">
       <FatFormItem label="姓名(a,b)" prop="a.b" initial-value="bbb" />
       <FatFormItem label="年龄(a.d)" prop="a.d" :rules="{ required: true }" />
       <FatFormItem label="身份证(b.a)" prop="b.a" initial-value="b.a" />
@@ -37,14 +37,14 @@
         dependencies="password"
         :disabled="f => f.form.values.password === 'disabled'"
       />
+      <FatFormGroup label-width="auto">
+        <button type="submit">submit</button>
+      </FatFormGroup>
       <FatFormConsumer v-slot="scope">
         <div>
           {{ JSON.stringify(scope.values) }}
         </div>
       </FatFormConsumer>
-      <FatFormGroup label-width="auto">
-        <button type="submit">submit</button>
-      </FatFormGroup>
     </FatForm>
   </div>
 </template>

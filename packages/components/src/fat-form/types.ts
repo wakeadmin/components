@@ -40,6 +40,11 @@ export interface FatFormMethods<S> {
   readonly layout: FatFormLayout;
 
   /**
+   * 表单 label 宽度
+   */
+  readonly labelWidth?: string | number;
+
+  /**
    * 是否已经营
    */
   readonly disabled: boolean;
