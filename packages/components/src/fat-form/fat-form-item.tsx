@@ -152,6 +152,10 @@ const FatFormItemInner = declareComponent({
       return undefined;
     });
 
+    const forceHideLabel = computed(() => {
+      return !hasLabel.value && form.layout !== 'horizontal';
+    });
+
     const labelWidth = computed(() => {
       if (props.labelWidth !== undefined) {
         // 自动模式下尝试继承 form 的 label-width 配置
@@ -199,15 +203,19 @@ const FatFormItemInner = declareComponent({
       // 这里要修复一下 element-ui / element-plus 对 label 的处理的一些区别
       const labelSlot = hasSlots(props, slots, 'label')
         ? { label: renderSlot(props, slots, 'label') }
-        : // 显式定义了 labelWidth auto, 需要加上 label 占位符
-        !hasLabel.value && props.labelWidth !== undefined
+        : // 显式定义了 labelWidth  需要加上 label 占位符, 否则无法撑开
+        !hasLabel.value && props.labelWidth !== undefined && form.layout === 'horizontal'
         ? { label: <span /> }
         : undefined;
 
       let node = (
         <FormItem
           prop={props.prop}
-          class={normalizeClassName('fat-form-item', props.col ? undefined : attrs.class)}
+          class={normalizeClassName(
+            'fat-form-item',
+            { 'fat-form-item--hide-label': forceHideLabel.value },
+            props.col ? undefined : attrs.class
+          )}
           style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, props.col ? undefined : attrs.style)}
           label={props.label}
           labelWidth={labelWidth.value}
