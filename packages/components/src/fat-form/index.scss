@@ -20,3 +20,27 @@
 .fat-form-item__content {
   flex: 1;
 }
+
+.fat-form-item:not(.fat-form-group) {
+  .fat-form-item__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .fat-form-item--no-wrap {
+    flex-wrap: nowrap;
+  }
+}
+
+.fat-form-message {
+  line-height: 25px;
+  font-size: 12px;
+  color: #a1a4ab;
+}
+
+.fat-form-message--inline {
+  display: inline;
+  white-space: nowrap;
+  margin-left: 15px;
+}

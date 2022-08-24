@@ -33,6 +33,8 @@
       <FatFormItem
         label="确认密码"
         prop="passwordConfirm"
+        message="很重要"
+        :inline-message="true"
         :rules="rulesForConfirmPassword"
         dependencies="password"
         :disabled="f => f.form.values.password === 'disabled'"

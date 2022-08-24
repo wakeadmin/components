@@ -301,6 +301,11 @@ export interface FatFormItemShared {
   message?: any;
 
   /**
+   * 内联形式的消息，默认 false
+   */
+  inlineMessage?: boolean;
+
+  /**
    * 网格列配置
    * 如果配置了该项， 会使用 el-col 包裹
    */
@@ -340,6 +345,7 @@ export interface FatFormItemInheritableProps {
 export interface FatFormGroupSlots<S> {
   renderLabel?: (inst: FatFormMethods<S>) => any;
   renderDefault?: (inst: FatFormMethods<S>) => any;
+  renderMessage?: (inst: FatFormMethods<S>) => any;
 }
 
 /**
@@ -398,6 +404,11 @@ export interface FatFormItemSlots<S> {
    * 原件之后
    */
   renderDefault?: (inst: FatFormItemMethods<S>) => any;
+
+  /**
+   * 渲染提示消息
+   */
+  renderMessage?: (inst: FatFormItemMethods<S>) => any;
 }
 
 /**

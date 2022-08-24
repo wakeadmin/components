@@ -23,7 +23,7 @@
         <FatFormItem class="my-item" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem prop="col[1]"></FatFormItem>
       </FatFormGroup>
-      <FatFormGroup>
+      <FatFormGroup message="该项为必填项，请仔细检查">
         <FatFormItem class="my-item" label="网格1" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem prop="col[1]" label="网格2"></FatFormItem>
         <FatFormGroup>
@@ -33,6 +33,7 @@
       <FatFormItem
         label="确认密码"
         prop="passwordConfirm"
+        message="很重要"
         :rules="rulesForConfirmPassword"
         dependencies="password"
         :disabled="f => f.form.values.password === 'disabled'"

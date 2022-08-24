@@ -26,6 +26,7 @@ const FatFormItemInner = declareComponent({
     'labelWidth',
     'tooltip',
     'message',
+    'inlineMessage',
     'prop',
     'initialValue',
     'valueType',
@@ -46,6 +47,7 @@ const FatFormItemInner = declareComponent({
     'renderLabel',
     'renderBefore',
     'renderDefault',
+    'renderMessage',
   ]),
   slots: declareSlots<ToHSlotDefinition<FatFormItemSlots<any>>>(),
   setup(props, { attrs, expose, slots }) {
@@ -231,7 +233,9 @@ const FatFormItemInner = declareComponent({
           v-slots={labelSlot}
         >
           <div
-            class={normalizeClassName('fat-form-item__content', props.contentClassName)}
+            class={normalizeClassName('fat-form-item__content', props.contentClassName, {
+              'fat-form-item--no-wrap': props.inlineMessage,
+            })}
             style={normalizeStyle(contentStyle.value, props.contentStyle)}
           >
             {renderSlot(props, slots, 'before')}
@@ -252,6 +256,11 @@ const FatFormItemInner = declareComponent({
               )
             )}
             {renderSlot(props, slots, 'default')}
+            {(props.message || hasSlots(props, slots, 'message')) && (
+              <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': props.inlineMessage })}>
+                {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message') : props.message}
+              </div>
+            )}
           </div>
         </FormItem>
       );
