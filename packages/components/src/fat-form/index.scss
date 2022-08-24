@@ -1,11 +1,17 @@
 .fat-form {
+  .el-form-item .el-form-item {
+    margin-right: 0;
+  }
 }
 
 .fat-form-row {
-  width: 100%;
   max-width: 100%;
 }
 
 .fat-form-group-container {
   max-width: 100%;
+}
+
+.fat-form-item__content {
+  flex: 1;
 }

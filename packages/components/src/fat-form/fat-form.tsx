@@ -3,7 +3,7 @@ import { declareComponent, declareProps } from '@wakeadmin/h';
 import { ref, provide, computed } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
 
-import { hasByPath, setByPath } from '../utils';
+import { hasByPath, normalizeClassName, setByPath } from '../utils';
 
 import { FatFormMethods, FatFormProps } from './types';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
@@ -24,7 +24,7 @@ const FatFormInner = declareComponent({
     'disabled',
     'rules',
   ]),
-  setup(props, { slots, expose }) {
+  setup(props, { slots, expose, attrs }) {
     const requestOnMounted = props.requestOnMounted ?? true;
     const formRef = ref<FormMethods>();
     const loading = ref(false);
@@ -260,6 +260,8 @@ const FatFormInner = declareComponent({
       return (
         <Form
           ref={formRef}
+          class={normalizeClassName('fat-form', attrs.class)}
+          style={attrs.style}
           model={values.value}
           labelWidth={instance.labelWidth}
           labelPosition={layout === 'vertical' ? 'top' : labelAlign}
