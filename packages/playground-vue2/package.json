@@ -20,13 +20,13 @@
   "dependencies": {
     "@wakeadmin/components": "workspace:^0.1.0",
     "@wakeadmin/framework": "^0.1.3",
-    "@wakeadmin/h": "^0.2.0",
+    "@wakeadmin/h": "^0.2.1",
     "@wakeadmin/i18n-legacy": "^0.1.3",
-    "core-js": "^3.24.1",
+    "core-js": "^3.25.0",
     "element-ui": "latest",
     "vue": "^2.7.10",
     "vue-i18n": "~8.27.2",
-    "vue-router": "^3.6.0"
+    "vue-router": "^3.6.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.8",

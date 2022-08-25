@@ -21,7 +21,7 @@
   "dependencies": {
     "@wakeadmin/component-adapter": "workspace:^1.0.0",
     "@wakeadmin/demi": "^0.1.1",
-    "@wakeadmin/h": "^0.2.0",
+    "@wakeadmin/h": "^0.2.1",
     "@wakeadmin/icons": "^0.1.2",
     "@wakeadmin/utils": "^0.1.1"
   }
