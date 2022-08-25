@@ -21,6 +21,8 @@ export interface FormProps {
   disabled?: boolean;
   validateOnRuleChange?: boolean;
   hideRequiredAsterisk?: boolean;
+
+  onValidate?: (prop: string, valid: boolean, message?: string) => void;
 }
 
 export const Form = (props: FormProps) => any;

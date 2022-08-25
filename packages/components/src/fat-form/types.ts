@@ -166,22 +166,22 @@ export interface FatFormEvents<S> {
   /**
    * 任一表单项被校验后触发
    */
-  onValidate?: (prop: string, isValid: boolean, message: string) => void;
+  onValidate?: (prop: string, isValid: boolean, message?: string) => void;
 
   /**
    * 数据验证失败时触发
    */
-  onValidateFailed?: (values: S) => void;
+  onValidateFailed?: (values: S, error: Record<string, any>) => void;
 
   /**
    * 数据变更时触发
    */
-  onValuesChange?: (values: S) => void;
+  onValuesChange?: (values: S, prop: string, value: any) => void;
 
   /**
    * 表单重置时触发
    */
-  onReset?: () => void;
+  onReset?: (values: S) => void;
 }
 
 /**

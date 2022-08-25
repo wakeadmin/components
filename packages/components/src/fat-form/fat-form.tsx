@@ -1,11 +1,19 @@
 import { Form, FormMethods, size, Button } from '@wakeadmin/component-adapter';
-import { declareComponent, declareProps } from '@wakeadmin/h';
+import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, provide, computed } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
 
-import { hasByPath, hasSlots, normalizeClassName, renderSlot, setByPath } from '../utils';
+import {
+  hasByPath,
+  hasSlots,
+  normalizeClassName,
+  renderSlot,
+  setByPath,
+  ToHEmitDefinition,
+  ToHSlotDefinition,
+} from '../utils';
 
-import { FatFormMethods, FatFormProps } from './types';
+import { FatFormEvents, FatFormMethods, FatFormProps, FatFormSlots } from './types';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
 import { FatFormGroup } from './fat-form-group';
 
@@ -36,7 +44,9 @@ const FatFormInner = declareComponent({
     // slots
     renderSubmitter: null,
   }),
-  setup(props, { slots, expose, attrs }) {
+  slots: declareSlots<ToHSlotDefinition<FatFormSlots<any>>>(),
+  emits: declareEmits<ToHEmitDefinition<FatFormEvents<any>>>(),
+  setup(props, { slots, expose, attrs, emit }) {
     const formRef = ref<FormMethods>();
     const loading = ref(false);
     const submitting = ref(false);
@@ -53,6 +63,8 @@ const FatFormInner = declareComponent({
       merge(initialValue, value);
 
       values.value = cloneDeep(initialValue);
+
+      emit('load', values.value);
     };
 
     /**
@@ -97,6 +109,7 @@ const FatFormInner = declareComponent({
 
         return true;
       } catch (err) {
+        emit('validateFailed', values.value, err as any);
         return false;
       }
     };
@@ -132,9 +145,12 @@ const FatFormInner = declareComponent({
         submitting.value = true;
         error.value = undefined;
         await props.submit(values.value);
+
+        emit('finish', values.value);
       } catch (err) {
         error.value = err as Error;
         console.log(`[fat-form] submit error`, err);
+        emit('submitFailed', values.value, error.value);
       } finally {
         submitting.value = false;
       }
@@ -149,6 +165,8 @@ const FatFormInner = declareComponent({
       values.value = cloneDeep(initialValue);
 
       touched = {};
+
+      emit('reset', values.value);
     };
 
     /**
@@ -167,6 +185,8 @@ const FatFormInner = declareComponent({
      */
     const setFieldValue = (prop: string, value: any) => {
       setByPath(values.value, prop, value);
+
+      emit('valuesChange', values.value, prop, value);
 
       touched[prop] = true;
     };
@@ -270,6 +290,10 @@ const FatFormInner = declareComponent({
       submit();
     };
 
+    const handleValidate = (prop: string, valid: boolean, message?: string) => {
+      emit('validate', prop, valid, message);
+    };
+
     return () => {
       const layout = instance.layout;
       const labelAlign = props.labelAlign ?? 'right';
@@ -289,6 +313,7 @@ const FatFormInner = declareComponent({
           rules={rules.value}
           hideRequiredAsterisk={props.hideRequiredAsterisk}
           validateOnRuleChange={props.validateOnRuleChange}
+          onValidate={handleValidate}
           // @ts-expect-error 原生事件
           // vue3
           onSubmit={handleSubmit}
