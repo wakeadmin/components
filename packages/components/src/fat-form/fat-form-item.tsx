@@ -208,6 +208,7 @@ const FatFormItemInner = declareComponent({
 
     return () => {
       const atom = getAtom();
+      const inlineMessage = form.layout === 'inline' || props.inlineMessage;
 
       // 这里要修复一下 element-ui / element-plus 对 label 的处理的一些区别
       const labelSlot = hasSlots(props, slots, 'label')
@@ -234,7 +235,7 @@ const FatFormItemInner = declareComponent({
         >
           <div
             class={normalizeClassName('fat-form-item__content', props.contentClassName, {
-              'fat-form-item--no-wrap': props.inlineMessage,
+              'fat-form-item--inline-message': inlineMessage,
             })}
             style={normalizeStyle(contentStyle.value, props.contentStyle)}
           >
@@ -257,7 +258,7 @@ const FatFormItemInner = declareComponent({
             )}
             {renderSlot(props, slots, 'default')}
             {(props.message || hasSlots(props, slots, 'message')) && (
-              <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': props.inlineMessage })}>
+              <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
                 {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message') : props.message}
               </div>
             )}

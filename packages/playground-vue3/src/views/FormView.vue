@@ -14,16 +14,23 @@
       <FatFormItem label="年龄(a.d)" prop="a.d" :rules="{ required: true }" />
       <FatFormItem label="身份证(b.a)" prop="b.a" initial-value="b.a" />
       <FatFormItem :hidden="true" label="隐藏" prop="a.c" />
-      <FatFormItem label="密码" prop="password" :rules="[{ required: true }]" />
-      <FatFormGroup label="网格" :disabled="true" required :row="{ justify: 'center' }">
+      <FatFormItem label="密码" prop="password" :rules="[{ required: true }]" message="很重要" />
+      <FatFormGroup
+        label="网格"
+        :disabled="true"
+        required
+        :row="{ justify: 'center' }"
+        message="很重要"
+        :inline-message="true"
+      >
         <FatFormItem class="my-item" :col="{ span: 11 }" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem :col="{ span: 11 }" prop="col[1]"></FatFormItem>
       </FatFormGroup>
-      <FatFormGroup label="网格2">
+      <FatFormGroup label="网格2" message="很重要" :inline-message="true">
         <FatFormItem class="my-item" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem prop="col[1]"></FatFormItem>
       </FatFormGroup>
-      <FatFormGroup message="该项为必填项，请仔细检查">
+      <FatFormGroup message="很重要">
         <FatFormItem class="my-item" label="网格1" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem prop="col[1]" label="网格2"></FatFormItem>
         <FatFormGroup>
@@ -34,11 +41,12 @@
         label="确认密码"
         prop="passwordConfirm"
         message="很重要"
+        :inline-message="true"
         :rules="rulesForConfirmPassword"
         dependencies="password"
         :disabled="f => f.form.values.password === 'disabled'"
       />
-      <FatFormGroup label-width="auto" :content-style="[{ background: 'blue' }, 'color: red']">
+      <FatFormGroup label-width="auto">
         <button type="submit">submit</button>
       </FatFormGroup>
       <FatFormConsumer v-slot="scope">

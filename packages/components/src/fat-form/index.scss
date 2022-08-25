@@ -2,14 +2,10 @@
   .el-form-item .el-form-item {
     margin-right: 0;
   }
-}
 
-.fat-form-row {
-  max-width: 100%;
-}
-
-.fat-form-group-container {
-  max-width: 100%;
+  .el-form-item__error {
+    background-color: white;
+  }
 }
 
 // 强制隐藏 label，主要是修复 element-ui/element-plus 不一致的问题
@@ -19,17 +15,21 @@
 
 .fat-form-item__content {
   flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.fat-form-item:not(.fat-form-group) {
-  .fat-form-item__content {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+.fat-form-row,
+.fat-form-group-container {
+  width: 100%;
+}
 
-  .fat-form-item--no-wrap {
-    flex-wrap: nowrap;
+.fat-form-item--inline-message {
+  flex-wrap: nowrap;
+
+  .fat-form-group-container {
+    width: auto;
   }
 }
 
@@ -42,5 +42,5 @@
 .fat-form-message--inline {
   display: inline;
   white-space: nowrap;
-  margin-left: 15px;
+  margin-left: 10px;
 }

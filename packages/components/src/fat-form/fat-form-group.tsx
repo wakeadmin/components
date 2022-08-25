@@ -18,6 +18,7 @@ const FatFormGroupInner = declareComponent({
     'labelWidth',
     'tooltip',
     'message',
+    'inlineMessage',
     'col',
     'width',
     'size',
@@ -32,6 +33,7 @@ const FatFormGroupInner = declareComponent({
     // slots
     'renderLabel',
     'renderDefault',
+    'renderMessage',
   ]),
   slots: declareSlots<ToHSlotDefinition<FatFormGroupSlots<any>>>(),
   setup(props, { slots, attrs }) {
@@ -111,6 +113,7 @@ const FatFormGroupInner = declareComponent({
     return () => {
       const gutter = props.gutter ?? 'huge';
       const gutterInNumber = toNumberSize(gutter);
+      const inlineMessage = form.layout === 'inline' || props.inlineMessage;
 
       let children = renderSlot(props, slots, 'default');
 
@@ -118,13 +121,8 @@ const FatFormGroupInner = declareComponent({
         children = (
           <Row
             {...props.row}
-            class={normalizeClassName(
-              'fat-form-row',
-              'fat-form-item__content',
-              props.row?.class,
-              props.contentClassName
-            )}
-            style={normalizeStyle(contentStyle.value, props.contentStyle, props.row.style)}
+            class={normalizeClassName('fat-form-row', props.row?.class)}
+            style={props.row.style}
             gutter={props.row.gutter ?? gutterInNumber}
           >
             {children}
@@ -135,8 +133,7 @@ const FatFormGroupInner = declareComponent({
           <FatSpace
             size={gutter}
             wrap
-            class={normalizeClassName('fat-form-group-container', 'fat-form-item__content', props.contentClassName)}
-            style={normalizeStyle(contentStyle.value, props.contentStyle)}
+            class={normalizeClassName('fat-form-group-container')}
             inline={false}
             align={form.layout === 'vertical' ? 'end' : undefined}
           >
@@ -168,7 +165,19 @@ const FatFormGroupInner = declareComponent({
           required={props.required}
           v-slots={labelSlot}
         >
-          {children}
+          <div
+            class={normalizeClassName('fat-form-item__content', props.contentClassName, {
+              'fat-form-item--inline-message': inlineMessage,
+            })}
+            style={normalizeStyle(contentStyle.value, props.contentStyle)}
+          >
+            {children}
+            {(props.message || hasSlots(props, slots, 'message')) && (
+              <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
+                {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message') : props.message}
+              </div>
+            )}
+          </div>
         </FormItem>
       );
 
