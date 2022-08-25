@@ -19,7 +19,7 @@ export interface FormProps {
   showMessage?: boolean;
   size?: string;
   disabled?: boolean;
-  validateOnRuleChange?: string;
+  validateOnRuleChange?: boolean;
   hideRequiredAsterisk?: boolean;
 }
 

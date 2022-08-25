@@ -1,31 +1,42 @@
-import { Form, FormMethods, size } from '@wakeadmin/component-adapter';
+import { Form, FormMethods, size, Button } from '@wakeadmin/component-adapter';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { ref, provide, computed } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
 
-import { hasByPath, normalizeClassName, setByPath } from '../utils';
+import { hasByPath, hasSlots, normalizeClassName, renderSlot, setByPath } from '../utils';
 
 import { FatFormMethods, FatFormProps } from './types';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
+import { FatFormGroup } from './fat-form-group';
 
 const FatFormInner = declareComponent({
   name: 'FatForm',
-  props: declareProps<FatFormProps<any>>([
-    'mode',
-    'initialValue',
-    'request',
-    'requestOnMounted',
-    'submit',
-    'layout',
-    'labelAlign',
-    'labelWidth',
-    'labelSuffix',
-    'size',
-    'disabled',
-    'rules',
-  ]),
+  props: declareProps<FatFormProps<any>>({
+    mode: null,
+    initialValue: null,
+    request: null,
+    requestOnMounted: { type: Boolean, default: true },
+    submit: null,
+    layout: null,
+    labelAlign: null,
+    labelWidth: null,
+    labelSuffix: null,
+    size: null,
+    disabled: Boolean,
+    rules: null,
+    hideRequiredAsterisk: Boolean,
+    validateOnRuleChange: { type: Boolean, default: true },
+    enableSubmitter: { type: Boolean, default: true },
+    submitText: String,
+    resetText: String,
+    enableReset: { type: Boolean, default: true },
+    submitProps: null,
+    resetProps: null,
+
+    // slots
+    renderSubmitter: null,
+  }),
   setup(props, { slots, expose, attrs }) {
-    const requestOnMounted = props.requestOnMounted ?? true;
     const formRef = ref<FormMethods>();
     const loading = ref(false);
     const submitting = ref(false);
@@ -76,7 +87,7 @@ const FatFormInner = declareComponent({
     }
 
     // 初始化请求
-    if (props.request && requestOnMounted) {
+    if (props.request && props.requestOnMounted) {
       fetch();
     }
 
@@ -231,6 +242,10 @@ const FatFormInner = declareComponent({
       return typeof props.rules === 'function' ? props.rules(values.value, instance) : props.rules;
     });
 
+    const hasSubmitter = computed(() => {
+      return hasSlots(props, slots, 'submitter');
+    });
+
     provide(FatFormContext, instance);
     provide(FatFormInheritanceContext, {
       get mode() {
@@ -272,6 +287,8 @@ const FatFormInner = declareComponent({
           size={props.size && size(props.size)}
           disabled={props.disabled}
           rules={rules.value}
+          hideRequiredAsterisk={props.hideRequiredAsterisk}
+          validateOnRuleChange={props.validateOnRuleChange}
           // @ts-expect-error 原生事件
           // vue3
           onSubmit={handleSubmit}
@@ -279,6 +296,20 @@ const FatFormInner = declareComponent({
           onSubmitNative={handleSubmit}
         >
           {slots.default?.()}
+          {props.enableSubmitter && hasSubmitter.value ? (
+            renderSlot(props, slots, 'submitter', instance)
+          ) : (
+            <FatFormGroup labelWidth="auto" gutter="medium">
+              <Button type="primary" {...props.submitProps} onClick={instance.submit}>
+                {props.submitText ?? '保存'}
+              </Button>
+              {!!props.enableReset && (
+                <Button {...props.resetProps} onClick={instance.reset}>
+                  {props.resetText ?? '重置'}
+                </Button>
+              )}
+            </FatFormGroup>
+          )}
         </Form>
       );
     };

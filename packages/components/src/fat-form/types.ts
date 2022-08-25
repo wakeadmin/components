@@ -8,6 +8,7 @@ import {
   Rule,
   Rules,
   CommonProps,
+  ButtonProps,
 } from '@wakeadmin/component-adapter';
 
 import { Atomic } from '../atomic';
@@ -184,10 +185,52 @@ export interface FatFormEvents<S> {
 }
 
 /**
+ * 表单提交按钮配置
+ */
+export interface FatFormSubmitter<S> {
+  /**
+   * 是否开启提交/重置按钮，默认为 true
+   */
+  enableSubmitter?: boolean;
+
+  /**
+   * 提交按钮文本，默认为保存
+   */
+  submitText?: string;
+
+  /**
+   * 重置按钮文本，默认为 重置
+   */
+  resetText?: string;
+
+  /**
+   * 是否开启重置按钮， 默认开启
+   */
+  enableReset?: boolean;
+
+  /**
+   * 提交按钮属性
+   */
+  submitProps?: ButtonProps;
+
+  /**
+   * 重置按钮属性
+   */
+  resetProps?: ButtonProps;
+}
+
+export interface FatFormSlots<S> {
+  /**
+   * 自定义渲染 提交按钮
+   */
+  renderSubmitter?: (form: FatFormMethods<S>) => any;
+}
+
+/**
  * fat 表单属性
  * @template S 表单类型
  */
-export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S> {
+export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFormSubmitter<S>, FatFormSlots<S> {
   /**
    * 使用场景
    * preview 预览
@@ -248,15 +291,24 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S> {
 
   /**
    * 是否禁用该表单内的所有组件。若设置为 true，则表单内组件上的 disabled 属性不再生效
+   * 默认为 false
    */
-  disabled?: false;
+  disabled?: boolean;
 
   /**
    * 验证规则
    */
   rules?: Rules | ((values: S, form: FatFormMethods<S>) => Rules);
 
-  // TODO: 其他 el-form 属性
+  /**
+   * 是否隐藏必填字段的标签旁边的红色星号, 默认 false
+   */
+  hideRequiredAsterisk?: boolean;
+
+  /**
+   * 是否在 rules 属性改变后立即触发一次验证, 默认为true
+   */
+  validateOnRuleChange?: boolean;
 }
 
 /**

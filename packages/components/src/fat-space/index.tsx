@@ -8,7 +8,7 @@ import './index.css';
 
 const SpaceSize: Record<string, number> = {
   small: 8,
-  middle: 16,
+  medium: 16,
   large: 24,
   huge: 32,
 };

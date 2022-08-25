@@ -1,4 +1,4 @@
-export type FatSpaceSize = 'small' | 'middle' | 'large' | 'huge' | number;
+export type FatSpaceSize = 'small' | 'medium' | 'large' | 'huge' | number;
 
 export interface FatSpaceProps {
   /**
