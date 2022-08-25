@@ -542,3 +542,29 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
 }
 
 export { Rules, Rule } from '@wakeadmin/component-adapter';
+
+export interface FatFormSectionSlots {
+  /**
+   * 自定义渲染标题
+   */
+  renderTitle?: () => any;
+}
+/**
+ * 表单分段
+ */
+export interface FatFormSectionProps extends FatFormSectionSlots {
+  /**
+   * 标题
+   */
+  title?: string;
+
+  /**
+   * 是否支持折叠，默认关闭
+   */
+  collapsable?: boolean;
+
+  /**
+   * 默认是否折叠
+   */
+  defaultCollapse?: boolean;
+}
