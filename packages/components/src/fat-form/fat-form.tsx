@@ -191,6 +191,9 @@ const FatFormInner = declareComponent({
       get labelWidth() {
         return props.labelWidth ?? 'auto';
       },
+      get labelSuffix() {
+        return props.labelSuffix ?? '：';
+      },
       get disabled() {
         return !!props.disabled;
       },
@@ -255,7 +258,6 @@ const FatFormInner = declareComponent({
     return () => {
       const layout = instance.layout;
       const labelAlign = props.labelAlign ?? 'right';
-      const labelSuffix = props.labelSuffix ?? '：';
 
       return (
         <Form
@@ -266,7 +268,7 @@ const FatFormInner = declareComponent({
           labelWidth={instance.labelWidth}
           labelPosition={layout === 'vertical' ? 'top' : labelAlign}
           inline={layout === 'inline'}
-          labelSuffix={labelSuffix}
+          labelSuffix={instance.labelSuffix}
           size={props.size && size(props.size)}
           disabled={props.disabled}
           rules={rules.value}

@@ -26,12 +26,18 @@
         <FatFormItem class="my-item" :col="{ span: 11 }" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem :col="{ span: 11 }" prop="col[1]"></FatFormItem>
       </FatFormGroup>
-      <FatFormGroup label="网格2" message="很重要" :inline-message="true">
+      <FatFormGroup label="网格2" message="很重要" :inline-message="true" tooltip="提示很重要">
         <FatFormItem class="my-item" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem prop="col[1]"></FatFormItem>
       </FatFormGroup>
       <FatFormGroup message="很重要">
-        <FatFormItem class="my-item" label="网格1" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
+        <FatFormItem
+          class="my-item"
+          tooltip="很重要"
+          label="网格1"
+          prop="col[0]"
+          :rules="[{ required: true }]"
+        ></FatFormItem>
         <FatFormItem prop="col[1]" label="网格2"></FatFormItem>
         <FatFormGroup>
           <FatFormItem width="huge" class="my-item" prop="c" />

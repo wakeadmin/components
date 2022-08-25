@@ -1,7 +1,8 @@
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
-import { FormItem, Col } from '@wakeadmin/component-adapter';
+import { FormItem, Col, Tooltip } from '@wakeadmin/component-adapter';
 import { watch, computed } from '@wakeadmin/demi';
 import { get, debounce } from '@wakeadmin/utils';
+import { Inquiry } from '@wakeadmin/icons';
 
 import { Atomic } from '../atomic';
 
@@ -48,6 +49,7 @@ const FatFormItemInner = declareComponent({
     'renderBefore',
     'renderDefault',
     'renderMessage',
+    'renderTooltip',
   ]),
   slots: declareSlots<ToHSlotDefinition<FatFormItemSlots<any>>>(),
   setup(props, { attrs, expose, slots }) {
@@ -153,6 +155,10 @@ const FatFormItemInner = declareComponent({
       return !!(props.label || !!props.renderLabel || !!slots.label);
     });
 
+    const hasTooltip = computed(() => {
+      return !!(props.tooltip || props.renderTooltip || slots.tooltip);
+    });
+
     const contentStyle = computed(() => {
       if (props.width !== undefined) {
         return { width: formItemWidth(props.width) };
@@ -210,13 +216,33 @@ const FatFormItemInner = declareComponent({
       const atom = getAtom();
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
 
-      // 这里要修复一下 element-ui / element-plus 对 label 的处理的一些区别
-      const labelSlot = hasSlots(props, slots, 'label')
-        ? { label: renderSlot(props, slots, 'label') }
-        : // 显式定义了 labelWidth  需要加上 label 占位符, 否则无法撑开
-        !hasLabel.value && props.labelWidth !== undefined && form.layout === 'horizontal'
-        ? { label: <span /> }
-        : undefined;
+      const labelSlot =
+        hasTooltip.value || hasSlots(props, slots, 'label')
+          ? {
+              label: (
+                <span>
+                  {renderSlot(props, slots, 'label', instance)}
+                  {props.label}
+                  {!!hasTooltip.value && (
+                    <Tooltip
+                      v-slots={{
+                        content: hasSlots(props, slots, 'tooltip')
+                          ? renderSlot(props, slots, 'tooltip', instance)
+                          : props.tooltip,
+                      }}
+                    >
+                      <Inquiry class="fat-form-tooltip" />
+                    </Tooltip>
+                  )}
+                  {form.labelSuffix}
+                </span>
+              ),
+            }
+          : // 这里要修复一下 element-ui / element-plus 对 label 的处理的一些区别
+          // 显式定义了 labelWidth  需要加上 label 占位符, 否则无法撑开
+          !hasLabel.value && props.labelWidth !== undefined && form.layout === 'horizontal'
+          ? { label: <span /> }
+          : undefined;
 
       let node = (
         <FormItem
@@ -239,7 +265,7 @@ const FatFormItemInner = declareComponent({
             })}
             style={normalizeStyle(contentStyle.value, props.contentStyle)}
           >
-            {renderSlot(props, slots, 'before')}
+            {renderSlot(props, slots, 'before', instance)}
             {atom.component(
               composeAtomProps(
                 {
@@ -256,10 +282,10 @@ const FatFormItemInner = declareComponent({
                 props.valueProps
               )
             )}
-            {renderSlot(props, slots, 'default')}
+            {renderSlot(props, slots, 'default', instance)}
             {(props.message || hasSlots(props, slots, 'message')) && (
               <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
-                {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message') : props.message}
+                {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', instance) : props.message}
               </div>
             )}
           </div>

@@ -44,3 +44,12 @@
   white-space: nowrap;
   margin-left: 10px;
 }
+
+.fat-form-tooltip {
+  display: inline-block;
+  width: 1.2em;
+  vertical-align: sub;
+  fill: #bfbcbc;
+  margin-left: 0.2em;
+  cursor: pointer;
+}

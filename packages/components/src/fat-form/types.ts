@@ -45,6 +45,11 @@ export interface FatFormMethods<S> {
   readonly labelWidth?: string | number;
 
   /**
+   * 表单标签后缀
+   */
+  readonly labelSuffix?: string;
+
+  /**
    * 是否已经营
    */
   readonly disabled: boolean;
@@ -291,14 +296,17 @@ export interface FatFormItemShared {
   labelWidth?: string;
 
   /**
-   * 会在 label 右侧增加一个 icon，悬浮后提示信息. 支持 jsx
+   * 会在 label 右侧增加一个 icon，悬浮后提示信息.
+   *
+   * 也可以使用 renderTooltip 或 tooltip slot
    */
-  tooltip?: any;
+  tooltip?: string;
 
   /**
    * 在表单下方展示提示信息
+   * 也可以使用 renderMessage 或 message slot
    */
-  message?: any;
+  message?: string;
 
   /**
    * 内联形式的消息，默认 false
@@ -345,6 +353,7 @@ export interface FatFormItemInheritableProps {
 export interface FatFormGroupSlots<S> {
   renderLabel?: (inst: FatFormMethods<S>) => any;
   renderDefault?: (inst: FatFormMethods<S>) => any;
+  renderTooltip?: (inst: FatFormMethods<S>) => any;
   renderMessage?: (inst: FatFormMethods<S>) => any;
 }
 
@@ -409,6 +418,11 @@ export interface FatFormItemSlots<S> {
    * 渲染提示消息
    */
   renderMessage?: (inst: FatFormItemMethods<S>) => any;
+
+  /**
+   * 渲染标签提示消息
+   */
+  renderTooltip?: (inst: FatFormItemMethods<S>) => any;
 }
 
 /**
