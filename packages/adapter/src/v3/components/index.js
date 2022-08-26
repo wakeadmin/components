@@ -14,3 +14,4 @@ export * from './DatePicker';
 export * from './Tooltip';
 export * from './Row';
 export * from './Col';
+export * from './Dialog';
