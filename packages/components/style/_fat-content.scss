@@ -1,0 +1,10 @@
+@use 'variables' as *;
+
+.fat-content {
+  background-color: $wk-color-white;
+  border-radius: $wk-border-radius-sm;
+
+  &:not(:only-child) {
+    margin-top: 16px;
+  }
+}

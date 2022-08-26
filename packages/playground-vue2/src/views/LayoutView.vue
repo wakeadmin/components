@@ -16,12 +16,17 @@
       content
     </FatHeader>
 
+    <FatContent>
+      <div>hello</div>
+      <div>world</div>
+    </FatContent>
+
     <FatFloatFooter>submit</FatFloatFooter>
   </div>
 </template>
 
 <script lang="tsx" setup>
-  import { FatHeader, FatFloatFooter } from '@wakeadmin/components';
+  import { FatHeader, FatFloatFooter, FatContent } from '@wakeadmin/components';
 </script>
 
 <style scoped>

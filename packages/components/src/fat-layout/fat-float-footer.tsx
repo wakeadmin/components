@@ -6,8 +6,8 @@ import { Disposer } from '@wakeadmin/utils';
 import { ref, onMounted } from '@wakeadmin/demi';
 
 export const FatFloatFooter = declareComponent({
-  name: 'FatLayoutFloatFooter',
-  setup(_, { slots }) {
+  name: 'FatFloatFooter',
+  setup(_, { slots, attrs }) {
     const disposer = new Disposer();
     const left = ref<string | number>(0);
     const elRef = ref<HTMLDivElement>();
@@ -31,7 +31,7 @@ export const FatFloatFooter = declareComponent({
     });
 
     return () => (
-      <div>
+      <div class={attrs.class} style={attrs.style}>
         <footer part="body" class="fat-float-footer" style={{ left: left.value }}>
           {slots.default?.()}
         </footer>
