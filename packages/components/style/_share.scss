@@ -1,0 +1,21 @@
+@use 'sass:string';
+@use 'sass:meta';
+
+@function isCSSVar($name) {
+  @if meta.type-of($name) == 'string' and string.index($name, '--') == 1 {
+    @return true;
+  }
+
+  @return false;
+}
+
+@function getVar($name, $default) {
+  $var: --fat-#{$name};
+  $value: $default;
+
+  @if isCSSVar($value) {
+    $value: var($value);
+  }
+
+  @return var($var, $value);
+}

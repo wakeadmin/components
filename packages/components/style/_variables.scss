@@ -1,0 +1,160 @@
+// wakeadmin 定义的主题： https://wakeadmin.wakedata.com/theme/color.html
+
+$wk-color-primary-900: var(--wk-color-primary-900, #fa7516) !default;
+$wk-color-primary-800: var(--wk-color-primary-800, #fb931a) !default;
+$wk-color-primary-700: var(--wk-color-primary-700, #fca31d) !default;
+$wk-color-primary-600: var(--wk-color-primary-600, #fcb620) !default;
+$wk-color-primary-500: var(--wk-color-primary-500, #fdc325) !default;
+$wk-color-primary-400: var(--wk-color-primary-400, #fdcc37) !default;
+$wk-color-primary-300: var(--wk-color-primary-300, #fdd758) !default;
+$wk-color-primary-200: var(--wk-color-primary-200, #fee187) !default;
+$wk-color-primary-100: var(--wk-color-primary-100, #feedb6) !default;
+$wk-color-primary-50: var(--wk-color-primary-50, #fff8e2) !default;
+$wk-color-secondary-900: var(--wk-color-secondary-900, #111c4e) !default;
+$wk-color-secondary-800: var(--wk-color-secondary-800, #1c2c65) !default;
+$wk-color-secondary-700: var(--wk-color-secondary-700, #233571) !default;
+$wk-color-secondary-600: var(--wk-color-secondary-600, #2c3e7c) !default;
+$wk-color-secondary-500: var(--wk-color-secondary-500, #314584) !default;
+$wk-color-secondary-400: var(--wk-color-secondary-400, #505f94) !default;
+$wk-color-secondary-300: var(--wk-color-secondary-300, #6d7aa6) !default;
+$wk-color-secondary-200: var(--wk-color-secondary-200, #959fbf) !default;
+$wk-color-secondary-100: var(--wk-color-secondary-100, #bec4d9) !default;
+$wk-color-secondary-50: var(--wk-color-secondary-50, #e5e8ef) !default;
+$wk-color-success-900: var(--wk-color-success-900, #006a00) !default;
+$wk-color-success-800: var(--wk-color-success-800, #008c00) !default;
+$wk-color-success-700: var(--wk-color-success-700, #26a001) !default;
+$wk-color-success-600: var(--wk-color-success-600, #42b411) !default;
+$wk-color-success-500: var(--wk-color-success-500, #53c41a) !default;
+$wk-color-success-400: var(--wk-color-success-400, #71cd47) !default;
+$wk-color-success-300: var(--wk-color-success-300, #8dd66b) !default;
+$wk-color-success-200: var(--wk-color-success-200, #b0e297) !default;
+$wk-color-success-100: var(--wk-color-success-100, #d0eec0) !default;
+$wk-color-success-50: var(--wk-color-success-50, #ecf8e6) !default;
+$wk-color-danger-900: var(--wk-color-danger-900, #c8000f) !default;
+$wk-color-danger-800: var(--wk-color-danger-800, #d6001f) !default;
+$wk-color-danger-700: var(--wk-color-danger-700, #e31127) !default;
+$wk-color-danger-600: var(--wk-color-danger-600, #f5222d) !default;
+$wk-color-danger-500: var(--wk-color-danger-500, #ff2f2c) !default;
+$wk-color-danger-400: var(--wk-color-danger-400, #fe474a) !default;
+$wk-color-danger-300: var(--wk-color-danger-300, #f26d70) !default;
+$wk-color-danger-200: var(--wk-color-danger-200, #f99798) !default;
+$wk-color-danger-100: var(--wk-color-danger-100, #ffccd2) !default;
+$wk-color-danger-50: var(--wk-color-danger-50, #ffebee) !default;
+$wk-color-warning-900: var(--wk-color-warning-900, #e35919) !default;
+$wk-color-warning-800: var(--wk-color-warning-800, #ed721c) !default;
+$wk-color-warning-700: var(--wk-color-warning-700, #f4811e) !default;
+$wk-color-warning-600: var(--wk-color-warning-600, #fb9021) !default;
+$wk-color-warning-500: var(--wk-color-warning-500, #ff9c23) !default;
+$wk-color-warning-400: var(--wk-color-warning-400, #ffaa37) !default;
+$wk-color-warning-300: var(--wk-color-warning-300, #ffba58) !default;
+$wk-color-warning-200: var(--wk-color-warning-200, #ffce87) !default;
+$wk-color-warning-100: var(--wk-color-warning-100, #ffe1b6) !default;
+$wk-color-warning-50: var(--wk-color-warning-50, #fff3e2) !default;
+$wk-color-info-900: var(--wk-color-info-900, #1f3eaa) !default;
+$wk-color-info-800: var(--wk-color-info-800, #205dca) !default;
+$wk-color-info-700: var(--wk-color-info-700, #206fdc) !default;
+$wk-color-info-600: var(--wk-color-info-600, #1e81f0) !default;
+$wk-color-info-500: var(--wk-color-info-500, #188fff) !default;
+$wk-color-info-400: var(--wk-color-info-400, #3ba0ff) !default;
+$wk-color-info-300: var(--wk-color-info-300, #5fb1ff) !default;
+$wk-color-info-200: var(--wk-color-info-200, #8ec7ff) !default;
+$wk-color-info-100: var(--wk-color-info-100, #badcff) !default;
+$wk-color-info-50: var(--wk-color-info-50, #e2f1ff) !default;
+$wk-color-gray-900: var(--wk-color-gray-900, #303133) !default;
+$wk-color-gray-800: var(--wk-color-gray-800, #535456) !default;
+$wk-color-gray-700: var(--wk-color-gray-700, #737476) !default;
+$wk-color-gray-600: var(--wk-color-gray-600, #88898b) !default;
+$wk-color-gray-500: var(--wk-color-gray-500, #b2b3b6) !default;
+$wk-color-gray-400: var(--wk-color-gray-400, #cfd0d3) !default;
+$wk-color-gray-300: var(--wk-color-gray-300, #edeef1) !default;
+$wk-color-gray-200: var(--wk-color-gray-200, #f2f3f6) !default;
+$wk-color-gray-100: var(--wk-color-gray-100, #f7f8fb) !default;
+$wk-color-gray-50: var(--wk-color-gray-50, #fcfdff) !default;
+$wk-color-gray-0: var(--wk-color-gray-0, #ffffff) !default;
+$wk-color-primary: var(--wk-color-primary, $wk-color-primary-900) !default;
+$wk-color-secondary: var(--wk-color-secondary, $wk-color-secondary-900) !default;
+$wk-color-success: var(--wk-color-success, $wk-color-success-500) !default;
+$wk-color-danger: var(--wk-color-danger, $wk-color-danger-600) !default;
+$wk-color-warning: var(--wk-color-warning, $wk-color-warning-500) !default;
+$wk-color-info: var(--wk-color-info, $wk-color-info-500) !default;
+$wk-color-white: var(--wk-color-white, $wk-color-gray-0) !default;
+$wk-color-black: var(--wk-color-black, $wk-color-gray-900) !default;
+$wk-color-font-primary: var(--wk-color-font-primary, $wk-color-gray-900) !default;
+$wk-color-font-regular: var(--wk-color-font-regular, #717378) !default;
+$wk-color-font-secondary: var(--wk-color-font-secondary, #909399) !default;
+$wk-color-font-placeholder: var(--wk-color-font-placeholder, #b1b5bd) !default;
+$wk-color-font-disabled: var(--wk-color-font-disabled, #c0c4cc) !default;
+$wk-color-font-inverse: var(--wk-color-font-inverse, $wk-color-gray-0) !default;
+$wk-color-border-dark: var(--wk-color-border-dark, #cfd4d9) !default;
+$wk-color-border: var(--wk-color-border, #dce1e6) !default;
+$wk-color-border-light: var(--wk-color-border-light, $wk-color-gray-300) !default;
+$wk-color-border-lighter: var(--wk-color-border-lighter, $wk-color-gray-200) !default;
+$wk-color-border-extra-light: var(--wk-color-border-extra-light, $wk-color-gray-100) !default;
+$wk-color-bg: var(--wk-color-bg, #f5f7fa) !default;
+$wk-color-bg-dark: var(--wk-color-bg-dark, #f0f2f5) !default;
+$wk-color-link: var(--wk-color-link, $wk-color-info) !default;
+$wk-color-link-hover: var(--wk-color-link-hover, $wk-color-info-300) !default;
+$wk-font-family: var(
+  --wk-font-family,
+  PingFangSC,
+  Inter var,
+  ui-sans-serif,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  Segoe UI,
+  Roboto,
+  Helvetica Neue,
+  Arial,
+  Noto Sans,
+  sans-serif,
+  Apple Color Emoji,
+  Segoe UI Emoji,
+  Segoe UI Symbol,
+  Noto Color Emoji
+) !default;
+$wk-font-family-serif: var(--wk-font-family-serif, ui-serif, Georgia, Cambria, Times New Roman, Times, serif) !default;
+$wk-font-family-mono: var(
+  --wk-font-family-mono,
+  Menlo,
+  ui-monospace,
+  SFMono-Regular,
+  Monaco,
+  Consolas,
+  Liberation Mono,
+  Courier New,
+  monospace
+) !default;
+$wk-font-family-number: var(--wk-font-family-number, 'Oswald') !default;
+$wk-font-size-h1: var(--wk-font-size-h1, 20px) !default;
+$wk-font-line-height-h1: var(--wk-font-line-height-h1, 32px) !default;
+$wk-font-size-h2: var(--wk-font-size-h2, 18px) !default;
+$wk-font-line-height-h2: var(--wk-font-line-height-h2, 28px) !default;
+$wk-font-size-h3: var(--wk-font-size-h3, 16px) !default;
+$wk-font-line-height-h3: var(--wk-font-line-height-h3, 26px) !default;
+$wk-font-size-h4: var(--wk-font-size-h4, 14px) !default;
+$wk-font-line-height-h4: var(--wk-font-line-height-h4, 22px) !default;
+$wk-font-size-h5: var(--wk-font-size-h5, 13px) !default;
+$wk-font-line-height-h5: var(--wk-font-line-height-h5, 21px) !default;
+$wk-font-size-h6: var(--wk-font-size-h6, 12px) !default;
+$wk-font-line-height-h6: var(--wk-font-line-height-h6, 20px) !default;
+$wk-font-size: var(--wk-font-size, $wk-font-size-h4) !default;
+$wk-font-line-height: var(--wk-font-line-height, $wk-font-line-height-h4) !default;
+$wk-font-weight: var(--wk-font-weight, 500) !default;
+$wk-border-radius-sm: var(--wk-border-radius-sm, 2px) !default;
+$wk-border-radius-base: var(--wk-border-radius-base, 4px) !default;
+$wk-border-radius-md: var(--wk-border-radius-md, 16px) !default;
+$wk-border-radius-lg: var(--wk-border-radius-lg, 24px) !default;
+$wk-border-radius-full: var(--wk-border-radius-full, 9999px) !default;
+$wk-spacing-xs: var(--wk-spacing-xs, 8px) !default;
+$wk-spacing-sm: var(--wk-spacing-sm, 16px) !default;
+$wk-spacing-base: var(--wk-spacing-base, 24px) !default;
+$wk-spacing-md: var(--wk-spacing-md, 32px) !default;
+$wk-spacing-lg: var(--wk-spacing-lg, 48px) !default;
+$wk-spacing-xl: var(--wk-spacing-xl, 64px) !default;
+$wk-z-index-normal: var(--wk-z-index-normal, 1) !default;
+$wk-z-index-dropdown: var(--wk-z-index-dropdown, 1000) !default;
+$wk-z-index-sticky: var(--wk-z-index-sticky, 1020) !default;
+$wk-z-index-fixed: var(--wk-z-index-fixed, 1030) !default;
+$wk-z-index-modal: var(--wk-z-index-modal, 1040) !default;
+$wk-z-index-tooltip: var(--wk-z-index-tooltip, 1050) !default;

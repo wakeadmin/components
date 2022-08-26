@@ -450,7 +450,7 @@ export interface FatFormGroupProps<S> extends FatFormItemShared, FatFormGroupSlo
 /**
  * fat 表单项插槽
  */
-export interface FatFormItemSlots<S> {
+export interface FatFormItemSlots<S extends {}> {
   /**
    * 自定义标签渲染
    */

@@ -430,7 +430,7 @@ export interface FatTableColumnFilter {
   filteredValue?: any[];
 }
 
-export interface FatTableColumnLabel<T, S> {
+export interface FatTableColumnLabel<T extends {}, S extends {}> {
   // -------------- 标题 --------------
   /**
    * 文本标题
