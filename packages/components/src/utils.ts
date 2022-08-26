@@ -16,6 +16,22 @@ export function normalizeStyle(...list: LooseStyleValue[]) {
   return list.filter(i => (Array.isArray(i) ? i.length : i)).flat() as StyleValue[];
 }
 
+/**
+ * 是否存在事件订阅者
+ * note: 不支持修饰符
+ * @param name
+ * @returns
+ */
+export function hasListener(name: string, instance?: any) {
+  instance ??= getCurrentInstance()?.proxy;
+
+  if (isVue2) {
+    return name in (instance?.$listeners ?? NoopObject);
+  } else {
+    return `on${upperFirst(name)}` in (instance?.$attrs ?? NoopObject);
+  }
+}
+
 export type TrimOnPrefix<K extends string> = K extends `on${infer E}`
   ? E extends `${infer F}${infer L}`
     ? `${Lowercase<F>}${L}`

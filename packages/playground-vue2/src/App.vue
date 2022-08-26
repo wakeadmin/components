@@ -12,4 +12,9 @@
   $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
   @import '~element-ui/packages/theme-chalk/src/index';
+
+  body {
+    padding: 0;
+    margin: 0;
+  }
 </style>

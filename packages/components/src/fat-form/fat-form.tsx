@@ -298,6 +298,19 @@ const FatFormInner = declareComponent({
       const layout = instance.layout;
       const labelAlign = props.labelAlign ?? 'right';
 
+      const renderButtons = () => {
+        return [
+          <Button type="primary" {...props.submitProps} onClick={instance.submit}>
+            {props.submitText ?? '保存'}
+          </Button>,
+          !!props.enableReset && (
+            <Button {...props.resetProps} onClick={instance.reset}>
+              {props.resetText ?? '重置'}
+            </Button>
+          ),
+        ];
+      };
+
       return (
         <Form
           ref={formRef}
@@ -321,20 +334,14 @@ const FatFormInner = declareComponent({
           onSubmitNative={handleSubmit}
         >
           {slots.default?.()}
-          {props.enableSubmitter && hasSubmitter.value ? (
-            renderSlot(props, slots, 'submitter', instance)
-          ) : (
-            <FatFormGroup labelWidth="auto" gutter="medium">
-              <Button type="primary" {...props.submitProps} onClick={instance.submit}>
-                {props.submitText ?? '保存'}
-              </Button>
-              {!!props.enableReset && (
-                <Button {...props.resetProps} onClick={instance.reset}>
-                  {props.resetText ?? '重置'}
-                </Button>
-              )}
-            </FatFormGroup>
-          )}
+          {props.enableSubmitter &&
+            (hasSubmitter.value ? (
+              renderSlot(props, slots, 'submitter', instance, renderButtons)
+            ) : (
+              <FatFormGroup labelWidth="auto" gutter="medium">
+                {renderButtons()}
+              </FatFormGroup>
+            ))}
         </Form>
       );
     };

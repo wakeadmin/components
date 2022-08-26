@@ -222,8 +222,10 @@ export interface FatFormSubmitter<S> {
 export interface FatFormSlots<S> {
   /**
    * 自定义渲染 提交按钮
+   * @param form 表单实例
+   * @param buttons 默认按钮渲染
    */
-  renderSubmitter?: (form: FatFormMethods<S>) => any;
+  renderSubmitter?: (form: FatFormMethods<S>, buttons: () => any) => any;
 }
 
 /**

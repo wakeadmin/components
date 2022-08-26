@@ -2,6 +2,8 @@ import { createApp } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Element from 'element-plus';
 
+import '@wakeadmin/components/style/index.scss';
+
 import App from './App.vue';
 import { routes } from './router';
 
