@@ -15,16 +15,20 @@
       <template #title> title </template>
       content
     </FatHeader>
+
+    <FatFloatFooter>submit</FatFloatFooter>
   </div>
 </template>
 
 <script lang="tsx" setup>
-  import { FatHeader } from '@wakeadmin/components';
+  import { FatHeader, FatFloatFooter } from '@wakeadmin/components';
 </script>
 
 <style scoped>
   .container {
     background-color: gray;
     padding: 20px;
+    position: relative;
+    margin-left: 200px;
   }
 </style>

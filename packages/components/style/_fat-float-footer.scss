@@ -1,0 +1,32 @@
+@use 'share' as *;
+@use 'variables' as *;
+
+.fat-float-footer {
+  $height: getVar(float-footer-height, 60px);
+  $bg: getVar(float-footer-background, $wk-color-white);
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $height;
+  line-height: $height;
+  box-shadow: 0 -4px 8px 0 rgb(0 0 0 / 7%);
+  background: $bg;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__placeholder {
+    width: 100%;
+    height: $height;
+  }
+
+  &__watcher {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
