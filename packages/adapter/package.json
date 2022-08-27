@@ -27,7 +27,8 @@
   "author": "ivan-lee",
   "license": "MIT",
   "dependencies": {
-    "@wakeadmin/demi": "^0.1.1"
+    "@wakeadmin/demi": "^0.1.1",
+    "@wakeadmin/h": "^0.2.2"
   },
   "devDependencies": {
     "element-plus": "^2.2.14",

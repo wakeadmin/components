@@ -1,16 +1,3 @@
-export interface DialogSlots {
-  /** Content of the Dialog */
-  default: any;
-
-  /** Content of the Dialog title */
-  title: any;
-
-  /** Content of the Dialog footer */
-  footer: any;
-
-  [key: string]: any;
-}
-
 /** Informs users while preserving the current page state */
 export interface DialogProps {
   modelValue?: boolean;
@@ -64,8 +51,6 @@ export interface DialogProps {
   onOpened?: () => void;
   onClose?: () => void;
   onClosed?: () => void;
-
-  $slots: DialogSlots;
 }
 
 export const Dialog: (props: DialogProps) => any;
