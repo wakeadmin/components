@@ -2,6 +2,9 @@
   <div class="container">
     <button @click="showModal('edit')">编辑</button>
     <button @click="showModal('add')">新增</button>
+
+    <button @click="showDrawer('edit')">编辑 drawer</button>
+    <button @click="showDrawer('add')">新增 drawer</button>
     <FatFormPage :enable-reset="false" @cancel="handleCancel">
       <template #title>你好世界</template>
       <FatFormSection title="分组1">
@@ -27,6 +30,14 @@
         <FatFormItem prop="address" label="地址" width="huge"></FatFormItem>
       </FatFormGroup>
     </FatFormModal>
+    <FatFormDrawer ref="drawer" enable-reset :submit="handleSubmit" drawer-size="50%" @finish="handleFinish">
+      <FatFormItem prop="name" label="名称" message="必须合法" width="medium" :rules="{ required: true }"></FatFormItem>
+      <FatFormItem prop="age" label="年龄" width="huge"></FatFormItem>
+      <FatFormGroup>
+        <FatFormItem prop="id" label="身份证" message="必须合法" width="medium"></FatFormItem>
+        <FatFormItem prop="address" label="地址" width="huge"></FatFormItem>
+      </FatFormGroup>
+    </FatFormDrawer>
   </div>
 </template>
 
@@ -36,6 +47,8 @@
     FatFormSection,
     FatFormModal,
     FatFormModalMethods,
+    FatFormDrawer,
+    FatFormDrawerMethods,
     FatFormItem,
     FatFormGroup,
   } from '@wakeadmin/components';
@@ -55,6 +68,12 @@
 
   const showModal = (type: 'add' | 'edit') => {
     modal.value?.open(type === 'add' ? { title: '新增' } : { title: '编辑', initialValue: { name: 'ivan lee' } });
+  };
+
+  const drawer = ref<FatFormDrawerMethods<any>>();
+
+  const showDrawer = (type: 'add' | 'edit') => {
+    drawer.value?.open(type === 'add' ? { title: '新增' } : { title: '编辑', initialValue: { name: 'ivan lee' } });
   };
 
   const handleCancel = () => {

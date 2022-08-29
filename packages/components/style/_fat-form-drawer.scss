@@ -1,0 +1,19 @@
+.fat-form-drawer {
+  &__body {
+    padding: 24px;
+    padding-bottom: 80px;
+  }
+
+  &__footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: white;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #f2f6fc;
+  }
+}
