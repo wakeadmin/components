@@ -492,7 +492,6 @@ export interface FatTableColumnSelect<T> {
 export interface FatTableColumn<
   T extends {},
   S extends {} = {},
-  K extends keyof T = keyof T,
   ValueType extends keyof AtomicProps | Atomic = keyof AtomicProps
 > extends FatTableColumnActions<T, S>,
     FatTableColumnForm<T>,
@@ -516,8 +515,11 @@ export interface FatTableColumn<
   /**
    * 字段名
    * 当列类型为 表单字段、排序字段、筛选字段 时， prop 是必填的
+   *
+   * 对于表格字段，prop 是属性名。
+   * 对于表单，支持属性路径, 例如 a.b
    */
-  prop?: K;
+  prop?: string;
 
   /**
    * 可选，用于唯一标记列
@@ -532,7 +534,7 @@ export interface FatTableColumn<
   /**
    * 自定义单元格渲染
    */
-  render?: (value: T[K], row: T, index: number) => any;
+  render?: (value: any, row: T, index: number) => any;
 
   /**
    * 字段原件类型, 默认为 text

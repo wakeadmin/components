@@ -1,6 +1,6 @@
 import { Form, FormMethods, size, Button } from '@wakeadmin/component-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { ref, provide, computed } from '@wakeadmin/demi';
+import { ref, provide, computed, watch } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
 
 import {
@@ -16,6 +16,7 @@ import {
 import { FatFormEvents, FatFormMethods, FatFormProps, FatFormSlots } from './types';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
 import { FatFormGroup } from './fat-form-group';
+import { useTouches } from './hooks';
 
 const FatFormInner = declareComponent({
   name: 'FatForm',
@@ -49,12 +50,13 @@ const FatFormInner = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatFormSlots<any>>>(),
   emits: declareEmits<ToHEmitDefinition<FatFormEvents<any>>>(),
   setup(props, { slots, expose, attrs, emit }) {
+    let requestLoaded = false;
     const formRef = ref<FormMethods>();
     const loading = ref(false);
     const submitting = ref(false);
     const error = ref<Error>();
     const values = ref({});
-    let touched: Record<string, boolean> = {};
+    const touches = useTouches();
 
     /**
      * 初始值
@@ -64,11 +66,17 @@ const FatFormInner = declareComponent({
     const setInitialValue = (value: any) => {
       merge(initialValue, value);
 
-      values.value = cloneDeep(initialValue);
+      const cloned = cloneDeep(initialValue);
+
+      // 用户已经修改的字段不能覆盖
+      for (const key of touches.getAllTouches()) {
+        set(cloned, key, get(values.value, key));
+      }
+
+      values.value = cloned;
 
       emit('load', values.value);
     };
-
     /**
      * 数据请求
      * @returns
@@ -85,6 +93,7 @@ const FatFormInner = declareComponent({
         const response = await props.request();
 
         if (isPlainObject(response)) {
+          requestLoaded = true;
           setInitialValue(response);
         }
       } catch (err) {
@@ -96,9 +105,21 @@ const FatFormInner = declareComponent({
       }
     };
 
-    if (isPlainObject(props.initialValue)) {
-      setInitialValue(props.initialValue);
-    }
+    // 监听 initialValue 变动
+    watch(
+      () => props.initialValue,
+      value => {
+        // 从远程加载了数据，将忽略 initialValue
+        if (requestLoaded) {
+          return;
+        }
+
+        if (isPlainObject(value)) {
+          setInitialValue(value);
+        }
+      },
+      { immediate: true }
+    );
 
     // 初始化请求
     if (props.request && props.requestOnMounted) {
@@ -166,7 +187,7 @@ const FatFormInner = declareComponent({
 
       values.value = cloneDeep(initialValue);
 
-      touched = {};
+      touches.clear();
 
       emit('reset', values.value);
     };
@@ -190,27 +211,34 @@ const FatFormInner = declareComponent({
 
       emit('valuesChange', values.value, prop, value);
 
-      touched[prop] = true;
+      touches.touch(prop);
     };
 
     const isFieldTouched = (prop: string | string[], allTouched = true): boolean => {
       const p = Array.isArray(prop) ? prop : [prop];
 
       if (allTouched) {
-        return p.every(i => touched[i]);
+        return p.every(touches.isTouched);
       } else {
-        return p.some(i => touched[i]);
+        return p.some(touches.isTouched);
       }
     };
 
     // ------ 以下是 私有方法 --------
     const __setInitialValue = (prop: string, value: any) => {
-      if (!hasByPath(initialValue, prop)) {
-        set(initialValue, prop, value);
-
-        // vue2 兼容
-        setByPath(values.value, prop, value);
+      if (touches.isTouched(prop)) {
+        return;
       }
+
+      // request 数据优先
+      if (requestLoaded && hasByPath(initialValue, prop)) {
+        return;
+      }
+
+      set(initialValue, prop, cloneDeep(value));
+
+      // vue2 兼容
+      setByPath(values.value, prop, cloneDeep(value));
     };
 
     // 表单实例

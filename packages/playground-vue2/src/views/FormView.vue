@@ -5,14 +5,16 @@
       <el-radio-button label="horizontal"></el-radio-button>
       <el-radio-button label="vertical"></el-radio-button>
     </el-radio-group>
-    <FatSpace style="color: red" :size="100"
-      >12
-      <div>32</div>
-    </FatSpace>
-    <FatForm ref="formRef" :initial-value="initialValue" :layout="layout" :submit="handleSubmit" label-width="100px">
+
+    <div>
+      <button @click="changeInitialValue">修改 initialValue</button>
+    </div>
+
+    <FatForm ref="formRef" :initial-value="initialValue" :layout="layout" :submit="handleSubmit">
       <FatFormItem label="姓名(a,b)" prop="a.b" initial-value="bbb" />
       <FatFormItem label="年龄(a.d)" prop="a.d" :rules="{ required: true }" />
-      <FatFormItem label="身份证(b.a)" prop="b.a" initial-value="b.a" />
+      <FatFormItem label="身份证(b.a)" prop="b.a" initial-value="b.a.aa" />
+      <FatFormItem label="很长的标签（a.c）" prop="a.c" />
       <FatFormItem :hidden="true" label="隐藏" prop="a.c" />
       <FatFormItem label="密码" prop="password" :rules="[{ required: true }]" message="很重要" />
       <FatFormGroup
@@ -61,17 +63,26 @@
 </template>
 
 <script lang="tsx" setup>
-  import { FatForm, FatSpace, FatFormItem, FatFormConsumer, FatFormMethods, FatFormGroup } from '@wakeadmin/components';
-  import { ref } from 'vue';
+  import { FatForm, FatFormItem, FatFormConsumer, FatFormMethods, FatFormGroup } from '@wakeadmin/components';
+  import { ref, shallowRef } from 'vue';
 
   const formRef = ref<FatFormMethods<any>>();
   const layout = ref<any>('horizontal');
 
-  const initialValue = {
+  const initialValue = shallowRef({
     a: {
       b: 1,
       c: 2,
     },
+  });
+
+  const changeInitialValue = () => {
+    initialValue.value = {
+      a: {
+        b: 2,
+        c: 4,
+      },
+    };
   };
 
   const rulesForConfirmPassword = [

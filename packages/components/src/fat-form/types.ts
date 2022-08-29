@@ -259,6 +259,7 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
 
   /**
    * 数据请求。用于预览、编辑场景
+   * request 请求的数据高于 initialValue, 不推荐同时使用
    */
   request?: () => Promise<S>;
 

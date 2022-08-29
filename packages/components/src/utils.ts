@@ -141,6 +141,15 @@ export function pickEnumerable<T extends {}>(value: T): T {
   }, {});
 }
 
+/**
+ * 规范化对象路径
+ * @param p
+ * @returns
+ */
+export function normalizeKeyPath(p: string) {
+  return toPath(p).join('.');
+}
+
 function isNumeric(str: string) {
   return !isNaN(parseFloat(str));
 }

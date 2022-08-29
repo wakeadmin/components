@@ -60,7 +60,15 @@ const FatFormItemInner = declareComponent({
     const inheritProps = useInheritableProps();
 
     // 初始化
-    form.__setInitialValue(props.prop!, props.initialValue);
+    watch(
+      () => props.initialValue,
+      value => {
+        if (value !== undefined) {
+          form.__setInitialValue(props.prop!, value);
+        }
+      },
+      { immediate: true }
+    );
 
     const getAtom = (): Atomic => {
       const valueType = props.valueType ?? 'text';

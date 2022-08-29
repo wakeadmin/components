@@ -11,6 +11,7 @@ import { composeAtomProps } from '../utils';
 import { getAtom } from './utils';
 import { FatTableColumn } from './types';
 
+// FIXME: vue 2 初始化 props 设置
 export const Query = declareComponent({
   name: 'FatTableQuery',
   props: declareProps<{
