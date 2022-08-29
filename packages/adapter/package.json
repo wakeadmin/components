@@ -28,10 +28,10 @@
   "license": "MIT",
   "dependencies": {
     "@wakeadmin/demi": "^0.1.1",
-    "@wakeadmin/h": "^0.2.2"
+    "@wakeadmin/h": "^0.2.3"
   },
   "devDependencies": {
-    "element-plus": "^2.2.14",
+    "element-plus": "^2.2.15",
     "element-ui": "^2.15.9"
   },
   "peerDependencies": {

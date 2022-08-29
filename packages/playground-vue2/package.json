@@ -20,7 +20,7 @@
   "dependencies": {
     "@wakeadmin/components": "workspace:^0.1.0",
     "@wakeadmin/framework": "^0.1.3",
-    "@wakeadmin/h": "^0.2.2",
+    "@wakeadmin/h": "^0.2.3",
     "@wakeadmin/i18n-legacy": "^0.1.3",
     "core-js": "^3.25.0",
     "element-ui": "latest",
