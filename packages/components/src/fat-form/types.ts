@@ -217,6 +217,16 @@ export interface FatFormSubmitter<S> {
    * 重置按钮属性
    */
   resetProps?: ButtonProps;
+
+  /**
+   * 提交器类名
+   */
+  submitterClassName?: ClassValue;
+
+  /**
+   * 提交器内联样式
+   */
+  submitterStyle?: StyleValue;
 }
 
 export interface FatFormSlots<S> {

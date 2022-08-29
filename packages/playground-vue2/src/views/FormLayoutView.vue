@@ -38,12 +38,26 @@
         <FatFormItem prop="address" label="地址" width="huge"></FatFormItem>
       </FatFormGroup>
     </FatFormDrawer>
+    <div>
+      <h1>query</h1>
+      <FatForm layout="inline" submitter-style="margin-left: 50px">
+        <FatFormItem label="订单编号" prop="a"></FatFormItem>
+        <FatFormItem label="订单退款情况" prop="b"></FatFormItem>
+        <FatFormItem label="营销类型" prop="c"></FatFormItem>
+        <FatFormItem label="提货方式" prop="d"></FatFormItem>
+        <FatFormItem label="支付单号" prop="e"></FatFormItem>
+        <FatFormItem label="第三方支付单号" prop="e"></FatFormItem>
+        <FatFormItem label="支付方式" prop="e"></FatFormItem>
+        <FatFormItem label="商品名称" prop="e"></FatFormItem>
+      </FatForm>
+    </div>
   </div>
 </template>
 
 <script lang="tsx" setup>
   import {
     FatFormPage,
+    FatForm,
     FatFormSection,
     FatFormModal,
     FatFormModalMethods,

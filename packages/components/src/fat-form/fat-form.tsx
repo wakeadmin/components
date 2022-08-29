@@ -40,6 +40,8 @@ const FatFormInner = declareComponent({
     enableReset: { type: Boolean, default: true },
     submitProps: null,
     resetProps: null,
+    submitterClassName: null,
+    submitterStyle: null,
 
     // slots
     renderSubmitter: null,
@@ -338,7 +340,12 @@ const FatFormInner = declareComponent({
             (hasSubmitter.value ? (
               renderSlot(props, slots, 'submitter', instance, renderButtons)
             ) : (
-              <FatFormGroup labelWidth="auto" gutter="medium">
+              <FatFormGroup
+                labelWidth="auto"
+                gutter="medium"
+                class={props.submitterClassName}
+                style={props.submitterStyle}
+              >
                 {renderButtons()}
               </FatFormGroup>
             ))}
