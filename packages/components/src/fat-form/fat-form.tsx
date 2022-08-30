@@ -267,10 +267,11 @@ const FatFormInner = declareComponent({
         return;
       }
 
-      set(initialValue, prop, cloneDeep(value));
+      if (get(values.value, prop) === undefined) {
+        set(initialValue, prop, cloneDeep(value));
 
-      // vue2 兼容
-      setByPath(values.value, prop, cloneDeep(value));
+        setByPath(values.value, prop, cloneDeep(value));
+      }
     };
 
     // 表单实例

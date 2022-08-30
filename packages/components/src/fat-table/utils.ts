@@ -1,4 +1,5 @@
 import { cloneDeep, merge, get, isPlainObject } from '@wakeadmin/utils';
+import unset from 'lodash/unset';
 
 import { FatTableColumn } from './types';
 import { Registry } from '../atomic';
@@ -56,11 +57,8 @@ export function mergeAndTransformQuery(query: any, extraQuery: any, columns: Fat
         merge(q, result);
       }
 
-      if (result !== false) {
-        // 移除原有字段
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-        delete q[column.prop];
-      }
+      // 移除原有字段
+      unset(q, column.prop);
     }
   }
 

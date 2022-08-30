@@ -11,10 +11,11 @@ export const Query = declareComponent({
   props: declareProps<{
     loading: boolean;
     formProps: any;
+    initialValue: any;
     columns: FatTableColumn<any>[];
     query: () => Ref<any>;
     formRef?: () => Ref<FatFormMethods<any> | undefined>;
-  }>(['loading', 'query', 'formProps', 'columns', 'formRef']),
+  }>(['loading', 'query', 'formProps', 'initialValue', 'columns', 'formRef']),
   emits: declareEmits<{
     submit: () => void;
     reset: () => void;
@@ -38,6 +39,7 @@ export const Query = declareComponent({
             ref={props.formRef?.()}
             _values={props.query}
             loading={props.loading}
+            initialValue={props.initialValue}
             layout="inline"
             renderSubmitter={(form, buttons) => {
               return [ctx.slots.beforeButtons?.(scope), buttons(), ctx.slots.afterButtons?.(scope)];
@@ -69,13 +71,14 @@ export const Query = declareComponent({
                     renderLabel={column.renderLabel ? () => column.renderLabel!(index, column) : undefined}
                     disabled={column.disabled}
                     tooltip={column.tooltip}
+                    initialValue={column.initialValue}
+                    valueType={column.valueType}
+                    valueProps={{ ...column.valueProps, scene: 'table' }}
                     {...column.formItemProps}
                     class={normalizeClassName(
                       column.type === 'query' ? column.className : undefined,
                       column.formItemProps?.atomicClassName
                     )}
-                    valueType={column.valueType}
-                    valueProps={{ ...column.valueProps, scene: 'table' }}
                   />
                 );
               })}

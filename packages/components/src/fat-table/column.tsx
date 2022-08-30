@@ -101,7 +101,7 @@ export const Column = declareComponent({
         extraProps.filters = column.filterable;
         extraProps.filteredValue = filter[column.prop as string] ?? [];
         extraProps.filterMultiple = column.filterMultiple;
-        extraProps.columnKey = key;
+        extraProps.columnKey = column.prop;
       }
 
       return (

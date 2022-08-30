@@ -11,13 +11,13 @@ import {
   MessageBox,
   MessageOptions,
 } from '@wakeadmin/component-adapter';
-import { ref, onMounted, reactive, nextTick, watch, readonly } from '@wakeadmin/demi';
+import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
-import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObject } from '@wakeadmin/utils';
+import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
 import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
-import { hasSlots, inheritProps, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
+import { hasSlots, inheritProps, reactiveAssign, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
 import { FatFormMethods } from '../fat-form';
 
 import {
@@ -32,7 +32,7 @@ import {
   FatTableEvents,
   FatTableLayout,
 } from './types';
-import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
+import { validateColumns, genKey, mergeAndTransformQuery } from './utils';
 import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
@@ -168,10 +168,10 @@ const FatTableInner = declareComponent({
 
         emit('queryCacheRestore', cache);
 
-        Object.assign(pagination, cache.pagination);
+        reactiveAssign(pagination, cache.pagination);
 
         if (cache.query) {
-          Object.assign(query.value, cache.query);
+          reactiveAssign(query.value, cache.query);
         }
 
         if (cache.sort !== undefined) {
@@ -179,7 +179,7 @@ const FatTableInner = declareComponent({
         }
 
         if (cache.filter) {
-          Object.assign(filter, cache.filter);
+          reactiveAssign(filter, cache.filter);
         }
       }
     };
@@ -263,7 +263,9 @@ const FatTableInner = declareComponent({
       // 检查校验状态
       try {
         if (enableQuery && formRef.value) {
-          await formRef.value.validate();
+          if (!(await formRef.value.validate())) {
+            return;
+          }
         }
 
         resetTempState();
@@ -301,18 +303,8 @@ const FatTableInner = declareComponent({
     };
 
     // 字段状态初始化
-    const initialQuery: any = {};
     let initialSort: FatTableSort | undefined;
     const initialFilter: FatTableFilter = {};
-
-    // 用户定义的表单初始值
-    if (props.initialQuery != null) {
-      const userInitialQuery = typeof props.initialQuery === 'function' ? props.initialQuery() : props.initialQuery;
-
-      if (isPlainObject(userInitialQuery)) {
-        merge(initialQuery, cloneDeep(userInitialQuery));
-      }
-    }
 
     for (const column of props.columns) {
       if (column.type === 'selection') {
@@ -331,18 +323,6 @@ const FatTableInner = declareComponent({
       if (column.filterable) {
         _set(initialFilter, column.prop!, column.filteredValue ?? []);
       }
-
-      // 查询字段初始化
-      if (isQueryable(column) && column.initialValue !== undefined) {
-        const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
-        const value = typeof column.initialValue === 'function' ? column.initialValue() : column.initialValue;
-
-        if (prop) {
-          _set(initialQuery, prop, value);
-        } else if (isPlainObject(value)) {
-          merge(initialQuery, cloneDeep(value));
-        }
-      }
     }
 
     /**
@@ -354,9 +334,10 @@ const FatTableInner = declareComponent({
       // element-ui 不支持后续通过方法重置 filter 状态，
       // 因此这里只有在初始化时才会执行
       if (!updateTable) {
-        Object.assign(filter, cloneDeep(initialFilter));
+        reactiveAssign(filter, cloneDeep(initialFilter));
       }
 
+      sort.value = initialSort ? cloneDeep(initialSort) : undefined;
       if (updateTable && tableRef.value) {
         if (sort.value) {
           tableRef.value.sort(sort.value.prop, sort.value.order);
@@ -364,20 +345,9 @@ const FatTableInner = declareComponent({
           tableRef.value.clearSort();
         }
       }
-
-      query.value = cloneDeep(initialQuery);
-      sort.value = initialSort ? { ...initialSort } : undefined;
     };
 
     setInitialValue();
-
-    // 缓存恢复
-    if (enableCacheQuery && route?.query[queryCacheKey] != null) {
-      // 开启了缓存
-      // 恢复搜索缓存
-      uid = route.query[queryCacheKey] as string;
-      restoreFromCache();
-    }
 
     // 监听 query 变动
     if (requestOnQueryChange) {
@@ -400,6 +370,14 @@ const FatTableInner = declareComponent({
      * 启动
      */
     onMounted(async () => {
+      // 缓存恢复
+      if (enableCacheQuery && route?.query[queryCacheKey] != null) {
+        // 开启了缓存
+        // 恢复搜索缓存
+        uid = route.query[queryCacheKey] as string;
+        restoreFromCache();
+      }
+
       if (enableCacheQuery) {
         // 开启了缓存
         if (route?.query[queryCacheKey] != null) {
@@ -454,11 +432,11 @@ const FatTableInner = declareComponent({
 
       for (const key of keys) {
         const column = props.columns.find((i, idx) => {
-          return key === genKey(i, idx);
+          return key === i.prop;
         });
 
         if (column) {
-          filter[column.prop as string] = evt[key];
+          $set(filter, column.prop!, evt[key]);
           dirty = true;
         }
       }
@@ -466,6 +444,15 @@ const FatTableInner = declareComponent({
       if (dirty && requestOnFilterChange) {
         fetch();
       }
+    };
+
+    const handleReset = () => {
+      // 重置表单状态、排序状态、筛选状态
+      setInitialValue(true);
+
+      emit('reset');
+
+      debouncedSearch();
     };
 
     /**
@@ -574,12 +561,11 @@ const FatTableInner = declareComponent({
     };
 
     const reset = async () => {
-      // 重置表单状态、排序状态、筛选状态
-      setInitialValue(true);
-
-      emit('reset');
-
-      debouncedSearch();
+      if (formRef.value) {
+        formRef.value.reset();
+      } else {
+        handleReset();
+      }
     };
 
     // 选择指定行
@@ -686,12 +672,13 @@ const FatTableInner = declareComponent({
               renderSlot(props, slots, 'beforeForm', tableInstance),
               <Query
                 loading={loading.value}
+                initialValue={props.initialQuery}
                 formRef={() => formRef}
                 query={() => query}
                 formProps={props.formProps}
                 columns={props.columns}
                 onSubmit={leadingDebouncedSearch}
-                onReset={reset}
+                onReset={handleReset}
                 v-slots={{
                   before() {
                     return renderSlot(props, slots, 'formHeading', tableInstance);

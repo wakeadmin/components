@@ -139,7 +139,7 @@
         { text: 'one', value: 1 },
         { text: 'two', value: 2 },
       ],
-      filteredValue: [1, 2],
+      filteredValue: [1],
     },
     {
       type: 'actions',

@@ -349,10 +349,8 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
 
   /**
    * 表单的默认值
-   * 如果指定了 prop，initialValue 的值将设置到 prop 中
-   * 否则如何返回一个对象，将合并到 query 中作为初始值
    */
-  initialValue?: any | (() => any);
+  initialValue?: any;
 
   /**
    * 用于转换表单的数据，比如前端使用 dataRange 字段来表示时间范围，而后端需要的是 startTime、endTime
@@ -362,7 +360,7 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
    *  transform 返回的是 {startTime、endTime}
    *  最后的结果是 dataRange 会从 query 中移除，并且 startTime、endTime 会合并到 query 中
    *
-   *  如果 transform 返回非对象的值，将被忽略，但是 dataRange 依旧会被移除, 你可以返回 false 来告诉 fat-table 不要移除原有的字段
+   *  如果 transform 返回非对象的值，**将被忽略**
    */
   transform?: (value: any) => any;
 
@@ -614,7 +612,7 @@ export interface FatTableQuery<T extends {}, S extends {}> {
   /**
    * 表单初始值
    */
-  initialQuery?: Partial<S> | (() => Partial<S>);
+  initialQuery?: Partial<S>;
 
   /**
    * query 防抖时长，默认为 800ms

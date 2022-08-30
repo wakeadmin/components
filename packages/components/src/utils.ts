@@ -211,6 +211,24 @@ export function setByPath(target: any, key: string, value: any) {
 }
 
 /**
+ * Object.assign 实现, 支持 vue 2 key
+ */
+export function reactiveAssign(target: any, source: any) {
+  if (!isVue2) {
+    Object.assign(target, source);
+    return;
+  }
+
+  for (const key in source) {
+    if (key in target) {
+      target[key] = source[key];
+    } else {
+      $set(target, key, source[key]);
+    }
+  }
+}
+
+/**
  * 判断指定路径是否存在
  *
  * @param target
