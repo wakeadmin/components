@@ -525,7 +525,7 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   /**
    * 字段初始值
    *
-   * note: 如果与 Form 的 initialValues 冲突则以 Form 为准
+   * note: 优先级会高于 FatForm 定义的 initialValues
    */
   initialValue?: any;
 
