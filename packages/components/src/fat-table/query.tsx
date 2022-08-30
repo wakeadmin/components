@@ -1,40 +1,20 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { Form, FormItem, Button, FormMethods, Tooltip } from '@wakeadmin/component-adapter';
-import { get, set as _set } from '@wakeadmin/utils';
 import { Ref } from '@wakeadmin/demi';
-import { Inquiry } from '@wakeadmin/icons';
 
-import { useAtomicRegistry } from '../hooks';
-import { AtomicCommonProps } from '../atomic';
-import { composeAtomProps } from '../utils';
+import { normalizeClassName } from '../utils';
 
-import { getAtom } from './utils';
 import { FatTableColumn } from './types';
+import { FatForm, FatFormItem, FatFormMethods } from '../fat-form';
 
-// FIXME: vue 2 初始化 props 设置
 export const Query = declareComponent({
   name: 'FatTableQuery',
   props: declareProps<{
     loading: boolean;
-    query: any;
     formProps: any;
     columns: FatTableColumn<any>[];
-    enableSearchButton?: boolean;
-    enableResetButton?: boolean;
-    searchText?: string;
-    resetText?: string;
-    formRef?: () => Ref<FormMethods | undefined>;
-  }>([
-    'loading',
-    'query',
-    'formProps',
-    'columns',
-    'enableSearchButton',
-    'enableResetButton',
-    'searchText',
-    'resetText',
-    'formRef',
-  ]),
+    query: () => Ref<any>;
+    formRef?: () => Ref<FatFormMethods<any> | undefined>;
+  }>(['loading', 'query', 'formProps', 'columns', 'formRef']),
   emits: declareEmits<{
     submit: () => void;
     reset: () => void;
@@ -45,17 +25,27 @@ export const Query = declareComponent({
     afterButtons: { query: any };
   }>(),
   setup(props, ctx) {
-    const atomics = useAtomicRegistry();
-
-    const submit = () => ctx.emit('submit');
+    const submit = async () => ctx.emit('submit');
     const reset = () => ctx.emit('reset');
 
     return () => {
-      const query = props.query;
+      const query = props.query().value;
       const scope = { query };
+
       return (
         <div class="fat-table__query">
-          <Form ref={props.formRef?.()} model={query} inline {...props.formProps}>
+          <FatForm
+            ref={props.formRef?.()}
+            _values={props.query}
+            loading={props.loading}
+            layout="inline"
+            renderSubmitter={(form, buttons) => {
+              return [ctx.slots.beforeButtons?.(scope), buttons(), ctx.slots.afterButtons?.(scope)];
+            }}
+            submit={submit}
+            onReset={reset}
+            {...props.formProps}
+          >
             {ctx.slots.before?.(scope)}
             {props.columns
               ?.filter(column => {
@@ -70,90 +60,26 @@ export const Query = declareComponent({
 
                 const prop = (typeof column.queryable === 'string' ? column.queryable : column.prop) as string;
                 const key = `${prop}_${index}`;
-                const { comp, validate } = getAtom(column, atomics);
-                let rules = column.formItemProps?.rules ?? [];
-
-                const atomProps = composeAtomProps(
-                  {
-                    mode: 'editable',
-                    disabled: column.disabled,
-                    scene: 'table',
-                    value: get(query, prop),
-                    onChange: value => {
-                      _set(query, prop, value);
-                    },
-                    context: query,
-                  } as AtomicCommonProps<any>,
-                  column.valueProps
-                );
-
-                // 原件内置的验证规则
-                if (validate) {
-                  if (!Array.isArray(rules)) {
-                    rules = [rules];
-                  }
-
-                  // 验证
-                  rules.push({
-                    validator: async (rule: any, value: any, callback: any) => {
-                      try {
-                        await validate(value, atomProps, query);
-                        callback();
-                      } catch (err) {
-                        callback(err);
-                      }
-                    },
-                  });
-                }
 
                 return (
-                  <FormItem
+                  <FatFormItem
                     key={key}
                     prop={prop}
                     label={column.label}
-                    class={column.type === 'query' ? column.className : undefined}
+                    renderLabel={column.renderLabel ? () => column.renderLabel!(index, column) : undefined}
+                    disabled={column.disabled}
+                    tooltip={column.tooltip}
                     {...column.formItemProps}
-                    v-slots={
-                      column.renderLabel || column.tooltip
-                        ? {
-                            label: () => {
-                              return (
-                                <span>
-                                  {column.renderLabel ? column.renderLabel(index, column) : column.label}
-                                  {!!column.tooltip && (
-                                    <Tooltip content={column.tooltip}>
-                                      <Inquiry class="fat-table__tooltip" />
-                                    </Tooltip>
-                                  )}
-                                </span>
-                              );
-                            },
-                          }
-                        : undefined
-                    }
-                    rules={rules}
-                  >
-                    {comp(atomProps)}
-                  </FormItem>
+                    class={normalizeClassName(
+                      column.type === 'query' ? column.className : undefined,
+                      column.formItemProps?.atomicClassName
+                    )}
+                    valueType={column.valueType}
+                    valueProps={{ ...column.valueProps, scene: 'table' }}
+                  />
                 );
               })}
-            {ctx.slots.beforeButtons?.(scope)}
-            {(!!props.enableSearchButton || !!props.enableResetButton) && (
-              <FormItem>
-                {!!props.enableSearchButton && (
-                  <Button type="primary" onClick={submit} disabled={props.loading}>
-                    {props.searchText ?? '搜索'}
-                  </Button>
-                )}
-                {!!props.enableResetButton && (
-                  <Button onClick={reset} disabled={props.loading}>
-                    {props.resetText ?? '重置'}
-                  </Button>
-                )}
-              </FormItem>
-            )}
-            {ctx.slots.afterButtons?.(scope)}
-          </Form>
+          </FatForm>
         </div>
       );
     };

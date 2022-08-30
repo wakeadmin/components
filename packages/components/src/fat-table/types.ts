@@ -1,8 +1,6 @@
 import {
   FilterList,
   SortOrder,
-  FormProps,
-  FormItemProps,
   MessageBoxOptions,
   MessageOptions,
   TableProps,
@@ -10,10 +8,10 @@ import {
   ClassValue,
   PaginationProps,
   TableMethods,
-  FormMethods,
 } from '@wakeadmin/component-adapter';
 
 import { Atomic } from '../atomic';
+import { FatFormItemProps, FatFormMethods, FatFormProps } from '../fat-form';
 
 import { FatTableAction, FatTableActionsProps } from './table-actions';
 
@@ -77,7 +75,7 @@ export interface FatTableRequestResponse<T> {
 /**
  * 表格方法、实例属性
  */
-export interface FatTableMethods<T, S> {
+export interface FatTableMethods<T extends {}, S extends {}> {
   /**
    * 获取底层 el-table 实例
    */
@@ -86,7 +84,7 @@ export interface FatTableMethods<T, S> {
   /**
    * 获取底层 el-form 实例
    */
-  readonly formRef: FormMethods | undefined;
+  readonly formRef: FatFormMethods<S> | undefined;
 
   /**
    * 获取已选中的记录
@@ -187,7 +185,7 @@ export interface FatTableMethods<T, S> {
   reset(): void;
 }
 
-export interface FatTableSlots<T, S> {
+export interface FatTableSlots<T extends {}, S extends {}> {
   /**
    * 渲染标题
    */
@@ -285,7 +283,7 @@ export interface FatTableEvents<T> {
 /**
  * --------------- actions 类型特定参数 -----------------
  */
-export interface FatTableColumnActions<T, S> {
+export interface FatTableColumnActions<T extends {}, S extends {}> {
   /**
    * 操作
    */
@@ -321,7 +319,7 @@ export interface FatTableColumnActions<T, S> {
   actionsStyle?: StyleValue;
 }
 
-export interface FatTableColumnForm<T> {
+export interface FatTableColumnForm<T extends {}, S extends {}> {
   // ---------------- 表单搜索特定参数  --------------------
   /**
    * 该字段是否开启表单搜索, 默认关闭
@@ -338,13 +336,16 @@ export interface FatTableColumnForm<T> {
   /**
    * 表单项配置
    */
-  formItemProps?: FormItemProps;
+  formItemProps?: Omit<
+    FatFormItemProps<S, any>,
+    'prop' | 'initialValue' | 'valueType' | 'valueProps' | 'disabled' | 'mode' | 'label' | 'tooltip'
+  >;
 
   /**
    * 自定义表单渲染
    * 注意，返回的 vnode 需要配置 key
    */
-  renderFormItem?: (query: any, column: T) => any;
+  renderFormItem?: (query: S, column: T) => any;
 
   /**
    * 表单的默认值
@@ -494,7 +495,7 @@ export interface FatTableColumn<
   S extends {} = {},
   ValueType extends keyof AtomicProps | Atomic = keyof AtomicProps
 > extends FatTableColumnActions<T, S>,
-    FatTableColumnForm<T>,
+    FatTableColumnForm<T, S>,
     FatTableColumnStyle,
     FatTableColumnFilter,
     FatTableColumnLabel<T, S>,
@@ -623,27 +624,7 @@ export interface FatTableQuery<T extends {}, S extends {}> {
   /**
    * 搜索表单属性
    */
-  formProps?: FormProps;
-
-  /**
-   * 开启搜索按钮, 默认开启
-   */
-  enableSearchButton?: boolean;
-
-  /**
-   * 开启重置按钮, 默认开启
-   */
-  enableResetButton?: boolean;
-
-  /**
-   * 搜索按钮文本
-   */
-  searchText?: string;
-
-  /**
-   * 重置按钮文本
-   */
-  resetText?: string;
+  formProps?: Omit<FatFormProps<S>, 'submit' | 'initialValue'>;
 }
 
 export interface FatTableSelect<T> {

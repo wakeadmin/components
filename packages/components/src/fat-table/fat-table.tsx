@@ -2,7 +2,6 @@ import {
   Table,
   Pagination,
   SortOrder,
-  FormMethods,
   TableMethods,
   Alert,
   Empty,
@@ -38,6 +37,7 @@ import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
 
 import './index.scss';
+import { FatFormMethods } from '../fat-form';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -66,10 +66,6 @@ const FatTableInner = declareComponent({
     'queryWatchDelay',
     'formProps',
     'enableErrorCapture',
-    'enableSearchButton',
-    'enableResetButton',
-    'searchText',
-    'resetText',
     'emptyText',
     'title',
     'layout',
@@ -101,8 +97,6 @@ const FatTableInner = declareComponent({
 
     const enableCacheQuery = props.enableCacheQuery ?? true;
     const enableQuery = props.enableQuery ?? true;
-    const enableSearchButton = props.enableSearchButton ?? true;
-    const enableResetButton = props.enableResetButton ?? true;
     const enableErrorCapture = props.enableErrorCapture ?? true;
     const enablePagination = props.enablePagination ?? true;
 
@@ -113,7 +107,7 @@ const FatTableInner = declareComponent({
     const requestOnRemoved = props.requestOnRemoved ?? true;
 
     const tableRef = ref<TableMethods>();
-    const formRef = ref<FormMethods>();
+    const formRef = ref<FatFormMethods<any>>();
     const router = useRouter();
     const route = useRoute();
 
@@ -695,13 +689,9 @@ const FatTableInner = declareComponent({
               <Query
                 loading={loading.value}
                 formRef={() => formRef}
-                query={query.value}
+                query={() => query}
                 formProps={props.formProps}
                 columns={props.columns}
-                enableSearchButton={enableSearchButton}
-                enableResetButton={enableResetButton}
-                searchText={props.searchText}
-                resetText={props.resetText}
                 onSubmit={leadingDebouncedSearch}
                 onReset={reset}
                 v-slots={{

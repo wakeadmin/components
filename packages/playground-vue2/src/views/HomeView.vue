@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
     <FatTable
       ref="tableRef"
       row-key="id"
@@ -12,7 +11,10 @@
       row-class-name="fuck"
       @row-click="handleClick"
       @queryCacheRestore="handleCacheRestore"
-    />
+    >
+      <template #beforeSubmit> hello </template>
+      <template #formTrailing> hello </template>
+    </FatTable>
 
     <button @click="selectAll">select all</button>
     <button @click="unselectAll">unselect all</button>
@@ -21,9 +23,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
   import { ref } from 'vue';
   import { FatTable } from '@wakeadmin/components';
+  import { delay } from '@wakeapp/utils';
 
   const handleCacheRestore = cache => {
     console.log('cache', cache);
@@ -45,6 +48,8 @@
       pagination: { pageSize, page },
     } = params;
 
+    await delay(1000);
+
     return {
       total: 100,
       list: new Array(pageSize).fill(0).map((_, index) => {
@@ -61,8 +66,8 @@
     {
       type: 'query',
       renderLabel: () => '关键字',
+      tooltip: '很重要',
       prop: 'query',
-      valueType: 'input',
       initialValue: 'x',
       valueProps: {
         placeholder: '关键字',
@@ -76,9 +81,15 @@
       },
     },
     {
+      type: 'query',
+      label: '值',
+      renderFormItem: (q: any) => {
+        return <span>{JSON.stringify(q)}</span>;
+      },
+    },
+    {
       prop: 'name',
       label: 'Name',
-      valueType: 'input',
       queryable: true,
       initialValue: 'hello',
       valueProps: {
