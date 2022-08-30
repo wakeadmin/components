@@ -4,8 +4,6 @@ import { normalizeClassName, normalizeStyle } from '../utils';
 
 import { FatSpaceProps, FatSpaceSize } from './types';
 
-import './index.css';
-
 const SpaceSize: Record<string, number> = {
   small: 8,
   medium: 16,
@@ -28,7 +26,13 @@ const toSizes = (sizes: FatSpaceProps['size'] = 'small'): [number, number] => {
 
 const FatSpaceInner = declareComponent({
   name: 'FatSpace',
-  props: declareProps<FatSpaceProps>(['align', 'direction', 'size', 'wrap', 'inline']),
+  props: declareProps<FatSpaceProps>({
+    align: null,
+    direction: null,
+    size: null,
+    wrap: null,
+    inline: { type: Boolean, default: true },
+  }),
   setup(props, { attrs, slots }) {
     return () => {
       const direction = props.direction ?? 'horizontal';
@@ -36,7 +40,7 @@ const FatSpaceInner = declareComponent({
       const wrap = props.wrap;
       const size = props.size ?? 'small';
       const sizesInNumber = toSizes(size);
-      const inline = props.inline ?? true;
+      const inline = props.inline;
 
       const nodes = (slots.default?.() ?? NoopArray) as any[];
 

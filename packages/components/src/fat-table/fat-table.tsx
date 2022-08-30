@@ -18,6 +18,7 @@ import { debounce, set as _set, cloneDeep, equal, NoopArray, merge, isPlainObjec
 import { useRoute, useRouter } from '../hooks';
 import { DEFAULT_PAGINATION_PROPS } from '../definitions';
 import { hasSlots, inheritProps, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
+import { FatFormMethods } from '../fat-form';
 
 import {
   FatTableProps,
@@ -35,9 +36,6 @@ import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './
 import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
-
-import './index.scss';
-import { FatFormMethods } from '../fat-form';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',

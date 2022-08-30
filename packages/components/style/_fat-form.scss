@@ -1,3 +1,6 @@
+@use 'share' as *;
+@use 'variables' as *;
+
 .fat-form {
   .el-form-item .el-form-item {
     margin-right: 0;
@@ -46,12 +49,19 @@
 }
 
 .fat-form-tooltip {
+  $tooltip-color: getVar(tooltip-color, $wk-color-gray-500);
+  $tooltip-hover-color: getVar(tooltip-hover-color, $wk-color-gray-600);
+
   display: inline-block;
   width: 1.2em;
   vertical-align: sub;
-  fill: #bfbcbc;
+  fill: $tooltip-color;
   margin-left: 0.2em;
   cursor: pointer;
+
+  &:hover {
+    fill: $tooltip-hover-color;
+  }
 }
 
 .fat-form-section {
@@ -83,7 +93,7 @@
     margin-bottom: 16px;
     font-size: 16px;
     font-weight: 500;
-    color: #303133;
+    color: $wk-color-font-primary;
     line-height: 22px;
 
     &::before {
@@ -93,7 +103,7 @@
       left: 0;
       width: 5px;
       height: 24px;
-      background: var(--wk-color-primary, #fa7516);
+      background: $wk-color-primary;
     }
   }
 

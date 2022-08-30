@@ -1,13 +1,18 @@
+@use 'share' as *;
+@use 'variables' as *;
+
 .fat-table-actions {
+  $gap: getVar(table-actions-gap, 20px);
+
   &__btn {
-    margin-left: 20px;
+    margin-left: $gap;
 
     &.danger {
-      color: var(--wk-color-danger, #f5222d);
+      color: $wk-color-danger;
     }
 
     &.warning {
-      color: var(--wk-color-warning, #ff9c23);
+      color: $wk-color-warning;
     }
   }
 
@@ -17,7 +22,7 @@
 
   &__more {
     cursor: pointer;
-    margin-left: 20px;
+    margin-left: $gap;
     outline: none;
     vertical-align: middle;
     line-height: 1;
@@ -25,7 +30,7 @@
     & > svg {
       width: 1.5em;
       height: 1.5em;
-      fill: var(--wk-color-primary, #1890ff);
+      fill: $wk-color-primary;
     }
   }
 }

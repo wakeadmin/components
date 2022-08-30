@@ -16,8 +16,6 @@ import { More } from '@wakeadmin/icons';
 import { RouteLocation, useRouter } from '../hooks';
 import { normalizeClassName, normalizeStyle } from '../utils';
 
-import './table-actions.scss';
-
 export interface FatTableAction {
   /**
    * 文案

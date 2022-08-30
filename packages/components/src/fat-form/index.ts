@@ -1,5 +1,3 @@
-import './index.scss';
-
 export * from './types';
 export * from './fat-form';
 export * from './fat-form-item';

@@ -1,0 +1,19 @@
+@use 'share' as *;
+@use 'variables' as *;
+
+.fat-table {
+  $tooltip-color: getVar(tooltip-color, $wk-color-gray-500);
+  $tooltip-hover-color: getVar(tooltip-hover-color, $wk-color-gray-600);
+
+  &__tooltip {
+    width: 1.2em;
+    vertical-align: text-bottom;
+    margin-left: 0.4em;
+    fill: $tooltip-color;
+    cursor: pointer;
+
+    &:hover {
+      fill: $tooltip-hover-color;
+    }
+  }
+}
