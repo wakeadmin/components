@@ -769,7 +769,7 @@ const FatTableInner = declareComponent({
               <Pagination
                 {...DEFAULT_PAGINATION_PROPS}
                 {...props.paginationProps}
-                class={['fat-table__pagination', props.paginationProps?.className]}
+                class={props.paginationProps?.className}
                 currentPage={pagination.current}
                 total={pagination.total}
                 pageSize={pagination.pageSize}

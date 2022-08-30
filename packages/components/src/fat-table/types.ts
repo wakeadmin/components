@@ -680,7 +680,7 @@ export interface FatTableProps<T extends {}, S extends {}>
    *
    * 也支持自定义
    */
-  layout?: 'mapp' | 'default' | FatTableLayout;
+  layout?: 'default' | FatTableLayout;
 
   /**
    * 唯一 id, 用于获取唯一 id

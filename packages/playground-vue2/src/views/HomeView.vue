@@ -12,14 +12,21 @@
       @row-click="handleClick"
       @queryCacheRestore="handleCacheRestore"
     >
+      <template #title>标题</template>
+      <template #navBar><el-button type="primary">新建</el-button></template>
+      <template #toolbar>
+        <el-button @click="selectAll">select all</el-button>
+        <el-button @click="unselectAll">unselect all</el-button>
+        <el-button @click="getSelected">getSelected</el-button>
+        <el-button @click="removeSelected">remove selected</el-button>
+      </template>
+      <template #bottomToolbar>
+        <el-button>导入</el-button>
+        <el-button>导出</el-button>
+      </template>
       <template #beforeSubmit> hello </template>
       <template #formTrailing> hello </template>
     </FatTable>
-
-    <button @click="selectAll">select all</button>
-    <button @click="unselectAll">unselect all</button>
-    <button @click="getSelected">getSelected</button>
-    <button @click="removeSelected">remove selected</button>
   </div>
 </template>
 
@@ -172,3 +179,12 @@
     tableRef.value?.removeSelected();
   };
 </script>
+
+<style lang="scss" scoped>
+  .home {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+</style>

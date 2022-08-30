@@ -1,0 +1,11 @@
+.fat-table--default {
+  .fat-table__toolbar,
+  .fat-table__bottom-toolbar,
+  .fat-table__pagination {
+    padding: 16px 20px;
+  }
+
+  .fat-table__pagination {
+    text-align: right;
+  }
+}

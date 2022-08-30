@@ -1,10 +1,11 @@
 @use 'variables';
 @use 'share';
-@use 'fat-header';
-@use 'fat-float-footer';
 @use 'fat-content';
+@use 'fat-float-footer';
 @use 'fat-form-drawer';
-@use 'fat-table-actions';
-@use 'fat-table';
-@use 'fat-space';
 @use 'fat-form';
+@use 'fat-header';
+@use 'fat-space';
+@use 'fat-table-actions';
+@use 'fat-table-default-layout';
+@use 'fat-table';
