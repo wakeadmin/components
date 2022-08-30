@@ -1,7 +1,7 @@
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { FormItem, Col, Tooltip } from '@wakeadmin/component-adapter';
 import { watch, computed } from '@wakeadmin/demi';
-import { get, debounce } from '@wakeadmin/utils';
+import { get, debounce, NoopObject } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { Atomic } from '../atomic';
@@ -156,7 +156,27 @@ const FatFormItemInner = declareComponent({
     });
 
     const rules = computed(() => {
-      return typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
+      const atom = getAtom();
+      const values = typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
+
+      if (atom.validate) {
+        const list = values == null ? [] : Array.isArray(values) ? values : [values];
+        list.push({
+          async validator(_rule, val, callback) {
+            try {
+              await atom.validate!(value, props.valueProps ?? NoopObject, form.values);
+              callback();
+            } catch (err) {
+              // eslint-disable-next-line n/no-callback-literal
+              callback(err as Error);
+            }
+          },
+        });
+
+        return list;
+      } else {
+        return values;
+      }
     });
 
     const hasLabel = computed(() => {
