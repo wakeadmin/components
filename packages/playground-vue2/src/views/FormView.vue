@@ -25,8 +25,14 @@
         message="很重要"
         :inline-message="true"
       >
-        <FatFormItem class="my-item" :col="{ span: 11 }" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
-        <FatFormItem :col="{ span: 11 }" prop="col[1]"></FatFormItem>
+        <FatFormItem
+          class="my-item"
+          :col="{ span: 11 }"
+          initial-value="1"
+          prop="col[0]"
+          :rules="[{ required: true }]"
+        ></FatFormItem>
+        <FatFormItem :col="{ span: 11 }" initial-value="2" prop="col[1]"></FatFormItem>
       </FatFormGroup>
       <FatFormGroup label="网格2" message="很重要" :inline-message="true" tooltip="提示很重要">
         <FatFormItem class="my-item" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
@@ -100,5 +106,6 @@
 
   const handleSubmit = async (values: any) => {
     console.log('submit', values);
+    throw new Error('fuck');
   };
 </script>

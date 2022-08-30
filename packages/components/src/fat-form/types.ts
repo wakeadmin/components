@@ -10,6 +10,7 @@ import {
   CommonProps,
   ButtonProps,
 } from '@wakeadmin/component-adapter';
+import { Ref } from '@wakeadmin/demi';
 
 import { Atomic } from '../atomic';
 import { FatSpaceSize } from '../fat-space/types';
@@ -51,7 +52,7 @@ export interface FatFormMethods<S> {
   readonly labelSuffix?: string;
 
   /**
-   * 是否已经营
+   * 是否已禁用
    */
   readonly disabled: boolean;
 
@@ -152,6 +153,11 @@ export interface FatFormEvents<S> {
    * 加载成功时触发
    */
   onLoad?: (values: S) => void;
+
+  /**
+   * 加载失败
+   */
+  onLoadFailed?: (error: Error) => void;
 
   /**
    * 数据提交完成时触发
@@ -309,6 +315,11 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
   disabled?: boolean;
 
   /**
+   * 是否加载中
+   */
+  loading?: boolean;
+
+  /**
    * 验证规则
    */
   rules?: Rules | ((values: S, form: FatFormMethods<S>) => Rules);
@@ -322,6 +333,16 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
    * 是否在 rules 属性改变后立即触发一次验证, 默认为true
    */
   validateOnRuleChange?: boolean;
+
+  /**
+   * 异常捕获，默认行为是消息提示. 可以提供这个方法来自定义错误处理
+   */
+  errorCapture?: (error: Error) => void;
+
+  /**
+   * 支持状态外置
+   */
+  _values?: () => Ref<S>;
 }
 
 /**

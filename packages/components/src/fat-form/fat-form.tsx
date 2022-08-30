@@ -1,4 +1,4 @@
-import { Form, FormMethods, size, Button } from '@wakeadmin/component-adapter';
+import { Form, FormMethods, size, Button, Message } from '@wakeadmin/component-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, provide, computed, watch } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
@@ -22,6 +22,7 @@ const FatFormInner = declareComponent({
   name: 'FatForm',
   props: declareProps<FatFormProps<any>>({
     mode: null,
+    loading: { type: Boolean, default: false },
     initialValue: null,
     request: null,
     requestOnMounted: { type: Boolean, default: true },
@@ -43,7 +44,10 @@ const FatFormInner = declareComponent({
     resetProps: null,
     submitterClassName: null,
     submitterStyle: null,
+    errorCapture: null,
 
+    // private
+    _values: null,
     // slots
     renderSubmitter: null,
   }),
@@ -52,10 +56,20 @@ const FatFormInner = declareComponent({
   setup(props, { slots, expose, attrs, emit }) {
     let requestLoaded = false;
     const formRef = ref<FormMethods>();
-    const loading = ref(false);
+    const _loading = ref(false);
+    const loading = computed({
+      get() {
+        return !!(_loading.value || props.loading);
+      },
+      set(value: boolean) {
+        _loading.value = value;
+      },
+    });
     const submitting = ref(false);
     const error = ref<Error>();
-    const values = ref({});
+
+    const values = props._values ? props._values() : ref({});
+
     const touches = useTouches();
 
     /**
@@ -100,6 +114,7 @@ const FatFormInner = declareComponent({
         error.value = err as Error;
 
         console.error(`[fat-form] 数据加载失败`, err);
+        emit('loadFailed', err as Error);
       } finally {
         loading.value = false;
       }
@@ -121,6 +136,22 @@ const FatFormInner = declareComponent({
       { immediate: true }
     );
 
+    // 监听错误
+    watch(
+      error,
+      e => {
+        if (e != null) {
+          if (props.errorCapture) {
+            props.errorCapture(e);
+          } else {
+            // 默认提示
+            Message.error(e.message);
+          }
+        }
+      },
+      { immediate: true }
+    );
+
     // 初始化请求
     if (props.request && props.requestOnMounted) {
       fetch();
@@ -133,6 +164,7 @@ const FatFormInner = declareComponent({
         return true;
       } catch (err) {
         emit('validateFailed', values.value, err as any);
+        console.warn(err);
         return false;
       }
     };
@@ -329,12 +361,13 @@ const FatFormInner = declareComponent({
       const labelAlign = props.labelAlign ?? 'right';
 
       const renderButtons = () => {
+        const pending = loading.value || submitting.value;
         return [
-          <Button type="primary" {...props.submitProps} onClick={instance.submit}>
+          <Button loading={pending} type="primary" {...props.submitProps} onClick={instance.submit}>
             {props.submitText ?? '保存'}
           </Button>,
           !!props.enableReset && (
-            <Button {...props.resetProps} onClick={instance.reset}>
+            <Button loading={pending} {...props.resetProps} onClick={instance.reset}>
               {props.resetText ?? '重置'}
             </Button>
           ),
