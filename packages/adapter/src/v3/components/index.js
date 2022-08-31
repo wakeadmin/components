@@ -17,3 +17,4 @@ export * from './Col';
 export * from './Dialog';
 export * from './Drawer';
 export * from './Switch';
+export * from './Select';
