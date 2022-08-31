@@ -182,7 +182,7 @@ export interface FatFormEvents<S> {
   /**
    * 数据变更时触发
    */
-  onValuesChange?: (values: S, prop: string, value: any) => void;
+  onValuesChange?: (values: S, prop: string, value: any, oldValue: any) => void;
 
   /**
    * 表单重置时触发

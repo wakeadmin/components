@@ -1,10 +1,11 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { Ref } from '@wakeadmin/demi';
+import { Ref, customRef } from '@wakeadmin/demi';
 
 import { normalizeClassName } from '../utils';
 
 import { FatTableColumn } from './types';
-import { FatForm, FatFormItem, FatFormMethods } from '../fat-form';
+import { FatFormItem, FatFormMethods } from '../fat-form';
+import { FatFormQuery, FatFormQueryMethods } from '../fat-form-layout';
 
 export const Query = declareComponent({
   name: 'FatTableQuery',
@@ -29,14 +30,29 @@ export const Query = declareComponent({
     const submit = async () => ctx.emit('submit');
     const reset = () => ctx.emit('reset');
 
+    let _formRef: FatFormQueryMethods<any> | undefined;
+    const formRef = customRef<FatFormQueryMethods<any> | undefined>(() => ({
+      get: () => {
+        return _formRef;
+      },
+      set: (value: FatFormQueryMethods<any> | undefined) => {
+        _formRef = value;
+        const outerRef = props.formRef?.();
+
+        if (outerRef && value) {
+          outerRef.value = value.form;
+        }
+      },
+    }));
+
     return () => {
       const query = props.query().value;
       const scope = { query };
 
       return (
         <div class="fat-table__query">
-          <FatForm
-            ref={props.formRef?.()}
+          <FatFormQuery
+            ref={formRef}
             _values={props.query}
             loading={props.loading}
             initialValue={props.initialValue}
@@ -82,7 +98,7 @@ export const Query = declareComponent({
                   />
                 );
               })}
-          </FatForm>
+          </FatFormQuery>
         </div>
       );
     };

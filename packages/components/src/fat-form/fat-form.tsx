@@ -242,9 +242,13 @@ const FatFormInner = declareComponent({
      * @param value
      */
     const setFieldValue = (prop: string, value: any) => {
-      setByPath(values.value, prop, value);
+      const oldValue = get(values.value, prop);
 
-      emit('valuesChange', values.value, prop, value);
+      if (oldValue !== value) {
+        setByPath(values.value, prop, value);
+
+        emit('valuesChange', values.value, prop, value, oldValue);
+      }
 
       touches.touch(prop);
     };

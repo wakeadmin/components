@@ -259,10 +259,10 @@ const FatTableInner = declareComponent({
     /**
      * 执行搜索
      */
-    const search = async () => {
+    const search = async (validate = true) => {
       // 检查校验状态
       try {
-        if (enableQuery && formRef.value) {
+        if (enableQuery && formRef.value && validate) {
           if (!(await formRef.value.validate())) {
             return;
           }
@@ -277,10 +277,10 @@ const FatTableInner = declareComponent({
 
     const debouncedSearch = debounce(search, queryWatchDelay);
     const leadingDebouncedSearch = debounce(
-      () => {
+      (validate = true) => {
         // 取消正在 debounce 的请求
         debouncedSearch.cancel();
-        search();
+        search(validate);
       },
       queryWatchDelay,
       { leading: true }
@@ -444,6 +444,10 @@ const FatTableInner = declareComponent({
       if (dirty && requestOnFilterChange) {
         fetch();
       }
+    };
+
+    const handleSearch = () => {
+      leadingDebouncedSearch(false);
     };
 
     const handleReset = () => {
@@ -677,7 +681,7 @@ const FatTableInner = declareComponent({
                 query={() => query}
                 formProps={props.formProps}
                 columns={props.columns}
-                onSubmit={leadingDebouncedSearch}
+                onSubmit={handleSearch}
                 onReset={handleReset}
                 v-slots={{
                   before() {
