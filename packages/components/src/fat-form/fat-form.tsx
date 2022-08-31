@@ -42,9 +42,12 @@ const FatFormInner = declareComponent({
     enableReset: { type: Boolean, default: true },
     submitProps: null,
     resetProps: null,
+    submitterProps: null,
     submitterClassName: null,
     submitterStyle: null,
     errorCapture: null,
+    col: null,
+    row: null,
 
     // private
     _values: null,
@@ -343,6 +346,9 @@ const FatFormInner = declareComponent({
       get size() {
         return props.size;
       },
+      get col() {
+        return props.col;
+      },
     });
 
     expose(instance);
@@ -378,7 +384,15 @@ const FatFormInner = declareComponent({
       return (
         <Form
           ref={formRef}
-          class={normalizeClassName('fat-form', attrs.class)}
+          class={normalizeClassName(
+            'fat-form',
+            {
+              'fat-form--row': props.col,
+              [`is-justify-${props.row?.justify}`]: props.col && props.row?.justify,
+              [`is-align-${props.row?.align ?? 'bottom'}`]: props.col,
+            },
+            attrs.class
+          )}
           style={attrs.style}
           model={values.value}
           labelWidth={instance.labelWidth}
@@ -407,6 +421,8 @@ const FatFormInner = declareComponent({
                 gutter="medium"
                 class={props.submitterClassName}
                 style={props.submitterStyle}
+                col={false}
+                {...props.submitterProps}
               >
                 {renderButtons()}
               </FatFormGroup>

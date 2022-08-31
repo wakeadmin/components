@@ -1,6 +1,24 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div>
+    <div># inline</div>
+    <FatForm layout="inline">
+      <FatFormItem prop="a" label="名称"></FatFormItem>
+      <FatFormItem prop="b" label="姓名"></FatFormItem>
+      <FatFormItem prop="c" label="收货地址"></FatFormItem>
+      <FatFormItem prop="d" label="手机号码"></FatFormItem>
+    </FatForm>
+
+    <div># col 统一对齐</div>
+    <FatForm layout="inline" :col="{ xl: 4, lg: 6, sm: 8 }">
+      <FatFormItem prop="a" label="名称"></FatFormItem>
+      <FatFormItem prop="b" label="姓名"></FatFormItem>
+      <FatFormItem prop="c" label="收货地址"></FatFormItem>
+      <FatFormItem prop="d" label="手机号码"></FatFormItem>
+    </FatForm>
+
+    <div>混合</div>
+
     <el-radio-group v-model="layout">
       <el-radio-button label="inline"></el-radio-button>
       <el-radio-button label="horizontal"></el-radio-button>

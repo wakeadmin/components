@@ -2,12 +2,20 @@
 @use 'variables' as *;
 
 .fat-form {
+  // TODO: 这里耦合了 element-ui
   .el-form-item .el-form-item {
     margin-right: 0;
   }
 
   .el-form-item__error {
     background-color: white;
+  }
+
+  &--row {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    box-sizing: border-box;
   }
 }
 

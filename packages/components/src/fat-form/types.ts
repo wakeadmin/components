@@ -193,7 +193,7 @@ export interface FatFormEvents<S> {
 /**
  * 表单提交按钮配置
  */
-export interface FatFormSubmitter<S> {
+export interface FatFormSubmitter<S extends {}> {
   /**
    * 是否开启提交/重置按钮，默认为 true
    */
@@ -223,6 +223,11 @@ export interface FatFormSubmitter<S> {
    * 重置按钮属性
    */
   resetProps?: ButtonProps;
+
+  /**
+   * 提交器 props
+   */
+  submitterProps?: FatFormGroupProps<S>;
 
   /**
    * 提交器类名
@@ -290,6 +295,18 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
    * label 水平对齐方式， 默认 right
    */
   labelAlign?: 'left' | 'right';
+
+  /**
+   * 全局网格配置
+   *
+   * 该配置会让所有子级默认采用该网格配置
+   */
+  col?: ColProps;
+
+  /**
+   * 列配置，只有配置了 col 属性后生效
+   */
+  row?: Pick<RowProps, 'align' | 'justify'>;
 
   /**
    * 标签的长度，例如 '50px'。 作为 Form 直接子元素的 form-item 会继承该值。 可以使用 auto
@@ -403,7 +420,7 @@ export interface FatFormItemShared {
    * 网格列配置
    * 如果配置了该项， 会使用 el-col 包裹
    */
-  col?: ColProps & CommonProps;
+  col?: false | (ColProps & CommonProps);
 
   /**
    * 字段宽度(不包含label)
@@ -434,6 +451,8 @@ export interface FatFormItemInheritableProps {
   disabled?: boolean;
   size?: Size;
   hidden?: boolean;
+  // 浅层 col 配置
+  col?: ColProps;
 }
 
 export interface FatFormGroupSlots<S> {

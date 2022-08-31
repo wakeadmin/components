@@ -1,5 +1,5 @@
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
-import { FormItem, Col, Tooltip } from '@wakeadmin/component-adapter';
+import { FormItem, Col, Tooltip, ColProps, CommonProps } from '@wakeadmin/component-adapter';
 import { watch, computed } from '@wakeadmin/demi';
 import { get, debounce, NoopObject } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
@@ -184,6 +184,7 @@ const FatFormItemInner = declareComponent({
     });
 
     const hasTooltip = computed(() => {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       return !!(props.tooltip || props.renderTooltip || slots.tooltip);
     });
 
@@ -244,6 +245,7 @@ const FatFormItemInner = declareComponent({
     return () => {
       const atom = getAtom();
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
+      const col = (props.col ?? inheritProps?.col) as (ColProps & Partial<CommonProps>) | undefined;
 
       const labelSlot =
         hasTooltip.value || hasSlots(props, slots, 'label')
@@ -279,9 +281,9 @@ const FatFormItemInner = declareComponent({
           class={normalizeClassName(
             'fat-form-item',
             { 'fat-form-item--hide-label': forceHideLabel.value },
-            props.col ? undefined : attrs.class
+            col ? undefined : attrs.class
           )}
-          style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, props.col ? undefined : attrs.style)}
+          style={normalizeStyle({ display: hidden.value ? 'none' : undefined }, col ? undefined : attrs.style)}
           label={props.label}
           labelWidth={labelWidth.value}
           rules={validateEnabled.value ? rules.value : undefined}
@@ -321,12 +323,12 @@ const FatFormItemInner = declareComponent({
         </FormItem>
       );
 
-      if (props.col) {
+      if (col) {
         node = (
           <Col
-            {...props.col}
-            class={normalizeClassName('fat-form-col', props.col?.class, attrs.class)}
-            style={normalizeStyle(props.col?.style, attrs.style)}
+            {...col}
+            class={normalizeClassName('fat-form-col', col?.class, attrs.class)}
+            style={normalizeStyle(col?.style, attrs.style)}
           >
             {node}
           </Col>
