@@ -12,6 +12,18 @@
         :value-props="{ startPlaceholder: '开始时间', endPlaceholder: '截至时间' }"
       />
       <FatFormItem prop="switch" label="switch" value-type="switch" width="mini" />
+      <FatFormItem
+        prop="select"
+        label="select"
+        value-type="select"
+        width="small"
+        :value-props="{
+          options: [
+            { label: '选项1', value: '1' },
+            { label: '选项2', value: '2' },
+          ],
+        }"
+      />
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>
