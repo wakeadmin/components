@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <main>
+    <section><Atomics /></section>
     <section><InitialValue></InitialValue></section>
     <section><Layout></Layout></section>
   </main>
@@ -9,6 +10,7 @@
 <script lang="tsx" setup>
   import Layout from './Layout.vue';
   import InitialValue from './InitialValue.vue';
+  import Atomics from './Atomics.vue';
 </script>
 
 <style lang="scss" scoped>

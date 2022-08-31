@@ -191,7 +191,7 @@ const FatFormItemInner = declareComponent({
     const contentStyle = computed(() => {
       if (props.width !== undefined) {
         const w = formItemWidth(props.width);
-        return { maxWidth: w, width: w };
+        return { maxWidth: w };
       }
 
       return undefined;
