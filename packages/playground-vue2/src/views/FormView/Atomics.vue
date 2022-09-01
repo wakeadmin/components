@@ -24,6 +24,19 @@
           ],
         }"
       />
+      <FatFormItem
+        prop="multi-select"
+        label="multi-select"
+        value-type="multi-select"
+        width="small"
+        :value-props="{
+          options: [
+            { label: '选项1', value: '1' },
+            { label: '选项2', value: '2' },
+          ],
+          separator: ' - ',
+        }"
+      />
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>
