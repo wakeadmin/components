@@ -1,8 +1,7 @@
 import { SelectProps, Select, Option, model, OptionProps, Message } from '@wakeadmin/component-adapter';
-import { declareComponent, declareProps } from '@wakeadmin/h';
 import { ref, watch, computed } from '@wakeadmin/demi';
 
-import { AtomicCommonProps, defineAtomic, globalRegistry } from '../../atomic';
+import { AtomicCommonProps, defineAtomic, globalRegistry, defineAtomicComponent } from '../../atomic';
 import { UNDEFINED_PLACEHOLDER } from '../../constants';
 
 export type ASelectProps = AtomicCommonProps<string | number | boolean> &
@@ -10,70 +9,64 @@ export type ASelectProps = AtomicCommonProps<string | number | boolean> &
     options?: OptionProps[] | (() => Promise<OptionProps[]>);
   };
 
-const Inner = declareComponent({
-  name: 'ASelectInner',
-  props: declareProps<{ properties: ASelectProps }>(['properties']),
-  setup(props) {
-    const loading = ref(false);
-    const options = ref<OptionProps[]>([]);
+export const ASelectComponent = defineAtomicComponent((props: ASelectProps) => {
+  const loading = ref(false);
+  const options = ref<OptionProps[]>([]);
 
-    const load = async (loader: () => Promise<OptionProps[]>) => {
-      const isGivenUp = () => loader !== props.properties.options;
+  const load = async (loader: () => Promise<OptionProps[]>) => {
+    const isGivenUp = () => loader !== props.options;
 
-      try {
-        loading.value = true;
-        const results = await loader();
+    try {
+      loading.value = true;
+      const results = await loader();
 
-        if (!isGivenUp()) {
-          options.value = results;
-        }
-      } catch (err) {
-        console.error(err);
-        Message.error(`下拉列表加载失败：${(err as Error).message}`);
-      } finally {
-        if (!isGivenUp()) {
-          loading.value = false;
-        }
+      if (!isGivenUp()) {
+        options.value = results;
       }
-    };
+    } catch (err) {
+      console.error(err);
+      Message.error(`下拉列表加载失败：${(err as Error).message}`);
+    } finally {
+      if (!isGivenUp()) {
+        loading.value = false;
+      }
+    }
+  };
 
-    const active = computed(() => {
-      return options.value.find(i => i.value === props.properties.value);
-    });
+  const active = computed(() => {
+    return options.value.find(i => i.value === props.value);
+  });
 
-    watch(
-      () => props.properties.options,
-      o => {
-        if (typeof o === 'function') {
-          load(o);
-        } else if (o) {
-          options.value = o;
-        }
-      },
-      { immediate: true }
+  let stopWatch = watch(
+    () => props.options,
+    o => {
+      if (typeof o === 'function') {
+        load(o);
+        // 只加载一次
+        stopWatch();
+      } else if (o) {
+        options.value = o;
+      }
+    },
+    { immediate: true }
+  );
+
+  return () => {
+    const { mode, value, onChange, ...other } = props;
+
+    if (mode === 'preview') {
+      return <span>{active.value?.label ?? UNDEFINED_PLACEHOLDER}</span>;
+    }
+
+    return (
+      <Select {...model(value, onChange!)} {...other}>
+        {options.value.map((i, idx) => {
+          return <Option key={i.value ?? idx} {...i}></Option>;
+        })}
+      </Select>
     );
-
-    return () => {
-      const { mode, value, onChange, ...other } = props.properties;
-
-      if (mode === 'preview') {
-        return <span>{active.value?.label ?? UNDEFINED_PLACEHOLDER}</span>;
-      }
-
-      return (
-        <Select {...model(value, onChange!)} {...other}>
-          {options.value.map((i, idx) => {
-            return <Option key={i.value ?? idx} {...i}></Option>;
-          })}
-        </Select>
-      );
-    };
-  },
-});
-
-export const ASelectComponent = (props: ASelectProps) => {
-  return <Inner properties={props} />;
-};
+  };
+}, 'ASelect');
 
 declare global {
   interface AtomicProps {
