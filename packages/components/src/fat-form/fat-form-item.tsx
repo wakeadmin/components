@@ -59,7 +59,10 @@ const FatFormItemInner = declareComponent({
     const registry = useAtomicRegistry();
     const inheritProps = useInheritableProps();
 
-    // 初始化
+    // 初始化: 就算是空数据也需要初始化，否则 element-ui 会报错
+    form.__setInitialValue(props.prop, props.initialValue);
+
+    // 监听 initialValue 变动
     watch(
       () => props.initialValue,
       value => {
@@ -67,7 +70,7 @@ const FatFormItemInner = declareComponent({
           form.__setInitialValue(props.prop!, value);
         }
       },
-      { immediate: true }
+      {}
     );
 
     const getAtom = (): Atomic => {
