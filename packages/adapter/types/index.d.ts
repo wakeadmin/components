@@ -19,3 +19,4 @@ export * from './dialog';
 export * from './drawer';
 export * from './switch';
 export * from './select';
+export * from './checkbox';

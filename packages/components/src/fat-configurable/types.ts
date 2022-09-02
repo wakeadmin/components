@@ -8,6 +8,7 @@ import {
   ASelectProps,
   ASwitchProps,
   ATextProps,
+  ACheckboxProps,
 } from '../builtin-atomic';
 
 /**
@@ -65,6 +66,11 @@ export interface FatConfigurable {
    * date-range 默认配置
    */
   aDateRangeProps?: OmitAtomicCommonProps<ADateRangeProps>;
+
+  /**
+   * checkbox 默认配置
+   */
+  aCheckboxProps?: OmitAtomicCommonProps<ACheckboxProps>;
 
   // -------------- 以下是布局配置 ------------------------
   // TODO

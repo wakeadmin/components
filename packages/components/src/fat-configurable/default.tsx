@@ -42,4 +42,9 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     endPlaceholder: '结束日期',
     rangeSeparator: '至',
   },
+
+  aCheckboxProps: {
+    previewActiveText: '开启',
+    previewInactiveText: '关闭',
+  },
 };

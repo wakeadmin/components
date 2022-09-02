@@ -32,6 +32,11 @@
           separator: ' - ',
         }"
       />
+      <FatFormGroup label="checkbox1" gutter="small">
+        <FatFormItem prop="checkbox1" value-type="checkbox" />
+        <span>同意 996 吗</span>
+      </FatFormGroup>
+      <FatFormItem prop="checkbox1" value-type="checkbox" :value-props="{ label: '是否开启' }" />
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>
@@ -40,7 +45,7 @@
 </template>
 
 <script lang="tsx" setup>
-  import { FatForm, FatFormItem, FatFormConsumer } from '@wakeadmin/components';
+  import { FatForm, FatFormItem, FatFormGroup, FatFormConsumer } from '@wakeadmin/components';
   import { ref } from 'vue';
 
   const previewMode = ref(false);
