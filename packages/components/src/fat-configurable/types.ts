@@ -1,4 +1,14 @@
 import { PaginationProps } from '@wakeadmin/component-adapter';
+import { OmitAtomicCommonProps } from '../atomic';
+
+import {
+  ADateRangeProps,
+  AMultiSelectProps,
+  APasswordProps,
+  ASelectProps,
+  ASwitchProps,
+  ATextProps,
+} from '../builtin-atomic';
 
 /**
  * 这里定义了组件库一些可以全局配置的参数
@@ -26,7 +36,35 @@ export interface FatConfigurable {
   pagination?: Omit<PaginationProps, 'total' | 'pageCount' | 'currentPage' | 'disabled'>;
 
   // -------------- 以下是内置原件的默认配置  -------------------
-  // TODO
+  /**
+   * 文本组件默认配置
+   */
+  aTextProps?: OmitAtomicCommonProps<ATextProps>;
+
+  /**
+   * 密码组件默认配置
+   */
+  aPasswordProps?: OmitAtomicCommonProps<APasswordProps>;
+
+  /**
+   * switch 默认配置
+   */
+  aSwitchProps?: OmitAtomicCommonProps<ASwitchProps>;
+
+  /**
+   * select 默认配置
+   */
+  aSelectProps?: OmitAtomicCommonProps<ASelectProps>;
+
+  /**
+   * multi-select 默认配置
+   */
+  aMultiSelectProps?: OmitAtomicCommonProps<AMultiSelectProps>;
+
+  /**
+   * date-range 默认配置
+   */
+  aDateRangeProps?: OmitAtomicCommonProps<ADateRangeProps>;
 
   // -------------- 以下是布局配置 ------------------------
   // TODO

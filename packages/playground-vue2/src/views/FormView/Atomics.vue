@@ -3,14 +3,9 @@
   <div>
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
     <FatForm :mode="previewMode ? 'preview' : 'editable'" class="form">
-      <FatFormItem prop="text" label="text" value-type="text" width="small" :value-props="{ placeholder: '请输入' }" />
-      <FatFormItem
-        prop="dataRange"
-        label="date-range"
-        value-type="date-range"
-        width="large"
-        :value-props="{ startPlaceholder: '开始时间', endPlaceholder: '截至时间' }"
-      />
+      <FatFormItem prop="text" label="text" value-type="text" width="small" />
+      <FatFormItem prop="dataRange" label="date-range" value-type="date-range" width="large" />
+      <FatFormItem prop="password" label="password" value-type="password" width="small" />
       <FatFormItem prop="switch" label="switch" value-type="switch" width="mini" />
       <FatFormItem
         prop="select"

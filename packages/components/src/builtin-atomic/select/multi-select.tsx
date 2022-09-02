@@ -2,14 +2,16 @@ import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/comp
 import { computed, unref } from '@wakeadmin/demi';
 import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
 
-import { AtomicCommonProps, defineAtomic, globalRegistry, defineAtomicComponent } from '../../atomic';
+import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { useOptions } from './loader';
 
 export type AMultiSelectValue = (string | number | boolean)[];
 
-export type AMultiSelectProps = AtomicCommonProps<AMultiSelectValue> &
-  Omit<SelectProps, 'value' | 'onInput' | 'modelValue' | 'onUpdate:modelValue' | 'multiple'> & {
+export type AMultiSelectProps = DefineAtomicProps<
+  AMultiSelectValue,
+  SelectProps,
+  {
     options?: OptionProps[] | (() => Promise<OptionProps[]>);
     /**
      * 分隔符，默认', '
@@ -20,7 +22,8 @@ export type AMultiSelectProps = AtomicCommonProps<AMultiSelectValue> &
      * 自定义预览渲染
      */
     renderPreview?: (options: OptionProps[]) => any;
-  };
+  }
+>;
 
 export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectProps) => {
   const { loading, options } = useOptions(props);
@@ -49,11 +52,11 @@ export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectP
 
     return (
       <Select
-        {...model(value, onChange!)}
         loading={loading.value}
-        placeholder={props.placeholder ?? '请选择'}
-        {...other}
         multiple
+        {...configurable.aMultiSelectProps}
+        {...other}
+        {...model(value, onChange!)}
       >
         {options.value.map((i, idx) => {
           return <Option key={i.value ?? idx} {...i}></Option>;

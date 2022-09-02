@@ -1,14 +1,18 @@
 import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/component-adapter';
 import { computed, unref } from '@wakeadmin/demi';
 
-import { AtomicCommonProps, defineAtomic, globalRegistry, defineAtomicComponent } from '../../atomic';
+import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { useOptions } from './loader';
 
-export type ASelectProps = AtomicCommonProps<string | number | boolean> &
-  Omit<SelectProps, 'value' | 'onInput' | 'modelValue' | 'onUpdate:modelValue' | 'multiple'> & {
+export type ASelectProps = DefineAtomicProps<
+  string | number | boolean,
+  SelectProps,
+  {
     options?: OptionProps[] | (() => Promise<OptionProps[]>);
-  };
+    renderPreview?: (active?: OptionProps) => any;
+  }
+>;
 
 export const ASelectComponent = defineAtomicComponent((props: ASelectProps) => {
   const { loading, options } = useOptions(props);
@@ -19,20 +23,19 @@ export const ASelectComponent = defineAtomicComponent((props: ASelectProps) => {
   });
 
   return () => {
-    const { mode, value, onChange, ...other } = props;
+    const { mode, value, renderPreview, onChange, ...other } = props;
     const configurable = unref(configurableRef);
 
     if (mode === 'preview') {
+      if (renderPreview) {
+        return renderPreview(active.value);
+      }
+
       return <span>{active.value?.label ?? configurable.undefinedPlaceholder}</span>;
     }
 
     return (
-      <Select
-        {...model(value, onChange!)}
-        placeholder={props.placeholder ?? '请选择'}
-        loading={loading.value}
-        {...other}
-      >
+      <Select loading={loading.value} {...configurable.aSelectProps} {...other} {...model(value, onChange!)}>
         {options.value.map((i, idx) => {
           return <Option key={i.value ?? idx} {...i}></Option>;
         })}

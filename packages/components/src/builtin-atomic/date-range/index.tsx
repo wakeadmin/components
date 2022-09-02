@@ -2,17 +2,19 @@ import { DatePicker, DatePickerProps, model, DatePickerValue } from '@wakeadmin/
 import { unref } from '@wakeadmin/demi';
 import { formatDate } from '@wakeadmin/utils';
 
-import { globalRegistry, AtomicCommonProps, defineAtomic, defineAtomicComponent } from '../../atomic';
+import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
-export interface ADateRangeProps
-  extends AtomicCommonProps<DatePickerValue>,
-    Omit<DatePickerProps, 'value' | 'onChange' | 'disabled' | 'modelValue' | 'onUpdate:modelValue' | 'type'> {
-  /**
-   * 预览时日期格式，默认同 format
-   */
-  previewFormat?: string;
-}
+export type ADateRangeProps = DefineAtomicProps<
+  DatePickerValue,
+  DatePickerProps,
+  {
+    /**
+     * 预览时日期格式，默认同 format
+     */
+    previewFormat?: string;
+  }
+>;
 
 export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps) => {
   const configurableRef = useFatConfigurable();
@@ -37,13 +39,15 @@ export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps
   return () => {
     let { value, mode, onChange, previewFormat, ...other } = props;
     const configurable = unref(configurableRef);
-    previewFormat = other.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
-    const rangeSeparator = other.rangeSeparator ?? '-';
+    const passthrough = { ...configurable.aDateRangeProps, ...other };
+
+    previewFormat = passthrough.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
+    const rangeSeparator = passthrough.rangeSeparator ?? '-';
 
     return mode === 'preview' ? (
       <span>{preview(value, previewFormat, rangeSeparator)}</span>
     ) : (
-      <DatePicker {...other} type="daterange" {...model(value, onChange!)} />
+      <DatePicker type="daterange" {...passthrough} {...model(value, onChange!)} />
     );
   };
 });

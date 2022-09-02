@@ -57,6 +57,23 @@ export interface AtomicCommonProps<T> {
 }
 
 /**
+ * 忽略 vue v-model 相关属性
+ */
+export type OmitVModelProps<T extends {}> = Omit<T, 'value' | 'onInput' | 'modelValue' | 'onUpdate:modelValue'>;
+
+/**
+ * 忽略内置的原件 props
+ */
+export type OmitAtomicCommonProps<T extends {}> = OmitVModelProps<Omit<T, keyof AtomicCommonProps<any>>>;
+
+/**
+ * 定义原件属性
+ */
+export type DefineAtomicProps<Value, Props extends {}, Extra extends {} = {}> = AtomicCommonProps<Value> &
+  OmitAtomicCommonProps<Props> &
+  Extra;
+
+/**
  * 原子组件协议
  */
 export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonProps<T>> {
