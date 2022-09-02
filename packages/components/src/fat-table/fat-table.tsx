@@ -16,9 +16,9 @@ import { declareComponent, declareEmits, declareProps, withDirectives } from '@w
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
 import { useRoute, useRouter } from '../hooks';
-import { DEFAULT_PAGINATION_PROPS } from '../definitions';
 import { hasSlots, inheritProps, reactiveAssign, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
 import { FatFormMethods } from '../fat-form';
+import { useFatConfigurable } from '../fat-configurable';
 
 import {
   FatTableProps,
@@ -108,6 +108,7 @@ const FatTableInner = declareComponent({
     const formRef = ref<FatFormMethods<any>>();
     const router = useRouter();
     const route = useRoute();
+    const configurable = useFatConfigurable();
 
     // 列表数据
     const list = ref<any[]>([]);
@@ -129,7 +130,7 @@ const FatTableInner = declareComponent({
     const pagination = reactive<PaginationState>({
       total: 0,
       current: 1,
-      pageSize: props.paginationProps?.pageSize ?? DEFAULT_PAGINATION_PROPS.pageSize ?? 10,
+      pageSize: props.paginationProps?.pageSize ?? configurable.pagination?.pageSize ?? 10,
     });
 
     /**
@@ -758,7 +759,7 @@ const FatTableInner = declareComponent({
         renderPagination: enablePagination
           ? () => (
               <Pagination
-                {...DEFAULT_PAGINATION_PROPS}
+                {...configurable.pagination}
                 {...props.paginationProps}
                 class={props.paginationProps?.className}
                 currentPage={pagination.current}

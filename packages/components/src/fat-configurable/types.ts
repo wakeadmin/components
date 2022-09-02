@@ -1,3 +1,5 @@
+import { PaginationProps } from '@wakeadmin/component-adapter';
+
 /**
  * 这里定义了组件库一些可以全局配置的参数
  */
@@ -18,7 +20,10 @@ export interface FatConfigurable {
    */
   dateTimeFormat?: string;
 
-  // TODO: 分页配置
+  /**
+   * 默认分页配置
+   */
+  pagination?: Omit<PaginationProps, 'total' | 'pageCount' | 'currentPage' | 'disabled'>;
 
   // -------------- 以下是内置原件的默认配置  -------------------
   // TODO

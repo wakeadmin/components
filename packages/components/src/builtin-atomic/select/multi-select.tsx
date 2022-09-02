@@ -3,7 +3,7 @@ import { computed } from '@wakeadmin/demi';
 import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
 
 import { AtomicCommonProps, defineAtomic, globalRegistry, defineAtomicComponent } from '../../atomic';
-import { UNDEFINED_PLACEHOLDER } from '../../constants';
+import { useFatConfigurable } from '../../fat-configurable';
 import { useOptions } from './loader';
 
 export type AMultiSelectValue = (string | number | boolean)[];
@@ -24,6 +24,7 @@ export type AMultiSelectProps = AtomicCommonProps<AMultiSelectValue> &
 
 export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectProps) => {
   const { loading, options } = useOptions(props);
+  const configurable = useFatConfigurable();
 
   const active = computed(() => {
     const value = props.value ?? NoopArray;
@@ -40,7 +41,7 @@ export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectP
             ? props.renderPreview(active.value)
             : active.value.length
             ? active.value.map(i => i.label).join(props.separator ?? ', ')
-            : UNDEFINED_PLACEHOLDER}
+            : configurable.undefinedPlaceholder}
         </span>
       );
     }

@@ -1,8 +1,8 @@
 import { DatePicker, DatePickerProps, model, DatePickerValue } from '@wakeadmin/component-adapter';
 import { formatDate } from '@wakeadmin/utils';
 
-import { globalRegistry, AtomicCommonProps, defineAtomic } from '../../atomic';
-import { UNDEFINED_PLACEHOLDER } from '../../constants';
+import { globalRegistry, AtomicCommonProps, defineAtomic, defineAtomicComponent } from '../../atomic';
+import { useFatConfigurable } from '../../fat-configurable';
 
 export interface ADateRangeProps
   extends AtomicCommonProps<DatePickerValue>,
@@ -13,37 +13,38 @@ export interface ADateRangeProps
   previewFormat?: string;
 }
 
-const preview = (value: any, format: string, rangeSeparator: string) => {
-  const f = (v: any) => {
-    if (v == null) {
-      // TODO: 配置 undefined 占位符
-      return UNDEFINED_PLACEHOLDER;
+export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps) => {
+  const configurable = useFatConfigurable();
+  const preview = (value: any, format: string, rangeSeparator: string) => {
+    const f = (v: any) => {
+      if (v == null) {
+        return configurable.undefinedPlaceholder;
+      }
+
+      return formatDate(v, format);
+    };
+
+    if (Array.isArray(value)) {
+      return `${f(value[0])} ${rangeSeparator} ${f(value[1])}`;
+    } else if (value) {
+      return f(value);
     }
 
-    return formatDate(v, format);
+    return configurable.undefinedPlaceholder;
   };
 
-  if (Array.isArray(value)) {
-    return `${f(value[0])} ${rangeSeparator} ${f(value[1])}`;
-  } else if (value) {
-    return f(value);
-  }
+  return () => {
+    let { value, mode, onChange, previewFormat, ...other } = props;
+    previewFormat = other.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
+    const rangeSeparator = other.rangeSeparator ?? '-';
 
-  return UNDEFINED_PLACEHOLDER;
-};
-
-export const ADateRangeComponent = (props: ADateRangeProps) => {
-  let { value, mode, onChange, previewFormat, ...other } = props;
-
-  previewFormat = other.format ?? 'YYYY-MM-DD';
-  const rangeSeparator = other.rangeSeparator ?? '-';
-
-  return mode === 'preview' ? (
-    preview(value, previewFormat, rangeSeparator)
-  ) : (
-    <DatePicker {...other} type="daterange" {...model(value, onChange!)} />
-  );
-};
+    return mode === 'preview' ? (
+      <span>{preview(value, previewFormat, rangeSeparator)}</span>
+    ) : (
+      <DatePicker {...other} type="daterange" {...model(value, onChange!)} />
+    );
+  };
+});
 
 declare global {
   interface AtomicProps {
