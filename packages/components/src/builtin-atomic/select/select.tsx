@@ -1,5 +1,5 @@
 import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/component-adapter';
-import { computed } from '@wakeadmin/demi';
+import { computed, unref } from '@wakeadmin/demi';
 
 import { AtomicCommonProps, defineAtomic, globalRegistry, defineAtomicComponent } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
@@ -12,7 +12,7 @@ export type ASelectProps = AtomicCommonProps<string | number | boolean> &
 
 export const ASelectComponent = defineAtomicComponent((props: ASelectProps) => {
   const { loading, options } = useOptions(props);
-  const configurable = useFatConfigurable();
+  const configurableRef = useFatConfigurable();
 
   const active = computed(() => {
     return options.value.find(i => i.value === props.value);
@@ -20,6 +20,7 @@ export const ASelectComponent = defineAtomicComponent((props: ASelectProps) => {
 
   return () => {
     const { mode, value, onChange, ...other } = props;
+    const configurable = unref(configurableRef);
 
     if (mode === 'preview') {
       return <span>{active.value?.label ?? configurable.undefinedPlaceholder}</span>;

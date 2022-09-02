@@ -1,8 +1,20 @@
-import { getCurrentInstance, isVue2, set as $set, isReactive } from '@wakeadmin/demi';
+import { getCurrentInstance, isVue2, set as $set, isReactive, customRef } from '@wakeadmin/demi';
 import { LooseClassValue, ClassValue, LooseStyleValue, StyleValue } from '@wakeadmin/component-adapter';
 import { NoopObject, omit, upperFirst, set, isPlainObject } from '@wakeadmin/utils';
 import toPath from 'lodash/toPath';
 import has from 'lodash/has';
+
+export function staticRef<T>(value: T) {
+  return customRef(() => {
+    return {
+      get() {
+        return value;
+      },
+      // readonly
+      set() {},
+    };
+  });
+}
 
 export function toUndefined<T>(value: T | undefined | null): T | undefined {
   return value != null ? value : undefined;

@@ -1,5 +1,5 @@
 import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/component-adapter';
-import { computed } from '@wakeadmin/demi';
+import { computed, unref } from '@wakeadmin/demi';
 import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
 
 import { AtomicCommonProps, defineAtomic, globalRegistry, defineAtomicComponent } from '../../atomic';
@@ -24,7 +24,7 @@ export type AMultiSelectProps = AtomicCommonProps<AMultiSelectValue> &
 
 export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectProps) => {
   const { loading, options } = useOptions(props);
-  const configurable = useFatConfigurable();
+  const configurableRef = useFatConfigurable();
 
   const active = computed(() => {
     const value = props.value ?? NoopArray;
@@ -33,6 +33,7 @@ export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectP
 
   return () => {
     const { mode, value, onChange, ...other } = props;
+    const configurable = unref(configurableRef);
 
     if (mode === 'preview') {
       return (

@@ -1,4 +1,5 @@
 import { DatePicker, DatePickerProps, model, DatePickerValue } from '@wakeadmin/component-adapter';
+import { unref } from '@wakeadmin/demi';
 import { formatDate } from '@wakeadmin/utils';
 
 import { globalRegistry, AtomicCommonProps, defineAtomic, defineAtomicComponent } from '../../atomic';
@@ -14,11 +15,11 @@ export interface ADateRangeProps
 }
 
 export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps) => {
-  const configurable = useFatConfigurable();
+  const configurableRef = useFatConfigurable();
   const preview = (value: any, format: string, rangeSeparator: string) => {
     const f = (v: any) => {
       if (v == null) {
-        return configurable.undefinedPlaceholder;
+        return unref(configurableRef).undefinedPlaceholder;
       }
 
       return formatDate(v, format);
@@ -30,11 +31,12 @@ export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps
       return f(value);
     }
 
-    return configurable.undefinedPlaceholder;
+    return unref(configurableRef).undefinedPlaceholder;
   };
 
   return () => {
     let { value, mode, onChange, previewFormat, ...other } = props;
+    const configurable = unref(configurableRef);
     previewFormat = other.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
     const rangeSeparator = other.rangeSeparator ?? '-';
 
