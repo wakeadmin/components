@@ -36,7 +36,18 @@
         <FatFormItem prop="checkbox1" value-type="checkbox" />
         <span>同意 996 吗</span>
       </FatFormGroup>
-      <FatFormItem prop="checkbox1" value-type="checkbox" :value-props="{ label: '是否开启' }" />
+      <FatFormItem prop="checkbox2" label-width="auto" value-type="checkbox" :value-props="{ label: '是否开启' }" />
+      <FatFormItem
+        prop="radio"
+        label="radio"
+        value-type="radio"
+        :value-props="{
+          options: [
+            { label: '是', value: 1 },
+            { label: '否', value: 0 },
+          ],
+        }"
+      />
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>

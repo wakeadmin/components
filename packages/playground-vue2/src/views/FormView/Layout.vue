@@ -64,6 +64,7 @@
           <FatFormItem width="mini" class="my-item" prop="c" />
           你好
           <FatFormItem width="mini" class="my-item" prop="c" />
+          <FatFormItem prop="e" value-type="switch" />
         </FatFormGroup>
       </FatFormGroup>
       <FatFormItem

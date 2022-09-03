@@ -9,6 +9,7 @@ import {
   ASwitchProps,
   ATextProps,
   ACheckboxProps,
+  ARadioProps,
 } from '../builtin-atomic';
 
 /**
@@ -71,6 +72,11 @@ export interface FatConfigurable {
    * checkbox 默认配置
    */
   aCheckboxProps?: OmitAtomicCommonProps<ACheckboxProps>;
+
+  /**
+   * radio 默认配置
+   */
+  aRadioProps?: OmitAtomicCommonProps<ARadioProps>;
 
   // -------------- 以下是布局配置 ------------------------
   // TODO
