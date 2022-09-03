@@ -21,3 +21,4 @@ export * from './switch';
 export * from './select';
 export * from './checkbox';
 export * from './radio';
+export * from './input-number';

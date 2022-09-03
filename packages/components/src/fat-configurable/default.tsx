@@ -47,4 +47,9 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     previewActiveText: '开启',
     previewInactiveText: '关闭',
   },
+
+  aIntegerProps: {
+    placeholder: '输入整数',
+    max: Number.MAX_SAFE_INTEGER,
+  },
 };

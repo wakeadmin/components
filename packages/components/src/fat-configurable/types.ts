@@ -10,6 +10,7 @@ import {
   ATextProps,
   ACheckboxProps,
   ARadioProps,
+  AIntegerProps,
 } from '../builtin-atomic';
 
 /**
@@ -77,6 +78,11 @@ export interface FatConfigurable {
    * radio 默认配置
    */
   aRadioProps?: OmitAtomicCommonProps<ARadioProps>;
+
+  /**
+   * integer 默认配置
+   */
+  aIntegerProps?: OmitAtomicCommonProps<AIntegerProps>;
 
   // -------------- 以下是布局配置 ------------------------
   // TODO
