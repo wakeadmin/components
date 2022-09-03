@@ -76,6 +76,7 @@
         dependencies="password"
         :disabled="f => f.form.values.password === 'disabled'"
       />
+      <FatFormItem prop="withoutLabel" label-width="auto"></FatFormItem>
       <FatFormGroup label-width="auto">
         <button type="submit">submit</button>
       </FatFormGroup>
