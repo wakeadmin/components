@@ -19,6 +19,29 @@
   }
 }
 
+// element-ui 样式修复
+.vue2 .fat-form {
+  // 避免 label 和 content 换行
+  &:not(.el-form--label-top) {
+    .el-form-item {
+      white-space: nowrap;
+    }
+
+    .el-form-item__label {
+      white-space: normal;
+    }
+  }
+
+  // 强制居中
+  .fat-form-item__content::before {
+    content: 'x';
+    display: inline-block;
+    width: 0;
+    vertical-align: middle;
+    visibility: hidden;
+  }
+}
+
 // 强制隐藏 label，主要是修复 element-ui/element-plus 不一致的问题
 .fat-form-item--hide-label > .el-form-item__label {
   display: none !important;
@@ -30,12 +53,6 @@
   width: 100%;
   flex-wrap: wrap;
   align-items: center;
-  vertical-align: middle;
-
-  // 嵌套的 content
-  & & {
-    vertical-align: top;
-  }
 }
 
 .fat-form-row,
