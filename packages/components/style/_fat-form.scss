@@ -31,6 +31,11 @@
   flex-wrap: wrap;
   align-items: center;
   vertical-align: middle;
+
+  // 嵌套的 content
+  & & {
+    vertical-align: top;
+  }
 }
 
 .fat-form-row,
