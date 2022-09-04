@@ -57,6 +57,7 @@
         value-type="slider"
         :value-props="{ vertical: true }"
       ></FatFormItem>
+      <FatFormItem prop="progress" label="progress" value-type="progress" :initial-value="50"></FatFormItem>
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>

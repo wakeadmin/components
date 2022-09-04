@@ -7,3 +7,4 @@ export * from './radio';
 export * from './integer';
 export * from './rate';
 export * from './slider';
+export * from './progress';

@@ -1,0 +1,4 @@
+// 修复 progress 默认宽度问题
+.a-progress .el-progress.el-progress--line {
+  width: 100%;
+}

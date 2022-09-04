@@ -13,6 +13,7 @@ import {
   AIntegerProps,
   ARateProps,
   ASliderProps,
+  AProgressProps,
 } from '../builtin-atomic';
 
 /**
@@ -95,6 +96,11 @@ export interface FatConfigurable {
    * slider 默认配置
    */
   aSliderProps?: OmitAtomicCommonProps<ASliderProps>;
+
+  /**
+   * progress 默认配置
+   */
+  aProgressProps?: OmitAtomicCommonProps<AProgressProps>;
 
   // -------------- 以下是布局配置 ------------------------
   // TODO
