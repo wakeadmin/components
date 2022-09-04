@@ -22,3 +22,4 @@ export * from './Checkbox';
 export * from './Radio';
 export * from './InputNumber';
 export * from './Rate';
+export * from './Slider';
