@@ -27,6 +27,12 @@ export type ACheckboxProps = DefineAtomicProps<
   }
 >;
 
+declare global {
+  interface AtomicProps {
+    checkbox: ACheckboxProps;
+  }
+}
+
 export const ACheckboxComponent = defineAtomicComponent((props: ACheckboxProps) => {
   const configurable = useFatConfigurable();
 

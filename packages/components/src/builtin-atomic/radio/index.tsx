@@ -26,6 +26,11 @@ export type ARadioProps = DefineAtomicProps<
     renderPreview?: (option?: ARadioOption) => any;
   }
 >;
+declare global {
+  interface AtomicProps {
+    radio: ARadioProps;
+  }
+}
 
 export const ARadioComponent = defineAtomicComponent((props: ARadioProps) => {
   const configurable = useFatConfigurable();

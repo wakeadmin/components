@@ -11,6 +11,7 @@ import {
   ACheckboxProps,
   ARadioProps,
   AIntegerProps,
+  ARateProps,
 } from '../builtin-atomic';
 
 /**
@@ -83,6 +84,11 @@ export interface FatConfigurable {
    * integer 默认配置
    */
   aIntegerProps?: OmitAtomicCommonProps<AIntegerProps>;
+
+  /**
+   * rate 默认配置
+   */
+  aRateProps?: OmitAtomicCommonProps<ARateProps>;
 
   // -------------- 以下是布局配置 ------------------------
   // TODO

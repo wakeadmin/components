@@ -49,6 +49,7 @@
         }"
       />
       <FatFormItem prop="integer" label="integer" value-type="integer"></FatFormItem>
+      <FatFormItem prop="rate" label="rate" value-type="rate"></FatFormItem>
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>
