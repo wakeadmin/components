@@ -586,12 +586,12 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   /**
    * 原件类名
    */
-  atomicClassName?: ClassValue;
+  valueClassName?: ClassValue;
 
   /**
    * 原件内联样式
    */
-  atomicStyle?: StyleValue;
+  valueStyle?: StyleValue;
 }
 
 export { Rules, Rule } from '@wakeadmin/component-adapter';

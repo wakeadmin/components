@@ -1,0 +1,11 @@
+// element-ui slider 样式修复
+
+// 默认 100%
+.vue2 .a-slider .el-slider {
+  width: 100%;
+}
+
+// 默认
+.a-slider .el-slider.is-vertical {
+  height: 200px;
+}

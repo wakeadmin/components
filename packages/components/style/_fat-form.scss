@@ -21,14 +21,19 @@
 
 // element-ui 样式修复
 .vue2 .fat-form {
-  // 避免 label 和 content 换行
+  // form-item 调整为 flex 布局
   &:not(.el-form--label-top) {
     .el-form-item {
-      white-space: nowrap;
+      display: flex;
     }
 
-    .el-form-item__label {
-      white-space: normal;
+    &.el-form--inline .el-form-item {
+      display: inline-flex;
+    }
+
+    .el-form-item__content {
+      margin-left: 0 !important;
+      flex: 1;
     }
   }
 
@@ -39,10 +44,6 @@
     width: 0;
     vertical-align: middle;
     visibility: hidden;
-  }
-
-  .el-form-item__content {
-    overflow-x: hidden;
   }
 }
 

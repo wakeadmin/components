@@ -338,7 +338,16 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
    */
   formItemProps?: Omit<
     FatFormItemProps<S, any>,
-    'prop' | 'initialValue' | 'valueType' | 'valueProps' | 'disabled' | 'mode' | 'label' | 'tooltip'
+    | 'prop'
+    | 'initialValue'
+    | 'valueType'
+    | 'valueProps'
+    | 'disabled'
+    | 'mode'
+    | 'label'
+    | 'tooltip'
+    | 'valueClassName'
+    | 'valueStyle'
   >;
 
   /**
@@ -408,6 +417,16 @@ export interface FatTableColumnStyle {
    * 对应列是否可以通过拖动改变宽度（需要在 el-table 上设置 border 属性为真）, 默认 true
    */
   resizable?: boolean;
+
+  /**
+   * 原件类名
+   */
+  valueClassName?: ClassValue;
+
+  /**
+   * 原件内联样式
+   */
+  valueStyle?: StyleValue;
 }
 
 export interface FatTableColumnFilter {

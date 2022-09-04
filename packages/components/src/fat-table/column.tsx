@@ -60,6 +60,8 @@ export const Column = declareComponent({
                   {
                     mode: 'preview',
                     scene: 'table',
+                    class: column.valueClassName,
+                    style: column.valueStyle,
                     value,
                   },
                   valueProps

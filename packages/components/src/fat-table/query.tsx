@@ -90,10 +90,11 @@ export const Query = declareComponent({
                     initialValue={column.initialValue}
                     valueType={column.valueType}
                     valueProps={{ ...column.valueProps, scene: 'table' }}
+                    valueStyle={column.valueStyle}
                     {...column.formItemProps}
                     class={normalizeClassName(
                       column.type === 'query' ? column.className : undefined,
-                      column.formItemProps?.atomicClassName
+                      column.valueClassName
                     )}
                   />
                 );

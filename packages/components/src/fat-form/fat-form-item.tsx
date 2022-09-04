@@ -39,8 +39,8 @@ const FatFormItemInner = declareComponent({
     hidden: [Boolean, Function] as any,
     size: null,
     dependencies: null,
-    atomicClassName: null,
-    atomicStyle: null,
+    valueClassName: null,
+    valueStyle: null,
     contentClassName: null,
     contentStyle: null,
 
@@ -283,6 +283,7 @@ const FatFormItemInner = declareComponent({
           prop={props.prop}
           class={normalizeClassName(
             'fat-form-item',
+            `a-${atom.name}`,
             { 'fat-form-item--hide-label': forceHideLabel.value },
             col ? undefined : attrs.class
           )}
@@ -309,8 +310,8 @@ const FatFormItemInner = declareComponent({
                   onChange: handleChange,
                   disabled: disabled.value,
                   context: form,
-                  class: props.atomicClassName,
-                  style: props.atomicStyle,
+                  class: props.valueClassName,
+                  style: props.valueStyle,
                 },
                 // 外部指定的优先
                 props.valueProps

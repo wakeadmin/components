@@ -6,3 +6,4 @@ export * from './checkbox';
 export * from './radio';
 export * from './integer';
 export * from './rate';
+export * from './slider';

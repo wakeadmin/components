@@ -50,6 +50,13 @@
       />
       <FatFormItem prop="integer" label="integer" value-type="integer"></FatFormItem>
       <FatFormItem prop="rate" label="rate" value-type="rate"></FatFormItem>
+      <FatFormItem prop="slider" label="slider" value-type="slider" width="large"></FatFormItem>
+      <FatFormItem
+        prop="sliderVertical"
+        label="slider-vertical"
+        value-type="slider"
+        :value-props="{ vertical: true }"
+      ></FatFormItem>
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>

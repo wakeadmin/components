@@ -12,6 +12,7 @@ import {
   ARadioProps,
   AIntegerProps,
   ARateProps,
+  ASliderProps,
 } from '../builtin-atomic';
 
 /**
@@ -89,6 +90,11 @@ export interface FatConfigurable {
    * rate 默认配置
    */
   aRateProps?: OmitAtomicCommonProps<ARateProps>;
+
+  /**
+   * slider 默认配置
+   */
+  aSliderProps?: OmitAtomicCommonProps<ASliderProps>;
 
   // -------------- 以下是布局配置 ------------------------
   // TODO
