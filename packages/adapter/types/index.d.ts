@@ -24,3 +24,4 @@ export * from './radio';
 export * from './input-number';
 export * from './rate';
 export * from './slider';
+export * from './progress';
