@@ -1,6 +1,6 @@
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { FormItem, Col, Tooltip, ColProps, CommonProps } from '@wakeadmin/component-adapter';
-import { watch, computed } from '@wakeadmin/demi';
+import { watch, computed, onBeforeUnmount } from '@wakeadmin/demi';
 import { get, debounce, NoopObject } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
 
@@ -43,6 +43,8 @@ const FatFormItemInner = declareComponent({
     valueStyle: null,
     contentClassName: null,
     contentStyle: null,
+    convert: null,
+    transform: null,
 
     // slots here
     renderLabel: null,
@@ -73,17 +75,17 @@ const FatFormItemInner = declareComponent({
       {}
     );
 
-    const getAtom = (): Atomic => {
+    const atom = computed((): Atomic => {
       const valueType = props.valueType ?? 'text';
 
-      const atom = typeof valueType === 'object' ? valueType : registry.registered(valueType);
+      const a = typeof valueType === 'object' ? valueType : registry.registered(valueType);
 
-      if (atom == null) {
+      if (a == null) {
         throw new Error(`[fat-form-item] 未能识别类型为 ${valueType} 的原件`);
       }
 
-      return atom;
-    };
+      return a;
+    });
 
     const handleChange = (value: any) => {
       form.setFieldValue(props.prop, value);
@@ -125,6 +127,15 @@ const FatFormItemInner = declareComponent({
       get mode() {
         return mode.value;
       },
+      get atom() {
+        return atom.value;
+      },
+      get transform() {
+        return props.transform;
+      },
+      get convert() {
+        return props.convert;
+      },
     };
 
     const disabled = computed(() => {
@@ -159,15 +170,14 @@ const FatFormItemInner = declareComponent({
     });
 
     const rules = computed(() => {
-      const atom = getAtom();
       const values = typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
 
-      if (atom.validate) {
+      if (atom.value.validate) {
         const list = values == null ? [] : Array.isArray(values) ? values : [values];
         list.push({
           async validator(_rule, val, callback) {
             try {
-              await atom.validate!(value, props.valueProps ?? NoopObject, form.values);
+              await atom.value.validate!(value, props.valueProps ?? NoopObject, form.values);
               callback();
             } catch (err) {
               // eslint-disable-next-line n/no-callback-literal
@@ -245,8 +255,13 @@ const FatFormItemInner = declareComponent({
 
     expose(instance);
 
+    // 注册表单项
+    form.__registerFormItem(instance);
+    onBeforeUnmount(() => {
+      form.__unregisterFormItem(instance);
+    });
+
     return () => {
-      const atom = getAtom();
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
       const col = (props.col ?? inheritProps?.col) as (ColProps & Partial<CommonProps>) | undefined;
 
@@ -283,7 +298,7 @@ const FatFormItemInner = declareComponent({
           prop={props.prop}
           class={normalizeClassName(
             'fat-form-item',
-            `a-${atom.name}`,
+            `a-${atom.value.name}`,
             { 'fat-form-item--hide-label': forceHideLabel.value },
             col ? undefined : attrs.class
           )}
@@ -301,7 +316,7 @@ const FatFormItemInner = declareComponent({
             style={normalizeStyle(contentStyle.value, props.contentStyle)}
           >
             {renderSlot(props, slots, 'before', instance)}
-            {atom.component(
+            {atom.value.component(
               composeAtomProps(
                 {
                   mode: mode.value ?? 'editable',

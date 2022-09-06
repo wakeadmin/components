@@ -381,7 +381,7 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
    *
    * 如果需要更灵活的转换，可以在 request 中处理
    */
-  transform?: (value: any) => any;
+  transform?: (value: any, query: S, prop: string) => any;
 
   /**
    * 表单的顺序, 默认为 1000

@@ -50,7 +50,7 @@ export function mergeAndTransformQuery(query: any, extraQuery: any, columns: Fat
   for (const column of columns) {
     if (isQueryable(column) && column.prop != null && typeof column.transform === 'function') {
       const value = get(q, column.prop);
-      const result = column.transform(value);
+      const result = column.transform(value, query, column.prop);
 
       if (isPlainObject(result)) {
         // 移除原有字段

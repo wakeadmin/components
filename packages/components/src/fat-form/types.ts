@@ -30,7 +30,7 @@ export type FatFormLayout = 'horizontal' | 'vertical' | 'inline';
 /**
  * fat 表单实例方法
  */
-export interface FatFormMethods<S> {
+export interface FatFormMethods<Store extends {}> {
   /**
    * 表单模式
    */
@@ -74,7 +74,7 @@ export interface FatFormMethods<S> {
   /**
    * 表单值
    */
-  values: S;
+  values: Store;
 
   /**
    * 底层 form 实例
@@ -143,6 +143,18 @@ export interface FatFormMethods<S> {
   __setInitialValue(prop: string, value?: any): void;
 
   /**
+   * 注册表单项
+   * @param item
+   */
+  __registerFormItem(item: FatFormItemMethods<Store>): void;
+
+  /**
+   * 释放表单项
+   * @param item
+   */
+  __unregisterFormItem(item: FatFormItemMethods<Store>): void;
+
+  /**
    * 注册子表单
    * @param form
    */
@@ -158,11 +170,11 @@ export interface FatFormMethods<S> {
 /**
  * fat 表单事件
  */
-export interface FatFormEvents<S> {
+export interface FatFormEvents<Store extends {}, Submit extends {} = Store> {
   /**
    * 加载成功时触发
    */
-  onLoad?: (values: S) => void;
+  onLoad?: (values: Store) => void;
 
   /**
    * 加载失败
@@ -172,12 +184,12 @@ export interface FatFormEvents<S> {
   /**
    * 数据提交完成时触发
    */
-  onFinish?: (values: S) => void;
+  onFinish?: (values: Submit) => void;
 
   /**
    * 提交失败时触发
    */
-  onSubmitFailed?: (values: S, error: Error) => void;
+  onSubmitFailed?: (values: Submit, error: Error) => void;
 
   /**
    * 任一表单项被校验后触发
@@ -187,17 +199,17 @@ export interface FatFormEvents<S> {
   /**
    * 数据验证失败时触发
    */
-  onValidateFailed?: (values: S, error: Record<string, any>) => void;
+  onValidateFailed?: (values: Store, error: Record<string, any>) => void;
 
   /**
    * 数据变更时触发
    */
-  onValuesChange?: (values: S, prop: string, value: any, oldValue: any) => void;
+  onValuesChange?: (values: Store, prop: string, value: any, oldValue: any) => void;
 
   /**
    * 表单重置时触发
    */
-  onReset?: (values: S) => void;
+  onReset?: (values: Store) => void;
 }
 
 /**
@@ -250,7 +262,7 @@ export interface FatFormSubmitter<S extends {}> {
   submitterStyle?: StyleValue;
 }
 
-export interface FatFormSlots<S> {
+export interface FatFormSlots<S extends {}> {
   /**
    * 自定义渲染 提交按钮
    * @param form 表单实例
@@ -266,7 +278,7 @@ export interface FatFormSlots<S> {
  * @template Submit 提交给后端的类型，默认等于 Store
  */
 export interface FatFormProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
-  extends FatFormEvents<Store>,
+  extends FatFormEvents<Store, Submit>,
     FatFormSubmitter<Store>,
     FatFormSlots<Store> {
   /**
@@ -398,14 +410,25 @@ export interface FatFormConsumerProps<S extends {} = {}> {
   renderDefault?: (form: FatFormMethods<S>) => any;
 }
 
-export interface FatFormItemMethods<S extends {}> {
-  readonly form: FatFormMethods<S>;
+export interface FatFormItemMethods<Store extends {}> {
+  readonly form: FatFormMethods<Store>;
   readonly value: any;
   readonly prop: string;
-  readonly props: FatFormItemProps<S, any>;
+  readonly props: FatFormItemProps<Store, any>;
   readonly disabled?: boolean;
   readonly hidden?: boolean;
   readonly mode?: FatFormMode;
+  readonly atom: Atomic<any, any>;
+
+  /**
+   * 后转换
+   */
+  transform?: (value: any, values: Store, prop: string) => any;
+
+  /**
+   * 前转换
+   */
+  convert?: (value: any, values: any, prop: string) => any;
 }
 
 export interface FatFormItemShared {
@@ -481,7 +504,7 @@ export interface FatFormItemInheritableProps {
   col?: ColProps;
 }
 
-export interface FatFormGroupSlots<S> {
+export interface FatFormGroupSlots<S extends {}> {
   renderLabel?: (inst: FatFormMethods<S>) => any;
   renderDefault?: (inst: FatFormMethods<S>) => any;
   renderTooltip?: (inst: FatFormMethods<S>) => any;
@@ -491,7 +514,7 @@ export interface FatFormGroupSlots<S> {
 /**
  * fat 表单分组属性
  */
-export interface FatFormGroupProps<S> extends FatFormItemShared, FatFormGroupSlots<S> {
+export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatFormGroupSlots<S> {
   /**
    * 间隔大小.
    * 当开启了 row， gutter 会设置 row 的 gutter props

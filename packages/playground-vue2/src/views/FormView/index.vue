@@ -5,6 +5,7 @@
     <section><InitialValue></InitialValue></section>
     <section><Layout></Layout></section>
     <section><Nested></Nested></section>
+    <section><Transform></Transform></section>
   </main>
 </template>
 
@@ -13,6 +14,7 @@
   import InitialValue from './InitialValue.vue';
   import Atomics from './Atomics.vue';
   import Nested from './Nested.vue';
+  import Transform from './Transform.vue';
 </script>
 
 <style lang="scss" scoped>

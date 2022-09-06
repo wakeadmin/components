@@ -14,10 +14,11 @@ import {
   ToHSlotDefinition,
 } from '../utils';
 
-import { FatFormEvents, FatFormMethods, FatFormProps, FatFormSlots } from './types';
+import { FatFormEvents, FatFormItemMethods, FatFormMethods, FatFormProps, FatFormSlots } from './types';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
 import { FatFormGroup } from './fat-form-group';
 import { useFatFormContext, useTouches } from './hooks';
+import { convert, transform } from './utils';
 
 const FatFormInner = declareComponent({
   name: 'FatForm',
@@ -79,6 +80,7 @@ const FatFormInner = declareComponent({
 
     const touches = useTouches();
     const childForms = new Set<FatFormMethods<any>>();
+    const items = new Set<FatFormItemMethods<any>>();
 
     /**
      * 初始值
@@ -99,6 +101,7 @@ const FatFormInner = declareComponent({
 
       emit('load', values.value);
     };
+
     /**
      * 数据请求
      * @returns
@@ -112,10 +115,14 @@ const FatFormInner = declareComponent({
         loading.value = true;
         error.value = undefined;
 
-        const response = await props.request();
+        let response = await props.request();
 
         if (isPlainObject(response)) {
+          // 数据转换
+          convert(response, items);
+
           requestLoaded = true;
+
           setInitialValue(response);
         }
       } catch (err) {
@@ -159,11 +166,6 @@ const FatFormInner = declareComponent({
       },
       { immediate: true }
     );
-
-    // 初始化请求
-    if (props.request && props.requestOnMounted) {
-      fetch();
-    }
 
     const validate = async () => {
       try {
@@ -213,16 +215,23 @@ const FatFormInner = declareComponent({
         return;
       }
 
-      try {
-        submitting.value = true;
-        error.value = undefined;
-        await props.submit(values.value);
+      submitting.value = true;
+      error.value = undefined;
 
-        emit('finish', values.value);
+      // 数据转换
+      const valuesToSubmit = cloneDeep(values.value);
+
+      try {
+        // 数据转换
+        transform(valuesToSubmit, items);
+
+        await props.submit(valuesToSubmit);
+
+        emit('finish', valuesToSubmit);
       } catch (err) {
         error.value = err as Error;
         console.log(`[fat-form] submit error`, err);
-        emit('submitFailed', values.value, error.value);
+        emit('submitFailed', valuesToSubmit, error.value);
       } finally {
         submitting.value = false;
       }
@@ -303,6 +312,14 @@ const FatFormInner = declareComponent({
       childForms.delete(form);
     };
 
+    const __registerFormItem = (item: FatFormItemMethods<any>) => {
+      items.add(item);
+    };
+
+    const __unregisterFormItem = (item: FatFormItemMethods<any>) => {
+      items.delete(item);
+    };
+
     // 表单实例
     const instance: FatFormMethods<any> = {
       get mode() {
@@ -350,6 +367,8 @@ const FatFormInner = declareComponent({
       __setInitialValue,
       __registerChildForm,
       __unregisterChildForm,
+      __registerFormItem,
+      __unregisterFormItem,
     };
 
     const rules = computed(() => {
@@ -384,6 +403,11 @@ const FatFormInner = declareComponent({
     onMounted(() => {
       if (parentForm && props.hierarchyConnect) {
         parentForm.__registerChildForm(instance);
+      }
+
+      // 初始化请求
+      if (props.request && props.requestOnMounted) {
+        fetch();
       }
     });
 
