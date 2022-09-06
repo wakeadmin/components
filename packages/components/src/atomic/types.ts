@@ -101,6 +101,7 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
    * 值验证
    * @param {T} value 当前值
    * @param {any} context 上下文，可以获取到其他字段的值
+   * 验证失败抛出异常
    */
   validate?: (value: any, props: P, context: any) => Promise<void>;
 }

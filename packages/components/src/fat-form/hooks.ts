@@ -6,7 +6,7 @@ import { normalizeKeyPath } from '../utils';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
 
 export function useFatFormContext() {
-  return inject(FatFormContext);
+  return inject(FatFormContext, null);
 }
 
 export function useInheritableProps() {

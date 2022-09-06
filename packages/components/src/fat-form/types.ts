@@ -97,9 +97,7 @@ export interface FatFormMethods<S> {
   reset(): void;
 
   /**
-   * 对整个表单的内容进行验证。返回 boolean 表示是否验证通过
-   *
-   * 注意： 和 element-ui 不一样的是，这个验证通过不会抛出异常
+   * 对整个表单的内容进行验证。返回 true 表示验证通过, 验证失败抛出异常
    */
   validate: () => Promise<boolean>;
 
@@ -117,7 +115,7 @@ export interface FatFormMethods<S> {
   /**
    * 清除表单验证
    */
-  clearValidate: (props: string | string[]) => void;
+  clearValidate: (props?: string | string[]) => void;
 
   /**
    * 获取指定字段的值
@@ -143,6 +141,18 @@ export interface FatFormMethods<S> {
    * @param value 初始值，可选
    */
   __setInitialValue(prop: string, value?: any): void;
+
+  /**
+   * 注册子表单
+   * @param form
+   */
+  __registerChildForm(form: FatFormMethods<any>): void;
+
+  /**
+   * 释放子表单
+   * @param form
+   */
+  __unregisterChildForm(form: FatFormMethods<any>): void;
 }
 
 /**
@@ -357,7 +367,18 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
   errorCapture?: (error: Error) => void;
 
   /**
-   * 支持状态外置
+   * 是否和父级 fat-form 建立关联。默认为 true
+   *
+   * 如果开启关联，父子 fat-form 会建立以下关联关系：
+   *  1. 全局验证: 父 fat-form 在验证时，同时会触发子 fat-form 的验证
+   *  2. 全局清理验证
+   *
+   * 注意，父子组件之间状态不会共享
+   */
+  hierarchyConnect?: boolean;
+
+  /**
+   * 支持状态外置, 特殊情况使用
    */
   _values?: () => Ref<S>;
 }

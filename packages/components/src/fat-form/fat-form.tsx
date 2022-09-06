@@ -1,6 +1,6 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/component-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { ref, provide, computed, watch } from '@wakeadmin/demi';
+import { ref, provide, computed, watch, onMounted, onBeforeUnmount } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
 
 import {
@@ -9,6 +9,7 @@ import {
   normalizeClassName,
   renderSlot,
   setByPath,
+  settledThrowIfNeed,
   ToHEmitDefinition,
   ToHSlotDefinition,
 } from '../utils';
@@ -16,7 +17,7 @@ import {
 import { FatFormEvents, FatFormMethods, FatFormProps, FatFormSlots } from './types';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
 import { FatFormGroup } from './fat-form-group';
-import { useTouches } from './hooks';
+import { useFatFormContext, useTouches } from './hooks';
 
 const FatFormInner = declareComponent({
   name: 'FatForm',
@@ -49,6 +50,8 @@ const FatFormInner = declareComponent({
     col: null,
     row: null,
 
+    hierarchyConnect: { type: Boolean, default: true },
+
     // private
     _values: null,
     // slots
@@ -58,6 +61,7 @@ const FatFormInner = declareComponent({
   emits: declareEmits<ToHEmitDefinition<FatFormEvents<any>>>(),
   setup(props, { slots, expose, attrs, emit }) {
     let requestLoaded = false;
+    const parentForm = useFatFormContext();
     const formRef = ref<FormMethods>();
     const _loading = ref(false);
     const loading = computed({
@@ -74,6 +78,7 @@ const FatFormInner = declareComponent({
     const values = props._values ? props._values() : ref({});
 
     const touches = useTouches();
+    const childForms = new Set<FatFormMethods<any>>();
 
     /**
      * 初始值
@@ -162,26 +167,35 @@ const FatFormInner = declareComponent({
 
     const validate = async () => {
       try {
+        let childValidateResults: PromiseSettledResult<any>[] | undefined;
+        // 先触发子表单验证
+        if (childForms.size) {
+          childValidateResults = await Promise.allSettled(Array.from(childForms.values()).map(i => i.validate()));
+        }
+
         await formRef?.value?.validate();
+
+        settledThrowIfNeed(childValidateResults);
 
         return true;
       } catch (err) {
         emit('validateFailed', values.value, err as any);
-        console.warn(err);
-        return false;
+        throw err;
       }
     };
 
     const validateField = async (prop: string | string[]) => {
-      try {
-        await formRef.value?.validateField(prop);
-        return true;
-      } catch (err) {
-        return false;
-      }
+      await formRef.value?.validateField(prop);
+      return true;
     };
 
-    const clearValidate = async (prop: string | string[]) => {
+    const clearValidate = async (prop?: string | string[]) => {
+      // 清除子表单验证
+      if (childForms.size) {
+        childForms.forEach(c => {
+          c.clearValidate();
+        });
+      }
       formRef.value?.clearValidate(prop);
     };
 
@@ -281,6 +295,14 @@ const FatFormInner = declareComponent({
       }
     };
 
+    const __registerChildForm = (form: FatFormMethods<any>) => {
+      childForms.add(form);
+    };
+
+    const __unregisterChildForm = (form: FatFormMethods<any>) => {
+      childForms.delete(form);
+    };
+
     // 表单实例
     const instance: FatFormMethods<any> = {
       get mode() {
@@ -326,6 +348,8 @@ const FatFormInner = declareComponent({
       setFieldValue,
       isFieldTouched,
       __setInitialValue,
+      __registerChildForm,
+      __unregisterChildForm,
     };
 
     const rules = computed(() => {
@@ -356,6 +380,18 @@ const FatFormInner = declareComponent({
     });
 
     expose(instance);
+
+    onMounted(() => {
+      if (parentForm && props.hierarchyConnect) {
+        parentForm.__registerChildForm(instance);
+      }
+    });
+
+    onBeforeUnmount(() => {
+      if (parentForm && props.hierarchyConnect) {
+        parentForm.__unregisterChildForm(instance);
+      }
+    });
 
     const handleSubmit = (evt: SubmitEvent) => {
       evt.preventDefault();

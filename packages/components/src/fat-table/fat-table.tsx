@@ -264,9 +264,7 @@ const FatTableInner = declareComponent({
       // 检查校验状态
       try {
         if (enableQuery && formRef.value && validate) {
-          if (!(await formRef.value.validate())) {
-            return;
-          }
+          await formRef.value.validate();
         }
 
         resetTempState();
