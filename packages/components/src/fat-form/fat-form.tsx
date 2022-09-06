@@ -473,4 +473,11 @@ const FatFormInner = declareComponent({
   },
 });
 
-export const FatForm = FatFormInner as unknown as <S extends {}>(props: FatFormProps<S>) => any;
+// TODO: 暴露 slots 类型
+export const FatForm = FatFormInner as unknown as <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormProps<Store, Request, Submit>
+) => any;

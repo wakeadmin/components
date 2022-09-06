@@ -352,6 +352,8 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
     | 'tooltip'
     | 'valueClassName'
     | 'valueStyle'
+    | 'convert'
+    | 'transform'
   >;
 
   /**
@@ -369,14 +371,13 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
    * 用于转换表单的数据，比如前端使用 dataRange 字段来表示时间范围，而后端需要的是 startTime、endTime
    * 那么就可以在这里设置转换规则。
    *
-   * 要求返回一个对象，key 为新属性的 path, 例如 {'a.b': 0, 'a.c': 2, 'a.d[0]': 3}
+   * 如果返回一个对象，key 为新属性的 path, 例如 {'a.b': 0, 'a.c': 2, 'a.d[0]': 3}, 同时原本的字段会被移除
+   * 如果 transform 返回非对象的值，将作为当前字段的值
    *
    * 假设：
    *  prop 为  dataRange
    *  transform 返回的是 {startTime、endTime}
    *  最后的结果是 dataRange 会从 query 中移除，并且 startTime、endTime 会合并到 query 中
-   *
-   *  如果 transform 返回非对象的值，**将被忽略**
    *
    * 如果需要更灵活的转换，可以在 request 中处理
    */

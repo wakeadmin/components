@@ -261,9 +261,14 @@ export interface FatFormSlots<S> {
 
 /**
  * fat 表单属性
- * @template S 表单类型
+ * @template Store 表单存储的类型
+ * @template Request 从后端请求回来的类型，默认等于 Store
+ * @template Submit 提交给后端的类型，默认等于 Store
  */
-export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFormSubmitter<S>, FatFormSlots<S> {
+export interface FatFormProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
+  extends FatFormEvents<Store>,
+    FatFormSubmitter<Store>,
+    FatFormSlots<Store> {
   /**
    * 使用场景
    * preview 预览
@@ -276,13 +281,13 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
   /**
    * 初始化值, 表单默认值，只有初始化(比如新建场景)以及重置时生效
    */
-  initialValue?: S;
+  initialValue?: Store;
 
   /**
    * 数据请求。用于预览、编辑场景
    * request 请求的数据高于 initialValue, 不推荐同时使用
    */
-  request?: () => Promise<S>;
+  request?: () => Promise<Request>;
 
   /**
    * 是否在挂在的时候就发起请求, 默认为 true
@@ -294,7 +299,7 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
   /**
    * 表单提交
    */
-  submit?: (values: S) => Promise<void>;
+  submit?: (values: Submit) => Promise<void>;
 
   /**
    * 表单布局， 默认为 horizontal
@@ -349,7 +354,7 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
   /**
    * 验证规则
    */
-  rules?: Rules | ((values: S, form: FatFormMethods<S>) => Rules);
+  rules?: Rules | ((values: Store, form: FatFormMethods<Store>) => Rules);
 
   /**
    * 是否隐藏必填字段的标签旁边的红色星号, 默认 false
@@ -380,7 +385,7 @@ export interface FatFormProps<S extends {} = {}> extends FatFormEvents<S>, FatFo
   /**
    * 支持状态外置, 特殊情况使用
    */
-  _values?: () => Ref<S>;
+  _values?: () => Ref<Store>;
 }
 
 /**
@@ -553,12 +558,18 @@ export interface FatFormItemSlots<S extends {}> {
 
 /**
  * fat 表单项属性
+ * @template Store 表单存储值
+ * @template ValueType 原件类型
+ * @template Request 后端请求的值, 默认等于 Store
  */
-export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | Atomic>
-  extends FatFormItemShared,
-    FatFormItemSlots<S> {
+export interface FatFormItemProps<
+  Store extends {},
+  ValueType extends keyof AtomicProps | Atomic,
+  Request extends {} = Store
+> extends FatFormItemShared,
+    FatFormItemSlots<Store> {
   /**
-   * 字段路径。例如 a.b.c
+   * 字段路径。例如 a.b.c、b[0]
    */
   prop: string;
 
@@ -572,31 +583,71 @@ export interface FatFormItemProps<S extends {}, K extends keyof AtomicProps | At
   /**
    * 原件类型, 默认为 text
    */
-  valueType?: K;
+  valueType?: ValueType;
 
   /**
    * 原件属性
    */
-  valueProps?: K extends keyof AtomicProps ? AtomicProps[K] : K extends Atomic<any, infer B> ? B : Record<string, any>;
+  valueProps?: ValueType extends keyof AtomicProps
+    ? AtomicProps[ValueType]
+    : ValueType extends Atomic<any, infer B>
+    ? B
+    : Record<string, any>;
+
+  /**
+   * **数据提交前**的转换，比如转换为 后端 需要的字段和格式
+   *
+   * 用于转换表单的数据，比如前端使用 dataRange 字段来表示时间范围，而后端需要的是 startTime、endTime
+   * 那么就可以在这里设置转换规则。
+   *
+   * 如果返回一个对象，key 为新属性的 path, 例如 {'a.b': 0, 'a.c': 2, 'a.d[0]': 3}, 同时原本的字段会被移除
+   * 如果 transform 返回非对象的值，将作为当前字段的值
+   *
+   * 假设：
+   *  prop 为  dataRange
+   *  transform 返回的是 {startTime、endTime}
+   *  最后的结果是 dataRange 会从 query 中移除，并且 startTime、endTime 会合并到 query 中
+   *
+   * 如果需要更灵活的转换，可以在 fat-form submit 中处理
+   *
+   * @param value 当前值
+   * @param values 当前所有表单的值
+   * @param prop 字段路径
+   *
+   */
+  transform?: (value: any, values: Store, prop: string) => any;
+
+  /**
+   * **对 request 返回数据**的转换，比如转换为**组件能识别的格式**
+   *
+   * 另外原件本身也支持 convert
+   *
+   * 注意，这里不会转换 initialValue
+   *
+   * @param value 当前字段值
+   * @param values request 请求回来的值
+   * @param prop 字段路径
+   */
+  convert?: (value: any, values: Request, prop: string) => any;
 
   /**
    * 验证规则
    */
-  rules?: Rule | ((values: S, form: FatFormMethods<S>) => Rule);
+  rules?: Rule | ((values: Store, form: FatFormMethods<Store>) => Rule);
 
   /**
    * 是否隐藏
    *
    * 隐藏后当前字段将不会进行校验
    */
-  hidden?: boolean | ((instance: FatFormItemMethods<S>) => boolean);
+  hidden?: boolean | ((instance: FatFormItemMethods<Store>) => boolean);
 
   /**
    * 是否禁用
    *
    * 禁用后当前字段将不会进行校验
    */
-  disabled?: boolean | ((instance: FatFormItemMethods<S>) => boolean);
+  disabled?: boolean | ((instance: FatFormItemMethods<Store>) => boolean);
 
   /**
    * 声明该字段依赖的字段，格式同 prop

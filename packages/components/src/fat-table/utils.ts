@@ -53,13 +53,15 @@ export function mergeAndTransformQuery(query: any, extraQuery: any, columns: Fat
       const result = column.transform(value);
 
       if (isPlainObject(result)) {
+        // 移除原有字段
+        unset(q, column.prop);
+
         for (const key in result) {
           set(q, key, (result as any)[key]);
         }
+      } else {
+        set(q, column.prop, result);
       }
-
-      // 移除原有字段
-      unset(q, column.prop);
     }
   }
 

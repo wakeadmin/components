@@ -29,7 +29,10 @@ export interface FatFormPageEvents {
   onCancel?: () => void;
 }
 
-export interface FatFormPageProps<S extends {}> extends FatFormProps<S>, FatFormPageSlots<S>, FatFormPageEvents {
+export interface FatFormPageProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
+  extends FatFormProps<Store, Request, Submit>,
+    FatFormPageSlots<Store>,
+    FatFormPageEvents {
   /**
    * 页面标题
    */

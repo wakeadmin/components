@@ -51,11 +51,11 @@ export interface FatFormDrawerEvents<S extends {}> {
   onFinish?: (values: S, close: Function) => void;
 }
 
-export interface FatFormDrawerProps<S extends {}>
+export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
   extends Omit<DrawerProps, 'modelValue' | 'onUpdate:modelValue' | 'beforeClose' | 'size'>,
-    FatFormDrawerEvents<S>,
-    Omit<FatFormProps<S>, 'onFinish'>,
-    FatFormDrawerSlots<S> {
+    FatFormDrawerEvents<Store>,
+    Omit<FatFormProps<Store, Request, Submit>, 'onFinish'>,
+    FatFormDrawerSlots<Store> {
   /**
    * 受控显示
    */

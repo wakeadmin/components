@@ -104,6 +104,11 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
    * 验证失败抛出异常
    */
   validate?: (value: any, props: P, context: any) => Promise<void>;
+
+  /**
+   * 尝试对给定值进行转换，转换为组件能够识别的格式
+   */
+  convert?: (originalValue: any) => T;
 }
 
 export interface Registry extends Pick<NamedRegistry<Atomic>, 'register' | 'unregister' | 'subscribe' | 'unsubscribe'> {

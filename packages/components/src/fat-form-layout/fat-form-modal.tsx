@@ -51,11 +51,11 @@ export interface FatFormModalEvents<S extends {}> {
   onFinish?: (values: S, close: Function) => void;
 }
 
-export interface FatFormModalProps<S extends {}>
+export interface FatFormModalProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
   extends Omit<DialogProps, 'modelValue' | 'onUpdate:modelValue' | 'beforeClose'>,
-    FatFormModalEvents<S>,
-    Omit<FatFormProps<S>, 'onFinish'>,
-    FatFormModalSlots<S> {
+    FatFormModalEvents<Store>,
+    Omit<FatFormProps<Store, Request, Submit>, 'onFinish'>,
+    FatFormModalSlots<Store> {
   /**
    * 受控显示
    */

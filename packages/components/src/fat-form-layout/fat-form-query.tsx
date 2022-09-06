@@ -8,7 +8,11 @@ import { declareComponent, declareProps } from '@wakeadmin/h';
 import { FatForm, FatFormMethods, FatFormProps } from '../fat-form';
 import { inheritProps, pickEnumerable } from '../utils';
 
-export type FatFormQueryProps<S extends {}> = FatFormProps<S>;
+export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = FatFormProps<
+  Store,
+  Request,
+  Submit
+>;
 export interface FatFormQueryMethods<S extends {}> {
   form: FatFormMethods<S>;
 }
