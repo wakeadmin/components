@@ -13,7 +13,7 @@ import {
 import { Atomic } from '../atomic';
 import { FatFormItemProps, FatFormMethods, FatFormProps } from '../fat-form';
 
-import { FatTableAction, FatTableActionsProps } from './table-actions';
+import { FatAction, FatActionsProps } from '../fat-actions';
 
 export interface FatTableSort {
   prop: string;
@@ -280,6 +280,18 @@ export interface FatTableEvents<T> {
   onQueryCacheRestore?: (queryCache: QueryStateCache) => void;
 }
 
+export type FatTableAction<T extends {}, S extends {}> = Omit<FatAction, 'onClick' | 'visible' | 'disabled'> & {
+  visible?: boolean | ((table: FatTableMethods<T, S>, row: T, action: FatTableAction<T, S>, index: number) => boolean);
+  disabled?: boolean | ((table: FatTableMethods<T, S>, row: T, action: FatTableAction<T, S>, index: number) => boolean);
+  // 重载点击方法
+  onClick?: (
+    table: FatTableMethods<T, S>,
+    row: T,
+    action: FatTableAction<T, S>,
+    index: number
+  ) => void | boolean | undefined | Promise<boolean | undefined | void>;
+};
+
 /**
  * --------------- actions 类型特定参数 -----------------
  */
@@ -287,15 +299,7 @@ export interface FatTableColumnActions<T extends {}, S extends {}> {
   /**
    * 操作
    */
-  actions?: (Omit<FatTableAction, 'onClick'> & {
-    // 重载点击方法
-    onClick: (
-      table: FatTableMethods<T, S>,
-      row: T,
-      action: FatTableAction,
-      index: number
-    ) => void | boolean | undefined | Promise<boolean | undefined | void>;
-  })[];
+  actions?: FatTableAction<T, S>[];
 
   /**
    * 最多显示多少个操作，默认 3
@@ -305,12 +309,12 @@ export interface FatTableColumnActions<T extends {}, S extends {}> {
   /**
    * 操作按钮类型， 默认为 text
    */
-  actionsType?: FatTableActionsProps['type'];
+  actionsType?: FatActionsProps['type'];
 
   /**
    * 操作按钮大小，默认为 default
    */
-  actionsSize?: FatTableActionsProps['size'];
+  actionsSize?: FatActionsProps['size'];
 
   /**
    * 操作栏 class
@@ -324,7 +328,7 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
   /**
    * 该字段是否开启表单搜索, 默认关闭
    * 如果值为 string, 将覆盖 prop 作为表单的字段名
-   * 表单需要指定 valueType，由它来执行表单的渲染
+   * 表单需要指定 valueType，由它来执行表单的渲染, 如果未指定，默认为 text
    */
   queryable?: boolean | string;
 
@@ -364,12 +368,17 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
   /**
    * 用于转换表单的数据，比如前端使用 dataRange 字段来表示时间范围，而后端需要的是 startTime、endTime
    * 那么就可以在这里设置转换规则。
+   *
+   * 要求返回一个对象，key 为新属性的 path, 例如 {'a.b': 0, 'a.c': 2, 'a.d[0]': 3}
+   *
    * 假设：
    *  prop 为  dataRange
    *  transform 返回的是 {startTime、endTime}
    *  最后的结果是 dataRange 会从 query 中移除，并且 startTime、endTime 会合并到 query 中
    *
    *  如果 transform 返回非对象的值，**将被忽略**
+   *
+   * 如果需要更灵活的转换，可以在 request 中处理
    */
   transform?: (value: any) => any;
 
@@ -534,8 +543,7 @@ export interface FatTableColumn<
    * 字段名
    * 当列类型为 表单字段、排序字段、筛选字段 时， prop 是必填的
    *
-   * 对于表格字段，prop 是属性名。
-   * 对于表单，支持属性路径, 例如 a.b
+   * 支持属性路径, 例如 a.b
    */
   prop?: string;
 

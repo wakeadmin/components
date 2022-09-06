@@ -8,7 +8,7 @@ import { composeAtomProps } from '../utils';
 
 import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
 import { genKey, getAtom } from './utils';
-import { FatTableActions, FatTableAction } from './table-actions';
+import { FatActions, FatAction } from '../fat-actions';
 
 const BUILTIN_TYPES = new Set(['index', 'selection', 'expand']);
 
@@ -77,14 +77,22 @@ export const Column = declareComponent({
         children = {
           default: (scope: { row: any; $index: number }) => {
             return (
-              <FatTableActions
+              <FatActions
                 options={(column.actions ?? NoopArray).map(action => {
                   return {
                     ...action,
-                    onClick: a => {
-                      return action.onClick(tableInstance, scope.row, a, scope.$index);
+                    disabled:
+                      typeof action.disabled === 'function'
+                        ? action.disabled(tableInstance, scope.row, action, scope.$index)
+                        : action.disabled,
+                    visible:
+                      typeof action.visible === 'function'
+                        ? action.visible(tableInstance, scope.row, action, scope.$index)
+                        : action.visible,
+                    onClick: () => {
+                      return action.onClick?.(tableInstance, scope.row, action, scope.$index);
                     },
-                  } as FatTableAction;
+                  } as FatAction;
                 })}
                 max={column.actionsMax}
                 class={column.actionsClassName}

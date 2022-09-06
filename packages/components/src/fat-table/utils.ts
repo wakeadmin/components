@@ -1,4 +1,4 @@
-import { cloneDeep, merge, get, isPlainObject } from '@wakeadmin/utils';
+import { cloneDeep, merge, get, isPlainObject, set } from '@wakeadmin/utils';
 import unset from 'lodash/unset';
 
 import { FatTableColumn } from './types';
@@ -53,8 +53,9 @@ export function mergeAndTransformQuery(query: any, extraQuery: any, columns: Fat
       const result = column.transform(value);
 
       if (isPlainObject(result)) {
-        // 处理合并
-        merge(q, result);
+        for (const key in result) {
+          set(q, key, (result as any)[key]);
+        }
       }
 
       // 移除原有字段

@@ -1,7 +1,7 @@
 @use 'share' as *;
 @use 'variables' as *;
 
-.fat-table-actions {
+.fat-actions {
   $gap: getVar(table-actions-gap, 20px);
 
   &__btn {

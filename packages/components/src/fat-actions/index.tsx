@@ -16,7 +16,7 @@ import { More } from '@wakeadmin/icons';
 import { RouteLocation, useRouter } from '../hooks';
 import { normalizeClassName, normalizeStyle } from '../utils';
 
-export interface FatTableAction {
+export interface FatAction {
   /**
    * 文案
    */
@@ -40,7 +40,7 @@ export interface FatTableAction {
   /**
    * 点击事件, link 类型默认会打开路由, 可以返回 false 来阻止默认行为
    */
-  onClick?: (action: FatTableAction) => boolean | undefined | Promise<boolean | undefined>;
+  onClick?: (action: FatAction) => boolean | undefined | Promise<boolean | undefined>;
 
   /**
    * 路由，如果提供这个，将忽略 onClick
@@ -58,11 +58,11 @@ export interface FatTableAction {
   className?: ClassValue;
 }
 
-export interface FatTableActionsProps extends CommonProps {
+export interface FatActionsProps extends CommonProps {
   /**
    * 选项列表
    */
-  options: FatTableAction[];
+  options: FatAction[];
 
   /**
    * 最多显示多少个, 默认 3
@@ -80,11 +80,11 @@ export interface FatTableActionsProps extends CommonProps {
   size?: Size;
 }
 
-export const FatTableActions = declareComponent({
-  name: 'FatTableActions',
-  props: declareProps<FatTableActionsProps>(['options', 'max', 'type', 'size']),
+export const FatActions = declareComponent({
+  name: 'FatActions',
+  props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size']),
   emits: declareEmits<{
-    click: (action: FatTableAction) => void;
+    click: (action: FatAction) => void;
   }>(),
   setup(props, { attrs }) {
     const propsWithDefault = withDefaults(props, { max: 3, type: 'text' });
@@ -107,7 +107,7 @@ export const FatTableActions = declareComponent({
       return rawList.value.slice(max.value);
     });
 
-    const handleClick = async (action: FatTableAction) => {
+    const handleClick = async (action: FatAction) => {
       const shouldContinue = await action.onClick?.(action);
 
       if (shouldContinue === false) {
@@ -122,12 +122,12 @@ export const FatTableActions = declareComponent({
 
     return () => {
       return (
-        <div class={normalizeClassName('fat-table-actions', attrs.class)} style={attrs.style}>
+        <div class={normalizeClassName('fat-actions', attrs.class)} style={attrs.style}>
           {list.value.map((i, idx) => {
             return (
               <Button
                 key={`${i.name}_${idx}`}
-                class={normalizeClassName('fat-table-actions__btn', i.className, {
+                class={normalizeClassName('fat-actions__btn', i.className, {
                   [i.type ?? 'default']: type.value === 'text',
                 })}
                 style={normalizeStyle(i.style)}
@@ -143,16 +143,16 @@ export const FatTableActions = declareComponent({
           {!!moreList.value.length && (
             <Dropdown
               trigger="click"
-              class="fat-table-actions__dropdown"
+              class="fat-actions__dropdown"
               onCommand={handleClick}
               v-slots={{
                 dropdown: (
-                  <DropdownMenu class="fat-table-actions__menu">
+                  <DropdownMenu class="fat-actions__menu">
                     {moreList.value.map((i, idx) => {
                       return (
                         <DropdownItem
                           key={`${i.name}_${idx}`}
-                          class={normalizeClassName('fat-table-action__menu-item', i.className, i.type)}
+                          class={normalizeClassName('fat-actions__menu-item', i.className, i.type)}
                           style={normalizeStyle(i.style)}
                           disabled={i.disabled}
                           command={i}
@@ -165,7 +165,7 @@ export const FatTableActions = declareComponent({
                 ),
               }}
             >
-              <i class="fat-table-actions__more">
+              <i class="fat-actions__more">
                 <More />
               </i>
             </Dropdown>
