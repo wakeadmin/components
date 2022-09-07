@@ -48,6 +48,7 @@
 }
 
 // 强制隐藏 label，主要是修复 element-ui/element-plus 不一致的问题
+.fat-form-item--hide-label > .el-form-item__label-wrap,
 .fat-form-item--hide-label > .el-form-item__label {
   display: none !important;
 }
