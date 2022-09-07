@@ -1,0 +1,11 @@
+/**
+ * element-ui 样式修复
+ */
+.vue2 {
+  .a-select,
+  .a-multi-select {
+    .el-select {
+      width: 100%;
+    }
+  }
+}

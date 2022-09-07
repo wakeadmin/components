@@ -23,7 +23,7 @@ export const ASelectComponent = defineAtomicComponent((props: ASelectProps) => {
   });
 
   return () => {
-    const { mode, value, renderPreview, onChange, ...other } = props;
+    const { mode, value, renderPreview, onChange, context, scene, options: _, ...other } = props;
     const configurable = unref(configurableRef);
 
     if (mode === 'preview') {

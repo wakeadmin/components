@@ -35,7 +35,7 @@ export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectP
   });
 
   return () => {
-    const { mode, value, onChange, ...other } = props;
+    const { mode, value, onChange, context, scene, options: _, ...other } = props;
     const configurable = unref(configurableRef);
 
     if (mode === 'preview') {
