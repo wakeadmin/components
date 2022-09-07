@@ -77,6 +77,10 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
   cancelProps?: ButtonProps;
 }
 
+export function useFatFormModalRef<Store extends {}>() {
+  return ref<FatFormMethods<Store>>();
+}
+
 export const FatFormModal = declareComponent({
   name: 'FatFormModal',
   props: declareProps<FatFormModalProps<any>>({

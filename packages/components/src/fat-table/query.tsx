@@ -57,6 +57,7 @@ export const Query = declareComponent({
             loading={props.loading}
             initialValue={props.initialValue}
             layout="inline"
+            submitOnQueryChange={false}
             renderSubmitter={(form, buttons) => {
               return [ctx.slots.beforeButtons?.(scope), buttons(), ctx.slots.afterButtons?.(scope)];
             }}

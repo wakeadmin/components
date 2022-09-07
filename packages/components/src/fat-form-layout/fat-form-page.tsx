@@ -29,6 +29,10 @@ export interface FatFormPageEvents {
   onCancel?: () => void;
 }
 
+export function useFatFormPageRef<Store extends {}>() {
+  return ref<FatFormPageMethods<Store>>();
+}
+
 export interface FatFormPageProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
   extends FatFormProps<Store, Request, Submit>,
     FatFormPageSlots<Store>,

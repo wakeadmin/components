@@ -93,16 +93,7 @@ const FatTableInner = declareComponent({
     const queryCacheKey = props.namespace ? `_t_${props.namespace}` : '_t';
     const queryWatchDelay = props.queryWatchDelay ?? 800;
 
-    const enableCacheQuery = props.enableCacheQuery ?? true;
-    const enableQuery = props.enableQuery ?? true;
-    const enableErrorCapture = props.enableErrorCapture ?? true;
-    const enablePagination = props.enablePagination ?? true;
-
-    const requestOnMounted = props.requestOnMounted ?? true;
-    const requestOnSortChange = props.requestOnSortChange ?? true;
-    const requestOnFilterChange = props.requestOnFilterChange ?? true;
-    const requestOnQueryChange = props.requestOnQueryChange ?? true;
-    const requestOnRemoved = props.requestOnRemoved ?? true;
+    const enableCacheQuery = props.enableCacheQuery;
 
     const tableRef = ref<TableMethods>();
     const formRef = ref<FatFormMethods<any>>();
@@ -263,7 +254,7 @@ const FatTableInner = declareComponent({
     const search = async (validate = true) => {
       // 检查校验状态
       try {
-        if (enableQuery && formRef.value && validate) {
+        if (props.enableQuery && formRef.value && validate) {
           await formRef.value.validate();
         }
 
@@ -349,7 +340,7 @@ const FatTableInner = declareComponent({
     setInitialValue();
 
     // 监听 query 变动
-    if (requestOnQueryChange) {
+    if (props.requestOnQueryChange) {
       watch(
         () => [query.value, props.query],
         () => {
@@ -380,19 +371,19 @@ const FatTableInner = declareComponent({
       if (enableCacheQuery) {
         // 开启了缓存
         if (route?.query[queryCacheKey] != null) {
-          if (requestOnMounted) {
+          if (props.requestOnMounted) {
             await nextTick();
             fetch();
           }
         } else {
           // 初始化缓存
           await initialCacheIfNeed();
-          if (requestOnMounted) {
+          if (props.requestOnMounted) {
             await nextTick();
             fetch();
           }
         }
-      } else if (requestOnMounted) {
+      } else if (props.requestOnMounted) {
         fetch();
       }
     });
@@ -420,7 +411,7 @@ const FatTableInner = declareComponent({
 
       sort.value = value;
 
-      if (requestOnSortChange) {
+      if (props.requestOnSortChange) {
         leadingDebouncedSearch();
       }
     };
@@ -440,7 +431,7 @@ const FatTableInner = declareComponent({
         }
       }
 
-      if (dirty && requestOnFilterChange) {
+      if (dirty && props.requestOnFilterChange) {
         fetch();
       }
     };
@@ -518,7 +509,7 @@ const FatTableInner = declareComponent({
         }
 
         // 移除
-        if (requestOnRemoved) {
+        if (props.requestOnRemoved) {
           fetch();
         } else {
           // 原地删除
@@ -670,7 +661,7 @@ const FatTableInner = declareComponent({
         renderTitle: () =>
           hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', tableInstance) : props.title,
         renderNavBar: () => renderSlot(props, slots, 'navBar', tableInstance),
-        renderQuery: enableQuery
+        renderQuery: props.enableQuery
           ? () => [
               renderSlot(props, slots, 'beforeForm', tableInstance),
               <Query
@@ -698,7 +689,7 @@ const FatTableInner = declareComponent({
             ]
           : undefined,
         renderError:
-          error.value && enableErrorCapture
+          error.value && props.enableErrorCapture
             ? () =>
                 hasSlots(props, slots, 'error') ? (
                   renderSlot(props, slots, 'error')
@@ -754,7 +745,7 @@ const FatTableInner = declareComponent({
         renderBottomToolbar: hasSlots(props, slots, 'bottomToolbar')
           ? () => renderSlot(props, slots, 'bottomToolbar', tableInstance)
           : undefined,
-        renderPagination: enablePagination
+        renderPagination: props.enablePagination
           ? () => (
               <Pagination
                 {...unref(configurable).pagination}

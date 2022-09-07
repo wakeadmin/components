@@ -11,7 +11,8 @@ import {
 } from '@wakeadmin/component-adapter';
 
 import { Atomic } from '../atomic';
-import { FatFormItemProps, FatFormMethods, FatFormProps } from '../fat-form';
+import { FatFormItemProps, FatFormMethods } from '../fat-form';
+import { FatFormQueryProps } from '../fat-form-layout';
 
 import { FatAction, FatActionsProps } from '../fat-actions';
 
@@ -650,7 +651,7 @@ export interface FatTableQuery<T extends {}, S extends {}> {
   /**
    * 搜索表单属性
    */
-  formProps?: Omit<FatFormProps<S>, 'submit' | 'initialValue'>;
+  formProps?: Omit<FatFormQueryProps<S>, 'submit' | 'initialValue' | 'submitOnQueryChange'>;
 }
 
 export interface FatTableSelect<T> {

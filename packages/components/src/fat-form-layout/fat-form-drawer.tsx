@@ -57,7 +57,7 @@ export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store
     Omit<FatFormProps<Store, Request, Submit>, 'onFinish'>,
     FatFormDrawerSlots<Store> {
   /**
-   * 受控显示
+   * 受控显示, 你也可以使用 open 实例方法
    */
   visible?: boolean;
 
@@ -80,6 +80,13 @@ export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store
    * 自定义取消 props
    */
   cancelProps?: ButtonProps;
+}
+
+/**
+ * 实例引用 hook
+ */
+export function useFatFormDrawerRef<Store extends {}>() {
+  return ref<FatFormDrawerMethods<Store>>();
 }
 
 export const FatFormDrawer = declareComponent({
