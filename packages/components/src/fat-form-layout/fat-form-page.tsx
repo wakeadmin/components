@@ -2,7 +2,7 @@ import { declareComponent, declareEmits, declareProps, declareSlots } from '@wak
 import { Button, ButtonProps } from '@wakeadmin/component-adapter';
 import { getCurrentInstance, ref } from '@wakeadmin/demi';
 
-import { FatFormProps, FatFormMethods, FatForm } from '../fat-form';
+import { FatFormProps, FatFormMethods, FatForm, FatFormSlots } from '../fat-form';
 import {
   hasSlots,
   renderSlot,
@@ -12,11 +12,9 @@ import {
   hasListener,
   ToHSlotDefinition,
 } from '../utils';
-import { FatFloatFooter, FatHeader } from '../fat-layout';
+import { FatFloatFooter, FatHeader, FatHeaderProps, FatHeaderSlots } from '../fat-layout';
 
-export interface FatFormPageSlots<S extends {}> {
-  renderTitle?: (form: FatFormMethods<S>) => any;
-}
+export interface FatFormPageSlots<S extends {}> extends FatHeaderSlots, FatFormSlots<S> {}
 
 export interface FatFormPageMethods<S extends {}> {
   form: FatFormMethods<S>;
@@ -37,6 +35,11 @@ export interface FatFormPageProps<Store extends {}, Request extends {} = Store, 
   extends FatFormProps<Store, Request, Submit>,
     FatFormPageSlots<Store>,
     FatFormPageEvents {
+  /**
+   * 头部渲染
+   */
+  header?: Omit<FatHeaderProps, keyof FatHeaderSlots>;
+
   /**
    * 页面标题
    */
@@ -64,13 +67,17 @@ export interface FatFormPageProps<Store extends {}, Request extends {} = Store, 
 export const FatFormPage = declareComponent({
   name: 'FatFormPage',
   props: declareProps<FatFormPageProps<any>>({
-    title: String,
-    renderTitle: null,
+    header: null,
     enableSubmitter: { type: Boolean, default: true },
-    renderSubmitter: null,
     enableCancel: { type: Boolean, default: true },
     cancelText: String,
     cancelProps: null,
+
+    // slots
+    renderDefault: null,
+    renderExtra: null,
+    renderTitle: null,
+    renderSubmitter: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormPageEvents>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormPageSlots<any>>>(),
@@ -98,9 +105,10 @@ export const FatFormPage = declareComponent({
       return (
         <div class={normalizeClassName('fat-form-page', attrs.class)} style={attrs.style}>
           <FatHeader
-            title={props.title}
+            {...props.header}
             v-slots={{
-              title: hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', form) : undefined,
+              title: renderSlot(props, slots, 'title'),
+              extra: renderSlot(props, slots, 'extra'),
             }}
           >
             <FatForm
@@ -125,7 +133,7 @@ export const FatFormPage = declareComponent({
                 ) : null;
               }}
             >
-              {slots.default?.()}
+              {renderSlot(props, slots, 'default')}
             </FatForm>
           </FatHeader>
         </div>

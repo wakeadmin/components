@@ -1,5 +1,5 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { computed, ref, watch } from '@wakeadmin/demi';
+import { computed, isVue2, ref, watch } from '@wakeadmin/demi';
 
 import { hasSlots, renderSlot, ToHSlotDefinition, ToHEmitDefinition } from '../utils';
 
@@ -30,26 +30,45 @@ export interface FatHeaderProps extends FatHeaderSlots, FatHeaderEvents {
    */
   tabs?: FatHeaderTab[];
 
+  /**
+   * 当前激活的 tab key
+   */
   activeKey?: string | number;
+
+  /**
+   * 在微前端环境是否直接使用基座提供的 wkc-header，默认 true
+   */
+  useWakeadminHeaderIfNeed?: boolean;
 }
+
+const isWakeadminBayEnabled = () => {
+  return '__MAPP_SERVICES__' in window;
+};
+
+const ceSlot = (name: string) => {
+  return isVue2 ? { attrs: { slot: name } } : { slot: name };
+};
 
 /**
  * 页面头部布局
- * TODO: 微前端模式复用基座组件
  */
 export const FatHeader = declareComponent({
   name: 'FatHeader',
-  props: declareProps<FatHeaderProps>(['title', 'renderTitle', 'renderDefault', 'renderExtra', 'tabs', 'activeKey']),
+  props: declareProps<FatHeaderProps>({
+    title: null,
+    renderTitle: null,
+    renderDefault: null,
+    renderExtra: null,
+    tabs: null,
+    activeKey: null,
+    useWakeadminHeaderIfNeed: { type: Boolean, default: true },
+  }),
   emits: declareEmits<ToHEmitDefinition<FatHeaderEvents>>(),
   slots: declareSlots<ToHSlotDefinition<FatHeaderSlots>>(),
   setup(props, { slots, emit, attrs }) {
-    const hasDefaultSlot = computed(() => {
-      return hasSlots(props, slots, 'default');
-    });
-
-    const hasTitleSlots = computed(() => {
-      return hasSlots(props, slots, 'title');
-    });
+    const hasDefaultSlot = computed(() => hasSlots(props, slots, 'default'));
+    const hasTitleSlots = computed(() => hasSlots(props, slots, 'title'));
+    const hasExtraSlots = computed(() => hasSlots(props, slots, 'extra'));
 
     const activeKey = ref<string | number>('');
 
@@ -71,6 +90,19 @@ export const FatHeader = declareComponent({
     );
 
     return () => {
+      const wakeadminBayEnabled = isWakeadminBayEnabled();
+
+      // 使用 惟客云 基座实现
+      if (wakeadminBayEnabled && props.useWakeadminHeaderIfNeed) {
+        return (
+          <wkc-header class={['fat-header', attrs.class]} style={attrs.style} title={props.title}>
+            {!!hasTitleSlots.value && <div {...ceSlot('title')}>{renderSlot(props, slots, 'title')}</div>}
+            {!!hasExtraSlots.value && <div {...ceSlot('extra')}>{renderSlot(props, slots, 'extra')}</div>}
+            {!!hasDefaultSlot.value && renderSlot(props, slots, 'default')}
+          </wkc-header>
+        );
+      }
+
       return (
         <div class={['fat-header', attrs.class]} style={attrs.style}>
           <div class={['fat-header__top', { lonely: !hasDefaultSlot.value }]}>
