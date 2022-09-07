@@ -62,6 +62,7 @@ const FatFormInner = declareComponent({
   emits: declareEmits<ToHEmitDefinition<FatFormEvents<any>>>(),
   setup(props, { slots, expose, attrs, emit }) {
     let requestLoaded = false;
+    let ready = false;
     const parentForm = useFatFormContext();
     const formRef = ref<FormMethods>();
     const _loading = ref(false);
@@ -87,14 +88,19 @@ const FatFormInner = declareComponent({
      */
     const initialValue: any = {};
 
-    const setInitialValue = (value: any) => {
+    const setInitialValue = (value: any, force: boolean) => {
       merge(initialValue, value);
 
       const cloned = cloneDeep(initialValue);
 
-      // 用户已经修改的字段不能覆盖
-      for (const key of touches.getAllTouches()) {
-        set(cloned, key, get(values.value, key));
+      if (!force && ready) {
+        // 用户已经修改的字段不能覆盖
+        for (const key of touches.getAllTouches()) {
+          set(cloned, key, get(values.value, key));
+        }
+      } else {
+        // 清理掉用户的更新状态
+        touches.clear();
       }
 
       values.value = cloned;
@@ -123,7 +129,7 @@ const FatFormInner = declareComponent({
 
           requestLoaded = true;
 
-          setInitialValue(response);
+          setInitialValue(response, true);
         }
       } catch (err) {
         error.value = err as Error;
@@ -145,7 +151,7 @@ const FatFormInner = declareComponent({
         }
 
         if (isPlainObject(value)) {
-          setInitialValue(value);
+          setInitialValue(value, false);
         }
       },
       { immediate: true }
@@ -271,9 +277,11 @@ const FatFormInner = declareComponent({
         setByPath(values.value, prop, value);
 
         emit('valuesChange', values.value, prop, value, oldValue);
-      }
 
-      touches.touch(prop);
+        if (ready) {
+          touches.touch(prop);
+        }
+      }
     };
 
     const isFieldTouched = (prop: string | string[], allTouched = true): boolean => {
@@ -409,6 +417,8 @@ const FatFormInner = declareComponent({
       if (props.request && props.requestOnMounted) {
         fetch();
       }
+
+      ready = true;
     });
 
     onBeforeUnmount(() => {
