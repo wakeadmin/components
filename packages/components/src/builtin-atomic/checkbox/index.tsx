@@ -1,5 +1,4 @@
 import { Checkbox, CheckboxProps, model } from '@wakeadmin/component-adapter';
-import { unref } from '@wakeadmin/demi';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
@@ -38,7 +37,7 @@ export const ACheckboxComponent = defineAtomicComponent((props: ACheckboxProps) 
 
   return () => {
     const { mode, scene, context, value, onChange, renderPreview, renderLabel, label, ...other } = props;
-    const passthrough = { ...unref(configurable).aCheckboxProps, ...other };
+    const passthrough = { ...configurable.aCheckboxProps, ...other };
     const checked = !!value;
 
     const labelContent = renderLabel ? renderLabel(checked) : label;
