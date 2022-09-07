@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
     <FatTable
       ref="tableRef"
       row-key="id"
@@ -8,31 +7,40 @@
       :remove="remove"
       :columns="columns"
       :request-on-removed="false"
-      :request-on-query-change="false"
       :enable-select="true"
       row-class-name="fuck"
-      :initial-query="initialQuery"
       @row-click="handleClick"
-      @query-cache-restore="handleCacheRestore"
-    />
-    <button @click="selectAll">select all</button>
-    <button @click="unselectAll">unselect all</button>
-    <button @click="getSelected">getSelected</button>
-    <button @click="removeSelected">remove selected</button>
+      @queryCacheRestore="handleCacheRestore"
+    >
+      <template #title>标题</template>
+      <template #navBar><el-button type="primary">新建</el-button></template>
+      <template #toolbar>
+        <el-button @click="selectAll">select all</el-button>
+        <el-button @click="unselectAll">unselect all</el-button>
+        <el-button @click="getSelected">getSelected</el-button>
+        <el-button @click="removeSelected">remove selected</el-button>
+      </template>
+      <template #bottomToolbar>
+        <el-button>导入</el-button>
+        <el-button>导出</el-button>
+      </template>
+      <template #beforeSubmit> hello </template>
+      <template #formTrailing> hello </template>
+    </FatTable>
   </div>
 </template>
 
 <script lang="tsx" setup>
   import { ref } from 'vue';
   import { FatTable } from '@wakeadmin/components';
-  import { ElFormItem, ElInput, ElCol } from 'element-plus';
-
-  const handleClick = () => {
-    console.log('click');
-  };
+  import { delay } from '@wakeapp/utils';
 
   const handleCacheRestore = cache => {
     console.log('cache', cache);
+  };
+
+  const handleClick = () => {
+    console.log('click');
   };
 
   const tableRef = ref();
@@ -41,15 +49,13 @@
     return Promise.resolve();
   };
 
-  const initialQuery = {
-    query: 'initial',
-  };
-
   const request = async params => {
     console.log('request', params);
     const {
       pagination: { pageSize, page },
     } = params;
+
+    await delay(1000);
 
     return {
       total: 100,
@@ -67,8 +73,8 @@
     {
       type: 'query',
       renderLabel: () => '关键字',
+      tooltip: '很重要',
       prop: 'query',
-      valueType: 'input',
       initialValue: 'x',
       valueProps: {
         placeholder: '关键字',
@@ -82,23 +88,19 @@
       },
     },
     {
+      type: 'query',
+      label: '值',
+      renderFormItem: (q: any) => {
+        return <span>{JSON.stringify(q)}</span>;
+      },
+    },
+    {
       prop: 'name',
       label: 'Name',
-      tooltip: 'hello',
-      valueType: 'input',
       queryable: true,
       initialValue: 'hello',
       valueProps: {
         placeholder: '评论',
-        onFocus: () => {
-          console.log('focus', document.hasFocus(), document.getSelection().focusNode);
-        },
-        onBlur: () => {
-          console.log('blur', document.hasFocus(), document.getSelection().focusNode);
-        },
-        onChange: v => {
-          console.log('name change', v);
-        },
       },
     },
     {
@@ -113,7 +115,6 @@
       valueProps: {
         valueFormat: 'YYYY-MM-DD',
       },
-      order: 5,
       initialValue: ['2022-03-13', '2022-03-17'],
       transform: v => {
         if (Array.isArray(v)) {
@@ -132,29 +133,13 @@
       filteredValue: [1, 2],
     },
     {
-      type: 'query',
-      initialValue: { foo: 'bar', bar: 'baz' },
-      renderFormItem: query => {
-        return (
-          <ElFormItem label="hello">
-            <ElCol span={12}>
-              <ElInput modelValue={query.foo} onUpdate:modelValue={v => (query.foo = v)} />
-            </ElCol>
-            <ElCol span={12}>
-              <ElInput modelValue={query.bar} onUpdate:modelValue={v => (query.bar = v)} />
-            </ElCol>
-          </ElFormItem>
-        );
-      },
-    },
-    {
       prop: 'filter2',
       label: 'filter2',
       filterable: [
         { text: 'one', value: 1 },
         { text: 'two', value: 2 },
       ],
-      filteredValue: [1, 2],
+      filteredValue: [1],
     },
     {
       type: 'actions',
@@ -194,3 +179,12 @@
     tableRef.value?.removeSelected();
   };
 </script>
+
+<style lang="scss" scoped>
+  .home {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+</style>
