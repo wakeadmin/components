@@ -1,10 +1,11 @@
-import { computed, unref } from '@wakeadmin/demi';
+import { computed, unref, Ref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
 import { inheritProps, pickEnumerable } from '../utils';
 
 import { FatTable } from './fat-table';
-import { FatTableProps } from './types';
+import { useFatTableRef } from './hooks';
+import { FatTableMethods, FatTableProps } from './types';
 
 /**
  * 定义表格组件
@@ -37,18 +38,22 @@ import { FatTableProps } from './types';
  * @returns 返回一个 table 组件
  */
 export function defineFatTable<T extends {}, S extends {}>(
-  definitions: FatTableProps<T, S> | (() => () => FatTableProps<T, S>)
+  definitions:
+    | FatTableProps<T, S>
+    | ((instanceRef: Ref<FatTableMethods<T, S> | undefined>) => () => FatTableProps<T, S>)
 ): (props: Partial<FatTableProps<T, S>>) => any {
   return declareComponent({
     name: 'PreDefinedFatTable',
     setup(_props, ctx) {
-      const extraDefinitions = typeof definitions === 'function' ? computed(definitions()) : definitions;
+      const tableRef = useFatTableRef<T, S>();
+      const extraDefinitions = typeof definitions === 'function' ? computed(definitions(tableRef)) : definitions;
 
       return () => {
         const preDefineProps = unref(extraDefinitions);
 
         return (
           <FatTable
+            ref={tableRef}
             {...preDefineProps}
             // events && attrs passthrough
             {...inheritProps(false)}
