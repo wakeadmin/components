@@ -7,6 +7,11 @@ export default defineFatForm(({ item, consumer, group }) => {
 
   return () => ({
     mode: previewMode.value ? 'preview' : 'editable',
+    class: ['hello', 'world'],
+    style: [{ color: 'red' }, 'background: blue'],
+    onLoad() {
+      console.log('load on define');
+    },
     async request() {
       return {
         foo: 'foo',

@@ -3,6 +3,7 @@ import { computed, Ref, unref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
 import { Atomic } from '../atomic';
+import { inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { FatForm } from './fat-form';
 import { FatFormConsumer } from './fat-form-consumer';
@@ -101,7 +102,7 @@ export function defineFatForm<Store extends {}, Request extends {} = Store, Subm
 ): (props: Partial<FatFormProps<Store, Request, Submit>>) => any {
   return declareComponent({
     name: 'PreDefineFatForm',
-    setup(props, { slots }) {
+    setup(_, { slots }) {
       const formRef = useFatFormRef<Store>();
       const item = (val: any) => ({ [TYPE]: 'item', ...val } as any);
       const group = (val: any) => ({ [TYPE]: 'group', ...val } as any);
@@ -144,7 +145,11 @@ export function defineFatForm<Store extends {}, Request extends {} = Store, Subm
         const { children, ...fatFormProps } = unref(dsl);
 
         return (
-          <FatForm ref={formRef} {...fatFormProps} {...props}>
+          <FatForm
+            ref={formRef}
+            {...mergeProps(fatFormProps, inheritProps(false))}
+            v-slots={pickEnumerable(slots, 'default')}
+          >
             {renderChildren(children)}
             {slots.default?.()}
           </FatForm>

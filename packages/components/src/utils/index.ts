@@ -1,8 +1,11 @@
 import { getCurrentInstance, isVue2, set as $set, isReactive, customRef } from '@wakeadmin/demi';
-import { LooseClassValue, ClassValue, LooseStyleValue, StyleValue } from '@wakeadmin/component-adapter';
-import { NoopObject, omit, upperFirst, set, isPlainObject } from '@wakeadmin/utils';
+import { NoopObject, upperFirst, set, isPlainObject } from '@wakeadmin/utils';
 import toPath from 'lodash/toPath';
 import has from 'lodash/has';
+
+export * from './className';
+export * from './style';
+export * from './merge-props';
 
 export function staticRef<T>(value: T) {
   return customRef(() => {
@@ -30,14 +33,6 @@ export function settledThrowIfNeed(results?: PromiseSettledResult<any>[]) {
 
 export function toUndefined<T>(value: T | undefined | null): T | undefined {
   return value != null ? value : undefined;
-}
-
-export function normalizeClassName(...list: LooseClassValue[]) {
-  return list.filter(i => (Array.isArray(i) ? i.length : i)).flat() as ClassValue;
-}
-
-export function normalizeStyle(...list: LooseStyleValue[]) {
-  return list.filter(i => (Array.isArray(i) ? i.length : i)).flat() as StyleValue[];
 }
 
 /**
@@ -90,29 +85,6 @@ export type TrimRenderFunction<T extends {}> = {
  */
 export type ToHSlotDefinition<T> = TrimRenderFunction<Required<T>>;
 
-const CLASS_AND_STYLE = ['class', 'style'];
-
-/**
- * 继承 props 和 listener
- * @param omitClassAndStyle 是否忽略class 和 style, 仅 vue3 下有效
- * @returns
- */
-export function inheritProps(omitClassAndStyle = true) {
-  const instance = getCurrentInstance()?.proxy;
-
-  if (isVue2) {
-    return {
-      ...instance?.$attrs,
-      // @ts-expect-error
-      on: instance?.$listeners,
-    };
-  } else if (instance?.$attrs) {
-    return omitClassAndStyle ? omit(instance?.$attrs, CLASS_AND_STYLE) : instance?.$attrs;
-  }
-
-  return NoopObject;
-}
-
 /**
  * 判断是否声明了 slots
  */
@@ -157,8 +129,13 @@ export function renderSlot(props: any, slots: any, name: string, ...args: any[])
  * @param value
  * @returns
  */
-export function pickEnumerable<T extends {}>(value: T): T {
+export function pickEnumerable<T extends {}>(value: T, ...omits: string[]): T {
   return Object.keys(value).reduce<any>((prev, cur) => {
+    // 支持忽略
+    if (omits.includes(cur)) {
+      return prev;
+    }
+
     prev[cur] = (value as any)[cur];
 
     return prev;

@@ -6,6 +6,7 @@
     <section><Layout></Layout></section>
     <section><Nested></Nested></section>
     <section><Transform></Transform></section>
+    <section><FormDefine style="margin: 0" @load="formLoad"></FormDefine></section>
   </main>
 </template>
 
@@ -15,6 +16,11 @@
   import Atomics from './Atomics.vue';
   import Nested from './Nested.vue';
   import Transform from './Transform.vue';
+  import FormDefine from './FormDefine';
+
+  const formLoad = () => {
+    console.log('load on outer');
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -8,6 +8,7 @@
     "start": "tsc -b tsconfig.build.json --watch",
     "prebuild": "rimraf dist .tsBuildInfo",
     "copy": "cpx \"src/**/*.+(scss|jpg|jpeg|gif|png|svg|css)\" ./dist",
+    "test": "vitest",
     "build": "tsc -b tsconfig.build.json",
     "postbuild": "npm run copy",
     "type-check": "tsc"
@@ -20,9 +21,12 @@
   "license": "MIT",
   "dependencies": {
     "@wakeadmin/component-adapter": "workspace:^1.0.0",
-    "@wakeadmin/demi": "^0.1.1",
-    "@wakeadmin/h": "^0.2.3",
-    "@wakeadmin/icons": "^0.1.2",
-    "@wakeadmin/utils": "^0.1.1"
+    "@wakeadmin/demi": "latest",
+    "@wakeadmin/h": "^0.2.4",
+    "@wakeadmin/icons": "latest",
+    "@wakeadmin/utils": "latest"
+  },
+  "devDependencies": {
+    "vitest": "^0.23.1"
   }
 }

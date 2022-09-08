@@ -1,7 +1,7 @@
 import { computed, unref, Ref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
-import { inheritProps, pickEnumerable } from '../utils';
+import { inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { FatTable } from './fat-table';
 import { useFatTableRef } from './hooks';
@@ -52,11 +52,11 @@ export function defineFatTable<T extends {}, S extends {}>(
         const preDefineProps = unref(extraDefinitions);
 
         return (
+          // @ts-expect-error
           <FatTable
             ref={tableRef}
-            {...preDefineProps}
             // events && attrs passthrough
-            {...inheritProps(false)}
+            {...mergeProps(preDefineProps, inheritProps(false))}
             // slots passthrough
             v-slots={pickEnumerable(ctx.slots)}
           />
