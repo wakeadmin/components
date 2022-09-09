@@ -7,6 +7,7 @@ import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
 
 import { useLazyFalsy } from '../hooks';
 import {
+  forwardExpose,
   hasListener,
   hasSlots,
   inheritProps,
@@ -15,15 +16,18 @@ import {
   ToHEmitDefinition,
   ToHSlotDefinition,
 } from '../utils';
+import { FatFormPublicMethodKeys } from '../fat-form/constants';
 
-export interface FatFormModalMethods<S extends {}> {
-  readonly form: FatFormMethods<S>;
-
+export interface FatFormModalMethods<Store extends {}> extends FatFormMethods<Store> {
   /**
    * 可以传递临时参数
    * @param tempProps
    */
-  open(tempProps?: FatFormModalProps<S>): void;
+  open(tempProps?: FatFormModalProps<Store>): void;
+
+  /**
+   * 关闭
+   */
   close(): void;
 }
 
@@ -82,6 +86,8 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
 export function useFatFormModalRef<Store extends {}>() {
   return ref<FatFormMethods<Store>>();
 }
+
+export const FatFormModalMethodKeys = [...FatFormPublicMethodKeys, 'open', 'close'];
 
 export const FatFormModal = declareComponent({
   name: 'FatFormModal',
@@ -158,13 +164,12 @@ export const FatFormModal = declareComponent({
       });
     };
 
-    const instance: FatFormModalMethods<any> = {
-      get form() {
-        return form.value!;
-      },
+    const instance = {
       open,
       close,
     };
+
+    forwardExpose(instance, FatFormPublicMethodKeys, form);
 
     expose(instance);
 

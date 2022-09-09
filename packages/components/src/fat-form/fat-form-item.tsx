@@ -59,7 +59,7 @@ const FatFormItemInner = declareComponent({
 
     const form = useFatFormContext()!;
     const registry = useAtomicRegistry();
-    const inheritProps = useInheritableProps();
+    const inheritedProps = useInheritableProps();
 
     // 初始化: 就算是空数据也需要初始化，否则 element-ui 会报错
     form.__setInitialValue(props.prop, props.initialValue);
@@ -98,11 +98,11 @@ const FatFormItemInner = declareComponent({
     });
 
     const mode = computed(() => {
-      return props.mode ?? inheritProps?.mode;
+      return props.mode ?? inheritedProps?.mode;
     });
 
     const size = computed(() => {
-      return props.size ?? inheritProps?.size;
+      return props.size ?? inheritedProps?.size;
     });
 
     const instance: FatFormItemMethods<any> = {
@@ -149,7 +149,7 @@ const FatFormItemInner = declareComponent({
         d = props.disabled;
       }
 
-      return d ?? inheritProps?.disabled;
+      return d ?? inheritedProps?.disabled;
     });
 
     const hidden = computed(() => {
@@ -161,7 +161,7 @@ const FatFormItemInner = declareComponent({
         h = props.hidden;
       }
 
-      return h ?? inheritProps?.hidden;
+      return h ?? inheritedProps?.hidden;
     });
 
     /**
@@ -265,7 +265,7 @@ const FatFormItemInner = declareComponent({
 
     return () => {
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
-      const col = (props.col ?? inheritProps?.col) as (ColProps & Partial<CommonProps>) | undefined;
+      const col = (props.col ?? inheritedProps?.col) as (ColProps & Partial<CommonProps>) | undefined;
 
       const labelSlot =
         hasTooltip.value || hasSlots(props, slots, 'label')

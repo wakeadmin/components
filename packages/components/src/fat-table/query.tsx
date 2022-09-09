@@ -40,7 +40,7 @@ export const Query = declareComponent({
         const outerRef = props.formRef?.();
 
         if (outerRef && value) {
-          outerRef.value = value.form;
+          outerRef.value = value;
         }
       },
     }));

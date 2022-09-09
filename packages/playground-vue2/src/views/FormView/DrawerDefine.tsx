@@ -1,7 +1,7 @@
 import { defineFatFormDrawer } from '@wakeadmin/components';
 import { watch } from 'vue';
 
-export default defineFatFormDrawer(({ form, instance, item }) => {
+export default defineFatFormDrawer(({ form, item }) => {
   watch(
     () => form.value?.values,
     () => {
@@ -11,7 +11,7 @@ export default defineFatFormDrawer(({ form, instance, item }) => {
   );
 
   const handleClose = () => {
-    instance.value?.close();
+    form.value?.close();
     console.log(form.value?.values);
   };
 

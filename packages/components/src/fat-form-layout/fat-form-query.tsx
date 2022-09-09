@@ -1,12 +1,14 @@
 // TODO: 需求不太确定
 // 展开
+// allowClear
 
 import { ref } from '@wakeadmin/demi';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { debounce } from 'lodash';
 
 import { FatForm, FatFormMethods, FatFormProps } from '../fat-form';
-import { inheritProps, pickEnumerable } from '../utils';
+import { FatFormPublicMethodKeys } from '../fat-form/constants';
+import { forwardExpose, inheritProps, pickEnumerable } from '../utils';
 
 export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = FatFormProps<
   Store,
@@ -24,9 +26,7 @@ export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Subm
   queryWatchDelay?: number;
 };
 
-export interface FatFormQueryMethods<S extends {}> {
-  form: FatFormMethods<S>;
-}
+export type FatFormQueryMethods<S extends {}> = FatFormMethods<S>;
 
 export function useFatFormQueryMethods<Store extends {}>() {
   return ref<FatFormQueryMethods<Store>>();
@@ -43,11 +43,10 @@ export const FatFormQuery = declareComponent({
   setup(props, { slots, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
 
-    expose({
-      get form() {
-        return form.value;
-      },
-    });
+    const instance = {};
+    forwardExpose(instance, FatFormPublicMethodKeys, form);
+
+    expose(instance);
 
     const debounceSubmit = debounce(() => {
       form.value?.submit();

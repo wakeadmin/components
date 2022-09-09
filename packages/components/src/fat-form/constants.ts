@@ -1,4 +1,5 @@
 import { InjectionKey } from '@wakeadmin/demi';
+import { OmitUnderScore } from '../utils';
 
 import { FatFormItemInheritableProps, FatFormItemWidth, FatFormMethods } from './types';
 
@@ -23,3 +24,28 @@ export const PreDefinedItemWidth: Record<FatFormItemWidth, number> = {
   large: 440,
   huge: 552,
 };
+
+/**
+ * 定义所有公开的实例方法名称
+ */
+export const FatFormPublicMethodKeys: (keyof OmitUnderScore<FatFormMethods<any>>)[] = [
+  'mode',
+  'layout',
+  'labelWidth',
+  'labelSuffix',
+  'disabled',
+  'error',
+  'loading',
+  'submitting',
+  'values',
+  'formRef',
+  'submit',
+  'request',
+  'reset',
+  'validate',
+  'validateField',
+  'isFieldTouched',
+  'clearValidate',
+  'getFieldValue',
+  'setFieldValue',
+];

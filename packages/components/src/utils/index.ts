@@ -7,6 +7,8 @@ export * from './className';
 export * from './style';
 export * from './merge-props';
 export * from './ref';
+export * from './types';
+export * from './expose';
 
 export function settledThrowIfNeed(results?: PromiseSettledResult<any>[]) {
   if (results == null || results.length === 0) {
@@ -39,40 +41,6 @@ export function hasListener(name: string, instance?: any) {
     return `on${upperFirst(name)}` in (instance?.$attrs ?? NoopObject);
   }
 }
-
-export type TrimOnPrefix<K extends string> = K extends `on${infer E}`
-  ? E extends `${infer F}${infer L}`
-    ? `${Lowercase<F>}${L}`
-    : E
-  : K;
-
-export type TrimRenderPrefix<K extends string> = K extends `render${infer E}`
-  ? E extends `${infer F}${infer L}`
-    ? `${Lowercase<F>}${L}`
-    : E
-  : K;
-
-export type TrimOnEvents<T extends {}> = {
-  [K in keyof T as TrimOnPrefix<string & K>]: T[K];
-};
-
-/**
- * 将 on* 类型的事件转换为 h 库的 emit 类型格式
- */
-export type ToHEmitDefinition<T> = TrimOnEvents<Required<T>>;
-
-export type TrimRenderFunction<T extends {}> = {
-  [K in keyof T as TrimRenderPrefix<string & K>]: T[K] extends () => any
-    ? any
-    : T[K] extends (a: infer R, ...args: any[]) => any
-    ? R
-    : never;
-};
-
-/**
- * 将 render* 类型的渲染函数转换未 h 库的 slot 类型格式
- */
-export type ToHSlotDefinition<T> = TrimRenderFunction<Required<T>>;
 
 /**
  * 判断是否声明了 slots

@@ -4,7 +4,9 @@ import { ref, watch, getCurrentInstance } from '@wakeadmin/demi';
 import { NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
+import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import {
+  forwardExpose,
   hasListener,
   hasSlots,
   inheritProps,
@@ -15,16 +17,20 @@ import {
 } from '../utils';
 import { useLazyFalsy } from '../hooks';
 
-export interface FatFormDrawerMethods<S extends {}> {
-  readonly form: FatFormMethods<S>;
-
+export interface FatFormDrawerMethods<Store extends {}> extends FatFormMethods<Store> {
   /**
    * 可以传递临时参数
    * @param tempProps
    */
-  open(tempProps?: FatFormDrawerProps<S>): void;
+  open(tempProps?: FatFormDrawerProps<Store>): void;
+
+  /**
+   * 关闭
+   */
   close(): void;
 }
+
+export const FatFormDrawerMethodKeys = [...FatFormPublicMethodKeys, 'open', 'close'];
 
 export interface FatFormDrawerSlots<S extends {}> {
   /**
@@ -167,13 +173,13 @@ export const FatFormDrawer = declareComponent({
       });
     };
 
-    const instance: FatFormDrawerMethods<any> = {
-      get form() {
-        return form.value!;
-      },
+    const instance = {
       open,
       close,
     };
+
+    // 转发 fat-form props
+    forwardExpose(instance, FatFormPublicMethodKeys, form);
 
     expose(instance);
 

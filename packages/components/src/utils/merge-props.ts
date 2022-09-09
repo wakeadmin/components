@@ -1,6 +1,6 @@
 import { isVue2, getCurrentInstance } from '@wakeadmin/demi';
 
-import { NoopObject, omit } from '@wakeadmin/utils';
+import { isObject, NoopObject, omit } from '@wakeadmin/utils';
 
 import { normalizeClassName } from './className';
 import { normalizeStyle } from './style';
@@ -79,14 +79,25 @@ const CLASS_AND_STYLE = ['class', 'style'];
  * @returns
  */
 export function inheritProps(omitClassAndStyle = true) {
-  const instance = getCurrentInstance()?.proxy;
+  const instance = getCurrentInstance()?.proxy as any;
+
+  if (instance == null) {
+    return NoopObject;
+  }
 
   if (isVue2) {
-    return {
-      ...instance?.$attrs,
-      // @ts-expect-error
-      on: instance?.$listeners,
-    };
+    const toForward: Record<string, unknown> = {};
+
+    if (isObject(instance.$listeners) && Object.keys(instance.$listeners).length) {
+      // 拷贝避免篡改影响父组件
+      toForward.on = { ...instance?.$listeners };
+    }
+
+    if (isObject(instance.$attrs) && Object.keys(instance.$attrs).length) {
+      Object.assign(toForward, instance.$attrs);
+    }
+
+    return toForward;
   } else if (instance?.$attrs) {
     return omitClassAndStyle ? omit(instance?.$attrs, CLASS_AND_STYLE) : instance?.$attrs;
   }

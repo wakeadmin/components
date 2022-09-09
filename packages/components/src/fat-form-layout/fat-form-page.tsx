@@ -11,20 +11,20 @@ import {
   ToHEmitDefinition,
   hasListener,
   ToHSlotDefinition,
+  forwardExpose,
 } from '../utils';
 import { FatFloatFooter, FatHeader, FatHeaderProps, FatHeaderSlots } from '../fat-layout';
+import { FatFormPublicMethodKeys } from '../fat-form/constants';
 
 export interface FatFormPageSlots<S extends {}> extends FatHeaderSlots, FatFormSlots<S> {}
 
-export interface FatFormPageMethods<S extends {}> {
-  form: FatFormMethods<S>;
-}
+export type FatFormPageMethods<S extends {}> = FatFormMethods<S>;
 
 export interface FatFormPageEvents {
   /**
    * 取消事件，默认是返回上一页
    */
-  onCancel?: () => void;
+  onCancel?: (back: () => void) => void;
 }
 
 export function useFatFormPageRef<Store extends {}>() {
@@ -86,20 +86,21 @@ export const FatFormPage = declareComponent({
     const instance = getCurrentInstance()?.proxy;
 
     const handleCancel = () => {
-      if (hasListener('cancel', instance)) {
-        emit('cancel');
-      } else {
+      const back = () => {
         if (window.history.length > 1) {
           window.history.back();
         }
+      };
+      if (hasListener('cancel', instance)) {
+        emit('cancel', back);
+      } else {
+        back();
       }
     };
 
-    expose({
-      get form() {
-        return form.value;
-      },
-    });
+    const exposed = {};
+    forwardExpose(exposed, FatFormPublicMethodKeys, form);
+    expose(exposed);
 
     return () => {
       return (
