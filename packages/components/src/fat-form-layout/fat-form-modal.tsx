@@ -4,6 +4,8 @@ import { ref, watch, getCurrentInstance } from '@wakeadmin/demi';
 import { NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
+
+import { useLazyFalsy } from '../hooks';
 import {
   hasListener,
   hasSlots,
@@ -104,6 +106,7 @@ export const FatFormModal = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatFormModalSlots<any>>>(),
   setup(props, { attrs, expose, emit, slots }) {
     const visible = ref(false);
+    const lazyVisible = useLazyFalsy(visible);
     const form = ref<FatFormMethods<any>>();
     // 临时 props
     let tempProps = {};
@@ -207,7 +210,7 @@ export const FatFormModal = declareComponent({
               : renderFooter(),
           }}
         >
-          {(!props.destroyOnClose || !!visible.value) && (
+          {(!props.destroyOnClose || !!lazyVisible.value) && (
             <FatForm ref={form} enableSubmitter={false} onFinish={handleFinish} {...passthroughProps} {...tempProps}>
               {slots.default?.()}
             </FatForm>

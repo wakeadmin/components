@@ -13,6 +13,7 @@ import {
   ToHEmitDefinition,
   ToHSlotDefinition,
 } from '../utils';
+import { useLazyFalsy } from '../hooks';
 
 export interface FatFormDrawerMethods<S extends {}> {
   readonly form: FatFormMethods<S>;
@@ -113,7 +114,9 @@ export const FatFormDrawer = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatFormDrawerSlots<any>>>(),
   setup(props, { attrs, expose, emit, slots }) {
     const visible = ref(false);
+    const lazyVisible = useLazyFalsy(visible);
     const form = ref<FatFormMethods<any>>();
+
     // 临时 props
     let tempProps = {};
 
@@ -174,29 +177,29 @@ export const FatFormDrawer = declareComponent({
 
     expose(instance);
 
+    const renderButtons = () => {
+      return [
+        !!props.enableCancel && (
+          <Button onClick={close} {...props.cancelProps}>
+            {props.cancelText ?? '取消'}
+          </Button>
+        ),
+        !!props.enableReset && (
+          <Button onClick={form.value?.reset} {...props.resetProps}>
+            {props.resetText ?? '重置'}
+          </Button>
+        ),
+        <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
+          {props.submitText ?? '保存'}
+        </Button>,
+      ];
+    };
+
+    const renderFooter = () => {
+      return <div class="fat-form-drawer__footer">{renderButtons()}</div>;
+    };
+
     return () => {
-      const renderButtons = () => {
-        return [
-          !!props.enableCancel && (
-            <Button onClick={close} {...props.cancelProps}>
-              {props.cancelText ?? '取消'}
-            </Button>
-          ),
-          !!props.enableReset && (
-            <Button onClick={form.value?.reset} {...props.resetProps}>
-              {props.resetText ?? '重置'}
-            </Button>
-          ),
-          <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
-            {props.submitText ?? '保存'}
-          </Button>,
-        ];
-      };
-
-      const renderFooter = () => {
-        return <div class="fat-form-drawer__footer">{renderButtons()}</div>;
-      };
-
       const passthroughProps = inheritProps();
 
       return (
@@ -215,7 +218,7 @@ export const FatFormDrawer = declareComponent({
           }}
         >
           <div class="fat-form-drawer__body">
-            {(!props.destroyOnClose || !!visible.value) && (
+            {(!props.destroyOnClose || !!lazyVisible.value) && (
               <FatForm ref={form} enableSubmitter={false} onFinish={handleFinish} {...passthroughProps} {...tempProps}>
                 {slots.default?.()}
               </FatForm>
