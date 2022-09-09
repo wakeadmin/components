@@ -1,7 +1,7 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/component-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, provide, computed, watch, onMounted, onBeforeUnmount } from '@wakeadmin/demi';
-import { cloneDeep, isPlainObject, merge, get, set } from '@wakeadmin/utils';
+import { cloneDeep, isPlainObject, merge, get, set, equal } from '@wakeadmin/utils';
 
 import {
   hasByPath,
@@ -144,13 +144,18 @@ const FatFormInner = declareComponent({
     // 监听 initialValue 变动
     watch(
       () => props.initialValue,
-      value => {
+      (value, oldValue) => {
         // 从远程加载了数据，将忽略 initialValue
         if (requestLoaded) {
           return;
         }
 
-        if (isPlainObject(value)) {
+        if (value === oldValue) {
+          return;
+        }
+
+        // 深比较，避免循环 reactive
+        if (isPlainObject(value) && !equal(value, oldValue)) {
           setInitialValue(value, false);
         }
       },
@@ -437,23 +442,23 @@ const FatFormInner = declareComponent({
       emit('validate', prop, valid, message);
     };
 
+    const renderButtons = () => {
+      const pending = loading.value || submitting.value;
+      return [
+        <Button loading={pending} type="primary" {...props.submitProps} onClick={instance.submit}>
+          {props.submitText ?? '保存'}
+        </Button>,
+        !!props.enableReset && (
+          <Button loading={pending} {...props.resetProps} onClick={instance.reset}>
+            {props.resetText ?? '重置'}
+          </Button>
+        ),
+      ];
+    };
+
     return () => {
       const layout = instance.layout;
       const labelAlign = props.labelAlign ?? 'right';
-
-      const renderButtons = () => {
-        const pending = loading.value || submitting.value;
-        return [
-          <Button loading={pending} type="primary" {...props.submitProps} onClick={instance.submit}>
-            {props.submitText ?? '保存'}
-          </Button>,
-          !!props.enableReset && (
-            <Button loading={pending} {...props.resetProps} onClick={instance.reset}>
-              {props.resetText ?? '重置'}
-            </Button>
-          ),
-        ];
-      };
 
       return (
         <Form

@@ -1,7 +1,7 @@
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { FormItem, Col, Tooltip, ColProps, CommonProps } from '@wakeadmin/component-adapter';
 import { watch, computed, onBeforeUnmount } from '@wakeadmin/demi';
-import { get, debounce, NoopObject } from '@wakeadmin/utils';
+import { get, debounce, NoopObject, equal } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { Atomic } from '../atomic';
@@ -67,10 +67,12 @@ const FatFormItemInner = declareComponent({
     // 监听 initialValue 变动
     watch(
       () => props.initialValue,
-      value => {
-        if (value !== undefined) {
-          form.__setInitialValue(props.prop!, value);
+      (value, oldValue) => {
+        if (value === undefined || value === oldValue || equal(value, oldValue)) {
+          return;
         }
+
+        form.__setInitialValue(props.prop!, value);
       },
       {}
     );
