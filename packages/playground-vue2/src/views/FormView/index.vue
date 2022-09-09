@@ -7,6 +7,7 @@
     <section><Nested></Nested></section>
     <section><Transform></Transform></section>
     <section><FormDefine style="margin: 0" @load="formLoad"></FormDefine></section>
+    <section><FormLayout /></section>
   </main>
 </template>
 
@@ -17,6 +18,7 @@
   import Nested from './Nested.vue';
   import Transform from './Transform.vue';
   import FormDefine from './FormDefine';
+  import FormLayout from './FormLayout.vue';
 
   const formLoad = () => {
     console.log('load on outer');

@@ -53,9 +53,9 @@ export interface FatFormGroupDefinition<Store extends {}, Request extends {} = S
 /**
  * fat-consumer
  */
-export interface FatFormConsumerDefinition<Store extends {}> {
+export interface FatFormConsumerDefinition<Store extends {}, Request extends {} = Store> {
   [TYPE]: 'consumer';
-  render?: (form: FatFormMethods<Store>) => any;
+  render?: (form: FatFormMethods<Store>) => any | FatFormChild<Store, Request>[];
 }
 
 export interface FatFormDefinition<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -66,9 +66,7 @@ export interface FatFormDefinition<Store extends {}, Request extends {} = Store,
 
 type OmitType<T> = Omit<T, typeof TYPE>;
 
-export type FatFormDefine<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = (helpers: {
-  // 表单实例引用
-  form: Ref<FatFormMethods<Store> | undefined>;
+export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Store, Submit extends {} = Store> {
   // 分组
   group: (g: OmitType<FatFormGroupDefinition<Store, Request>>) => FatFormGroupDefinition<Store, Request>;
   // 表单项
@@ -77,9 +75,16 @@ export type FatFormDefine<Store extends {}, Request extends {} = Store, Submit e
   ) => FatFormItemDefinition<Store, Request, ValueType>;
   // 分节
   section: (g: OmitType<FatFormSectionDefinition<Store, Request>>) => FatFormSectionDefinition<Store, Request>;
-  // 联动
+  // 联动, 推荐使用这个，而不是直接用 define 函数的 form.value, consumer 可以实现更精确的渲染
   consumer: (render: (form: FatFormMethods<Store>) => any) => FatFormConsumerDefinition<Store>;
-}) => () => FatFormDefinition<Store, Request, Submit>;
+}
+
+export type FatFormDefine<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = (
+  helpers: {
+    // 表单实例引用
+    form: Ref<FatFormMethods<Store> | undefined>;
+  } & FatFormDefineHelpers<Store, Request, Submit>
+) => () => FatFormDefinition<Store, Request, Submit>;
 
 function isItem(value: any): value is FatFormItemDefinition<any, any, any> {
   return value != null && typeof value === 'object' && value[TYPE] === 'item';
@@ -97,17 +102,77 @@ function isConsumer(value: any): value is FatFormConsumerDefinition<any> {
   return value != null && typeof value === 'object' && value[TYPE] === 'consumer';
 }
 
+export interface PreDefineFatFormMethods<Store extends {}> {
+  form: FatFormMethods<Store>;
+}
+
+export function useFatFormDefineUtils() {
+  const item = (val: any) => ({ [TYPE]: 'item', ...val } as any);
+  const group = (val: any) => ({ [TYPE]: 'group', ...val } as any);
+  const section = (val: any) => ({ [TYPE]: 'section', ...val } as any);
+  const consumer = (render: any) =>
+    ({
+      [TYPE]: 'consumer',
+      render: (form: FatFormMethods<any>) => {
+        const rtn = render(form);
+
+        if (rtn == null) {
+          return rtn;
+        }
+
+        if (Array.isArray(rtn)) {
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          return renderChildren(rtn);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        return renderChild(rtn);
+      },
+    } as any);
+
+  const renderChild = (child: any) => {
+    if (isItem(child)) {
+      return <FatFormItem {...child} />;
+    } else if (isGroup(child)) {
+      const { children: groupChildren, ...other } = child;
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return <FatFormGroup {...other}>{renderChildren(groupChildren)}</FatFormGroup>;
+    } else if (isSection(child)) {
+      const { children: sectionChildren, ...other } = child;
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return <FatFormSection {...other}>{renderChildren(sectionChildren)}</FatFormSection>;
+    } else if (isConsumer(child)) {
+      return <FatFormConsumer renderDefault={child.render} />;
+    } else {
+      return child;
+    }
+  };
+
+  const renderChildren = (children: any) => {
+    if (children == null || children.length === 0) {
+      return undefined;
+    }
+
+    return children.map(renderChild);
+  };
+
+  return {
+    item,
+    group,
+    section,
+    consumer,
+    renderChildren,
+  };
+}
+
 export function defineFatForm<Store extends {}, Request extends {} = Store, Submit extends {} = Store>(
   define: FatFormDefine<Store, Request, Submit>
 ): (props: Partial<FatFormProps<Store, Request, Submit>>) => any {
   return declareComponent({
     name: 'PreDefineFatForm',
-    setup(_, { slots }) {
+    setup(_, { slots, expose }) {
       const formRef = useFatFormRef<Store>();
-      const item = (val: any) => ({ [TYPE]: 'item', ...val } as any);
-      const group = (val: any) => ({ [TYPE]: 'group', ...val } as any);
-      const section = (val: any) => ({ [TYPE]: 'section', ...val } as any);
-      const consumer = (render: any) => ({ [TYPE]: 'consumer', render } as any);
+      const { item, group, section, consumer, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
         define({
@@ -119,27 +184,11 @@ export function defineFatForm<Store extends {}, Request extends {} = Store, Subm
         })
       );
 
-      const renderChildren = (children: any) => {
-        if (children == null || children.length === 0) {
-          return undefined;
-        }
-
-        return children.map((child: any) => {
-          if (isItem(child)) {
-            return <FatFormItem {...child} />;
-          } else if (isGroup(child)) {
-            const { children: groupChildren, ...other } = child;
-            return <FatFormGroup {...other}>{renderChildren(groupChildren)}</FatFormGroup>;
-          } else if (isSection(child)) {
-            const { children: sectionChildren, ...other } = child;
-            return <FatFormSection {...other}>{renderChildren(sectionChildren)}</FatFormSection>;
-          } else if (isConsumer(child)) {
-            return <FatFormConsumer renderDefault={child.render} />;
-          } else {
-            return child;
-          }
-        });
-      };
+      expose({
+        get form() {
+          return formRef.value;
+        },
+      });
 
       return () => {
         const { children, ...fatFormProps } = unref(dsl);

@@ -2,7 +2,7 @@ import { defineFatForm } from '@wakeadmin/components';
 import { Switch } from 'element-ui';
 import { ref } from 'vue';
 
-export default defineFatForm(({ item, consumer, group }) => {
+export default defineFatForm<{ foo: string; bar: string }>(({ item, consumer, group }) => {
   const previewMode = ref(false);
 
   return () => ({
@@ -34,6 +34,7 @@ export default defineFatForm(({ item, consumer, group }) => {
           item({ prop: 'baz[1].b', valueType: 'integer', valueProps: { placeholder: 'world' }, message: '很重要' }),
         ],
       }),
+      consumer(form => form.values.foo === 'foo' && item({ prop: 'unknown', initialValue: 'hello' })),
       consumer(form => {
         return (
           <div>

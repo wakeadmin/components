@@ -1,4 +1,4 @@
-import { getCurrentInstance, isVue2, set as $set, isReactive, customRef } from '@wakeadmin/demi';
+import { getCurrentInstance, isVue2, set as $set, isReactive } from '@wakeadmin/demi';
 import { NoopObject, upperFirst, set, isPlainObject } from '@wakeadmin/utils';
 import toPath from 'lodash/toPath';
 import has from 'lodash/has';
@@ -6,18 +6,7 @@ import has from 'lodash/has';
 export * from './className';
 export * from './style';
 export * from './merge-props';
-
-export function staticRef<T>(value: T) {
-  return customRef(() => {
-    return {
-      get() {
-        return value;
-      },
-      // readonly
-      set() {},
-    };
-  });
-}
+export * from './ref';
 
 export function settledThrowIfNeed(results?: PromiseSettledResult<any>[]) {
   if (results == null || results.length === 0) {
