@@ -1,16 +1,22 @@
+import { CommonProps } from '@wakeadmin/component-adapter';
 import { computed, unref, Ref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
-import { inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { FatTablePublicMethodKeys } from './constants';
 
 import { FatTable } from './fat-table';
 import { useFatTableRef } from './hooks';
 import { FatTableMethods, FatTableProps } from './types';
 
+export type FatTableDefine<Item extends {}, Query extends {}> =
+  | (FatTableProps<Item, Query> & CommonProps)
+  | ((instanceRef: Ref<FatTableMethods<Item, Query> | undefined>) => () => FatTableProps<Item, Query> & CommonProps);
+
 /**
  * 定义表格组件
- * @template T 行记录类型
- * @template S 查询参数类型
+ * @template Item 行记录类型
+ * @template Query 查询参数类型
  * @params definitions 可以指定定义 fat-table 参数，或者使用类似 setup 的语法
  *
  * @example
@@ -37,16 +43,20 @@ import { FatTableMethods, FatTableProps } from './types';
  *
  * @returns 返回一个 table 组件
  */
-export function defineFatTable<T extends {}, S extends {}>(
-  definitions:
-    | FatTableProps<T, S>
-    | ((instanceRef: Ref<FatTableMethods<T, S> | undefined>) => () => FatTableProps<T, S>)
-): (props: Partial<FatTableProps<T, S>>) => any {
+export function defineFatTable<Item extends {}, Query extends {}>(
+  definitions: FatTableDefine<Item, Query>
+): (props: Partial<FatTableProps<Item, Query>>) => any {
   return declareComponent({
     name: 'PreDefinedFatTable',
-    setup(_props, ctx) {
-      const tableRef = useFatTableRef<T, S>();
+    setup(_props, { slots, expose }) {
+      const tableRef = useFatTableRef<Item, Query>();
       const extraDefinitions = typeof definitions === 'function' ? computed(definitions(tableRef)) : definitions;
+
+      const instance = {};
+
+      forwardExpose(instance, FatTablePublicMethodKeys, tableRef);
+
+      expose(instance);
 
       return () => {
         const preDefineProps = unref(extraDefinitions);
@@ -58,7 +68,7 @@ export function defineFatTable<T extends {}, S extends {}>(
             // events && attrs passthrough
             {...mergeProps(preDefineProps, inheritProps(false))}
             // slots passthrough
-            v-slots={pickEnumerable(ctx.slots)}
+            v-slots={pickEnumerable(slots)}
           />
         );
       };
