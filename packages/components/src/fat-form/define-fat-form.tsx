@@ -1,4 +1,4 @@
-import { CommonProps } from '@wakeadmin/component-adapter';
+import { CommonProps, KeyType } from '@wakeadmin/component-adapter';
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
@@ -18,6 +18,10 @@ const TYPE = Symbol('fat-form-child-type');
 
 export type FatFormChild<Store extends {}, Request extends {} = Store> = any;
 
+export interface CommonDefinitionProps extends CommonProps {
+  key?: KeyType;
+}
+
 /**
  * fat-item
  */
@@ -26,7 +30,7 @@ export interface FatFormItemDefinition<
   Request extends {} = Store,
   ValueType extends keyof AtomicProps | Atomic = 'text'
 > extends FatFormItemProps<Store, ValueType, Request>,
-    CommonProps {
+    CommonDefinitionProps {
   [TYPE]: 'item';
 }
 
@@ -35,7 +39,7 @@ export interface FatFormItemDefinition<
  */
 export interface FatFormSectionDefinition<Store extends {}, Request extends {} = Store>
   extends FatFormSectionProps,
-    CommonProps {
+    CommonDefinitionProps {
   [TYPE]: 'section';
   children?: FatFormChild<Store, Request>[];
 }
@@ -45,7 +49,7 @@ export interface FatFormSectionDefinition<Store extends {}, Request extends {} =
  */
 export interface FatFormGroupDefinition<Store extends {}, Request extends {} = Store>
   extends FatFormGroupProps<Store>,
-    CommonProps {
+    CommonDefinitionProps {
   [TYPE]: 'group';
   children?: FatFormChild<Store, Request>[];
 }
@@ -60,23 +64,38 @@ export interface FatFormConsumerDefinition<Store extends {}, Request extends {} 
 
 export interface FatFormDefinition<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
   extends FatFormProps<Store, Request, Submit>,
-    CommonProps {
+    CommonDefinitionProps {
   children?: FatFormChild<Store, Request>[];
 }
 
 type OmitType<T> = Omit<T, typeof TYPE>;
 
 export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Store, Submit extends {} = Store> {
-  // 分组
+  /**
+   * 分组
+   */
   group: (g: OmitType<FatFormGroupDefinition<Store, Request>>) => FatFormGroupDefinition<Store, Request>;
-  // 表单项
+
+  /**
+   * 表单项
+   */
   item: <ValueType extends keyof AtomicProps | Atomic = 'text'>(
     g: OmitType<FatFormItemDefinition<Store, Request, ValueType>>
   ) => FatFormItemDefinition<Store, Request, ValueType>;
-  // 分节
+
+  /**
+   * 分节
+   */
   section: (g: OmitType<FatFormSectionDefinition<Store, Request>>) => FatFormSectionDefinition<Store, Request>;
-  // 联动, 推荐使用这个，而不是直接用 define 函数的 form.value, consumer 可以实现更精确的渲染
+
+  /**
+   *  联动, 如果要获取 form 对象，做一些联动, 推荐使用这个，而不是直接用 define 函数的 form.value, consumer 可以实现更精确的渲染
+   */
   consumer: (render: (form: FatFormMethods<Store>) => any) => FatFormConsumerDefinition<Store>;
+
+  // 以下是底层方法, 用于将定义渲染为 JSX 节点
+  renderChild: (child: FatFormChild<Store, Request>) => any;
+  renderChildren: (children: FatFormChild<Store, Request>[]) => any;
 }
 
 export type FatFormDefine<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = (
@@ -120,6 +139,7 @@ export function useFatFormDefineUtils() {
           return rtn;
         }
 
+        // FIXME: vue2 下不支持 fragment
         if (Array.isArray(rtn)) {
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           return renderChildren(rtn);
@@ -161,18 +181,20 @@ export function useFatFormDefineUtils() {
     group,
     section,
     consumer,
+    renderChild,
     renderChildren,
   };
 }
 
 export function defineFatForm<Store extends {}, Request extends {} = Store, Submit extends {} = Store>(
-  define: FatFormDefine<Store, Request, Submit>
+  define: FatFormDefine<Store, Request, Submit>,
+  options?: { name: string }
 ): (props: Partial<FatFormProps<Store, Request, Submit>>) => any {
   return declareComponent({
-    name: 'PreDefineFatForm',
+    name: options?.name ?? 'PreDefineFatForm',
     setup(_, { slots, expose }) {
       const formRef = useFatFormRef<Store>();
-      const { item, group, section, consumer, renderChildren } = useFatFormDefineUtils();
+      const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
         define({
@@ -181,6 +203,8 @@ export function defineFatForm<Store extends {}, Request extends {} = Store, Subm
           group,
           section,
           consumer,
+          renderChild,
+          renderChildren,
         })
       );
 

@@ -526,8 +526,14 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
 
   /**
    * 是否作为 el-row, 当设置了改属性，children 会使用 el-row 包裹
+   * 如果未指定，默认使用 fat-space 布局
    */
   row?: RowProps & CommonProps;
+
+  /**
+   * fat-space 模式使用垂直布局, 默认 false
+   */
+  vertical?: boolean;
 
   /**
    * 是否隐藏。下级 form-item 会继承

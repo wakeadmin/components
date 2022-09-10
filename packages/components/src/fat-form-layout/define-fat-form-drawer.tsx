@@ -38,7 +38,7 @@ export function defineFatFormDrawer<Store extends {}, Request extends {} = Store
     name: 'PreDefineFatFormDrawer',
     setup(_, { slots, expose }) {
       const drawerRef = useFatFormDrawerRef<Store>();
-      const { item, group, section, consumer, renderChildren } = useFatFormDefineUtils();
+      const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
         define({
@@ -47,6 +47,8 @@ export function defineFatFormDrawer<Store extends {}, Request extends {} = Store
           group,
           section,
           consumer,
+          renderChild,
+          renderChildren,
         })
       );
 

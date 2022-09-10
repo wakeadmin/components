@@ -28,6 +28,7 @@ const FatFormGroupInner = declareComponent({
     hidden: [Boolean, Function] as any,
     disabled: [Boolean, Function] as any,
     required: Boolean,
+    vertical: Boolean,
     contentClassName: null,
     contentStyle: null,
 
@@ -141,6 +142,7 @@ const FatFormGroupInner = declareComponent({
           <FatSpace
             size={gutter}
             wrap
+            direction={props.vertical ? 'vertical' : 'horizontal'}
             class={normalizeClassName('fat-form-group-container')}
             inline={false}
             align={form.layout === 'vertical' ? 'end' : undefined}
