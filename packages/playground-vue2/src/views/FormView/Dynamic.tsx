@@ -32,20 +32,19 @@ export default defineFatForm<{ list: { name: string; id: number }[] }>(
             return group({
               label: '列表',
               vertical: true,
+              gutter: 0,
               children: f.values.list.map((i, idx) =>
-                group({
+                item({
                   // 只有在动态渲染列表时才需要id， 大部分情况不需要
                   key: i.id,
-                  children: [
-                    item({
-                      prop: `list[${idx}].name`,
-                      width: 'medium',
-                      rules: { required: true },
-                    }),
+                  prop: `list[${idx}].name`,
+                  width: 'medium',
+                  rules: { required: true },
+                  renderDefault: () => (
                     <button type="button" onClick={() => handleRemove(i.id)}>
                       删除
-                    </button>,
-                  ],
+                    </button>
+                  ),
                 })
               ),
             });

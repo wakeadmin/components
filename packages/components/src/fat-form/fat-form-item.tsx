@@ -315,7 +315,7 @@ const FatFormItemInner = declareComponent({
             class={normalizeClassName('fat-form-item__content', props.contentClassName, {
               'fat-form-item--inline-message': inlineMessage,
             })}
-            style={normalizeStyle(contentStyle.value, props.contentStyle)}
+            style={props.contentStyle}
           >
             {renderSlot(props, slots, 'before', instance)}
             {atom.value.component(
@@ -328,7 +328,7 @@ const FatFormItemInner = declareComponent({
                   disabled: disabled.value,
                   context: form,
                   class: props.valueClassName,
-                  style: props.valueStyle,
+                  style: normalizeStyle(contentStyle.value, props.valueStyle),
                 },
                 // 外部指定的优先
                 props.valueProps
