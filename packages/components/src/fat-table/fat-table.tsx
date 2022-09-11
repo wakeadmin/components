@@ -68,6 +68,7 @@ const FatTableInner = declareComponent({
     errorTitle: null,
     title: null,
     layout: null,
+    layoutProps: null,
 
     // slots
     renderTitle: null,
@@ -659,6 +660,7 @@ const FatTableInner = declareComponent({
           class: attrs.class,
           style: attrs.style,
         },
+        layoutProps: props.layoutProps,
         renderTitle: () =>
           hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', tableInstance) : props.title,
         renderNavBar: () => renderSlot(props, slots, 'navBar', tableInstance),

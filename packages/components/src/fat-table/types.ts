@@ -710,6 +710,11 @@ export interface FatTableProps<T extends {}, S extends {}>
   layout?: 'default' | FatTableLayout;
 
   /**
+   * 自定义布局参数
+   */
+  layoutProps?: any;
+
+  /**
    * 唯一 id, 用于获取唯一 id
    */
   rowKey?: string | ((row: T) => string | number);
@@ -783,6 +788,11 @@ export type FatTableLayout = (slots: {
    * 根节点属性
    */
   rootProps: { class?: ClassValue; style?: StyleValue; [key: string]: unknown };
+
+  /**
+   * 自定义布局参数
+   */
+  layoutProps: any;
 
   /**
    * 渲染标题栏

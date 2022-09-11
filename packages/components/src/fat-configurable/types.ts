@@ -16,6 +16,7 @@ import {
   AProgressProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
+import { FatFormPageLayout } from '../fat-form-layout';
 import { FatTableGlobalConfigurations } from '../fat-table';
 
 /**
@@ -113,4 +114,9 @@ export interface FatConfigurable {
    * 表单全局配置
    */
   fatForm?: FatFormGlobalConfigurations;
+
+  /**
+   * 自定义表单页面布局
+   */
+  fatFormPageLayout?: FatFormPageLayout;
 }

@@ -15,8 +15,8 @@
           width="medium"
           :rules="{ required: true }"
         ></FatFormItem>
-        <FatFormItem prop="age" label="年龄" width="huge"></FatFormItem>
-        <FatFormGroup>
+        <FatFormItem prop="age" label="年龄" width="huge" message="不能超过 18" inline-message></FatFormItem>
+        <FatFormGroup message="分组消息">
           <FatFormItem prop="id" label="身份证" message="必须合法" width="medium"></FatFormItem>
           <FatFormItem prop="address" label="地址" width="huge"></FatFormItem>
         </FatFormGroup>

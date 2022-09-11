@@ -1,6 +1,6 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { Button, ButtonProps } from '@wakeadmin/component-adapter';
-import { getCurrentInstance, ref } from '@wakeadmin/demi';
+import { Button, ButtonProps, ClassValue, StyleValue } from '@wakeadmin/component-adapter';
+import { getCurrentInstance, Ref, ref } from '@wakeadmin/demi';
 
 import { FatFormProps, FatFormMethods, FatForm, FatFormSlots } from '../fat-form';
 import {
@@ -13,11 +13,15 @@ import {
   ToHSlotDefinition,
   forwardExpose,
 } from '../utils';
-import { FatFloatFooter, FatHeader, FatHeaderProps, FatHeaderSlots } from '../fat-layout';
+import { FatFloatFooter, FatHeader } from '../fat-layout';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
 
-export interface FatFormPageSlots<S extends {}> extends FatHeaderSlots, FatFormSlots<S> {}
+export interface FatFormPageSlots<S extends {}> extends FatFormSlots<S> {
+  renderTitle?: (form?: FatFormMethods<S>) => any;
+  renderExtra?: (form?: FatFormMethods<S>) => any;
+  renderDefault?: () => any;
+}
 
 export type FatFormPageMethods<S extends {}> = FatFormMethods<S>;
 
@@ -37,9 +41,14 @@ export interface FatFormPageProps<Store extends {}, Request extends {} = Store, 
     FatFormPageSlots<Store>,
     FatFormPageEvents {
   /**
-   * 头部渲染
+   * 页面布局
    */
-  header?: Omit<FatHeaderProps, keyof FatHeaderSlots>;
+  pageLayout?: FatFormPageLayout;
+
+  /**
+   * 布局自定义参数
+   */
+  pageLayoutProps?: any;
 
   /**
    * 页面标题
@@ -64,18 +73,69 @@ export interface FatFormPageProps<Store extends {}, Request extends {} = Store, 
 
 export const FatFormPagePublicMethodKeys = FatFormPublicMethodKeys;
 
+export type FatFormPageLayout = (renders: {
+  class?: ClassValue;
+  style?: StyleValue;
+
+  form?: Ref<FatFormMethods<any> | undefined>;
+
+  renderTitle: () => any;
+  renderExtra: () => any;
+
+  /**
+   * 渲染表单主体
+   */
+  renderForm: () => any;
+
+  /**
+   * 渲染提交按钮
+   */
+  renderSubmitter: () => any;
+
+  /**
+   * 布局自定义参数
+   */
+  layoutProps: any;
+}) => any;
+
+const DefaultLayout: FatFormPageLayout = ctx => {
+  return (
+    <div class={normalizeClassName('fat-form-page', ctx.class)} style={ctx.style}>
+      <FatHeader
+        {...ctx.layoutProps}
+        v-slots={{
+          title: ctx.renderTitle(),
+          extra: ctx.renderExtra(),
+        }}
+      >
+        {ctx.renderForm()}
+        <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>
+      </FatHeader>
+    </div>
+  );
+};
+
 /**
  * 表单页面
- * TODO: 支持自定义布局
  */
 export const FatFormPage = declareComponent({
   name: 'FatFormPage',
   props: declareProps<FatFormPageProps<any>>({
-    header: null,
+    pageLayout: null,
+    pageLayoutProps: null,
+    title: null,
     enableSubmitter: { type: Boolean, default: true },
+
     enableCancel: { type: Boolean, default: true },
     cancelText: String,
     cancelProps: null,
+
+    submitText: String,
+    submitProps: null,
+
+    enableReset: { type: Boolean, default: true },
+    resetText: String,
+    resetProps: null,
 
     // slots
     renderDefault: null,
@@ -107,44 +167,53 @@ export const FatFormPage = declareComponent({
     forwardExpose(exposed, FatFormPublicMethodKeys, form);
     expose(exposed);
 
-    return () => {
-      return (
-        <div class={normalizeClassName('fat-form-page', attrs.class)} style={attrs.style}>
-          <FatHeader
-            {...props.header}
-            v-slots={{
-              title: renderSlot(props, slots, 'title'),
-              extra: renderSlot(props, slots, 'extra'),
-            }}
-          >
-            <FatForm
-              ref={form}
-              hierarchyConnect={false}
-              {...inheritProps()}
-              renderSubmitter={(inst, buttons) => {
-                const renderButtons = () => [
-                  !!props.enableCancel && (
-                    <Button {...props.cancelProps} onClick={handleCancel}>
-                      {props.cancelText ?? configurable.fatForm?.backText ?? '取消'}
-                    </Button>
-                  ),
-                  ...buttons(),
-                ];
+    const renderButtons = () => {
+      return [
+        !!props.enableCancel && (
+          <Button onClick={handleCancel} {...props.cancelProps}>
+            {props.cancelText ?? configurable.fatForm?.backText ?? '取消'}
+          </Button>
+        ),
+        !!props.enableReset && (
+          <Button onClick={form.value?.reset} {...props.resetProps}>
+            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
+          </Button>
+        ),
+        <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
+          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+        </Button>,
+      ];
+    };
 
-                return props.enableSubmitter ? (
-                  hasSlots(props, slots, 'submitter') ? (
-                    renderSlot(props, slots, 'submitter', inst, renderButtons)
-                  ) : (
-                    <FatFloatFooter>{renderButtons()}</FatFloatFooter>
-                  )
-                ) : null;
-              }}
-            >
+    return () => {
+      const layout = props.pageLayout ?? configurable.fatFormPageLayout ?? DefaultLayout;
+
+      return layout({
+        class: attrs.class,
+        style: attrs.style,
+        form,
+        layoutProps: props.pageLayoutProps,
+        renderTitle: () => {
+          return hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', form.value) : props.title;
+        },
+        renderExtra: () => {
+          return renderSlot(props, slots, 'extra', form.value);
+        },
+        renderForm: () => {
+          return (
+            <FatForm ref={form} hierarchyConnect={false} {...inheritProps()} enableSubmitter={false}>
               {renderSlot(props, slots, 'default')}
             </FatForm>
-          </FatHeader>
-        </div>
-      );
+          );
+        },
+        renderSubmitter: () => {
+          return props.enableSubmitter
+            ? hasSlots(props, slots, 'submitter')
+              ? renderSlot(props, slots, 'submitter', form.value, renderButtons)
+              : renderButtons()
+            : null;
+        },
+      });
     };
   },
 });
