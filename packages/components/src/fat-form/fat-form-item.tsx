@@ -311,6 +311,12 @@ const FatFormItemInner = declareComponent({
           ? { label: <span /> }
           : undefined;
 
+      const message = (props.message || hasSlots(props, slots, 'message')) && (
+        <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
+          {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', instance) : props.message}
+        </div>
+      );
+
       let node = (
         <FormItem
           prop={props.prop}
@@ -352,12 +358,9 @@ const FatFormItemInner = declareComponent({
               )
             )}
             {renderSlot(props, slots, 'default', instance)}
-            {(props.message || hasSlots(props, slots, 'message')) && (
-              <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
-                {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', instance) : props.message}
-              </div>
-            )}
+            {inlineMessage && message}
           </div>
+          {!inlineMessage && message}
         </FormItem>
       );
 

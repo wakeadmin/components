@@ -84,6 +84,8 @@
   display: inline;
   white-space: nowrap;
   margin-left: 10px;
+  line-height: inherit;
+  align-self: flex-start;
 }
 
 .fat-form-tooltip {

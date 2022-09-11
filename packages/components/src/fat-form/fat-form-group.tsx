@@ -208,6 +208,12 @@ const FatFormGroupInner = declareComponent({
           ? { label: <span /> }
           : undefined;
 
+      const message = (props.message || hasSlots(props, slots, 'message')) && (
+        <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
+          {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', form) : props.message}
+        </div>
+      );
+
       let node = (
         <FormItem
           // attrs.class 需要注入到根节点
@@ -230,12 +236,9 @@ const FatFormGroupInner = declareComponent({
             style={normalizeStyle(contentStyle.value, props.contentStyle)}
           >
             {children}
-            {(props.message || hasSlots(props, slots, 'message')) && (
-              <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
-                {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', form) : props.message}
-              </div>
-            )}
+            {inlineMessage && message}
           </div>
+          {!inlineMessage && message}
         </FormItem>
       );
 

@@ -95,13 +95,16 @@ export const FatFormModal = declareComponent({
   props: declareProps<FatFormModalProps<any>>({
     visible: Boolean,
     enableSubmitter: { type: Boolean, default: true },
-    enableReset: { type: Boolean, default: false },
-    enableCancel: { type: Boolean, default: true },
-    submitText: String,
-    resetText: String,
     cancelText: String,
+
+    submitText: String,
     submitProps: null,
+
+    resetText: String,
     resetProps: null,
+    enableReset: { type: Boolean, default: false },
+
+    enableCancel: { type: Boolean, default: true },
     cancelProps: null,
     destroyOnClose: { type: Boolean, default: true },
 
@@ -176,29 +179,29 @@ export const FatFormModal = declareComponent({
 
     expose(instance);
 
+    const renderButtons = () => {
+      return [
+        !!props.enableCancel && (
+          <Button onClick={close} {...props.cancelProps}>
+            {props.cancelText ?? configurable.fatForm?.cancelText ?? '取消'}
+          </Button>
+        ),
+        !!props.enableReset && (
+          <Button onClick={form.value?.reset} {...props.resetProps}>
+            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
+          </Button>
+        ),
+        <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
+          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+        </Button>,
+      ];
+    };
+
+    const renderFooter = () => {
+      return <div class="fat-form-modal__footer">{renderButtons()}</div>;
+    };
+
     return () => {
-      const renderButtons = () => {
-        return [
-          !!props.enableCancel && (
-            <Button onClick={close} {...props.cancelProps}>
-              {props.cancelText ?? configurable.fatForm?.cancelText ?? '取消'}
-            </Button>
-          ),
-          !!props.enableReset && (
-            <Button onClick={form.value?.reset} {...props.resetProps}>
-              {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
-            </Button>
-          ),
-          <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
-            {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
-          </Button>,
-        ];
-      };
-
-      const renderFooter = () => {
-        return <div class="fat-form-modal__footer">{renderButtons()}</div>;
-      };
-
       const passthroughProps = inheritProps();
 
       return (
