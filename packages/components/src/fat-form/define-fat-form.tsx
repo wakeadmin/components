@@ -121,10 +121,6 @@ function isConsumer(value: any): value is FatFormConsumerDefinition<any> {
   return value != null && typeof value === 'object' && value[TYPE] === 'consumer';
 }
 
-export interface PreDefineFatFormMethods<Store extends {}> {
-  form: FatFormMethods<Store>;
-}
-
 export function useFatFormDefineUtils() {
   const item = (val: any) => ({ [TYPE]: 'item', ...val } as any);
   const group = (val: any) => ({ [TYPE]: 'group', ...val } as any);

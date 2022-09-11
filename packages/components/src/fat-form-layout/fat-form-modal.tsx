@@ -84,7 +84,7 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
 }
 
 export function useFatFormModalRef<Store extends {}>() {
-  return ref<FatFormMethods<Store>>();
+  return ref<FatFormModalMethods<Store>>();
 }
 
 export const FatFormModalMethodKeys = [...FatFormPublicMethodKeys, 'open', 'close'];

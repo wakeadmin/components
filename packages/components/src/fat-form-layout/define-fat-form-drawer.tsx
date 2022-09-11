@@ -32,10 +32,11 @@ export type FatFormDrawerDefine<Store extends {}, Request extends {} = Store, Su
  * @returns
  */
 export function defineFatFormDrawer<Store extends {}, Request extends {} = Store, Submit extends {} = Store>(
-  define: FatFormDrawerDefine<Store, Request, Submit>
+  define: FatFormDrawerDefine<Store, Request, Submit>,
+  options?: { name?: string }
 ): (props: Partial<FatFormDrawerProps<Store, Request, Submit>>) => any {
   return declareComponent({
-    name: 'PreDefineFatFormDrawer',
+    name: options?.name ?? 'PreDefineFatFormDrawer',
     setup(_, { slots, expose }) {
       const drawerRef = useFatFormDrawerRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
