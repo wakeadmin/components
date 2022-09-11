@@ -1,4 +1,5 @@
 import { defineFatForm } from '@wakeadmin/components';
+import { ref } from 'vue';
 
 export default defineFatForm<{ list: { name: string; id: number }[] }>(
   ({ form, consumer, item, group, renderChild }) => {
@@ -7,6 +8,9 @@ export default defineFatForm<{ list: { name: string; id: number }[] }>(
       title: '',
       list: [],
     };
+
+    // 条件表单项
+    const conditionItem = ref(false);
 
     const handleAdd = () => {
       form.value?.values.list.push({ name: '', id: uid++ });
@@ -21,6 +25,10 @@ export default defineFatForm<{ list: { name: string; id: number }[] }>(
       if (idx !== -1) {
         list.splice(idx, 1);
       }
+    };
+
+    const toggleConditionItem = () => {
+      conditionItem.value = !conditionItem.value;
     };
 
     return () => {
@@ -54,8 +62,17 @@ export default defineFatForm<{ list: { name: string; id: number }[] }>(
               新增一行
             </button>
           </div>,
+          // 按需添加的表单项，移除后对应的字段值也会删除
+          conditionItem.value && item({ prop: 'condition', preserve: false }),
           consumer(f => {
-            return <span>{JSON.stringify(f.values)}</span>;
+            return (
+              <span>
+                {JSON.stringify(f.values)}
+                <button type="button" onClick={toggleConditionItem}>
+                  {conditionItem.value ? '关闭条件字段' : '开启条件字段'}
+                </button>
+              </span>
+            );
           }),
         ],
       };

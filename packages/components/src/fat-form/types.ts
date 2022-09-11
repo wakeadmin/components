@@ -160,6 +160,12 @@ export interface FatFormMethods<Store extends {}> {
   __unregisterFormItem(item: FatFormItemMethods<Store>): void;
 
   /**
+   * 释放表单分组
+   * @param item
+   */
+  __unregisterFormGroup(item: FatFormGroupMethods): void;
+
+  /**
    * 注册子表单
    * @param form
    */
@@ -379,6 +385,11 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
   rules?: Rules | ((values: Store, form: FatFormMethods<Store>) => Rules);
 
   /**
+   * 当字段被删除时保留字段值， 默认 true
+   */
+  preserve?: boolean;
+
+  /**
    * 是否隐藏必填字段的标签旁边的红色星号, 默认 false
    */
   hideRequiredAsterisk?: boolean;
@@ -430,6 +441,7 @@ export interface FatFormItemMethods<Store extends {}> {
   readonly hidden?: boolean;
   readonly mode?: FatFormMode;
   readonly atom: Atomic<any, any>;
+  readonly preserve?: boolean;
 
   /**
    * 后转换
@@ -512,6 +524,7 @@ export interface FatFormItemInheritableProps {
   size?: Size;
   hidden?: boolean;
   clearable?: boolean;
+  preserve?: boolean;
   // 浅层 col 配置
   col?: ColProps;
 }
@@ -521,6 +534,11 @@ export interface FatFormGroupSlots<S extends {}> {
   renderDefault?: (inst: FatFormMethods<S>) => any;
   renderTooltip?: (inst: FatFormMethods<S>) => any;
   renderMessage?: (inst: FatFormMethods<S>) => any;
+}
+
+export interface FatFormGroupMethods {
+  readonly prop?: string;
+  readonly preserve?: boolean;
 }
 
 /**
@@ -570,6 +588,17 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
    * 是否必填，会显示必填符号，但不会有实际作用
    */
   required?: boolean;
+
+  /**
+   * 属性路径。 没有实际意义
+   * 目前和 preserve 配合使用，用于控制当分组被移除时，删除 prop 指定的字段
+   */
+  prop?: string;
+
+  /**
+   * 当字段被删除时保留字段值， 默认 true
+   */
+  preserve?: boolean;
 }
 
 /**
@@ -699,6 +728,11 @@ export interface FatFormItemProps<
    * 是否支持清理
    */
   clearable?: boolean;
+
+  /**
+   * 当字段被删除时保留字段值， 默认 true
+   */
+  preserve?: boolean;
 
   /**
    * 声明该字段依赖的字段，格式同 prop

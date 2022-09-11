@@ -1,5 +1,5 @@
 import { FormItem, Col, Row, Tooltip, ColProps, CommonProps } from '@wakeadmin/component-adapter';
-import { computed, provide } from '@wakeadmin/demi';
+import { computed, provide, onBeforeUnmount } from '@wakeadmin/demi';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { Inquiry } from '@wakeadmin/icons';
 
@@ -28,6 +28,8 @@ const FatFormGroupInner = declareComponent({
     hidden: { type: [Boolean, Function] as any, default: undefined },
     disabled: { type: [Boolean, Function] as any, default: undefined },
     clearable: { type: Boolean, default: undefined },
+    preserve: { type: Boolean, default: undefined },
+    prop: null,
     required: Boolean,
     vertical: Boolean,
     contentClassName: null,
@@ -40,7 +42,7 @@ const FatFormGroupInner = declareComponent({
     renderTooltip: null,
   }),
   slots: declareSlots<ToHSlotDefinition<FatFormGroupSlots<any>>>(),
-  setup(props, { slots, attrs }) {
+  setup(props, { slots, attrs, expose }) {
     const form = useFatFormContext()!;
     const inherited = useInheritableProps();
 
@@ -82,6 +84,21 @@ const FatFormGroupInner = declareComponent({
       get hidden() {
         return hidden.value;
       },
+      get preserve() {
+        return props.preserve ?? inherited?.preserve;
+      },
+      get col() {
+        return inherited?.col;
+      },
+    };
+
+    const instance = {
+      get preserve() {
+        return inheritProps.preserve;
+      },
+      get prop() {
+        return props.prop;
+      },
     };
 
     // TODO: 以下重复内容可以提取到 hooks 中
@@ -121,6 +138,11 @@ const FatFormGroupInner = declareComponent({
     });
 
     provide(FatFormInheritanceContext, inheritProps);
+    expose(instance);
+
+    onBeforeUnmount(() => {
+      form.__unregisterFormGroup(instance);
+    });
 
     return () => {
       const gutter = props.gutter ?? 'large';

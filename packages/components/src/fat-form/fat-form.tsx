@@ -1,6 +1,6 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/component-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { ref, provide, computed, watch, onMounted, onBeforeUnmount } from '@wakeadmin/demi';
+import { ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set, equal } from '@wakeadmin/utils';
 
 import {
@@ -12,9 +12,17 @@ import {
   settledThrowIfNeed,
   ToHEmitDefinition,
   ToHSlotDefinition,
+  reactiveUnset,
 } from '../utils';
 
-import { FatFormEvents, FatFormItemMethods, FatFormMethods, FatFormProps, FatFormSlots } from './types';
+import {
+  FatFormEvents,
+  FatFormGroupMethods,
+  FatFormItemMethods,
+  FatFormMethods,
+  FatFormProps,
+  FatFormSlots,
+} from './types';
 import { FatFormContext, FatFormInheritanceContext } from './constants';
 import { FatFormGroup } from './fat-form-group';
 import { useFatFormContext, useTouches } from './hooks';
@@ -36,6 +44,7 @@ const FatFormInner = declareComponent({
     size: null,
     disabled: { type: Boolean, default: undefined },
     clearable: { type: Boolean, default: undefined },
+    preserve: { type: Boolean, default: true },
     rules: null,
     hideRequiredAsterisk: Boolean,
     validateOnRuleChange: { type: Boolean, default: true },
@@ -323,6 +332,10 @@ const FatFormInner = declareComponent({
     };
 
     const __unregisterChildForm = (form: FatFormMethods<any>) => {
+      if (!ready) {
+        return;
+      }
+
       childForms.delete(form);
     };
 
@@ -331,7 +344,32 @@ const FatFormInner = declareComponent({
     };
 
     const __unregisterFormItem = (item: FatFormItemMethods<any>) => {
+      if (!ready) {
+        return;
+      }
+
       items.delete(item);
+      // 删除 touch 状态
+      touches.untouch(item.prop);
+
+      // 字段删除后是否保留状态
+      if (item.preserve === false) {
+        nextTick(() => {
+          reactiveUnset(values.value, item.prop);
+        });
+      }
+    };
+
+    const __unregisterFormGroup = (item: FatFormGroupMethods) => {
+      if (!ready) {
+        return;
+      }
+
+      if (item.preserve === false && item.prop != null) {
+        nextTick(() => {
+          reactiveUnset(values.value, item.prop!);
+        });
+      }
     };
 
     // 表单实例
@@ -386,6 +424,7 @@ const FatFormInner = declareComponent({
       __unregisterChildForm,
       __registerFormItem,
       __unregisterFormItem,
+      __unregisterFormGroup,
     };
 
     const rules = computed(() => {
@@ -403,6 +442,9 @@ const FatFormInner = declareComponent({
       },
       get disabled() {
         return instance.disabled;
+      },
+      get preserve() {
+        return props.preserve;
       },
       get clearable() {
         return props.clearable;
@@ -437,6 +479,8 @@ const FatFormInner = declareComponent({
       if (parentForm && props.hierarchyConnect) {
         parentForm.__unregisterChildForm(instance);
       }
+
+      ready = false;
     });
 
     const handleSubmit = (evt: SubmitEvent) => {

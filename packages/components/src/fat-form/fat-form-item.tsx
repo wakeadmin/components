@@ -37,6 +37,7 @@ const FatFormItemInner = declareComponent({
     width: null,
     disabled: { type: [Boolean, Function] as any, default: undefined },
     hidden: { type: [Boolean, Function] as any, default: undefined },
+    preserve: { type: Boolean, default: undefined },
     clearable: { type: Boolean, default: undefined },
     size: null,
     dependencies: null,
@@ -110,6 +111,10 @@ const FatFormItemInner = declareComponent({
       return props.clearable ?? inheritedProps?.clearable;
     });
 
+    const preserve = computed(() => {
+      return props.preserve ?? inheritedProps?.preserve ?? true;
+    });
+
     const instance: FatFormItemMethods<any> = {
       get form() {
         return form;
@@ -133,6 +138,9 @@ const FatFormItemInner = declareComponent({
       },
       get clearable() {
         return clearable.value;
+      },
+      get preserve() {
+        return preserve.value;
       },
       get mode() {
         return mode.value;

@@ -30,6 +30,10 @@ export function useTouches() {
     touched[np(prop)] = true;
   };
 
+  const untouch = (prop: string) => {
+    touched[np(prop)] = false;
+  };
+
   const isTouched = (prop: string) => {
     return !!touched[np(prop)];
   };
@@ -44,6 +48,7 @@ export function useTouches() {
 
   return {
     touch,
+    untouch,
     isTouched,
     clear,
     getAllTouches,

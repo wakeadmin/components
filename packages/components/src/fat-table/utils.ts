@@ -1,8 +1,9 @@
 import { cloneDeep, merge, get, isPlainObject, set } from '@wakeadmin/utils';
-import unset from 'lodash/unset';
+
+import { Registry } from '../atomic';
+import { unset } from '../utils';
 
 import { FatTableColumn } from './types';
-import { Registry } from '../atomic';
 
 export function validateColumns(columns?: FatTableColumn<any>[]) {
   if (columns == null) {

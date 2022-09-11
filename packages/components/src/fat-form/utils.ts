@@ -1,5 +1,6 @@
 import { get, set, isPlainObject } from '@wakeadmin/utils';
-import unset from 'lodash/unset';
+
+import { unset } from '../utils';
 
 import { PreDefinedItemWidth } from './constants';
 import { FatFormItemMethods, FatFormItemProps, FatFormItemWidth } from './types';
