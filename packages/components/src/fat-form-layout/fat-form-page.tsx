@@ -61,6 +61,8 @@ export interface FatFormPageProps<Store extends {}, Request extends {} = Store, 
   cancelProps?: ButtonProps;
 }
 
+export const FatFormPagePublicMethodKeys = FatFormPublicMethodKeys;
+
 /**
  * 表单页面
  */

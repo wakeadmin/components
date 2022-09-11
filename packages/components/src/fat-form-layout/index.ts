@@ -5,3 +5,4 @@ export * from './fat-form-query';
 
 export * from './define-fat-form-drawer';
 export * from './define-fat-form-modal';
+export * from './define-fat-form-page';
