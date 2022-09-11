@@ -750,6 +750,11 @@ export interface FatTableProps<T extends {}, S extends {}>
   emptyText?: string;
 
   /**
+   * 异常标题, 默认为 '数据加载失败'
+   */
+  errorTitle?: string;
+
+  /**
    * 标题
    */
   title?: string;

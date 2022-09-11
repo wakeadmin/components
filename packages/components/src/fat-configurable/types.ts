@@ -15,6 +15,7 @@ import {
   ASliderProps,
   AProgressProps,
 } from '../builtin-atomic';
+import { FatTableLayout } from '../fat-table';
 
 /**
  * 这里定义了组件库一些可以全局配置的参数
@@ -102,8 +103,18 @@ export interface FatConfigurable {
    */
   aProgressProps?: OmitAtomicCommonProps<AProgressProps>;
 
-  // -------------- 以下是布局配置 ------------------------
-  // TODO
-  // 表格页面布局配置
-  // 表单页面布局配置
+  /**
+   * 自定义表格布局
+   */
+  fatTableLayout?: FatTableLayout;
+
+  /**
+   * 表格默认空文案, 默认为暂无数据
+   */
+  fatTableEmptyText?: string;
+
+  /**
+   * 表格异常标题
+   */
+  fatTableErrorTitle?: string;
 }

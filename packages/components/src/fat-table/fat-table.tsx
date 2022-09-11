@@ -11,7 +11,7 @@ import {
   MessageBox,
   MessageOptions,
 } from '@wakeadmin/component-adapter';
-import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, unref } from '@wakeadmin/demi';
+import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
@@ -65,6 +65,7 @@ const FatTableInner = declareComponent({
     formProps: null,
     enableErrorCapture: { type: Boolean, default: true },
     emptyText: null,
+    errorTitle: null,
     title: null,
     layout: null,
 
@@ -121,7 +122,7 @@ const FatTableInner = declareComponent({
     const pagination = reactive<PaginationState>({
       total: 0,
       current: 1,
-      pageSize: props.paginationProps?.pageSize ?? unref(configurable).pagination?.pageSize ?? 10,
+      pageSize: props.paginationProps?.pageSize ?? configurable.pagination?.pageSize ?? 10,
     });
 
     /**
@@ -639,7 +640,7 @@ const FatTableInner = declareComponent({
     expose(tableInstance);
 
     return () => {
-      const layout = props.layout ?? 'default';
+      const layout = props.layout ?? configurable.fatTableLayout ?? 'default';
       const layoutImpl: FatTableLayout = typeof layout === 'function' ? layout : BUILTIN_LAYOUTS[layout];
 
       if (layoutImpl == null) {
@@ -695,7 +696,7 @@ const FatTableInner = declareComponent({
                   renderSlot(props, slots, 'error')
                 ) : (
                   <Alert
-                    title="数据加载失败"
+                    title={props.errorTitle ?? configurable.fatTableErrorTitle ?? '数据加载失败'}
                     type="error"
                     showIcon
                     description={error.value!.message}
@@ -721,7 +722,7 @@ const FatTableInner = declareComponent({
               empty: hasSlots(props, slots, 'empty') ? (
                 renderSlot(props, slots, 'empty', tableInstance)
               ) : (
-                <Empty description={props.emptyText ?? '暂无数据'}></Empty>
+                <Empty description={props.emptyText ?? configurable.fatTableEmptyText ?? '暂无数据'}></Empty>
               ),
             }}
           >
@@ -748,7 +749,7 @@ const FatTableInner = declareComponent({
         renderPagination: props.enablePagination
           ? () => (
               <Pagination
-                {...unref(configurable).pagination}
+                {...configurable.pagination}
                 {...props.paginationProps}
                 class={props.paginationProps?.className}
                 currentPage={pagination.current}
