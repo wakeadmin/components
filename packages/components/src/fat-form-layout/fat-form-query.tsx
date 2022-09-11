@@ -5,6 +5,7 @@
 import { ref } from '@wakeadmin/demi';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { debounce } from 'lodash';
+import { useFatConfigurable } from '../fat-configurable';
 
 import { FatForm, FatFormMethods, FatFormProps } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
@@ -42,6 +43,7 @@ export const FatFormQuery = declareComponent({
   }),
   setup(props, { slots, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
+    const configurable = useFatConfigurable();
 
     const instance = {};
     forwardExpose(instance, FatFormPublicMethodKeys, form);
@@ -66,8 +68,9 @@ export const FatFormQuery = declareComponent({
         <FatForm
           ref={form}
           layout={props.layout}
-          submitText={props.submitText ?? '搜索'}
+          submitText={props.submitText ?? configurable.fatForm?.searchText ?? '搜索'}
           onValuesChange={handleValuesChange}
+          hierarchyConnect={false}
           clearable
           {...inheritProps(false)}
           v-slots={pickEnumerable(slots)}

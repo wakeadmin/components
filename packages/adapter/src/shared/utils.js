@@ -11,6 +11,10 @@ const ELEMENT_UI_SIZE_MAPPER = {
  * @param { 'small' | 'default' | 'large'} s
  */
 export function size(s) {
+  if (s == null) {
+    return s;
+  }
+
   if (isVue2) {
     return ELEMENT_UI_SIZE_MAPPER[s];
   }

@@ -17,6 +17,7 @@ import {
   ToHSlotDefinition,
 } from '../utils';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
+import { useFatConfigurable } from '../fat-configurable';
 
 export interface FatFormModalMethods<Store extends {}> extends FatFormMethods<Store> {
   /**
@@ -113,6 +114,8 @@ export const FatFormModal = declareComponent({
   setup(props, { attrs, expose, emit, slots }) {
     const visible = ref(false);
     const lazyVisible = useLazyFalsy(visible);
+    const configurable = useFatConfigurable();
+
     const form = ref<FatFormMethods<any>>();
     // 临时 props
     let tempProps = {};
@@ -178,16 +181,16 @@ export const FatFormModal = declareComponent({
         return [
           !!props.enableCancel && (
             <Button onClick={close} {...props.cancelProps}>
-              {props.cancelText ?? '取消'}
+              {props.cancelText ?? configurable.fatForm?.cancelText ?? '取消'}
             </Button>
           ),
           !!props.enableReset && (
             <Button onClick={form.value?.reset} {...props.resetProps}>
-              {props.resetText ?? '重置'}
+              {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
             </Button>
           ),
           <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
-            {props.submitText ?? '保存'}
+            {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
           </Button>,
         ];
       };
@@ -216,7 +219,14 @@ export const FatFormModal = declareComponent({
           }}
         >
           {(!props.destroyOnClose || !!lazyVisible.value) && (
-            <FatForm ref={form} enableSubmitter={false} onFinish={handleFinish} {...passthroughProps} {...tempProps}>
+            <FatForm
+              ref={form}
+              enableSubmitter={false}
+              hierarchyConnect={false}
+              onFinish={handleFinish}
+              {...passthroughProps}
+              {...tempProps}
+            >
               {slots.default?.()}
             </FatForm>
           )}

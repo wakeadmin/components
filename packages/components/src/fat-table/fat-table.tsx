@@ -640,7 +640,7 @@ const FatTableInner = declareComponent({
     expose(tableInstance);
 
     return () => {
-      const layout = props.layout ?? configurable.fatTableLayout ?? 'default';
+      const layout = props.layout ?? configurable.fatTable?.layout ?? 'default';
       const layoutImpl: FatTableLayout = typeof layout === 'function' ? layout : BUILTIN_LAYOUTS[layout];
 
       if (layoutImpl == null) {
@@ -696,7 +696,7 @@ const FatTableInner = declareComponent({
                   renderSlot(props, slots, 'error')
                 ) : (
                   <Alert
-                    title={props.errorTitle ?? configurable.fatTableErrorTitle ?? '数据加载失败'}
+                    title={props.errorTitle ?? configurable.fatTable?.errorTitle ?? '数据加载失败'}
                     type="error"
                     showIcon
                     description={error.value!.message}
@@ -722,7 +722,7 @@ const FatTableInner = declareComponent({
               empty: hasSlots(props, slots, 'empty') ? (
                 renderSlot(props, slots, 'empty', tableInstance)
               ) : (
-                <Empty description={props.emptyText ?? configurable.fatTableEmptyText ?? '暂无数据'}></Empty>
+                <Empty description={props.emptyText ?? configurable.fatTable?.emptyText ?? '暂无数据'}></Empty>
               ),
             }}
           >

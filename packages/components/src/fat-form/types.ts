@@ -51,6 +51,8 @@ export interface FatFormMethods<Store extends {}> {
    */
   readonly labelSuffix?: string;
 
+  readonly size?: Size;
+
   /**
    * 是否已禁用
    */
@@ -313,7 +315,7 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
   request?: () => Promise<Request>;
 
   /**
-   * 是否在挂在的时候就发起请求, 默认为 true
+   * 是否在mount的时候就发起请求, 默认为 true
    *
    * 在新增场景可以关闭
    */
@@ -550,7 +552,7 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
    * 当开启了 row， gutter 会设置 row 的 gutter props
    * 否则作为  fat-space 组件的 size
    *
-   * 默认 huge
+   * 默认 large
    */
   gutter?: FatSpaceSize;
 
@@ -777,4 +779,59 @@ export interface FatFormSectionProps extends FatFormSectionSlots {
    * 默认是否折叠
    */
   defaultCollapse?: boolean;
+}
+
+/**
+ * 支持全局配置的参数
+ */
+export interface FatFormGlobalConfigurations {
+  /**
+   * 表单标签后缀
+   */
+  labelSuffix?: string;
+
+  /**
+   * label 对齐方式
+   */
+  labelAlign?: 'left' | 'right';
+
+  /**
+   * 保存文案，默认为保存
+   */
+  saveText?: string;
+
+  /**
+   * 重置文案，默认为重置
+   */
+  resetText?: string;
+
+  /**
+   * 取消文案，默认为 取消
+   */
+  cancelText?: string;
+
+  /**
+   * 返回文案，用于表单页面，默认为取消
+   */
+  backText?: string;
+
+  /**
+   * 搜索文案，默认为 搜索
+   */
+  searchText?: string;
+
+  /**
+   * 表单大小
+   */
+  size?: Size;
+
+  /**
+   * 是否隐藏必填字段的标签旁边的红色星号, 默认 false
+   */
+  hideRequiredAsterisk?: boolean;
+
+  /**
+   * 分组模式间隔，默认 large
+   */
+  groupGutter?: FatSpaceSize;
 }

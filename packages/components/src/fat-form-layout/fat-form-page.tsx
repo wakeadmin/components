@@ -15,6 +15,7 @@ import {
 } from '../utils';
 import { FatFloatFooter, FatHeader, FatHeaderProps, FatHeaderSlots } from '../fat-layout';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
+import { useFatConfigurable } from '../fat-configurable';
 
 export interface FatFormPageSlots<S extends {}> extends FatHeaderSlots, FatFormSlots<S> {}
 
@@ -65,6 +66,7 @@ export const FatFormPagePublicMethodKeys = FatFormPublicMethodKeys;
 
 /**
  * 表单页面
+ * TODO: 支持自定义布局
  */
 export const FatFormPage = declareComponent({
   name: 'FatFormPage',
@@ -85,6 +87,7 @@ export const FatFormPage = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatFormPageSlots<any>>>(),
   setup(props, { slots, attrs, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
+    const configurable = useFatConfigurable();
     const instance = getCurrentInstance()?.proxy;
 
     const handleCancel = () => {
@@ -116,12 +119,13 @@ export const FatFormPage = declareComponent({
           >
             <FatForm
               ref={form}
+              hierarchyConnect={false}
               {...inheritProps()}
               renderSubmitter={(inst, buttons) => {
                 const renderButtons = () => [
                   !!props.enableCancel && (
                     <Button {...props.cancelProps} onClick={handleCancel}>
-                      {props.cancelText ?? '取消'}
+                      {props.cancelText ?? configurable.fatForm?.backText ?? '取消'}
                     </Button>
                   ),
                   ...buttons(),

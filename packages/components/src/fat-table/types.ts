@@ -824,3 +824,23 @@ export type FatTableLayout = (slots: {
    */
   renderPagination?: () => any;
 }) => any;
+
+/**
+ * fat-table 全局可配置参数
+ */
+export interface FatTableGlobalConfigurations {
+  /**
+   * 自定义表格布局
+   */
+  layout?: FatTableLayout;
+
+  /**
+   * 表格默认空文案, 默认为暂无数据
+   */
+  emptyText?: string;
+
+  /**
+   * 表格异常标题
+   */
+  errorTitle?: string;
+}

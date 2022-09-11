@@ -11,7 +11,7 @@ const SpaceSize: Record<string, number> = {
   huge: 32,
 };
 
-export const toNumberSize = (size: FatSpaceSize = 'small') => {
+export const toNumberSize = (size: FatSpaceSize | number = 'small') => {
   if (typeof size === 'string' && !(size in SpaceSize)) {
     throw new Error(`Invalid size: ${size}`);
   }

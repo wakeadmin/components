@@ -3,6 +3,7 @@ import { computed, provide, onBeforeUnmount } from '@wakeadmin/demi';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { Inquiry } from '@wakeadmin/icons';
 
+import { useFatConfigurable } from '../fat-configurable';
 import { FatSpace, toNumberSize } from '../fat-space';
 import { hasSlots, normalizeClassName, normalizeStyle, renderSlot, ToHSlotDefinition } from '../utils';
 
@@ -43,6 +44,7 @@ const FatFormGroupInner = declareComponent({
   }),
   slots: declareSlots<ToHSlotDefinition<FatFormGroupSlots<any>>>(),
   setup(props, { slots, attrs, expose }) {
+    const configurable = useFatConfigurable();
     const form = useFatFormContext()!;
     const inherited = useInheritableProps();
 
@@ -145,7 +147,7 @@ const FatFormGroupInner = declareComponent({
     });
 
     return () => {
-      const gutter = props.gutter ?? 'large';
+      const gutter = props.gutter ?? configurable.fatForm?.groupGutter ?? 'large';
       const gutterInNumber = toNumberSize(gutter);
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
       const col = (props.col ?? inherited?.col) as (ColProps & Partial<CommonProps>) | undefined;
@@ -166,7 +168,7 @@ const FatFormGroupInner = declareComponent({
       } else {
         children = (
           <FatSpace
-            size={gutter}
+            size={gutterInNumber}
             wrap
             direction={props.vertical ? 'vertical' : 'horizontal'}
             class={normalizeClassName('fat-form-group-container')}

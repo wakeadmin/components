@@ -14,6 +14,7 @@ import {
   ToHSlotDefinition,
   reactiveUnset,
 } from '../utils';
+import { useFatConfigurable } from '../fat-configurable';
 
 import {
   FatFormEvents,
@@ -73,6 +74,7 @@ const FatFormInner = declareComponent({
   setup(props, { slots, expose, attrs, emit }) {
     let requestLoaded = false;
     let ready = false;
+    const configurable = useFatConfigurable();
     const parentForm = useFatFormContext();
     const formRef = ref<FormMethods>();
     const _loading = ref(false);
@@ -384,7 +386,10 @@ const FatFormInner = declareComponent({
         return props.labelWidth ?? 'auto';
       },
       get labelSuffix() {
-        return props.labelSuffix ?? '：';
+        return props.labelSuffix ?? configurable.fatForm?.labelAlign ?? '：';
+      },
+      get size() {
+        return props.size ?? configurable.fatForm?.size;
       },
       get disabled() {
         return !!props.disabled;
@@ -453,7 +458,7 @@ const FatFormInner = declareComponent({
         return false;
       },
       get size() {
-        return props.size;
+        return instance.size;
       },
       get col() {
         return props.col;
@@ -497,11 +502,11 @@ const FatFormInner = declareComponent({
       const pending = loading.value || submitting.value;
       return [
         <Button loading={pending} type="primary" {...props.submitProps} onClick={instance.submit}>
-          {props.submitText ?? '保存'}
+          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
         </Button>,
         !!props.enableReset && (
           <Button loading={pending} {...props.resetProps} onClick={instance.reset}>
-            {props.resetText ?? '重置'}
+            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
           </Button>
         ),
       ];
@@ -509,7 +514,7 @@ const FatFormInner = declareComponent({
 
     return () => {
       const layout = instance.layout;
-      const labelAlign = props.labelAlign ?? 'right';
+      const labelAlign = props.labelAlign ?? configurable.fatForm?.labelAlign ?? 'right';
 
       return (
         <Form
@@ -529,10 +534,10 @@ const FatFormInner = declareComponent({
           labelPosition={layout === 'vertical' ? 'top' : labelAlign}
           inline={layout === 'inline'}
           labelSuffix={instance.labelSuffix}
-          size={props.size && size(props.size)}
+          size={size(instance.size)}
           disabled={props.disabled}
           rules={rules.value}
-          hideRequiredAsterisk={props.hideRequiredAsterisk}
+          hideRequiredAsterisk={props.hideRequiredAsterisk ?? configurable.fatForm?.hideRequiredAsterisk}
           validateOnRuleChange={props.validateOnRuleChange}
           onValidate={handleValidate}
           // @ts-expect-error 原生事件
