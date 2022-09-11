@@ -34,7 +34,7 @@ const FatFormInner = declareComponent({
     labelWidth: null,
     labelSuffix: null,
     size: null,
-    disabled: Boolean,
+    disabled: { type: Boolean, default: undefined },
     rules: null,
     hideRequiredAsterisk: Boolean,
     validateOnRuleChange: { type: Boolean, default: true },
