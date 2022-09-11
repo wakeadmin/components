@@ -57,6 +57,11 @@ export interface FatFormMethods<Store extends {}> {
   readonly disabled: boolean;
 
   /**
+   * 是否可清理
+   */
+  readonly clearable?: boolean;
+
+  /**
    * 错误信息
    */
   readonly error?: Error;
@@ -359,6 +364,11 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
   disabled?: boolean;
 
   /**
+   * 是否支持清理，默认 false
+   */
+  clearable?: boolean;
+
+  /**
    * 是否加载中
    */
   loading?: boolean;
@@ -416,6 +426,7 @@ export interface FatFormItemMethods<Store extends {}> {
   readonly prop: string;
   readonly props: FatFormItemProps<Store, any>;
   readonly disabled?: boolean;
+  readonly clearable?: boolean;
   readonly hidden?: boolean;
   readonly mode?: FatFormMode;
   readonly atom: Atomic<any, any>;
@@ -500,6 +511,7 @@ export interface FatFormItemInheritableProps {
   disabled?: boolean;
   size?: Size;
   hidden?: boolean;
+  clearable?: boolean;
   // 浅层 col 配置
   col?: ColProps;
 }
@@ -548,6 +560,11 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
    * 禁用后当前字段将不会进行校验
    */
   disabled?: boolean | ((instance: FatFormMethods<S>) => boolean);
+
+  /**
+   * 是否支持清除
+   */
+  clearable?: boolean;
 
   /**
    * 是否必填，会显示必填符号，但不会有实际作用
@@ -677,6 +694,11 @@ export interface FatFormItemProps<
    * 禁用后当前字段将不会进行校验
    */
   disabled?: boolean | ((instance: FatFormItemMethods<Store>) => boolean);
+
+  /**
+   * 是否支持清理
+   */
+  clearable?: boolean;
 
   /**
    * 声明该字段依赖的字段，格式同 prop

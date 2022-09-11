@@ -27,6 +27,7 @@ const FatFormGroupInner = declareComponent({
     row: null,
     hidden: { type: [Boolean, Function] as any, default: undefined },
     disabled: { type: [Boolean, Function] as any, default: undefined },
+    clearable: { type: Boolean, default: undefined },
     required: Boolean,
     vertical: Boolean,
     contentClassName: null,
@@ -71,6 +72,9 @@ const FatFormGroupInner = declareComponent({
       },
       get size() {
         return props.size ?? inherited?.size;
+      },
+      get clearable() {
+        return props.clearable ?? inherited?.clearable;
       },
       get disabled() {
         return disabled.value;

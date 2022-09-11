@@ -35,6 +35,7 @@ const FatFormInner = declareComponent({
     labelSuffix: null,
     size: null,
     disabled: { type: Boolean, default: undefined },
+    clearable: { type: Boolean, default: undefined },
     rules: null,
     hideRequiredAsterisk: Boolean,
     validateOnRuleChange: { type: Boolean, default: true },
@@ -350,6 +351,9 @@ const FatFormInner = declareComponent({
       get disabled() {
         return !!props.disabled;
       },
+      get clearable() {
+        return props.clearable;
+      },
       get error() {
         return error.value;
       },
@@ -399,6 +403,9 @@ const FatFormInner = declareComponent({
       },
       get disabled() {
         return instance.disabled;
+      },
+      get clearable() {
+        return props.clearable;
       },
       get hidden() {
         return false;

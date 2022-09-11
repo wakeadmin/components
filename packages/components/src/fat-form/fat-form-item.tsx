@@ -37,6 +37,7 @@ const FatFormItemInner = declareComponent({
     width: null,
     disabled: { type: [Boolean, Function] as any, default: undefined },
     hidden: { type: [Boolean, Function] as any, default: undefined },
+    clearable: { type: Boolean, default: undefined },
     size: null,
     dependencies: null,
     valueClassName: null,
@@ -105,6 +106,10 @@ const FatFormItemInner = declareComponent({
       return props.size ?? inheritedProps?.size;
     });
 
+    const clearable = computed(() => {
+      return props.clearable ?? inheritedProps?.clearable;
+    });
+
     const instance: FatFormItemMethods<any> = {
       get form() {
         return form;
@@ -125,6 +130,9 @@ const FatFormItemInner = declareComponent({
       get hidden() {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         return hidden.value;
+      },
+      get clearable() {
+        return clearable.value;
       },
       get mode() {
         return mode.value;
@@ -329,6 +337,7 @@ const FatFormItemInner = declareComponent({
                   context: form,
                   class: props.valueClassName,
                   style: normalizeStyle(contentStyle.value, props.valueStyle),
+                  clearable: clearable.value,
                 },
                 // 外部指定的优先
                 props.valueProps

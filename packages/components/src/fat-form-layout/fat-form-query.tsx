@@ -68,6 +68,7 @@ export const FatFormQuery = declareComponent({
           layout={props.layout}
           submitText={props.submitText ?? '搜索'}
           onValuesChange={handleValuesChange}
+          clearable
           {...inheritProps(false)}
           v-slots={pickEnumerable(slots)}
         />
