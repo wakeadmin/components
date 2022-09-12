@@ -42,12 +42,18 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   },
 
   aDateTimeProps: {
-    placeholder: '选择日期时间',
+    placeholder: '选择时间',
   },
 
   aDateRangeProps: {
     startPlaceholder: '开始日期',
     endPlaceholder: '结束日期',
+    rangeSeparator: '至',
+  },
+
+  aDateTimeRangeProps: {
+    startPlaceholder: '开始时间',
+    endPlaceholder: '结束时间',
     rangeSeparator: '至',
   },
 

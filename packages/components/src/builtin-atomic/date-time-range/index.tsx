@@ -5,10 +5,10 @@ import { formatDate } from '@wakeadmin/utils';
 import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
-export type ADateRangeValue = Date[] | string[];
+export type ADateTimeRangeValue = Date[] | string[];
 
-export type ADateRangeProps = DefineAtomicProps<
-  ADateRangeValue,
+export type ADateTimeRangeProps = DefineAtomicProps<
+  ADateTimeRangeValue,
   DatePickerProps,
   {
     /**
@@ -19,12 +19,13 @@ export type ADateRangeProps = DefineAtomicProps<
     /**
      * 自定义预览
      */
-    renderPreview?: (value?: ADateRangeValue) => any;
+    renderPreview?: (value?: ADateTimeRangeValue) => any;
   }
 >;
 
-export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps) => {
+export const ADateTimeRangeComponent = defineAtomicComponent((props: ADateTimeRangeProps) => {
   const configurable = useFatConfigurable();
+
   const preview = (value: any, format: string, rangeSeparator: string) => {
     const f = (v: any) => {
       if (v == null) {
@@ -49,30 +50,31 @@ export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps
 
   return () => {
     let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
-    const passthrough = { ...configurable.aDateRangeProps, ...other };
 
-    previewFormat ??= passthrough.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
+    const passthrough = { ...configurable.aDateTimeRangeProps, ...other };
+
+    previewFormat ??= passthrough.format ?? configurable.dateTimeFormat ?? 'YYYY-MM-DD HH:mm:ss';
     const rangeSeparator = passthrough.rangeSeparator ?? '-';
 
     return mode === 'preview' ? (
       <span>{preview(value, previewFormat, rangeSeparator)}</span>
     ) : (
-      <DatePicker type="daterange" {...passthrough} {...model(value, onChange!)} />
+      <DatePicker type="datetimerange" {...passthrough} {...model(value, onChange!)} />
     );
   };
 });
 
 declare global {
   interface AtomicProps {
-    'date-range': ADateRangeProps;
+    'date-time-range': ADateTimeRangeProps;
   }
 }
 
-export const ADateRange = defineAtomic({
-  name: 'date-range',
-  component: ADateRangeComponent,
-  description: '日期范围',
+export const ADateTimeRange = defineAtomic({
+  name: 'date-time-range',
+  component: ADateTimeRangeComponent,
+  description: '日期时间范围',
   author: 'ivan-lee',
 });
 
-globalRegistry.register('date-range', ADateRange);
+globalRegistry.register('date-time-range', ADateTimeRange);

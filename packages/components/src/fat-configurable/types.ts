@@ -16,6 +16,7 @@ import {
   AProgressProps,
   ADateProps,
   ADateTimeProps,
+  ADateTimeRangeProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -86,6 +87,11 @@ export interface FatConfigurable {
    * date-range 默认配置
    */
   aDateRangeProps?: OmitAtomicCommonProps<ADateRangeProps>;
+
+  /**
+   * date-time-range 默认配置
+   */
+  aDateTimeRangeProps?: OmitAtomicCommonProps<ADateTimeRangeProps>;
 
   /**
    * checkbox 默认配置

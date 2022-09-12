@@ -7,6 +7,7 @@
       <FatFormItem prop="date" label="date" value-type="date" width="medium" />
       <FatFormItem prop="dateTime" label="date-time" value-type="date-time" width="medium" />
       <FatFormItem prop="dateRange" label="date-range" value-type="date-range" width="large" />
+      <FatFormItem prop="dateTimeRange" label="date-time-range" value-type="date-time-range" width="large" />
       <FatFormItem prop="password" label="password" value-type="password" width="small" />
       <FatFormItem prop="switch" label="switch" value-type="switch" width="mini" />
       <FatFormItem

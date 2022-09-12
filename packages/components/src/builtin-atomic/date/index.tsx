@@ -39,7 +39,7 @@ export const ADateComponent = defineAtomicComponent((props: ADateProps) => {
     let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
     const passthrough = { ...configurable.aDateProps, ...other };
 
-    previewFormat = passthrough.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
+    previewFormat ??= passthrough.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
 
     return mode === 'preview' ? (
       <span>{preview(value, previewFormat)}</span>
