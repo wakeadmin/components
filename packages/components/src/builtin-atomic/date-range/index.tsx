@@ -1,31 +1,42 @@
-import { DatePicker, DatePickerProps, model, DatePickerValue } from '@wakeadmin/component-adapter';
+import { DatePicker, DatePickerProps, model } from '@wakeadmin/component-adapter';
 import { unref } from '@wakeadmin/demi';
 import { formatDate } from '@wakeadmin/utils';
 
 import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
+export type ADateRangeValue = Date[] | string[];
+
 export type ADateRangeProps = DefineAtomicProps<
-  DatePickerValue,
+  ADateRangeValue,
   DatePickerProps,
   {
     /**
      * 预览时日期格式，默认同 format
      */
     previewFormat?: string;
+
+    /**
+     * 自定义预览
+     */
+    renderPreview?: (value?: ADateRangeValue) => any;
   }
 >;
 
 export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps) => {
-  const configurableRef = useFatConfigurable();
+  const configurable = useFatConfigurable();
   const preview = (value: any, format: string, rangeSeparator: string) => {
     const f = (v: any) => {
       if (v == null) {
-        return unref(configurableRef).undefinedPlaceholder;
+        return configurable.undefinedPlaceholder;
       }
 
       return formatDate(v, format);
     };
+
+    if (props.renderPreview) {
+      return props.renderPreview(value);
+    }
 
     if (Array.isArray(value)) {
       return `${f(value[0])} ${rangeSeparator} ${f(value[1])}`;
@@ -33,12 +44,11 @@ export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps
       return f(value);
     }
 
-    return unref(configurableRef).undefinedPlaceholder;
+    return unref(configurable).undefinedPlaceholder;
   };
 
   return () => {
-    let { value, mode, onChange, previewFormat, ...other } = props;
-    const configurable = unref(configurableRef);
+    let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
     const passthrough = { ...configurable.aDateRangeProps, ...other };
 
     previewFormat = passthrough.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
@@ -61,7 +71,7 @@ declare global {
 export const ADateRange = defineAtomic({
   name: 'date-range',
   component: ADateRangeComponent,
-  description: '时间范围',
+  description: '日期范围',
   author: 'ivan-lee',
 });
 

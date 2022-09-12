@@ -37,6 +37,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     placeholder: '请选择',
   },
 
+  aDateProps: {
+    placeholder: '选择日期',
+  },
+
   aDateRangeProps: {
     startPlaceholder: '开始日期',
     endPlaceholder: '结束日期',
