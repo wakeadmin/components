@@ -4,6 +4,7 @@
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
     <FatForm :mode="previewMode ? 'preview' : 'editable'" class="form">
       <FatFormItem prop="text" label="text" value-type="text" width="small" />
+      <FatFormItem prop="textarea" label="textarea" value-type="textarea" width="huge" />
       <FatFormItem prop="date" label="date" value-type="date" width="medium" />
       <FatFormItem prop="dateTime" label="date-time" value-type="date-time" width="medium" />
       <FatFormItem prop="dateRange" label="date-range" value-type="date-range" width="large" />

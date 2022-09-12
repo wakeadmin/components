@@ -17,6 +17,7 @@ import {
   ADateProps,
   ADateTimeProps,
   ADateTimeRangeProps,
+  ATextareaProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -52,6 +53,11 @@ export interface FatConfigurable {
    * 文本组件默认配置
    */
   aTextProps?: OmitAtomicCommonProps<ATextProps>;
+
+  /**
+   * 长文本组件默认配置
+   */
+  aTextareaProps?: OmitAtomicCommonProps<ATextareaProps>;
 
   /**
    * 密码组件默认配置

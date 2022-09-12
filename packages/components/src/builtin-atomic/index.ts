@@ -1,4 +1,5 @@
 export * from './text';
+export * from './textarea';
 export * from './date';
 export * from './date-range';
 export * from './date-time';

@@ -20,6 +20,12 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     placeholder: '请输入',
   },
 
+  aTextareaProps: {
+    placeholder: '请输入',
+    rows: 4,
+    autosize: { minRows: 4, maxRows: 10 },
+  },
+
   aPasswordProps: {
     placeholder: '请输入密码',
   },
