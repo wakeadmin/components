@@ -8,7 +8,7 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
 
   dateFormat: 'YYYY-MM-DD',
 
-  dateTimeFormat: 'YYYY-MM-DD HH:mm:SS',
+  dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
 
   pagination: {
     pageSize: 10,
@@ -39,6 +39,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
 
   aDateProps: {
     placeholder: '选择日期',
+  },
+
+  aDateTimeProps: {
+    placeholder: '选择日期时间',
   },
 
   aDateRangeProps: {

@@ -1,6 +1,7 @@
 export * from './text';
 export * from './date';
 export * from './date-range';
+export * from './date-time';
 export * from './switch';
 export * from './select';
 export * from './checkbox';

@@ -15,6 +15,7 @@ import {
   ASliderProps,
   AProgressProps,
   ADateProps,
+  ADateTimeProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -75,6 +76,11 @@ export interface FatConfigurable {
    * date 默认配置
    */
   aDateProps?: OmitAtomicCommonProps<ADateProps>;
+
+  /**
+   * date-time 默认配置
+   */
+  aDateTimeProps?: OmitAtomicCommonProps<ADateTimeProps>;
 
   /**
    * date-range 默认配置
