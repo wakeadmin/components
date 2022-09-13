@@ -20,6 +20,7 @@ import {
   ATextareaProps,
   ATimeProps,
   ATimeRangeProps,
+  ACheckboxsProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -120,6 +121,11 @@ export interface FatConfigurable {
    * checkbox 默认配置
    */
   aCheckboxProps?: OmitAtomicCommonProps<ACheckboxProps>;
+
+  /**
+   * checkboxs 默认配置
+   */
+  aCheckboxsProps?: OmitAtomicCommonProps<ACheckboxsProps>;
 
   /**
    * radio 默认配置

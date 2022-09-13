@@ -54,6 +54,17 @@
           ],
         }"
       />
+      <FatFormItem
+        prop="checkboxs"
+        label="checkboxs"
+        value-type="checkboxs"
+        :value-props="{
+          options: [
+            { label: '选我', value: 1 },
+            { label: '选我啊', value: 0 },
+          ],
+        }"
+      />
       <FatFormItem prop="integer" label="integer" value-type="integer"></FatFormItem>
       <FatFormItem prop="rate" label="rate" value-type="rate"></FatFormItem>
       <FatFormItem prop="slider" label="slider" value-type="slider" width="large"></FatFormItem>
