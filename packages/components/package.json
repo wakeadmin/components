@@ -3,14 +3,23 @@
   "version": "0.1.0",
   "description": "wakeadmin 组件库",
   "module": "./dist/index.js",
+  "main": "./dist/common/index.js",
   "typings": "./dist/index.d.ts",
+  "files": [
+    "style",
+    "dist"
+  ],
+  "sideEffects": [
+    "style/**/*",
+    "dist/**/builtin-atomic/*"
+  ],
   "scripts": {
     "start": "tsc -b tsconfig.build.json --watch",
     "prebuild": "rimraf dist .tsBuildInfo",
-    "copy": "cpx \"src/**/*.+(scss|jpg|jpeg|gif|png|svg|css)\" ./dist",
     "test": "vitest",
-    "build": "tsc -b tsconfig.build.json",
-    "postbuild": "npm run copy",
+    "build": "npm run build:es && npm run build:common",
+    "build:es": "tsc -b tsconfig.build.json",
+    "build:common": "tsc -b tsconfig.build.common.json",
     "type-check": "tsc"
   },
   "keywords": [
@@ -19,10 +28,23 @@
   ],
   "author": "ivan-lee",
   "license": "MIT",
+  "peerDependencies": {
+    "vue": ">=2.7.0",
+    "element-plus": "^2.2.12",
+    "element-ui": "^2.15.9"
+  },
+  "peerDependenciesMeta": {
+    "element-ui": {
+      "optional": true
+    },
+    "element-plus": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@wakeadmin/component-adapter": "workspace:^1.0.0",
     "@wakeadmin/demi": "latest",
-    "@wakeadmin/h": "^0.2.4",
+    "@wakeadmin/h": "latest",
     "@wakeadmin/icons": "latest",
     "@wakeadmin/utils": "latest"
   },
