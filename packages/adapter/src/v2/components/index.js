@@ -26,3 +26,4 @@ export * from './Slider';
 export * from './Progress';
 export * from './TimeSelect';
 export * from './TimePicker';
+export * from './Upload';
