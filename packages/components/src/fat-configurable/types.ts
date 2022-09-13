@@ -19,6 +19,7 @@ import {
   ADateTimeRangeProps,
   ATextareaProps,
   ATimeProps,
+  ATimeRangeProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -109,6 +110,11 @@ export interface FatConfigurable {
    * time 默认配置
    */
   aTimeProps?: OmitAtomicCommonProps<ATimeProps>;
+
+  /**
+   * time-range 默认配置
+   */
+  aTimeRangeProps?: OmitAtomicCommonProps<ATimeRangeProps>;
 
   /**
    * checkbox 默认配置

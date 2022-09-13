@@ -69,6 +69,12 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     rangeSeparator: '至',
   },
 
+  aTimeRangeProps: {
+    startPlaceholder: '开始时间',
+    endPlaceholder: '结束时间',
+    rangeSeparator: '至',
+  },
+
   aCheckboxProps: {
     previewActiveText: '开启',
     previewInactiveText: '关闭',
