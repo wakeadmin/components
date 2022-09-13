@@ -5,6 +5,7 @@
   "sideEffects": false,
   "exports": "./lib/index.js",
   "module": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "typings": "./types/index.d.ts",
   "engines": {
     "node": ">= 16"
@@ -16,10 +17,16 @@
     "lib",
     "bin",
     "src",
+    "dist",
     "types",
     "scripts"
   ],
   "scripts": {
+    "prebuild": "rimraf dist .tsBuildInfo",
+    "build": "npm run build:es && npm run build:common",
+    "build:es": "tsc --build tsconfig.json",
+    "build:common": "tsc --build tsconfig.common.json",
+    "start": "tsc --build tsconfig.json --watch",
     "postinstall": "node ./scripts/postinstall.mjs",
     "test": "jest"
   },
