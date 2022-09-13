@@ -9,6 +9,7 @@ export const DatePicker = {
 
     // vue3 pickerOptions 提取到了全局
     other.pickerOptions = {
+      ...other.pickerOptions,
       shortcuts,
       disabledDate,
       cellClassName,

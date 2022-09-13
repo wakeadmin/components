@@ -24,3 +24,5 @@ export * from './InputNumber';
 export * from './Rate';
 export * from './Slider';
 export * from './Progress';
+export * from './TimeSelect';
+export * from './TimePicker';
