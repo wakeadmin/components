@@ -10,6 +10,8 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
 
   dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
 
+  timeFormat: 'HH:mm',
+
   pagination: {
     pageSize: 10,
     layout: 'prev, pager, next, jumper, sizes, total',
@@ -48,6 +50,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   },
 
   aDateTimeProps: {
+    placeholder: '选择时间',
+  },
+
+  aTimeProps: {
     placeholder: '选择时间',
   },
 

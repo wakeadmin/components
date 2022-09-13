@@ -18,6 +18,7 @@ import {
   ADateTimeProps,
   ADateTimeRangeProps,
   ATextareaProps,
+  ATimeProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -42,6 +43,11 @@ export interface FatConfigurable {
    * 日期时间格式，默认为 YYYY-MM-DD HH:mm:SS，格式参考 dayjs
    */
   dateTimeFormat?: string;
+
+  /**
+   * 时间格式, 默认为 HH:mm
+   */
+  timeFormat?: string;
 
   /**
    * 默认分页配置
@@ -98,6 +104,11 @@ export interface FatConfigurable {
    * date-time-range 默认配置
    */
   aDateTimeRangeProps?: OmitAtomicCommonProps<ADateTimeRangeProps>;
+
+  /**
+   * time 默认配置
+   */
+  aTimeProps?: OmitAtomicCommonProps<ATimeProps>;
 
   /**
    * checkbox 默认配置

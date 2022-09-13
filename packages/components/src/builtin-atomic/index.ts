@@ -12,3 +12,4 @@ export * from './integer';
 export * from './rate';
 export * from './slider';
 export * from './progress';
+export * from './time';

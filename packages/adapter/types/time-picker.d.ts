@@ -2,7 +2,7 @@ export declare type GetDisabledHours = (role: string, comparingDate?: any) => nu
 export declare type GetDisabledMinutes = (hour: number, role: string, comparingDate?: any) => number[];
 export declare type GetDisabledSeconds = (hour: number, minute: number, role: string, comparingDate?: any) => number[];
 
-export type TimePickerValue = string | Date | TimePickerValue[];
+export type TimePickerValue = string | Date | string[] | Date[];
 
 /** TimePicker Component */
 export interface TimePickerProps {
