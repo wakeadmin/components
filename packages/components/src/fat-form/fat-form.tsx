@@ -392,7 +392,7 @@ const FatFormInner = declareComponent({
         return props.size ?? configurable.fatForm?.size;
       },
       get disabled() {
-        return !!props.disabled;
+        return props.disabled;
       },
       get clearable() {
         return props.clearable;

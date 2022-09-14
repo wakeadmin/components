@@ -23,6 +23,7 @@ import {
   ACheckboxsProps,
   AImagesProps,
   AImageProps,
+  ASearchProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -73,6 +74,11 @@ export interface FatConfigurable {
    * 密码组件默认配置
    */
   aPasswordProps?: OmitAtomicCommonProps<APasswordProps>;
+
+  /**
+   * search 默认配置
+   */
+  aSearchProps?: OmitAtomicCommonProps<ASearchProps>;
 
   /**
    * switch 默认配置

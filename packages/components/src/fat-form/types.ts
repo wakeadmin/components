@@ -56,7 +56,7 @@ export interface FatFormMethods<Store extends {}> {
   /**
    * 是否已禁用
    */
-  readonly disabled: boolean;
+  readonly disabled?: boolean;
 
   /**
    * 是否可清理

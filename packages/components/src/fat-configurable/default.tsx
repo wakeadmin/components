@@ -32,6 +32,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     placeholder: '请输入密码',
   },
 
+  aSearchProps: {
+    placeholder: '请输入关键字',
+  },
+
   aSwitchProps: {
     previewActiveText: '开启',
     previewInactiveText: '关闭',

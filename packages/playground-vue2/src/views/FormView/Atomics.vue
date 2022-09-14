@@ -4,6 +4,8 @@
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
     <FatForm :mode="previewMode ? 'preview' : 'editable'" class="form">
       <FatFormItem prop="text" label="text" value-type="text" width="small" />
+      <FatFormItem prop="password" label="password" value-type="password" width="small" />
+      <FatFormItem prop="search" label="search" value-type="search" width="medium" />
       <FatFormItem prop="textarea" label="textarea" value-type="textarea" width="huge" />
       <FatFormItem prop="date" label="date" value-type="date" width="medium" />
       <FatFormItem prop="time" label="time" value-type="time" width="medium" />
@@ -11,7 +13,6 @@
       <FatFormItem prop="dateRange" label="date-range" value-type="date-range" width="large" />
       <FatFormItem prop="dateTimeRange" label="date-time-range" value-type="date-time-range" width="large" />
       <FatFormItem prop="timeRange" label="time-range" value-type="time-range" width="large" />
-      <FatFormItem prop="password" label="password" value-type="password" width="small" />
       <FatFormItem prop="switch" label="switch" value-type="switch" width="mini" />
       <FatFormItem
         prop="select"

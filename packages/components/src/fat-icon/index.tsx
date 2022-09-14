@@ -1,4 +1,4 @@
-import { computed, HTMLAttributes } from '@wakeadmin/demi';
+import { computed, CSSProperties, HTMLAttributes } from '@wakeadmin/demi';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { NoopObject } from '@wakeadmin/utils';
 
@@ -7,6 +7,7 @@ import { addUnit, Color, inheritProps, normalizeClassName, normalizeColor, norma
 export interface FatIconProps extends Omit<HTMLAttributes, 'color'> {
   color?: Color;
   size?: string | number;
+  align?: CSSProperties['vertical-align'];
 }
 
 /**
@@ -14,16 +15,17 @@ export interface FatIconProps extends Omit<HTMLAttributes, 'color'> {
  */
 export const FatIcon = declareComponent({
   name: 'FatIcon',
-  props: declareProps<FatIconProps>({ color: null, size: null }),
+  props: declareProps<FatIconProps>({ color: null, size: null, align: null }),
   setup(props, { slots, attrs }) {
     const style = computed(() => {
-      const { size, color } = props;
-      if (!size && !color) {
+      const { size, color, align } = props;
+      if (!size && !color && !align) {
         return NoopObject;
       }
 
       return {
         fontSize: addUnit(size),
+        verticalAlign: align,
         '--color': normalizeColor(color),
       };
     });

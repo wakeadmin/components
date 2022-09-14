@@ -341,6 +341,7 @@ const FatFormItemInner = declareComponent({
           >
             {renderSlot(props, slots, 'before', instance)}
             {atom.value.component(
+              // TODO: 放到 computed
               composeAtomProps(
                 {
                   mode: mode.value ?? 'editable',
