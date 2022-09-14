@@ -1,4 +1,4 @@
-import { ProgressProps, Progress } from '@wakeadmin/component-adapter';
+import { ProgressProps, Progress } from '@wakeadmin/element-adapter';
 
 import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 

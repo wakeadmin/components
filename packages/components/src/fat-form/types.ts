@@ -9,7 +9,7 @@ import {
   Rules,
   CommonProps,
   ButtonProps,
-} from '@wakeadmin/component-adapter';
+} from '@wakeadmin/element-adapter';
 import { Ref } from '@wakeadmin/demi';
 
 import { Atomic } from '../atomic';
@@ -753,7 +753,7 @@ export interface FatFormItemProps<
   valueStyle?: StyleValue;
 }
 
-export { Rules, Rule } from '@wakeadmin/component-adapter';
+export { Rules, Rule } from '@wakeadmin/element-adapter';
 
 export interface FatFormSectionSlots {
   /**

@@ -10,7 +10,7 @@ import {
   Message,
   MessageBox,
   MessageOptions,
-} from '@wakeadmin/component-adapter';
+} from '@wakeadmin/element-adapter';
 import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, computed } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';

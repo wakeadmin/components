@@ -8,7 +8,7 @@ import {
   ClassValue,
   CommonProps,
   StyleValue,
-} from '@wakeadmin/component-adapter';
+} from '@wakeadmin/element-adapter';
 import { computed, toRef } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDefaults } from '@wakeadmin/h';
 import { More } from '@wakeadmin/icons';

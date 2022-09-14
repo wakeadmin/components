@@ -1,5 +1,5 @@
 import { NamedRegistry } from '@wakeadmin/utils';
-import { ClassValue, StyleValue } from '@wakeadmin/component-adapter';
+import { ClassValue, StyleValue } from '@wakeadmin/element-adapter';
 
 declare global {
   // 定义原件的 props 映射

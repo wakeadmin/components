@@ -1,4 +1,4 @@
-import { PaginationProps } from '@wakeadmin/component-adapter';
+import { PaginationProps } from '@wakeadmin/element-adapter';
 import { OmitAtomicCommonProps } from '../atomic';
 
 import {

@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxProps, model } from '@wakeadmin/component-adapter';
+import { Checkbox, CheckboxProps, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 

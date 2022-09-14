@@ -1,4 +1,4 @@
-import { CommonProps } from '@wakeadmin/component-adapter';
+import { CommonProps } from '@wakeadmin/element-adapter';
 import { computed, unref, Ref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 

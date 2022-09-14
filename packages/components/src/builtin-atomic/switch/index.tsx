@@ -1,4 +1,4 @@
-import { SwitchProps, Switch, model } from '@wakeadmin/component-adapter';
+import { SwitchProps, Switch, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps, globalRegistry } from '../../atomic';
 

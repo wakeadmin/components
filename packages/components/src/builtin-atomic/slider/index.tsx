@@ -1,4 +1,4 @@
-import { Slider, SliderProps, model } from '@wakeadmin/component-adapter';
+import { Slider, SliderProps, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';

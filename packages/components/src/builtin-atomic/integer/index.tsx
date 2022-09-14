@@ -1,4 +1,4 @@
-import { InputNumberProps, InputNumber, model } from '@wakeadmin/component-adapter';
+import { InputNumberProps, InputNumber, model } from '@wakeadmin/element-adapter';
 
 import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 

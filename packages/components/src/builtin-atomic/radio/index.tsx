@@ -1,4 +1,4 @@
-import { Radio, RadioGroup, RadioGroupProps, model } from '@wakeadmin/component-adapter';
+import { Radio, RadioGroup, RadioGroupProps, model } from '@wakeadmin/element-adapter';
 import { computed, unref } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
 

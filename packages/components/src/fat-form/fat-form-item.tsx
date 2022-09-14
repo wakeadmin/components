@@ -1,5 +1,5 @@
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
-import { FormItem, Col, Tooltip, ColProps, CommonProps } from '@wakeadmin/component-adapter';
+import { FormItem, Col, Tooltip, ColProps, CommonProps } from '@wakeadmin/element-adapter';
 import { watch, computed, onBeforeUnmount } from '@wakeadmin/demi';
 import { get, debounce, NoopObject, equal } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';

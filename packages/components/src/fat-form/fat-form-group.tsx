@@ -1,4 +1,4 @@
-import { FormItem, Col, Row, Tooltip, ColProps, CommonProps } from '@wakeadmin/component-adapter';
+import { FormItem, Col, Row, Tooltip, ColProps, CommonProps } from '@wakeadmin/element-adapter';
 import { computed, provide, onBeforeUnmount } from '@wakeadmin/demi';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { Inquiry } from '@wakeadmin/icons';

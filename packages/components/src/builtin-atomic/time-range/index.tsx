@@ -1,4 +1,4 @@
-import { TimePicker, TimePickerProps, model } from '@wakeadmin/component-adapter';
+import { TimePicker, TimePickerProps, model } from '@wakeadmin/element-adapter';
 import { formatDate } from '@wakeadmin/utils';
 
 import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';

@@ -1,4 +1,4 @@
-import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/component-adapter';
+import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';

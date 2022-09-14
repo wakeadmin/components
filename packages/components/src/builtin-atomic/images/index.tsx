@@ -8,7 +8,7 @@ import {
   UploadProps,
   UploadInternalFileDetail,
   Message,
-} from '@wakeadmin/component-adapter';
+} from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 import { isPromise, NoopArray } from '@wakeadmin/utils';
 import { Plus } from '@wakeadmin/icons';

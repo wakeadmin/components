@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxGroup, CheckboxGroupProps, model } from '@wakeadmin/component-adapter';
+import { Checkbox, CheckboxGroup, CheckboxGroupProps, model } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 import { NoopArray, booleanPredicate } from '@wakeadmin/utils';
 

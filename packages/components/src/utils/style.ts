@@ -1,4 +1,4 @@
-import { LooseStyleValue } from '@wakeadmin/component-adapter';
+import { LooseStyleValue } from '@wakeadmin/element-adapter';
 
 const listDelimiterRE = /;(?![^(]*\))/g;
 const propertyDelimiterRE = /:(.+)/;

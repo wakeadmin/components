@@ -1,5 +1,5 @@
 import { Ref, computed, unref } from '@wakeadmin/demi';
-import { CommonProps } from '@wakeadmin/component-adapter';
+import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
 
 import { FatFormDefineHelpers, FatFormChild, useFatFormDefineUtils } from '../fat-form';

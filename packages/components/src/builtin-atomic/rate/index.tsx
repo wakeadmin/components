@@ -1,4 +1,4 @@
-import { RateProps, model, Rate } from '@wakeadmin/component-adapter';
+import { RateProps, model, Rate } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps, globalRegistry } from '../../atomic';
 

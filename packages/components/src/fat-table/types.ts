@@ -8,7 +8,7 @@ import {
   ClassValue,
   PaginationProps,
   TableMethods,
-} from '@wakeadmin/component-adapter';
+} from '@wakeadmin/element-adapter';
 
 import { Atomic } from '../atomic';
 import { FatFormItemProps, FatFormMethods } from '../fat-form';

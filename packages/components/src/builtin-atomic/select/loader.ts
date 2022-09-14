@@ -1,4 +1,4 @@
-import { OptionProps, Message } from '@wakeadmin/component-adapter';
+import { OptionProps, Message } from '@wakeadmin/element-adapter';
 import { ref, watch } from '@wakeadmin/demi';
 
 export function useOptions(props: { options?: OptionProps[] | (() => Promise<OptionProps[]>) }) {

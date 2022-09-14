@@ -1,4 +1,4 @@
-import { Dialog, DialogProps, Button, ButtonProps } from '@wakeadmin/component-adapter';
+import { Dialog, DialogProps, Button, ButtonProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, watch, getCurrentInstance } from '@wakeadmin/demi';
 import { NoopObject } from '@wakeadmin/utils';

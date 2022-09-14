@@ -1,4 +1,4 @@
-import { Form, FormMethods, size, Button, Message } from '@wakeadmin/component-adapter';
+import { Form, FormMethods, size, Button, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set, equal } from '@wakeadmin/utils';

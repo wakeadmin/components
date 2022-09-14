@@ -1,5 +1,5 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { TableColumnProps, TableColumn, Tooltip } from '@wakeadmin/component-adapter';
+import { TableColumnProps, TableColumn, Tooltip } from '@wakeadmin/element-adapter';
 import { NoopObject, NoopArray } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
 

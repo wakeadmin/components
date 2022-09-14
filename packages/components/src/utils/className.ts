@@ -1,4 +1,4 @@
-import { LooseClassValue } from '@wakeadmin/component-adapter';
+import { LooseClassValue } from '@wakeadmin/element-adapter';
 
 export function normalizeClassName(...list: LooseClassValue[]) {
   let className = '';

@@ -1,5 +1,5 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { Button, ButtonProps, ClassValue, StyleValue } from '@wakeadmin/component-adapter';
+import { Button, ButtonProps, ClassValue, StyleValue } from '@wakeadmin/element-adapter';
 import { getCurrentInstance, Ref, ref } from '@wakeadmin/demi';
 
 import { FatFormProps, FatFormMethods, FatForm, FatFormSlots } from '../fat-form';

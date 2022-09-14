@@ -1,4 +1,4 @@
-import { DatePicker, DatePickerProps, model } from '@wakeadmin/component-adapter';
+import { DatePicker, DatePickerProps, model } from '@wakeadmin/element-adapter';
 import { unref } from '@wakeadmin/demi';
 import { formatDate } from '@wakeadmin/utils';
 

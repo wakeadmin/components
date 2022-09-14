@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/components",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "wakeadmin 组件库",
   "module": "./dist/index.js",
   "main": "./dist/common/index.js",
@@ -42,7 +42,7 @@
     }
   },
   "dependencies": {
-    "@wakeadmin/component-adapter": "workspace:^1.0.0",
+    "@wakeadmin/element-adapter": "workspace:^0.2.0",
     "@wakeadmin/demi": "latest",
     "@wakeadmin/h": "latest",
     "@wakeadmin/icons": "latest",
