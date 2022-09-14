@@ -300,7 +300,7 @@ export interface FatTableColumnActions<T extends {}, S extends {}> {
   /**
    * 操作
    */
-  actions?: FatTableAction<T, S>[];
+  actions?: FatTableAction<T, S>[] | ((table: FatTableMethods<T, S>, row: T, index: number) => FatTableAction<T, S>[]);
 
   /**
    * 最多显示多少个操作，默认 3

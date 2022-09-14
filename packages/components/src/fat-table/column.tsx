@@ -76,9 +76,14 @@ export const Column = declareComponent({
         // 操作
         children = {
           default: (scope: { row: any; $index: number }) => {
+            const actions =
+              (typeof column.actions === 'function'
+                ? column.actions(tableInstance, scope.row, scope.$index)
+                : column.actions) ?? NoopArray;
+
             return (
               <FatActions
-                options={(column.actions ?? NoopArray).map(action => {
+                options={actions.map(action => {
                   return {
                     ...action,
                     disabled:
