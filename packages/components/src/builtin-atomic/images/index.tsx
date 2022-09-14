@@ -13,6 +13,7 @@ import { computed } from '@wakeadmin/demi';
 import { isPromise, NoopArray } from '@wakeadmin/utils';
 import { Plus } from '@wakeadmin/icons';
 
+import { FatIcon } from '../../fat-icon';
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { normalizeClassName, normalizeStyle } from '../../utils';
 import { useFatConfigurable } from '../../fat-configurable';
@@ -234,9 +235,9 @@ export const AImagesComponent = defineAtomicComponent(
           onRemove={handleChange}
           onChange={handleChange}
         >
-          <div class="fat-a-images__add">
+          <FatIcon class="fat-a-images__add" color="gray" size="2em">
             <Plus />
-          </div>
+          </FatIcon>
         </Upload>
       );
     };

@@ -5,6 +5,7 @@ export * from './fat-layout';
 export * from './fat-form-layout';
 export * from './fat-configurable';
 export * from './fat-actions';
+export * from './fat-icon';
 
 export * from './atomic';
 export { plugin } from './plugin';

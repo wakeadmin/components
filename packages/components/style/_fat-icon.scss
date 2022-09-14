@@ -1,0 +1,40 @@
+@keyframes fat-rotating {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.fat-icon {
+  --color: inherit;
+
+  height: 1em;
+  width: 1em;
+  line-height: 1em;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  fill: currentColor;
+  color: var(--color);
+  font-size: inherit;
+
+  &--loading {
+    animation: fat-rotating 2s linear infinite;
+  }
+
+  &--right {
+    margin-left: 5px;
+  }
+
+  &--left {
+    margin-right: 5px;
+  }
+
+  svg {
+    height: 1em;
+    width: 1em;
+  }
+}

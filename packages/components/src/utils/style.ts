@@ -5,6 +5,25 @@ const propertyDelimiterRE = /:(.+)/;
 export type NormalizedStyle = Record<string, string | number>;
 
 /**
+ * 添加单位
+ * 数字类型默认添加 px，否则 DOM 不能正常识别
+ * @param value
+ * @param defaultUnit
+ * @returns
+ */
+export function addUnit(value?: string | number, defaultUnit = 'px'): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  if (typeof value === 'number') {
+    return `${value}${defaultUnit}`;
+  }
+
+  return value;
+}
+
+/**
  * 转换字符串类型的 style 为对象
  * @param cssText
  * @returns
