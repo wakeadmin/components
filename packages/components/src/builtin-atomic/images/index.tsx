@@ -1,5 +1,5 @@
 /**
- * 图片上传
+ * 多图片上传
  */
 import {
   FileListItem,

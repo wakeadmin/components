@@ -16,3 +16,4 @@ export * from './time';
 export * from './time-range';
 export * from './checkboxs';
 export * from './images';
+export * from './image';

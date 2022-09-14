@@ -93,6 +93,11 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
   author?: string;
 
   /**
+   * 是否为 只预览模式
+   */
+  previewOnly?: boolean;
+
+  /**
    * 组件实现, 就是一个渲染函数
    */
   component: (props: P) => any;

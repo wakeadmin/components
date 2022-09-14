@@ -89,6 +89,7 @@
         :value-props="{ limit: 3 }"
         message="限制 3 张"
       ></FatFormItem>
+      <FatFormItem prop="image" label="image" value-type="image" message="单图片"></FatFormItem>
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>
