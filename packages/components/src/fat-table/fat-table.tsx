@@ -11,7 +11,7 @@ import {
   MessageBox,
   MessageOptions,
 } from '@wakeadmin/component-adapter';
-import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set } from '@wakeadmin/demi';
+import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, computed } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
@@ -640,6 +640,12 @@ const FatTableInner = declareComponent({
 
     expose(tableInstance);
 
+    const renderTitle = computed(() =>
+      hasSlots(props, slots, 'title') || props.title
+        ? () => (hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', tableInstance) : props.title)
+        : undefined
+    );
+
     return () => {
       const layout = props.layout ?? configurable.fatTable?.layout ?? 'default';
       const layoutImpl: FatTableLayout = typeof layout === 'function' ? layout : BUILTIN_LAYOUTS[layout];
@@ -661,8 +667,7 @@ const FatTableInner = declareComponent({
           style: attrs.style,
         },
         layoutProps: props.layoutProps,
-        renderTitle: () =>
-          hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', tableInstance) : props.title,
+        renderTitle: renderTitle.value,
         renderNavBar: () => renderSlot(props, slots, 'navBar', tableInstance),
         renderQuery: props.enableQuery
           ? () => [
