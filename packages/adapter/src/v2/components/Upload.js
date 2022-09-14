@@ -29,6 +29,6 @@ export const Upload = {
       bindEmit(evt, clone, context.listeners);
     }
 
-    return h(ElUpload, Object.assign({}, context.data, { props: clone, 'v-slots': context.slots() }));
+    return h(ElUpload, Object.assign({}, context.data, { attrs: undefined, props: clone, 'v-slots': context.slots() }));
   },
 };

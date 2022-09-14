@@ -82,6 +82,13 @@
         :value-props="{ sizeLimit: 1024 * 100 }"
         message="请上传文件，大小不超过 100kb"
       ></FatFormItem>
+      <FatFormItem
+        prop="imagesLimited"
+        label="images-limited"
+        value-type="images"
+        :value-props="{ limit: 3 }"
+        message="限制 3 张"
+      ></FatFormItem>
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>

@@ -14,13 +14,15 @@ import { isPromise, NoopArray } from '@wakeadmin/utils';
 import { Plus } from '@wakeadmin/icons';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { normalizeClassName } from '../../utils';
+import { normalizeClassName, normalizeStyle } from '../../utils';
+import { useFatConfigurable } from '../../fat-configurable';
 
 /**
  * 值由用户自定定义，默认为 string 类型
  */
 export type AImagesValue = any[];
 
+// TODO: vue3 测试
 export type AImagesProps = DefineAtomicProps<
   AImagesValue,
   Omit<UploadProps, 'fileList' | 'onChange' | 'onRemove'>,
@@ -39,6 +41,11 @@ export type AImagesProps = DefineAtomicProps<
      * 文件过滤。并不是所有上传接口都按照严格的 HTTP code 返回，因此这里可以做一些改写(直接修改 item)和过滤
      */
     filter?: (item: UploadInternalFileDetail) => void | boolean | Promise<boolean | void>;
+
+    /**
+     * 图片尺寸, 默认 86px
+     */
+    size?: number | string;
 
     /**
      * 大小限制
@@ -70,6 +77,8 @@ class BreakError extends Error {}
 
 export const AImagesComponent = defineAtomicComponent(
   (props: AImagesProps) => {
+    const configurable = useFatConfigurable();
+
     // 缓存 uid 修复动画问题
     const uidCache: Map<any, string | number> = new Map();
 
@@ -87,6 +96,17 @@ export const AImagesComponent = defineAtomicComponent(
             return result;
           });
     });
+
+    const exceeded = computed(() => {
+      if (props.limit != null) {
+        return fileList.value.length >= props.limit;
+      }
+      return false;
+    });
+
+    const rootStyle = computed(() => ({
+      '--fat-a-images-size': props.size ?? '86px',
+    }));
 
     const beforeUpload = async (file: UploadInternalRawFile) => {
       try {
@@ -167,6 +187,7 @@ export const AImagesComponent = defineAtomicComponent(
         onChange,
         transformToFileList,
         transformToValue,
+        size,
         sizeLimit,
         filter,
         renderPreview,
@@ -179,16 +200,21 @@ export const AImagesComponent = defineAtomicComponent(
           return renderPreview(fileList.value);
         } else {
           return (
-            <div class={normalizeClassName('fat-a-images', 'fat-a-images--preview', other.class)}>
-              {fileList.value.map((i, idx) => {
-                return (
-                  <div
-                    class="fat-a-images__p-item"
-                    key={`${i.name}_${idx}`}
-                    style={{ backgroundImage: `url(${i.url})` }}
-                  ></div>
-                );
-              })}
+            <div
+              class={normalizeClassName('fat-a-images', 'fat-a-images--preview', other.class)}
+              style={normalizeStyle(rootStyle.value, other.style)}
+            >
+              {fileList.value.length === 0
+                ? configurable.undefinedPlaceholder
+                : fileList.value.map((i, idx) => {
+                    return (
+                      <div
+                        class="fat-a-images__p-item"
+                        key={`${i.name}_${idx}`}
+                        style={{ backgroundImage: `url(${i.url})` }}
+                      ></div>
+                    );
+                  })}
             </div>
           );
         }
@@ -201,7 +227,8 @@ export const AImagesComponent = defineAtomicComponent(
           multiple
           accept="image/*"
           {...other}
-          class={normalizeClassName('fat-a-images', other.class)}
+          class={normalizeClassName('fat-a-images', { 'fat-a-images--exceeded': exceeded.value }, other.class)}
+          style={normalizeStyle(rootStyle.value, other.style)}
           fileList={fileList.value}
           beforeUpload={beforeUpload}
           onRemove={handleChange}
