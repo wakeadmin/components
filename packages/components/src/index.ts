@@ -7,4 +7,4 @@ export * from './fat-configurable';
 export * from './fat-actions';
 
 export * from './atomic';
-export * from './plugin';
+export { plugin } from './plugin';

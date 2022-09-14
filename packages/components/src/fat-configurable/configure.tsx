@@ -1,6 +1,7 @@
 import { InjectionKey, inject, provide, computed, unref, watch, reactive } from '@wakeadmin/demi';
 import { declareComponent, declareProps, MaybeRef } from '@wakeadmin/h';
 import { cloneDeep, merge } from '@wakeadmin/utils';
+import { assertPluginInstalled } from '../plugin';
 
 import { DEFAULT_CONFIGURABLE } from './default';
 import { FatConfigurable } from './types';
@@ -12,6 +13,11 @@ const FatConfigureInjectKey = Symbol('fat-configure') as InjectionKey<FatConfigu
  * @returns
  */
 export function useFatConfigurable() {
+  // 检查插件是否安装
+  if (process.env.NODE_ENV !== 'production') {
+    assertPluginInstalled();
+  }
+
   return inject(FatConfigureInjectKey, DEFAULT_CONFIGURABLE);
 }
 
