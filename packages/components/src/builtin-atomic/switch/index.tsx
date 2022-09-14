@@ -1,8 +1,6 @@
 import { SwitchProps, Switch, model } from '@wakeadmin/component-adapter';
-import { unref } from '@wakeadmin/demi';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps, globalRegistry } from '../../atomic';
-import { useFatConfigurable } from '../../fat-configurable';
 
 export type ASwitchProps = DefineAtomicProps<
   string | number | boolean,
@@ -27,25 +25,25 @@ declare global {
 }
 
 // TODO：支持内联文本
-export const ASwitchComponent = defineAtomicComponent((props: ASwitchProps) => {
-  const configurable = useFatConfigurable();
+export const ASwitchComponent = defineAtomicComponent(
+  (props: ASwitchProps) => {
+    return () => {
+      const { value, mode, onChange, context, scene, renderPreview, ...other } = props;
 
-  return () => {
-    const { value, mode, onChange, context, scene, renderPreview, ...other } = props;
-    const passthrough = { ...unref(configurable).aSwitchProps, ...other };
+      const activeValue = other.activeValue ?? true;
+      const active = value === activeValue;
+      const activeText = other.previewActiveText ?? other.activeText ?? '开启';
+      const inactiveText = other.previewInactiveText ?? other.inactiveText ?? '关闭';
 
-    const activeValue = passthrough.activeValue ?? true;
-    const active = value === activeValue;
-    const activeText = passthrough.previewActiveText ?? passthrough.activeText ?? '开启';
-    const inactiveText = passthrough.previewInactiveText ?? passthrough.inactiveText ?? '关闭';
+      if (mode === 'preview') {
+        return renderPreview ? renderPreview(active) : <span>{active ? activeText : inactiveText}</span>;
+      }
 
-    if (mode === 'preview') {
-      return renderPreview ? renderPreview(active) : <span>{active ? activeText : inactiveText}</span>;
-    }
-
-    return <Switch {...passthrough} {...model(value, onChange!)} />;
-  };
-});
+      return <Switch {...other} {...model(value, onChange!)} />;
+    };
+  },
+  { name: 'ASwitch', globalConfigKey: 'aSwitchProps' }
+);
 
 export const ASwitch = defineAtomic({
   name: 'switch',

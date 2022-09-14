@@ -21,6 +21,7 @@ import {
   ATimeProps,
   ATimeRangeProps,
   ACheckboxsProps,
+  AImagesProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -151,6 +152,11 @@ export interface FatConfigurable {
    * progress 默认配置
    */
   aProgressProps?: OmitAtomicCommonProps<AProgressProps>;
+
+  /**
+   * images 默认配置
+   */
+  aImagesProps?: OmitAtomicCommonProps<AImagesProps>;
 
   /**
    * 表格全局配置

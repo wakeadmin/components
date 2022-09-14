@@ -21,47 +21,49 @@ export type ATimeRangeProps = DefineAtomicProps<
   }
 >;
 
-export const ATimeRangeComponent = defineAtomicComponent((props: ATimeRangeProps) => {
-  const configurable = useFatConfigurable();
+export const ATimeRangeComponent = defineAtomicComponent(
+  (props: ATimeRangeProps) => {
+    const configurable = useFatConfigurable();
 
-  const preview = (value: any, format: string, rangeSeparator: string) => {
-    if (props.renderPreview) {
-      return props.renderPreview(value);
-    }
+    const preview = (value: any, format: string, rangeSeparator: string) => {
+      if (props.renderPreview) {
+        return props.renderPreview(value);
+      }
 
-    if (value == null) {
-      return configurable.undefinedPlaceholder;
-    }
-
-    const f = (v: any) => {
-      if (v == null) {
+      if (value == null) {
         return configurable.undefinedPlaceholder;
       }
 
-      return formatDate(v, format);
+      const f = (v: any) => {
+        if (v == null) {
+          return configurable.undefinedPlaceholder;
+        }
+
+        return formatDate(v, format);
+      };
+
+      if (Array.isArray(value)) {
+        return `${f(value[0])} ${rangeSeparator} ${f(value[1])}`;
+      } else {
+        return f(value);
+      }
     };
 
-    if (Array.isArray(value)) {
-      return `${f(value[0])} ${rangeSeparator} ${f(value[1])}`;
-    } else {
-      return f(value);
-    }
-  };
+    return () => {
+      let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
 
-  return () => {
-    let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
-    const passthrough = { ...configurable.aTimeRangeProps, ...other };
+      previewFormat ??= other.format ?? configurable.timeFormat ?? 'HH:mm';
+      const rangeSeparator = other.rangeSeparator ?? '-';
 
-    previewFormat ??= passthrough.format ?? configurable.timeFormat ?? 'HH:mm';
-    const rangeSeparator = passthrough.rangeSeparator ?? '-';
-
-    return mode === 'preview' ? (
-      <span>{preview(value, previewFormat, rangeSeparator)}</span>
-    ) : (
-      <TimePicker isRange {...passthrough} {...model(value, onChange!)} />
-    );
-  };
-});
+      return mode === 'preview' ? (
+        <span>{preview(value, previewFormat, rangeSeparator)}</span>
+      ) : (
+        <TimePicker isRange {...other} {...model(value, onChange!)} />
+      );
+    };
+  },
+  { name: 'ATimeRange', globalConfigKey: 'aTimeRangeProps' }
+);
 
 declare global {
   interface AtomicProps {

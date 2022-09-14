@@ -1,4 +1,4 @@
-export type MessageType = 'success' | 'warning' | 'info' | 'error';
+import { MessageType } from './message-box';
 
 /** Message Component */
 export declare class MessageMethods {

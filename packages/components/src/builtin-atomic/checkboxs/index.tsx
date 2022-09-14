@@ -3,7 +3,6 @@ import { computed } from '@wakeadmin/demi';
 import { NoopArray, booleanPredicate } from '@wakeadmin/utils';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { useFatConfigurable } from '../../fat-configurable';
 
 export type ACheckboxsValue = any[];
 
@@ -37,54 +36,55 @@ declare global {
   }
 }
 
-export const ACheckboxsComponent = defineAtomicComponent((props: ACheckboxsProps) => {
-  const configurable = useFatConfigurable();
-  const checkedOptions = computed(() => {
-    const values = props.value ?? NoopArray;
-    const options = props.options ?? NoopArray;
+export const ACheckboxsComponent = defineAtomicComponent(
+  (props: ACheckboxsProps) => {
+    const checkedOptions = computed(() => {
+      const values = props.value ?? NoopArray;
+      const options = props.options ?? NoopArray;
 
-    return values
-      .map(i => {
-        return options.find(j => j.value === i);
-      })
-      .filter(booleanPredicate);
-  });
+      return values
+        .map(i => {
+          return options.find(j => j.value === i);
+        })
+        .filter(booleanPredicate);
+    });
 
-  return () => {
-    const {
-      mode,
-      scene,
-      context,
-      value,
-      onChange,
-      renderPreview,
-      options = NoopArray,
-      separator = ', ',
-      ...other
-    } = props;
-    const passthrough = { ...configurable.aCheckboxsProps, ...other };
+    return () => {
+      const {
+        mode,
+        scene,
+        context,
+        value,
+        onChange,
+        renderPreview,
+        options = NoopArray,
+        separator = ', ',
+        ...other
+      } = props;
 
-    if (mode === 'preview') {
-      return renderPreview ? (
-        renderPreview(checkedOptions.value)
-      ) : (
-        <span>{checkedOptions.value.map(i => i.label).join(separator)}</span>
+      if (mode === 'preview') {
+        return renderPreview ? (
+          renderPreview(checkedOptions.value)
+        ) : (
+          <span>{checkedOptions.value.map(i => i.label).join(separator)}</span>
+        );
+      }
+
+      return (
+        <CheckboxGroup {...other} {...model(value ?? NoopArray, onChange!)}>
+          {options.map((i, idx) => {
+            return (
+              <Checkbox key={`${i.label}_${idx}`} label={i.value} disabled={i.disabled}>
+                {i.label}
+              </Checkbox>
+            );
+          })}
+        </CheckboxGroup>
       );
-    }
-
-    return (
-      <CheckboxGroup {...passthrough} {...model(value ?? NoopArray, onChange!)}>
-        {options.map((i, idx) => {
-          return (
-            <Checkbox key={`${i.label}_${idx}`} label={i.value} disabled={i.disabled}>
-              {i.label}
-            </Checkbox>
-          );
-        })}
-      </CheckboxGroup>
-    );
-  };
-});
+    };
+  },
+  { name: 'ACheckboxs', globalConfigKey: 'aCheckboxsProps' }
+);
 
 export const ACheckboxs = defineAtomic({
   name: 'checkboxs',

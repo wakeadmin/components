@@ -1,7 +1,6 @@
 import { Checkbox, CheckboxProps, model } from '@wakeadmin/component-adapter';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { useFatConfigurable } from '../../fat-configurable';
 
 export type ACheckboxProps = DefineAtomicProps<
   boolean,
@@ -32,36 +31,36 @@ declare global {
   }
 }
 
-export const ACheckboxComponent = defineAtomicComponent((props: ACheckboxProps) => {
-  const configurable = useFatConfigurable();
+export const ACheckboxComponent = defineAtomicComponent(
+  (props: ACheckboxProps) => {
+    return () => {
+      const { mode, scene, context, value, onChange, renderPreview, renderLabel, label, ...other } = props;
+      const checked = !!value;
 
-  return () => {
-    const { mode, scene, context, value, onChange, renderPreview, renderLabel, label, ...other } = props;
-    const passthrough = { ...configurable.aCheckboxProps, ...other };
-    const checked = !!value;
+      const labelContent = renderLabel ? renderLabel(checked) : label;
+      if (mode === 'preview') {
+        const checkedText = other.previewActiveText ?? '开启';
+        const uncheckedText = other.previewInactiveText ?? '关闭';
 
-    const labelContent = renderLabel ? renderLabel(checked) : label;
-    if (mode === 'preview') {
-      const checkedText = passthrough.previewActiveText ?? '开启';
-      const uncheckedText = passthrough.previewInactiveText ?? '关闭';
+        return renderPreview ? (
+          renderPreview(checked, labelContent)
+        ) : (
+          <span>
+            {checked ? checkedText : uncheckedText}
+            {labelContent}
+          </span>
+        );
+      }
 
-      return renderPreview ? (
-        renderPreview(checked, labelContent)
-      ) : (
-        <span>
-          {checked ? checkedText : uncheckedText}
+      return (
+        <Checkbox {...other} {...model(value, onChange!)}>
           {labelContent}
-        </span>
+        </Checkbox>
       );
-    }
-
-    return (
-      <Checkbox {...passthrough} {...model(value, onChange!)}>
-        {labelContent}
-      </Checkbox>
-    );
-  };
-});
+    };
+  },
+  { name: 'ACheckbox', globalConfigKey: 'aCheckboxProps' }
+);
 
 export const ACheckbox = defineAtomic({
   name: 'checkbox',

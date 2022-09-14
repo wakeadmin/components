@@ -75,6 +75,13 @@
         :value-props="{ vertical: true }"
       ></FatFormItem>
       <FatFormItem prop="progress" label="progress" value-type="progress" :initial-value="50"></FatFormItem>
+      <FatFormItem
+        prop="images"
+        label="images"
+        value-type="images"
+        :value-props="{ sizeLimit: 1024 * 100 }"
+        message="请上传文件，大小不超过 100kb"
+      ></FatFormItem>
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>

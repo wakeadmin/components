@@ -29,7 +29,7 @@ export function provideFatConfigurable(config: MaybeRef<FatConfigurable>) {
         merge(value, nextValue);
       }
     },
-    { deep: true }
+    { deep: true, immediate: true }
   );
 
   provide(FatConfigureInjectKey, value);

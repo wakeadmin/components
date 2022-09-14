@@ -2,6 +2,7 @@ import { declareComponent, declareProps, h } from '@wakeadmin/h';
 import { shallowReactive, watch, set as $set } from '@wakeadmin/demi';
 
 import { Atomic, AtomicCommonProps } from './types';
+import { FatConfigurable, useFatConfigurable } from '../fat-configurable';
 
 export function defineAtomic<P extends AtomicCommonProps<any>>(a: Atomic<any, P>): Atomic<any, P> {
   return a;
@@ -15,13 +16,44 @@ export function defineAtomic<P extends AtomicCommonProps<any>>(a: Atomic<any, P>
  */
 export function defineAtomicComponent<P extends AtomicCommonProps<any>>(
   setup: (props: P) => () => any,
-  name?: string
+  options: {
+    name: string;
+    globalConfigKey?: keyof FatConfigurable;
+  }
 ): (props: P) => any {
   const Component = declareComponent({
-    name,
+    name: options.name,
     props: declareProps<{ properties: any }>(['properties']),
     setup(props) {
       const properties = shallowReactive<Record<string, any>>({});
+      const globalProperties = useFatConfigurable();
+
+      // 全局参数合并
+      if (options.globalConfigKey) {
+        watch(
+          () => (globalProperties as Record<string, any>)[options.globalConfigKey!],
+          g => {
+            if (g == null || typeof g !== 'object') {
+              return;
+            }
+
+            for (const key in g) {
+              const value = g[key];
+              // 已在 props 中定义，跳过
+              if (key in props.properties) {
+                continue;
+              }
+
+              if (properties[key] === value) {
+                continue;
+              }
+
+              $set(properties, key, value);
+            }
+          },
+          { immediate: true }
+        );
+      }
 
       watch(
         () => props.properties,

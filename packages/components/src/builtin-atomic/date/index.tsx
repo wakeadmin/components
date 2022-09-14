@@ -21,33 +21,35 @@ export type ADateProps = DefineAtomicProps<
   }
 >;
 
-export const ADateComponent = defineAtomicComponent((props: ADateProps) => {
-  const configurable = useFatConfigurable();
-  const preview = (value: any, format: string) => {
-    if (props.renderPreview) {
-      return props.renderPreview(value);
-    }
+export const ADateComponent = defineAtomicComponent(
+  (props: ADateProps) => {
+    const configurable = useFatConfigurable();
+    const preview = (value: any, format: string) => {
+      if (props.renderPreview) {
+        return props.renderPreview(value);
+      }
 
-    if (value == null) {
-      return configurable.undefinedPlaceholder;
-    }
+      if (value == null) {
+        return configurable.undefinedPlaceholder;
+      }
 
-    return formatDate(value, format);
-  };
+      return formatDate(value, format);
+    };
 
-  return () => {
-    let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
-    const passthrough = { ...configurable.aDateProps, ...other };
+    return () => {
+      let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
 
-    previewFormat ??= passthrough.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
+      previewFormat ??= other.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
 
-    return mode === 'preview' ? (
-      <span>{preview(value, previewFormat)}</span>
-    ) : (
-      <DatePicker type="date" {...passthrough} {...model(value, onChange!)} />
-    );
-  };
-});
+      return mode === 'preview' ? (
+        <span>{preview(value, previewFormat)}</span>
+      ) : (
+        <DatePicker type="date" {...other} {...model(value, onChange!)} />
+      );
+    };
+  },
+  { name: 'ADate', globalConfigKey: 'aDateProps' }
+);
 
 declare global {
   interface AtomicProps {

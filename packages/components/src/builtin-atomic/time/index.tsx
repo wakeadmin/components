@@ -21,33 +21,35 @@ export type ATimeProps = DefineAtomicProps<
   }
 >;
 
-export const ATimeComponent = defineAtomicComponent((props: ATimeProps) => {
-  const configurable = useFatConfigurable();
-  const preview = (value: any, format: string) => {
-    if (props.renderPreview) {
-      return props.renderPreview(value);
-    }
+export const ATimeComponent = defineAtomicComponent(
+  (props: ATimeProps) => {
+    const configurable = useFatConfigurable();
+    const preview = (value: any, format: string) => {
+      if (props.renderPreview) {
+        return props.renderPreview(value);
+      }
 
-    if (value == null) {
-      return configurable.undefinedPlaceholder;
-    }
+      if (value == null) {
+        return configurable.undefinedPlaceholder;
+      }
 
-    return formatDate(value, format);
-  };
+      return formatDate(value, format);
+    };
 
-  return () => {
-    let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
-    const passthrough = { ...configurable.aTimeProps, ...other };
+    return () => {
+      let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
 
-    previewFormat ??= passthrough.format ?? configurable.timeFormat ?? 'HH:mm';
+      previewFormat ??= other.format ?? configurable.timeFormat ?? 'HH:mm';
 
-    return mode === 'preview' ? (
-      <span>{preview(value, previewFormat)}</span>
-    ) : (
-      <TimePicker {...passthrough} {...model(value, onChange!)} />
-    );
-  };
-});
+      return mode === 'preview' ? (
+        <span>{preview(value, previewFormat)}</span>
+      ) : (
+        <TimePicker {...other} {...model(value, onChange!)} />
+      );
+    };
+  },
+  { name: 'ATime', globalConfigKey: 'aTimeProps' }
+);
 
 declare global {
   interface AtomicProps {

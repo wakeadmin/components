@@ -32,38 +32,40 @@ declare global {
   }
 }
 
-export const ARadioComponent = defineAtomicComponent((props: ARadioProps) => {
-  const configurable = useFatConfigurable();
+export const ARadioComponent = defineAtomicComponent(
+  (props: ARadioProps) => {
+    const configurable = useFatConfigurable();
 
-  const active = computed(() => {
-    return (props.options ?? NoopArray).find(i => i.value === props.value);
-  });
+    const active = computed(() => {
+      return (props.options ?? NoopArray).find(i => i.value === props.value);
+    });
 
-  return () => {
-    const { mode, scene, context, value, onChange, renderPreview, options, ...other } = props;
-    const passthrough = { ...unref(configurable).aRadioProps, ...other };
+    return () => {
+      const { mode, scene, context, value, onChange, renderPreview, options, ...other } = props;
 
-    if (mode === 'preview') {
-      return renderPreview ? (
-        renderPreview(active.value)
-      ) : (
-        <span>{active.value ? active.value.label : unref(configurable).undefinedPlaceholder}</span>
+      if (mode === 'preview') {
+        return renderPreview ? (
+          renderPreview(active.value)
+        ) : (
+          <span>{active.value ? active.value.label : unref(configurable).undefinedPlaceholder}</span>
+        );
+      }
+
+      return (
+        <RadioGroup {...other} {...model(value, onChange!)}>
+          {(options ?? NoopArray).map((i, idx) => {
+            return (
+              <Radio label={i.value} disabled={i.disabled} key={i.value ?? idx}>
+                {i.label}
+              </Radio>
+            );
+          })}
+        </RadioGroup>
       );
-    }
-
-    return (
-      <RadioGroup {...passthrough} {...model(value, onChange!)}>
-        {(options ?? NoopArray).map((i, idx) => {
-          return (
-            <Radio label={i.value} disabled={i.disabled} key={i.value ?? idx}>
-              {i.label}
-            </Radio>
-          );
-        })}
-      </RadioGroup>
-    );
-  };
-});
+    };
+  },
+  { name: 'ARadio', globalConfigKey: 'aRadioProps' }
+);
 
 export const ARadio = defineAtomic({
   name: 'radio',

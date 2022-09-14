@@ -1,8 +1,6 @@
 import { InputProps, Input, model } from '@wakeadmin/component-adapter';
-import { unref } from '@wakeadmin/demi';
 
 import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { useFatConfigurable } from '../../fat-configurable';
 
 export type ATextProps = DefineAtomicProps<
   string,
@@ -21,32 +19,34 @@ declare global {
   }
 }
 
-export const ATextComponent = defineAtomicComponent((props: ATextProps) => {
-  const configurable = useFatConfigurable();
+export const ATextComponent = defineAtomicComponent(
+  (props: ATextProps) => {
+    return () => {
+      const { value, mode, onChange, renderPreview, scene, context, ...other } = props;
+      return mode === 'preview' ? (
+        <span class={other.class} style={other.style}>
+          {renderPreview ? renderPreview(value) : value ? String(value) : ''}
+        </span>
+      ) : (
+        <Input {...other} {...model(value, onChange!)} />
+      );
+    };
+  },
+  { name: 'AText', globalConfigKey: 'aTextProps' }
+);
 
-  return () => {
-    const { value, mode, onChange, renderPreview, scene, context, ...other } = props;
-    return mode === 'preview' ? (
-      <span class={other.class} style={other.style}>
-        {renderPreview ? renderPreview(value) : value ? String(value) : ''}
-      </span>
-    ) : (
-      <Input {...unref(configurable).aTextProps} {...other} {...model(value, onChange!)} />
-    );
-  };
-}, 'AText');
-
-export const APasswordComponent = defineAtomicComponent((props: APasswordProps) => {
-  const configurable = useFatConfigurable();
-  return () => {
-    return ATextComponent({
-      renderPreview: value => <span>* * * * *</span>,
-      showPassword: true,
-      ...unref(configurable).aPasswordProps,
-      ...props,
-    });
-  };
-});
+export const APasswordComponent = defineAtomicComponent(
+  (props: APasswordProps) => {
+    return () => {
+      return ATextComponent({
+        renderPreview: value => <span>* * * * *</span>,
+        showPassword: true,
+        ...props,
+      });
+    };
+  },
+  { name: 'APassword', globalConfigKey: 'aPasswordProps' }
+);
 
 export const AText = defineAtomic({
   name: 'text',

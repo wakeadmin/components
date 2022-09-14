@@ -37,6 +37,7 @@
     "@wakeadmin/docker-build": "^0.1.8",
     "@wakeadmin/vue-cli-plugin-i18n": "^0.1.0",
     "babel-preset-wakeadmin": "latest",
+    "multer": "1.4.5-lts.1",
     "sass": "^1.54.5",
     "sass-loader": "^12.6.0"
   }

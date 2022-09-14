@@ -14,3 +14,4 @@ env.*.local.json
 *.log
 .pnpm-store/
 .temp
+.upload-demo

@@ -1,14 +1,14 @@
-interface Option {
+interface RateOption {
   value: string;
   excluded?: boolean;
 }
 
-interface Options {
-  [threshold: number]: string | Option;
+interface RateOptions {
+  [threshold: number]: string | RateOption;
 }
 
-export type RateColors = Options;
-export type RateIconClasses = Options;
+export type RateColors = RateOptions;
+export type RateIconClasses = RateOptions;
 
 /** Rate Component */
 export interface RateProps {

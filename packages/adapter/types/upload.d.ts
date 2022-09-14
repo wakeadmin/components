@@ -4,6 +4,7 @@ export type FileUploadStatus = 'ready' | 'uploading' | 'success' | 'fail';
 export interface FileListItem {
   name: string;
   url: string;
+  uid?: string | number;
   status?: FileUploadStatus;
 }
 
@@ -19,6 +20,11 @@ export interface UploadInternalFileDetail {
   uid: number;
   raw: UploadInternalRawFile;
   url?: string;
+
+  /**
+   * 服务端响应
+   */
+  response?: any;
 }
 
 export interface UploadProgressEvent extends ProgressEvent {
@@ -83,7 +89,7 @@ export interface UploadProps extends UploadEvents {
   /**
    * Request URL (required)
    */
-  action: string;
+  action?: string;
 
   /** Request headers */
   headers?: Record<string, string>;
@@ -136,10 +142,12 @@ export interface UploadProps extends UploadEvents {
   limit?: number;
 
   /** Hook function before uploading with the file to be uploaded as its parameter. If false or a Promise is returned, uploading will be aborted */
-  beforeUpload?: (file: UploadInternalRawFile) => boolean | Promise<File | Blob | boolean>;
+  beforeUpload?: (file: UploadInternalRawFile) => boolean | Promise<File | Blob | boolean | void>;
 
   beforeRemove?: (
     file: UploadInternalFileDetail,
     fileList: UploadInternalFileDetail[]
   ) => boolean | Promise<File | Blob | boolean>;
 }
+
+export const Upload: (props: UploadProps) => any;

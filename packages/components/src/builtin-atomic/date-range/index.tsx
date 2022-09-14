@@ -23,44 +23,46 @@ export type ADateRangeProps = DefineAtomicProps<
   }
 >;
 
-export const ADateRangeComponent = defineAtomicComponent((props: ADateRangeProps) => {
-  const configurable = useFatConfigurable();
-  const preview = (value: any, format: string, rangeSeparator: string) => {
-    const f = (v: any) => {
-      if (v == null) {
-        return configurable.undefinedPlaceholder;
+export const ADateRangeComponent = defineAtomicComponent(
+  (props: ADateRangeProps) => {
+    const configurable = useFatConfigurable();
+    const preview = (value: any, format: string, rangeSeparator: string) => {
+      const f = (v: any) => {
+        if (v == null) {
+          return configurable.undefinedPlaceholder;
+        }
+
+        return formatDate(v, format);
+      };
+
+      if (props.renderPreview) {
+        return props.renderPreview(value);
       }
 
-      return formatDate(v, format);
+      if (Array.isArray(value)) {
+        return `${f(value[0])} ${rangeSeparator} ${f(value[1])}`;
+      } else if (value) {
+        return f(value);
+      }
+
+      return unref(configurable).undefinedPlaceholder;
     };
 
-    if (props.renderPreview) {
-      return props.renderPreview(value);
-    }
+    return () => {
+      let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
 
-    if (Array.isArray(value)) {
-      return `${f(value[0])} ${rangeSeparator} ${f(value[1])}`;
-    } else if (value) {
-      return f(value);
-    }
+      previewFormat ??= other.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
+      const rangeSeparator = other.rangeSeparator ?? '-';
 
-    return unref(configurable).undefinedPlaceholder;
-  };
-
-  return () => {
-    let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
-    const passthrough = { ...configurable.aDateRangeProps, ...other };
-
-    previewFormat ??= passthrough.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
-    const rangeSeparator = passthrough.rangeSeparator ?? '-';
-
-    return mode === 'preview' ? (
-      <span>{preview(value, previewFormat, rangeSeparator)}</span>
-    ) : (
-      <DatePicker type="daterange" {...passthrough} {...model(value, onChange!)} />
-    );
-  };
-});
+      return mode === 'preview' ? (
+        <span>{preview(value, previewFormat, rangeSeparator)}</span>
+      ) : (
+        <DatePicker type="daterange" {...other} {...model(value, onChange!)} />
+      );
+    };
+  },
+  { name: 'ADateRange', globalConfigKey: 'aDateRangeProps' }
+);
 
 declare global {
   interface AtomicProps {

@@ -1,5 +1,5 @@
 import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/component-adapter';
-import { computed, unref } from '@wakeadmin/demi';
+import { computed } from '@wakeadmin/demi';
 import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
@@ -25,46 +25,42 @@ export type AMultiSelectProps = DefineAtomicProps<
   }
 >;
 
-export const AMultiSelectComponent = defineAtomicComponent((props: AMultiSelectProps) => {
-  const { loading, options } = useOptions(props);
-  const configurableRef = useFatConfigurable();
+export const AMultiSelectComponent = defineAtomicComponent(
+  (props: AMultiSelectProps) => {
+    const { loading, options } = useOptions(props);
+    const configurable = useFatConfigurable();
 
-  const active = computed(() => {
-    const value = props.value ?? NoopArray;
-    return value.map(i => options.value.find(j => j.value === i)).filter(booleanPredicate);
-  });
+    const active = computed(() => {
+      const value = props.value ?? NoopArray;
+      return value.map(i => options.value.find(j => j.value === i)).filter(booleanPredicate);
+    });
 
-  return () => {
-    const { mode, value, onChange, context, scene, options: _, ...other } = props;
-    const configurable = unref(configurableRef);
+    return () => {
+      const { mode, value, onChange, context, scene, options: _, ...other } = props;
 
-    if (mode === 'preview') {
+      if (mode === 'preview') {
+        return (
+          <span>
+            {props.renderPreview
+              ? props.renderPreview(active.value)
+              : active.value.length
+              ? active.value.map(i => i.label).join(props.separator ?? ', ')
+              : configurable.undefinedPlaceholder}
+          </span>
+        );
+      }
+
       return (
-        <span>
-          {props.renderPreview
-            ? props.renderPreview(active.value)
-            : active.value.length
-            ? active.value.map(i => i.label).join(props.separator ?? ', ')
-            : configurable.undefinedPlaceholder}
-        </span>
+        <Select loading={loading.value} multiple {...other} {...model(value, onChange!)}>
+          {options.value.map((i, idx) => {
+            return <Option key={i.value ?? idx} {...i}></Option>;
+          })}
+        </Select>
       );
-    }
-
-    return (
-      <Select
-        loading={loading.value}
-        multiple
-        {...configurable.aMultiSelectProps}
-        {...other}
-        {...model(value, onChange!)}
-      >
-        {options.value.map((i, idx) => {
-          return <Option key={i.value ?? idx} {...i}></Option>;
-        })}
-      </Select>
-    );
-  };
-}, 'AMultiSelect');
+    };
+  },
+  { name: 'AMultiSelect', globalConfigKey: 'aMultiSelectProps' }
+);
 
 declare global {
   interface AtomicProps {

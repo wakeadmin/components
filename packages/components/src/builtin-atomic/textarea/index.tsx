@@ -1,7 +1,6 @@
 import { InputProps, Input, model } from '@wakeadmin/component-adapter';
 
 import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { useFatConfigurable } from '../../fat-configurable';
 import { normalizeClassName } from '../../utils';
 
 export type ATextareaProps = DefineAtomicProps<
@@ -18,20 +17,21 @@ declare global {
   }
 }
 
-export const ATextareaComponent = defineAtomicComponent((props: ATextareaProps) => {
-  const configurable = useFatConfigurable();
-
-  return () => {
-    const { value, mode, onChange, renderPreview, scene, context, ...other } = props;
-    return mode === 'preview' ? (
-      <p class={normalizeClassName('fat-a-textarea-preview', other.class)} style={other.style}>
-        {renderPreview ? renderPreview(value) : value ? String(value) : ''}
-      </p>
-    ) : (
-      <Input type="textarea" {...configurable.aTextareaProps} {...other} {...model(value, onChange!)} />
-    );
-  };
-}, 'ATextarea');
+export const ATextareaComponent = defineAtomicComponent(
+  (props: ATextareaProps) => {
+    return () => {
+      const { value, mode, onChange, renderPreview, scene, context, ...other } = props;
+      return mode === 'preview' ? (
+        <p class={normalizeClassName('fat-a-textarea-preview', other.class)} style={other.style}>
+          {renderPreview ? renderPreview(value) : value ? String(value) : ''}
+        </p>
+      ) : (
+        <Input type="textarea" {...other} {...model(value, onChange!)} />
+      );
+    };
+  },
+  { name: 'ATextarea', globalConfigKey: 'aTextareaProps' }
+);
 
 export const ATextarea = defineAtomic({
   name: 'textarea',

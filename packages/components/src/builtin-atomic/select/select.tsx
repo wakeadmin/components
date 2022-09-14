@@ -1,5 +1,5 @@
 import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/component-adapter';
-import { computed, unref } from '@wakeadmin/demi';
+import { computed } from '@wakeadmin/demi';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
@@ -14,35 +14,37 @@ export type ASelectProps = DefineAtomicProps<
   }
 >;
 
-export const ASelectComponent = defineAtomicComponent((props: ASelectProps) => {
-  const { loading, options } = useOptions(props);
-  const configurableRef = useFatConfigurable();
+export const ASelectComponent = defineAtomicComponent(
+  (props: ASelectProps) => {
+    const { loading, options } = useOptions(props);
+    const configurable = useFatConfigurable();
 
-  const active = computed(() => {
-    return options.value.find(i => i.value === props.value);
-  });
+    const active = computed(() => {
+      return options.value.find(i => i.value === props.value);
+    });
 
-  return () => {
-    const { mode, value, renderPreview, onChange, context, scene, options: _, ...other } = props;
-    const configurable = unref(configurableRef);
+    return () => {
+      const { mode, value, renderPreview, onChange, context, scene, options: _, ...other } = props;
 
-    if (mode === 'preview') {
-      if (renderPreview) {
-        return renderPreview(active.value);
+      if (mode === 'preview') {
+        if (renderPreview) {
+          return renderPreview(active.value);
+        }
+
+        return <span>{active.value?.label ?? configurable.undefinedPlaceholder}</span>;
       }
 
-      return <span>{active.value?.label ?? configurable.undefinedPlaceholder}</span>;
-    }
-
-    return (
-      <Select loading={loading.value} {...configurable.aSelectProps} {...other} {...model(value, onChange!)}>
-        {options.value.map((i, idx) => {
-          return <Option key={i.value ?? idx} {...i}></Option>;
-        })}
-      </Select>
-    );
-  };
-}, 'ASelect');
+      return (
+        <Select loading={loading.value} {...other} {...model(value, onChange!)}>
+          {options.value.map((i, idx) => {
+            return <Option key={i.value ?? idx} {...i}></Option>;
+          })}
+        </Select>
+      );
+    };
+  },
+  { name: 'ASelect', globalConfigKey: 'aSelectProps' }
+);
 
 declare global {
   interface AtomicProps {
