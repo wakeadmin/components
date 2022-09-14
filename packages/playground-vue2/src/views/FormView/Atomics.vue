@@ -20,8 +20,8 @@
         width="small"
         :value-props="{
           options: [
-            { label: '选项1', value: '1' },
-            { label: '选项2', value: '2' },
+            { label: '选项1', value: '1', color: 'primary' },
+            { label: '选项2', value: '2', color: 'success' },
           ],
         }"
       />

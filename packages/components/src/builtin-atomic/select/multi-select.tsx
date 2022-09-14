@@ -1,10 +1,12 @@
-import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/element-adapter';
+import { SelectProps, Select, Option, model } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
+
 import { useOptions } from './loader';
+import { ASelectOption } from './shared';
 
 export type AMultiSelectValue = (string | number | boolean)[];
 
@@ -12,7 +14,7 @@ export type AMultiSelectProps = DefineAtomicProps<
   AMultiSelectValue,
   SelectProps,
   {
-    options?: OptionProps[] | (() => Promise<OptionProps[]>);
+    options?: ASelectOption[] | (() => Promise<ASelectOption[]>);
     /**
      * 分隔符，默认', '
      */
@@ -21,7 +23,7 @@ export type AMultiSelectProps = DefineAtomicProps<
     /**
      * 自定义预览渲染
      */
-    renderPreview?: (options: OptionProps[]) => any;
+    renderPreview?: (options: ASelectOption[]) => any;
   }
 >;
 

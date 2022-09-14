@@ -1,11 +1,13 @@
-import { OptionProps, Message } from '@wakeadmin/element-adapter';
+import { Message } from '@wakeadmin/element-adapter';
 import { ref, watch } from '@wakeadmin/demi';
 
-export function useOptions(props: { options?: OptionProps[] | (() => Promise<OptionProps[]>) }) {
-  const loading = ref(false);
-  const options = ref<OptionProps[]>([]);
+import { ASelectOption } from './shared';
 
-  const load = async (loader: () => Promise<OptionProps[]>) => {
+export function useOptions(props: { options?: ASelectOption[] | (() => Promise<ASelectOption[]>) }) {
+  const loading = ref(false);
+  const options = ref<ASelectOption[]>([]);
+
+  const load = async (loader: () => Promise<ASelectOption[]>) => {
     const isGivenUp = () => loader !== props.options;
 
     try {

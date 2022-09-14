@@ -1,0 +1,19 @@
+.fat-a-select--color {
+  color: var(--fat-a-select-color);
+
+  &.fat-a-select--color-dot {
+    color: inherit;
+
+    &::before {
+      $size: 8px;
+      content: '';
+
+      display: inline-block;
+      width: $size;
+      height: $size;
+      border-radius: $size;
+      background-color: var(--fat-a-select-color);
+      margin-right: 5px;
+    }
+  }
+}

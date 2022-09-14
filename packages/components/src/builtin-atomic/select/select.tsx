@@ -1,16 +1,25 @@
-import { SelectProps, Select, Option, model, OptionProps } from '@wakeadmin/element-adapter';
+import { SelectProps, Select, Option, model } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 
 import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
+import { normalizeClassName, normalizeStyle } from '../../utils';
+
 import { useOptions } from './loader';
+import { ASelectOption, normalizeColor } from './shared';
 
 export type ASelectProps = DefineAtomicProps<
   string | number | boolean,
   SelectProps,
   {
-    options?: OptionProps[] | (() => Promise<OptionProps[]>);
-    renderPreview?: (active?: OptionProps) => any;
+    options?: ASelectOption[] | (() => Promise<ASelectOption[]>);
+
+    renderPreview?: (active?: ASelectOption) => any;
+
+    /**
+     * 选项颜色的渲染模式，默认为 text
+     */
+    colorMode?: 'text' | 'dot';
   }
 >;
 
@@ -24,14 +33,24 @@ export const ASelectComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, value, renderPreview, onChange, context, scene, options: _, ...other } = props;
+      const { mode, value, renderPreview, onChange, context, scene, options: _, colorMode = 'text', ...other } = props;
 
       if (mode === 'preview') {
         if (renderPreview) {
           return renderPreview(active.value);
         }
 
-        return <span>{active.value?.label ?? configurable.undefinedPlaceholder}</span>;
+        return (
+          <span
+            class={normalizeClassName(other.class, 'fat-a-select', 'fat-a-select--preview', {
+              'fat-a-select--color': active.value?.color,
+              'fat-a-select--color-dot': props.colorMode === 'dot',
+            })}
+            style={normalizeStyle(other.style, { '--fat-a-select-color': normalizeColor(active.value?.color) })}
+          >
+            {active.value?.label ?? configurable.undefinedPlaceholder}
+          </span>
+        );
       }
 
       return (
