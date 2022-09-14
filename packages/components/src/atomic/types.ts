@@ -71,7 +71,12 @@ export type OmitAtomicCommonProps<T extends {}> = OmitVModelProps<Omit<T, keyof 
  */
 export type DefineAtomicProps<Value, Props extends {}, Extra extends {} = {}> = AtomicCommonProps<Value> &
   OmitAtomicCommonProps<Props> &
-  Extra;
+  Extra & {
+    /**
+     * slots 透传
+     */
+    'v-slots'?: Record<string, any>;
+  };
 
 /**
  * 原子组件协议
