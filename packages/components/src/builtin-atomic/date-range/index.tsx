@@ -2,7 +2,7 @@ import { DatePicker, DatePickerProps, model } from '@wakeadmin/element-adapter';
 import { unref } from '@wakeadmin/demi';
 import { formatDate } from '@wakeadmin/utils';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
 export type ADateRangeValue = Date[] | string[];
@@ -76,5 +76,3 @@ export const ADateRange = defineAtomic({
   description: '日期范围',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('date-range', ADateRange);

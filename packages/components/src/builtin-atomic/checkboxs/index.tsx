@@ -2,7 +2,7 @@ import { Checkbox, CheckboxGroup, CheckboxGroupProps, model } from '@wakeadmin/e
 import { computed } from '@wakeadmin/demi';
 import { NoopArray, booleanPredicate } from '@wakeadmin/utils';
 
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 export type ACheckboxsValue = any[];
 
@@ -92,5 +92,3 @@ export const ACheckboxs = defineAtomic({
   description: '复选框',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('checkboxs', ACheckboxs);

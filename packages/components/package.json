@@ -10,8 +10,8 @@
     "dist"
   ],
   "sideEffects": [
-    "style/**/*",
-    "dist/**/builtin-atomic/*"
+    "**/*.scss",
+    "**/*.css"
   ],
   "scripts": {
     "start": "tsc -b tsconfig.build.json --watch",

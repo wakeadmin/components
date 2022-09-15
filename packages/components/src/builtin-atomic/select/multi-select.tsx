@@ -2,7 +2,7 @@ import { SelectProps, Select, Option, model } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
 
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
 import { useOptions } from './loader';
@@ -76,5 +76,3 @@ export const AMultiSelect = defineAtomic({
   description: '多选下拉选择器',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('multi-select', AMultiSelect);

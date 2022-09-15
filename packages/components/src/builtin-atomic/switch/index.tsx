@@ -1,6 +1,6 @@
 import { SwitchProps, Switch, model } from '@wakeadmin/element-adapter';
 
-import { defineAtomic, defineAtomicComponent, DefineAtomicProps, globalRegistry } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 export type ASwitchProps = DefineAtomicProps<
   string | number | boolean,
@@ -51,5 +51,3 @@ export const ASwitch = defineAtomic({
   description: '开关',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('switch', ASwitch);

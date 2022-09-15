@@ -1,7 +1,7 @@
 import { SelectProps, Select, Option, model } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { normalizeClassName, normalizeStyle } from '../../utils';
 
@@ -77,5 +77,3 @@ export const ASelect = defineAtomic({
   description: '下拉选择器',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('select', ASelect);

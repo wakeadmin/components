@@ -8,4 +8,7 @@ export * from './fat-actions';
 export * from './fat-icon';
 
 export * from './atomic';
+
+export * from './builtin-atomic';
+
 export { plugin } from './plugin';

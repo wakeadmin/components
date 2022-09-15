@@ -1,6 +1,6 @@
 import { Search } from '@wakeadmin/icons';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent } from '../../atomic';
+import { defineAtomic, defineAtomicComponent } from '../../atomic';
 import { FatIcon } from '../../fat-icon';
 
 import { ATextProps, ATextComponent } from './text';
@@ -46,5 +46,3 @@ export const ASearch = defineAtomic({
   description: '带搜索icon 的搜索框',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('search', ASearch);

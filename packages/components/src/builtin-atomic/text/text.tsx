@@ -1,6 +1,6 @@
 import { InputProps, Input, model } from '@wakeadmin/element-adapter';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 export type ATextProps = DefineAtomicProps<
   string,
@@ -38,5 +38,3 @@ export const AText = defineAtomic({
   description: '文本输入',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('text', AText);

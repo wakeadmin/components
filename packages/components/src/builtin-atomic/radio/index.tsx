@@ -2,7 +2,7 @@ import { Radio, RadioGroup, RadioGroupProps, model } from '@wakeadmin/element-ad
 import { computed, unref } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
 
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
 export interface ARadioOption {
@@ -73,5 +73,3 @@ export const ARadio = defineAtomic({
   description: '单选框',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('radio', ARadio);

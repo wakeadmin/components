@@ -2,7 +2,7 @@
  * 图片上传
  */
 import { computed } from '@wakeadmin/demi';
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 import { AImagesProps, AImagesComponent } from '../images';
 
@@ -49,5 +49,3 @@ export const AImage = defineAtomic({
   description: '单图片选择器',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('image', AImage);

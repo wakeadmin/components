@@ -1,6 +1,6 @@
 import { RateProps, model, Rate } from '@wakeadmin/element-adapter';
 
-import { defineAtomic, defineAtomicComponent, DefineAtomicProps, globalRegistry } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 export type ARateProps = DefineAtomicProps<
   number,
@@ -42,5 +42,3 @@ export const ARate = defineAtomic({
   description: '评分',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('rate', ARate);

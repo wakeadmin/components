@@ -1,4 +1,4 @@
-import { globalRegistry, defineAtomic, defineAtomicComponent } from '../../atomic';
+import { defineAtomic, defineAtomicComponent } from '../../atomic';
 
 import { ATextProps, ATextComponent } from './text';
 
@@ -29,5 +29,3 @@ export const APassword = defineAtomic({
   description: '密码输入',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('password', APassword);

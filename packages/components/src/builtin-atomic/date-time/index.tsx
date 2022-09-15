@@ -1,7 +1,7 @@
 import { DatePicker, DatePickerProps, model } from '@wakeadmin/element-adapter';
 import { formatDate } from '@wakeadmin/utils';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
 export type ADateTimeValue = string | Date;
@@ -63,5 +63,3 @@ export const ADateTime = defineAtomic({
   description: '日期时间',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('date-time', ADateTime);

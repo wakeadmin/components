@@ -1,6 +1,6 @@
 import { Checkbox, CheckboxProps, model } from '@wakeadmin/element-adapter';
 
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 export type ACheckboxProps = DefineAtomicProps<
   boolean,
@@ -68,5 +68,3 @@ export const ACheckbox = defineAtomic({
   description: '复选开关',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('checkbox', ACheckbox);

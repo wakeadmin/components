@@ -1,6 +1,6 @@
 import { Slider, SliderProps, model } from '@wakeadmin/element-adapter';
 
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
 export type ASliderProps = DefineAtomicProps<
@@ -47,5 +47,3 @@ export const ASlider = defineAtomic({
   description: '滑块选择器',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('slider', ASlider);

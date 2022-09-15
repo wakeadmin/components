@@ -1,7 +1,7 @@
 import { TimePicker, TimePickerProps, model } from '@wakeadmin/element-adapter';
 import { formatDate } from '@wakeadmin/utils';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
 export type ATimeValue = string | Date;
@@ -63,5 +63,3 @@ export const ATime = defineAtomic({
   description: '时间',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('time', ATime);

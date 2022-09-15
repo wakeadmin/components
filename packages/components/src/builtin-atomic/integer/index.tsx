@@ -1,6 +1,6 @@
 import { InputNumberProps, InputNumber, model } from '@wakeadmin/element-adapter';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 export type AIntegerProps = DefineAtomicProps<
   number,
@@ -39,5 +39,3 @@ export const AInteger = defineAtomic({
   description: '整数输入',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('integer', AInteger);

@@ -1,6 +1,6 @@
 import { ProgressProps, Progress } from '@wakeadmin/element-adapter';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 // progress 是只读的
 export type AProgressProps = DefineAtomicProps<number, ProgressProps, {}>;
@@ -28,5 +28,3 @@ export const AProgress = defineAtomic({
   description: '进度(只读)',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('progress', AProgress);

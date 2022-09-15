@@ -14,7 +14,7 @@ import { isPromise, NoopArray } from '@wakeadmin/utils';
 import { Plus } from '@wakeadmin/icons';
 
 import { FatIcon } from '../../fat-icon';
-import { defineAtomic, globalRegistry, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { normalizeClassName, normalizeStyle } from '../../utils';
 import { useFatConfigurable } from '../../fat-configurable';
 
@@ -251,5 +251,3 @@ export const AImages = defineAtomic({
   description: '多选图片选择器',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('images', AImages);

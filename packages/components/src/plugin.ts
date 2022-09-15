@@ -2,7 +2,31 @@ import { plugin as hPlugin } from '@wakeadmin/h';
 import { hasProp, addHiddenProp } from '@wakeadmin/utils';
 import { isVue2 } from '@wakeadmin/demi';
 
-import './builtin-atomic';
+import {
+  ACheckbox,
+  ACheckboxs,
+  ADate,
+  ADateRange,
+  ADateTime,
+  ADateTimeRange,
+  AImage,
+  AImages,
+  AInteger,
+  AProgress,
+  ARadio,
+  ARate,
+  AMultiSelect,
+  ASelect,
+  ASlider,
+  ASwitch,
+  APassword,
+  ASearch,
+  AText,
+  ATextarea,
+  ATime,
+  ATimeRange,
+} from './builtin-atomic';
+import { globalRegistry } from './atomic';
 
 const INSTALLED = Symbol('wakeadmin-plugin-installed');
 
@@ -21,6 +45,40 @@ export function assertPluginInstalled() {
   }
 }
 
+/**
+ * 安装内置插件
+ */
+function registerAtomics() {
+  const list = [
+    ACheckbox,
+    ACheckboxs,
+    ADate,
+    ADateRange,
+    ADateTime,
+    ADateTimeRange,
+    AImage,
+    AImages,
+    AInteger,
+    AProgress,
+    ARadio,
+    ARate,
+    AMultiSelect,
+    ASelect,
+    ASlider,
+    ASwitch,
+    APassword,
+    ASearch,
+    AText,
+    ATextarea,
+    ATime,
+    ATimeRange,
+  ];
+
+  for (const item of list) {
+    globalRegistry.register(item.name, item);
+  }
+}
+
 export const plugin = {
   install(app: any) {
     if (hasProp(app, INSTALLED)) {
@@ -31,9 +89,9 @@ export const plugin = {
     maybeInstalled = true;
 
     hPlugin.install(app);
+    registerAtomics();
 
     // 添加全局命名空间
-
     if (isVue2) {
       window.document.body.classList.add('vue2');
     }

@@ -1,6 +1,6 @@
 import { InputProps, Input, model } from '@wakeadmin/element-adapter';
 
-import { globalRegistry, defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { normalizeClassName } from '../../utils';
 
 export type ATextareaProps = DefineAtomicProps<
@@ -39,5 +39,3 @@ export const ATextarea = defineAtomic({
   description: '长文本输入',
   author: 'ivan-lee',
 });
-
-globalRegistry.register('textarea', ATextarea);
