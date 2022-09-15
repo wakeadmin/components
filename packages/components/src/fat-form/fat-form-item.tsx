@@ -246,6 +246,32 @@ const FatFormItemInner = declareComponent({
       }
     });
 
+    const atomProps = computed(() => {
+      const target: Record<string, any> = {
+        mode: mode.value ?? 'editable',
+        scene: 'form',
+        value: value.value,
+        onChange: handleChange,
+        context: form,
+        class: props.valueClassName,
+        style: normalizeStyle(contentStyle.value, props.valueStyle),
+      };
+
+      if (disabled.value !== undefined) {
+        target.disabled = disabled.value;
+      }
+
+      if (clearable.value !== undefined) {
+        target.clearable = clearable.value;
+      }
+
+      return composeAtomProps(
+        target,
+        // 外部指定的优先
+        props.valueProps
+      );
+    });
+
     // 监听 dependencies 重新进行验证
     watch(
       (): any[] | undefined => {
@@ -340,24 +366,7 @@ const FatFormItemInner = declareComponent({
             style={props.contentStyle}
           >
             {renderSlot(props, slots, 'before', instance)}
-            {atom.value.component(
-              // TODO: 放到 computed
-              composeAtomProps(
-                {
-                  mode: mode.value ?? 'editable',
-                  scene: 'form',
-                  value: value.value,
-                  onChange: handleChange,
-                  disabled: disabled.value,
-                  context: form,
-                  class: props.valueClassName,
-                  style: normalizeStyle(contentStyle.value, props.valueStyle),
-                  clearable: clearable.value,
-                },
-                // 外部指定的优先
-                props.valueProps
-              )
-            )}
+            {atom.value.component(atomProps.value)}
             {renderSlot(props, slots, 'default', instance)}
             {inlineMessage && message}
           </div>
