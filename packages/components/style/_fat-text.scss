@@ -1,0 +1,33 @@
+@use 'variables' as *;
+
+.fat-text {
+  position: relative;
+
+  &--ellipsis.fat-text--copyable {
+    padding-right: 28px;
+  }
+
+  &__copy {
+    display: inline-block;
+    height: auto;
+    line-height: inherit;
+    font-size: 1.1em;
+    cursor: pointer;
+    color: $wk-color-info;
+
+    &:active {
+      opacity: 0.7;
+    }
+
+    svg {
+      vertical-align: middle;
+    }
+  }
+
+  &--ellipsis &__copy {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+  }
+}
