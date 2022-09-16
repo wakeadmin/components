@@ -150,7 +150,11 @@
       labelAlign: 'center',
       actions: [
         { name: 'Hello', onClick: () => console.log('Hello'), type: 'danger', title: 'hello title' },
-        { name: 'World', type: 'warning' },
+        {
+          name: 'World',
+          type: 'warning',
+          confirm: ({ row }) => ({ message: `${JSON.stringify(row)}` }),
+        },
         {
           name: 'delete',
           type: 'danger',

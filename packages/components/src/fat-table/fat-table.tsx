@@ -14,7 +14,16 @@ import { declareComponent, declareEmits, declareProps, withDirectives } from '@w
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
 import { useRoute, useRouter } from '../hooks';
-import { hasSlots, inheritProps, reactiveAssign, renderSlot, ToHEmitDefinition, toUndefined } from '../utils';
+import {
+  hasSlots,
+  inheritProps,
+  reactiveAssign,
+  renderSlot,
+  ToHEmitDefinition,
+  toUndefined,
+  createMessageBoxOptions,
+  createMessageOptions,
+} from '../utils';
 import { FatFormMethods } from '../fat-form';
 import { useFatConfigurable } from '../fat-configurable';
 
@@ -30,13 +39,7 @@ import {
   FatTableEvents,
   FatTableLayout,
 } from './types';
-import {
-  validateColumns,
-  genKey,
-  mergeAndTransformQuery,
-  createMessageBoxOptions,
-  createMessageOptions,
-} from './utils';
+import { validateColumns, genKey, mergeAndTransformQuery } from './utils';
 import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
@@ -52,9 +55,9 @@ const FatTableInner = declareComponent({
     requestOnQueryChange: { type: Boolean, default: true },
     requestOnRemoved: { type: Boolean, default: true },
     remove: null,
-    confirmBeforeRemove: { type: [Boolean, Function, Object] as any, default: true },
-    messageOnRemoved: { type: [Boolean, Function, Object] as any, default: true },
-    messageOnRemoveFailed: { type: [Boolean, Function, Object] as any, default: true },
+    confirmBeforeRemove: { type: [Boolean, Function, Object, String] as any, default: true },
+    messageOnRemoved: { type: [Boolean, Function, Object, String] as any, default: true },
+    messageOnRemoveFailed: { type: [Boolean, Function, Object, String] as any, default: true },
     columns: null,
     enableCacheQuery: { type: Boolean, default: true },
     namespace: null,
@@ -481,7 +484,7 @@ const FatTableInner = declareComponent({
             type: 'warning',
             showCancelButton: true,
           },
-          [items, ids]
+          { items, ids }
         );
 
         if (confirmOptions) {
@@ -507,7 +510,7 @@ const FatTableInner = declareComponent({
             message: '删除成功',
             type: 'success',
           },
-          [items, ids]
+          { items, ids }
         );
 
         if (removeMessageOptions) {
@@ -538,7 +541,7 @@ const FatTableInner = declareComponent({
             message: `删除失败: ${(err as Error).message}`,
             type: 'error',
           },
-          [items, ids, err as Error]
+          { items, ids, error: err as Error }
         );
 
         if (removeFailedMessageOptions) {

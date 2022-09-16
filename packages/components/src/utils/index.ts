@@ -10,3 +10,4 @@ export * from './render';
 export * from './color';
 export * from './promise';
 export * from './misc';
+export * from './loose-message';

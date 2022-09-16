@@ -8,13 +8,14 @@ import {
   ClassValue,
   CommonProps,
   StyleValue,
+  MessageBox,
 } from '@wakeadmin/element-adapter';
 import { computed, toRef } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDefaults } from '@wakeadmin/h';
 import { More } from '@wakeadmin/icons';
 
 import { RouteLocation, useRouter } from '../hooks';
-import { normalizeClassName, normalizeStyle } from '../utils';
+import { createMessageBoxOptions, LooseMessageBoxOptions, normalizeClassName, normalizeStyle } from '../utils';
 
 export interface FatAction {
   /**
@@ -61,6 +62,11 @@ export interface FatAction {
    * 文案提示
    */
   title?: string;
+
+  /**
+   * 确认弹窗，默认关闭
+   */
+  confirm?: LooseMessageBoxOptions<{ action: FatAction }>;
 }
 
 export interface FatActionsProps extends CommonProps {
@@ -113,6 +119,22 @@ export const FatActions = declareComponent({
     });
 
     const handleClick = async (action: FatAction) => {
+      if (action.confirm) {
+        const options = createMessageBoxOptions(
+          action.confirm,
+          { title: '提示', message: '提示信息', type: 'warning', showCancelButton: true },
+          { action }
+        );
+
+        if (options) {
+          try {
+            await MessageBox(options);
+          } catch {
+            return;
+          }
+        }
+      }
+
       const shouldContinue = await action.onClick?.(action);
 
       if (shouldContinue === false) {

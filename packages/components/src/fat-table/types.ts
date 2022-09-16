@@ -1,8 +1,6 @@
 import {
   FilterList,
   SortOrder,
-  MessageBoxOptions,
-  MessageOptions,
   TableProps,
   StyleValue,
   ClassValue,
@@ -15,6 +13,7 @@ import { FatFormItemProps, FatFormMethods } from '../fat-form';
 import { FatFormQueryProps } from '../fat-form-layout';
 
 import { FatAction, FatActionsProps } from '../fat-actions';
+import { LooseMessageBoxOptions, LooseMessageOptions } from '../utils';
 
 export interface FatTableSort {
   prop: string;
@@ -281,10 +280,24 @@ export interface FatTableEvents<T> {
   onQueryCacheRestore?: (queryCache: QueryStateCache) => void;
 }
 
-export type FatTableAction<T extends {}, S extends {}> = Omit<FatAction, 'onClick' | 'visible' | 'disabled'> & {
+export type FatTableAction<T extends {}, S extends {}> = Omit<
+  FatAction,
+  'onClick' | 'confirm' | 'visible' | 'disabled'
+> & {
   visible?: boolean | ((table: FatTableMethods<T, S>, row: T, action: FatTableAction<T, S>, index: number) => boolean);
   disabled?: boolean | ((table: FatTableMethods<T, S>, row: T, action: FatTableAction<T, S>, index: number) => boolean);
-  // 重载点击方法
+  /**
+   * 提示信息
+   */
+  confirm?: LooseMessageBoxOptions<{
+    action: FatTableAction<T, S>;
+    table: FatTableMethods<T, S>;
+    row: T;
+    index: number;
+  }>;
+  /**
+   * 点击处理器
+   */
   onClick?: (
     table: FatTableMethods<T, S>,
     row: T,
@@ -579,22 +592,6 @@ export interface FatTableColumn<
     : Record<string, any>;
 }
 
-export type LooseMessageBoxOptions<Args> =
-  | boolean
-  | string
-  | MessageBoxOptions
-  // @ts-expect-error
-  | ((...args: Args) => MessageBoxOptions)
-  | undefined;
-
-export type LooseMessageOptions<Args> =
-  | boolean
-  | string
-  | MessageOptions
-  // @ts-expect-error
-  | ((...args: Args) => MessageOptions)
-  | undefined;
-
 export interface FatTableRemove<T> {
   /**
    * 是否在行删除之后重新请求， 默认 true
@@ -611,17 +608,17 @@ export interface FatTableRemove<T> {
   /**
    * 是否在删除之前弹出确认提示, 默认开启
    */
-  confirmBeforeRemove?: LooseMessageBoxOptions<[T[], any[]]>;
+  confirmBeforeRemove?: LooseMessageBoxOptions<{ items: T[]; ids: any[] }>;
 
   /**
    * 是否在删除成功后提示，默认开启
    */
-  messageOnRemoved?: LooseMessageOptions<[T[], any[]]>;
+  messageOnRemoved?: LooseMessageOptions<{ items: T[]; ids: any[] }>;
 
   /**
    * 是否在删除失败后提示，默认开启
    */
-  messageOnRemoveFailed?: LooseMessageOptions<[T[], any[], Error]>;
+  messageOnRemoveFailed?: LooseMessageOptions<{ items: T[]; ids: any[]; error: Error }>;
 }
 
 export interface FatTableQuery<T extends {}, S extends {}> {

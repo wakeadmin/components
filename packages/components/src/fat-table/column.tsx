@@ -1,6 +1,7 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { TableColumnProps, TableColumn, Tooltip } from '@wakeadmin/element-adapter';
 import { NoopObject, NoopArray } from '@wakeadmin/utils';
+import { computed } from '@wakeadmin/demi';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
@@ -13,6 +14,61 @@ import { FatActions, FatAction } from '../fat-actions';
 const BUILTIN_TYPES = new Set(['index', 'selection', 'expand']);
 
 const normalizeType = (t: string) => (BUILTIN_TYPES.has(t) ? t : undefined);
+
+export const Actions = declareComponent({
+  name: 'FatTableActions',
+  props: declareProps<{
+    tableInstance: FatTableMethods<any, any>;
+    column: FatTableColumn<any>;
+    row: any;
+    index: number;
+  }>(['tableInstance', 'column', 'row', 'index']),
+  setup(props) {
+    const actions = computed(() => {
+      const { column, tableInstance, row, index } = props;
+      return (
+        (typeof column.actions === 'function' ? column.actions(tableInstance, row, index) : column.actions) ?? NoopArray
+      );
+    });
+
+    const derivedActions = computed(() => {
+      const { tableInstance, row, index } = props;
+      return actions.value.map(action => {
+        return {
+          ...action,
+          disabled:
+            typeof action.disabled === 'function'
+              ? action.disabled(tableInstance, row, action, index)
+              : action.disabled,
+          visible:
+            typeof action.visible === 'function' ? action.visible(tableInstance, row, action, index) : action.visible,
+          onClick: () => {
+            return action.onClick?.(tableInstance, row, action, index);
+          },
+          confirm:
+            typeof action.confirm === 'function'
+              ? action.confirm.bind(action, { table: tableInstance, row, index, action })
+              : action.confirm,
+        } as FatAction;
+      });
+    });
+
+    return () => {
+      const { column } = props;
+
+      return (
+        <FatActions
+          options={derivedActions.value}
+          max={column.actionsMax}
+          class={column.actionsClassName}
+          style={column.actionsStyle}
+          type={column.actionsType}
+          size={column.actionsSize}
+        />
+      );
+    };
+  },
+});
 
 export const Column = declareComponent({
   name: 'FatTableColumn',
@@ -76,36 +132,7 @@ export const Column = declareComponent({
         // 操作
         children = {
           default: (scope: { row: any; $index: number }) => {
-            const actions =
-              (typeof column.actions === 'function'
-                ? column.actions(tableInstance, scope.row, scope.$index)
-                : column.actions) ?? NoopArray;
-
-            return (
-              <FatActions
-                options={actions.map(action => {
-                  return {
-                    ...action,
-                    disabled:
-                      typeof action.disabled === 'function'
-                        ? action.disabled(tableInstance, scope.row, action, scope.$index)
-                        : action.disabled,
-                    visible:
-                      typeof action.visible === 'function'
-                        ? action.visible(tableInstance, scope.row, action, scope.$index)
-                        : action.visible,
-                    onClick: () => {
-                      return action.onClick?.(tableInstance, scope.row, action, scope.$index);
-                    },
-                  } as FatAction;
-                })}
-                max={column.actionsMax}
-                class={column.actionsClassName}
-                style={column.actionsStyle}
-                type={column.actionsType}
-                size={column.actionsSize}
-              />
-            );
+            return <Actions row={scope.row} index={scope.$index} tableInstance={tableInstance} column={column} />;
           },
         };
       } else if (type === 'index') {
