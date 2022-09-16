@@ -149,7 +149,7 @@
       width: 260,
       labelAlign: 'center',
       actions: [
-        { name: 'Hello', onClick: () => console.log('Hello'), type: 'danger', title: 'hello title' },
+        { name: 'Hello', onClick: () => console.log('Hello'), title: 'hello title' },
         {
           name: 'World',
           type: 'warning',

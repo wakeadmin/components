@@ -5,6 +5,7 @@
   $gap: getVar(table-actions-gap, 20px);
 
   &__btn {
+    color: $wk-color-info;
     margin-left: $gap;
 
     &.danger {
@@ -30,7 +31,7 @@
     & > svg {
       width: 1.5em;
       height: 1.5em;
-      fill: $wk-color-primary;
+      fill: $wk-color-info;
     }
   }
 }
