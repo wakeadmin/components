@@ -100,7 +100,7 @@ const FatFormItemInner = declareComponent({
     });
 
     const mode = computed(() => {
-      return props.mode ?? inheritedProps?.mode;
+      return props.mode ?? inheritedProps?.mode ?? 'editable';
     });
 
     const size = computed(() => {
@@ -249,7 +249,7 @@ const FatFormItemInner = declareComponent({
 
     const atomProps = computed(() => {
       const target: Record<string, any> = {
-        mode: mode.value ?? 'editable',
+        mode: mode.value,
         scene: 'form',
         value: value.value,
         onChange: handleChange,
@@ -350,6 +350,7 @@ const FatFormItemInner = declareComponent({
           class={normalizeClassName(
             'fat-form-item',
             `a-${atom.value.name}`,
+            `fat-form-item--${mode.value}`,
             { 'fat-form-item--hide-label': forceHideLabel.value },
             col ? undefined : attrs.class
           )}
