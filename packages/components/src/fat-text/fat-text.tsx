@@ -146,7 +146,10 @@ export const FatText = declareComponent({
       }
     });
 
-    const handleCopy = () => {
+    const handleCopy = (evt: MouseEvent) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+
       let content = typeof props.copyable === 'string' ? props.copyable : textContent.value;
 
       window.navigator.clipboard.writeText(content);
