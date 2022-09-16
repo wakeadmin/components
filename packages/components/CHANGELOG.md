@@ -1,15 +1,34 @@
 # @wakeadmin/components
 
+## 0.3.0
+
+### Minor Changes
+
+- 新特性
+
+  - 新增 fat-text、fat-link 组件库
+  - 新增 url 原件
+  - define\* 相关方法支持访问外部 props, 并支持 extra 额外 props 声明
+  - fat-form-layout 相关方法添加 beforeCancel、beforeFinish props 用于干预关闭行为
+  - fat-actions 支持 title
+
+- bug 修复
+
+  - fat-table 刷新不清空 list， 避免跳动
+
+<br>
+
 ## 0.2.1
 
 ### Patch Changes
 
-+ 新特性
+- 新特性
+
   - 新增 fat-icon 组件
   - 新增 search 原件
   - select 原件选项支持指定颜色
 
-+ bugfixs
+- bugfixs
   - 修复 sideEffects 导致原件注册失败
   - 修复 fat-form-item disabled, clearable 无法覆盖
 
