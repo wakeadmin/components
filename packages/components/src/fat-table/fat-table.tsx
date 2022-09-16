@@ -6,10 +6,8 @@ import {
   Alert,
   Empty,
   vLoading,
-  MessageBoxOptions,
   Message,
   MessageBox,
-  MessageOptions,
 } from '@wakeadmin/element-adapter';
 import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, computed } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
@@ -32,7 +30,13 @@ import {
   FatTableEvents,
   FatTableLayout,
 } from './types';
-import { validateColumns, genKey, mergeAndTransformQuery } from './utils';
+import {
+  validateColumns,
+  genKey,
+  mergeAndTransformQuery,
+  createMessageBoxOptions,
+  createMessageOptions,
+} from './utils';
 import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
@@ -469,19 +473,18 @@ const FatTableInner = declareComponent({
       const ids = items.map(getId);
 
       try {
-        if (props.confirmBeforeRemove !== false) {
-          const confirmOptions: MessageBoxOptions = {
+        const confirmOptions = createMessageBoxOptions(
+          props.confirmBeforeRemove,
+          {
             title: '提示',
             message: '是否确认删除?',
             type: 'warning',
             showCancelButton: true,
-            ...(typeof props.confirmBeforeRemove === 'function'
-              ? props.confirmBeforeRemove(items, ids)
-              : typeof props.confirmBeforeRemove === 'object'
-              ? props.confirmBeforeRemove
-              : undefined),
-          };
+          },
+          [items, ids]
+        );
 
+        if (confirmOptions) {
           try {
             await MessageBox(confirmOptions);
           } catch (err) {
@@ -498,17 +501,17 @@ const FatTableInner = declareComponent({
         await props.remove(items, ids);
 
         // 删除成功提示
-        if (props.messageOnRemoved !== false) {
-          const messageOptions: MessageOptions = {
+        const removeMessageOptions = createMessageOptions(
+          props.messageOnRemoved,
+          {
             message: '删除成功',
             type: 'success',
-            ...(typeof props.messageOnRemoved === 'function'
-              ? props.messageOnRemoved(items, ids)
-              : typeof props.messageOnRemoved === 'object'
-              ? props.messageOnRemoved
-              : undefined),
-          };
-          Message(messageOptions);
+          },
+          [items, ids]
+        );
+
+        if (removeMessageOptions) {
+          Message(removeMessageOptions);
         }
 
         // 移除
@@ -529,17 +532,17 @@ const FatTableInner = declareComponent({
       } catch (err) {
         console.error(`[fat-table] 删除失败`, err);
 
-        if (props.messageOnRemoveFailed !== false) {
-          const messageOptions: MessageOptions = {
+        const removeFailedMessageOptions = createMessageOptions(
+          props.messageOnRemoveFailed,
+          {
             message: `删除失败: ${(err as Error).message}`,
             type: 'error',
-            ...(typeof props.messageOnRemoveFailed === 'function'
-              ? props.messageOnRemoveFailed(items, ids, err as Error)
-              : typeof props.messageOnRemoveFailed === 'object'
-              ? props.messageOnRemoveFailed
-              : undefined),
-          };
-          Message(messageOptions);
+          },
+          [items, ids, err as Error]
+        );
+
+        if (removeFailedMessageOptions) {
+          Message(removeFailedMessageOptions);
         }
       }
     };

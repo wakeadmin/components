@@ -7,6 +7,8 @@
       :remove="remove"
       :columns="columns"
       :request-on-removed="false"
+      confirm-before-remove="hello"
+      message-on-removed="fuck"
       :enable-select="true"
       row-class-name="fuck"
       @row-click="handleClick"

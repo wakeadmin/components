@@ -579,6 +579,22 @@ export interface FatTableColumn<
     : Record<string, any>;
 }
 
+export type LooseMessageBoxOptions<Args> =
+  | boolean
+  | string
+  | MessageBoxOptions
+  // @ts-expect-error
+  | ((...args: Args) => MessageBoxOptions)
+  | undefined;
+
+export type LooseMessageOptions<Args> =
+  | boolean
+  | string
+  | MessageOptions
+  // @ts-expect-error
+  | ((...args: Args) => MessageOptions)
+  | undefined;
+
 export interface FatTableRemove<T> {
   /**
    * 是否在行删除之后重新请求， 默认 true
@@ -595,17 +611,17 @@ export interface FatTableRemove<T> {
   /**
    * 是否在删除之前弹出确认提示, 默认开启
    */
-  confirmBeforeRemove?: boolean | MessageBoxOptions | ((list: T[], ids: any[]) => MessageBoxOptions);
+  confirmBeforeRemove?: LooseMessageBoxOptions<[T[], any[]]>;
 
   /**
    * 是否在删除成功后提示，默认开启
    */
-  messageOnRemoved?: boolean | MessageOptions | ((list: T[], ids: any[]) => MessageOptions);
+  messageOnRemoved?: LooseMessageOptions<[T[], any[]]>;
 
   /**
    * 是否在删除失败后提示，默认开启
    */
-  messageOnRemoveFailed?: boolean | MessageOptions | ((list: T[], ids: any[], error: Error) => MessageOptions);
+  messageOnRemoveFailed?: LooseMessageOptions<[T[], any[], Error]>;
 }
 
 export interface FatTableQuery<T extends {}, S extends {}> {

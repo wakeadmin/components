@@ -1,9 +1,60 @@
+import { MessageBoxOptions, MessageOptions } from '@wakeadmin/element-adapter';
 import { cloneDeep, merge, get, isPlainObject, set } from '@wakeadmin/utils';
 
 import { Registry } from '../atomic';
 import { unset } from '../utils';
 
-import { FatTableColumn } from './types';
+import { FatTableColumn, LooseMessageBoxOptions, LooseMessageOptions } from './types';
+
+export function createMessageBoxOptions<Args>(
+  options: LooseMessageBoxOptions<Args>,
+  defaultOptions: Partial<MessageBoxOptions>,
+  args: Args
+): MessageBoxOptions | undefined {
+  if (options === false) {
+    return undefined;
+  }
+
+  const clone = { ...defaultOptions };
+
+  if (typeof options === 'string') {
+    clone.message = options;
+  }
+
+  if (typeof options === 'function') {
+    // @ts-expect-error
+    Object.assign(clone, options.apply(null, args));
+  } else if (options && typeof options === 'object') {
+    Object.assign(clone, options);
+  }
+
+  return clone;
+}
+
+export function createMessageOptions<Args>(
+  options: LooseMessageOptions<Args>,
+  defaultOptions: Partial<MessageOptions>,
+  args: Args
+): MessageOptions | undefined {
+  if (options === false) {
+    return undefined;
+  }
+
+  const clone = { ...defaultOptions };
+
+  if (typeof options === 'string') {
+    clone.message = options;
+  }
+
+  if (typeof options === 'function') {
+    // @ts-expect-error
+    Object.assign(clone, options.apply(null, args));
+  } else if (options && typeof options === 'object') {
+    Object.assign(clone, options);
+  }
+
+  return clone as MessageOptions;
+}
 
 export function validateColumns(columns?: FatTableColumn<any>[]) {
   if (columns == null) {
