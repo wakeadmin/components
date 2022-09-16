@@ -147,7 +147,7 @@
       width: 260,
       labelAlign: 'center',
       actions: [
-        { name: 'Hello', onClick: () => console.log('Hello'), type: 'danger' },
+        { name: 'Hello', onClick: () => console.log('Hello'), type: 'danger', title: 'hello title' },
         { name: 'World', type: 'warning' },
         {
           name: 'delete',
@@ -159,6 +159,7 @@
         { name: 'Bar', disabled: true },
         { name: 'Foo', disabled: true },
         { name: 'Baz', visible: false },
+        { name: 'Bazz', title: 'hello title' },
       ],
     },
   ];

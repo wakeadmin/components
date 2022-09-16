@@ -56,6 +56,11 @@ export interface FatAction {
    * 自定义类名
    */
   className?: ClassValue;
+
+  /**
+   * 文案提示
+   */
+  title?: string;
 }
 
 export interface FatActionsProps extends CommonProps {
@@ -135,6 +140,8 @@ export const FatActions = declareComponent({
                 disabled={i.disabled}
                 onClick={() => handleClick(i)}
                 size={size.value}
+                // @ts-expect-error
+                title={i.title}
               >
                 {i.name}
               </Button>
@@ -156,6 +163,8 @@ export const FatActions = declareComponent({
                           style={normalizeStyle(i.style)}
                           disabled={i.disabled}
                           command={i}
+                          // @ts-expect-error
+                          title={i.title}
                         >
                           {i.name}
                         </DropdownItem>
