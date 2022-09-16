@@ -1,5 +1,18 @@
 # @wakeadmin/components
 
+## 0.4.0
+
+### Minor Changes
+
+- 功能优化:
+
+  - define\* 暴露 emit 方法
+  - 调整 fat-actions 配色
+  - fat-form 新增 getValuesToSubmit 方法、syncToInitialValues prop
+  - fat-form 新增 getValues prop
+  - fat-actions 新增 confirm 在点击时确认提示
+  - fat-table confirm* message* props 支持传入 string
+
 ## 0.3.1
 
 ### Patch Changes
