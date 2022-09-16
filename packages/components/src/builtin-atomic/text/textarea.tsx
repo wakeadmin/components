@@ -3,8 +3,9 @@ import { InputProps, Input, model } from '@wakeadmin/element-adapter';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { FatText, FatTextOwnProps } from '../../fat-text';
+import { normalizeClassName } from '../../utils';
 
-export type ATextProps = DefineAtomicProps<
+export type ATextareaProps = DefineAtomicProps<
   string,
   InputProps,
   {
@@ -14,12 +15,12 @@ export type ATextProps = DefineAtomicProps<
 
 declare global {
   interface AtomicProps {
-    text: ATextProps;
+    textarea: ATextareaProps;
   }
 }
 
-export const ATextComponent = defineAtomicComponent(
-  (props: ATextProps) => {
+export const ATextareaComponent = defineAtomicComponent(
+  (props: ATextareaProps) => {
     const configurable = useFatConfigurable();
 
     return () => {
@@ -32,7 +33,7 @@ export const ATextComponent = defineAtomicComponent(
         context,
         ellipsis,
         copyable,
-        tag,
+        tag = 'p',
         underline,
         color,
         ...other
@@ -52,21 +53,31 @@ export const ATextComponent = defineAtomicComponent(
         }
 
         return (
-          <FatText class={other.class} style={other.style} {...{ ellipsis, copyable, tag, underline, color }}>
+          <FatText
+            class={normalizeClassName('fat-a-textarea-preview', other.class)}
+            style={other.style}
+            {...{
+              ellipsis,
+              copyable,
+              tag,
+              underline,
+              color,
+            }}
+          >
             {String(value)}
           </FatText>
         );
       }
 
-      return <Input {...other} {...model(value, onChange!)} />;
+      return <Input type="textarea" {...other} {...model(value, onChange!)} />;
     };
   },
-  { name: 'AText', globalConfigKey: 'aTextProps' }
+  { name: 'ATextarea', globalConfigKey: 'aTextareaProps' }
 );
 
-export const AText = defineAtomic({
-  name: 'text',
-  component: ATextComponent,
-  description: '文本输入',
+export const ATextarea = defineAtomic({
+  name: 'textarea',
+  component: ATextareaComponent,
+  description: '长文本输入',
   author: 'ivan-lee',
 });

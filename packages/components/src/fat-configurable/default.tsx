@@ -25,6 +25,7 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   aTextareaProps: {
     placeholder: '请输入',
     rows: 4,
+    showWordLimit: true,
     autosize: { minRows: 4, maxRows: 10 },
   },
 
@@ -34,6 +35,12 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
 
   aSearchProps: {
     placeholder: '请输入关键字',
+  },
+
+  aUrlProps: {
+    placeholder: '请输入链接',
+    copyable: true,
+    ellipsis: 1,
   },
 
   aSwitchProps: {

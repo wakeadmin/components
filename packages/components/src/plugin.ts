@@ -23,6 +23,7 @@ import {
   ASearch,
   AText,
   ATextarea,
+  AUrl,
   ATime,
   ATimeRange,
 } from './builtin-atomic';
@@ -70,6 +71,7 @@ function registerAtomics() {
     ASearch,
     AText,
     ATextarea,
+    AUrl,
     ATime,
     ATimeRange,
   ];

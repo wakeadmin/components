@@ -2,6 +2,7 @@
 
 .fat-text {
   position: relative;
+  word-break: break-all;
 
   &--ellipsis.fat-text--copyable {
     padding-right: 28px;
@@ -14,6 +15,7 @@
     font-size: 1.1em;
     cursor: pointer;
     color: $wk-color-info;
+    margin-left: 5px;
 
     &:active {
       opacity: 0.7;

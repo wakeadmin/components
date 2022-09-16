@@ -116,6 +116,11 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
   validate?: (value: any, props: P, context: any) => Promise<void>;
 
   /**
+   * 验证触发的时机
+   */
+  validateTrigger?: 'change' | 'blur';
+
+  /**
    * 尝试对给定值进行转换，转换为组件能够识别的格式
    */
   convert?: (originalValue: any) => T;

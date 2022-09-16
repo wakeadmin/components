@@ -24,6 +24,7 @@ import {
   AImagesProps,
   AImageProps,
   ASearchProps,
+  AUrlProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -74,6 +75,11 @@ export interface FatConfigurable {
    * 密码组件默认配置
    */
   aPasswordProps?: OmitAtomicCommonProps<APasswordProps>;
+
+  /**
+   * url 默认配置
+   */
+  aUrlProps?: OmitAtomicCommonProps<AUrlProps>;
 
   /**
    * search 默认配置

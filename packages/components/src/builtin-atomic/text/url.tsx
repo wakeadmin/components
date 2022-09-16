@@ -2,9 +2,9 @@ import { InputProps, Input, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
-import { FatText, FatTextOwnProps } from '../../fat-text';
+import { FatLink, FatTextOwnProps } from '../../fat-text';
 
-export type ATextProps = DefineAtomicProps<
+export type AUrlProps = DefineAtomicProps<
   string,
   InputProps,
   {
@@ -14,29 +14,16 @@ export type ATextProps = DefineAtomicProps<
 
 declare global {
   interface AtomicProps {
-    text: ATextProps;
+    url: AUrlProps;
   }
 }
 
-export const ATextComponent = defineAtomicComponent(
-  (props: ATextProps) => {
+export const AUrlComponent = defineAtomicComponent(
+  (props: AUrlProps) => {
     const configurable = useFatConfigurable();
 
     return () => {
-      const {
-        value,
-        mode,
-        onChange,
-        renderPreview,
-        scene,
-        context,
-        ellipsis,
-        copyable,
-        tag,
-        underline,
-        color,
-        ...other
-      } = props;
+      const { value, mode, onChange, renderPreview, scene, context, ellipsis, copyable, tag, ...other } = props;
 
       if (mode === 'preview') {
         if (renderPreview) {
@@ -52,21 +39,32 @@ export const ATextComponent = defineAtomicComponent(
         }
 
         return (
-          <FatText class={other.class} style={other.style} {...{ ellipsis, copyable, tag, underline, color }}>
+          <FatLink class={other.class} style={other.style} copyable={!!value && copyable} href={value}>
             {String(value)}
-          </FatText>
+          </FatLink>
         );
       }
 
       return <Input {...other} {...model(value, onChange!)} />;
     };
   },
-  { name: 'AText', globalConfigKey: 'aTextProps' }
+  { name: 'AUrl', globalConfigKey: 'aUrlProps' }
 );
 
-export const AText = defineAtomic({
-  name: 'text',
-  component: ATextComponent,
-  description: '文本输入',
+export const AUrl = defineAtomic({
+  name: 'url',
+  component: AUrlComponent,
+  description: '链接',
   author: 'ivan-lee',
+  validateTrigger: 'blur',
+  async validate(value) {
+    if (value && typeof value === 'string') {
+      try {
+        // eslint-disable-next-line no-new
+        new URL(value);
+      } catch (err) {
+        throw new Error('请输入合法 URL');
+      }
+    }
+  },
 });

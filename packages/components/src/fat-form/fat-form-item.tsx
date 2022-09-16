@@ -195,13 +195,14 @@ const FatFormItemInner = declareComponent({
         list.push({
           async validator(_rule, val, callback) {
             try {
-              await atom.value.validate!(value, props.valueProps ?? NoopObject, form.values);
+              await atom.value.validate!(value.value, props.valueProps ?? NoopObject, form.values);
               callback();
             } catch (err) {
               // eslint-disable-next-line n/no-callback-literal
               callback(err as Error);
             }
           },
+          trigger: atom.value.validateTrigger,
         });
 
         return list;

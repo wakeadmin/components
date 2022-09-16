@@ -2,17 +2,12 @@
 <template>
   <div>
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
-    <FatText ellipsis>
-      查询表单的 props，会透传给表单项,如果渲染出来是 Input,就支持 input 的所有 props，同理如果是 select，也支持 select
-      的所有 props。也支持方法传入 查询表单的 props，会透传给表单项,如果渲染出来是 Input,就支持 input 的所有
-      props，同理如果是 select，也支持 select 查询表单的 props，会透传给表单项,如果渲染出来是 Input,就支持 input 的所有
-      props，同理如果是 select，也支持 select
-    </FatText>
     <FatForm :mode="previewMode ? 'preview' : 'editable'" class="form">
       <FatFormItem prop="text" label="text" value-type="text" width="small" />
       <FatFormItem prop="password" label="password" value-type="password" width="small" />
       <FatFormItem prop="search" label="search" value-type="search" width="medium" />
       <FatFormItem prop="textarea" label="textarea" value-type="textarea" width="huge" />
+      <FatFormItem prop="url" label="url" value-type="url" width="huge" />
       <FatFormItem prop="date" label="date" value-type="date" width="medium" />
       <FatFormItem prop="time" label="time" value-type="time" width="medium" />
       <FatFormItem prop="dateTime" label="date-time" value-type="date-time" width="medium" />
@@ -105,7 +100,7 @@
 </template>
 
 <script lang="tsx" setup>
-  import { FatForm, FatFormItem, FatFormGroup, FatFormConsumer, FatText } from '@wakeadmin/components';
+  import { FatForm, FatFormItem, FatFormGroup, FatFormConsumer } from '@wakeadmin/components';
   import { ref } from 'vue';
 
   const previewMode = ref(false);
