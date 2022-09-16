@@ -36,7 +36,8 @@ export type FatFormModalDefine<
     // modal 实例 引用
     form: Ref<FatFormModalMethods<Store> | undefined>;
   } & FatFormDefineHelpers<Store, Request, Submit>,
-  props: FatFormModalDefineProps<Store, Request, Submit, Extra>
+  props: FatFormModalDefineProps<Store, Request, Submit, Extra>,
+  emit: (key: string, ...args: any[]) => void
 ) => () => FatFormModalDefinition<Store, Request, Submit>;
 
 /**
@@ -55,7 +56,7 @@ export function defineFatFormModal<
 ): (props: FatFormModalDefineProps<Store, Request, Submit, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormModal',
-    setup(_, { slots, expose, attrs }) {
+    setup(_, { slots, expose, attrs, emit }) {
       const modalRef = useFatFormModalRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
@@ -70,7 +71,8 @@ export function defineFatFormModal<
             renderChild,
             renderChildren,
           },
-          attrs as any
+          attrs as any,
+          emit
         )
       );
 

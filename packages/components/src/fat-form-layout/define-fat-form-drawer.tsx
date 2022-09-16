@@ -36,7 +36,8 @@ export type FatFormDrawerDefine<
     // drawer 实例 引用
     form: Ref<FatFormDrawerMethods<Store> | undefined>;
   } & FatFormDefineHelpers<Store, Request, Submit>,
-  props: FatFormDrawerDefineProps<Store, Request, Submit, Extra>
+  props: FatFormDrawerDefineProps<Store, Request, Submit, Extra>,
+  emit: (key: string, ...args: any[]) => void
 ) => () => FatFormDrawerDefinition<Store, Request, Submit>;
 
 /**
@@ -55,7 +56,7 @@ export function defineFatFormDrawer<
 ): (props: FatFormDrawerDefineProps<Store, Request, Submit, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormDrawer',
-    setup(_, { slots, expose, attrs }) {
+    setup(_, { slots, expose, attrs, emit }) {
       const drawerRef = useFatFormDrawerRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
@@ -70,7 +71,8 @@ export function defineFatFormDrawer<
             renderChild,
             renderChildren,
           },
-          attrs as any
+          attrs as any,
+          emit
         )
       );
 

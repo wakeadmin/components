@@ -17,7 +17,8 @@ export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> 
   | (FatTableProps<Item, Query> & CommonProps)
   | ((
       instanceRef: Ref<FatTableMethods<Item, Query> | undefined>,
-      props: FatTableDefineProps<Item, Query, Extra>
+      props: FatTableDefineProps<Item, Query, Extra>,
+      emit: (key: string, ...args: any[]) => void
     ) => () => FatTableProps<Item, Query> & CommonProps);
 
 /**
@@ -56,10 +57,10 @@ export function defineFatTable<Item extends {}, Query extends {} = {}, Extra ext
 ): (props: FatTableDefineProps<Item, Query, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefinedFatTable',
-    setup(_, { slots, expose, attrs }) {
+    setup(_, { slots, expose, attrs, emit }) {
       const tableRef = useFatTableRef<Item, Query>();
       const extraDefinitions =
-        typeof definitions === 'function' ? computed(definitions(tableRef, attrs as any)) : definitions;
+        typeof definitions === 'function' ? computed(definitions(tableRef, attrs as any, emit)) : definitions;
 
       const instance = {};
 

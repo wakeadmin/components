@@ -36,7 +36,8 @@ export type FatFormPageDefine<
     // modal 实例 引用
     form: Ref<FatFormPageMethods<Store> | undefined>;
   } & FatFormDefineHelpers<Store, Request, Submit>,
-  props: FatFormPageDefineProps<Store, Request, Submit, Extra>
+  props: FatFormPageDefineProps<Store, Request, Submit, Extra>,
+  emit: (key: string, ...args: any[]) => void
 ) => () => FatFormPageDefinition<Store, Request, Submit>;
 
 /**
@@ -55,7 +56,7 @@ export function defineFatFormPage<
 ): (props: FatFormPageDefineProps<Store, Request, Submit, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormPage',
-    setup(_, { slots, expose, attrs }) {
+    setup(_, { slots, expose, attrs, emit }) {
       const pageRef = useFatFormPageRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
@@ -70,7 +71,8 @@ export function defineFatFormPage<
             renderChild,
             renderChildren,
           },
-          attrs as any
+          attrs as any,
+          emit
         )
       );
 

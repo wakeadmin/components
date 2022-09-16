@@ -116,7 +116,8 @@ export type FatFormDefine<
     // 表单实例引用
     form: Ref<FatFormMethods<Store> | undefined>;
   } & FatFormDefineHelpers<Store, Request, Submit>,
-  props: FatFormDefineProps<Store, Request, Submit, Extra>
+  props: FatFormDefineProps<Store, Request, Submit, Extra>,
+  emit: (key: string, ...args: any[]) => void
 ) => () => FatFormDefinition<Store, Request, Submit>;
 
 function isItem(value: any): value is FatFormItemDefinition<any, any, any> {
@@ -207,7 +208,7 @@ export function defineFatForm<
 ): (props: FatFormDefineProps<Store, Request, Submit, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatForm',
-    setup(_, { slots, expose, attrs }) {
+    setup(_, { slots, expose, attrs, emit }) {
       const formRef = useFatFormRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
@@ -222,7 +223,8 @@ export function defineFatForm<
             renderChild,
             renderChildren,
           },
-          attrs as any
+          attrs as any,
+          emit
         )
       );
 
