@@ -226,7 +226,7 @@ export const AImagesComponent = defineAtomicComponent(
         <Upload
           listType="picture-card"
           onExceed={handleExceed}
-          multiple
+          multiple={props.limit !== 1}
           accept="image/*"
           {...other}
           class={normalizeClassName('fat-a-images', { 'fat-a-images--exceeded': exceeded.value }, other.class)}
