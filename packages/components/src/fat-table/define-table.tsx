@@ -9,9 +9,16 @@ import { FatTable } from './fat-table';
 import { useFatTableRef } from './hooks';
 import { FatTableMethods, FatTableProps } from './types';
 
-export type FatTableDefine<Item extends {}, Query extends {}> =
+export type FatTableDefineProps<Item extends {}, Query extends {}, Extra extends {}> = Partial<
+  FatTableProps<Item, Query> & { extra?: Extra }
+>;
+
+export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> =
   | (FatTableProps<Item, Query> & CommonProps)
-  | ((instanceRef: Ref<FatTableMethods<Item, Query> | undefined>) => () => FatTableProps<Item, Query> & CommonProps);
+  | ((
+      instanceRef: Ref<FatTableMethods<Item, Query> | undefined>,
+      props: FatTableDefineProps<Item, Query, Extra>
+    ) => () => FatTableProps<Item, Query> & CommonProps);
 
 /**
  * 定义表格组件
@@ -43,14 +50,16 @@ export type FatTableDefine<Item extends {}, Query extends {}> =
  *
  * @returns 返回一个 table 组件
  */
-export function defineFatTable<Item extends {}, Query extends {}>(
-  definitions: FatTableDefine<Item, Query>
-): (props: Partial<FatTableProps<Item, Query>>) => any {
+export function defineFatTable<Item extends {}, Query extends {} = {}, Extra extends {} = {}>(
+  definitions: FatTableDefine<Item, Query, Extra>,
+  options?: { name?: string }
+): (props: FatTableDefineProps<Item, Query, Extra>) => any {
   return declareComponent({
-    name: 'PreDefinedFatTable',
-    setup(_props, { slots, expose }) {
+    name: options?.name ?? 'PreDefinedFatTable',
+    setup(_, { slots, expose, attrs }) {
       const tableRef = useFatTableRef<Item, Query>();
-      const extraDefinitions = typeof definitions === 'function' ? computed(definitions(tableRef)) : definitions;
+      const extraDefinitions =
+        typeof definitions === 'function' ? computed(definitions(tableRef, attrs as any)) : definitions;
 
       const instance = {};
 

@@ -19,11 +19,24 @@ export interface FatFormDrawerDefinition<Store extends {}, Request extends {} = 
   children?: FatFormChild<Store, Request>[];
 }
 
-export type FatFormDrawerDefine<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = (
+export type FatFormDrawerDefineProps<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+> = Partial<FatFormDrawerProps<Store, Request, Submit> & { extra: Extra }>;
+
+export type FatFormDrawerDefine<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+> = (
   helpers: {
     // drawer 实例 引用
     form: Ref<FatFormDrawerMethods<Store> | undefined>;
-  } & FatFormDefineHelpers<Store, Request, Submit>
+  } & FatFormDefineHelpers<Store, Request, Submit>,
+  props: FatFormDrawerDefineProps<Store, Request, Submit, Extra>
 ) => () => FatFormDrawerDefinition<Store, Request, Submit>;
 
 /**
@@ -31,26 +44,34 @@ export type FatFormDrawerDefine<Store extends {}, Request extends {} = Store, Su
  * @param define
  * @returns
  */
-export function defineFatFormDrawer<Store extends {}, Request extends {} = Store, Submit extends {} = Store>(
-  define: FatFormDrawerDefine<Store, Request, Submit>,
+export function defineFatFormDrawer<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+>(
+  define: FatFormDrawerDefine<Store, Request, Submit, Extra>,
   options?: { name?: string }
-): (props: Partial<FatFormDrawerProps<Store, Request, Submit>>) => any {
+): (props: FatFormDrawerDefineProps<Store, Request, Submit, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormDrawer',
-    setup(_, { slots, expose }) {
+    setup(_, { slots, expose, attrs }) {
       const drawerRef = useFatFormDrawerRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
-        define({
-          form: drawerRef,
-          item,
-          group,
-          section,
-          consumer,
-          renderChild,
-          renderChildren,
-        })
+        define(
+          {
+            form: drawerRef,
+            item,
+            group,
+            section,
+            consumer,
+            renderChild,
+            renderChildren,
+          },
+          attrs as any
+        )
       );
 
       // forward refs

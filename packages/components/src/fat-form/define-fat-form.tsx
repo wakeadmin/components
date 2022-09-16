@@ -98,11 +98,24 @@ export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Sto
   renderChildren: (children: FatFormChild<Store, Request>[]) => any;
 }
 
-export type FatFormDefine<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = (
+export type FatFormDefineProps<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+> = Partial<FatFormProps<Store, Request, Submit> & { extra: Extra }>;
+
+export type FatFormDefine<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+> = (
   helpers: {
     // 表单实例引用
     form: Ref<FatFormMethods<Store> | undefined>;
-  } & FatFormDefineHelpers<Store, Request, Submit>
+  } & FatFormDefineHelpers<Store, Request, Submit>,
+  props: FatFormDefineProps<Store, Request, Submit, Extra>
 ) => () => FatFormDefinition<Store, Request, Submit>;
 
 function isItem(value: any): value is FatFormItemDefinition<any, any, any> {
@@ -182,26 +195,34 @@ export function useFatFormDefineUtils() {
   };
 }
 
-export function defineFatForm<Store extends {}, Request extends {} = Store, Submit extends {} = Store>(
-  define: FatFormDefine<Store, Request, Submit>,
+export function defineFatForm<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+>(
+  define: FatFormDefine<Store, Request, Submit, Extra>,
   options?: { name: string }
-): (props: Partial<FatFormProps<Store, Request, Submit>>) => any {
+): (props: FatFormDefineProps<Store, Request, Submit, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatForm',
-    setup(_, { slots, expose }) {
+    setup(_, { slots, expose, attrs }) {
       const formRef = useFatFormRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
-        define({
-          form: formRef,
-          item,
-          group,
-          section,
-          consumer,
-          renderChild,
-          renderChildren,
-        })
+        define(
+          {
+            form: formRef,
+            item,
+            group,
+            section,
+            consumer,
+            renderChild,
+            renderChildren,
+          },
+          attrs as any
+        )
       );
 
       expose({

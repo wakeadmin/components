@@ -19,11 +19,24 @@ export interface FatFormPageDefinition<Store extends {}, Request extends {} = St
   children?: FatFormChild<Store, Request>[];
 }
 
-export type FatFormPageDefine<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = (
+export type FatFormPageDefineProps<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+> = Partial<FatFormPageProps<Store, Request, Submit> & { extra: Extra }>;
+
+export type FatFormPageDefine<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+> = (
   helpers: {
     // modal 实例 引用
     form: Ref<FatFormPageMethods<Store> | undefined>;
-  } & FatFormDefineHelpers<Store, Request, Submit>
+  } & FatFormDefineHelpers<Store, Request, Submit>,
+  props: FatFormPageDefineProps<Store, Request, Submit, Extra>
 ) => () => FatFormPageDefinition<Store, Request, Submit>;
 
 /**
@@ -31,26 +44,34 @@ export type FatFormPageDefine<Store extends {}, Request extends {} = Store, Subm
  * @param define
  * @returns
  */
-export function defineFatFormPage<Store extends {}, Request extends {} = Store, Submit extends {} = Store>(
-  define: FatFormPageDefine<Store, Request, Submit>,
+export function defineFatFormPage<
+  Store extends {},
+  Request extends {} = Store,
+  Submit extends {} = Store,
+  Extra extends {} = {}
+>(
+  define: FatFormPageDefine<Store, Request, Submit, Extra>,
   options?: { name?: string }
-): (props: Partial<FatFormPageProps<Store, Request, Submit>>) => any {
+): (props: FatFormPageDefineProps<Store, Request, Submit, Extra>) => any {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormPage',
-    setup(_, { slots, expose }) {
+    setup(_, { slots, expose, attrs }) {
       const pageRef = useFatFormPageRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
-        define({
-          form: pageRef,
-          item,
-          group,
-          section,
-          consumer,
-          renderChild,
-          renderChildren,
-        })
+        define(
+          {
+            form: pageRef,
+            item,
+            group,
+            section,
+            consumer,
+            renderChild,
+            renderChildren,
+          },
+          attrs as any
+        )
       );
 
       // forward refs
