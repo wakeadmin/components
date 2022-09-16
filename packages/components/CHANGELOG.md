@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 0.4.1
+
+### Patch Changes
+
+- 修复 fat-form 提交值为空
+
 ## 0.4.0
 
 ### Minor Changes
