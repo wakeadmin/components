@@ -1,5 +1,14 @@
 # @wakeadmin/components
 
+## 0.3.1
+
+### Patch Changes
+
+- - bug 修复
+
+  - fix(components): 修复 fat-text 拷贝事件冲突
+  - fix(components): defineFatForm 没有正确暴露 ref
+
 ## 0.3.0
 
 ### Minor Changes

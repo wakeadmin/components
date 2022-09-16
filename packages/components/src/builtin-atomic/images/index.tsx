@@ -40,6 +40,7 @@ export type AImagesProps = DefineAtomicProps<
 
     /**
      * 文件过滤。并不是所有上传接口都按照严格的 HTTP code 返回，因此这里可以做一些改写(直接修改 item)和过滤
+     * 返回 false 或 抛出异常都会跳过
      */
     filter?: (item: UploadInternalFileDetail) => void | boolean | Promise<boolean | void>;
 
