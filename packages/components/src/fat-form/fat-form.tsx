@@ -301,6 +301,15 @@ const FatFormInner = declareComponent({
       }
     };
 
+    /**
+     * 删除指定字段
+     */
+    const unsetFieldValue = (prop: string) => {
+      touches.untouch(prop);
+
+      reactiveUnset(values.value, prop);
+    };
+
     const isFieldTouched = (prop: string | string[], allTouched = true): boolean => {
       const p = Array.isArray(prop) ? prop : [prop];
 
@@ -423,6 +432,7 @@ const FatFormInner = declareComponent({
       validateField,
       getFieldValue,
       setFieldValue,
+      unsetFieldValue,
       isFieldTouched,
       __setInitialValue,
       __registerChildForm,

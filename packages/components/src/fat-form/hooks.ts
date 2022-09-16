@@ -31,7 +31,11 @@ export function useTouches() {
   };
 
   const untouch = (prop: string) => {
-    touched[np(prop)] = false;
+    const k = np(prop);
+
+    if (k in touched) {
+      touched[k] = false;
+    }
   };
 
   const isTouched = (prop: string) => {

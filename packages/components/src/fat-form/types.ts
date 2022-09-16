@@ -137,6 +137,13 @@ export interface FatFormMethods<Store extends {}> {
    */
   setFieldValue(prop: string, value: any): void;
 
+  /**
+   * 删除指定字段路径
+   *
+   * 警告：建议用在动态表单场景，比如增删字段。删除静态的表单值可能导致渲染问题
+   */
+  unsetFieldValue(prop: string): void;
+
   // 以下是私有方法
 
   /**
