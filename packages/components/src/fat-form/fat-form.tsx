@@ -1,7 +1,7 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
-import { cloneDeep, isPlainObject, merge, get, set, equal } from '@wakeadmin/utils';
+import { cloneDeep, isPlainObject, merge, get, set, equal, isObject } from '@wakeadmin/utils';
 
 import {
   hasByPath,
@@ -13,6 +13,7 @@ import {
   ToHEmitDefinition,
   ToHSlotDefinition,
   reactiveUnset,
+  unset,
 } from '../utils';
 import { useFatConfigurable } from '../fat-configurable';
 
@@ -63,6 +64,7 @@ const FatFormInner = declareComponent({
     row: null,
 
     hierarchyConnect: { type: Boolean, default: true },
+    syncToInitialValues: Boolean,
 
     // private
     getValues: null,
@@ -153,7 +155,7 @@ const FatFormInner = declareComponent({
       }
     };
 
-    // 监听 initialValue 变动
+    // 浅监听 initialValue 变动
     watch(
       () => props.initialValue,
       (value, oldValue) => {
@@ -224,6 +226,13 @@ const FatFormInner = declareComponent({
       formRef.value?.clearValidate(prop);
     };
 
+    const getValuesToSubmit = () => {
+      // 数据转换
+      const valuesToSubmit = cloneDeep(values.value);
+      // 数据转换
+      return transform(valuesToSubmit, items);
+    };
+
     const submit = async () => {
       if (!(await validate())) {
         return;
@@ -241,13 +250,9 @@ const FatFormInner = declareComponent({
       submitting.value = true;
       error.value = undefined;
 
-      // 数据转换
-      const valuesToSubmit = cloneDeep(values.value);
+      const valuesToSubmit = getValuesToSubmit();
 
       try {
-        // 数据转换
-        transform(valuesToSubmit, items);
-
         await props.submit(valuesToSubmit);
 
         emit('finish', valuesToSubmit);
@@ -295,6 +300,11 @@ const FatFormInner = declareComponent({
 
         emit('valuesChange', values.value, prop, value, oldValue);
 
+        if (props.syncToInitialValues && isObject(props.initialValue)) {
+          // 直接同步修改 initialValue
+          set(props.initialValue, prop, value);
+        }
+
         if (ready) {
           touches.touch(prop);
         }
@@ -308,6 +318,11 @@ const FatFormInner = declareComponent({
       touches.untouch(prop);
 
       reactiveUnset(values.value, prop);
+
+      if (props.syncToInitialValues && isObject(props.initialValue)) {
+        // 直接同步修改 initialValue
+        unset(props.initialValue, prop);
+      }
     };
 
     const isFieldTouched = (prop: string | string[], allTouched = true): boolean => {
@@ -434,6 +449,7 @@ const FatFormInner = declareComponent({
       setFieldValue,
       unsetFieldValue,
       isFieldTouched,
+      getValuesToSubmit,
       __setInitialValue,
       __registerChildForm,
       __unregisterChildForm,

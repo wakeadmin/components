@@ -30,7 +30,7 @@ export type FatFormLayout = 'horizontal' | 'vertical' | 'inline';
 /**
  * fat 表单实例方法
  */
-export interface FatFormMethods<Store extends {}> {
+export interface FatFormMethods<Store extends {}, Request extends {} = Store, Submit extends {} = Store> {
   /**
    * 表单模式
    */
@@ -87,6 +87,13 @@ export interface FatFormMethods<Store extends {}> {
    * 底层 form 实例
    */
   readonly formRef?: FormMethods;
+
+  /**
+   * 获取表单提交的值。即转换之后的
+   *
+   * 警告：获取之前需要进行验证
+   */
+  getValuesToSubmit(): Submit;
 
   /**
    * 表单提交
@@ -423,6 +430,13 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
    * 注意，父子组件之间状态不会共享
    */
   hierarchyConnect?: boolean;
+
+  /**
+   * 是否将变更同步到 initialValue, 默认关闭。
+   * 注意：只有表单组件修改值，或者通过 setFieldValue、unsetFieldValue 等手段才能检测到。
+   * 手动直接修改 form.values 不会被处理
+   */
+  syncToInitialValues?: boolean;
 
   /**
    * 支持状态外置, 特殊情况使用
