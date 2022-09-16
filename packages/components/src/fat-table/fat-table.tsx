@@ -476,7 +476,7 @@ const FatTableInner = declareComponent({
       const ids = items.map(getId);
 
       try {
-        const confirmOptions = createMessageBoxOptions(
+        const confirmBeforeRemoveOptions = createMessageBoxOptions(
           props.confirmBeforeRemove,
           {
             title: '提示',
@@ -487,9 +487,9 @@ const FatTableInner = declareComponent({
           { items, ids }
         );
 
-        if (confirmOptions) {
+        if (confirmBeforeRemoveOptions) {
           try {
-            await MessageBox(confirmOptions);
+            await MessageBox(confirmBeforeRemoveOptions);
           } catch (err) {
             // ignore
             return;
@@ -504,7 +504,7 @@ const FatTableInner = declareComponent({
         await props.remove(items, ids);
 
         // 删除成功提示
-        const removeMessageOptions = createMessageOptions(
+        const removedMessageOptions = createMessageOptions(
           props.messageOnRemoved,
           {
             message: '删除成功',
@@ -513,8 +513,8 @@ const FatTableInner = declareComponent({
           { items, ids }
         );
 
-        if (removeMessageOptions) {
-          Message(removeMessageOptions);
+        if (removedMessageOptions) {
+          Message(removedMessageOptions);
         }
 
         // 移除

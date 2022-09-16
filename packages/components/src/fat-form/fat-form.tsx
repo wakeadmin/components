@@ -230,7 +230,9 @@ const FatFormInner = declareComponent({
       // 数据转换
       const valuesToSubmit = cloneDeep(values.value);
       // 数据转换
-      return transform(valuesToSubmit, items);
+      transform(valuesToSubmit, items);
+
+      return valuesToSubmit;
     };
 
     const submit = async () => {
