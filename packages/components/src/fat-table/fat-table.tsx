@@ -203,7 +203,8 @@ const FatTableInner = declareComponent({
     const resetTempState = () => {
       loading.value = false;
       error.value = null;
-      list.value = [];
+      // 不清空，会导致 table 弹跳，闪现空状态
+      // list.value = [];
       selected.value = [];
       pagination.total = 0;
       pagination.current = 1;
