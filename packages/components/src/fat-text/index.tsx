@@ -1,4 +1,4 @@
-import { computed, CSSProperties, HTMLAttributes, ref, watch } from '@wakeadmin/demi';
+import { computed, CSSProperties, HTMLAttributes, ref, watch, onUpdated, nextTick } from '@wakeadmin/demi';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { Tooltip, Message } from '@wakeadmin/element-adapter';
 import { Copy } from '@wakeadmin/icons';
@@ -113,11 +113,19 @@ export const FatText = declareComponent({
       { flush: 'post', immediate: true }
     );
 
+    onUpdated(() => {
+      if (textRef.value) {
+        const nextTextContent = textRef.value.textContent ?? '';
+        if (textContent.value !== nextTextContent) {
+          nextTick(() => {
+            textContent.value = nextTextContent;
+          });
+        }
+      }
+    });
+
     const handleCopy = () => {
-      let content =
-        typeof props.copyable === 'string'
-          ? props.copyable
-          : (textContent.value = textRef.value?.textContent ?? textContent.value);
+      let content = typeof props.copyable === 'string' ? props.copyable : textContent.value;
 
       window.navigator.clipboard.writeText(content);
       Message.success('已拷贝');
