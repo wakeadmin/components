@@ -3,7 +3,7 @@ import { computed, Ref, unref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
 import { Atomic } from '../atomic';
-import { inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { FatForm } from './fat-form';
 import { FatFormConsumer } from './fat-form-consumer';
@@ -13,6 +13,7 @@ import { FatFormSection } from './fat-form-section';
 import { useFatFormRef } from './hooks';
 
 import { FatFormItemProps, FatFormGroupProps, FatFormSectionProps, FatFormMethods, FatFormProps } from './types';
+import { FatFormPublicMethodKeys } from './constants';
 
 const TYPE = Symbol('fat-form-child-type');
 
@@ -225,11 +226,10 @@ export function defineFatForm<
         )
       );
 
-      expose({
-        get form() {
-          return formRef.value;
-        },
-      });
+      const instance = {};
+      forwardExpose(instance, FatFormPublicMethodKeys, formRef);
+
+      expose(instance);
 
       return () => {
         const { children, ...fatFormProps } = unref(dsl);
