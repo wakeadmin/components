@@ -53,7 +53,7 @@ export const Query = declareComponent({
         <div class="fat-table__query">
           <FatFormQuery
             ref={formRef}
-            _values={props.query}
+            getValues={props.query}
             loading={props.loading}
             initialValue={props.initialValue}
             layout="inline"

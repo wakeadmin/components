@@ -65,7 +65,7 @@ const FatFormInner = declareComponent({
     hierarchyConnect: { type: Boolean, default: true },
 
     // private
-    _values: null,
+    getValues: null,
     // slots
     renderSubmitter: null,
   }),
@@ -89,7 +89,7 @@ const FatFormInner = declareComponent({
     const submitting = ref(false);
     const error = ref<Error>();
 
-    const values = props._values ? props._values() : ref({});
+    const values = props.getValues ? props.getValues() : ref({});
 
     const touches = useTouches();
     const childForms = new Set<FatFormMethods<any>>();

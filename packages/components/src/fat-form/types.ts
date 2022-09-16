@@ -427,7 +427,7 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
   /**
    * 支持状态外置, 特殊情况使用
    */
-  _values?: () => Ref<Store>;
+  getValues?: () => Ref<Store>;
 }
 
 /**
