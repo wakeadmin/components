@@ -1,13 +1,12 @@
 import { Drawer, DrawerProps, Button, ButtonProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { ref, watch, getCurrentInstance } from '@wakeadmin/demi';
+import { ref, watch } from '@wakeadmin/demi';
 import { NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import {
   forwardExpose,
-  hasListener,
   hasSlots,
   inheritProps,
   normalizeClassName,
@@ -46,17 +45,20 @@ export interface FatFormDrawerSlots<S extends {}> {
 }
 
 export interface FatFormDrawerEvents<S extends {}> {
+  /**
+   * 可视状态变动
+   */
   onVisibleChange?: (visible: boolean) => void;
 
   /**
-   * 取消事件，默认是关闭弹窗
+   * 已取消
    */
-  onCancel?: (close: Function) => void;
+  onCancel?: () => void;
 
   /**
-   * 保存成功，默认关闭弹窗
+   * 保存成功
    */
-  onFinish?: (values: S, close: Function) => void;
+  onFinish?: (values: S) => void;
 }
 
 export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -88,6 +90,16 @@ export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store
    * 自定义取消 props
    */
   cancelProps?: ButtonProps;
+
+  /**
+   * 点击取消前调用，默认行为是关闭弹窗。调用 done 可以执行默认行为
+   */
+  beforeCancel?: (done: () => void) => void;
+
+  /**
+   * 表单保存成功后调用，默认行为是关闭弹窗。调用 done 可以执行默认行为
+   */
+  beforeFinish?: (done: () => void) => void;
 }
 
 /**
@@ -113,6 +125,9 @@ export const FatFormDrawer = declareComponent({
     cancelProps: null,
     destroyOnClose: { type: Boolean, default: true },
 
+    beforeCancel: null,
+    beforeFinish: null,
+
     // slots
     renderTitle: null,
     renderFooter: null,
@@ -127,8 +142,6 @@ export const FatFormDrawer = declareComponent({
 
     // 临时 props
     let tempProps = {};
-
-    const vm = getCurrentInstance()?.proxy;
 
     watch(
       () => props.visible,
@@ -146,20 +159,28 @@ export const FatFormDrawer = declareComponent({
     };
 
     const handleCancel = (done: Function) => {
-      if (hasListener('cancel', vm)) {
-        emit('cancel', done);
-      } else {
+      const doit = () => {
         done();
+        emit('cancel');
+      };
+
+      if (props.beforeCancel) {
+        props.beforeCancel(doit);
+      } else {
+        doit();
       }
     };
 
     const handleFinish = (values: any) => {
-      if (hasListener('finish', vm)) {
-        emit('finish', values, () => {
-          handleVisibleChange(false);
-        });
-      } else {
+      const doit = () => {
+        emit('finish', values);
         handleVisibleChange(false);
+      };
+
+      if (props.beforeFinish) {
+        props.beforeFinish(doit);
+      } else {
+        doit();
       }
     };
 

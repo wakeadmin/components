@@ -1,6 +1,6 @@
 import { Dialog, DialogProps, Button, ButtonProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { ref, watch, getCurrentInstance } from '@wakeadmin/demi';
+import { ref, watch } from '@wakeadmin/demi';
 import { NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
@@ -8,7 +8,6 @@ import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
 import { useLazyFalsy } from '../hooks';
 import {
   forwardExpose,
-  hasListener,
   hasSlots,
   inheritProps,
   normalizeClassName,
@@ -48,14 +47,14 @@ export interface FatFormModalEvents<S extends {}> {
   onVisibleChange?: (visible: boolean) => void;
 
   /**
-   * 取消事件，默认是关闭弹窗
+   * 已取消
    */
-  onCancel?: (close: Function) => void;
+  onCancel?: () => void;
 
   /**
-   * 保存成功，默认关闭弹窗
+   * 保存成功
    */
-  onFinish?: (values: S, close: Function) => void;
+  onFinish?: (values: S) => void;
 }
 
 export interface FatFormModalProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -82,6 +81,16 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
    * 自定义取消 props
    */
   cancelProps?: ButtonProps;
+
+  /**
+   * 点击取消前调用，默认行为是关闭弹窗。调用 done 可以执行默认行为
+   */
+  beforeCancel?: (done: () => void) => void;
+
+  /**
+   * 表单保存成功后调用，默认行为是关闭弹窗。调用 done 可以执行默认行为
+   */
+  beforeFinish?: (done: () => void) => void;
 }
 
 export function useFatFormModalRef<Store extends {}>() {
@@ -108,6 +117,9 @@ export const FatFormModal = declareComponent({
     cancelProps: null,
     destroyOnClose: { type: Boolean, default: true },
 
+    beforeCancel: null,
+    beforeFinish: null,
+
     // slots
     renderTitle: null,
     renderFooter: null,
@@ -122,8 +134,6 @@ export const FatFormModal = declareComponent({
     const form = ref<FatFormMethods<any>>();
     // 临时 props
     let tempProps = {};
-
-    const vm = getCurrentInstance()?.proxy;
 
     watch(
       () => props.visible,
@@ -141,20 +151,28 @@ export const FatFormModal = declareComponent({
     };
 
     const handleCancel = (done: Function) => {
-      if (hasListener('cancel', vm)) {
-        emit('cancel', done);
-      } else {
+      const doit = () => {
         done();
+        emit('cancel');
+      };
+
+      if (props.beforeCancel) {
+        props.beforeCancel(doit);
+      } else {
+        doit();
       }
     };
 
     const handleFinish = (values: any) => {
-      if (hasListener('finish', vm)) {
-        emit('finish', values, () => {
-          handleVisibleChange(false);
-        });
-      } else {
+      const doit = () => {
+        emit('finish', values);
         handleVisibleChange(false);
+      };
+
+      if (props.beforeFinish) {
+        props.beforeFinish(doit);
+      } else {
+        doit();
       }
     };
 

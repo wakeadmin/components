@@ -1,6 +1,6 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { Button, ButtonProps, ClassValue, StyleValue } from '@wakeadmin/element-adapter';
-import { getCurrentInstance, Ref, ref } from '@wakeadmin/demi';
+import { Ref, ref } from '@wakeadmin/demi';
 
 import { FatFormProps, FatFormMethods, FatForm, FatFormSlots } from '../fat-form';
 import {
@@ -9,7 +9,6 @@ import {
   normalizeClassName,
   inheritProps,
   ToHEmitDefinition,
-  hasListener,
   ToHSlotDefinition,
   forwardExpose,
 } from '../utils';
@@ -27,9 +26,9 @@ export type FatFormPageMethods<S extends {}> = FatFormMethods<S>;
 
 export interface FatFormPageEvents {
   /**
-   * 取消事件，默认是返回上一页
+   * 已取消
    */
-  onCancel?: (back: () => void) => void;
+  onCancel?: () => void;
 }
 
 export function useFatFormPageRef<Store extends {}>() {
@@ -69,6 +68,11 @@ export interface FatFormPageProps<Store extends {}, Request extends {} = Store, 
    * 自定义取消 props
    */
   cancelProps?: ButtonProps;
+
+  /**
+   * 点击取消前调用，默认行为是返回上一页。调用 done 可以执行默认行为
+   */
+  beforeCancel?: (done: () => void) => void;
 }
 
 export const FatFormPagePublicMethodKeys = FatFormPublicMethodKeys;
@@ -137,6 +141,8 @@ export const FatFormPage = declareComponent({
     resetText: String,
     resetProps: null,
 
+    beforeCancel: null,
+
     // slots
     renderDefault: null,
     renderExtra: null,
@@ -148,18 +154,20 @@ export const FatFormPage = declareComponent({
   setup(props, { slots, attrs, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
     const configurable = useFatConfigurable();
-    const instance = getCurrentInstance()?.proxy;
 
     const handleCancel = () => {
-      const back = () => {
+      const done = () => {
         if (window.history.length > 1) {
           window.history.back();
         }
+
+        emit('cancel');
       };
-      if (hasListener('cancel', instance)) {
-        emit('cancel', back);
+
+      if (props.beforeCancel) {
+        props.beforeCancel(done);
       } else {
-        back();
+        done();
       }
     };
 
