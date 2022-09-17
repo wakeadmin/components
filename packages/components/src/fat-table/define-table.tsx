@@ -4,10 +4,11 @@ import { declareComponent } from '@wakeadmin/h';
 
 import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 import { FatTablePublicMethodKeys } from './constants';
+import { Atomic } from '../atomic';
 
 import { FatTable } from './fat-table';
 import { useFatTableRef } from './hooks';
-import { FatTableMethods, FatTableProps } from './types';
+import { FatTableMethods, FatTableProps, FatTableColumn } from './types';
 
 export type FatTableDefineProps<Item extends {}, Query extends {}, Extra extends {}> = Partial<
   FatTableProps<Item, Query> & { extra?: Extra }
@@ -16,16 +17,31 @@ export type FatTableDefineProps<Item extends {}, Query extends {}, Extra extends
 export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> =
   | (FatTableProps<Item, Query> & CommonProps)
   | ((
-      instanceRef: Ref<FatTableMethods<Item, Query> | undefined>,
+      helpers: {
+        table: Ref<FatTableMethods<Item, Query> | undefined>;
+        column: <ValueType extends keyof AtomicProps | Atomic>(column: FatTableColumn<Item, Query, ValueType>) => any;
+      },
       props: FatTableDefineProps<Item, Query, Extra>,
       emit: (key: string, ...args: any[]) => void
     ) => () => FatTableProps<Item, Query> & CommonProps);
+
+/**
+ * 定义列。可以获取到更好的类型检查
+ * @param column
+ * @returns
+ */
+export function defineFatTableColumn<Item extends {}, Query extends {}, ValueType extends keyof AtomicProps | Atomic>(
+  column: FatTableColumn<Item, Query, ValueType>
+) {
+  return column;
+}
 
 /**
  * 定义表格组件
  * @template Item 行记录类型
  * @template Query 查询参数类型
  * @params definitions 可以指定定义 fat-table 参数，或者使用类似 setup 的语法
+ * @returns 返回一个 table 组件
  *
  * @example
  *
@@ -49,7 +65,6 @@ export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> 
  * </script>
  * ```
  *
- * @returns 返回一个 table 组件
  */
 export function defineFatTable<Item extends {}, Query extends {} = {}, Extra extends {} = {}>(
   definitions: FatTableDefine<Item, Query, Extra>,
@@ -60,7 +75,9 @@ export function defineFatTable<Item extends {}, Query extends {} = {}, Extra ext
     setup(_, { slots, expose, attrs, emit }) {
       const tableRef = useFatTableRef<Item, Query>();
       const extraDefinitions =
-        typeof definitions === 'function' ? computed(definitions(tableRef, attrs as any, emit)) : definitions;
+        typeof definitions === 'function'
+          ? computed(definitions({ table: tableRef, column: defineFatTableColumn }, attrs as any, emit))
+          : definitions;
 
       const instance = {};
 
@@ -85,3 +102,18 @@ export function defineFatTable<Item extends {}, Query extends {} = {}, Extra ext
     },
   }) as any;
 }
+
+// defineFatTable(({ table, column }) => () => ({
+//   async request() {
+//     return {} as any;
+//   },
+//   columns: [
+//     column({ valueType: 'checkboxs', valueProps: {} }),
+//     column({ valueType: 'text', valueProps: {} }),
+//     column({ valueType: AText, valueProps: {} }),
+//     {valueType: 'hello', valueProps: {}},
+//   ],
+// }));
+
+// defineFatTableColumn({ valueType: AText, valueProps: {} });
+// defineFatTableColumn({ valueType: 'text', valueProps: {} });

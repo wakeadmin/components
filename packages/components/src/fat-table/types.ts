@@ -755,7 +755,7 @@ export interface FatTableProps<T extends {}, S extends {}>
   /**
    * 列声明
    */
-  columns: FatTableColumn<T, S>[];
+  columns: FatTableColumn<T, S, any>[];
 
   /**
    * 是否显示 request 错误信息, 默认开启
