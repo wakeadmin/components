@@ -39,6 +39,7 @@ const FatFormItemInner = declareComponent({
     hidden: { type: [Boolean, Function] as any, default: undefined },
     preserve: { type: Boolean, default: undefined },
     clearable: { type: Boolean, default: undefined },
+    hideMessageOnPreview: { type: Boolean, default: undefined },
     size: null,
     dependencies: null,
     valueClassName: null,
@@ -113,6 +114,13 @@ const FatFormItemInner = declareComponent({
 
     const preserve = computed(() => {
       return props.preserve ?? inheritedProps?.preserve ?? true;
+    });
+
+    const hideMessage = computed(() => {
+      if (mode.value === 'preview' && (props.hideMessageOnPreview ?? inheritedProps?.hideMessageOnPreview ?? true)) {
+        return true;
+      }
+      return false;
     });
 
     const instance: FatFormItemMethods<any> = {
@@ -338,7 +346,7 @@ const FatFormItemInner = declareComponent({
           ? { label: <span /> }
           : undefined;
 
-      const message = (props.message || hasSlots(props, slots, 'message')) && (
+      const message = (props.message || hasSlots(props, slots, 'message')) && !hideMessage.value && (
         <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
           {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', instance) : props.message}
         </div>

@@ -35,6 +35,7 @@ const FatFormGroupInner = declareComponent({
     vertical: Boolean,
     contentClassName: null,
     contentStyle: null,
+    hideMessageOnPreview: { type: Boolean, default: undefined },
 
     // slots
     renderLabel: null,
@@ -89,6 +90,9 @@ const FatFormGroupInner = declareComponent({
       get preserve() {
         return props.preserve ?? inherited?.preserve;
       },
+      get hideMessageOnPreview() {
+        return props.hideMessageOnPreview ?? inherited?.hideMessageOnPreview;
+      },
       get col() {
         return inherited?.col;
       },
@@ -137,6 +141,13 @@ const FatFormGroupInner = declareComponent({
         // element-plus labelWidth auto 情况下，嵌套 form item 使用会创建 label，所以当没有 label 时这里显式设置为 0
         return hasLabel.value ? undefined : '0px';
       }
+    });
+
+    const hideMessage = computed(() => {
+      if (inheritProps.mode === 'preview' && (inheritProps.hideMessageOnPreview ?? true)) {
+        return true;
+      }
+      return false;
     });
 
     provide(FatFormInheritanceContext, inheritProps);
@@ -208,7 +219,7 @@ const FatFormGroupInner = declareComponent({
           ? { label: <span /> }
           : undefined;
 
-      const message = (props.message || hasSlots(props, slots, 'message')) && (
+      const message = (props.message || hasSlots(props, slots, 'message')) && !hideMessage.value && (
         <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
           {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', form) : props.message}
         </div>

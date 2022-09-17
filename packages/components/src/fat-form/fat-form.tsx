@@ -65,6 +65,7 @@ const FatFormInner = declareComponent({
 
     hierarchyConnect: { type: Boolean, default: true },
     syncToInitialValues: Boolean,
+    hideMessageOnPreview: { type: Boolean, default: undefined },
 
     // private
     getValues: null,
@@ -490,6 +491,9 @@ const FatFormInner = declareComponent({
       },
       get col() {
         return props.col;
+      },
+      get hideMessageOnPreview() {
+        return props.hideMessageOnPreview;
       },
     });
 

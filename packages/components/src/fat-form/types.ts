@@ -442,6 +442,11 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
    * 支持状态外置, 特殊情况使用
    */
   getValues?: () => Ref<Store>;
+
+  /**
+   * 是否在预览模式关闭 message 提示, 默认 true
+   */
+  hideMessageOnPreview?: boolean;
 }
 
 /**
@@ -536,6 +541,11 @@ export interface FatFormItemShared {
    * 内容区内联样式
    */
   contentStyle?: StyleValue;
+
+  /**
+   * 是否在预览模式关闭 message 提示, 默认 true
+   */
+  hideMessageOnPreview?: boolean;
 }
 
 /**
@@ -548,6 +558,7 @@ export interface FatFormItemInheritableProps {
   hidden?: boolean;
   clearable?: boolean;
   preserve?: boolean;
+  hideMessageOnPreview?: boolean;
   // 浅层 col 配置
   col?: ColProps;
 }
