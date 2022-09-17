@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/components",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "wakeadmin 组件库",
   "module": "./dist/index.js",
   "main": "./dist/common/index.js",

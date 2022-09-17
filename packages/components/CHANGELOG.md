@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 0.4.2
+
+### Patch Changes
+
+- - 修复 fat-text copy 不生效
+  - fat-table 默认关闭 requestOnQueryChange
+
 ## 0.4.1
 
 ### Patch Changes
