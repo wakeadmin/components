@@ -2,6 +2,7 @@
 <template>
   <div>
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
+    <FatText copyable>hello</FatText>
     <FatForm :mode="previewMode ? 'preview' : 'editable'" class="form">
       <FatFormItem prop="text" label="text" value-type="text" width="small" />
       <FatFormItem prop="password" label="password" value-type="password" width="small" />
@@ -100,7 +101,7 @@
 </template>
 
 <script lang="tsx" setup>
-  import { FatForm, FatFormItem, FatFormGroup, FatFormConsumer } from '@wakeadmin/components';
+  import { FatForm, FatFormItem, FatFormGroup, FatText, FatFormConsumer } from '@wakeadmin/components';
   import { ref } from 'vue';
 
   const previewMode = ref(false);

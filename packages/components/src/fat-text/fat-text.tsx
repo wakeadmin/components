@@ -1,8 +1,9 @@
-import { computed, CSSProperties, HTMLAttributes, ref, watch, onUpdated, nextTick } from '@wakeadmin/demi';
+import { computed, CSSProperties, HTMLAttributes, ref, watch, onUpdated, onMounted, nextTick } from '@wakeadmin/demi';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { Tooltip, Message } from '@wakeadmin/element-adapter';
 import { Copy } from '@wakeadmin/icons';
 import { debounce } from '@wakeadmin/utils';
+import copy from 'copy-to-clipboard';
 
 import { FatIcon } from '../fat-icon';
 import { Color, inheritProps, normalizeClassName, normalizeColor, normalizeStyle } from '../utils';
@@ -135,6 +136,12 @@ export const FatText = declareComponent({
       { flush: 'post', immediate: true }
     );
 
+    onMounted(() => {
+      if (textRef.value) {
+        textContent.value = textRef.value.textContent ?? '';
+      }
+    });
+
     onUpdated(() => {
       if (textRef.value) {
         const nextTextContent = textRef.value.textContent ?? '';
@@ -152,7 +159,7 @@ export const FatText = declareComponent({
 
       let content = typeof props.copyable === 'string' ? props.copyable : textContent.value;
 
-      window.navigator.clipboard.writeText(content);
+      copy(content);
       Message.success('已拷贝');
     };
 

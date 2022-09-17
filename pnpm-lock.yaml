@@ -105,6 +105,7 @@ importers:
       '@wakeadmin/h': latest
       '@wakeadmin/icons': latest
       '@wakeadmin/utils': latest
+      copy-to-clipboard: ^3.3.2
       vitest: ^0.23.1
     dependencies:
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.1.1
@@ -112,6 +113,7 @@ importers:
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.4
       '@wakeadmin/icons': 172.26.59.72+4873/@wakeadmin/icons/0.1.2
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.1
+      copy-to-clipboard: 172.26.59.72+4873/copy-to-clipboard/3.3.2
     devDependencies:
       vitest: 172.26.59.72+4873/vitest/0.23.1
 
@@ -8680,6 +8682,19 @@ packages:
     version: 0.1.1
     engines: { node: '>=0.10.0' }
     dev: true
+
+  172.26.59.72+4873/copy-to-clipboard/3.3.2:
+    resolution:
+      {
+        integrity: sha512-Vme1Z6RUDzrb6xAI7EZlVZ5uvOk2F//GaxKUxajDqm9LhOVM1inxNAD2vy+UZDYsd0uyA9s7b3/FVZPSxqrCfg==,
+        registry: http://npm.wakedata-inc.com/,
+        tarball: http://172.26.59.72:4873/copy-to-clipboard/-/copy-to-clipboard-3.3.2.tgz,
+      }
+    name: copy-to-clipboard
+    version: 3.3.2
+    dependencies:
+      toggle-selection: 172.26.59.72+4873/toggle-selection/1.0.6
+    dev: false
 
   172.26.59.72+4873/copy-webpack-plugin/9.1.0_webpack@5.74.0:
     resolution:
@@ -20937,6 +20952,17 @@ packages:
       regex-not: 172.26.59.72+4873/regex-not/1.0.2
       safe-regex: 172.26.59.72+4873/safe-regex/1.1.0
     dev: true
+
+  172.26.59.72+4873/toggle-selection/1.0.6:
+    resolution:
+      {
+        integrity: sha1-bkWxJj8gF/oKzH2J14sVuL932jI=,
+        registry: http://npm.wakedata-inc.com/,
+        tarball: http://172.26.59.72:4873/toggle-selection/-/toggle-selection-1.0.6.tgz,
+      }
+    name: toggle-selection
+    version: 1.0.6
+    dev: false
 
   172.26.59.72+4873/toidentifier/1.0.1:
     resolution:

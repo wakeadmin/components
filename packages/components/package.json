@@ -29,9 +29,9 @@
   "author": "ivan-lee",
   "license": "MIT",
   "peerDependencies": {
-    "vue": ">=2.7.0",
     "element-plus": "^2.2.12",
-    "element-ui": "^2.15.9"
+    "element-ui": "^2.15.9",
+    "vue": ">=2.7.0"
   },
   "peerDependenciesMeta": {
     "element-ui": {
@@ -42,11 +42,12 @@
     }
   },
   "dependencies": {
-    "@wakeadmin/element-adapter": "workspace:^0.2.0",
     "@wakeadmin/demi": "latest",
+    "@wakeadmin/element-adapter": "workspace:^0.2.0",
     "@wakeadmin/h": "latest",
     "@wakeadmin/icons": "latest",
-    "@wakeadmin/utils": "latest"
+    "@wakeadmin/utils": "latest",
+    "copy-to-clipboard": "^3.3.2"
   },
   "devDependencies": {
     "vitest": "^0.23.1"
