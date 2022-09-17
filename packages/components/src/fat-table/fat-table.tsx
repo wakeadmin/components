@@ -52,7 +52,7 @@ const FatTableInner = declareComponent({
     requestOnMounted: { type: Boolean, default: true },
     requestOnSortChange: { type: Boolean, default: true },
     requestOnFilterChange: { type: Boolean, default: true },
-    requestOnQueryChange: { type: Boolean, default: true },
+    requestOnQueryChange: { type: Boolean, default: false },
     requestOnRemoved: { type: Boolean, default: true },
     remove: null,
     confirmBeforeRemove: { type: [Boolean, Function, Object, String] as any, default: true },
