@@ -41,7 +41,7 @@ export interface FatAction {
   /**
    * 点击事件, link 类型默认会打开路由, 可以返回 false 来阻止默认行为
    */
-  onClick?: (action: FatAction) => boolean | undefined | Promise<boolean | undefined>;
+  onClick?: (action: FatAction) => boolean | void | Promise<boolean | void>;
 
   /**
    * 路由，如果提供这个，将忽略 onClick

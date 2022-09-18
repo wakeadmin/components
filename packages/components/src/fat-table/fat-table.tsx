@@ -43,6 +43,7 @@ import { validateColumns, genKey, mergeAndTransformQuery } from './utils';
 import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
+import { BatchActions } from './batch-actions';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -76,6 +77,7 @@ const FatTableInner = declareComponent({
     title: null,
     layout: null,
     layoutProps: null,
+    batchActions: null,
 
     // slots
     renderTitle: null,
@@ -653,6 +655,31 @@ const FatTableInner = declareComponent({
         : undefined
     );
 
+    const renderToolbar = computed(() => {
+      const hasToolbarSlots = hasSlots(props, slots, 'toolbar');
+      if (hasToolbarSlots || props.batchActions?.length) {
+        return () => {
+          const contentOfToolbar = hasToolbarSlots ? renderSlot(props, slots, 'toolbar', tableInstance) : undefined;
+
+          if (props.batchActions?.length) {
+            const actions = (
+              <BatchActions
+                actions={props.batchActions}
+                tableInstance={tableInstance}
+                v-slots={{ default: contentOfToolbar }}
+              />
+            );
+
+            return actions;
+          }
+
+          return contentOfToolbar;
+        };
+      }
+
+      return undefined;
+    });
+
     return () => {
       const layout = props.layout ?? configurable.fatTable?.layout ?? 'default';
       const layoutImpl: FatTableLayout = typeof layout === 'function' ? layout : BUILTIN_LAYOUTS[layout];
@@ -718,9 +745,7 @@ const FatTableInner = declareComponent({
                   />
                 )
             : undefined,
-        renderToolbar: hasSlots(props, slots, 'toolbar')
-          ? () => renderSlot(props, slots, 'toolbar', tableInstance)
-          : undefined,
+        renderToolbar: renderToolbar.value,
         renderTable: () => (
           <Table
             {...inheritProps()}

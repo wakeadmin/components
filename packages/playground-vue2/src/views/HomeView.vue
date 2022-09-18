@@ -11,6 +11,7 @@
       message-on-removed="fuck"
       :enable-select="true"
       row-class-name="fuck"
+      :batch-actions="[{ name: '删除已选', confirm: '确认删除?' }]"
       @row-click="handleClick"
       @queryCacheRestore="handleCacheRestore"
     >

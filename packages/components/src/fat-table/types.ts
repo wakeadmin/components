@@ -6,6 +6,7 @@ import {
   ClassValue,
   PaginationProps,
   TableMethods,
+  ButtonProps,
 } from '@wakeadmin/element-adapter';
 
 import { Atomic } from '../atomic';
@@ -295,16 +296,74 @@ export type FatTableAction<T extends {}, S extends {}> = Omit<
     row: T;
     index: number;
   }>;
+
   /**
-   * 点击处理器
+   * 点击事件, link 类型默认会打开路由, 可以返回 false 来阻止默认行为
    */
   onClick?: (
     table: FatTableMethods<T, S>,
     row: T,
     action: FatTableAction<T, S>,
     index: number
-  ) => void | boolean | undefined | Promise<boolean | undefined | void>;
+  ) => void | boolean | Promise<boolean | void>;
 };
+
+/**
+ * 批量操作按钮
+ */
+export interface FatTableBatchAction<T extends {}, S extends {}> {
+  /**
+   * 未选择情况下禁用按钮, 默认 true
+   */
+  disabledUnselected?: boolean;
+
+  /**
+   * 可视状态, 默认 true
+   */
+  visible?: boolean;
+
+  /**
+   * 禁用状态, 默认 false
+   */
+  disabled?: boolean;
+
+  /**
+   * 确认消息
+   */
+  confirm?: LooseMessageBoxOptions<{
+    table: FatTableMethods<T, S>;
+  }>;
+
+  /**
+   * 点击
+   */
+  onClick?: (table: FatTableMethods<T, S>) => void;
+
+  /**
+   * 文案提示
+   */
+  title?: string;
+
+  /**
+   * 自定义样式
+   */
+  style?: StyleValue;
+
+  /**
+   * 自定义类名
+   */
+  className?: ClassValue;
+
+  /**
+   * 文案
+   */
+  name: string;
+
+  /**
+   * 额外按钮属性
+   */
+  buttonProps?: ButtonProps;
+}
 
 /**
  * --------------- actions 类型特定参数 -----------------
@@ -705,14 +764,14 @@ export type FatTableRawProps = Omit<TableProps, 'data' | 'rowKey' | 'defaultSort
 /**
  * fat-table 参数
  */
-export interface FatTableProps<T extends {}, S extends {}>
-  extends FatTableRemove<T>,
-    FatTableQuery<T, S>,
-    FatTableSelect<T>,
+export interface FatTableProps<Item extends {}, Query extends {}>
+  extends FatTableRemove<Item>,
+    FatTableQuery<Item, Query>,
+    FatTableSelect<Item>,
     FatTablePagination,
     FatTableRawProps,
-    FatTableEvents<T>,
-    FatTableSlots<T, S> {
+    FatTableEvents<Item>,
+    FatTableSlots<Item, Query> {
   /**
    * 表格页布局
    * mapp 微前端
@@ -730,12 +789,12 @@ export interface FatTableProps<T extends {}, S extends {}>
   /**
    * 唯一 id, 用于获取唯一 id
    */
-  rowKey?: string | ((row: T) => string | number);
+  rowKey?: string | ((row: Item) => string | number);
 
   /**
    * 数据请求
    */
-  request: (params: FatTableRequestParams<T, S>) => Promise<FatTableRequestResponse<T>>;
+  request: (params: FatTableRequestParams<Item, Query>) => Promise<FatTableRequestResponse<Item>>;
 
   /**
    * 是否在挂载时就进行请求, 默认为 true
@@ -755,7 +814,7 @@ export interface FatTableProps<T extends {}, S extends {}>
   /**
    * 列声明
    */
-  columns: FatTableColumn<T, S, any>[];
+  columns: FatTableColumn<Item, Query, any>[];
 
   /**
    * 是否显示 request 错误信息, 默认开启
@@ -776,6 +835,13 @@ export interface FatTableProps<T extends {}, S extends {}>
    * 标题
    */
   title?: string;
+
+  /**
+   * 批量操作按钮
+   */
+  batchActions?:
+    | FatTableBatchAction<Item, Query>[]
+    | ((table: FatTableMethods<Item, Query>) => FatTableBatchAction<Item, Query>[]);
 }
 
 export interface PaginationState {
