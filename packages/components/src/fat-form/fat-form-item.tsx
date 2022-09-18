@@ -192,7 +192,7 @@ const FatFormItemInner = declareComponent({
      * 是否开启字段验证
      */
     const validateEnabled = computed(() => {
-      return !hidden.value && !disabled.value;
+      return !hidden.value && !disabled.value && mode.value !== 'preview';
     });
 
     const rules = computed(() => {
