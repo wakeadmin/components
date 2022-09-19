@@ -36,7 +36,7 @@ export interface FatAction {
   /**
    * 禁用
    */
-  disabled?: boolean;
+  disabled?: boolean | (() => boolean);
 
   /**
    * 点击事件, link 类型默认会打开路由, 可以返回 false 来阻止默认行为
@@ -61,7 +61,7 @@ export interface FatAction {
   /**
    * 文案提示
    */
-  title?: string;
+  title?: string | (() => string);
 
   /**
    * 确认弹窗，默认关闭
@@ -159,11 +159,11 @@ export const FatActions = declareComponent({
                 })}
                 style={normalizeStyle(i.style)}
                 type={type.value === 'text' ? 'text' : i.type}
-                disabled={i.disabled}
+                disabled={typeof i.disabled === 'function' ? i.disabled() : i.disabled}
                 onClick={() => handleClick(i)}
                 size={size.value}
                 // @ts-expect-error
-                title={i.title}
+                title={typeof i.title === 'function' ? i.title() : i.title}
               >
                 {i.name}
               </Button>
@@ -183,10 +183,10 @@ export const FatActions = declareComponent({
                           key={`${i.name}_${idx}`}
                           class={normalizeClassName('fat-actions__menu-item', i.className, i.type)}
                           style={normalizeStyle(i.style)}
-                          disabled={i.disabled}
+                          disabled={typeof i.disabled === 'function' ? i.disabled() : i.disabled}
                           command={i}
                           // @ts-expect-error
-                          title={i.title}
+                          title={typeof i.title === 'function' ? i.title() : i.title}
                         >
                           {i.name}
                         </DropdownItem>

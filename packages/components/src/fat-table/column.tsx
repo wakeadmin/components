@@ -40,6 +40,7 @@ export const Actions = declareComponent({
             typeof action.disabled === 'function'
               ? action.disabled(tableInstance, row, action, index)
               : action.disabled,
+          title: typeof action.title === 'function' ? action.title(tableInstance, row, action, index) : action.title,
           visible:
             typeof action.visible === 'function' ? action.visible(tableInstance, row, action, index) : action.visible,
           onClick: () => {

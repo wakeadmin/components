@@ -283,9 +283,10 @@ export interface FatTableEvents<T> {
 
 export type FatTableAction<T extends {}, S extends {}> = Omit<
   FatAction,
-  'onClick' | 'confirm' | 'visible' | 'disabled'
+  'onClick' | 'confirm' | 'visible' | 'disabled' | 'title'
 > & {
   visible?: boolean | ((table: FatTableMethods<T, S>, row: T, action: FatTableAction<T, S>, index: number) => boolean);
+  title?: string | ((table: FatTableMethods<T, S>, row: T, action: FatTableAction<T, S>, index: number) => string);
   disabled?: boolean | ((table: FatTableMethods<T, S>, row: T, action: FatTableAction<T, S>, index: number) => boolean);
   /**
    * 提示信息
