@@ -6,7 +6,10 @@
 
   &__btn {
     color: $wk-color-info;
-    margin-left: $gap;
+
+    &:hover {
+      color: $wk-color-info;
+    }
 
     &.danger {
       color: $wk-color-danger;
@@ -14,6 +17,10 @@
 
     &.warning {
       color: $wk-color-warning;
+    }
+
+    & + & {
+      margin-left: $gap;
     }
   }
 
