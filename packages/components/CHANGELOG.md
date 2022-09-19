@@ -1,5 +1,19 @@
 # @wakeadmin/components
 
+## 0.5.0
+
+### Minor Changes
+
+#### Bugs 修复
+
+- 修复 fat-table column 无法推断 valueProps 类型
+- fat-form-item 预览模式下关闭验证
+
+### 新功能
+
+- fat-form 支持 hideMessageOnPreview
+- fat-table 支持 batchActions
+
 ## 0.4.2
 
 ### Patch Changes
