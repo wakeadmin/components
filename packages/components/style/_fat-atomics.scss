@@ -43,7 +43,13 @@
   &__p-item {
     width: $size;
     height: $size;
-    background-size: cover;
+    display: block;
     border-radius: 3px;
+    &-img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
   }
 }

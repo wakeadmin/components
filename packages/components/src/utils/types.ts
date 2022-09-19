@@ -78,3 +78,5 @@ type UnionToTupleRecurser<Union, Res extends any[]> = [
   : never;
 
 export type UnionToTuple<Union> = UnionToTupleRecurser<Union, []>;
+
+export type GetArrayMeta<T> = T extends (infer M)[] ? M : never;
