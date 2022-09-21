@@ -4,7 +4,7 @@ import { Ref, customRef } from '@wakeadmin/demi';
 import { normalizeClassName } from '../utils';
 
 import { FatTableColumn } from './types';
-import { FatFormItem, FatFormMethods } from '../fat-form';
+import { FatFormGroup, FatFormItem, FatFormMethods } from '../fat-form';
 import { FatFormQuery, FatFormQueryMethods } from '../fat-form-layout';
 
 export const Query = declareComponent({
@@ -59,7 +59,13 @@ export const Query = declareComponent({
             layout="inline"
             submitOnQueryChange={false}
             renderSubmitter={(form, buttons) => {
-              return [ctx.slots.beforeButtons?.(scope), buttons(), ctx.slots.afterButtons?.(scope)];
+              return [
+                ctx.slots.beforeButtons?.(scope),
+                <FatFormGroup labelWidth="auto" gutter="medium" col={false}>
+                  {buttons()}
+                </FatFormGroup>,
+                ctx.slots.afterButtons?.(scope),
+              ];
             }}
             submit={submit}
             onReset={reset}
