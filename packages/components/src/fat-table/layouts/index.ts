@@ -1,8 +1,10 @@
-import defaultLayout from './default';
+import DefaultLayout from './default';
+import SimpleLayout from './simple';
 
 /**
  * 内置布局
  */
 export const BUILTIN_LAYOUTS = {
-  default: defaultLayout,
+  default: DefaultLayout,
+  simple: SimpleLayout,
 };

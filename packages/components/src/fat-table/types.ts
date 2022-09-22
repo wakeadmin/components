@@ -780,7 +780,7 @@ export interface FatTableProps<Item extends {}, Query extends {}>
    *
    * 也支持自定义
    */
-  layout?: 'default' | FatTableLayout;
+  layout?: 'default' | 'simple' | FatTableLayout;
 
   /**
    * 自定义布局参数

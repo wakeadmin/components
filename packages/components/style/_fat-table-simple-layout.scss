@@ -1,0 +1,44 @@
+@use 'share' as *;
+@use 'variables' as *;
+
+.fat-table--simple {
+  margin-top: 16px;
+  background-color: $wk-color-white;
+  .fat-table__toolbar,
+  .fat-table__bottom-toolbar {
+    padding: 16px 0;
+  }
+
+  .fat-table__pagination {
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 16px;
+  }
+  .fat-table__header {
+    padding: 0 16px;
+    &-top {
+      display: flex;
+      align-items: center;
+    }
+    &-title {
+      font-size: 14px;
+      color: getVar(color-black, #303133);
+      line-height: 14px;
+      margin: 16px 0;
+    }
+    &-extra {
+      margin-left: auto;
+    }
+  }
+  .fat-table__content {
+    padding: 0 16px;
+  }
+}
+
+.fat-table--single {
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  .fat-table__header {
+    border-bottom: 1px solid #ebeef5;
+  }
+}
