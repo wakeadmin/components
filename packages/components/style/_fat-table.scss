@@ -16,4 +16,13 @@
       fill: $tooltip-hover-color;
     }
   }
+
+  &__query {
+    .el-form-item {
+      margin-bottom: 16px;
+    }
+    .el-form-item__label {
+      padding-right: 7px;
+    }
+  }
 }

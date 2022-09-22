@@ -370,7 +370,7 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
   labelWidth?: string | number;
 
   /**
-   * 表单域标签的后缀, 默认 '：'
+   * 表单域标签的后缀, 默认 ':'
    */
   labelSuffix?: string;
 

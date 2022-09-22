@@ -413,7 +413,7 @@ const FatFormInner = declareComponent({
         return props.labelWidth ?? 'auto';
       },
       get labelSuffix() {
-        return props.labelSuffix ?? configurable.fatForm?.labelAlign ?? '：';
+        return props.labelSuffix ?? configurable.fatForm?.labelSuffix ?? ':';
       },
       get size() {
         return props.size ?? configurable.fatForm?.size;

@@ -4,7 +4,7 @@
 .fat-header {
   $radius: $wk-border-radius-sm;
   $height: getVar(header-height, 58px);
-  $body-padding: getVar(header-body-padding, 20px 16px);
+  $body-padding: getVar(header-body-padding, 16px 16px 0 16px);
 
   background-color: $wk-color-white;
   border-radius: $radius;
