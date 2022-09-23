@@ -13,3 +13,4 @@ export * from './atomic';
 export * from './builtin-atomic';
 
 export { plugin } from './plugin';
+export { normalizeClassName, normalizeStyle } from './utils';

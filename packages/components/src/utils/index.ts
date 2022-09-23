@@ -11,3 +11,4 @@ export * from './color';
 export * from './promise';
 export * from './misc';
 export * from './loose-message';
+export * from './format';

@@ -15,7 +15,7 @@ import { Plus } from '@wakeadmin/icons';
 
 import { FatIcon } from '../../fat-icon';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { normalizeClassName, normalizeStyle } from '../../utils';
+import { formatFileSize, normalizeClassName, normalizeStyle } from '../../utils';
 import { useFatConfigurable } from '../../fat-configurable';
 
 /**
@@ -113,7 +113,7 @@ export const AImagesComponent = defineAtomicComponent(
     const beforeUpload = async (file: UploadInternalRawFile) => {
       try {
         if (props.sizeLimit && file.size > props.sizeLimit) {
-          throw new Error(`文件大小不能大于 ${(props.sizeLimit / 1024 / 1024).toFixed(1)} MB`);
+          throw new Error(`文件大小不能大于 ${formatFileSize(props.sizeLimit)}`);
         }
 
         if (props.beforeUpload) {
