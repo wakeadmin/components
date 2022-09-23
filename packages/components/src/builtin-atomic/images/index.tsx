@@ -26,7 +26,7 @@ export type AImagesValue = any[];
 // TODO: vue3 测试
 export type AImagesProps = DefineAtomicProps<
   AImagesValue,
-  Omit<UploadProps, 'fileList' | 'onChange' | 'onRemove'>,
+  Omit<UploadProps, 'fileList' | 'onChange' | 'onRemove' | 'accept'>,
   {
     /**
      * 转换 value 为 upload 能识别的 file-item
@@ -53,6 +53,15 @@ export type AImagesProps = DefineAtomicProps<
      * 大小限制
      */
     sizeLimit?: number;
+
+    /**
+     * 遵循 input#file 规范 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept
+     *
+     * 你也可以传入扩展名数组, 例如 [.jpg, .jpeg, .png].
+     *
+     * NOTE: 传入扩展名数组，我们才会对文件类型进行校验，否则只是在系统文件选择器中进行筛选
+     */
+    accept?: string | string[];
 
     /**
      * 自定义渲染
@@ -84,6 +93,20 @@ export const AImagesComponent = defineAtomicComponent(
     // 缓存 uid 修复动画问题
     const uidCache: Map<any, string | number> = new Map();
 
+    const accept = computed(() => {
+      if (Array.isArray(props.accept)) {
+        if (process.env.NODE_ENV !== 'production') {
+          // 检查是否为扩展名
+          if (props.accept.some(i => !i.startsWith('.'))) {
+            throw new Error('[wakeadmin/components] images atomic accept 需要传入扩展名数组，例如 [".png"]');
+          }
+        }
+        return props.accept.join(',');
+      }
+
+      return props.accept ?? 'image/*';
+    });
+
     const fileList = computed(() => {
       return props.value == null
         ? NoopArray
@@ -114,6 +137,13 @@ export const AImagesComponent = defineAtomicComponent(
       try {
         if (props.sizeLimit && file.size > props.sizeLimit) {
           throw new Error(`文件大小不能大于 ${formatFileSize(props.sizeLimit)}`);
+        }
+
+        if (Array.isArray(props.accept)) {
+          const filename = file.name;
+          if (!props.accept.some(ext => filename.endsWith(ext))) {
+            throw new Error(`请选择 ${props.accept.join(', ')} 格式文件`);
+          }
         }
 
         if (props.beforeUpload) {
@@ -193,6 +223,7 @@ export const AImagesComponent = defineAtomicComponent(
         sizeLimit,
         filter,
         renderPreview,
+        accept: _accept, // ignore
 
         ...other
       } = props;
@@ -227,7 +258,7 @@ export const AImagesComponent = defineAtomicComponent(
           listType="picture-card"
           onExceed={handleExceed}
           multiple={props.limit !== 1}
-          accept="image/*"
+          accept={accept.value}
           {...other}
           class={normalizeClassName('fat-a-images', { 'fat-a-images--exceeded': exceeded.value }, other.class)}
           style={normalizeStyle(rootStyle.value, other.style)}

@@ -22,6 +22,10 @@
     height: $size;
   }
 
+  .el-upload-list__item-thumbnail {
+    object-fit: contain;
+  }
+
   &__add {
     height: 100% !important;
   }
