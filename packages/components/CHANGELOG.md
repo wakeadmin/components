@@ -1,5 +1,16 @@
 # @wakeadmin/components
 
+## 0.5.2
+
+### Patch Changes
+
+- Bug 修复
+
+  - 图片上传 sizeLimit 格式化
+  - 图片上传支持扩展名验证
+  - fat-form-modal/drawer 默认关闭遮罩点击
+  - fat-action disabled 情况下无法显示 title
+
 ## 0.5.1
 
 ### Patch Changes
