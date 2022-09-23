@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 0.5.3
+
+### Patch Changes
+
+- - fat-actions 样式优化
+  - upload 提示语优化
+
 ## 0.5.2
 
 ### Patch Changes
