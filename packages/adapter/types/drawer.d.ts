@@ -44,8 +44,10 @@ export interface DrawerProps {
 
   withHeader?: boolean;
 
-  /* Flag attribute whi */
+  // vue 2 点击遮罩关闭
   wrapperClosable?: boolean;
+  // vue 3 点击遮罩关闭
+  closeOnClickModal?: boolean;
 
   // events
   'onUpdate:modelValue'?: (visible: boolean) => void;

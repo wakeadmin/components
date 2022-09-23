@@ -229,6 +229,8 @@ export const FatFormModal = declareComponent({
           class={normalizeClassName('fat-form-modal', attrs.class)}
           style={attrs.style}
           modalAppendToBody={true}
+          closeOnClickModal={false}
+          closeOnPressEscape={false}
           {...passthroughProps}
           {...tempProps}
           beforeClose={handleCancel}

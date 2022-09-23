@@ -239,6 +239,9 @@ export const FatFormDrawer = declareComponent({
           style={attrs.style}
           size={props.drawerSize}
           modalAppendToBody={true}
+          wrapperClosable={false}
+          closeOnClickModal={false}
+          closeOnPressEscape={false}
           {...passthroughProps}
           {...tempProps}
           beforeClose={handleCancel}
