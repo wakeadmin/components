@@ -45,6 +45,11 @@ export type AImagesProps = DefineAtomicProps<
     filter?: (item: UploadInternalFileDetail) => void | boolean | Promise<boolean | void>;
 
     /**
+     * 自定义限额提示语, 再尺寸、大小不符合预期的情况下提示
+     */
+    limitMessage?: string;
+
+    /**
      * 图片尺寸, 默认 86px
      */
     size?: number | string;
@@ -136,13 +141,13 @@ export const AImagesComponent = defineAtomicComponent(
     const beforeUpload = async (file: UploadInternalRawFile) => {
       try {
         if (props.sizeLimit && file.size > props.sizeLimit) {
-          throw new Error(`文件大小不能大于 ${formatFileSize(props.sizeLimit)}`);
+          throw new Error(props.limitMessage ?? `请选择小于 ${formatFileSize(props.sizeLimit)} 的文件`);
         }
 
         if (Array.isArray(props.accept)) {
           const filename = file.name;
           if (!props.accept.some(ext => filename.endsWith(ext))) {
-            throw new Error(`请选择 ${props.accept.join(', ')} 格式文件`);
+            throw new Error(props.limitMessage ?? `请选择 ${props.accept.map(i => i.slice(1)).join('/')} 格式的文件`);
           }
         }
 

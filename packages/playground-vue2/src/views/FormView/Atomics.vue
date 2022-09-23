@@ -83,7 +83,8 @@
         label="images"
         value-type="images"
         :value-props="{ sizeLimit: 1024 * 100, accept: ['.png', '.jpg'] }"
-        message="请上传文件，大小不超过 100kb"
+        :rules="{ required: true }"
+        message="请上传文件，大小不超过 100 KB"
       ></FatFormItem>
       <FatFormItem
         prop="imagesLimited"
