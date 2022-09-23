@@ -7,7 +7,8 @@
   &__btn {
     color: $wk-color-info;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: $wk-color-info;
     }
 
