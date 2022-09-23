@@ -1,5 +1,17 @@
 # @wakeadmin/components
 
+## 0.5.1
+
+### Patch Changes
+
+- 修改表单的默认分隔符为`:`
+- 调整表格的搜索表单样式
+
+### 新功能
+
+- fat-actions 的 title、disabled 支持传入函数
+- 新增 simple fat-table 的布局
+
 ## 0.5.0
 
 ### Minor Changes
