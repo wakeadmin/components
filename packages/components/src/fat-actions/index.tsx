@@ -118,7 +118,19 @@ export const FatActions = declareComponent({
       return rawList.value.slice(max.value);
     });
 
+    const isDisabled = (action: FatAction) => {
+      if (action.disabled != null) {
+        return typeof action.disabled === 'function' ? action.disabled() : action.disabled;
+      }
+
+      return false;
+    };
+
     const handleClick = async (action: FatAction) => {
+      if (isDisabled(action)) {
+        return;
+      }
+
       if (action.confirm) {
         const options = createMessageBoxOptions(
           action.confirm,
@@ -159,7 +171,7 @@ export const FatActions = declareComponent({
                 })}
                 style={normalizeStyle(i.style)}
                 type={type.value === 'text' ? 'text' : i.type}
-                disabled={typeof i.disabled === 'function' ? i.disabled() : i.disabled}
+                disabled={isDisabled(i)}
                 onClick={() => handleClick(i)}
                 size={size.value}
                 // @ts-expect-error
@@ -178,12 +190,15 @@ export const FatActions = declareComponent({
                 dropdown: (
                   <DropdownMenu class="fat-actions__menu">
                     {moreList.value.map((i, idx) => {
+                      const disabled = isDisabled(i);
                       return (
                         <DropdownItem
                           key={`${i.name}_${idx}`}
-                          class={normalizeClassName('fat-actions__menu-item', i.className, i.type)}
+                          class={normalizeClassName('fat-actions__menu-item', i.className, i.type, {
+                            'fat-actions__menu-item--disabled': disabled,
+                          })}
                           style={normalizeStyle(i.style)}
-                          disabled={typeof i.disabled === 'function' ? i.disabled() : i.disabled}
+                          disabled={disabled}
                           command={i}
                           // @ts-expect-error
                           title={typeof i.title === 'function' ? i.title() : i.title}

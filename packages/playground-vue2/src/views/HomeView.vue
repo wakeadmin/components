@@ -150,7 +150,7 @@
       width: 260,
       labelAlign: 'center',
       actions: [
-        { name: 'Hello', onClick: () => console.log('Hello'), title: 'hello title' },
+        { name: 'Hello', onClick: () => console.log('Hello'), title: 'hello title', disabled: true },
         {
           name: 'World',
           type: 'warning',
@@ -164,7 +164,14 @@
           },
         },
         { name: 'Bar', disabled: true },
-        { name: 'Foo', disabled: true },
+        {
+          name: 'Foo',
+          disabled: true,
+          title: 'hello title',
+          onClick: () => {
+            console.log('foo click');
+          },
+        },
         { name: 'Baz', visible: false },
         { name: 'Bazz', title: 'hello title' },
       ],

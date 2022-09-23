@@ -28,6 +28,10 @@
     vertical-align: middle;
   }
 
+  &__menu-item--disabled {
+    pointer-events: auto !important;
+  }
+
   &__more {
     cursor: pointer;
     margin-left: $gap;
