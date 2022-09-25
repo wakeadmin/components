@@ -15,6 +15,8 @@
       @row-click="handleClick"
       @queryCacheRestore="handleCacheRestore"
     >
+      <template #beforeTable><span>before table</span></template>
+      <template #afterTable><span>before table</span></template>
       <template #title>标题</template>
       <template #navBar><el-button type="primary">新建</el-button></template>
       <template #toolbar>

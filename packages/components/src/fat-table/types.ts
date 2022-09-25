@@ -233,6 +233,11 @@ export interface FatTableSlots<T extends {}, S extends {}> {
   renderError?: (table: FatTableMethods<T, S>) => any;
 
   /**
+   * 插入到 table 之前
+   */
+  renderBeforeTable?: (table: FatTableMethods<T, S>) => any;
+
+  /**
    * 渲染表格前部，可以注入自定义列
    */
   renderTableHeading?: (table: FatTableMethods<T, S>) => any;
@@ -246,6 +251,11 @@ export interface FatTableSlots<T extends {}, S extends {}> {
    * 渲染表格后部，可以注入自定义列
    */
   renderTableTrailing?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 插入到 table 之后
+   */
+  renderAfterTable?: (table: FatTableMethods<T, S>) => any;
 
   /**
    * 渲染底部工具栏

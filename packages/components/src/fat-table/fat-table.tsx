@@ -655,6 +655,18 @@ const FatTableInner = declareComponent({
         : undefined
     );
 
+    const renderNavBar = computed(() => {
+      return hasSlots(props, slots, 'navBar') ? () => renderSlot(props, slots, 'navBar', tableInstance) : undefined;
+    });
+
+    const renderEmpty = computed(() => {
+      return hasSlots(props, slots, 'empty') ? (
+        renderSlot(props, slots, 'empty', tableInstance)
+      ) : (
+        <Empty description={props.emptyText ?? configurable.fatTable?.emptyText ?? '暂无数据'}></Empty>
+      );
+    });
+
     const renderToolbar = computed(() => {
       const hasToolbarSlots = hasSlots(props, slots, 'toolbar');
       if (hasToolbarSlots || props.batchActions?.length) {
@@ -680,6 +692,29 @@ const FatTableInner = declareComponent({
       return undefined;
     });
 
+    const renderBottomToolbar = computed(() => {
+      return hasSlots(props, slots, 'bottomToolbar')
+        ? () => renderSlot(props, slots, 'bottomToolbar', tableInstance)
+        : undefined;
+    });
+
+    const renderError = computed(() => {
+      return error.value && props.enableErrorCapture
+        ? () =>
+            hasSlots(props, slots, 'error') ? (
+              renderSlot(props, slots, 'error')
+            ) : (
+              <Alert
+                title={props.errorTitle ?? configurable.fatTable?.errorTitle ?? '数据加载失败'}
+                type="error"
+                showIcon
+                description={error.value!.message}
+                closable={false}
+              />
+            )
+        : undefined;
+    });
+
     return () => {
       const layout = props.layout ?? configurable.fatTable?.layout ?? 'default';
       const layoutImpl: FatTableLayout = typeof layout === 'function' ? layout : BUILTIN_LAYOUTS[layout];
@@ -702,7 +737,7 @@ const FatTableInner = declareComponent({
         },
         layoutProps: props.layoutProps,
         renderTitle: renderTitle.value,
-        renderNavBar: () => renderSlot(props, slots, 'navBar', tableInstance),
+        renderNavBar: renderNavBar.value,
         renderQuery: props.enableQuery
           ? () => [
               renderSlot(props, slots, 'beforeForm', tableInstance),
@@ -730,23 +765,10 @@ const FatTableInner = declareComponent({
               renderSlot(props, slots, 'afterForm', tableInstance),
             ]
           : undefined,
-        renderError:
-          error.value && props.enableErrorCapture
-            ? () =>
-                hasSlots(props, slots, 'error') ? (
-                  renderSlot(props, slots, 'error')
-                ) : (
-                  <Alert
-                    title={props.errorTitle ?? configurable.fatTable?.errorTitle ?? '数据加载失败'}
-                    type="error"
-                    showIcon
-                    description={error.value!.message}
-                    closable={false}
-                  />
-                )
-            : undefined,
+        renderError: renderError.value,
         renderToolbar: renderToolbar.value,
-        renderTable: () => (
+        renderTable: () => [
+          renderSlot(props, slots, 'beforeTable', tableInstance),
           <Table
             {...inheritProps()}
             {...withDirectives([[vLoading, loading.value]])}
@@ -758,11 +780,7 @@ const FatTableInner = declareComponent({
             onFilterChange={handleFilterChange}
             defaultSort={toUndefined(sort.value)}
             v-slots={{
-              empty: hasSlots(props, slots, 'empty') ? (
-                renderSlot(props, slots, 'empty', tableInstance)
-              ) : (
-                <Empty description={props.emptyText ?? configurable.fatTable?.emptyText ?? '暂无数据'}></Empty>
-              ),
+              empty: renderEmpty.value,
             }}
           >
             {renderSlot(props, slots, 'tableHeading', tableInstance)}
@@ -780,11 +798,10 @@ const FatTableInner = declareComponent({
             })}
 
             {renderSlot(props, slots, 'tableTrailing', tableInstance)}
-          </Table>
-        ),
-        renderBottomToolbar: hasSlots(props, slots, 'bottomToolbar')
-          ? () => renderSlot(props, slots, 'bottomToolbar', tableInstance)
-          : undefined,
+          </Table>,
+          renderSlot(props, slots, 'afterTable', tableInstance),
+        ],
+        renderBottomToolbar: renderBottomToolbar.value,
         renderPagination: props.enablePagination
           ? () => (
               <Pagination
