@@ -8,6 +8,7 @@ import {
   UploadProps,
   UploadInternalFileDetail,
   Message,
+  useFormItemValidate,
 } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 import { isPromise, NoopArray } from '@wakeadmin/utils';
@@ -94,6 +95,7 @@ class BreakError extends Error {}
 export const AImagesComponent = defineAtomicComponent(
   (props: AImagesProps) => {
     const configurable = useFatConfigurable();
+    const formItemValidate = useFormItemValidate();
 
     // 缓存 uid 修复动画问题
     const uidCache: Map<any, string | number> = new Map();
@@ -212,6 +214,9 @@ export const AImagesComponent = defineAtomicComponent(
 
         // 触发更新
         props.onChange?.(newList);
+
+        // 触发 form item 变更
+        formItemValidate('change');
       }
     };
 
