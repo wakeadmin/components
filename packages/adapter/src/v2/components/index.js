@@ -27,3 +27,4 @@ export * from './Progress';
 export * from './TimeSelect';
 export * from './TimePicker';
 export * from './Upload';
+export * from './Cascader';

@@ -29,3 +29,5 @@ export * from './time-picker';
 export * from './time-select';
 export * from './upload';
 export * from './utils';
+export * from './cascader';
+export * from './cascader-panel';
