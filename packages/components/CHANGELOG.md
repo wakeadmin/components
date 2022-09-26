@@ -1,5 +1,15 @@
 # @wakeadmin/components
 
+## 0.5.4
+
+### Patch Changes
+
+- - fat-table 新增 beforeTable、afterTable 插槽
+  - 修复: fat-table 再没有任何查询字段时，隐藏查询表单
+  - 修复: images 值变更后没有触发重新验证
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.2.1
+
 ## 0.5.3
 
 ### Patch Changes
