@@ -39,7 +39,7 @@ import {
   FatTableEvents,
   FatTableLayout,
 } from './types';
-import { validateColumns, genKey, mergeAndTransformQuery } from './utils';
+import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
@@ -659,6 +659,40 @@ const FatTableInner = declareComponent({
       return hasSlots(props, slots, 'navBar') ? () => renderSlot(props, slots, 'navBar', tableInstance) : undefined;
     });
 
+    const enableQuery = computed(() => {
+      return props.enableQuery && props.columns.some(isQueryable);
+    });
+
+    const renderQuery = computed(() =>
+      enableQuery.value
+        ? () => [
+            renderSlot(props, slots, 'beforeForm', tableInstance),
+            <Query
+              loading={loading.value}
+              initialValue={props.initialQuery}
+              formRef={() => formRef}
+              query={() => query}
+              formProps={props.formProps}
+              columns={props.columns}
+              onSubmit={handleSearch}
+              onReset={handleReset}
+              v-slots={{
+                before() {
+                  return renderSlot(props, slots, 'formHeading', tableInstance);
+                },
+                beforeButtons() {
+                  return renderSlot(props, slots, 'beforeSubmit', tableInstance);
+                },
+                afterButtons() {
+                  return renderSlot(props, slots, 'formTrailing', tableInstance);
+                },
+              }}
+            ></Query>,
+            renderSlot(props, slots, 'afterForm', tableInstance),
+          ]
+        : undefined
+    );
+
     const renderEmpty = computed(() => {
       return hasSlots(props, slots, 'empty') ? (
         renderSlot(props, slots, 'empty', tableInstance)
@@ -738,33 +772,7 @@ const FatTableInner = declareComponent({
         layoutProps: props.layoutProps,
         renderTitle: renderTitle.value,
         renderNavBar: renderNavBar.value,
-        renderQuery: props.enableQuery
-          ? () => [
-              renderSlot(props, slots, 'beforeForm', tableInstance),
-              <Query
-                loading={loading.value}
-                initialValue={props.initialQuery}
-                formRef={() => formRef}
-                query={() => query}
-                formProps={props.formProps}
-                columns={props.columns}
-                onSubmit={handleSearch}
-                onReset={handleReset}
-                v-slots={{
-                  before() {
-                    return renderSlot(props, slots, 'formHeading', tableInstance);
-                  },
-                  beforeButtons() {
-                    return renderSlot(props, slots, 'beforeSubmit', tableInstance);
-                  },
-                  afterButtons() {
-                    return renderSlot(props, slots, 'formTrailing', tableInstance);
-                  },
-                }}
-              ></Query>,
-              renderSlot(props, slots, 'afterForm', tableInstance),
-            ]
-          : undefined,
+        renderQuery: renderQuery.value,
         renderError: renderError.value,
         renderToolbar: renderToolbar.value,
         renderTable: () => [
