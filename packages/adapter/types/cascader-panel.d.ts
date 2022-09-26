@@ -13,7 +13,7 @@ export interface CascaderOption {
 }
 
 /** Cascader Props */
-export interface CascaderInnerProps<V, D> {
+export interface CascaderInnerProps<V = any, D = CascaderOption> {
   expandTrigger?: CascaderExpandTrigger;
   multiple?: boolean;
   checkStrictly?: boolean;
