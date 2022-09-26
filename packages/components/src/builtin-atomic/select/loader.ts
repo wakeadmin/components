@@ -1,45 +1,10 @@
-import { Message } from '@wakeadmin/element-adapter';
-import { ref, watch } from '@wakeadmin/demi';
-
+import { computed } from '@wakeadmin/demi';
 import { ASelectOption } from './shared';
+import { useLazyOptions } from '../../hooks';
 
 export function useOptions(props: { options?: ASelectOption[] | (() => Promise<ASelectOption[]>) }) {
-  const loading = ref(false);
-  const options = ref<ASelectOption[]>([]);
+  const options = computed(() => props.options);
+  const { loading, value } = useLazyOptions(options, []);
 
-  const load = async (loader: () => Promise<ASelectOption[]>) => {
-    const isGivenUp = () => loader !== props.options;
-
-    try {
-      loading.value = true;
-      const results = await loader();
-
-      if (!isGivenUp()) {
-        options.value = results;
-      }
-    } catch (err) {
-      console.error(err);
-      Message.error(`下拉列表加载失败：${(err as Error).message}`);
-    } finally {
-      if (!isGivenUp()) {
-        loading.value = false;
-      }
-    }
-  };
-
-  let stopWatch = watch(
-    () => props.options,
-    o => {
-      if (typeof o === 'function') {
-        load(o);
-        // 只加载一次
-        stopWatch();
-      } else if (o) {
-        options.value = o;
-      }
-    },
-    { immediate: true }
-  );
-
-  return { loading, options };
+  return { loading, options: value };
 }

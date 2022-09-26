@@ -95,6 +95,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     placeholder: '请选择',
   },
 
+  aCascaderProps: {
+    placeholder: '请选择',
+  },
+
   aIntegerProps: {
     placeholder: '输入整数',
     max: Number.MAX_SAFE_INTEGER,

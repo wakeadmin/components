@@ -102,6 +102,14 @@
         :value-props="cascaderLazyProps"
         :initial-value="['0', '01', '012', '0121']"
       />
+      <FatFormItem
+        prop="cascader"
+        label="cascader"
+        value-type="cascader"
+        width="huge"
+        :value-props="cascaderProps"
+        :initial-value="[0, 2]"
+      />
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>
@@ -134,6 +142,29 @@
         value: `${node}${idx}`,
         children: level === 3 ? null : undefined,
       }));
+    },
+  };
+
+  const cascaderProps = {
+    async options() {
+      return [
+        {
+          label: '广东',
+          value: 0,
+          children: [
+            { label: '珠海', value: 2 },
+            { label: '深圳', value: 3 },
+          ],
+        },
+        {
+          label: '广西',
+          value: 1,
+          children: [
+            { label: '南宁', value: 4 },
+            { label: '桂林', value: 5 },
+          ],
+        },
+      ];
     },
   };
 

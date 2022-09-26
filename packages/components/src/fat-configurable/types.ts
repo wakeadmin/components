@@ -26,6 +26,7 @@ import {
   ASearchProps,
   AUrlProps,
   ACascaderLazyProps,
+  ACascaderProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -181,6 +182,11 @@ export interface FatConfigurable {
    * cascader-lazy 默认配置
    */
   aCascaderLazyProps?: OmitAtomicCommonProps<ACascaderLazyProps>;
+
+  /**
+   * cascader 默认配置
+   */
+  aCascaderProps?: OmitAtomicCommonProps<ACascaderProps>;
 
   /**
    * 表格全局配置
