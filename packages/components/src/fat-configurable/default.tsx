@@ -91,6 +91,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     previewInactiveText: '关闭',
   },
 
+  aCascaderLazyProps: {
+    placeholder: '请选择',
+  },
+
   aIntegerProps: {
     placeholder: '输入整数',
     max: Number.MAX_SAFE_INTEGER,

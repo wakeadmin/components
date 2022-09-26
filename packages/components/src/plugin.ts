@@ -26,6 +26,7 @@ import {
   AUrl,
   ATime,
   ATimeRange,
+  ACascaderLazy,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -74,6 +75,7 @@ function registerAtomics() {
     AUrl,
     ATime,
     ATimeRange,
+    ACascaderLazy,
   ];
 
   for (const item of list) {

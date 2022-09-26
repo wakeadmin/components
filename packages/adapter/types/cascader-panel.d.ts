@@ -72,8 +72,6 @@ export interface CascaderPanelProps<V = any, D = CascaderOption> {
 
   /** Render function of custom label content */
   renderLabel?: (h: Function, context: { node: CascaderNode<V, D>; data: D }) => VNodeChild;
-
-  $slots?: CascaderPanelSlots;
 }
 
 export const CascaderPanel: (props: CascaderPanelProps) => any;

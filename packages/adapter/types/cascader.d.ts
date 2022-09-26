@@ -63,8 +63,6 @@ export interface CascaderProps<V = any, D = CascaderOption> {
 
   /** Hook function before filtering with the value to be filtered as its parameter */
   beforeFilter?: (value: string) => boolean | Promise<any>;
-
-  $slots?: CascaderSlots;
 }
 
 export const Cascader: (props: CascaderProps) => any;

@@ -94,6 +94,14 @@
         message="限制 3 张"
       ></FatFormItem>
       <FatFormItem prop="image" label="image" value-type="image" message="单图片"></FatFormItem>
+      <FatFormItem
+        prop="cascaderLazy"
+        label="cascaderLazy"
+        value-type="cascader-lazy"
+        width="huge"
+        :value-props="cascaderLazyProps"
+        :initial-value="['0', '01', '012', '0121']"
+      />
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
       </FatFormConsumer>
@@ -104,6 +112,30 @@
 <script lang="tsx" setup>
   import { FatForm, FatFormItem, FatFormGroup, FatText, FatFormConsumer } from '@wakeadmin/components';
   import { ref } from 'vue';
+
+  const cascaderLazyProps = {
+    async load(node) {
+      // root
+      if (node == null) {
+        return new Array(10).fill(0).map((i, idx) => ({
+          label: `root-${idx}`,
+          value: String(idx),
+        }));
+      }
+
+      const level = node.length;
+
+      if (level > 3) {
+        return [];
+      }
+
+      return new Array(10).fill(10).map((i, idx) => ({
+        label: `${node}${idx}`,
+        value: `${node}${idx}`,
+        children: level === 3 ? null : undefined,
+      }));
+    },
+  };
 
   const previewMode = ref(false);
 </script>

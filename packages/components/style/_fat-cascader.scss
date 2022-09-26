@@ -1,0 +1,7 @@
+.a-cascader,
+.a-cascader-lazy {
+  // 修复宽度自动撑开
+  .el-cascader {
+    width: 100%;
+  }
+}
