@@ -93,6 +93,8 @@ const FatTableInner = declareComponent({
     renderEmpty: null,
     renderTableTrailing: null,
     renderBottomToolbar: null,
+    renderAfterTable: null,
+    renderBeforeTable: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatTableEvents<any>>>(),
   setup(props, { slots, expose, attrs, emit }) {
