@@ -67,7 +67,7 @@ const FatTableInner = declareComponent({
     enableSelect: { type: Boolean, default: false },
     selectable: null,
     enableQuery: { type: Boolean, default: true },
-    query: null,
+    extraQuery: null,
     initialQuery: null,
     queryWatchDelay: null,
     formProps: null,
@@ -153,7 +153,7 @@ const FatTableInner = declareComponent({
      * 初始化缓存
      */
     const initialCacheIfNeed = () => {
-      if (route?.query[queryCacheKey] == null) {
+      if (router && route?.query?.[queryCacheKey] == null) {
         return router?.replace({
           ...route,
           query: {
@@ -225,7 +225,7 @@ const FatTableInner = declareComponent({
      * 数据请求
      */
     const fetch = async () => {
-      const q = mergeAndTransformQuery(query.value, props.query, props.columns);
+      const q = mergeAndTransformQuery(query.value, props.extraQuery, props.columns);
       const params: FatTableRequestParams<any, any> = {
         pagination: {
           page: pagination.current,
@@ -356,7 +356,7 @@ const FatTableInner = declareComponent({
     // 监听 query 变动
     if (props.requestOnQueryChange) {
       watch(
-        () => [query.value, props.query],
+        () => [query.value, props.extraQuery],
         () => {
           if (!ready.value || loading.value) {
             return;
@@ -375,7 +375,7 @@ const FatTableInner = declareComponent({
      */
     onMounted(async () => {
       // 缓存恢复
-      if (enableCacheQuery && route?.query[queryCacheKey] != null) {
+      if (enableCacheQuery && route?.query?.[queryCacheKey] != null) {
         // 开启了缓存
         // 恢复搜索缓存
         uid = route.query[queryCacheKey] as string;
@@ -384,7 +384,7 @@ const FatTableInner = declareComponent({
 
       if (enableCacheQuery) {
         // 开启了缓存
-        if (route?.query[queryCacheKey] != null) {
+        if (route?.query?.[queryCacheKey] != null) {
           if (props.requestOnMounted) {
             await nextTick();
             fetch();
@@ -710,14 +710,17 @@ const FatTableInner = declareComponent({
 
     const renderToolbar = computed(() => {
       const hasToolbarSlots = hasSlots(props, slots, 'toolbar');
-      if (hasToolbarSlots || props.batchActions?.length) {
+      const batchActions =
+        typeof props.batchActions === 'function' ? props.batchActions(tableInstance) : props.batchActions;
+
+      if (hasToolbarSlots || batchActions?.length) {
         return () => {
           const contentOfToolbar = hasToolbarSlots ? renderSlot(props, slots, 'toolbar', tableInstance) : undefined;
 
-          if (props.batchActions?.length) {
+          if (batchActions?.length) {
             const actions = (
               <BatchActions
-                actions={props.batchActions}
+                actions={batchActions}
                 tableInstance={tableInstance}
                 v-slots={{ default: contentOfToolbar }}
               />

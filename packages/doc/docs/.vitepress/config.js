@@ -26,6 +26,15 @@ export default {
             },
           ],
         },
+        {
+          text: '组件',
+          items: [
+            {
+              text: 'FatTable (表格)',
+              link: '/fat-table/index',
+            },
+          ],
+        },
       ],
     },
   },

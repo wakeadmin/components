@@ -2,3 +2,26 @@ body {
   padding: 0 !important;
   overflow: auto !important;
 }
+
+:root {
+  --vp-layout-max-width: 1700px;
+}
+
+.VPDoc.has-aside .content-container {
+  max-width: unset !important;
+}
+
+.wk-demo {
+  background-color: #f5f7fa;
+  padding: 20px;
+  border-radius: 5px;
+
+  color: #111;
+}
+
+.demo-frame {
+  border: none;
+  width: 100%;
+  height: 50vh;
+  border-radius: 5px;
+}

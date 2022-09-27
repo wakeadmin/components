@@ -83,7 +83,7 @@ export interface FatTableMethods<T extends {}, S extends {}> {
   readonly tableRef: TableMethods | undefined;
 
   /**
-   * 获取底层 el-form 实例
+   * 获取底层 fat-form 实例
    */
   readonly formRef: FatFormMethods<S> | undefined;
 
@@ -368,7 +368,7 @@ export interface FatTableBatchAction<T extends {}, S extends {}> {
   /**
    * 文案
    */
-  name: string;
+  name: any;
 
   /**
    * 额外按钮属性
@@ -493,7 +493,7 @@ export interface FatTableColumnStyle {
   width?: string | number;
 
   /**
-   * 对应列的最小宽度， 对应列的最小宽度， 与 width 的区别是 width 是固定的，min-width 会把剩余宽度按比例分配给设置了 min-width 的列
+   * 对应列的最小宽度，  width 的区别是 width 是固定的，min-width 会把剩余宽度按比例分配给设置了 min-width 的列
    */
   minWidth?: string | number;
 
@@ -666,7 +666,7 @@ export interface FatTableRemove<T> {
   /**
    * 是否在行删除之后重新请求， 默认 true
    *
-   * 如果设置为 false，将原地删除对应字段
+   * 如果设置为 false，将原地删除对应行
    */
   requestOnRemoved?: boolean;
 
@@ -709,17 +709,17 @@ export interface FatTableQuery<T extends {}, S extends {}> {
    */
   namespace?: string;
   /**
-   * 是否在表单查询数据变更时重新请求，默认为 true
+   * 是否在表单查询数据变更时重新请求，默认为 false
    * 可以通过 queryWatchDelay 调整 debounce 的时长
    */
   requestOnQueryChange?: boolean;
 
   /**
-   * 用于 request 查询的额外参数，一旦变化会触发重新加载
+   * 用于 request 查询的额外参数，一旦变化会触发重新加载(需开启 requestOnQueryChange)
    * 也可以用它来实现自定义查询表单。
    * query 将会合并到 request 参数的 query 字段中
    */
-  query?: Partial<S>;
+  extraQuery?: Partial<S>;
 
   /**
    * 表单初始值
@@ -785,10 +785,11 @@ export interface FatTableProps<Item extends {}, Query extends {}>
     FatTableSlots<Item, Query> {
   /**
    * 表格页布局
-   * mapp 微前端
-   * default 默认布局
+   * default  惟客云默认布局
+   * simple 惟客云简化布局
    *
    * 也支持自定义
+   * 默认 default
    */
   layout?: 'default' | 'simple' | FatTableLayout;
 
@@ -833,7 +834,7 @@ export interface FatTableProps<Item extends {}, Query extends {}>
   enableErrorCapture?: boolean;
 
   /**
-   * 无数据提示文案
+   * 无数据提示文案, 默认为 暂无数据
    */
   emptyText?: string;
 

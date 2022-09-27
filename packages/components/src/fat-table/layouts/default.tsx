@@ -10,7 +10,7 @@ const DefaultLayout: FatTableLayout = props => {
   return (
     <div {...props.rootProps} class={normalizeClassName(props.rootProps.class, 'fat-table', 'fat-table--default')}>
       <FatHeader class="fat-table__header" v-slots={{ title: props.renderTitle, extra: props.renderNavBar }}>
-        {!!props.renderQuery && <div class="fat-table__query">{props.renderQuery()}</div>}
+        {props.renderQuery ? <div class="fat-table__query">{props.renderQuery()}</div> : undefined}
       </FatHeader>
 
       <FatContent class="fat-table__content">

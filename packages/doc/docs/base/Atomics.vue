@@ -1,5 +1,5 @@
 <template>
-  <div class="demo">
+  <div class="wk-demo">
     <el-switch v-model="previewMode" active-text="预览" inactive-text="编辑"></el-switch>
 
     <FatForm :mode="previewMode ? 'preview' : 'editable'">
@@ -21,13 +21,3 @@
 
   const previewMode = ref(false);
 </script>
-
-<style lang="scss" scoped>
-  .demo {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-
-    color: #111;
-  }
-</style>

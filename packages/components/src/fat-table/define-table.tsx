@@ -19,7 +19,9 @@ export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> 
   | ((
       helpers: {
         table: Ref<FatTableMethods<Item, Query> | undefined>;
-        column: <ValueType extends keyof AtomicProps | Atomic>(column: FatTableColumn<Item, Query, ValueType>) => any;
+        column: <ValueType extends keyof AtomicProps | Atomic = 'text'>(
+          column: FatTableColumn<Item, Query, ValueType>
+        ) => any;
       },
       props: FatTableDefineProps<Item, Query, Extra>,
       emit: (key: string, ...args: any[]) => void

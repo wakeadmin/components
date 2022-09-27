@@ -4,9 +4,9 @@
   "description": "@wakeadmin/components 文档",
   "scripts": {
     "switch": "vue-demi-switch 3 && wakeadmin-adapter-switch 3 ",
-    "docs:dev": "npm run switch && vitepress dev docs",
-    "docs:build": "npm run switch && vitepress build docs",
-    "docs:serve": "vitepress serve docs"
+    "start": "npm run switch && vitepress dev docs",
+    "build:docs": "npm run switch && vitepress build docs",
+    "serve:docs": "vitepress serve docs"
   },
   "keywords": [],
   "author": "",
