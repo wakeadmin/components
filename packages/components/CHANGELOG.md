@@ -1,5 +1,17 @@
 # @wakeadmin/components
 
+## 0.5.5
+
+### Patch Changes
+
+- - 新增功能
+    - fat-float-footer 兼容微前端基座
+    - 新增 currency, float, cascader, cascader-lazy 原件
+  - Bug 修复
+    - fat-table query slots 显示计算优化
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.2.2
+
 ## 0.5.4
 
 ### Patch Changes

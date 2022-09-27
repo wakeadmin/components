@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.2.2
+
+### Patch Changes
+
+- - 新增 cascader, cascader-panel
+
 ## 0.2.1
 
 ### Patch Changes
