@@ -57,15 +57,15 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   },
 
   aDateProps: {
-    placeholder: '选择日期',
+    placeholder: '请选择日期',
   },
 
   aDateTimeProps: {
-    placeholder: '选择时间',
+    placeholder: '请选择时间',
   },
 
   aTimeProps: {
-    placeholder: '选择时间',
+    placeholder: '请选择时间',
   },
 
   aDateRangeProps: {
@@ -100,7 +100,11 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   },
 
   aIntegerProps: {
-    placeholder: '输入整数',
+    placeholder: '请输入整数',
     max: Number.MAX_SAFE_INTEGER,
+  },
+
+  aFloatProps: {
+    placeholder: '请输入数字',
   },
 };

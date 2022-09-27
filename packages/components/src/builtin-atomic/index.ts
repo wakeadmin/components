@@ -8,6 +8,7 @@ export * from './select';
 export * from './checkbox';
 export * from './radio';
 export * from './integer';
+export * from './float';
 export * from './rate';
 export * from './slider';
 export * from './progress';

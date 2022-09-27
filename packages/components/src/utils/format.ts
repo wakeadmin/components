@@ -12,8 +12,8 @@ const SIZES: [number, string][] = [
   [KB, 'KB'],
 ];
 
-export function trimEndingZero(num: number) {
-  const value = num.toFixed(2);
+export function trimEndingZero(num: number, fixed: number = 2) {
+  const value = num.toFixed(fixed);
 
   for (let i = value.length - 1; i >= 0; i--) {
     const char = value[i];

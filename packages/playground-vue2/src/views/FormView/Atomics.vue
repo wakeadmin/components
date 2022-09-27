@@ -69,6 +69,7 @@
         }"
       />
       <FatFormItem prop="integer" label="integer" value-type="integer"></FatFormItem>
+      <FatFormItem prop="float" label="float" value-type="float"></FatFormItem>
       <FatFormItem prop="rate" label="rate" value-type="rate"></FatFormItem>
       <FatFormItem prop="slider" label="slider" value-type="slider" width="large"></FatFormItem>
       <FatFormItem

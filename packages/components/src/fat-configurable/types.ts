@@ -27,6 +27,7 @@ import {
   AUrlProps,
   ACascaderLazyProps,
   ACascaderProps,
+  AFloatProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -152,6 +153,11 @@ export interface FatConfigurable {
    * integer 默认配置
    */
   aIntegerProps?: OmitAtomicCommonProps<AIntegerProps>;
+
+  /**
+   * float 默认配置
+   */
+  aFloatProps?: OmitAtomicCommonProps<AFloatProps>;
 
   /**
    * rate 默认配置
