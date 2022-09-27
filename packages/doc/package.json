@@ -1,0 +1,22 @@
+{
+  "name": "@wakeadmin/components-doc",
+  "version": "0.1.0",
+  "description": "@wakeadmin/components 文档",
+  "scripts": {
+    "switch": "vue-demi-switch 3 && wakeadmin-adapter-switch 3 ",
+    "docs:dev": "npm run switch && vitepress dev docs",
+    "docs:build": "npm run switch && vitepress build docs",
+    "docs:serve": "vitepress serve docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitepress": "1.0.0-alpha.16",
+    "vue": "^3.2.39"
+  },
+  "dependencies": {
+    "@wakeadmin/components": "workspace:^0.5.5",
+    "element-plus": "^2.2.17"
+  }
+}
