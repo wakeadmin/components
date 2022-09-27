@@ -20,8 +20,10 @@ import { createMessageBoxOptions, LooseMessageBoxOptions, normalizeClassName, no
 export interface FatAction {
   /**
    * 文案
+   *
+   * 可以传入一个jsx
    */
-  name: string;
+  name: any;
 
   /**
    * 按钮形式
@@ -62,6 +64,11 @@ export interface FatAction {
    * 文案提示
    */
   title?: string | (() => string);
+
+  /**
+   * 图标
+   */
+  icon?: any;
 
   /**
    * 确认弹窗，默认关闭
@@ -169,6 +176,7 @@ export const FatActions = declareComponent({
                 class={normalizeClassName('fat-actions__btn', i.className, {
                   [i.type ?? 'default']: type.value === 'text',
                 })}
+                icon={i.icon}
                 style={normalizeStyle(i.style)}
                 type={type.value === 'text' ? 'text' : i.type}
                 disabled={isDisabled(i)}
@@ -200,6 +208,7 @@ export const FatActions = declareComponent({
                           style={normalizeStyle(i.style)}
                           disabled={disabled}
                           command={i}
+                          icon={i.icon}
                           // @ts-expect-error
                           title={typeof i.title === 'function' ? i.title() : i.title}
                         >
