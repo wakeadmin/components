@@ -659,35 +659,40 @@ const FatTableInner = declareComponent({
       return hasSlots(props, slots, 'navBar') ? () => renderSlot(props, slots, 'navBar', tableInstance) : undefined;
     });
 
-    const enableQuery = computed(() => {
-      return props.enableQuery && props.columns.some(isQueryable);
+    const queryable = computed(() => props.enableQuery && props.columns.some(isQueryable));
+
+    const enableQuerySlot = computed(() => {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      return queryable.value || hasSlots(props, slots, 'beforeForm') || hasSlots(props, slots, 'afterForm');
     });
 
     const renderQuery = computed(() =>
-      enableQuery.value
+      enableQuerySlot.value
         ? () => [
             renderSlot(props, slots, 'beforeForm', tableInstance),
-            <Query
-              loading={loading.value}
-              initialValue={props.initialQuery}
-              formRef={() => formRef}
-              query={() => query}
-              formProps={props.formProps}
-              columns={props.columns}
-              onSubmit={handleSearch}
-              onReset={handleReset}
-              v-slots={{
-                before() {
-                  return renderSlot(props, slots, 'formHeading', tableInstance);
-                },
-                beforeButtons() {
-                  return renderSlot(props, slots, 'beforeSubmit', tableInstance);
-                },
-                afterButtons() {
-                  return renderSlot(props, slots, 'formTrailing', tableInstance);
-                },
-              }}
-            ></Query>,
+            queryable.value && (
+              <Query
+                loading={loading.value}
+                initialValue={props.initialQuery}
+                formRef={() => formRef}
+                query={() => query}
+                formProps={props.formProps}
+                columns={props.columns}
+                onSubmit={handleSearch}
+                onReset={handleReset}
+                v-slots={{
+                  before() {
+                    return renderSlot(props, slots, 'formHeading', tableInstance);
+                  },
+                  beforeButtons() {
+                    return renderSlot(props, slots, 'beforeSubmit', tableInstance);
+                  },
+                  afterButtons() {
+                    return renderSlot(props, slots, 'formTrailing', tableInstance);
+                  },
+                }}
+              ></Query>
+            ),
             renderSlot(props, slots, 'afterForm', tableInstance),
           ]
         : undefined
