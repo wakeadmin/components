@@ -45,7 +45,7 @@ export const AFloatComponent = defineAtomicComponent(
         );
       }
 
-      return <InputNumber precision={precision} {...other} {...model(value, onChange!)} />;
+      return <InputNumber controlsPosition="right" precision={precision} {...other} {...model(value, onChange!)} />;
     };
   },
   { name: 'AFloat', globalConfigKey: 'aFloatProps' }

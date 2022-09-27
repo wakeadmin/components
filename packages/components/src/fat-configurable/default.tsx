@@ -107,4 +107,8 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   aFloatProps: {
     placeholder: '请输入数字',
   },
+
+  aCurrencyProps: {
+    placeholder: '请输入',
+  },
 };

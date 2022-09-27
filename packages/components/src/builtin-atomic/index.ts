@@ -18,3 +18,4 @@ export * from './checkboxs';
 export * from './images';
 export * from './image';
 export * from './cascader';
+export * from './currency';

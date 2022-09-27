@@ -26,7 +26,7 @@ export const AIntegerComponent = defineAtomicComponent(
           {renderPreview ? renderPreview(value) : value ? String(value) : ''}
         </span>
       ) : (
-        <InputNumber precision={0} {...other} {...model(value, onChange!)} />
+        <InputNumber controlsPosition="right" precision={0} {...other} {...model(value, onChange!)} />
       );
     };
   },

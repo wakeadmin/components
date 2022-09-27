@@ -28,6 +28,7 @@ import {
   ACascaderLazyProps,
   ACascaderProps,
   AFloatProps,
+  ACurrencyProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -158,6 +159,11 @@ export interface FatConfigurable {
    * float 默认配置
    */
   aFloatProps?: OmitAtomicCommonProps<AFloatProps>;
+
+  /**
+   * currency 默认配置
+   */
+  aCurrencyProps?: OmitAtomicCommonProps<ACurrencyProps>;
 
   /**
    * rate 默认配置
