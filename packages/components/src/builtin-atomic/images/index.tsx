@@ -52,6 +52,7 @@ export type AImagesProps = DefineAtomicProps<
 
     /**
      * 图片尺寸, 默认 86px
+     * TODO: 支持指定宽高
      */
     size?: number | string;
 

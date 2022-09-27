@@ -1,7 +1,9 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { computed, isVue2, ref, watch } from '@wakeadmin/demi';
+import { computed, ref, watch } from '@wakeadmin/demi';
 
 import { hasSlots, renderSlot, ToHSlotDefinition, ToHEmitDefinition } from '../utils';
+
+import { isWakeadminBayEnabled, ceSlot } from './utils';
 
 export interface FatHeaderSlots {
   renderTitle?: () => any;
@@ -40,14 +42,6 @@ export interface FatHeaderProps extends FatHeaderSlots, FatHeaderEvents {
    */
   useWakeadminHeaderIfNeed?: boolean;
 }
-
-const isWakeadminBayEnabled = () => {
-  return '__MAPP_SERVICES__' in window;
-};
-
-const ceSlot = (name: string) => {
-  return isVue2 ? { attrs: { slot: name } } : { slot: name };
-};
 
 /**
  * 页面头部布局
