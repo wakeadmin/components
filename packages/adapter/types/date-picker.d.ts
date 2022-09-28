@@ -90,6 +90,9 @@ export interface DatePickerProps {
   /** Default date of the calendar */
   defaultValue?: Date | number | string;
 
+  /** Default time of the calendar */
+  defaultTime?: Date | string | [Date | string, Date | string];
+
   /** Format of binding value. If not specified, the binding value will be a Date object */
   valueFormat?: string;
 
