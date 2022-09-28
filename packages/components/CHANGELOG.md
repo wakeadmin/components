@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 0.5.6
+
+### Patch Changes
+
+- 升级依赖，修复 listener 继承导致的事件触发爆栈问题
+
 ## 0.5.5
 
 ### Patch Changes
