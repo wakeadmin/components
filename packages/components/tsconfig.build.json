@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "noEmit": false,
     "noEmitOnError": false,
+    "jsx": "react-jsx",
     "target": "ES2017"
   },
   "exclude": ["dist", "**/__tests__/*", "**/*.test.*", "**/*.d-test.*", "**/*.vue", "**/*.d.ts"]
