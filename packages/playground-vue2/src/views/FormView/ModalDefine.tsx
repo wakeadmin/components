@@ -22,6 +22,9 @@ export default defineFatFormModal(({ form, item }) => {
       a: 1,
       b: 2,
     },
+    async submit(values) {
+      console.log('submit', values);
+    },
     children: [
       item({ label: 'A', prop: 'a' }),
       <div>

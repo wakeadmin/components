@@ -3,7 +3,7 @@
     <div>#DrawerDefine</div>
     <DrawerDefine ref="drawer" />
     <button @click="show">show drawer</button>
-    <ModalDefine ref="modal" />
+    <ModalDefine ref="modal" @finish="handleFinish" />
     <button @click="showModal">show modal</button>
   </div>
 </template>
@@ -15,6 +15,10 @@
 
   const drawer = ref();
   const modal = ref();
+
+  const handleFinish = () => {
+    console.log('finished');
+  };
 
   const show = () => {
     console.log(drawer);
