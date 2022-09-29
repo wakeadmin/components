@@ -5,4 +5,7 @@ export default defineConfig({
     jsx: 'automatic',
     jsxImportSource: '@wakeadmin/h',
   },
+  ssr: {
+    format: 'cjs',
+  },
 });

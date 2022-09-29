@@ -36,6 +36,7 @@ import { globalRegistry } from './atomic';
 const INSTALLED = Symbol('wakeadmin-plugin-installed');
 
 let maybeInstalled = false;
+let builtinAtomicsInstalled = false;
 
 let warned = false;
 
@@ -54,6 +55,12 @@ export function assertPluginInstalled() {
  * 安装内置插件
  */
 function registerAtomics() {
+  if (builtinAtomicsInstalled) {
+    return;
+  }
+
+  builtinAtomicsInstalled = true;
+
   const list = [
     ACheckbox,
     ACheckboxs,

@@ -34,8 +34,18 @@ $ pnpm add @wakeadmin/components @wakeadmin/h
 **开发依赖**:
 
 ```shell
-$ pnpm add babel-preset-wakeadmin -D
+$ pnpm add babel-preset-wakeadmin @vue/runtime-dom -D
 ```
+
+::: tip
+
+推荐使用 Valor 插件，并禁用掉 Vetur 插件
+
+:::
+
+<br>
+<br>
+<br>
 
 ## JSX 支持
 
