@@ -32,12 +32,13 @@ export type FatFormPageDefine<
   Submit extends {} = Store,
   Extra extends {} = {}
 > = (
-  helpers: {
+  context: {
     // modal 实例 引用
     form: Ref<FatFormPageMethods<Store> | undefined>;
-  } & FatFormDefineHelpers<Store, Request, Submit>,
-  props: FatFormPageDefineProps<Store, Request, Submit, Extra>,
-  emit: (key: string, ...args: any[]) => void
+
+    props: FatFormPageDefineProps<Store, Request, Submit, Extra>;
+    emit: (key: string, ...args: any[]) => void;
+  } & FatFormDefineHelpers<Store, Request, Submit>
 ) => () => FatFormPageDefinition<Store, Request, Submit>;
 
 /**
@@ -61,19 +62,17 @@ export function defineFatFormPage<
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
-        define(
-          {
-            form: pageRef,
-            item,
-            group,
-            section,
-            consumer,
-            renderChild,
-            renderChildren,
-          },
-          attrs as any,
-          emit
-        )
+        define({
+          form: pageRef,
+          item,
+          group,
+          section,
+          consumer,
+          renderChild,
+          renderChildren,
+          props: attrs as any,
+          emit,
+        })
       );
 
       // forward refs

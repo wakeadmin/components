@@ -112,12 +112,12 @@ export type FatFormDefine<
   Submit extends {} = Store,
   Extra extends {} = {}
 > = (
-  helpers: {
+  context: {
     // 表单实例引用
     form: Ref<FatFormMethods<Store> | undefined>;
-  } & FatFormDefineHelpers<Store, Request, Submit>,
-  props: FatFormDefineProps<Store, Request, Submit, Extra>,
-  emit: (key: string, ...args: any[]) => void
+    props: FatFormDefineProps<Store, Request, Submit, Extra>;
+    emit: (key: string, ...args: any[]) => void;
+  } & FatFormDefineHelpers<Store, Request, Submit>
 ) => () => FatFormDefinition<Store, Request, Submit>;
 
 function isItem(value: any): value is FatFormItemDefinition<any, any, any> {
@@ -213,19 +213,17 @@ export function defineFatForm<
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
 
       const dsl = computed(
-        define(
-          {
-            form: formRef,
-            item,
-            group,
-            section,
-            consumer,
-            renderChild,
-            renderChildren,
-          },
-          attrs as any,
-          emit
-        )
+        define({
+          form: formRef,
+          item,
+          group,
+          section,
+          consumer,
+          renderChild,
+          renderChildren,
+          props: attrs as any,
+          emit,
+        })
       );
 
       const instance = {};

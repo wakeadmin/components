@@ -16,16 +16,14 @@ export type FatTableDefineProps<Item extends {}, Query extends {}, Extra extends
 
 export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> =
   | (FatTableProps<Item, Query> & CommonProps)
-  | ((
-      helpers: {
-        table: Ref<FatTableMethods<Item, Query> | undefined>;
-        column: <ValueType extends keyof AtomicProps | Atomic = 'text'>(
-          column: FatTableColumn<Item, Query, ValueType>
-        ) => any;
-      },
-      props: FatTableDefineProps<Item, Query, Extra>,
-      emit: (key: string, ...args: any[]) => void
-    ) => () => FatTableProps<Item, Query> & CommonProps);
+  | ((context: {
+      table: Ref<FatTableMethods<Item, Query> | undefined>;
+      column: <ValueType extends keyof AtomicProps | Atomic = 'text'>(
+        column: FatTableColumn<Item, Query, ValueType>
+      ) => any;
+      props: FatTableDefineProps<Item, Query, Extra>;
+      emit: (key: string, ...args: any[]) => void;
+    }) => () => FatTableProps<Item, Query> & CommonProps);
 
 /**
  * 定义列。可以获取到更好的类型检查
@@ -78,7 +76,7 @@ export function defineFatTable<Item extends {}, Query extends {} = {}, Extra ext
       const tableRef = useFatTableRef<Item, Query>();
       const extraDefinitions =
         typeof definitions === 'function'
-          ? computed(definitions({ table: tableRef, column: defineFatTableColumn }, attrs as any, emit))
+          ? computed(definitions({ table: tableRef, column: defineFatTableColumn, props: attrs as any, emit }))
           : definitions;
 
       const instance = {};
