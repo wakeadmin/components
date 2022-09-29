@@ -32,6 +32,7 @@ const FatFormItemInner = declareComponent({
     initialValue: null,
     valueType: null,
     valueProps: null,
+    placeholder: null,
     rules: null,
     col: null,
     width: null,
@@ -276,6 +277,7 @@ const FatFormItemInner = declareComponent({
         value: value.value,
         onChange: handleChange,
         context: form,
+        placeholder: props.placeholder,
         class: props.valueClassName,
         style: normalizeStyle(contentStyle.value, props.valueStyle),
       };

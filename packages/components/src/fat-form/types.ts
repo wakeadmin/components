@@ -707,6 +707,12 @@ export interface FatFormItemProps<
     : Record<string, any>;
 
   /**
+   * 占位
+   * 会通过 valueProps 透传给原件
+   */
+  placeholder?: string;
+
+  /**
    * **数据提交前**的转换，比如转换为 后端 需要的字段和格式
    *
    * 用于转换表单的数据，比如前端使用 dataRange 字段来表示时间范围，而后端需要的是 startTime、endTime
