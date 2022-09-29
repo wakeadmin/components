@@ -27,11 +27,24 @@ export default {
           ],
         },
         {
-          text: '组件',
+          text: 'FatTable 表格',
           items: [
             {
-              text: 'FatTable (表格)',
+              text: 'FatTable',
               link: '/fat-table/index',
+            },
+          ],
+        },
+        {
+          text: 'FatForm 表单',
+          items: [
+            {
+              text: 'FatForm 表单',
+              link: '/fat-form/index',
+            },
+            {
+              text: 'FatFormItem 表单项',
+              link: '/fat-form/item',
             },
           ],
         },
