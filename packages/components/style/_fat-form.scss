@@ -8,7 +8,7 @@
   }
 
   .el-form-item__error {
-    background-color: white;
+    // background-color: white;
   }
 
   &--row {
@@ -78,10 +78,13 @@
   line-height: 25px;
   font-size: 12px;
   color: #a1a4ab;
+  // 强制换行
+  width: 100%;
 }
 
 .fat-form-message--inline {
   display: inline;
+  width: auto;
   white-space: nowrap;
   margin-left: 10px;
   line-height: inherit;

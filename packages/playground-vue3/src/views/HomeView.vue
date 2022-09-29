@@ -1,5 +1,12 @@
 <template>
   <div class="home">
+    <ChildrenView
+      >hello,
+      <div title="hello"></div>
+      <el-button type="primary">hello</el-button>
+      <div v-if="false">false</div>
+      <div v-for="i in 10" :key="i"><div>i</div></div>
+    </ChildrenView>
     <FatTable
       ref="tableRef"
       row-key="id"
@@ -31,9 +38,12 @@
 </template>
 
 <script lang="tsx" setup>
-  import { ref } from 'vue';
+  import { ref, Fragment } from 'vue';
   import { FatTable } from '@wakeadmin/components';
+  import ChildrenView from '@/components/ChildrenView';
   import { delay } from '@wakeapp/utils';
+
+  console.log(Fragment);
 
   const handleCacheRestore = cache => {
     console.log('cache', cache);

@@ -219,6 +219,20 @@ const FatFormItemInner = declareComponent({
       }
     });
 
+    const normalizedCol = computed<(ColProps & CommonProps) | undefined>(() => {
+      const val = props.col ?? inheritedProps?.col;
+
+      if (!val) {
+        return undefined;
+      }
+
+      if (typeof val === 'number') {
+        return { span: val } as ColProps;
+      }
+
+      return val;
+    });
+
     const hasLabel = computed(() => {
       return !!(props.label || !!props.renderLabel || !!slots.label);
     });
@@ -316,7 +330,7 @@ const FatFormItemInner = declareComponent({
 
     return () => {
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
-      const col = (props.col ?? inheritedProps?.col) as (ColProps & Partial<CommonProps>) | undefined;
+      const col = normalizedCol.value;
 
       const labelSlot =
         hasTooltip.value || hasSlots(props, slots, 'label')

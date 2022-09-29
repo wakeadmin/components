@@ -1,4 +1,4 @@
-import { getCurrentInstance, isVue2 } from '@wakeadmin/demi';
+import { getCurrentInstance, isVue2, Fragment, isVNode } from '@wakeadmin/demi';
 import { NoopObject, upperFirst } from '@wakeadmin/utils';
 
 /**
@@ -54,4 +54,56 @@ export function renderSlot(props: any, slots: any, name: string, ...args: any[])
     : slot != null
     ? safeCall(slot, args)
     : safeCall(renderFn, args);
+}
+
+/**
+ * 从 VNode 中提取 props
+ * @param vnode
+ */
+export function extraProps(vnode: any) {
+  if (!vnode || typeof vnode !== 'object') {
+    return undefined;
+  }
+
+  if (isVue2) {
+    if (vnode.componentOptions != null) {
+      return vnode.componentOptions.propsData;
+    }
+
+    if (vnode.data != null) {
+      return vnode.data.attrs;
+    }
+  } else {
+    return vnode.props;
+  }
+
+  return undefined;
+}
+
+export function isFragment(vnode: any) {
+  return isVNode(vnode) && vnode.type === Fragment;
+}
+
+/**
+ * 从 children 中提取 props
+ * @param children
+ * @returns
+ */
+export function extraPropsFromChildren(children: any[] | undefined | null) {
+  if (!children || !Array.isArray(children)) {
+    return undefined;
+  }
+
+  return children
+    .map(i => {
+      if (isVue2) {
+        return extraProps(i);
+      } else {
+        if (isFragment(i)) {
+          return i.children.map(extraProps);
+        }
+        return extraProps(i);
+      }
+    })
+    .flat();
 }

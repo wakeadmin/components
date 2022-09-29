@@ -1,5 +1,12 @@
 <template>
   <div class="home">
+    <ChildrenView
+      >hello,
+      <div title="hello"></div>
+      <el-button type="primary">hello</el-button>
+      <div v-if="false">false</div>
+      <div v-for="i in 10" :key="i"><div>i</div></div>
+    </ChildrenView>
     <FatTable
       ref="tableRef"
       row-key="id"
@@ -37,6 +44,7 @@
 
 <script lang="tsx" setup>
   import { ref } from 'vue';
+  import ChildrenView from '@/components/ChildrenView';
   import { FatTable } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
 

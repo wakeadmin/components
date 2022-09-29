@@ -519,8 +519,9 @@ export interface FatFormItemShared {
   /**
    * 网格列配置
    * 如果配置了该项， 会使用 el-col 包裹
+   * 如果传入的是 number 将作为 span
    */
-  col?: false | (ColProps & CommonProps);
+  col?: false | (ColProps & CommonProps) | number;
 
   /**
    * 字段宽度(不包含label)
@@ -589,10 +590,12 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
   gutter?: FatSpaceSize;
 
   /**
-   * 是否作为 el-row, 当设置了改属性，children 会使用 el-row 包裹
+   * 是否作为 el-row, 当设置了该属性，children 会使用 el-row 包裹。
+   * 另外，FatFormGroup 会自动检测子节点是否开启了 col，如果开启了，row 默认为 true
+   *
    * 如果未指定，默认使用 fat-space 布局
    */
-  row?: RowProps & CommonProps;
+  row?: (RowProps & CommonProps) | true;
 
   /**
    * fat-space 模式使用垂直布局, 默认 false

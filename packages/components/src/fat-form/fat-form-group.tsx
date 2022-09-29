@@ -1,16 +1,26 @@
-import { FormItem, Col, Row, Tooltip, ColProps, CommonProps } from '@wakeadmin/element-adapter';
+import { FormItem, Col, Row, RowProps, Tooltip, ColProps, CommonProps } from '@wakeadmin/element-adapter';
 import { computed, provide, onBeforeUnmount } from '@wakeadmin/demi';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { useFatConfigurable } from '../fat-configurable';
 import { FatSpace, toNumberSize } from '../fat-space';
-import { hasSlots, normalizeClassName, normalizeStyle, renderSlot, ToHSlotDefinition } from '../utils';
+import {
+  extraPropsFromChildren,
+  hasSlots,
+  normalizeClassName,
+  normalizeStyle,
+  renderSlot,
+  ToHSlotDefinition,
+} from '../utils';
 
 import { FatFormInheritanceContext } from './constants';
 import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormGroupProps, FatFormGroupSlots, FatFormItemInheritableProps } from './types';
 import { formItemWidth } from './utils';
+import { NoopObject } from '@wakeadmin/utils';
+
+const DEFAULT_ROW: RowProps & CommonProps = NoopObject;
 
 const FatFormGroupInner = declareComponent({
   name: 'FatFormGroup',
@@ -125,6 +135,32 @@ const FatFormGroupInner = declareComponent({
       return undefined;
     });
 
+    const normalizedCol = computed<(ColProps & CommonProps) | undefined>(() => {
+      const val = props.col ?? inherited?.col;
+
+      if (!val) {
+        return undefined;
+      }
+
+      if (typeof val === 'number') {
+        return { span: val } as ColProps;
+      }
+
+      return val;
+    });
+
+    const normalizedRow = computed<(RowProps & CommonProps) | undefined>(() => {
+      if (!props.row) {
+        return undefined;
+      }
+
+      if (typeof props.row === 'boolean') {
+        return DEFAULT_ROW;
+      }
+
+      return props.row;
+    });
+
     const forceHideLabel = computed(() => {
       return !hasLabel.value && form.layout !== 'horizontal';
     });
@@ -161,17 +197,23 @@ const FatFormGroupInner = declareComponent({
       const gutter = props.gutter ?? configurable.fatForm?.groupGutter ?? 'large';
       const gutterInNumber = toNumberSize(gutter);
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
-      const col = (props.col ?? inherited?.col) as (ColProps & Partial<CommonProps>) | undefined;
+      const col = normalizedCol.value;
+      let row = normalizedRow.value;
 
       let children = renderSlot(props, slots, 'default', form);
 
-      if (props.row) {
+      if (!row && extraPropsFromChildren(children)?.some(i => i && 'col' in i)) {
+        // 检测子节点是否配置了网格
+        row = DEFAULT_ROW;
+      }
+
+      if (row) {
         children = (
           <Row
-            {...props.row}
-            class={normalizeClassName('fat-form-row', props.row?.class)}
-            style={props.row.style}
-            gutter={props.row.gutter ?? gutterInNumber}
+            {...row}
+            class={normalizeClassName('fat-form-row', row?.class)}
+            style={row.style}
+            gutter={row.gutter ?? gutterInNumber}
           >
             {children}
           </Row>
