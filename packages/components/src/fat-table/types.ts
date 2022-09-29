@@ -213,7 +213,18 @@ export interface FatTableSlots<T extends {}, S extends {}> {
   renderBeforeSubmit?: (table: FatTableMethods<T, S>) => any;
 
   /**
-   * 渲染在表单下的后部，即搜索、查询按钮之后
+   * 自定义提交按钮渲染
+   */
+  renderSubmitter?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染在搜索、查询按钮之后
+   */
+  renderAfterSubmit?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 渲染在表单下的后部，即搜索、查询按钮之后。
+   * 等价于 renderAfterSubmit
    */
   renderFormTrailing?: (table: FatTableMethods<T, S>) => any;
 

@@ -24,7 +24,9 @@ export const Query = declareComponent({
   slots: declareSlots<{
     before: { query: any };
     beforeButtons: { query: any };
+    submitter: { query: any };
     afterButtons: { query: any };
+    after: { query: any };
   }>(),
   setup(props, ctx) {
     const submit = async () => ctx.emit('submit');
@@ -61,9 +63,13 @@ export const Query = declareComponent({
             renderSubmitter={(form, buttons) => {
               return [
                 ctx.slots.beforeButtons?.(scope),
-                <FatFormGroup labelWidth="auto" gutter="medium" col={false}>
-                  {buttons()}
-                </FatFormGroup>,
+                ctx.slots.submitter ? (
+                  ctx.slots.submitter?.(scope)
+                ) : (
+                  <FatFormGroup labelWidth="auto" gutter="medium" col={false}>
+                    {buttons()}
+                  </FatFormGroup>
+                ),
                 ctx.slots.afterButtons?.(scope),
               ];
             }}
@@ -106,6 +112,7 @@ export const Query = declareComponent({
                   />
                 );
               })}
+            {ctx.slots.after?.(scope)}
           </FatFormQuery>
         </div>
       );

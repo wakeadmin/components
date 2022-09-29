@@ -85,6 +85,8 @@ const FatTableInner = declareComponent({
     renderBeforeForm: null,
     renderFormHeading: null,
     renderBeforeSubmit: null,
+    renderSubmitter: null,
+    renderAfterSubmit: null,
     renderFormTrailing: null,
     renderAfterForm: null,
     renderToolbar: null,
@@ -689,7 +691,15 @@ const FatTableInner = declareComponent({
                   beforeButtons() {
                     return renderSlot(props, slots, 'beforeSubmit', tableInstance);
                   },
+                  submitter: hasSlots(props, slots, 'submitter')
+                    ? () => {
+                        return renderSlot(props, slots, 'submitter', tableInstance);
+                      }
+                    : undefined,
                   afterButtons() {
+                    return renderSlot(props, slots, 'afterSubmit', tableInstance);
+                  },
+                  after() {
                     return renderSlot(props, slots, 'formTrailing', tableInstance);
                   },
                 }}
