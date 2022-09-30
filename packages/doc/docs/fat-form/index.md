@@ -18,6 +18,7 @@
   import ChangePassword from './ChangePassword.vue'
   import Transform from './Transform.vue'
   import Dynamic from './Dynamic.vue'
+  import Mode from './Mode.vue'
 </script>
 
 # 表单
@@ -580,6 +581,18 @@ transform 返回的是 {startTime、endTime}
 <br>
 
 ## 5. 预览模式
+
+利用原件的 `预览形态`和 `编辑形态`, 我们现在可以做到一套代码就能满足 `增改查`, 即编辑页面和详情预览。
+
+<ClientOnly>
+  <div class="wk-demo">
+    <Mode />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/Mode.vue
+:::
 
 <br>
 <br>
