@@ -64,6 +64,30 @@ export default {
             },
           ],
         },
+        {
+          text: 'FatForm 预定义场景',
+          items: [
+            { text: 'FatFormModal 模态框', link: '/fat-form-layout/modal.md' },
+            { text: 'FatFormDrawer 抽屉', link: '/fat-form-layout/drawer.md' },
+            { text: 'FatFormPage 页面', link: '/fat-form-layout/page.md' },
+            { text: 'FatFormQuery 查询', link: '/fat-form-layout/query.md' },
+          ],
+        },
+        {
+          text: 'FatLayout 布局',
+          items: [],
+        },
+        {
+          text: 'Other 其他',
+          items: [],
+        },
+        {
+          text: 'Atomic 原件',
+          items: [
+            { text: '内置原件', link: '/atomics/index' },
+            { text: '自定义原件', link: '/atomics/custom' },
+          ],
+        },
       ],
     },
   },
