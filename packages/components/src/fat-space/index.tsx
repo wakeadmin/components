@@ -1,6 +1,6 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { NoopArray } from '@wakeadmin/utils';
-import { normalizeClassName, normalizeStyle } from '../utils';
+import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
+import { normalizeChildren, normalizeClassName, normalizeStyle } from '../utils';
 
 import { FatSpaceProps, FatSpaceSize } from './types';
 
@@ -42,9 +42,9 @@ const FatSpaceInner = declareComponent({
       const sizesInNumber = toSizes(size);
       const inline = props.inline;
 
-      const nodes = (slots.default?.() ?? NoopArray) as any[];
+      const nodes = normalizeChildren((slots.default?.() ?? NoopArray) as any[]);
 
-      const children = nodes.map((n, idx) => {
+      const children = nodes?.filter(booleanPredicate).map((n, idx) => {
         return (
           <div class="fat-space__item" key={n?.key ?? idx}>
             {n}

@@ -587,7 +587,7 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
    * 当开启了 row， gutter 会设置 row 的 gutter props
    * 否则作为  fat-space 组件的 size
    *
-   * 默认 large
+   * 默认 水平模式下为 large, 垂直模式下为 medium
    */
   gutter?: FatSpaceSize;
 

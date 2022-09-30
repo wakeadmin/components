@@ -17,6 +17,7 @@
   import Consumer from './Consumer.vue'
   import ChangePassword from './ChangePassword.vue'
   import Transform from './Transform.vue'
+  import Dynamic from './Dynamic.vue'
 </script>
 
 # 表单
@@ -554,6 +555,29 @@ transform 返回的是 {startTime、endTime}
 <br>
 
 ## 4. 动态表单
+
+动态增删字段也是很常见的表单需求。
+
+<ClientOnly>
+  <div class="wk-demo">
+    <Dynamic />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/Dynamic.vue
+:::
+
+<br>
+
+上面的代码展示了动态表单的简单处理过程。
+
+另外还展示了条件展示字段, 通过 `preserve` 属性来控制，条件展示字段卸载后是否保留数据。
+
+<br>
+<br>
+<br>
+<br>
 
 ## 5. 预览模式
 

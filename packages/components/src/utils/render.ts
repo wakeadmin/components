@@ -85,25 +85,35 @@ export function isFragment(vnode: any) {
 }
 
 /**
+ * 规范化子节点
+ * 如果是 Vue 3 会对 Fragment 进行展开
+ * @param children
+ * @returns
+ */
+export function normalizeChildren(children: any[] | undefined | null) {
+  if (!children || !Array.isArray(children)) {
+    return undefined;
+  }
+
+  if (isVue2) {
+    return children;
+  }
+
+  return children
+    .map(i => {
+      if (isFragment(i)) {
+        return i.children;
+      }
+      return i;
+    })
+    .flat();
+}
+
+/**
  * 从 children 中提取 props
  * @param children
  * @returns
  */
 export function extraPropsFromChildren(children: any[] | undefined | null) {
-  if (!children || !Array.isArray(children)) {
-    return undefined;
-  }
-
-  return children
-    .map(i => {
-      if (isVue2) {
-        return extraProps(i);
-      } else {
-        if (isFragment(i)) {
-          return i.children.map(extraProps);
-        }
-        return extraProps(i);
-      }
-    })
-    .flat();
+  return normalizeChildren(children)?.map(extraProps);
 }
