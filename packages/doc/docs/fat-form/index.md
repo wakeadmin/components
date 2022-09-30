@@ -601,4 +601,25 @@ transform 返回的是 {startTime、endTime}
 
 ## 6. API
 
-可继承的表单控制项
+### 6.1 FatForm Props
+
+![](./images/fat-form-api.png)
+
+<br>
+<br>
+
+### 6.2 FatForm Events
+
+![](./images/fat-form-events.png)
+
+<br>
+<br>
+<br>
+
+### 6.3 FatForm Methods
+
+![](./images/fat-form-methods.png)
+
+<br>
+<br>
+<br>

@@ -1,4 +1,4 @@
-# FatFormItem 表单项
+# FatFormGroup 表单组
 
 使用方法见 [FatForm 表单](./index.md)
 
@@ -8,7 +8,7 @@
 
 ## API
 
-![](./images/fat-form-item.png)
+![](./images/fat-form-group.png)
 
 <br>
 <br>

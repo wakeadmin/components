@@ -814,17 +814,17 @@ export interface FatFormSectionSlots {
  */
 export interface FatFormSectionProps extends FatFormSectionSlots {
   /**
-   * 标题
+   * 标题, 也可以使用 #title slot 或者 renderTitle()
    */
   title?: string;
 
   /**
-   * 是否支持折叠，默认关闭
+   * 是否支持折叠，默认 false
    */
   collapsable?: boolean;
 
   /**
-   * 默认是否折叠
+   * 默认是否折叠，默认 false
    */
   defaultCollapse?: boolean;
 }

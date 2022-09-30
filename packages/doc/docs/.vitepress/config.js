@@ -46,6 +46,14 @@ export default {
               text: 'FatFormItem 表单项',
               link: '/fat-form/item',
             },
+            {
+              text: 'FatFormGroup 表单组',
+              link: '/fat-form/group',
+            },
+            {
+              text: 'FatFormSection 表单分类',
+              link: '/fat-form/section',
+            },
           ],
         },
       ],
