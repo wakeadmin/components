@@ -40,7 +40,7 @@ export function defineAtomicComponent<P extends AtomicCommonProps<any>>(
             for (const key in g) {
               const value = g[key];
               // 已在 props 中定义，跳过
-              if (key in props.properties) {
+              if (key in props.properties && props.properties[key] !== undefined) {
                 continue;
               }
 
@@ -62,7 +62,7 @@ export function defineAtomicComponent<P extends AtomicCommonProps<any>>(
           for (const key in p) {
             const value = p[key];
             if (key in properties) {
-              if (properties[key] !== value) {
+              if (properties[key] !== value && value !== undefined) {
                 properties[key] = value;
               }
             } else {

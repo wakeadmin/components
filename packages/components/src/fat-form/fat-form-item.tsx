@@ -277,10 +277,13 @@ const FatFormItemInner = declareComponent({
         value: value.value,
         onChange: handleChange,
         context: form,
-        placeholder: props.placeholder,
         class: props.valueClassName,
         style: normalizeStyle(contentStyle.value, props.valueStyle),
       };
+
+      if (props.placeholder != null) {
+        target.placeholder = props.placeholder;
+      }
 
       if (disabled.value !== undefined) {
         target.disabled = disabled.value;

@@ -9,9 +9,12 @@
   import Message from './Message.vue'
   import Section from './Section.vue'
   import InitialValue from './InitialValue.vue'
+  import FatFormItemInitialValue from './FatFormItemInitialValue.vue'
   import InitialValueSync from './InitialValueSync.vue'
   import Request from './Request.vue'
+  import Convert from './Convert.vue'
   import FatFormItemProp from './FatFormItemProp.vue'
+  import Consumer from './Consumer.vue'
 </script>
 
 # 表单
@@ -272,6 +275,23 @@ FatForm 会在内部维护表单的数据，用户有三种方式来设置表单
 <br>
 <br>
 
+在 `FatFormItem` 上也可以设置初始化值，这种方式会更加灵活，尤其是在 [动态表单](#4-动态表单) 的场景：
+
+<ClientOnly>
+  <div class="wk-demo">
+    <FatFormItemInitialValue />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/FatFormItemInitialValue.vue
+:::
+
+<br>
+<br>
+<br>
+<br>
+
 ### 2.2 通过 request 远程请求数据
 
 很多场景我们是从远程服务器拉取数据来编辑的，这种情况可以使用 request 方法：
@@ -286,6 +306,28 @@ FatForm 会在内部维护表单的数据，用户有三种方式来设置表单
 
 ::: details 查看代码
 <<< @/fat-form/Request.vue
+:::
+
+<br>
+<br>
+
+从远程返回的数据未必符合要求。比如时间区间，后端通常会拆成两个字段，而我们的组件用一个字段。另外一种场景是数据格式的转换。
+
+- 这两者都可以在 request 中处理。
+- 如果是纯粹的数据转换，也可以通过 FatFormItem 的 convert 属性来处理
+
+<br>
+
+使用示例：
+
+<ClientOnly>
+  <div class="wk-demo">
+    <Convert />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/Convert.vue
 :::
 
 <br>
@@ -346,7 +388,23 @@ a.b[0].c  # 数组
 
 ### 2.4 表单联动
 
-复杂的表单绕不开表单之间的联动
+复杂的表单绕不开表单之间的联动。 在 FatForm 中，我们推荐使用 `FatFormConsumer` 组件来实现联动：
+
+<ClientOnly>
+  <div class="wk-demo">
+    <Consumer />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/Consumer.vue
+:::
+
+<br>
+
+::: tip
+如上面的代码所示，如果 FatFormItem 没有配置 label，如果想要和其他 FatFormItem 对齐，需要显式配置 `labelWidth` 为 `auto`
+:::
 
 <br>
 <br>
@@ -355,9 +413,13 @@ a.b[0].c  # 数组
 
 ## 3. 表单提交
 
-表单验证
-表单数据转换
-表单提交
+下面介绍
+
+### 3.1 表单验证
+
+### 3.2 表单数据转换
+
+### 3.3 表单提交
 
 <br>
 <br>
