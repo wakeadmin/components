@@ -298,6 +298,8 @@ export interface FatFormSlots<S extends {}> {
   renderSubmitter?: (form: FatFormMethods<S>, buttons: () => any) => any;
 }
 
+export type FatFormRules<Store extends {}> = Rules | ((values: Store, form: FatFormMethods<Store>) => Rules);
+
 /**
  * fat 表单属性
  * @template Store 表单存储的类型
@@ -398,7 +400,7 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
   /**
    * 验证规则
    */
-  rules?: Rules | ((values: Store, form: FatFormMethods<Store>) => Rules);
+  rules?: FatFormRules<Store>;
 
   /**
    * 当字段被删除时保留字段值， 默认 true
@@ -669,6 +671,11 @@ export interface FatFormItemSlots<S extends {}> {
 }
 
 /**
+ * 验证规则
+ */
+export type FatFormItemRules<Store extends {}> = Rule | ((values: Store, form: FatFormMethods<Store>) => Rule);
+
+/**
  * fat 表单项属性
  * @template Store 表单存储值
  * @template ValueType 原件类型
@@ -751,7 +758,7 @@ export interface FatFormItemProps<
   /**
    * 验证规则
    */
-  rules?: Rule | ((values: Store, form: FatFormMethods<Store>) => Rule);
+  rules?: FatFormItemRules<Store>;
 
   /**
    * 是否隐藏

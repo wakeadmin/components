@@ -15,6 +15,8 @@
   import Convert from './Convert.vue'
   import FatFormItemProp from './FatFormItemProp.vue'
   import Consumer from './Consumer.vue'
+  import ChangePassword from './ChangePassword.vue'
+  import Transform from './Transform.vue'
 </script>
 
 # 表单
@@ -413,13 +415,138 @@ a.b[0].c  # 数组
 
 ## 3. 表单提交
 
-下面介绍
+下面介绍 FatForm 表单提交的处理过程
+
+![](./images/submit.png)
+
+数据提交的过程如上所示。
+
+<br>
+<br>
 
 ### 3.1 表单验证
 
+表单验证的过程基本和 [el-form](https://element.eleme.cn/#/zh-CN/component/form#zi-ding-yi-xiao-yan-gui-ze) 没多大差别。FatForm 增强了**联动验证**的支持。比如修改密码的场景：
+
+<ClientOnly>
+  <div class="wk-demo">
+    <ChangePassword />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/ChangePassword.vue
+:::
+
+<br>
+
+- `FatForm`, `FatFormItem` 的 rules 支持传入函数，可以获取表单值和表单实例。实现联动验证
+- `FatFormItem` 的 `dependencies` 属性可以用于设置依赖字段。当依赖的字段变动时，会触发当前字段重新验证
+
+<br>
+<br>
+<br>
+
+**子表单验证**
+
+还有一种复杂的表单场景，即父子表单：
+
+<br>
+
+![](./images/sub-form.png)
+
+<br>
+
+即某个字段底层也是一个 FatForm, 我们期望在触发验证或重置时也能带动这些子表单。FatForm 通过开启 `hierarchyConnect` 选项来支持这种关联。 默认开启。
+
+<br>
+
+开启后，父子 FatForm 会建立以下关联关系：
+
+1. 全局验证: 父 FatForm 在验证时，同时会触发子 FatForm 的验证
+2. 全局清理验证
+
+<br>
+<br>
+<br>
+<br>
+
 ### 3.2 表单数据转换
 
+和上文 [request](#22-通过-request-远程请求数据) 中的数据转换一样。如果输入端转换了，输出端的转换也是必然的过程。
+
+对应的，复杂的数据转换可以在 submit 处理器中处理，简单的数据转换可以在 FatFormItem `transform` 中处理:
+
+<ClientOnly>
+  <div class="wk-demo">
+    <Transform />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/Transform.vue
+:::
+
+<br>
+
+`transform` 的转换规则如下:
+
+```ts
+ /**
+  * @param value 当前值
+  * @param values 当前所有表单的值
+  * @param prop 字段路径
+  */
+transform?: (value: any, values: Store, prop: string) => any
+```
+
+<br>
+
+- 如果返回一个对象，key 为新属性的 path, 例如 {'a.b': 0, 'a.c': 2, 'a.d[0]': 3}, 同时原本的字段会被移除
+- 如果返回非对象的值，将作为当前字段的值
+
+<br>
+
+```
+假设：
+prop 为  dataRange
+transform 返回的是 {startTime、endTime}
+最后的结果是 dataRange 会从 query 中移除，并且 startTime、endTime 会合并到 query 中
+```
+
+<br>
+
+<br>
+<br>
+<br>
+<br>
+
 ### 3.3 表单提交
+
+接下来就是提交数据到远程了。数据经过验证和转换之后会传递给 submit 属性。如果数据保存成功，会触发 onFinish 事件:
+
+```vue
+<template>
+  <FatForm :submit="handleSubmit" @finish="handleFinish">
+    <!-- ... -->
+  </FatForm>
+</template>
+
+<script setup>
+  const handleSubmit = async values => {
+    // 后端数据请求
+  };
+
+  // 处理表单提交完成
+  const handleFinish = async values => {
+    // 成功保存
+    message.success('保存成功');
+
+    // or
+    history.back();
+  };
+</script>
+```
 
 <br>
 <br>
