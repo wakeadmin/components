@@ -42,7 +42,7 @@ export interface FatFormSectionDefinition<Store extends {}, Request extends {} =
   extends FatFormSectionProps,
     CommonDefinitionProps {
   [TYPE]: 'section';
-  children?: FatFormChild<Store, Request>[];
+  children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
 }
 
 /**
@@ -52,7 +52,7 @@ export interface FatFormGroupDefinition<Store extends {}, Request extends {} = S
   extends FatFormGroupProps<Store>,
     CommonDefinitionProps {
   [TYPE]: 'group';
-  children?: FatFormChild<Store, Request>[];
+  children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
 }
 
 /**
@@ -66,7 +66,7 @@ export interface FatFormConsumerDefinition<Store extends {}, Request extends {} 
 export interface FatFormDefinition<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
   extends FatFormProps<Store, Request, Submit>,
     CommonDefinitionProps {
-  children?: FatFormChild<Store, Request>[];
+  children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
 }
 
 type OmitType<T> = Omit<T, typeof TYPE>;
@@ -96,7 +96,7 @@ export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Sto
 
   // 以下是底层方法, 用于将定义渲染为 JSX 节点
   renderChild: (child: FatFormChild<Store, Request>) => any;
-  renderChildren: (children: FatFormChild<Store, Request>[]) => any;
+  renderChildren: (children: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>) => any;
 }
 
 export type FatFormDefineProps<
@@ -180,7 +180,15 @@ export function useFatFormDefineUtils() {
   };
 
   const renderChildren = (children: any) => {
-    if (children == null || children.length === 0) {
+    if (children == null) {
+      return undefined;
+    }
+
+    if (!Array.isArray(children)) {
+      return renderChild(children);
+    }
+
+    if (children.length === 0) {
       return undefined;
     }
 

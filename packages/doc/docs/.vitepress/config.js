@@ -54,6 +54,14 @@ export default {
               text: 'FatFormSection 表单分类',
               link: '/fat-form/section',
             },
+            {
+              text: 'FatFormConsumer 表单内省',
+              link: '/fat-form/consumer',
+            },
+            {
+              text: 'defineFatForm 定义器',
+              link: '/fat-form/define',
+            },
           ],
         },
       ],
