@@ -78,7 +78,7 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
   cancelText?: string;
 
   /**
-   * 自定义取消 props
+   * 自定义取消按钮 props
    */
   cancelProps?: ButtonProps;
 
@@ -224,6 +224,8 @@ export const FatFormModal = declareComponent({
 
       return (
         <Dialog
+          {...passthroughProps}
+          {...tempProps}
           modelValue={visible.value}
           onUpdate:modelValue={handleVisibleChange}
           class={normalizeClassName('fat-form-modal', attrs.class)}
@@ -231,8 +233,6 @@ export const FatFormModal = declareComponent({
           modalAppendToBody={true}
           closeOnClickModal={false}
           closeOnPressEscape={false}
-          {...passthroughProps}
-          {...tempProps}
           beforeClose={handleCancel}
           v-slots={{
             title: hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', instance) : undefined,
@@ -243,12 +243,12 @@ export const FatFormModal = declareComponent({
         >
           {(!props.destroyOnClose || !!lazyVisible.value) && (
             <FatForm
+              {...passthroughProps}
+              {...tempProps}
               ref={form}
               enableSubmitter={false}
               hierarchyConnect={false}
               onFinish={handleFinish}
-              {...passthroughProps}
-              {...tempProps}
             >
               {slots.default?.()}
             </FatForm>

@@ -233,6 +233,8 @@ export const FatFormDrawer = declareComponent({
 
       return (
         <Drawer
+          {...passthroughProps}
+          {...tempProps}
           modelValue={visible.value}
           onUpdate:modelValue={handleVisibleChange}
           class={normalizeClassName('fat-form-drawer', attrs.class)}
@@ -242,8 +244,6 @@ export const FatFormDrawer = declareComponent({
           wrapperClosable={false}
           closeOnClickModal={false}
           closeOnPressEscape={false}
-          {...passthroughProps}
-          {...tempProps}
           beforeClose={handleCancel}
           v-slots={{
             title: hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', instance) : undefined,
@@ -252,12 +252,12 @@ export const FatFormDrawer = declareComponent({
           <div class="fat-form-drawer__body">
             {(!props.destroyOnClose || !!lazyVisible.value) && (
               <FatForm
+                {...passthroughProps}
+                {...tempProps}
                 ref={form}
                 enableSubmitter={false}
                 hierarchyConnect={false}
                 onFinish={handleFinish}
-                {...passthroughProps}
-                {...tempProps}
               >
                 {slots.default?.()}
               </FatForm>

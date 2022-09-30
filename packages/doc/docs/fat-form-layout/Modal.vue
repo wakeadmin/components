@@ -5,7 +5,7 @@
     <div>
       <ul>
         <li v-for="item of list" :key="item.id">
-          {{ item.name }}: {{ item.sex }}
+          {{ item.name }}: {{ item.sex === 0 ? '男' : '女' }}
           <el-button @click="handleEdit(item)">编辑</el-button>
         </li>
       </ul>
@@ -28,16 +28,38 @@
      */
     id?: number;
     name: string;
-    sex: string;
+    sex: number;
   }
 
-  const modalRef = useFatFormModalRef();
+  const modalRef = useFatFormModalRef<Data>();
   const list = reactive<Data[]>([]);
+
+  const handleCreate = () => {
+    modalRef.value?.open({
+      title: '新建',
+      initialValue: { name: '', sex: 0 },
+    });
+  };
+
+  const handleEdit = (item: Data) => {
+    modalRef.value?.open({
+      title: '编辑',
+      initialValue: item,
+    });
+  };
 
   const CreateOrEditModal = defineFatFormModal<Data>(({ item }) => {
     return () => ({
-      async submit() {
+      async submit(values) {
         // 在这里调用保存接口
+        if (values.id) {
+          // 编辑
+          const idx = list.findIndex(i => i.id === values.id);
+          list[idx] = values;
+        } else {
+          // 新建
+          list.push({ id: Date.now(), ...values });
+        }
       },
       onFinish(values) {
         // 保存成功，可以在这里进行列表刷新之类的操作
