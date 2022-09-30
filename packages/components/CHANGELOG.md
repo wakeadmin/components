@@ -1,5 +1,24 @@
 # @wakeadmin/components
 
+## 0.5.7
+
+### Patch Changes
+
+- Bug 修复
+
+  - 避免原件重复注册
+  - fat-form 样式优化
+
+- API 调整
+
+  - define\* 相关方法参数合并成 context 一个参数
+  - fat-table 新增 after-submit submitter 两个插槽
+  - fat-table query 参数调整为 extraQuery
+  - fat-form-group/fat-form-item 网格使用简化, 支持自动检测是否开启了网格
+
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.2.3
+
 ## 0.5.6
 
 ### Patch Changes
@@ -10,11 +29,11 @@
 
 ### Patch Changes
 
-- - 新增功能
-    - fat-float-footer 兼容微前端基座
-    - 新增 currency, float, cascader, cascader-lazy 原件
-  - Bug 修复
-    - fat-table query slots 显示计算优化
+- 新增功能
+  - fat-float-footer 兼容微前端基座
+  - 新增 currency, float, cascader, cascader-lazy 原件
+- Bug 修复
+  - fat-table query slots 显示计算优化
 - Updated dependencies
   - @wakeadmin/element-adapter@0.2.2
 
@@ -22,9 +41,9 @@
 
 ### Patch Changes
 
-- - fat-table 新增 beforeTable、afterTable 插槽
-  - 修复: fat-table 再没有任何查询字段时，隐藏查询表单
-  - 修复: images 值变更后没有触发重新验证
+- fat-table 新增 beforeTable、afterTable 插槽
+- 修复: fat-table 再没有任何查询字段时，隐藏查询表单
+- 修复: images 值变更后没有触发重新验证
 - Updated dependencies
   - @wakeadmin/element-adapter@0.2.1
 
@@ -32,19 +51,19 @@
 
 ### Patch Changes
 
-- - fat-actions 样式优化
-  - upload 提示语优化
+- fat-actions 样式优化
+- upload 提示语优化
 
 ## 0.5.2
 
 ### Patch Changes
 
-- Bug 修复
+Bug 修复
 
-  - 图片上传 sizeLimit 格式化
-  - 图片上传支持扩展名验证
-  - fat-form-modal/drawer 默认关闭遮罩点击
-  - fat-action disabled 情况下无法显示 title
+- 图片上传 sizeLimit 格式化
+- 图片上传支持扩展名验证
+- fat-form-modal/drawer 默认关闭遮罩点击
+- fat-action disabled 情况下无法显示 title
 
 ## 0.5.1
 

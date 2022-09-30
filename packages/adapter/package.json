@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/element-adapter",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "基础组件适配层",
   "sideEffects": false,
   "exports": "./lib/index.js",
@@ -34,7 +34,7 @@
   "author": "ivan-lee",
   "license": "MIT",
   "dependencies": {
-    "@wakeadmin/demi": "^0.1.1",
+    "@wakeadmin/demi": "^0.1.2",
     "@wakeadmin/h": "^0.2.6",
     "@wakeadmin/utils": "^0.1.2"
   },
