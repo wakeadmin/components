@@ -9,7 +9,7 @@ import { isWakeadminBayEnabled } from './utils';
 
 export interface FatFloatFooterProps {
   /**
-   * 在微前端环境是否直接使用基座提供的 wkc-header，默认 true
+   * 在微前端环境是否直接使用基座提供的 wkc-float-footer，默认 true
    */
   useWakeadminHeaderIfNeed?: boolean;
 }
