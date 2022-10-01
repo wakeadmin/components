@@ -10,7 +10,7 @@
 <br>
 <br>
 
-## 快速创建一个表格页面
+## 1. 快速创建一个表格页面
 
 <br>
 <br>
@@ -27,7 +27,7 @@
 <br>
 <br>
 
-## defineFatTable（推荐）
+## 2. defineFatTable（推荐）
 
 我们推荐使用 `defineFatTable` + `TSX` 来快速定义一个表格组件，使用 defineFatTable 可以获取到更好的智能提示和类型检查。
 
@@ -103,7 +103,7 @@ defineFatTable 类似于 Vue 的 [defineComponent](https://vuejs.org/api/general
 <br>
 <br>
 
-## 原件
+## 3. 原件
 
 [原件](../atomics/index.md)是 FatTable 的’原子‘组成单位，表格的单元格、查询表单都使用原件进行声明。
 
@@ -126,7 +126,7 @@ defineFatTable 类似于 Vue 的 [defineComponent](https://vuejs.org/api/general
 <br>
 <br>
 
-## 表单查询
+## 4. 表单查询
 
 大部分场景下，`查询表单字段`和`表格列`是匹配的，换句话说，表单筛选是针对表格的列进行的：
 
@@ -186,7 +186,7 @@ defineFatTable 类似于 Vue 的 [defineComponent](https://vuejs.org/api/general
 <br>
 <br>
 
-## 操作按钮
+## 5. 操作按钮
 
 FatTable 中通过 actions 来定义表格的操作:
 
@@ -204,7 +204,7 @@ FatTable 中通过 actions 来定义表格的操作:
 <br>
 <br>
 
-## 批量操作按钮
+## 6. 批量操作按钮
 
 和操作按钮类似， FatTable 也支持快速创建批量操作按钮:
 
@@ -222,32 +222,7 @@ FatTable 中通过 actions 来定义表格的操作:
 <br>
 <br>
 
-## API
-
-### FatTable 属性
-
-![](./images/fat-table-api.png)
-
-<br>
-<br>
-
-### FatTable 事件
-
-![](./images/fat-table-events.png)
-
-<br>
-<br>
-<br>
-
-### FatTable 实例方法
-
-![](./images/fat-table-methods.png)
-
-<br>
-<br>
-<br>
-
-### FatTable 插槽
+## 7. 插槽
 
 <br>
 
@@ -287,7 +262,176 @@ defineFatTable({
 <br>
 <br>
 
-### 列定义
+## 8. 自定义布局
+
+FatTable 默认使用惟客云 UI 规范的布局。你也可以自定义布局，布局协议如下：
+
+```ts
+export type FatTableLayout = (slots: {
+  /**
+   * 根节点属性
+   */
+  rootProps: { class?: ClassValue; style?: StyleValue; [key: string]: unknown };
+
+  /**
+   * 自定义布局参数
+   */
+  layoutProps: any;
+
+  /**
+   * 渲染标题栏
+   */
+  renderTitle?: () => any;
+
+  /**
+   * 渲染导航栏
+   */
+  renderNavBar?: () => any;
+
+  /**
+   * 渲染查询表单
+   */
+  renderQuery?: () => any;
+
+  /**
+   * 渲染错误提示
+   */
+  renderError?: () => any;
+
+  /**
+   * 渲染工具栏
+   */
+  renderToolbar?: () => any;
+
+  /**
+   * 渲染表格
+   */
+  renderTable?: () => any;
+
+  /**
+   * 渲染底部工具栏
+   */
+  renderBottomToolbar?: () => any;
+
+  /**
+   * 渲染分页
+   */
+  renderPagination?: () => any;
+}) => VNodeChild;
+```
+
+<br>
+<br>
+
+默认实现：
+
+```tsx
+const DefaultLayout: FatTableLayout = props => {
+  return (
+    <div {...props.rootProps} class={normalizeClassName(props.rootProps.class, 'fat-table', 'fat-table--default')}>
+      <FatHeader class="fat-table__header" v-slots={{ title: props.renderTitle, extra: props.renderNavBar }}>
+        {props.renderQuery ? <div class="fat-table__query">{props.renderQuery()}</div> : undefined}
+      </FatHeader>
+
+      <FatContent class="fat-table__content">
+        <div class="fat-table__body">
+          {!!props.renderError && <div class="fat-table__error">{props.renderError()}</div>}
+          {!!props.renderToolbar && <div class="fat-table__toolbar">{props.renderToolbar()}</div>}
+
+          <div class="fat-table__table">{props.renderTable?.()}</div>
+        </div>
+
+        <div class="fat-table__footer">
+          {!!props.renderBottomToolbar && <div class="fat-table__bottom-toolbar">{props.renderBottomToolbar()}</div>}
+          {!!props.renderPagination && <div class="fat-table__pagination">{props.renderPagination()}</div>}
+        </div>
+      </FatContent>
+    </div>
+  );
+};
+```
+
+<br>
+
+::: tip
+当插槽不存在时会传入 `undefined`，你可以根据这个决定要不要渲染包裹器
+:::
+
+<br>
+
+::: tip
+
+可以配合 [`FatConfigurableProvider`](../fat-configurable/index.md) 实现全局配置。
+
+:::
+
+<br>
+<br>
+<br>
+<br>
+
+## 9. API
+
+### 9.1 FatTable 属性
+
+![](./images/fat-table-api.png)
+
+<br>
+<br>
+<br>
+<br>
+
+### 9.2 FatTable 事件
+
+![](./images/fat-table-events.png)
+
+<br>
+<br>
+<br>
+
+### 9.3 FatTable 实例方法
+
+![](./images/fat-table-methods.png)
+
+<br>
+
+`FatTable` 实例方式获取有两种方式：
+
+1. `defineFatTable` 函数参数 table 属性中获取：
+
+   ```ts
+   defineFatTable(({ table }) => {});
+   ```
+
+  <br>
+
+2. `<template>` 中，使用 `useFatTableRef`:
+
+   ```vue
+   <template>
+     <FatTable ref="tableRef">...</FatTable>
+   </template>
+
+   <script setup lang="tsx">
+     import { FatTable, useFatTableRef } from '@wakeadmin/components';
+
+     const tableRef = useFatTableRef();
+   </script>
+   ```
+
+<br>
+<br>
+<br>
+
+### 9.4 FatTable 插槽
+
+![](./images/fat-table-slots.png)
+
+<br>
+<br>
+<br>
+
+### 9.5 列定义
 
 ![](./images/fat-table-column.png)
 

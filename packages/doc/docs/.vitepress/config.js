@@ -74,6 +74,10 @@ export default {
           ],
         },
         {
+          text: 'FatConfigurable 全局配置',
+          items: [{ text: 'FatConfigurable', link: '/fat-configurable/index' }],
+        },
+        {
           text: 'FatLayout 布局',
           items: [
             { text: 'FatHeader 首部', link: '/fat-layout/header' },
