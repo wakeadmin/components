@@ -1,6 +1,6 @@
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { Button, ButtonProps, ClassValue, StyleValue } from '@wakeadmin/element-adapter';
-import { Ref, ref } from '@wakeadmin/demi';
+import { computed, Ref, ref } from '@wakeadmin/demi';
 
 import { FatFormProps, FatFormMethods, FatForm, FatFormSlots } from '../fat-form';
 import {
@@ -16,13 +16,12 @@ import { FatFloatFooter, FatHeader } from '../fat-layout';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
 
+export type FatFormPageMethods<S extends {}> = FatFormMethods<S>;
 export interface FatFormPageSlots<S extends {}> extends FatFormSlots<S> {
-  renderTitle?: (form?: FatFormMethods<S>) => any;
-  renderExtra?: (form?: FatFormMethods<S>) => any;
+  renderTitle?: (form?: FatFormPageMethods<S>) => any;
+  renderExtra?: (form?: FatFormPageMethods<S>) => any;
   renderDefault?: () => any;
 }
-
-export type FatFormPageMethods<S extends {}> = FatFormMethods<S>;
 
 export interface FatFormPageEvents {
   /**
@@ -83,7 +82,14 @@ export type FatFormPageLayout = (renders: {
 
   form?: Ref<FatFormMethods<any> | undefined>;
 
+  /**
+   * 渲染标题
+   */
   renderTitle: () => any;
+
+  /**
+   * 渲染额外内容
+   */
   renderExtra: () => any;
 
   /**
@@ -92,9 +98,9 @@ export type FatFormPageLayout = (renders: {
   renderForm: () => any;
 
   /**
-   * 渲染提交按钮
+   * 渲染提交按钮, 禁用时为空
    */
-  renderSubmitter: () => any;
+  renderSubmitter?: () => any;
 
   /**
    * 布局自定义参数
@@ -113,7 +119,7 @@ const DefaultLayout: FatFormPageLayout = ctx => {
         }}
       >
         {ctx.renderForm()}
-        <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>
+        {!!ctx.renderSubmitter && <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>}
       </FatHeader>
     </div>
   );
@@ -125,10 +131,12 @@ const DefaultLayout: FatFormPageLayout = ctx => {
 export const FatFormPage = declareComponent({
   name: 'FatFormPage',
   props: declareProps<FatFormPageProps<any>>({
+    mode: null,
     pageLayout: null,
     pageLayoutProps: null,
     title: null,
-    enableSubmitter: { type: Boolean, default: true },
+    // preview 模式默认不渲染 submitter
+    enableSubmitter: { type: Boolean, default: undefined },
 
     enableCancel: { type: Boolean, default: true },
     cancelText: String,
@@ -137,7 +145,7 @@ export const FatFormPage = declareComponent({
     submitText: String,
     submitProps: null,
 
-    enableReset: { type: Boolean, default: true },
+    enableReset: { type: Boolean, default: false },
     resetText: String,
     resetProps: null,
 
@@ -193,6 +201,21 @@ export const FatFormPage = declareComponent({
       ];
     };
 
+    const enableSubmitter = computed(() => {
+      return props.enableSubmitter ?? props.mode !== 'preview';
+    });
+
+    const renderSubmitter = computed(() => {
+      if (!enableSubmitter.value) {
+        return undefined;
+      }
+
+      return () =>
+        hasSlots(props, slots, 'submitter')
+          ? renderSlot(props, slots, 'submitter', form.value, renderButtons)
+          : renderButtons();
+    });
+
     return () => {
       const layout = props.pageLayout ?? configurable.fatFormPageLayout ?? DefaultLayout;
 
@@ -209,18 +232,12 @@ export const FatFormPage = declareComponent({
         },
         renderForm: () => {
           return (
-            <FatForm ref={form} hierarchyConnect={false} {...inheritProps()} enableSubmitter={false}>
+            <FatForm ref={form} mode={props.mode} hierarchyConnect={false} {...inheritProps()} enableSubmitter={false}>
               {renderSlot(props, slots, 'default')}
             </FatForm>
           );
         },
-        renderSubmitter: () => {
-          return props.enableSubmitter
-            ? hasSlots(props, slots, 'submitter')
-              ? renderSlot(props, slots, 'submitter', form.value, renderButtons)
-              : renderButtons()
-            : null;
-        },
+        renderSubmitter: renderSubmitter.value,
       });
     };
   },
