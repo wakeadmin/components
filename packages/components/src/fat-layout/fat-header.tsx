@@ -64,7 +64,16 @@ export const FatHeader = declareComponent({
     const hasTitleSlots = computed(() => hasSlots(props, slots, 'title'));
     const hasExtraSlots = computed(() => hasSlots(props, slots, 'extra'));
 
-    const activeKey = ref<string | number>('');
+    const activeKey = ref<string | number | undefined>();
+
+    const realActiveKey = computed(() => {
+      if (activeKey.value != null) {
+        return activeKey.value;
+      }
+
+      // 默认选择第一个
+      return props.tabs?.[0]?.key;
+    });
 
     const handleTabClick = (key: string | number) => {
       activeKey.value = key;
@@ -75,7 +84,7 @@ export const FatHeader = declareComponent({
     watch(
       () => props.activeKey,
       () => {
-        const nextActiveKey = props.activeKey ?? '';
+        const nextActiveKey = props.activeKey;
         if (nextActiveKey !== activeKey.value) {
           activeKey.value = nextActiveKey;
         }
@@ -106,7 +115,7 @@ export const FatHeader = declareComponent({
                   {props.tabs.map(menu => {
                     return (
                       <div
-                        class={['fat-header__tab', { active: menu.key === activeKey.value }]}
+                        class={['fat-header__tab', { active: menu.key === realActiveKey.value }]}
                         key={menu.key}
                         onClick={() => handleTabClick(menu.key)}
                       >

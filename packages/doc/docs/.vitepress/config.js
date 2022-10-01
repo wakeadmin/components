@@ -75,7 +75,10 @@ export default {
         },
         {
           text: 'FatLayout 布局',
-          items: [],
+          items: [
+            { text: 'FatHeader 首部', link: '/fat-layout/header' },
+            { text: 'FatFloatFooter 浮动尾部', link: '/fat-layout/float-footer' },
+          ],
         },
         {
           text: 'Other 其他',
