@@ -83,7 +83,7 @@ export type DefineAtomicProps<Value, Props extends {}, Extra extends {} = {}> = 
  */
 export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonProps<T>> {
   /**
-   * 名称，小写驼峰式, 需要避免和其他组件冲突
+   * 名称，kebab-case, 需要避免和其他组件冲突
    */
   name: string;
 
