@@ -27,7 +27,7 @@ const toSizes = (sizes: FatSpaceProps['size'] = 'small'): [number, number] => {
 const FatSpaceInner = declareComponent({
   name: 'FatSpace',
   props: declareProps<FatSpaceProps>({
-    align: null,
+    align: { type: null, default: 'center' },
     direction: null,
     size: null,
     wrap: null,

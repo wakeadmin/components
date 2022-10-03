@@ -226,7 +226,7 @@ const FatFormGroupInner = declareComponent({
             direction={props.vertical ? 'vertical' : 'horizontal'}
             class={normalizeClassName('fat-form-group-container')}
             inline={false}
-            align={form.layout === 'vertical' ? 'end' : undefined}
+            align={form.layout === 'vertical' ? 'end' : 'start'}
           >
             {children}
           </FatSpace>

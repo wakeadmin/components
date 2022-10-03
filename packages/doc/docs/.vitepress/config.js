@@ -85,15 +85,15 @@ export default {
           ],
         },
         {
-          text: 'Other 其他',
-          items: [],
-        },
-        {
           text: 'Atomic 原件',
           items: [
             { text: '内置原件', link: '/atomics/index' },
             { text: '自定义原件', link: '/atomics/custom' },
           ],
+        },
+        {
+          text: 'Other 其他',
+          items: [{ text: 'FatSpace 间距', link: '/other/space' }],
         },
       ],
     },

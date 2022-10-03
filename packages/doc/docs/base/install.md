@@ -19,22 +19,20 @@
 ## 安装
 
 ```shell
-$ pnpm add @wakeadmin/components @wakeadmin/h
+$ pnpm add @wakeadmin/components
 ```
-
-::: tip
-
-`@wakeadmin/h` 用于 JSX 支持。
-
-:::
 
 <br>
 <br>
 
 **开发依赖**:
 
+如果你想要使用 TSX/JSX 开发，并且获取到更好的 Typescript 类型检查，需要安装一下依赖:
+
+<br>
+
 ```shell
-$ pnpm add babel-preset-wakeadmin @vue/runtime-dom -D
+$ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi @vue/runtime-dom -D
 ```
 
 ::: tip
@@ -62,11 +60,12 @@ module.exports = {
 
 Typescript 配置:
 
-```json{3,4}
+```json{3,4,5}
 {
   "compilerOptions": {
     "jsx": "preserve" /* Specify JSX code generation: 'preserve', 'react-native', 'react', 'react-jsx' or 'react-jsxdev'. */,
     "jsxImportSource": "@wakeadmin/h",
+    "types": ["@wakeadmin/demi"]
   },
 }
 

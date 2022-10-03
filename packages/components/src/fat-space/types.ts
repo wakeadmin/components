@@ -2,7 +2,7 @@ export type FatSpaceSize = 'small' | 'medium' | 'large' | 'huge' | number;
 
 export interface FatSpaceProps {
   /**
-   * 对齐方式
+   * 对齐方式, 默认 center
    */
   align?: 'start' | 'end' | 'center' | 'baseline';
 
