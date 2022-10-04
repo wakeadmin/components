@@ -19,6 +19,14 @@ import {
   composeAtomProps,
 } from '../utils';
 
+function trim(value: any) {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+
+  return value;
+}
+
 const FatFormItemInner = declareComponent({
   name: 'FatFormItem',
   props: declareProps<FatFormItemProps<any, any>>({
@@ -49,6 +57,7 @@ const FatFormItemInner = declareComponent({
     contentStyle: null,
     convert: null,
     transform: null,
+    trim: { type: Boolean, default: false },
 
     // slots here
     renderLabel: null,
@@ -94,6 +103,10 @@ const FatFormItemInner = declareComponent({
     });
 
     const handleChange = (value: any) => {
+      if (props.trim) {
+        value = trim(value);
+      }
+
       form.setFieldValue(props.prop, value);
     };
 

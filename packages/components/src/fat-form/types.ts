@@ -756,6 +756,11 @@ export interface FatFormItemProps<
   convert?: (value: any, values: Request, prop: string) => any;
 
   /**
+   * 相当于 v-model 的 trim 修饰符，只能作用于字符串值类型的原件, 默认 false
+   */
+  trim?: boolean;
+
+  /**
    * 验证规则
    */
   rules?: FatFormItemRules<Store>;

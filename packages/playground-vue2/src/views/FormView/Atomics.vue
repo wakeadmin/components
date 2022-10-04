@@ -4,7 +4,7 @@
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
     <FatText copyable>hello</FatText>
     <FatForm :mode="previewMode ? 'preview' : 'editable'" class="form">
-      <FatFormItem prop="text" label="text" value-type="text" width="small" />
+      <FatFormItem prop="text" label="text" value-type="text" width="small" trim />
       <FatFormItem prop="password" label="password" value-type="password" width="small" />
       <FatFormItem prop="search" label="search" value-type="search" width="medium" />
       <FatFormItem prop="textarea" label="textarea" value-type="textarea" width="huge" />
