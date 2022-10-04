@@ -9,6 +9,7 @@ export interface SimpleTableHeaderProps extends FatHeaderSlots {
   title?: string;
 }
 
+// TODO: 提取到布局中
 const SimpleTableHeader = declareComponent({
   name: 'SimpleTableHeader',
   props: declareProps<SimpleTableHeaderProps>({

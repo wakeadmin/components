@@ -86,13 +86,13 @@ importers:
   packages/adapter:
     specifiers:
       '@wakeadmin/demi': ^0.1.5
-      '@wakeadmin/h': ^0.2.7
+      '@wakeadmin/h': ^0.2.8
       '@wakeadmin/utils': ^0.1.2
       element-plus: ^2.2.15
       element-ui: ^2.15.9
     dependencies:
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.1.5
-      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.7
+      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.2
     devDependencies:
       element-plus: 172.26.59.72+4873/element-plus/2.2.15
@@ -102,7 +102,7 @@ importers:
     specifiers:
       '@wakeadmin/demi': ^0.1.5
       '@wakeadmin/element-adapter': workspace:^0.2.3
-      '@wakeadmin/h': ^0.2.7
+      '@wakeadmin/h': ^0.2.8
       '@wakeadmin/icons': ^0.1.2
       '@wakeadmin/utils': ^0.1.2
       copy-to-clipboard: ^3.3.2
@@ -110,7 +110,7 @@ importers:
     dependencies:
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.1.5
       '@wakeadmin/element-adapter': link:../adapter
-      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.7
+      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
       '@wakeadmin/icons': 172.26.59.72+4873/@wakeadmin/icons/0.1.2
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.2
       copy-to-clipboard: 172.26.59.72+4873/copy-to-clipboard/3.3.2
@@ -141,7 +141,7 @@ importers:
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/element-adapter': workspace:^0.2.3
       '@wakeadmin/framework': ^0.1.3
-      '@wakeadmin/h': ^0.2.7
+      '@wakeadmin/h': ^0.2.8
       '@wakeadmin/i18n-legacy': ^0.1.4
       '@wakeadmin/vue-cli-plugin-i18n': ^0.1.0
       babel-preset-wakeadmin: latest
@@ -156,7 +156,7 @@ importers:
     dependencies:
       '@wakeadmin/components': link:../components
       '@wakeadmin/framework': 172.26.59.72+4873/@wakeadmin/framework/0.1.3
-      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.7
+      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
       '@wakeadmin/i18n-legacy': 172.26.59.72+4873/@wakeadmin/i18n-legacy/0.1.4
       core-js: 172.26.59.72+4873/core-js/3.25.0
       element-ui: 172.26.59.72+4873/element-ui/2.15.10
@@ -186,7 +186,7 @@ importers:
       '@wakeadmin/components': workspace:^0.5.7
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/framework': ^0.1.3
-      '@wakeadmin/h': ^0.2.7
+      '@wakeadmin/h': ^0.2.8
       '@wakeadmin/vue-cli-plugin-i18n': ^0.1.0
       babel-preset-wakeadmin: latest
       core-js: ^3.25.0
@@ -198,7 +198,7 @@ importers:
     dependencies:
       '@wakeadmin/components': link:../components
       '@wakeadmin/framework': 172.26.59.72+4873/@wakeadmin/framework/0.1.3
-      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.7
+      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
       core-js: 172.26.59.72+4873/core-js/3.25.0
       element-plus: 172.26.59.72+4873/element-plus/2.2.17
       vue: 172.26.59.72+4873/vue/3.2.37
@@ -6340,22 +6340,22 @@ packages:
         optional: true
     dependencies:
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.1.5
-      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.7
+      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.2
       '@wakeapp/framework-core': 172.26.59.72+4873/@wakeapp/framework-core/0.1.0-daily20220913167
     transitivePeerDependencies:
       - lodash
     dev: false
 
-  172.26.59.72+4873/@wakeadmin/h/0.2.7:
+  172.26.59.72+4873/@wakeadmin/h/0.2.8:
     resolution:
       {
-        integrity: sha512-FWJDJXAmJl5Rm5MjJqrEqohyGrM0AAGkd8yx+96gmTwVyt1RimF3nzPLeQS6L0AyTG8uk75FkECYDHGBk+ksfw==,
+        integrity: sha512-RbJHVLZirsEVGst4E9dsXLxk7HPpXJgAn6KFlYTjL/ozHKu8NUHNmLWZ8LrR0El/X5JLFqcuLCxDpWJAZeEgCQ==,
         registry: http://npm.wakedata-inc.com/,
-        tarball: http://172.26.59.72:4873/@wakeadmin%2fh/-/h-0.2.7.tgz,
+        tarball: http://172.26.59.72:4873/@wakeadmin%2fh/-/h-0.2.8.tgz,
       }
     name: '@wakeadmin/h'
-    version: 0.2.7
+    version: 0.2.8
     peerDependencies:
       '@vue/composition-api': '*'
     peerDependenciesMeta:
@@ -6415,7 +6415,7 @@ packages:
         optional: true
     dependencies:
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.1.5
-      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.7
+      '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
     transitivePeerDependencies:
       - lodash
     dev: false

@@ -1,10 +1,10 @@
-import { declareComponent, declareProps } from '@wakeadmin/h';
+import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref } from '@wakeadmin/demi';
 import { ArrowDown, ArrowUp } from '@wakeadmin/icons';
 
-import { normalizeClassName, hasSlots, renderSlot } from '../utils';
+import { normalizeClassName, hasSlots, renderSlot, ToHSlotDefinition } from '../utils';
 
-import { FatFormSectionProps } from './types';
+import { FatFormSectionProps, FatFormSectionSlots } from './types';
 
 export const FatFormSection = declareComponent({
   name: 'FatFormSection',
@@ -16,6 +16,7 @@ export const FatFormSection = declareComponent({
     // slots
     renderTitle: null,
   }),
+  slots: declareSlots<ToHSlotDefinition<FatFormSectionSlots>>(),
   setup(props, { attrs, slots }) {
     const collapsed = ref(!!props.defaultCollapse);
 

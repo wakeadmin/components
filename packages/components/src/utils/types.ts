@@ -32,8 +32,8 @@ export type TrimOnEvents<T extends {}> = {
 export type ToHEmitDefinition<T> = TrimOnEvents<Required<T>>;
 
 export type TrimRenderFunction<T extends {}> = {
-  [K in keyof T as TrimRenderPrefix<string & K>]: T[K] extends () => any
-    ? any
+  [K in keyof T as TrimRenderPrefix<string & K>]: T[K] extends (a: void) => any
+    ? never
     : T[K] extends (a: infer R, ...args: any[]) => any
     ? R
     : never;

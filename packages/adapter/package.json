@@ -35,7 +35,7 @@
   "license": "MIT",
   "dependencies": {
     "@wakeadmin/demi": "^0.1.5",
-    "@wakeadmin/h": "^0.2.7",
+    "@wakeadmin/h": "^0.2.8",
     "@wakeadmin/utils": "^0.1.2"
   },
   "devDependencies": {
