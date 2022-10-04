@@ -12,6 +12,9 @@ export type ASelectProps = DefineAtomicProps<
   string | number | boolean,
   SelectProps,
   {
+    /**
+     * 注意，异步加载函数会在组件启动时执行，后面的变更不会被处理
+     */
     options?: ASelectOption[] | (() => Promise<ASelectOption[]>);
 
     renderPreview?: (active?: ASelectOption) => any;

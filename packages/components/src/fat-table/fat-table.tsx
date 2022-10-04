@@ -44,6 +44,7 @@ import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
 import { BatchActions } from './batch-actions';
+import { provideAtomicContext } from '../atomic/context';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -652,6 +653,8 @@ const FatTableInner = declareComponent({
     };
 
     expose(tableInstance);
+
+    provideAtomicContext(tableInstance);
 
     const renderTitle = computed(() =>
       hasSlots(props, slots, 'title') || props.title

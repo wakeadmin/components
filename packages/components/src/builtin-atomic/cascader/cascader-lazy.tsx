@@ -4,6 +4,7 @@ import { NoopArray, pick } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { toUndefined } from '../../utils';
+import { memoizeTask } from '../../atomic/context';
 
 export type ACascaderLazyValue = any[];
 
@@ -55,6 +56,9 @@ const ROOT_KEY = '__root__';
 
 export const ACascaderLazyComponent = defineAtomicComponent(
   (props: ACascaderLazyProps) => {
+    console.assert(props.load != null, '[cascader-lazy] 必须配置 load 参数');
+    const loader = memoizeTask(props.load ?? (() => Promise.resolve(undefined)));
+
     const data: Record<string, ACascaderOption[]> = shallowReactive({});
 
     const getFromCache = (parentId?: any) => {
@@ -69,7 +73,7 @@ export const ACascaderLazyComponent = defineAtomicComponent(
 
     // 加载节点数据
     const load = async (parentId?: any): Promise<CascaderOption[] | undefined> => {
-      const result = getFromCache(parentId) ?? (await props.load?.(parentId));
+      const result = getFromCache(parentId) ?? (await loader(parentId));
 
       saveCache(parentId, result ?? NoopArray);
 

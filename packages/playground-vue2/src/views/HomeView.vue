@@ -1,12 +1,5 @@
 <template>
   <div class="home">
-    <ChildrenView
-      >hello,
-      <div title="hello"></div>
-      <el-button type="primary">hello</el-button>
-      <div v-if="false">false</div>
-      <div v-for="i in 10" :key="i"><div>i</div></div>
-    </ChildrenView>
     <FatTable
       ref="tableRef"
       row-key="id"
@@ -44,7 +37,6 @@
 
 <script lang="tsx" setup>
   import { ref } from 'vue';
-  import ChildrenView from '@/components/ChildrenView';
   import { FatTable } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
 
@@ -77,6 +69,7 @@
           id: `${page}_${index}`,
           name: `name_${page}_${index}`,
           date: new Date(Date.now() + index * 2000),
+          status: index % 2,
         };
       }),
     };
@@ -105,6 +98,27 @@
       label: '值',
       renderFormItem: (q: any) => {
         return <span>{JSON.stringify(q)}</span>;
+      },
+    },
+    {
+      prop: 'status',
+      label: '状态',
+      queryable: true,
+      valueType: 'select',
+      valueProps: {
+        options: async () => {
+          console.log('request status');
+          return [
+            {
+              label: '开启',
+              value: 1,
+            },
+            {
+              label: '禁用',
+              value: 0,
+            },
+          ];
+        },
       },
     },
     {
