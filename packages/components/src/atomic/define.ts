@@ -8,6 +8,17 @@ export function defineAtomic<P extends AtomicCommonProps<any>>(a: Atomic<any, P>
   return a;
 }
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type AtomicComponent<P> = {
+  (props: P): any;
+
+  /**
+   * 原始定义
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  __setup__(props: P): any;
+};
+
 /**
  * 用于创建原件函数组件
  * note: 所有参数都通过 props 传递，包括 slots、events
@@ -20,7 +31,7 @@ export function defineAtomicComponent<P extends AtomicCommonProps<any>>(
     name: string;
     globalConfigKey?: keyof FatConfigurable;
   }
-): (props: P) => any {
+): AtomicComponent<P> {
   const Component = declareComponent({
     name: options.name,
     props: declareProps<{ properties: any }>(['properties']),
@@ -77,7 +88,11 @@ export function defineAtomicComponent<P extends AtomicCommonProps<any>>(
     },
   });
 
-  return properties => {
+  const wrapper: AtomicComponent<P> = properties => {
     return h(Component, { properties });
   };
+
+  wrapper.__setup__ = setup;
+
+  return wrapper;
 }

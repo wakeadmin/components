@@ -29,6 +29,7 @@ import {
   ACascaderProps,
   AFloatProps,
   ACurrencyProps,
+  AEmailProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -84,6 +85,11 @@ export interface FatConfigurable {
    * url 默认配置
    */
   aUrlProps?: OmitAtomicCommonProps<AUrlProps>;
+
+  /**
+   * email 默认配置
+   */
+  aEmailProps?: OmitAtomicCommonProps<AEmailProps>;
 
   /**
    * search 默认配置

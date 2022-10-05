@@ -43,6 +43,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     ellipsis: 1,
   },
 
+  aEmailProps: {
+    placeholder: '请输入邮箱',
+  },
+
   aSwitchProps: {
     previewActiveText: '开启',
     previewInactiveText: '关闭',

@@ -9,6 +9,7 @@
       <FatFormItem prop="search" label="search" value-type="search" width="medium" />
       <FatFormItem prop="textarea" label="textarea" value-type="textarea" width="huge" />
       <FatFormItem prop="url" label="url" value-type="url" width="huge" />
+      <FatFormItem prop="email" label="email" value-type="email" width="huge" />
       <FatFormItem prop="date" label="date" value-type="date" width="medium" />
       <FatFormItem prop="time" label="time" value-type="time" width="medium" />
       <FatFormItem prop="dateTime" label="date-time" value-type="date-time" width="medium" />
