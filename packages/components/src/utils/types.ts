@@ -10,19 +10,19 @@ export type PickUnderScore<T extends {}> = {
  */
 export type OmitUnderScore<T extends {}> = Omit<T, keyof PickUnderScore<T>>;
 
-export type TrimOnPrefix<K extends string> = K extends `on${infer E}`
+type TrimOnPrefix<K extends string> = K extends `on${infer E}`
   ? E extends `${infer F}${infer L}`
     ? `${Lowercase<F>}${L}`
     : E
   : K;
 
-export type TrimRenderPrefix<K extends string> = K extends `render${infer E}`
+type TrimRenderPrefix<K extends string> = K extends `render${infer E}`
   ? E extends `${infer F}${infer L}`
     ? `${Lowercase<F>}${L}`
     : E
   : K;
 
-export type TrimOnEvents<T extends {}> = {
+type TrimOnEvents<T extends {}> = {
   [K in keyof T as TrimOnPrefix<string & K>]: T[K];
 };
 
@@ -31,7 +31,7 @@ export type TrimOnEvents<T extends {}> = {
  */
 export type ToHEmitDefinition<T> = TrimOnEvents<Required<T>>;
 
-export type TrimRenderFunction<T extends {}> = {
+type TrimRenderFunctionAndExtraParam<T extends {}> = {
   [K in keyof T as TrimRenderPrefix<string & K>]: T[K] extends (a: void) => any
     ? never
     : T[K] extends (a: infer R, ...args: any[]) => any
@@ -42,7 +42,21 @@ export type TrimRenderFunction<T extends {}> = {
 /**
  * 将 render* 类型的渲染函数转换未 h 库的 slot 类型格式
  */
-export type ToHSlotDefinition<T> = TrimRenderFunction<Required<T>>;
+export type ToHSlotDefinition<T> = TrimRenderFunctionAndExtraParam<Required<T>>;
+
+type TransformRenderFunctionToSlotDefinition<T extends {}> = {
+  [K in keyof T as TrimRenderPrefix<string & K>]: T[K];
+};
+
+/**
+ * 将 render* 类型的渲染函数转换为 volar 类型声明
+ */
+export interface ToVolarSlotDefinition<T extends {}> {
+  /**
+   * @private Volar 用于推断插槽类型
+   */
+  $slots: TransformRenderFunctionToSlotDefinition<Required<T>>;
+}
 
 type UnionToIntersection<Union> = (Union extends any ? (arg: Union) => void : never) extends (arg: infer I) => void
   ? I

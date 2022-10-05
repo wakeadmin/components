@@ -48,7 +48,7 @@ export interface FatHeaderProps extends FatHeaderSlots, FatHeaderEvents {
  */
 export const FatHeader = declareComponent({
   name: 'FatHeader',
-  props: declareProps<FatHeaderProps>({
+  props: declareProps<Omit<FatHeaderProps, keyof FatHeaderEvents>>({
     title: null,
     renderTitle: null,
     renderDefault: null,

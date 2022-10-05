@@ -30,9 +30,9 @@ import { FatFormGroup } from './fat-form-group';
 import { useFatFormContext, useTouches } from './hooks';
 import { convert, transform } from './utils';
 
-const FatFormInner = declareComponent({
+export const FatForm = declareComponent({
   name: 'FatForm',
-  props: declareProps<FatFormProps<any>>({
+  props: declareProps<Omit<FatFormProps<any>, keyof FatFormEvents<any>>>({
     mode: null,
     loading: { type: Boolean, default: false },
     initialValue: null,
@@ -599,12 +599,3 @@ const FatFormInner = declareComponent({
     };
   },
 });
-
-// TODO: 暴露 slots 类型
-export const FatForm = FatFormInner as unknown as <
-  Store extends {} = any,
-  Request extends {} = Store,
-  Submit extends {} = Store
->(
-  props: FatFormProps<Store, Request, Submit>
-) => any;

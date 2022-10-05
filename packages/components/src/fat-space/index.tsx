@@ -24,7 +24,7 @@ const toSizes = (sizes: FatSpaceProps['size'] = 'small'): [number, number] => {
   ) as [number, number];
 };
 
-const FatSpaceInner = declareComponent({
+export const FatSpace = declareComponent({
   name: 'FatSpace',
   props: declareProps<FatSpaceProps>({
     align: { type: null, default: 'center' },
@@ -72,5 +72,3 @@ const FatSpaceInner = declareComponent({
     };
   },
 });
-
-export const FatSpace = FatSpaceInner as unknown as (props: FatSpaceProps) => any;

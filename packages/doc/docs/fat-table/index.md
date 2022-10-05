@@ -69,7 +69,7 @@ defineFatTable 类似于 Vue 的 [defineComponent](https://vuejs.org/api/general
 
 <br>
 
-同样的功能使用 template 来写, 会丢失上下文信息：
+同样的功能使用 template 来写, 会丢失上下文信息(vue 组件不支持[`泛型`](https://www.typescriptlang.org/docs/handbook/2/generics.html#handbook-content))：
 
 ```vue
 <template>

@@ -3,13 +3,13 @@
 // allowClear
 
 import { ref } from '@wakeadmin/demi';
-import { declareComponent, declareProps } from '@wakeadmin/h';
+import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { debounce } from 'lodash';
 import { useFatConfigurable } from '../fat-configurable';
 
-import { FatForm, FatFormMethods, FatFormProps } from '../fat-form';
+import { FatForm, FatFormMethods, FatFormProps, FatFormSlots } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
-import { forwardExpose, inheritProps, pickEnumerable } from '../utils';
+import { forwardExpose, inheritProps, pickEnumerable, ToHSlotDefinition } from '../utils';
 
 export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = FatFormProps<
   Store,
@@ -41,6 +41,7 @@ export const FatFormQuery = declareComponent({
     submitOnQueryChange: { type: Boolean, default: true },
     queryWatchDelay: { type: Number, default: 800 },
   }),
+  slots: declareSlots<ToHSlotDefinition<FatFormSlots<any>>>(),
   setup(props, { slots, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
     const configurable = useFatConfigurable();

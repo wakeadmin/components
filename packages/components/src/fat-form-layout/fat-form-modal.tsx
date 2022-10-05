@@ -101,7 +101,7 @@ export const FatFormModalMethodKeys = [...FatFormPublicMethodKeys, 'open', 'clos
 
 export const FatFormModal = declareComponent({
   name: 'FatFormModal',
-  props: declareProps<FatFormModalProps<any>>({
+  props: declareProps<Omit<FatFormModalProps<any>, keyof FatFormModalEvents<any>>>({
     visible: Boolean,
     enableSubmitter: { type: Boolean, default: true },
     cancelText: String,

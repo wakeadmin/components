@@ -11,7 +11,7 @@ import {
   MessageBox,
 } from '@wakeadmin/element-adapter';
 import { computed, toRef } from '@wakeadmin/demi';
-import { declareComponent, declareEmits, declareProps, withDefaults } from '@wakeadmin/h';
+import { declareComponent, declareProps, withDefaults } from '@wakeadmin/h';
 import { More } from '@wakeadmin/icons';
 
 import { RouteLocation, useRouter } from '../hooks';
@@ -101,9 +101,6 @@ export interface FatActionsProps extends CommonProps {
 export const FatActions = declareComponent({
   name: 'FatActions',
   props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size']),
-  emits: declareEmits<{
-    click: (action: FatAction) => void;
-  }>(),
   setup(props, { attrs }) {
     const propsWithDefault = withDefaults(props, { max: 3, type: 'text' });
     const router = useRouter();

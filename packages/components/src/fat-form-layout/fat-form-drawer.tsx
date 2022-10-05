@@ -111,7 +111,7 @@ export function useFatFormDrawerRef<Store extends {}>() {
 
 export const FatFormDrawer = declareComponent({
   name: 'FatFormDrawer',
-  props: declareProps<FatFormDrawerProps<any>>({
+  props: declareProps<Omit<FatFormDrawerProps<any>, keyof FatFormDrawerEvents<any>>>({
     visible: Boolean,
     drawerSize: null,
     enableSubmitter: { type: Boolean, default: true },

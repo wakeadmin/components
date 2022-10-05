@@ -22,7 +22,7 @@ import { NoopObject } from '@wakeadmin/utils';
 
 const DEFAULT_ROW: RowProps & CommonProps = NoopObject;
 
-const FatFormGroupInner = declareComponent({
+export const FatFormGroup = declareComponent({
   name: 'FatFormGroup',
   props: declareProps<FatFormGroupProps<any>>({
     mode: null,
@@ -311,5 +311,3 @@ const FatFormGroupInner = declareComponent({
     };
   },
 });
-
-export const FatFormGroup = FatFormGroupInner as unknown as <S extends {} = any>(props: FatFormGroupProps<S>) => any;

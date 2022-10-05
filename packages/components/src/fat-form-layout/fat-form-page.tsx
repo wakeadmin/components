@@ -130,7 +130,7 @@ const DefaultLayout: FatFormPageLayout = ctx => {
  */
 export const FatFormPage = declareComponent({
   name: 'FatFormPage',
-  props: declareProps<FatFormPageProps<any>>({
+  props: declareProps<Omit<FatFormPageProps<any>, keyof FatFormPageEvents>>({
     mode: null,
     pageLayout: null,
     pageLayoutProps: null,
@@ -158,7 +158,7 @@ export const FatFormPage = declareComponent({
     renderSubmitter: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormPageEvents>>(),
-  slots: declareSlots<ToHSlotDefinition<FatFormPageSlots<any>>>(),
+  slots: declareSlots<ToHSlotDefinition<FatFormPageSlots<any> & FatFormSlots<any>>>(),
   setup(props, { slots, attrs, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
     const configurable = useFatConfigurable();

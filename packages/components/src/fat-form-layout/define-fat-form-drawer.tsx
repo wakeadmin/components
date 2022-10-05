@@ -40,6 +40,7 @@ export type FatFormDrawerDefine<
   } & FatFormDefineHelpers<Store, Request, Submit>
 ) => () => FatFormDrawerDefinition<Store, Request, Submit>;
 
+// TODO: define* 返回参数支持 slot 类型提示
 /**
  * 创建 fat-form-drawer
  * @param define

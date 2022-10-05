@@ -27,7 +27,7 @@ function trim(value: any) {
   return value;
 }
 
-const FatFormItemInner = declareComponent({
+export const FatFormItem = declareComponent({
   name: 'FatFormItem',
   props: declareProps<FatFormItemProps<any, any>>({
     mode: null,
@@ -432,10 +432,3 @@ const FatFormItemInner = declareComponent({
     };
   },
 });
-
-export const FatFormItem = FatFormItemInner as unknown as <
-  S extends {} = any,
-  K extends keyof AtomicProps | Atomic = 'text'
->(
-  props: FatFormItemProps<S, K>
-) => any;

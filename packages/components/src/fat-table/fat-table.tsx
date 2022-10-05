@@ -10,7 +10,7 @@ import {
   MessageBox,
 } from '@wakeadmin/element-adapter';
 import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, computed } from '@wakeadmin/demi';
-import { declareComponent, declareEmits, declareProps, withDirectives } from '@wakeadmin/h';
+import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
 import { useRoute, useRouter } from '../hooks';
@@ -23,6 +23,7 @@ import {
   toUndefined,
   createMessageBoxOptions,
   createMessageOptions,
+  ToHSlotDefinition,
 } from '../utils';
 import { FatFormMethods } from '../fat-form';
 import { useFatConfigurable } from '../fat-configurable';
@@ -38,6 +39,7 @@ import {
   FatTableMethods,
   FatTableEvents,
   FatTableLayout,
+  FatTableSlots,
 } from './types';
 import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { Query } from './query';
@@ -46,9 +48,9 @@ import { BUILTIN_LAYOUTS } from './layouts';
 import { BatchActions } from './batch-actions';
 import { provideAtomicContext } from '../atomic/context';
 
-const FatTableInner = declareComponent({
+export const FatTable = declareComponent({
   name: 'FatTable',
-  props: declareProps<FatTableProps<any, any>>({
+  props: declareProps<Omit<FatTableProps<any, any>, keyof FatTableEvents<any>>>({
     rowKey: null,
     request: null,
     requestOnMounted: { type: Boolean, default: true },
@@ -100,6 +102,7 @@ const FatTableInner = declareComponent({
     renderBeforeTable: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatTableEvents<any>>>(),
+  slots: declareSlots<ToHSlotDefinition<FatTableSlots<any, any>>>(),
   setup(props, { slots, expose, attrs, emit }) {
     validateColumns(props.columns);
 
@@ -852,5 +855,3 @@ const FatTableInner = declareComponent({
     };
   },
 });
-
-export const FatTable = FatTableInner as any as <T extends {}, S extends {}>(props: FatTableProps<T, S>) => any;
