@@ -34,6 +34,7 @@ import {
   AFiles,
   AFile,
   APhone,
+  ASliderRange,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -85,6 +86,7 @@ function registerAtomics() {
     AMultiSelect,
     ASelect,
     ASlider,
+    ASliderRange,
     ASwitch,
     APassword,
     ASearch,

@@ -21,3 +21,4 @@ export * from './files';
 export * from './file';
 export * from './cascader';
 export * from './currency';
+export * from './slider-range';

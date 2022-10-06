@@ -3,14 +3,16 @@ import { Slider, SliderProps, model } from '@wakeadmin/element-adapter';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
+export type ASliderValue = number;
+
 export type ASliderProps = DefineAtomicProps<
-  number,
+  ASliderValue,
   SliderProps,
   {
     /**
      * 自定义渲染预览
      */
-    renderPreview?: (value?: number) => any;
+    renderPreview?: (value?: ASliderValue) => any;
   }
 >;
 
@@ -31,7 +33,11 @@ export const ASliderComponent = defineAtomicComponent(
         if (renderPreview) {
           return renderPreview(value);
         } else {
-          return <span>{value ?? configurable.undefinedPlaceholder}</span>;
+          return (
+            <span class={other.class} style={other.style}>
+              {value ?? configurable.undefinedPlaceholder}
+            </span>
+          );
         }
       }
 

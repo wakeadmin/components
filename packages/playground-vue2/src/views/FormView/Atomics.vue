@@ -92,6 +92,7 @@
       ></FatFormItem>
       <FatFormItem prop="rate" label="rate" value-type="rate"></FatFormItem>
       <FatFormItem prop="slider" label="slider" value-type="slider" width="large"></FatFormItem>
+      <FatFormItem prop="sliderRange" label="slider-range" value-type="slider-range" width="large"></FatFormItem>
       <FatFormItem
         prop="sliderVertical"
         label="slider-vertical"

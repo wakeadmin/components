@@ -33,6 +33,7 @@ import {
   AFilesProps,
   AFileProps,
   APhoneProps,
+  ASliderRangeProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -188,6 +189,11 @@ export interface FatConfigurable {
    * slider 默认配置
    */
   aSliderProps?: OmitAtomicCommonProps<ASliderProps>;
+
+  /**
+   * slider-range 默认配置
+   */
+  aSliderRangeProps?: OmitAtomicCommonProps<ASliderRangeProps>;
 
   /**
    * progress 默认配置
