@@ -72,6 +72,20 @@
         }"
       />
       <FatFormItem
+        prop="radioInButton"
+        label="radioInButton"
+        value-type="radio"
+        :value-props="{
+          inButton: true,
+          options: [
+            { label: '上海', value: 0 },
+            { label: '北京', value: 1 },
+            { label: '广州', value: 2 },
+            { label: '深圳', value: 3 },
+          ],
+        }"
+      />
+      <FatFormItem
         prop="checkboxs"
         label="checkboxs"
         value-type="checkboxs"

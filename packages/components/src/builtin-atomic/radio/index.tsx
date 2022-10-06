@@ -1,5 +1,5 @@
-import { Radio, RadioGroup, RadioGroupProps, model } from '@wakeadmin/element-adapter';
-import { computed, unref } from '@wakeadmin/demi';
+import { Radio, RadioGroup, RadioGroupProps, model, RadioButton } from '@wakeadmin/element-adapter';
+import { computed } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
@@ -24,6 +24,11 @@ export type ARadioProps = DefineAtomicProps<
      * 自定义预览渲染
      */
     renderPreview?: (option?: ARadioOption) => any;
+
+    /**
+     * 是否为按钮形式, 默认 false
+     */
+    inButton?: boolean;
   }
 >;
 declare global {
@@ -41,23 +46,27 @@ export const ARadioComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, scene, context, value, onChange, renderPreview, options, ...other } = props;
+      const { mode, scene, context, value, onChange, renderPreview, options, inButton, ...other } = props;
 
       if (mode === 'preview') {
         return renderPreview ? (
           renderPreview(active.value)
         ) : (
-          <span>{active.value ? active.value.label : unref(configurable).undefinedPlaceholder}</span>
+          <span class={other.class} style={other.style}>
+            {active.value ? active.value.label : configurable.undefinedPlaceholder}
+          </span>
         );
       }
+
+      const Child = inButton ? RadioButton : Radio;
 
       return (
         <RadioGroup {...other} {...model(value, onChange!)}>
           {(options ?? NoopArray).map((i, idx) => {
             return (
-              <Radio label={i.value} disabled={i.disabled} key={i.value ?? idx}>
+              <Child label={i.value} disabled={i.disabled} key={i.value ?? idx}>
                 {i.label}
-              </Radio>
+              </Child>
             );
           })}
         </RadioGroup>
