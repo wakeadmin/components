@@ -31,6 +31,7 @@ import {
   ATimeRange,
   ACascaderLazy,
   ACascader,
+  AFiles,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -71,6 +72,7 @@ function registerAtomics() {
     ADateTimeRange,
     AImage,
     AImages,
+    AFiles,
     AInteger,
     AFloat,
     ACurrency,

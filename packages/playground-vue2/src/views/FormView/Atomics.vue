@@ -99,6 +99,20 @@
       ></FatFormItem>
       <FatFormItem prop="progress" label="progress" value-type="progress" :initial-value="50"></FatFormItem>
       <FatFormItem
+        prop="files"
+        label="files"
+        value-type="files"
+        :value-props="{ sizeLimit: 1024 * 100, accept: ['.png', '.jpg'] }"
+        message="请上传png/jpg文件，大小不超过 100 KB"
+      ></FatFormItem>
+      <FatFormItem
+        prop="filesDrag"
+        label="filesDrag"
+        value-type="files"
+        :value-props="{ sizeLimit: 1024 * 100, accept: ['.png', '.jpg'], drag: true }"
+        message="请上传png/jpg文件，大小不超过 100 KB"
+      ></FatFormItem>
+      <FatFormItem
         prop="images"
         label="images"
         value-type="images"

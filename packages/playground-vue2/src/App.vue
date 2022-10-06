@@ -19,6 +19,17 @@
         return true;
       },
     },
+    aFilesProps: {
+      action: '/upload-demo',
+      filter: item => {
+        // 处理服务端响应
+        if (item.response) {
+          item.url = '/' + item.response.id + '?name=' + item.name;
+        }
+
+        return true;
+      },
+    },
   });
 </script>
 

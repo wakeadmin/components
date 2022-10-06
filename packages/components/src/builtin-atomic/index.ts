@@ -17,5 +17,6 @@ export * from './time-range';
 export * from './checkboxs';
 export * from './images';
 export * from './image';
+export * from './files';
 export * from './cascader';
 export * from './currency';

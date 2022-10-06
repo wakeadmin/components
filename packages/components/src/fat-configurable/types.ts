@@ -30,6 +30,7 @@ import {
   AFloatProps,
   ACurrencyProps,
   AEmailProps,
+  AFilesProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -195,6 +196,11 @@ export interface FatConfigurable {
    * image 默认配置
    */
   aImageProps?: OmitAtomicCommonProps<AImageProps>;
+
+  /**
+   * files 默认配置
+   */
+  aFilesProps?: OmitAtomicCommonProps<AFilesProps>;
 
   /**
    * cascader-lazy 默认配置

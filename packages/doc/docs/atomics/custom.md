@@ -50,6 +50,15 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
 ```
 
 <br>
+
+::: tip 命名规范
+
+- 使用 kebab-case, 例如 date-range
+- 使用名词/动名词。例如 file 取代 upload, files 取代 upload-multiple
+
+:::
+
+<br>
 <br>
 <br>
 

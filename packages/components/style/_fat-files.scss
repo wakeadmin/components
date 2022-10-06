@@ -1,0 +1,36 @@
+@use 'variables' as *;
+
+.fat-a-files {
+  &__p-item {
+    & > * {
+      vertical-align: middle;
+    }
+  }
+
+  &__p-icon {
+    margin-right: 5px;
+    color: gray;
+  }
+
+  &__dragger {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__dragger-icon {
+    color: gray;
+    font-size: 40px;
+  }
+
+  &__dragger-text {
+    color: gray;
+    margin-top: 15px;
+
+    & > em {
+      color: $wk-color-info;
+    }
+  }
+}
