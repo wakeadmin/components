@@ -33,6 +33,7 @@ import {
   ACascader,
   AFiles,
   AFile,
+  APhone,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -91,6 +92,7 @@ function registerAtomics() {
     ATextarea,
     AUrl,
     AEmail,
+    APhone,
     ATime,
     ATimeRange,
     ACascaderLazy,

@@ -14,7 +14,11 @@ export const APasswordComponent = defineAtomicComponent(
   (props: APasswordProps) => {
     return () => {
       return ATextComponent({
-        renderPreview: value => <span>* * * * *</span>,
+        renderPreview: value => (
+          <span class={props.class} style={props.style}>
+            * * * * *
+          </span>
+        ),
         showPassword: true,
         ...props,
       });

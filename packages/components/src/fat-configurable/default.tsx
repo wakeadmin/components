@@ -47,6 +47,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     placeholder: '请输入邮箱',
   },
 
+  aPhoneProps: {
+    placeholder: '请输入手机号码',
+  },
+
   aSwitchProps: {
     previewActiveText: '开启',
     previewInactiveText: '关闭',

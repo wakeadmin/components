@@ -32,6 +32,7 @@ import {
   AEmailProps,
   AFilesProps,
   AFileProps,
+  APhoneProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -92,6 +93,11 @@ export interface FatConfigurable {
    * email 默认配置
    */
   aEmailProps?: OmitAtomicCommonProps<AEmailProps>;
+
+  /**
+   * phone 默认配置
+   */
+  aPhoneProps?: OmitAtomicCommonProps<APhoneProps>;
 
   /**
    * search 默认配置
