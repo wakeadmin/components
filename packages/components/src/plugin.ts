@@ -32,6 +32,7 @@ import {
   ACascaderLazy,
   ACascader,
   AFiles,
+  AFile,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -73,6 +74,7 @@ function registerAtomics() {
     AImage,
     AImages,
     AFiles,
+    AFile,
     AInteger,
     AFloat,
     ACurrency,

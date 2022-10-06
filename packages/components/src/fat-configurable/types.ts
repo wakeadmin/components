@@ -31,6 +31,7 @@ import {
   ACurrencyProps,
   AEmailProps,
   AFilesProps,
+  AFileProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -201,6 +202,11 @@ export interface FatConfigurable {
    * files 默认配置
    */
   aFilesProps?: OmitAtomicCommonProps<AFilesProps>;
+
+  /**
+   * file 默认配置
+   */
+  aFileProps?: OmitAtomicCommonProps<AFileProps>;
 
   /**
    * cascader-lazy 默认配置

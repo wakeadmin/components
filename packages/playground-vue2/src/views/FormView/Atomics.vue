@@ -112,6 +112,7 @@
         :value-props="{ sizeLimit: 1024 * 100, accept: ['.png', '.jpg'], drag: true }"
         message="请上传png/jpg文件，大小不超过 100 KB"
       ></FatFormItem>
+      <FatFormItem prop="file" label="file" value-type="file"></FatFormItem>
       <FatFormItem
         prop="images"
         label="images"

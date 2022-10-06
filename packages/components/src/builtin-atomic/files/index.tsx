@@ -124,7 +124,9 @@ export const AFilesComponent = defineAtomicComponent(
               </div>
             </div>
           ) : (
-            <Button type="primary">点击上传</Button>
+            <Button type="primary" disabled={exceeded.value}>
+              点击上传
+            </Button>
           )}
         </Upload>
       );
