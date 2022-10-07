@@ -34,6 +34,7 @@ import {
   AFileProps,
   APhoneProps,
   ASliderRangeProps,
+  ACaptchaProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -229,6 +230,11 @@ export interface FatConfigurable {
    * cascader 默认配置
    */
   aCascaderProps?: OmitAtomicCommonProps<ACascaderProps>;
+
+  /**
+   * captcha 默认配置
+   */
+  aCaptchaProps?: OmitAtomicCommonProps<ACaptchaProps>;
 
   /**
    * 表格全局配置

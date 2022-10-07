@@ -22,3 +22,4 @@ export * from './file';
 export * from './cascader';
 export * from './currency';
 export * from './slider-range';
+export * from './captcha';

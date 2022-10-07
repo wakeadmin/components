@@ -3,7 +3,7 @@
   <div>
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
     <FatText copyable>hello</FatText>
-    <FatForm :mode="previewMode ? 'preview' : 'editable'" class="form">
+    <FatForm ref="formRef" :mode="previewMode ? 'preview' : 'editable'" class="form">
       <FatFormItem prop="text" label="text" value-type="text" width="small" trim />
       <FatFormItem prop="password" label="password" value-type="password" width="small" />
       <FatFormItem prop="search" label="search" value-type="search" width="medium" />
@@ -11,6 +11,13 @@
       <FatFormItem prop="url" label="url" value-type="url" width="huge" />
       <FatFormItem prop="email" label="email" value-type="email" width="huge" />
       <FatFormItem prop="phone" label="phone" value-type="phone" width="small" :value-props="{ mask: true }" />
+      <FatFormItem
+        prop="captcha"
+        label="captcha"
+        value-type="captcha"
+        width="medium"
+        :value-props="{ onGetCaptcha: handleGetCaptcha }"
+      />
       <FatFormItem prop="date" label="date" value-type="date" width="medium" />
       <FatFormItem prop="time" label="time" value-type="time" width="medium" />
       <FatFormItem prop="dateTime" label="date-time" value-type="date-time" width="medium" />
@@ -169,8 +176,12 @@
 </template>
 
 <script lang="tsx" setup>
-  import { FatForm, FatFormItem, FatFormGroup, FatText, FatFormConsumer } from '@wakeadmin/components';
+  import { useFatFormRef, FatForm, FatFormItem, FatFormGroup, FatText, FatFormConsumer } from '@wakeadmin/components';
+  import { Message } from 'element-ui';
+  import { delay } from '@wakeapp/utils';
   import { ref } from 'vue';
+
+  const formRef = useFatFormRef();
 
   const cascaderLazyProps = {
     async load(node) {
@@ -194,6 +205,11 @@
         children: level === 3 ? null : undefined,
       }));
     },
+  };
+
+  const handleGetCaptcha = async () => {
+    await delay(1000);
+    Message.success('验证码获取成功');
   };
 
   const cascaderProps = {

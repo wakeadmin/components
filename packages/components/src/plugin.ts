@@ -35,6 +35,7 @@ import {
   AFile,
   APhone,
   ASliderRange,
+  ACaptcha,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -99,6 +100,7 @@ function registerAtomics() {
     ATimeRange,
     ACascaderLazy,
     ACascader,
+    ACaptcha,
   ];
 
   for (const item of list) {

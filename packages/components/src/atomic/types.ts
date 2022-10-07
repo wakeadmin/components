@@ -98,9 +98,14 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
   author?: string;
 
   /**
-   * 是否为 只预览模式
+   * 是否为 只预览模式。可以提示组件实现者，在编辑模式下隐藏该原件
    */
   previewOnly?: boolean;
+
+  /**
+   * 是否为 只编辑模式。可以提示组件实现者，在预览模式下隐藏该原件
+   */
+  editOnly?: boolean;
 
   /**
    * 组件实现, 就是一个渲染函数

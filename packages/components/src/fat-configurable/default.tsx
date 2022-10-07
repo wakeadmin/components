@@ -119,4 +119,8 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   aCurrencyProps: {
     placeholder: '请输入',
   },
+
+  aCaptchaProps: {
+    placeholder: '请输入验证码',
+  },
 };
