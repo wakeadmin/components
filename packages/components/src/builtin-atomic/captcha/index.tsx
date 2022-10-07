@@ -144,10 +144,7 @@ export const ACaptchaComponent = defineAtomicComponent(
         ...other
       } = props;
 
-      if (mode === 'preview') {
-        // edit only
-        return null;
-      }
+      // edit only
 
       return (
         <div class={normalizeClassName('fat-a-captcha', className)} style={style}>

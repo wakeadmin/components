@@ -549,6 +549,20 @@ export interface FatFormItemShared {
    * 是否在预览模式关闭 message 提示, 默认 true
    */
   hideMessageOnPreview?: boolean;
+
+  /**
+   * 是否在 preview 模式隐藏。
+   *
+   * 默认 false。针对 editOnly 的 原件，默认为 true
+   */
+  hideOnPreview?: boolean;
+
+  /**
+   * 是否在 editable 模式隐藏。
+   *
+   * 默认 false。针对 previewOnly 的 原件，默认为 true
+   */
+  hideOnEdit?: boolean;
 }
 
 /**

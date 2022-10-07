@@ -26,5 +26,6 @@ export const AProgress = defineAtomic({
   name: 'progress',
   component: AProgressComponent,
   description: '进度(只读)',
+  previewOnly: true,
   author: 'ivan-lee',
 });

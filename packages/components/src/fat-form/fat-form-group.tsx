@@ -46,6 +46,8 @@ export const FatFormGroup = declareComponent({
     contentClassName: null,
     contentStyle: null,
     hideMessageOnPreview: { type: Boolean, default: undefined },
+    hideOnPreview: { type: Boolean, default: undefined },
+    hideOnEdit: { type: Boolean, default: undefined },
 
     // slots
     renderLabel: null,
@@ -58,6 +60,10 @@ export const FatFormGroup = declareComponent({
     const configurable = useFatConfigurable();
     const form = useFatFormContext()!;
     const inherited = useInheritableProps();
+
+    const mode = computed(() => {
+      return props.mode ?? inherited?.mode;
+    });
 
     const disabled = computed(() => {
       let d: boolean | undefined;
@@ -81,9 +87,23 @@ export const FatFormGroup = declareComponent({
       return h ?? inherited?.hidden;
     });
 
+    const alive = computed(() => {
+      if (mode.value === 'preview') {
+        if (props.hideOnPreview) {
+          return false;
+        }
+      } else {
+        if (props.hideOnEdit) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
     const inheritProps: FatFormItemInheritableProps = {
       get mode() {
-        return props.mode ?? inherited?.mode;
+        return mode.value;
       },
       get size() {
         return props.size ?? inherited?.size;
@@ -180,7 +200,7 @@ export const FatFormGroup = declareComponent({
     });
 
     const hideMessage = computed(() => {
-      if (inheritProps.mode === 'preview' && (inheritProps.hideMessageOnPreview ?? true)) {
+      if (mode.value === 'preview' && (inheritProps.hideMessageOnPreview ?? true)) {
         return true;
       }
       return false;
@@ -194,6 +214,10 @@ export const FatFormGroup = declareComponent({
     });
 
     return () => {
+      if (!alive.value) {
+        return null;
+      }
+
       const gutter = props.gutter ?? configurable.fatForm?.groupGutter ?? (props.vertical ? 'medium' : 'large');
       const gutterInNumber = toNumberSize(gutter);
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;

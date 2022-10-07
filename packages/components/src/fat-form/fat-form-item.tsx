@@ -49,6 +49,9 @@ export const FatFormItem = declareComponent({
     preserve: { type: Boolean, default: undefined },
     clearable: { type: Boolean, default: undefined },
     hideMessageOnPreview: { type: Boolean, default: undefined },
+    hideOnEdit: { type: Boolean, default: undefined },
+    hideOnPreview: { type: Boolean, default: undefined },
+
     size: null,
     dependencies: null,
     valueClassName: null,
@@ -202,6 +205,20 @@ export const FatFormItem = declareComponent({
       return h ?? inheritedProps?.hidden;
     });
 
+    const alive = computed(() => {
+      if (mode.value === 'preview') {
+        if (props.hideOnPreview ?? atom.value.editOnly) {
+          return false;
+        }
+      } else {
+        if (props.hideOnEdit ?? atom.value.previewOnly) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
     /**
      * 是否开启字段验证
      */
@@ -347,6 +364,10 @@ export const FatFormItem = declareComponent({
     });
 
     return () => {
+      if (!alive.value) {
+        return null;
+      }
+
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
       const col = normalizedCol.value;
 
