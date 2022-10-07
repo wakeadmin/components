@@ -3,6 +3,7 @@ import { InputProps, Input, model } from '@wakeadmin/element-adapter';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { FatText, FatTextOwnProps } from '../../fat-text';
+import { takeString } from '../../utils';
 
 export type ATextProps = DefineAtomicProps<
   string,
@@ -23,17 +24,19 @@ export const ATextComponent = defineAtomicComponent(
     const configurable = useFatConfigurable();
 
     return () => {
-      const {
+      let {
         value,
         mode,
         onChange,
-        renderPreview,
         scene,
         context,
+
+        renderPreview,
         ellipsis,
         copyable,
         tag,
         underline,
+        placeholder,
         color,
         ...other
       } = props;
@@ -58,7 +61,9 @@ export const ATextComponent = defineAtomicComponent(
         );
       }
 
-      return <Input {...other} {...model(value, onChange!)} />;
+      placeholder ??= `请输入${takeString(context?.label)}`;
+
+      return <Input {...other} placeholder={placeholder} {...model(value, onChange!)} />;
     };
   },
   { name: 'AText', globalConfigKey: 'aTextProps' }

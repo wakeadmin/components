@@ -4,7 +4,7 @@ import { watch, computed, onBeforeUnmount } from '@wakeadmin/demi';
 import { get, debounce, NoopObject, equal } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
 
-import { Atomic } from '../atomic';
+import { Atomic, BaseAtomicContext } from '../atomic';
 
 import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
@@ -306,7 +306,11 @@ export const FatFormItem = declareComponent({
         scene: 'form',
         value: value.value,
         onChange: handleChange,
-        context: form,
+        context: {
+          label: props.label,
+          prop: props.prop,
+          values: form.values,
+        } as BaseAtomicContext,
         class: props.valueClassName,
         style: normalizeStyle(contentStyle.value, props.valueStyle),
       };

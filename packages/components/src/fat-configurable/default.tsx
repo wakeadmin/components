@@ -18,9 +18,7 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     pageSizes: [10, 20, 30, 40, 50, 100],
   },
 
-  aTextProps: {
-    placeholder: '请输入',
-  },
+  aTextProps: {},
 
   aTextareaProps: {
     placeholder: '请输入',

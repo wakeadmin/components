@@ -10,6 +10,7 @@ import { composeAtomProps } from '../utils';
 import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
 import { genKey, getAtom } from './utils';
 import { FatActions, FatAction } from '../fat-actions';
+import { BaseAtomicContext } from '../atomic';
 
 const BUILTIN_TYPES = new Set(['index', 'selection', 'expand']);
 
@@ -119,6 +120,11 @@ export const Column = declareComponent({
                     scene: 'table',
                     class: column.valueClassName,
                     style: column.valueStyle,
+                    context: {
+                      label: column.label,
+                      prop: column.prop,
+                      values: row,
+                    } as BaseAtomicContext,
                     value,
                   },
                   valueProps

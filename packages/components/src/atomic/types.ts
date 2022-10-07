@@ -9,6 +9,28 @@ declare global {
 }
 
 /**
+ * 预定义的上下文基础信息
+ */
+export interface BaseAtomicContext {
+  /**
+   * 原件关联的标签信息
+   */
+  label?: string;
+
+  /**
+   * 原件关联的属性路径
+   */
+  prop?: string;
+
+  /**
+   * 原件所在的容器
+   */
+  values?: unknown;
+
+  // 其他属性由实现者自定义
+}
+
+/**
  * 通用的组件选项
  */
 export interface AtomicCommonProps<T> {
@@ -53,7 +75,7 @@ export interface AtomicCommonProps<T> {
    *
    * note: 通用原件通常不会直接耦合具体的上下文信息
    */
-  context?: any;
+  context?: BaseAtomicContext;
 }
 
 /**
