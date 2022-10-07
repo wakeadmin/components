@@ -178,6 +178,7 @@
         {
           name: 'World',
           type: 'warning',
+          title: "????",
           confirm: ({ row }) => ({ message: `${JSON.stringify(row)}` }),
         },
         {

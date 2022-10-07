@@ -9,6 +9,7 @@ import {
   CommonProps,
   StyleValue,
   MessageBox,
+  Tooltip,
 } from '@wakeadmin/element-adapter';
 import { computed, toRef } from '@wakeadmin/demi';
 import { declareComponent, declareProps, withDefaults } from '@wakeadmin/h';
@@ -167,7 +168,7 @@ export const FatActions = declareComponent({
       return (
         <div class={normalizeClassName('fat-actions', attrs.class)} style={attrs.style}>
           {list.value.map((i, idx) => {
-            return (
+            const content = (
               <Button
                 key={`${i.name}_${idx}`}
                 class={normalizeClassName('fat-actions__btn', i.className, {
@@ -179,12 +180,19 @@ export const FatActions = declareComponent({
                 disabled={isDisabled(i)}
                 onClick={() => handleClick(i)}
                 size={size.value}
-                // @ts-expect-error
-                title={typeof i.title === 'function' ? i.title() : i.title}
               >
                 {i.name}
               </Button>
             );
+            const title = typeof i.title === 'function' ? i.title() : i.title;
+            if (title) {
+              return (
+                <Tooltip v-slots={{ content: title }} key={`${i.name}_${idx}`}>
+                  <span class="fat-actions__btn">{content}</span>
+                </Tooltip>
+              );
+            }
+            return content;
           })}
           {!!moreList.value.length && (
             <Dropdown
@@ -196,7 +204,8 @@ export const FatActions = declareComponent({
                   <DropdownMenu class="fat-actions__menu">
                     {moreList.value.map((i, idx) => {
                       const disabled = isDisabled(i);
-                      return (
+                      const title = typeof i.title === 'function' ? i.title() : i.title;
+                      const content = (
                         <DropdownItem
                           key={`${i.name}_${idx}`}
                           class={normalizeClassName('fat-actions__menu-item', i.className, i.type, {
@@ -206,12 +215,18 @@ export const FatActions = declareComponent({
                           disabled={disabled}
                           command={i}
                           icon={i.icon}
-                          // @ts-expect-error
-                          title={typeof i.title === 'function' ? i.title() : i.title}
                         >
                           {i.name}
                         </DropdownItem>
                       );
+                      if (title) {
+                        return (
+                          <Tooltip v-slots={{ content: title }} key={`${i.name}_${idx}`} placement="left-start">
+                            {content}
+                          </Tooltip>
+                        );
+                      }
+                      return content;
                     })}
                   </DropdownMenu>
                 ),
