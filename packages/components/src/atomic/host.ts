@@ -4,32 +4,32 @@
 import { InjectionKey, provide, inject } from '@wakeadmin/demi';
 import { arrayEq } from '../utils';
 
-export type AtomicContextData = Record<any, any>;
+export type AtomicHostData = Record<any, any>;
 
-const AtomicContext: InjectionKey<AtomicContextData> = Symbol('atomic-context');
+const AtomicHost: InjectionKey<AtomicHostData> = Symbol('atomic-host');
 
 /**
  * 提供上下文
  * @param data
  */
-export function provideAtomicContext(data: AtomicContextData) {
-  provide(AtomicContext, data);
+export function provideAtomicHost(data: AtomicHostData) {
+  provide(AtomicHost, data);
 }
 
 /**
  * 获取上下文信息
  * @returns
  */
-export function useAtomicContext(): AtomicContextData {
+export function useAtomicHost(): AtomicHostData {
   const DEFAULT = {};
-  return inject(AtomicContext, DEFAULT) ?? DEFAULT;
+  return inject(AtomicHost, DEFAULT) ?? DEFAULT;
 }
 
 /**
  * BETA: 批量任务执行缓存
  */
 
-const TASK_CACHE = Symbol('atomics-context-task-cache');
+const TASK_CACHE = Symbol('atomics-host-task-cache');
 
 interface TaskExecuteQueueItem<T = any> {
   resolve: (value: T) => void;
@@ -111,8 +111,8 @@ export function memoizeTask<Arg extends any[], Rtn>(
   task: (...args: Arg) => Promise<Rtn>,
   detector?: (input: Arg, cached: Arg) => boolean
 ) {
-  const context = useAtomicContext();
-  const taskStore = ((context as any)[TASK_CACHE] ??= new Map()) as TaskStore;
+  const host = useAtomicHost();
+  const taskStore = ((host as any)[TASK_CACHE] ??= new Map()) as TaskStore;
   const cacheStore = createTaskCacheStoreIfNeed(taskStore, task);
 
   return async (...args: Arg): Promise<Rtn> => {

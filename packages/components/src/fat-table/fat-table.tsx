@@ -46,7 +46,7 @@ import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
 import { BatchActions } from './batch-actions';
-import { provideAtomicContext } from '../atomic/context';
+import { provideAtomicHost } from '../atomic/host';
 
 export const FatTable = declareComponent({
   name: 'FatTable',
@@ -657,7 +657,7 @@ export const FatTable = declareComponent({
 
     expose(tableInstance);
 
-    provideAtomicContext(tableInstance);
+    provideAtomicHost(tableInstance);
 
     const renderTitle = computed(() =>
       hasSlots(props, slots, 'title') || props.title

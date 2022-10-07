@@ -1,7 +1,7 @@
 import { computed } from '@wakeadmin/demi';
 
 import { useLazyOptions } from '../../hooks';
-import { memoizeTask } from '../../atomic/context';
+import { memoizeTask } from '../../atomic/host';
 
 import { ASelectOption } from './shared';
 

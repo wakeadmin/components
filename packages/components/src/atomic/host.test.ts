@@ -1,6 +1,6 @@
 import { test, vitest, describe, expect } from 'vitest';
 import { isEqual } from 'lodash-es';
-import { memoizeTask } from './context';
+import { memoizeTask } from './host';
 
 describe('memoizeTask', () => {
   test('memoizeTask resolve', async () => {

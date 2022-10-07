@@ -4,7 +4,7 @@ import { NoopArray, pick } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { toUndefined } from '../../utils';
-import { memoizeTask } from '../../atomic/context';
+import { memoizeTask } from '../../atomic/host';
 
 export type ACascaderLazyValue = any[];
 

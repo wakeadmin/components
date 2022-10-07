@@ -5,7 +5,7 @@ import { NoopArray, pick } from '@wakeadmin/utils';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useLazyOptions } from '../../hooks';
 import { toUndefined } from '../../utils';
-import { memoizeTask } from '../../atomic/context';
+import { memoizeTask } from '../../atomic/host';
 
 import { ACascaderOption } from './cascader-lazy';
 
