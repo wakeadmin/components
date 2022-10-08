@@ -2,11 +2,13 @@ import { RateProps, model, Rate } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
+export type ARateValue = number;
+
 export type ARateProps = DefineAtomicProps<
-  number,
+  ARateValue,
   RateProps,
   {
-    renderPreview?: (value?: number) => any;
+    renderPreview?: (value?: ARateValue) => any;
   }
 >;
 

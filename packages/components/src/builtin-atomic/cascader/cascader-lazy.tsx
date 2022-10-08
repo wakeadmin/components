@@ -22,7 +22,7 @@ export interface ACascaderOption {
   /**
    * 是否禁用
    */
-  disabled: boolean;
+  disabled?: boolean;
 
   /**
    * 子节点, 返回数据时，可以显式将 children 设置为 null， 来标记该节点为 leaf

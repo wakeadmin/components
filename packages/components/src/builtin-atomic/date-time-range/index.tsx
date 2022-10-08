@@ -5,7 +5,7 @@ import { formatDate } from '@wakeadmin/utils';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
-export type ADateTimeRangeValue = Date[] | string[];
+export type ADateTimeRangeValue = Date[] | string[] | number[];
 
 export type ADateTimeRangeProps = DefineAtomicProps<
   ADateTimeRangeValue,

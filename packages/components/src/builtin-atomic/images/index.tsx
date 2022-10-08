@@ -7,116 +7,15 @@ import { Plus } from '@wakeadmin/icons';
 
 import { FatIcon } from '../../fat-icon';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { GetArrayMeta, normalizeClassName, normalizeStyle } from '../../utils';
+import { normalizeClassName, normalizeStyle } from '../../utils';
 import { useFatConfigurable } from '../../fat-configurable';
 
 import { CommonUploadProps, useUpload } from '../files/useUpload';
-import { declareComponent, declareProps } from '@wakeadmin/h';
 
 /**
  * 值由用户自定定义，默认为 string 类型
  */
-export type AImagesValue =
-  | string[]
-  | {
-      /**
-       * 图片地址
-       */
-      url: string;
-
-      /**
-       * 以逗号分隔的一个或多个字符串列表表明一系列用户代理使用的可能的图像。
-       *
-       * {@link  https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/img#attr-srcset  详细描述 }
-       */
-      srcset?: string;
-
-      /**
-       * 表示资源大小的、以逗号隔开的一个或多个字符串。
-       *
-       * {@link  https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/img#attr-sizes  详细描述 }
-       */
-      sizes?: string;
-
-      width?: number;
-      height?: number;
-
-      /**
-       * 加载模式 默认为`lazy`
-       * - eager 立刻加载图片
-       * - lazy 延迟加载图像，直到它和视口接近到一个计算得到的距离，由浏览器定义
-       */
-      loading?: 'eager' | 'lazy';
-
-      alt?: string;
-      title?: string;
-
-      sources?: {
-        /**
-         * 以逗号分隔的一个或多个字符串列表表明一系列用户代理使用的可能的图像。
-         *
-         *
-         * {@link  https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/source#attr-srcset 详细描述 }
-         */
-        srcset?: string;
-
-        /**
-         * 表示资源大小的、以逗号隔开的一个或多个字符串。
-         *
-         * {@link https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/source#attr-sizes  详细描述 }
-         */
-        sizes?: string;
-
-        /**
-         * 图片类型
-         *
-         * @remarks
-         *
-         * 允许你为 <source> 元素的 srcset 属性指向的资源指定一个 MIME 类型。如果用户代理不支持指定的类型，那么这个 <source> 元素会被跳过。
-         *
-         * {@link https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/source#attr-type }
-         */
-        type?: string;
-
-        /**
-         * 媒体查询
-         *
-         * @remarks
-         *
-         * 属性允许你提供一个用于给用户代理作为选择 <source> 元素的依据的媒体条件 (media condition)（类似于媒体查询）。如果这个媒体条件匹配结果为 false，那么这个 <source> 元素会被跳过。
-         * {@link https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/source#attr-media }
-         */
-        media?: string;
-      }[];
-    }[];
-
-const ImagePreview = declareComponent({
-  name: 'ImagePreview',
-  props: declareProps<Exclude<GetArrayMeta<AImagesValue>, String> & FileListItem>({
-    loading: {
-      default: 'lazy',
-    },
-    width: null,
-    height: null,
-    srcset: null,
-    sizes: null,
-    sources: null,
-    url: null,
-    alt: null,
-  }),
-  setup(props) {
-    const { url, sources = [], width, height, ...imgProps } = props;
-
-    return () => (
-      <picture class="fat-a-images__p-item">
-        {sources.map(item => (
-          <source {...item}></source>
-        ))}
-        <img {...imgProps} src={url} class="fat-a-images__p-item-img"></img>
-      </picture>
-    );
-  },
-});
+export type AImagesValue = any[];
 
 // TODO: vue3 测试
 export type AImagesProps = DefineAtomicProps<
@@ -161,7 +60,7 @@ export const AImagesComponent = defineAtomicComponent(
         context,
         value,
         onChange,
-        transformToFileList,
+        transformToFileListItem,
         transformToValue,
         size,
         sizeLimit,
@@ -183,7 +82,19 @@ export const AImagesComponent = defineAtomicComponent(
             >
               {fileList.value.length === 0
                 ? configurable.undefinedPlaceholder
-                : fileList.value.map((i, idx) => <ImagePreview key={`${i.name}_${idx}`} {...i}></ImagePreview>)}
+                : fileList.value.map((i, idx) => {
+                    return (
+                      <div class="fat-a-images__p-item" key={`${i.name}_${idx}`}>
+                        <img
+                          class="fat-a-images__p-item-img"
+                          alt={i.name}
+                          // @ts-expect-error
+                          loading="lazy"
+                          src={i.url}
+                        />
+                      </div>
+                    );
+                  })}
             </div>
           );
         }

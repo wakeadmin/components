@@ -36,6 +36,7 @@ import {
   APhone,
   ASliderRange,
   ACaptcha,
+  ANumber,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -101,6 +102,7 @@ function registerAtomics() {
     ACascaderLazy,
     ACascader,
     ACaptcha,
+    ANumber,
   ];
 
   for (const item of list) {

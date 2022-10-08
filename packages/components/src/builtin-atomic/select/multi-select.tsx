@@ -8,7 +8,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 import { useOptions } from './loader';
 import { ASelectOption } from './shared';
 
-export type AMultiSelectValue = (string | number | boolean)[];
+export type AMultiSelectValue = (string | number)[];
 
 export type AMultiSelectProps = DefineAtomicProps<
   AMultiSelectValue,

@@ -11,8 +11,10 @@ export interface ARadioOption {
   disabled?: boolean;
 }
 
+export type ARadioValue = string | number;
+
 export type ARadioProps = DefineAtomicProps<
-  boolean,
+  ARadioValue,
   RadioGroupProps,
   {
     /**

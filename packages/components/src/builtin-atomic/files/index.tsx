@@ -63,7 +63,7 @@ export const AFilesComponent = defineAtomicComponent(
         drag,
 
         // ignore
-        transformToFileList,
+        transformToFileListItem,
         transformToValue,
         sizeLimit,
         filter,

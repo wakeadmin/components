@@ -57,3 +57,10 @@ export const AFloat = defineAtomic({
   description: '浮点数输入',
   author: 'ivan-lee',
 });
+
+export const ANumber = defineAtomic({
+  name: 'number',
+  component: AFloatComponent,
+  description: 'float 的别名',
+  author: 'ivan-lee',
+});

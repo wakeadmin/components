@@ -8,8 +8,10 @@ import { normalizeClassName, normalizeStyle } from '../../utils';
 import { useOptions } from './loader';
 import { ASelectOption, normalizeColor } from './shared';
 
+export type ASelectValue = string | number;
+
 export type ASelectProps = DefineAtomicProps<
-  string | number | boolean,
+  string | number,
   SelectProps,
   {
     /**

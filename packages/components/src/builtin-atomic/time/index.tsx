@@ -4,7 +4,7 @@ import { formatDate } from '@wakeadmin/utils';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
-export type ATimeValue = string | Date;
+export type ATimeValue = string | Date | number;
 export type ATimeProps = DefineAtomicProps<
   ATimeValue,
   TimePickerProps,

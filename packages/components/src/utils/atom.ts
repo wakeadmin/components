@@ -24,7 +24,7 @@ export function composeAtomProps(builtinProps: Record<string, any>, userProps?: 
     }
 
     // 复合函数
-    if (typeof value === 'function' && typeof builtinProps[key] === 'function') {
+    if (typeof value === 'function' && typeof builtinProps[key] === 'function' && key.startsWith('on')) {
       const builtinValue = builtinProps[key];
       builtinProps[key] = function () {
         const rtn = builtinValue.apply(this, arguments);

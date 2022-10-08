@@ -48,7 +48,7 @@ export interface CommonUploadProps {
   /**
    * 转换 value 为 upload 能识别的 file-item
    */
-  transformToFileList?: (value: any) => FileListItem;
+  transformToFileListItem?: (value: any) => FileListItem;
   /**
    * 转换 file-item 为用户系统要保存的 value
    */
@@ -67,7 +67,7 @@ export interface CommonUploadProps {
   beforeUpload?: (file: UploadInternalRawFile) => boolean | Promise<File | Blob | boolean | void>;
 
   /**
-   * 自定义限额提示语, 再尺寸、大小不符合预期的情况下提示
+   * 自定义限额提示语, 在尺寸、大小不符合预期的情况下提示
    */
   limitMessage?: string;
 
@@ -112,7 +112,7 @@ export function useUpload(
     return props.value == null
       ? NoopArray
       : props.value.map(item => {
-          const t = props.transformToFileList ?? defaultTransformToFileList;
+          const t = props.transformToFileListItem ?? defaultTransformToFileList;
           const result = t(item);
 
           if (uidCache.has(item)) {

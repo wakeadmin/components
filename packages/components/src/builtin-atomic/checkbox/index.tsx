@@ -6,7 +6,14 @@ export type ACheckboxProps = DefineAtomicProps<
   boolean,
   CheckboxProps,
   {
+    /**
+     * 标签
+     */
     label?: string;
+
+    /**
+     * 自定义标签渲染
+     */
     renderLabel?: (value: boolean) => any;
 
     /**
