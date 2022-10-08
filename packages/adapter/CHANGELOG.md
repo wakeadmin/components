@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.2.4
+
+### Patch Changes
+
+- 修复: 日期规范化支持时间戳
+
 ## 0.2.3
 
 ### Patch Changes

@@ -3,7 +3,7 @@
   "imageName": "wkfe/playground-vue2",
   "workload": "wakeadmin-playground-vue2",
   "private": true,
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Wakeadmin 应用",
   "engines": {
     "node": ">=16.0.0"
@@ -18,7 +18,7 @@
     "publish:docker": "node ./scripts/docker-publish.js"
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:^0.5.7",
+    "@wakeadmin/components": "workspace:^0.6.0",
     "@wakeadmin/framework": "^0.1.3",
     "@wakeadmin/h": "^0.2.8",
     "@wakeadmin/i18n-legacy": "^0.1.4",
@@ -35,7 +35,7 @@
     "@vue/cli-service": "~5.0.8",
     "@wakeadmin/demi": "^0.1.5",
     "@wakeadmin/docker-build": "^0.1.8",
-    "@wakeadmin/element-adapter": "workspace:^0.2.3",
+    "@wakeadmin/element-adapter": "workspace:^0.2.4",
     "@wakeadmin/vue-cli-plugin-i18n": "^0.1.0",
     "babel-preset-wakeadmin": "latest",
     "multer": "1.4.5-lts.1",

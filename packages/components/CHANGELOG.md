@@ -1,5 +1,38 @@
 # @wakeadmin/components
 
+## 0.6.0
+
+### Minor Changes
+
+**新增原件：**
+
+- email: 邮件
+- phone: 手机号码输入
+- files：多文件上传
+- file: 单文件上传
+- captcha: 验证码
+- slider-range: 范围滑块
+
+<br>
+
+**新增组件**
+
+- FatAtomic 支持独立使用原件
+
+<br>
+
+**功能优化**
+
+- 优化组件类型检查
+- fat-actions 使用 Tooltip 进行 title 展示
+
+<br>
+
+### Patch Changes
+
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.2.4
+
 ## 0.5.7
 
 ### Patch Changes

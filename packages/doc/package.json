@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/components-doc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "@wakeadmin/components 文档",
   "scripts": {
     "switch": "vue-demi-switch 3 && wakeadmin-adapter-switch 3 ",
@@ -16,7 +16,7 @@
     "vue": "^3.2.39"
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:^0.5.7",
+    "@wakeadmin/components": "workspace:^0.6.0",
     "element-plus": "^2.2.17"
   }
 }
