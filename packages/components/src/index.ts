@@ -7,6 +7,7 @@ export * from './fat-configurable';
 export * from './fat-actions';
 export * from './fat-icon';
 export * from './fat-text';
+export * from './fat-atomic';
 
 export * from './atomic';
 

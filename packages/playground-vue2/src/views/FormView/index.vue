@@ -9,6 +9,7 @@
     <section><FormDefine style="margin: 0" @load="formLoad"></FormDefine></section>
     <section><Dynamic /></section>
     <section><FormLayout /></section>
+    <section><FatAtomic /></section>
   </main>
 </template>
 
@@ -21,6 +22,7 @@
   import FormDefine from './FormDefine';
   import FormLayout from './FormLayout.vue';
   import Dynamic from './Dynamic';
+  import FatAtomic from './FatAtomic.vue';
 
   const formLoad = () => {
     console.log('load on outer');

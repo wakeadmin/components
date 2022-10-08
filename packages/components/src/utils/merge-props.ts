@@ -1,6 +1,6 @@
 import { isVue2, getCurrentInstance } from '@wakeadmin/demi';
 
-import { isObject, NoopObject, omit } from '@wakeadmin/utils';
+import { isObject, NoopObject, omit, upperFirst } from '@wakeadmin/utils';
 
 import { normalizeClassName } from './className';
 import { normalizeStyle } from './style';
@@ -69,6 +69,53 @@ export function mergeProps(...args: any[]) {
     }
   }
   return ret;
+}
+
+const EVENT_MODIFIER_PREFIX: Record<string, string> = {
+  '!': 'Capture',
+  '~': 'Once',
+  '&': 'Passive',
+};
+
+export function transformEventListenerName(name: string) {
+  const modifiers: string[] = [];
+
+  let i = 0;
+  for (; i < name.length; i++) {
+    const char = name[i];
+    if (char in EVENT_MODIFIER_PREFIX) {
+      modifiers.push(EVENT_MODIFIER_PREFIX[char]);
+    } else {
+      break;
+    }
+  }
+
+  const eventName = name.slice(i);
+
+  return `on${upperFirst(eventName)}${modifiers.join('')}`;
+}
+
+/**
+ * 获取组件订阅器。对于 vue 2，需要转换为正规的 onXXX 格式
+ * @returns
+ */
+export function transformListeners() {
+  if (!isVue2) {
+    return NoopObject;
+  }
+  const instance = getCurrentInstance()?.proxy as any;
+
+  if (instance == null || instance.$listeners == null) {
+    return NoopObject;
+  }
+
+  const listeners: Record<string, any> = {};
+
+  for (const key in instance.$listeners) {
+    listeners[transformEventListenerName(key)] = instance.$listeners[key];
+  }
+
+  return listeners;
 }
 
 const CLASS_AND_STYLE = ['class', 'style'];

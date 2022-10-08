@@ -1,8 +1,6 @@
-import { test, expectType, MayBeUndefined } from '.';
+import { test, expectType, MayBeUndefined, noop } from '.';
 
 import { ToHSlotDefinition, ToVolarSlotDefinition, ToHEmitDefinition } from '../utils';
-
-declare const noop: any;
 
 test('ToHSlotDefinition', () => {
   const res: ToHSlotDefinition<{

@@ -156,3 +156,12 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
 export interface Registry extends Pick<NamedRegistry<Atomic>, 'register' | 'unregister' | 'subscribe' | 'unsubscribe'> {
   registered(name: string): Atomic | undefined;
 }
+
+/**
+ * 获取原件的类型
+ */
+export type GetAtomicProps<Type extends keyof AtomicProps | Atomic> = Type extends keyof AtomicProps
+  ? AtomicProps[Type]
+  : Type extends Atomic<any, infer B>
+  ? B
+  : Record<string, any>;

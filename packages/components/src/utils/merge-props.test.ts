@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { test, expect, vi } from 'vitest';
-import { mergeProps } from './merge-props';
+import { mergeProps, transformEventListenerName } from './merge-props';
 
 vi.mock('@wakeadmin/demi', () => ({ isVue2: true }));
 
@@ -31,4 +32,12 @@ test('mergeProps', () => {
       bar: handle2,
     },
   });
+});
+
+test('transformEventListenerName', () => {
+  expect(transformEventListenerName('hello')).toBe('onHello');
+  expect(transformEventListenerName('!hello')).toBe('onHelloCapture');
+  expect(transformEventListenerName('~hello')).toBe('onHelloOnce');
+  expect(transformEventListenerName('&hello')).toBe('onHelloPassive');
+  expect(transformEventListenerName('&~!hello')).toBe('onHelloPassiveOnceCapture');
 });
