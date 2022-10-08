@@ -1,6 +1,9 @@
 import { InputNumberProps, InputNumber, model } from '@wakeadmin/element-adapter';
+import { computed } from '@wakeadmin/demi';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { useFatConfigurable } from '../../fat-configurable';
+import { toInt } from '../../utils';
 
 export type AIntegerProps = DefineAtomicProps<
   number,
@@ -18,16 +21,26 @@ declare global {
 
 export const AIntegerComponent = defineAtomicComponent(
   (props: AIntegerProps) => {
-    return () => {
-      const { value, mode, onChange, renderPreview, scene, context, ...other } = props;
+    const configurable = useFatConfigurable();
+    const valueInNumber = computed(() => toInt(props.value));
 
-      return mode === 'preview' ? (
-        <span class={other.class} style={other.style}>
-          {renderPreview ? renderPreview(value) : value ? String(value) : ''}
-        </span>
-      ) : (
-        <InputNumber controlsPosition="right" precision={0} {...other} {...model(value, onChange!)} />
-      );
+    return () => {
+      const { value: _ignoreValue, mode, onChange, renderPreview, scene, context, ...other } = props;
+      const value = valueInNumber.value;
+
+      if (mode === 'preview') {
+        if (renderPreview) {
+          return renderPreview(value);
+        }
+
+        return (
+          <span class={other.class} style={other.style}>
+            {value ?? configurable.undefinedPlaceholder}
+          </span>
+        );
+      }
+
+      return <InputNumber controlsPosition="right" precision={0} {...other} {...model(value, onChange!)} />;
     };
   },
   { name: 'AInteger', globalConfigKey: 'aIntegerProps' }

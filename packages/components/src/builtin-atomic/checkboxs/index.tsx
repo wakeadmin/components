@@ -3,6 +3,7 @@ import { computed } from '@wakeadmin/demi';
 import { NoopArray, booleanPredicate } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { useFatConfigurable } from '../../fat-configurable';
 
 export type ACheckboxsValue = any[];
 
@@ -38,6 +39,7 @@ declare global {
 
 export const ACheckboxsComponent = defineAtomicComponent(
   (props: ACheckboxsProps) => {
+    const configurable = useFatConfigurable();
     const checkedOptions = computed(() => {
       const values = props.value ?? NoopArray;
       const options = props.options ?? NoopArray;
@@ -66,7 +68,11 @@ export const ACheckboxsComponent = defineAtomicComponent(
         return renderPreview ? (
           renderPreview(checkedOptions.value)
         ) : (
-          <span>{checkedOptions.value.map(i => i.label).join(separator)}</span>
+          <span class={other.class} style={other.style}>
+            {checkedOptions.value.length
+              ? checkedOptions.value.map(i => i.label).join(separator)
+              : configurable.undefinedPlaceholder}
+          </span>
         );
       }
 

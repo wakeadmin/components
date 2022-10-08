@@ -17,35 +17,32 @@ export type ATimeProps = DefineAtomicProps<
     /**
      * 自定义预览
      */
-    renderPreview?: (value: ATimeValue) => any;
+    renderPreview?: (value?: ATimeValue) => any;
   }
 >;
 
 export const ATimeComponent = defineAtomicComponent(
   (props: ATimeProps) => {
     const configurable = useFatConfigurable();
-    const preview = (value: any, format: string) => {
-      if (props.renderPreview) {
-        return props.renderPreview(value);
-      }
-
-      if (value == null) {
-        return configurable.undefinedPlaceholder;
-      }
-
-      return formatDate(value, format);
-    };
 
     return () => {
-      let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
+      let { value, mode, onChange, previewFormat, scene, context, renderPreview, ...other } = props;
 
       previewFormat ??= other.format ?? configurable.timeFormat ?? 'HH:mm';
 
-      return mode === 'preview' ? (
-        <span>{preview(value, previewFormat)}</span>
-      ) : (
-        <TimePicker {...other} {...model(value, onChange!)} />
-      );
+      if (mode === 'preview') {
+        if (renderPreview) {
+          return renderPreview(value);
+        }
+
+        return (
+          <span class={other.class} style={other.style}>
+            {value != null ? formatDate(value, previewFormat) : configurable.undefinedPlaceholder}
+          </span>
+        );
+      }
+
+      return <TimePicker {...other} {...model(value, onChange!)} />;
     };
   },
   { name: 'ATime', globalConfigKey: 'aTimeProps' }

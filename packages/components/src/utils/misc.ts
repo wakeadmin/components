@@ -30,7 +30,7 @@ export function toInt(value: any): number | undefined {
     return undefined;
   }
 
-  const v = typeof value === 'number' ? value : parseInt(value);
+  const v = typeof value === 'number' ? Math.floor(value) : parseInt(value);
 
   if (Number.isNaN(v)) {
     return undefined;

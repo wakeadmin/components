@@ -41,14 +41,16 @@ export const AMultiSelectComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, value, onChange, context, scene, options: _, ...other } = props;
+      const { mode, value, onChange, context, scene, renderPreview, options: _, ...other } = props;
 
       if (mode === 'preview') {
+        if (renderPreview) {
+          return renderPreview(active.value);
+        }
+
         return (
-          <span>
-            {props.renderPreview
-              ? props.renderPreview(active.value)
-              : active.value.length
+          <span class={other.class} style={other.style}>
+            {active.value.length
               ? active.value.map(i => i.label).join(props.separator ?? ', ')
               : configurable.undefinedPlaceholder}
           </span>

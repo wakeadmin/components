@@ -137,13 +137,13 @@ export const ACurrencyComponent = defineAtomicComponent(
       const value = valueInFloat.value;
 
       if (mode === 'preview') {
+        if (renderPreview) {
+          return renderPreview(value);
+        }
+
         return (
           <span class={className} style={style}>
-            {renderPreview
-              ? renderPreview(value)
-              : value != null
-              ? valueFormatted.value
-              : configurable.undefinedPlaceholder}
+            {valueFormatted.value ?? configurable.undefinedPlaceholder}
           </span>
         );
       }

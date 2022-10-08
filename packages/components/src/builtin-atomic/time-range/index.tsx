@@ -17,7 +17,7 @@ export type ATimeRangeProps = DefineAtomicProps<
     /**
      * 自定义预览
      */
-    renderPreview?: (value: ATimeRangeValue) => any;
+    renderPreview?: (value?: ATimeRangeValue) => any;
   }
 >;
 
@@ -26,10 +26,6 @@ export const ATimeRangeComponent = defineAtomicComponent(
     const configurable = useFatConfigurable();
 
     const preview = (value: any, format: string, rangeSeparator: string) => {
-      if (props.renderPreview) {
-        return props.renderPreview(value);
-      }
-
       if (value == null) {
         return configurable.undefinedPlaceholder;
       }
@@ -50,16 +46,24 @@ export const ATimeRangeComponent = defineAtomicComponent(
     };
 
     return () => {
-      let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
+      let { value, mode, onChange, previewFormat, scene, context, renderPreview, ...other } = props;
 
       previewFormat ??= other.format ?? configurable.timeFormat ?? 'HH:mm';
       const rangeSeparator = other.rangeSeparator ?? '-';
 
-      return mode === 'preview' ? (
-        <span>{preview(value, previewFormat, rangeSeparator)}</span>
-      ) : (
-        <TimePicker isRange {...other} {...model(value, onChange!)} />
-      );
+      if (mode === 'preview') {
+        if (renderPreview) {
+          return renderPreview(value);
+        }
+
+        return (
+          <span class={other.class} style={other.style}>
+            {preview(value, previewFormat, rangeSeparator)}
+          </span>
+        );
+      }
+
+      return <TimePicker isRange {...other} {...model(value, onChange!)} />;
     };
   },
   { name: 'ATimeRange', globalConfigKey: 'aTimeRangeProps' }

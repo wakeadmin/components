@@ -34,13 +34,13 @@ export const AFloatComponent = defineAtomicComponent(
       const value = valueInNumber.value;
 
       if (mode === 'preview') {
+        if (renderPreview) {
+          return renderPreview(value);
+        }
+
         return (
           <span class={other.class} style={other.style}>
-            {renderPreview
-              ? renderPreview(value)
-              : value != null
-              ? trimEndingZero(value, precision)
-              : configurable.undefinedPlaceholder}
+            {value != null ? trimEndingZero(value, precision) : configurable.undefinedPlaceholder}
           </span>
         );
       }

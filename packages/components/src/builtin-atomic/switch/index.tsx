@@ -36,7 +36,13 @@ export const ASwitchComponent = defineAtomicComponent(
       const inactiveText = other.previewInactiveText ?? other.inactiveText ?? '关闭';
 
       if (mode === 'preview') {
-        return renderPreview ? renderPreview(active) : <span>{active ? activeText : inactiveText}</span>;
+        return renderPreview ? (
+          renderPreview(active)
+        ) : (
+          <span class={other.class} style={other.style}>
+            {active ? activeText : inactiveText}
+          </span>
+        );
       }
 
       return <Switch {...other} {...model(value, onChange!)} />;
