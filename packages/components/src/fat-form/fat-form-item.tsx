@@ -17,6 +17,8 @@ import {
   renderSlot,
   ToHSlotDefinition,
   composeAtomProps,
+  toArray,
+  takeString,
 } from '../utils';
 
 function trim(value: any) {
@@ -42,6 +44,7 @@ export const FatFormItem = declareComponent({
     valueProps: null,
     placeholder: null,
     rules: null,
+    required: { type: Boolean, default: undefined },
     col: null,
     width: null,
     disabled: { type: [Boolean, Function] as any, default: undefined },
@@ -227,11 +230,24 @@ export const FatFormItem = declareComponent({
     });
 
     const rules = computed(() => {
-      const values = typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
+      let values = typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
+
+      if (props.required) {
+        values = toArray(values);
+
+        // 检查是否已经包含了 required 验证规则
+        if (!values.some(i => i.required)) {
+          values.unshift({
+            required: true,
+            message: `${takeString(props.label)}不能为空`,
+          });
+        }
+      }
 
       if (atom.value.validate) {
-        const list = values == null ? [] : Array.isArray(values) ? values : [values];
-        list.push({
+        // 原件内部验证器
+        values = toArray(values);
+        values.push({
           async validator(_rule, val, callback) {
             try {
               await atom.value.validate!(value.value, props.valueProps ?? NoopObject, form.values);
@@ -244,10 +260,10 @@ export const FatFormItem = declareComponent({
           trigger: atom.value.validateTrigger,
         });
 
-        return list;
-      } else {
         return values;
       }
+
+      return values;
     });
 
     const normalizedCol = computed<(ColProps & CommonProps) | undefined>(() => {

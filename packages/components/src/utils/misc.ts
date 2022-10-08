@@ -10,6 +10,21 @@ export function takeString(value: any) {
   return '';
 }
 
+/**
+ * 转换为数组
+ */
+export function toArray(value: any) {
+  if (value == null) {
+    return [];
+  }
+
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  return [value];
+}
+
 export function toInt(value: any): number | undefined {
   if (value == null) {
     return undefined;

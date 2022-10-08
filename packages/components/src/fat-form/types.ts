@@ -780,6 +780,11 @@ export interface FatFormItemProps<
   rules?: FatFormItemRules<Store>;
 
   /**
+   * 是否必填，会自动添加一个 required rule, 默认消息的 {label}不能为空
+   */
+  required?: boolean;
+
+  /**
    * 是否隐藏
    *
    * 隐藏后当前字段将不会进行校验
