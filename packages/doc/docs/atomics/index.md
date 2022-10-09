@@ -24,7 +24,7 @@
 
 ## 示例
 
-<iframe class="demo-frame" style="height: 700px" src="./all-atomics.demo.html" />
+<iframe class="demo-frame" style="height: 900px" src="./all-atomics.demo.html" />
 
 ::: details 查看代码
 <<< @/atomics/AllAtomics.vue

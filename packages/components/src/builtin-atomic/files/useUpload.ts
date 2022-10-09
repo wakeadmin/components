@@ -24,12 +24,26 @@ const tryPickNameFromUrl = memoize((value: string) => {
   }
 });
 
+const appendNameToUrl = (value: string, name: string) => {
+  if (typeof value !== 'string' || value.startsWith('blob:') || value.includes('name=')) {
+    return value;
+  }
+
+  const q = `name=${name}`;
+
+  if (value.includes('?')) {
+    return value + '&' + q;
+  } else {
+    return value + '?' + q;
+  }
+};
+
 function defaultTransformToFileList(value: any): FileListItem {
   return { name: tryPickNameFromUrl(value), url: value, uid: value };
 }
 
 function defaultTransformToValue(file: FileListItem): any {
-  return file.url;
+  return appendNameToUrl(file.url, file.name);
 }
 
 class BreakError extends Error {}
@@ -56,7 +70,7 @@ export interface CommonUploadProps {
   /**
    * 文件过滤。并不是所有上传接口都按照严格的 HTTP code 返回，因此这里可以做一些改写(直接修改 item)和过滤
    *
-   * 返回 false 或 抛出异常都会跳过
+   * 返回 false 或 抛出异常都会跳过, 抛出异常会跳过
    * 执行时机：在 onChange 时调用
    */
   filter?: (item: UploadInternalFileDetail) => void | boolean | Promise<boolean | void>;
@@ -93,6 +107,8 @@ export function useUpload(
 
   // 缓存 uid 修复动画问题
   const uidCache: Map<any, string | number> = new Map();
+  // 缓存文件名称，用于回显
+  const nameCache: Map<any, string> = new Map();
 
   const accept = computed(() => {
     if (Array.isArray(props.accept)) {
@@ -117,6 +133,10 @@ export function useUpload(
 
           if (uidCache.has(item)) {
             result.uid = uidCache.get(item);
+          }
+
+          if ((result.name == null || result.name === result.url) && nameCache.has(item)) {
+            result.name = nameCache.get(item)!;
           }
 
           return result;
@@ -161,7 +181,7 @@ export function useUpload(
   };
 
   const handleExceed = (file: UploadInternalFileDetail, list: UploadInternalFileDetail[]) => {
-    Message.warning(`上传失败：最多只能选择 ${props.limit} 个文件`);
+    Message.warning(`最多只能选择 ${props.limit} 个文件`);
   };
 
   const isAllDone = (list: UploadInternalFileDetail[]) => {
@@ -180,6 +200,11 @@ export function useUpload(
         // 缓存 uid
         uidCache.set(value, item.uid);
 
+        // 缓存 name
+        if (item.name) {
+          nameCache.set(value, item.name);
+        }
+
         newList.push(value);
       };
 
@@ -190,16 +215,14 @@ export function useUpload(
             if ((await props.filter(item)) !== false) {
               add(item);
             }
-          } catch {
+          } catch (err) {
             // ignore error
+            console.error(err);
+            Message.error(`上传失败：${(err as Error).message}`);
           }
         } else {
           add(item);
         }
-      }
-
-      if (newList.length === 0 && fileList.value.length === 0) {
-        return;
       }
 
       // 触发更新

@@ -1,5 +1,5 @@
 import DefaultTheme from 'vitepress/theme';
-import { plugin } from '@wakeadmin/components';
+import { plugin, provideFatConfigurable } from '@wakeadmin/components';
 import ElementPlus from 'element-plus';
 import { watch } from 'vue';
 import 'element-plus/dist/index.css';
@@ -40,5 +40,23 @@ export default {
         { immediate: true, deep: true }
       );
     }
+  },
+
+  setup() {
+    const uploadConfig = {
+      filter: item => {
+        // 模拟上传
+        if (item.url == null) {
+          item.url = window.URL.createObjectURL(item.raw);
+        }
+      },
+    };
+
+    provideFatConfigurable({
+      aImageProps: uploadConfig,
+      aImagesProps: uploadConfig,
+      aFileProps: uploadConfig,
+      aFilesProps: uploadConfig,
+    });
   },
 };
