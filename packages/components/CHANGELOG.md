@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 0.6.1
+
+### Patch Changes
+
+- 原件 renderPreview 执行方式统一; 文件相关原件兼容 element-plus
+
 ## 0.6.0
 
 ### Minor Changes
