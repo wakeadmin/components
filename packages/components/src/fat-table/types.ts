@@ -110,7 +110,7 @@ export interface FatTableMethods<T extends {}, S extends {}> {
   /**
    * 是否加载中
    */
-  readonly loading: boolean;
+  loading: boolean;
 
   /**
    * 错误信息
@@ -385,6 +385,13 @@ export interface FatTableBatchAction<T extends {}, S extends {}> {
    * 额外按钮属性
    */
   buttonProps?: ButtonProps;
+
+  /**
+   * 受控显示加载状态
+   *
+   * 如果 onClick 返回 Promise，FatActions 也会为该 Promise 维护 loading 状态
+   */
+  loading?: boolean;
 }
 
 /**

@@ -11,7 +11,7 @@
       message-on-removed="fuck"
       :enable-select="true"
       row-class-name="fuck"
-      :batch-actions="[{ name: '删除已选', confirm: '确认删除?' }]"
+      :batch-actions="batchActions"
       @row-click="handleClick"
       @queryCacheRestore="handleCacheRestore"
     >
@@ -50,6 +50,17 @@
 
   const tableRef = ref();
 
+  const batchActions = [
+    {
+      name: '删除已选',
+      confirm: '确认删除?',
+      onClick: async () => {
+        await delay(3e3);
+        throw new Error('错误信息');
+      },
+    },
+  ];
+
   const remove = () => {
     return Promise.resolve();
   };
@@ -59,8 +70,6 @@
     const {
       pagination: { pageSize, page },
     } = params;
-
-    await delay(1000);
 
     return {
       total: 100,
@@ -122,6 +131,21 @@
       },
     },
     {
+      prop: 'status',
+      label: '状态切换',
+      valueType: 'switch',
+      valueProps: {
+        mode: 'editable',
+        async onChange() {
+          // FIXME: 这里不应该在初始化时触发 switch
+          console.log('switch change');
+          tableRef.value.showLoading();
+          await delay(3e3);
+          tableRef.value.hideLoading();
+        },
+      },
+    },
+    {
       prop: 'name',
       label: 'Name',
       queryable: true,
@@ -178,8 +202,9 @@
         {
           name: 'World',
           type: 'warning',
-          title: "????",
+          title: '????',
           confirm: ({ row }) => ({ message: `${JSON.stringify(row)}` }),
+          onClick: () => delay(3e3),
         },
         {
           name: 'delete',
@@ -198,7 +223,13 @@
           },
         },
         { name: 'Baz', visible: false },
-        { name: 'Bazz', title: 'hello title' },
+        {
+          name: 'Bazz',
+          title: 'hello title',
+          onClick: () => {
+            console.log('bazz click');
+          },
+        },
       ],
     },
   ];

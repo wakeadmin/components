@@ -1,10 +1,77 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { computed } from '@wakeadmin/demi';
+import { computed, ref } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
-import { Button, MessageBox } from '@wakeadmin/element-adapter';
+import { Button, MessageBox, Message } from '@wakeadmin/element-adapter';
 
 import { FatTableBatchAction, FatTableMethods } from './types';
 import { createMessageBoxOptions, normalizeClassName } from '../utils';
+
+const BatchAction = declareComponent({
+  name: 'FatBatchAction',
+  props: declareProps<{ action: FatTableBatchAction<any, any>; table: FatTableMethods<any, any>; selected: boolean }>([
+    'action',
+    'table',
+    'selected',
+  ]),
+  setup(props) {
+    const _loading = ref(false);
+
+    const handleClick = async () => {
+      const { action, table } = props;
+      if (action.confirm) {
+        const options = createMessageBoxOptions(
+          action.confirm,
+          { title: '提示', showCancelButton: true, type: 'warning', message: '提示消息' },
+          { table }
+        );
+        if (options) {
+          try {
+            await MessageBox(options);
+          } catch {
+            return;
+          }
+        }
+      }
+
+      try {
+        _loading.value = true;
+        await action.onClick?.(table);
+      } catch (err) {
+        console.error(err);
+        Message.error((err as Error).message);
+      } finally {
+        _loading.value = false;
+      }
+    };
+    return () => {
+      const { action, selected } = props;
+
+      if (action.visible === false) {
+        return null;
+      }
+
+      const disabledUnselected = action.disabledUnselected ?? true;
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      const disabled = action.disabled || (disabledUnselected ? !selected : undefined);
+      const loading = _loading.value || action.loading;
+
+      return (
+        <Button
+          disabled={disabled}
+          class={normalizeClassName('fat-table__batch-action', action.className)}
+          style={action.style}
+          onClick={handleClick}
+          loading={loading}
+          // @ts-expect-error
+          title={action.title}
+          {...action.buttonProps}
+        >
+          {action.name}
+        </Button>
+      );
+    };
+  },
+});
 
 /**
  * 批量操作按钮
@@ -28,46 +95,8 @@ export const BatchActions = declareComponent({
       return (
         <div class="fat-table__batch-actions">
           {slots.default?.()}
-          {actions.value.map(i => {
-            if (i.visible === false) {
-              return null;
-            }
-
-            const disabled = i.disabled || (i.disabledUnselected ?? true ? !selected.value : undefined);
-
-            const handleClick = async () => {
-              if (i.confirm) {
-                const options = createMessageBoxOptions(
-                  i.confirm,
-                  { title: '提示', showCancelButton: true, type: 'warning', message: '提示消息' },
-                  { table: props.tableInstance }
-                );
-                if (options) {
-                  try {
-                    await MessageBox(options);
-                  } catch {
-                    return;
-                  }
-                }
-              }
-
-              i.onClick?.(props.tableInstance);
-            };
-
-            return (
-              <Button
-                key={i.name}
-                disabled={disabled}
-                class={normalizeClassName('fat-table__batch-action', i.className)}
-                style={i.style}
-                // @ts-expect-error
-                title={i.title}
-                onClick={handleClick}
-                {...i.buttonProps}
-              >
-                {i.name}
-              </Button>
-            );
+          {actions.value.map((i, idx) => {
+            return <BatchAction key={idx} action={i} table={props.tableInstance} selected={selected.value} />;
           })}
         </div>
       );

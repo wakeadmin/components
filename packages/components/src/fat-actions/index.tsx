@@ -11,9 +11,10 @@ import {
   MessageBox,
   Tooltip,
 } from '@wakeadmin/element-adapter';
-import { computed, toRef } from '@wakeadmin/demi';
+import { computed, toRef, ref } from '@wakeadmin/demi';
 import { declareComponent, declareProps, withDefaults } from '@wakeadmin/h';
 import { More } from '@wakeadmin/icons';
+import { isPromise } from '@wakeadmin/utils';
 
 import { RouteLocation, useRouter } from '../hooks';
 import { createMessageBoxOptions, LooseMessageBoxOptions, normalizeClassName, normalizeStyle } from '../utils';
@@ -75,6 +76,14 @@ export interface FatAction {
    * 确认弹窗，默认关闭
    */
   confirm?: LooseMessageBoxOptions<{ action: FatAction }>;
+
+  /**
+   * 受控显示加载状态
+   *
+   * 如果 onClick 返回 Promise，FatActions 也会为该 Promise 维护 loading 状态
+   *
+   */
+  loading?: boolean;
 }
 
 export interface FatActionsProps extends CommonProps {
@@ -99,29 +108,17 @@ export interface FatActionsProps extends CommonProps {
   size?: Size;
 }
 
-export const FatActions = declareComponent({
-  name: 'FatActions',
-  props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size']),
-  setup(props, { attrs }) {
-    const propsWithDefault = withDefaults(props, { max: 3, type: 'text' });
+const FatActionInner = declareComponent({
+  name: 'FatAction',
+  props: declareProps<{ action: FatAction; type: 'button' | 'dropdown'; buttonType: 'text' | 'button'; size: string }>([
+    'action',
+    'type',
+    'buttonType',
+    'size',
+  ]),
+  setup(props) {
     const router = useRouter();
-    const max = toRef(propsWithDefault, 'max');
-    const type = toRef(propsWithDefault, 'type');
-    const size = computed(() => {
-      return normalizeSize(props.size ?? 'default');
-    });
-
-    const rawList = computed(() => {
-      return props.options.filter(i => i.visible !== false);
-    });
-
-    const list = computed(() => {
-      return rawList.value.slice(0, max.value);
-    });
-
-    const moreList = computed(() => {
-      return rawList.value.slice(max.value);
-    });
+    const _loading = ref(false);
 
     const isDisabled = (action: FatAction) => {
       if (action.disabled != null) {
@@ -131,7 +128,7 @@ export const FatActions = declareComponent({
       return false;
     };
 
-    const handleClick = async (action: FatAction) => {
+    const doCommand = async (action: FatAction) => {
       if (isDisabled(action)) {
         return;
       }
@@ -152,7 +149,19 @@ export const FatActions = declareComponent({
         }
       }
 
-      const shouldContinue = await action.onClick?.(action);
+      const result = action.onClick?.(action);
+      let shouldContinue: any = true;
+
+      if (isPromise(result)) {
+        try {
+          _loading.value = true;
+          shouldContinue = await result;
+        } finally {
+          _loading.value = false;
+        }
+      } else {
+        shouldContinue = result;
+      }
 
       if (shouldContinue === false) {
         return;
@@ -164,69 +173,121 @@ export const FatActions = declareComponent({
       }
     };
 
+    const handleClick = (e: MouseEvent) => {
+      e.stopPropagation();
+
+      doCommand(props.action);
+    };
+
+    return () => {
+      const { action: i, buttonType, size, type } = props;
+
+      const title = typeof i.title === 'function' ? i.title() : i.title;
+      const disabled = isDisabled(i);
+      const loading = i.loading || _loading.value;
+
+      if (type === 'button') {
+        const content = (
+          <Button
+            class={normalizeClassName('fat-actions__btn', i.className, {
+              [i.type ?? 'default']: buttonType === 'text',
+            })}
+            icon={i.icon}
+            style={normalizeStyle(i.style)}
+            type={buttonType === 'text' ? 'text' : i.type}
+            disabled={disabled}
+            onClick={handleClick}
+            loading={loading}
+            size={size}
+          >
+            {i.name}
+          </Button>
+        );
+        if (title) {
+          return (
+            <Tooltip v-slots={{ content: title }}>
+              <span class="fat-actions__btn">{content}</span>
+            </Tooltip>
+          );
+        }
+        return content;
+      } else {
+        const content = (
+          <DropdownItem
+            class={normalizeClassName('fat-actions__menu-item', i.className, i.type, {
+              'fat-actions__menu-item--disabled': disabled,
+            })}
+            style={normalizeStyle(i.style)}
+            disabled={disabled || loading}
+            command={i}
+            icon={i.icon}
+            // @ts-expect-error
+            onMousedown={handleClick} // vue 3
+            onMousedownNative={handleClick} // vue 2
+          >
+            {i.name}
+          </DropdownItem>
+        );
+        if (title) {
+          return (
+            <Tooltip v-slots={{ content: title }} placement="left-start">
+              {content}
+            </Tooltip>
+          );
+        }
+        return content;
+      }
+    };
+  },
+});
+
+export const FatActions = declareComponent({
+  name: 'FatActions',
+  props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size']),
+  setup(props, { attrs }) {
+    const propsWithDefault = withDefaults(props, { max: 3, type: 'text' });
+    const max = toRef(propsWithDefault, 'max');
+    const type = toRef(propsWithDefault, 'type');
+    const size = computed(() => {
+      return normalizeSize(props.size ?? 'default');
+    });
+
+    const rawList = computed(() => {
+      return props.options.filter(i => i.visible !== false);
+    });
+
+    const list = computed(() => {
+      return rawList.value.slice(0, max.value);
+    });
+
+    const moreList = computed(() => {
+      return rawList.value.slice(max.value);
+    });
+
     return () => {
       return (
         <div class={normalizeClassName('fat-actions', attrs.class)} style={attrs.style}>
           {list.value.map((i, idx) => {
-            const content = (
-              <Button
-                key={`${i.name}_${idx}`}
-                class={normalizeClassName('fat-actions__btn', i.className, {
-                  [i.type ?? 'default']: type.value === 'text',
-                })}
-                icon={i.icon}
-                style={normalizeStyle(i.style)}
-                type={type.value === 'text' ? 'text' : i.type}
-                disabled={isDisabled(i)}
-                onClick={() => handleClick(i)}
-                size={size.value}
-              >
-                {i.name}
-              </Button>
-            );
-            const title = typeof i.title === 'function' ? i.title() : i.title;
-            if (title) {
-              return (
-                <Tooltip v-slots={{ content: title }} key={`${i.name}_${idx}`}>
-                  <span class="fat-actions__btn">{content}</span>
-                </Tooltip>
-              );
-            }
-            return content;
+            return <FatActionInner action={i} key={idx} type="button" buttonType={type.value!} size={size.value!} />;
           })}
+
           {!!moreList.value.length && (
             <Dropdown
               trigger="click"
               class="fat-actions__dropdown"
-              onCommand={handleClick}
               v-slots={{
                 dropdown: (
                   <DropdownMenu class="fat-actions__menu">
                     {moreList.value.map((i, idx) => {
-                      const disabled = isDisabled(i);
-                      const title = typeof i.title === 'function' ? i.title() : i.title;
-                      const content = (
-                        <DropdownItem
-                          key={`${i.name}_${idx}`}
-                          class={normalizeClassName('fat-actions__menu-item', i.className, i.type, {
-                            'fat-actions__menu-item--disabled': disabled,
-                          })}
-                          style={normalizeStyle(i.style)}
-                          disabled={disabled}
-                          command={i}
-                          icon={i.icon}
-                        >
-                          {i.name}
-                        </DropdownItem>
+                      return (
+                        <FatActionInner
+                          key={idx}
+                          size={size.value!}
+                          buttonType={type.value!}
+                          type="dropdown"
+                          action={i}
+                        />
                       );
-                      if (title) {
-                        return (
-                          <Tooltip v-slots={{ content: title }} key={`${i.name}_${idx}`} placement="left-start">
-                            {content}
-                          </Tooltip>
-                        );
-                      }
-                      return content;
                     })}
                   </DropdownMenu>
                 ),

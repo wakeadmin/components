@@ -627,6 +627,9 @@ export const FatTable = declareComponent({
       get loading() {
         return loading.value;
       },
+      set loading(val: boolean) {
+        loading.value = val;
+      },
       get error() {
         return toUndefined(error.value);
       },
