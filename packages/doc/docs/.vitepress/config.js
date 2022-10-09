@@ -1,16 +1,52 @@
+const commonHeads = [
+  ['meta', { name: 'google-site-verification', content: 'JrmhhHwR9CgKUyPUL9cqjJGDpDnK_E72RP0tK8OwNBs' }],
+  ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/viewerjs@1.10.5/dist/viewer.min.css' }],
+  [
+    'script',
+    {
+      src: 'https://cdn.jsdelivr.net/npm/viewerjs@1.10.5/dist/viewer.min.js',
+    },
+  ],
+];
+
 export default {
+  outDir: '../dist',
   title: '@wakeadmin/components',
   description: '惟客云组件库',
-  head: [
-    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/viewerjs@1.10.5/dist/viewer.min.css' }],
-    [
-      'script',
+  lastUpdated: true,
+  logo: '/logo.png',
+  head:
+    process.env.NODE_ENV === 'production'
+      ? [
+          ...commonHeads,
+          [
+            'script',
+            {},
+            `var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?8f89c6abfda75f0236c445c32f4940aa";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();`,
+          ],
+        ]
+      : [...commonHeads],
+  footer: {
+    message: '客户经营，找惟客',
+    copyright: 'Copyright © 2022-present WakeData',
+  },
+  themeConfig: {
+    nav: [
       {
-        src: 'https://cdn.jsdelivr.net/npm/viewerjs@1.10.5/dist/viewer.min.js',
+        text: '组件文档',
+        link: '/base/install',
+      },
+      {
+        text: '变更记录',
+        link: '/base/change-log',
       },
     ],
-  ],
-  themeConfig: {
     sidebar: {
       '/': [
         {

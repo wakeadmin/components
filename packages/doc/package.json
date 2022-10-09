@@ -5,12 +5,16 @@
   "scripts": {
     "switch": "vue-demi-switch 3 && wakeadmin-adapter-switch 3 ",
     "start": "npm run switch && vitepress dev docs",
+    "prebuild": "cp ../components/CHANGELOG.md ./docs/base/change-log.md",
     "build": "npm run switch && vitepress build docs",
     "serve": "vitepress serve docs"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "vitepress": "1.0.0-alpha.16",
     "vue": "^3.2.39"
