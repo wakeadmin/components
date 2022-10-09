@@ -8,6 +8,21 @@ export interface FatIconProps extends Omit<HTMLAttributes, 'color'> {
   color?: Color;
   size?: string | number;
   align?: CSSProperties['vertical-align'];
+
+  /**
+   * 加载状态, 默认 false
+   */
+  loading?: boolean;
+
+  /**
+   * 靠左，即在右侧添加边距，默认 false
+   */
+  left?: boolean;
+
+  /**
+   * 靠右，在左侧添加边距，默认 false
+   */
+  right?: boolean;
 }
 
 /**
@@ -15,7 +30,14 @@ export interface FatIconProps extends Omit<HTMLAttributes, 'color'> {
  */
 export const FatIcon = declareComponent({
   name: 'FatIcon',
-  props: declareProps<FatIconProps>({ color: null, size: null, align: null }),
+  props: declareProps<FatIconProps>({
+    color: null,
+    size: null,
+    align: null,
+    loading: { type: Boolean, default: false },
+    left: { type: Boolean, default: false },
+    right: { type: Boolean, default: false },
+  }),
   setup(props, { slots, attrs }) {
     const style = computed(() => {
       const { size, color, align } = props;
@@ -31,9 +53,14 @@ export const FatIcon = declareComponent({
     });
 
     return () => {
+      const { left, right, loading } = props;
       return (
         <i
-          class={normalizeClassName('fat-icon', attrs.class)}
+          class={normalizeClassName('fat-icon', attrs.class, {
+            'fat-icon--left': left,
+            'fat-icon--right': right,
+            'fat-icon--loading': loading,
+          })}
           style={normalizeStyle(style.value, attrs.style)}
           {...inheritProps()}
         >

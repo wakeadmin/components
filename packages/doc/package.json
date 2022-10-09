@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@wakeadmin/components": "workspace:^0.6.0",
+    "@wakeadmin/icons": "^0.1.2",
     "element-plus": "^2.2.17"
   }
 }

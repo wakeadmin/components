@@ -93,7 +93,10 @@ export default {
         },
         {
           text: 'Other 其他',
-          items: [{ text: 'FatSpace 间距', link: '/other/space' }],
+          items: [
+            { text: 'FatSpace 间距', link: '/other/space' },
+            { text: 'FatIcon 图标', link: '/other/icon' },
+          ],
         },
       ],
     },
