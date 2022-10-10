@@ -101,7 +101,7 @@ importers:
   packages/components:
     specifiers:
       '@wakeadmin/demi': ^0.1.5
-      '@wakeadmin/element-adapter': workspace:^0.2.4
+      '@wakeadmin/element-adapter': workspace:^0.2.5
       '@wakeadmin/h': ^0.2.8
       '@wakeadmin/icons': ^0.1.2
       '@wakeadmin/utils': ^0.1.2
@@ -119,17 +119,16 @@ importers:
 
   packages/doc:
     specifiers:
-      '@wakeadmin/components': workspace:^0.6.1
+      '@wakeadmin/components': workspace:*
       '@wakeadmin/icons': ^0.1.2
       element-plus: ^2.2.17
       imagemin-cli: ^7.0.0
       vitepress: 1.0.0-alpha.16
       vue: ^3.2.39
-    dependencies:
+    devDependencies:
       '@wakeadmin/components': link:../components
       '@wakeadmin/icons': 172.26.59.72+4873/@wakeadmin/icons/0.1.2
       element-plus: 172.26.59.72+4873/element-plus/2.2.17
-    devDependencies:
       imagemin-cli: 172.26.59.72+4873/imagemin-cli/7.0.0
       vitepress: 172.26.59.72+4873/vitepress/1.0.0-alpha.16
       vue: 172.26.59.72+4873/vue/3.2.39
@@ -140,10 +139,10 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:^0.6.0
+      '@wakeadmin/components': workspace:*
       '@wakeadmin/demi': ^0.1.5
       '@wakeadmin/docker-build': ^0.1.8
-      '@wakeadmin/element-adapter': workspace:^0.2.4
+      '@wakeadmin/element-adapter': workspace:^0.2.5
       '@wakeadmin/framework': ^0.1.3
       '@wakeadmin/h': ^0.2.8
       '@wakeadmin/i18n-legacy': ^0.1.4
@@ -187,7 +186,7 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:^0.6.0
+      '@wakeadmin/components': workspace:*
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/framework': ^0.1.3
       '@wakeadmin/h': ^0.2.8
@@ -3300,7 +3299,6 @@ packages:
       }
     name: '@floating-ui/core'
     version: 1.0.1
-    dev: false
 
   172.26.59.72+4873/@floating-ui/dom/0.5.4:
     resolution:
@@ -3326,7 +3324,6 @@ packages:
     version: 1.0.1
     dependencies:
       '@floating-ui/core': 172.26.59.72+4873/@floating-ui/core/1.0.1
-    dev: false
 
   172.26.59.72+4873/@hapi/hoek/9.3.0:
     resolution:
@@ -4317,7 +4314,6 @@ packages:
       }
     name: '@types/big.js'
     version: 6.1.6
-    dev: false
 
   172.26.59.72+4873/@types/body-parser/1.19.2:
     resolution:
@@ -6422,7 +6418,6 @@ packages:
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.2
     transitivePeerDependencies:
       - lodash
-    dev: false
 
   172.26.59.72+4873/@wakeadmin/i18n-legacy/0.1.4:
     resolution:
@@ -6474,7 +6469,6 @@ packages:
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
     transitivePeerDependencies:
       - lodash
-    dev: false
 
   172.26.59.72+4873/@wakeadmin/utils/0.1.2:
     resolution:
@@ -6489,7 +6483,6 @@ packages:
       '@wakeapp/utils': 172.26.59.72+4873/@wakeapp/utils/0.1.0-daily20220913167
     transitivePeerDependencies:
       - lodash
-    dev: false
 
   172.26.59.72+4873/@wakeadmin/vue-cli-plugin-i18n/0.1.0:
     resolution:
@@ -6557,7 +6550,6 @@ packages:
       path-browserify: 172.26.59.72+4873/path-browserify/1.0.1
       polished: 172.26.59.72+4873/polished/4.2.2
       query-string: 172.26.59.72+4873/query-string/7.1.1
-    dev: false
 
   172.26.59.72+4873/@webassemblyjs/ast/1.11.1:
     resolution:
@@ -8034,7 +8026,6 @@ packages:
       }
     name: big.js
     version: 6.2.1
-    dev: false
 
   172.26.59.72+4873/bin-build/3.0.0:
     resolution:
@@ -11195,7 +11186,6 @@ packages:
       normalize-wheel-es: 172.26.59.72+4873/normalize-wheel-es/1.2.0
     transitivePeerDependencies:
       - '@vue/composition-api'
-    dev: false
 
   172.26.59.72+4873/element-ui/2.15.10:
     resolution:
@@ -13311,7 +13301,6 @@ packages:
     name: filter-obj
     version: 1.1.0
     engines: { node: '>=0.10.0' }
-    dev: false
 
   172.26.59.72+4873/finalhandler/1.2.0:
     resolution:
@@ -19897,7 +19886,6 @@ packages:
       }
     name: path-browserify
     version: 1.0.1
-    dev: false
 
   172.26.59.72+4873/path-exists/2.1.0:
     resolution:
@@ -20199,7 +20187,6 @@ packages:
     engines: { node: '>=10' }
     dependencies:
       '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.19.0
-    dev: false
 
   172.26.59.72+4873/portfinder/1.0.32:
     resolution:
@@ -21254,7 +21241,6 @@ packages:
       filter-obj: 172.26.59.72+4873/filter-obj/1.1.0
       split-on-first: 172.26.59.72+4873/split-on-first/1.1.0
       strict-uri-encode: 172.26.59.72+4873/strict-uri-encode/2.0.0
-    dev: false
 
   172.26.59.72+4873/querystringify/2.2.0:
     resolution:
@@ -23151,7 +23137,6 @@ packages:
     name: split-on-first
     version: 1.1.0
     engines: { node: '>=6' }
-    dev: false
 
   172.26.59.72+4873/split-string/3.1.0:
     resolution:
@@ -23332,7 +23317,6 @@ packages:
     name: strict-uri-encode
     version: 2.0.0
     engines: { node: '>=4' }
-    dev: false
 
   172.26.59.72+4873/string-length/4.0.2:
     resolution:

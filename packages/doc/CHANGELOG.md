@@ -1,5 +1,12 @@
 # @wakeadmin/components-doc
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @wakeadmin/components@1.0.0-alpha.1
+
 ## 0.2.0
 
 ### Minor Changes

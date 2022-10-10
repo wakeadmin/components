@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.2.5
+
+### Patch Changes
+
+- 新增 useVModel
+
 ## 0.2.4
 
 ### Patch Changes

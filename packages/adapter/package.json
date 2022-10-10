@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/element-adapter",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "基础组件适配层",
   "sideEffects": false,
   "exports": "./lib/index.js",

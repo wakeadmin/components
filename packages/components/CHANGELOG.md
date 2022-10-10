@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.0.0-alpha.1
+
+🎉 第一个 alpha 版本
+
+<br>
+<br>
+
 ## 0.6.1
 
 ### Patch Changes
