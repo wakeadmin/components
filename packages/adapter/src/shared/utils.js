@@ -1,4 +1,4 @@
-import { isVue2 } from '@wakeadmin/demi';
+import { isVue2, computed } from '@wakeadmin/demi';
 
 const ELEMENT_UI_SIZE_MAPPER = {
   large: 'default',
@@ -24,6 +24,7 @@ export function size(s) {
 
 /**
  * v-model 兼容
+ * @deprecated 使用 useVModel
  */
 export function model(value, onChange) {
   if (isVue2) {
@@ -37,4 +38,23 @@ export function model(value, onChange) {
       'onUpdate:modelValue': onChange,
     };
   }
+}
+
+/**
+ * @template T
+ * @param {{ value: T, onChange: (value: T) => void }} props
+ */
+export function useVModel(props) {
+  // 比对，避免重复触发 change
+  const handleChange = value => {
+    if (value === props.value) {
+      return;
+    }
+
+    props.onChange?.(value);
+  };
+
+  return computed(() => {
+    return model(props.value, handleChange);
+  });
 }

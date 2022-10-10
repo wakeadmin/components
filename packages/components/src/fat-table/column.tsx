@@ -125,6 +125,7 @@ export const Column = declareComponent({
                       prop: column.prop,
                       values: row,
                     } as BaseAtomicContext,
+                    // readonly
                     value,
                   },
                   valueProps

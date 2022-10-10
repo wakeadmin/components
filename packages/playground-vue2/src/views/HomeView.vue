@@ -136,12 +136,12 @@
       valueType: 'switch',
       valueProps: {
         mode: 'editable',
+        activeValue: 1,
+        inactiveValue: 0,
         async onChange() {
           // FIXME: 这里不应该在初始化时触发 switch
           console.log('switch change');
-          tableRef.value.showLoading();
           await delay(3e3);
-          tableRef.value.hideLoading();
         },
       },
     },

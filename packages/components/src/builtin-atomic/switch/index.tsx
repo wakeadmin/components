@@ -1,4 +1,4 @@
-import { SwitchProps, Switch, model } from '@wakeadmin/element-adapter';
+import { SwitchProps, Switch, useVModel } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
@@ -27,6 +27,8 @@ declare global {
 // TODO：支持内联文本
 export const ASwitchComponent = defineAtomicComponent(
   (props: ASwitchProps) => {
+    const vmodel = useVModel(props);
+
     return () => {
       const { value, mode, onChange, context, scene, renderPreview, ...other } = props;
 
@@ -45,7 +47,7 @@ export const ASwitchComponent = defineAtomicComponent(
         );
       }
 
-      return <Switch {...other} {...model(value, onChange!)} />;
+      return <Switch {...other} {...vmodel.value} />;
     };
   },
   { name: 'ASwitch', globalConfigKey: 'aSwitchProps' }

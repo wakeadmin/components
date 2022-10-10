@@ -16,6 +16,7 @@
     "Signout",
     "slotchange",
     "unref",
+    "vmodel",
     "vnode",
     "wakeadmin",
     "wakeapp",
