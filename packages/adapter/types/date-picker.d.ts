@@ -110,6 +110,9 @@ export interface DatePickerProps {
   /** First day of week */
   firstDayOfWeek?: DatePickerFirstDayOfWeek;
 
+  // vue 2
+  pickerOptions?: any;
+
   /** A callback that triggers when the seleted date is changed. Only for daterange and datetimerange. */
   // onPick?: PickEventHandler;
 

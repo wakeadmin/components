@@ -13,7 +13,7 @@ importers:
       '@types/tapable': ^2.2.2
       '@vue/test-utils': next
       '@wakeadmin/docker-build': ^0.1.8
-      '@wakeadmin/element-adapter': workspace:^0.2.3
+      '@wakeadmin/element-adapter': workspace:^0.2.5
       babel-jest: ^28.1.3
       cpx: ^1.5.0
       cross-env: ^7.0.3
@@ -119,7 +119,7 @@ importers:
 
   packages/doc:
     specifiers:
-      '@wakeadmin/components': workspace:*
+      '@wakeadmin/components': workspace:1.0.0-alpha.1
       '@wakeadmin/icons': ^0.1.2
       element-plus: ^2.2.17
       imagemin-cli: ^7.0.0
@@ -139,7 +139,7 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:*
+      '@wakeadmin/components': workspace:1.0.0-alpha.1
       '@wakeadmin/demi': ^0.1.5
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/element-adapter': workspace:^0.2.5
@@ -186,7 +186,7 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:*
+      '@wakeadmin/components': workspace:1.0.0-alpha.1
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/framework': ^0.1.3
       '@wakeadmin/h': ^0.2.8
@@ -6394,7 +6394,7 @@ packages:
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.1.5
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.8
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.2
-      '@wakeapp/framework-core': 172.26.59.72+4873/@wakeapp/framework-core/0.1.0-daily20220913167
+      '@wakeapp/framework-core': 172.26.59.72+4873/@wakeapp/framework-core/0.1.0-daily20221010168
     transitivePeerDependencies:
       - lodash
     dev: false
@@ -6480,7 +6480,7 @@ packages:
     name: '@wakeadmin/utils'
     version: 0.1.2
     dependencies:
-      '@wakeapp/utils': 172.26.59.72+4873/@wakeapp/utils/0.1.0-daily20220913167
+      '@wakeapp/utils': 172.26.59.72+4873/@wakeapp/utils/0.1.0-daily20221010168
     transitivePeerDependencies:
       - lodash
 
@@ -6497,18 +6497,18 @@ packages:
       json-loader: 172.26.59.72+4873/json-loader/0.5.7
     dev: true
 
-  172.26.59.72+4873/@wakeapp/framework-core/0.1.0-daily20220913167:
+  172.26.59.72+4873/@wakeapp/framework-core/0.1.0-daily20221010168:
     resolution:
       {
-        integrity: sha512-DnhdfzXymgEjzN46mGpiNd54PKhFV9sLg8r0g63Vq9UNotEqEDHOdne2W628m9x5KlQ7wLltOHeN49xcRHfkMg==,
+        integrity: sha512-tYOFWt4J/LLps6wADLXPKsn5tfkajI2TUf8hjhaOsS+fj9IUH4TRcmY7Tmz/9i9KTHh0vuxZeb0H015qqkyA/Q==,
         registry: http://npm.wakedata-inc.com/,
-        tarball: http://172.26.59.72:4873/@wakeapp%2fframework-core/-/framework-core-0.1.0-daily20220913167.tgz,
+        tarball: http://172.26.59.72:4873/@wakeapp%2fframework-core/-/framework-core-0.1.0-daily20221010168.tgz,
       }
     name: '@wakeapp/framework-core'
-    version: 0.1.0-daily20220913167
+    version: 0.1.0-daily20221010168
     dependencies:
       '@wakeapp/inversify': 172.26.59.72+4873/@wakeapp/inversify/6.1.0_tslib@2.4.0
-      '@wakeapp/utils': 172.26.59.72+4873/@wakeapp/utils/0.1.0-daily20220913167
+      '@wakeapp/utils': 172.26.59.72+4873/@wakeapp/utils/0.1.0-daily20221010168
       reflect-metadata: 172.26.59.72+4873/reflect-metadata/0.1.13
       tslib: 172.26.59.72+4873/tslib/2.4.0
     transitivePeerDependencies:
@@ -6531,15 +6531,15 @@ packages:
       tslib: 172.26.59.72+4873/tslib/2.4.0
     dev: false
 
-  172.26.59.72+4873/@wakeapp/utils/0.1.0-daily20220913167:
+  172.26.59.72+4873/@wakeapp/utils/0.1.0-daily20221010168:
     resolution:
       {
-        integrity: sha512-l7+G1bVupja0DQKYmwqPb0GqxMmwVRQCGRaIDAGr9fIhAcLwn9IO9jfVlAhJYu0ApJo776dhECAOKxcLTCZo2w==,
+        integrity: sha512-9YK5wwMFjv273w+GFeSJ7McUGhz3TwoA/VYkLuROyDWx6+sMFKcV7tElWqaXcZXjfss0AAg9iAXx4wQve4/ujQ==,
         registry: http://npm.wakedata-inc.com/,
-        tarball: http://172.26.59.72:4873/@wakeapp%2futils/-/utils-0.1.0-daily20220913167.tgz,
+        tarball: http://172.26.59.72:4873/@wakeapp%2futils/-/utils-0.1.0-daily20221010168.tgz,
       }
     name: '@wakeapp/utils'
-    version: 0.1.0-daily20220913167
+    version: 0.1.0-daily20221010168
     peerDependencies:
       lodash: 4.*
     dependencies:

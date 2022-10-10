@@ -7,14 +7,15 @@ export const Dialog = {
   render(_, context) {
     return h(
       ElDialog,
-      {
-        attrs: Object.assign({}, context.props, {
+      Object.assign({}, context.data, {
+        props: Object.assign({}, context.props, {
           visible: context.props.modelValue,
         }),
         on: Object.assign({}, context.listeners, {
           'update:visible': context.listeners['update:modelValue'],
         }),
-      },
+        attrs: undefined,
+      }),
       context.slots()
     );
   },

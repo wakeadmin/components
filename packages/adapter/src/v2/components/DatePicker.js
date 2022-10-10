@@ -1,10 +1,11 @@
 import { DatePicker as ODatePicker } from 'element-ui';
+import { h } from '@wakeadmin/h';
 
 import { normalizeDateFormat } from '../../shared';
 
 export const DatePicker = {
   functional: true,
-  render(h, context) {
+  render(_, context) {
     const { shortcuts, disabledDate, cellClassName, firstDayOfWeek, format, valueFormat, ...other } = context.props;
 
     // vue3 pickerOptions 提取到了全局
@@ -24,6 +25,6 @@ export const DatePicker = {
       other.valueFormat = normalizeDateFormat(valueFormat);
     }
 
-    return h(ODatePicker, Object.assign({}, context.data, { props: other }), context.children);
+    return h(ODatePicker, Object.assign({}, context.data, { props: other, attrs: undefined }), context.slots());
   },
 };
