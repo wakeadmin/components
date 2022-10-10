@@ -1,10 +1,3 @@
-.fat-a-textarea-preview {
-  margin: 0;
-  white-space: pre-wrap;
-  line-height: 2;
-}
-
-// TODO: vue3 兼容
 .fat-a-images {
   $size: var(--fat-a-images-size);
   .el-upload-list--picture-card {
