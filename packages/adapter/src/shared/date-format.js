@@ -10,6 +10,7 @@ export function normalizeDateFormat(format) {
   return format
     .replace(/(Y{2,4})/g, 'yyyy')
     .replace(/D/g, 'd')
-    .replace(/W/g, 'w')
+    .replace(/w/g, 'W')
+    .replace(/s/g, 'S')
     .replace(/x/g, 'timestamp');
 }

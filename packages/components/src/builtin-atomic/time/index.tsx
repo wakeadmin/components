@@ -1,6 +1,6 @@
 import { TimePicker, TimePickerProps, model } from '@wakeadmin/element-adapter';
-import { formatDate } from '@wakeadmin/utils';
 
+import { formatDate } from '../../utils';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 

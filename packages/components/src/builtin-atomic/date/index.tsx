@@ -1,8 +1,8 @@
 import { DatePicker, DatePickerProps, model } from '@wakeadmin/element-adapter';
-import { formatDate } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
+import { formatDate } from '../../utils';
 
 export type ADateValue = string | Date | number;
 export type ADateProps = DefineAtomicProps<

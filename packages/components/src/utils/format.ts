@@ -15,6 +15,10 @@ const SIZES: [number, string][] = [
 export function trimEndingZero(num: number, fixed: number = 2) {
   const value = num.toFixed(fixed);
 
+  if (!value.includes('.')) {
+    return value;
+  }
+
   for (let i = value.length - 1; i >= 0; i--) {
     const char = value[i];
     if (char === '0') {

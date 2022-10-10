@@ -1,7 +1,7 @@
 import { DatePicker, DatePickerProps, model } from '@wakeadmin/element-adapter';
 import { unref } from '@wakeadmin/demi';
-import { formatDate } from '@wakeadmin/utils';
 
+import { formatDate } from '../../utils';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 
