@@ -67,7 +67,7 @@ export default {
           items: [
             {
               text: 'FatTable',
-              link: '/fat-table/index',
+              link: '/fat-table/',
             },
           ],
         },
@@ -76,7 +76,7 @@ export default {
           items: [
             {
               text: 'FatForm 表单',
-              link: '/fat-form/index',
+              link: '/fat-form/',
             },
             {
               text: 'FatFormItem 表单项',
@@ -103,15 +103,15 @@ export default {
         {
           text: 'FatForm 预定义场景',
           items: [
-            { text: 'FatFormModal 模态框', link: '/fat-form-layout/modal.md' },
-            { text: 'FatFormDrawer 抽屉', link: '/fat-form-layout/drawer.md' },
-            { text: 'FatFormPage 页面', link: '/fat-form-layout/page.md' },
-            { text: 'FatFormQuery 查询', link: '/fat-form-layout/query.md' },
+            { text: 'FatFormModal 模态框', link: '/fat-form-layout/modal' },
+            { text: 'FatFormDrawer 抽屉', link: '/fat-form-layout/drawer' },
+            { text: 'FatFormPage 页面', link: '/fat-form-layout/page' },
+            { text: 'FatFormQuery 查询', link: '/fat-form-layout/query' },
           ],
         },
         {
           text: 'FatConfigurable 全局配置',
-          items: [{ text: 'FatConfigurable', link: '/fat-configurable/index' }],
+          items: [{ text: 'FatConfigurable', link: '/fat-configurable/' }],
         },
         {
           text: 'FatLayout 布局',
@@ -123,7 +123,7 @@ export default {
         {
           text: 'Atomic 原件',
           items: [
-            { text: '内置原件', link: '/atomics/index.md' },
+            { text: '内置原件', link: '/atomics/' },
             { text: '自定义原件', link: '/atomics/custom' },
           ],
         },

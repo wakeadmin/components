@@ -1,7 +1,37 @@
-# 初始化
+# 开始
+
+<br>
 
 `@wakeadmin/components` 是基于 Vue 和 `Element-UI`/`Element-plus` 的高级组件库。旨在解放管理后台端 CRUD 页面的前端生产力。
 
+<br>
+
+整体架构：
+
+![](./images/arch.png)
+
+<br>
+
+- `element-adapter`: 这里主要用于封装 element-ui/element-plus 之间的一些差异。 `@wakeadmin/components` 不会直接依赖 element-ui/element-plus, 而是使用 element-adapter 暴露的统一 API
+- `@wakeadmin/h`/`@wakeadmin/demi`: 这是一个 JSX 库，屏蔽了 Vue 2/3 在视图渲染上的一些差异，从而让 `@wakeadmin/components` 兼容 Vue 2/3。
+
+<br>
+<br>
+<br>
+
+**主要内容：**
+
+![](./images/content.png)
+
+<br>
+
+`@wakeadmin/components` 包含三大核心部件：
+
+- `FatTable`: 用于常见的列表、表格查询页面
+- `FatForm`: 用于常见的创建表单、更新表单、表单详情等页面
+- `原件(Atomics)`: 原件是组成 FatTable、FatForm 的基本单位，为不同**数据类型**定义*编辑*和*预览*的视图。
+
+<br>
 <br>
 <br>
 <br>
@@ -13,6 +43,8 @@
 - **Vue 2**: 要求 Vue 2.7+, element-ui 2.14+
 - **Vue 3**: Vue 3.0+, element-plus 2.2+
 
+<br>
+<br>
 <br>
 <br>
 
@@ -34,6 +66,8 @@ $ pnpm add @wakeadmin/components
 ```shell
 $ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi @vue/runtime-dom -D
 ```
+
+<br>
 
 ::: tip
 
