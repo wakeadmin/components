@@ -1,13 +1,14 @@
 @use 'share' as *;
 @use 'variables' as *;
+@use 'config' as *;
 
 .fat-form {
   // TODO: 这里耦合了 element-ui
-  .el-form-item .el-form-item {
+  .#{$el-ns}-form-item .#{$el-ns}-form-item {
     margin-right: 0;
   }
 
-  .el-form-item__error {
+  .#{$el-ns}-form-item__error {
     // background-color: white;
   }
 
@@ -22,16 +23,16 @@
 // element-ui 样式修复
 .vue2 .fat-form {
   // form-item 调整为 flex 布局
-  &:not(.el-form--label-top) {
-    .el-form-item {
+  &:not(.#{$el-ns}-form--label-top) {
+    .#{$el-ns}-form-item {
       display: flex;
     }
 
-    &.el-form--inline .el-form-item {
+    &.#{$el-ns}-form--inline .#{$el-ns}-form-item {
       display: inline-flex;
     }
 
-    .el-form-item__content {
+    .#{$el-ns}-form-item__content {
       margin-left: 0 !important;
       flex: 1;
     }
@@ -48,8 +49,8 @@
 }
 
 // 强制隐藏 label，主要是修复 element-ui/element-plus 不一致的问题
-.fat-form-item--hide-label > .el-form-item__label-wrap,
-.fat-form-item--hide-label > .el-form-item__label {
+.fat-form-item--hide-label > .#{$el-ns}-form-item__label-wrap,
+.fat-form-item--hide-label > .#{$el-ns}-form-item__label {
   display: none !important;
 }
 

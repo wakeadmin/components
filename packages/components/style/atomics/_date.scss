@@ -1,7 +1,9 @@
+@use '../config' as *;
+
 .a-date,
 .a-time,
 .a-date-time {
-  .el-date-editor {
+  .#{$el-ns}-date-editor {
     width: 100%;
   }
 }

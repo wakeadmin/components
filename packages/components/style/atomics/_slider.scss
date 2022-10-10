@@ -1,10 +1,11 @@
+@use '../config' as *;
+
 .a-slider,
 .a-slider-range {
-  .el-slider {
+  .#{$el-ns}-slider {
     width: 100%;
-  }
-
-  .el-slider.is-vertical {
-    height: 200px;
+    &.is-vertical {
+      height: 200px;
+    }
   }
 }

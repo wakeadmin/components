@@ -1,21 +1,23 @@
+@use '../config' as *;
+
 .fat-a-images {
   $size: var(--fat-a-images-size);
-  .el-upload-list--picture-card {
+  .#{$el-ns}-upload-list--picture-card {
     line-height: 1;
   }
 
-  .el-upload--picture-card {
+  .#{$el-ns}-upload--picture-card {
     width: $size;
     height: $size;
     line-height: calc($size - 2px);
   }
 
-  .el-upload-list--picture-card .el-upload-list__item {
+  .#{$el-ns}-upload-list--picture-card .#{$el-ns}-upload-list__item {
     width: $size;
     height: $size;
   }
 
-  .el-upload-list__item-thumbnail {
+  .#{$el-ns}-upload-list__item-thumbnail {
     object-fit: contain;
   }
 
@@ -23,7 +25,7 @@
     height: 100% !important;
   }
 
-  &--exceeded .el-upload {
+  &--exceeded .#{$el-ns}-upload {
     display: none;
   }
 

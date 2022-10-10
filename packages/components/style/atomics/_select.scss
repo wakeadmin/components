@@ -1,3 +1,5 @@
+@use '../config' as *;
+
 .fat-a-select--color {
   color: var(--fat-a-select-color);
 
@@ -20,7 +22,7 @@
 
 .a-select,
 .a-multi-select {
-  .el-select {
+  .#{$el-ns}-select {
     width: 100%;
   }
 }

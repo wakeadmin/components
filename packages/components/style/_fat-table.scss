@@ -1,5 +1,6 @@
 @use 'share' as *;
 @use 'variables' as *;
+@use 'config' as *;
 
 .fat-table {
   $tooltip-color: getVar(tooltip-color, $wk-color-gray-500);
@@ -19,11 +20,12 @@
 
   &__query {
     // FIXME: 这里覆盖了 element-ui 的样式
-    .el-form-item {
+    .#{$el-ns}-form-item {
       margin-bottom: 16px;
-    }
-    .el-form-item__label {
-      padding-right: 7px;
+
+      &__label {
+        padding-right: 7px;
+      }
     }
   }
 }

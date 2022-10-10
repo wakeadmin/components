@@ -1,7 +1,9 @@
+@use '../config' as *;
+
 .a-cascader,
 .a-cascader-lazy {
   // 修复宽度自动撑开
-  .el-cascader {
+  .#{$el-ns}-cascader {
     width: 100%;
   }
 }
