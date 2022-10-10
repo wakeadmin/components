@@ -1,0 +1,70 @@
+.fat-a-avatar {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  align-items: flex-start;
+
+  &--placement-top {
+    flex-direction: column;
+
+    .fat-a-avatar__info--default {
+      width: 100%;
+    }
+  }
+
+  &--placement-bottom {
+    flex-direction: column-reverse;
+
+    .fat-a-avatar__info--default {
+      width: 100%;
+    }
+  }
+
+  &--placement-right {
+    flex-direction: row-reverse;
+  }
+
+  &--circle &__avatar {
+    border-radius: 50%;
+  }
+
+  &--square &__avatar {
+    border-radius: 2px;
+  }
+
+  &__avatar {
+    display: flex;
+    flex: none;
+    overflow: hidden;
+  }
+
+  &__avatar-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+  }
+
+  &__info {
+    &--default {
+      display: flex;
+      min-width: 0;
+      flex: auto;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      line-height: 24px;
+      font-size: 14px;
+      //  TODO 使用主题色
+      color: #606266;
+    }
+
+    &-title,
+    &-description {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

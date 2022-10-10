@@ -17,6 +17,8 @@ import { CommonUploadProps, useUpload } from '../files/useUpload';
  */
 export type AImagesValue = any[];
 
+export type ImageObjectFit = 'fill' | 'contain' | 'cover' | 'scale-down' | 'none';
+
 // TODO: vue3 测试
 export type AImagesProps = DefineAtomicProps<
   AImagesValue,
@@ -28,6 +30,12 @@ export type AImagesProps = DefineAtomicProps<
      */
     size?: number | string;
 
+    /**
+     * 图片如何适应容器框
+     *
+     * 默认为 `cover`
+     */
+    fit?: ImageObjectFit;
     /**
      * 自定义渲染
      */
@@ -66,6 +74,7 @@ export const AImagesComponent = defineAtomicComponent(
         sizeLimit,
         filter,
         renderPreview,
+        fit,
         accept: _accept, // ignore
 
         ...other
@@ -84,15 +93,16 @@ export const AImagesComponent = defineAtomicComponent(
                 ? configurable.undefinedPlaceholder
                 : fileList.value.map((i, idx) => {
                     return (
-                      <div class="fat-a-images__p-item" key={`${i.name}_${idx}`}>
+                      <picture class="fat-a-images__p-item" key={`${i.name}_${idx}`}>
                         <img
                           class="fat-a-images__p-item-img"
                           alt={i.name}
+                          style={{ objectFit: fit ?? 'cover' }}
                           // @ts-expect-error
                           loading="lazy"
                           src={i.url}
                         />
-                      </div>
+                      </picture>
                     );
                   })}
             </div>

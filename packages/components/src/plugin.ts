@@ -37,6 +37,7 @@ import {
   ASliderRange,
   ACaptcha,
   ANumber,
+  AAvatar,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -103,6 +104,7 @@ function registerAtomics() {
     ACascader,
     ACaptcha,
     ANumber,
+    AAvatar,
   ];
 
   for (const item of list) {

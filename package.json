@@ -14,6 +14,7 @@
     "update:wakeadmin": "pnpm up -r -L \"@wakeadmin/*\"",
     "prepare": "husky install",
     "build": "pnpm run -r --filter=!playground-* build",
+    "build:deps": "pnpm run -r --filter=!playground-* --filter=!components-doc build",
     "test": "pnpm run -r --filter=!playground-* --workspace-concurrency=1 test --passWithNoTests --silent",
     "type-check": "pnpm run -r type-check"
   },

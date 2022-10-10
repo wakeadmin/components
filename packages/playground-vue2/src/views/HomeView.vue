@@ -110,6 +110,23 @@
       },
     },
     {
+      label: '用户信息',
+      minWidth: 60,
+      getter() {
+        return {
+          avatar: 'https://test-material-1259575047.cos.ap-guangzhou.myqcloud.com/4b93eb5d5cc7472cbe4ce5149d1c73fe.jpg',
+          title: <span style={{ color: '#f0f' }}>Sakura</span>,
+          description: '13212341234',
+        };
+      },
+      valueType: 'avatar',
+      valueProps: {
+        placement: 'left',
+        shape: 'square',
+        size: '56px',
+      },
+    },
+    {
       prop: 'status',
       label: '状态',
       queryable: true,

@@ -35,6 +35,7 @@ import {
   APhoneProps,
   ASliderRangeProps,
   ACaptchaProps,
+  AAvatarProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -71,6 +72,12 @@ export interface FatConfigurable {
   pagination?: Omit<PaginationProps, 'total' | 'pageCount' | 'currentPage' | 'disabled'>;
 
   // -------------- 以下是内置原件的默认配置  -------------------
+
+  /**
+   * 头像组件默认配置
+   */
+  aAvatarProps?: OmitAtomicCommonProps<AAvatarProps>;
+
   /**
    * 文本组件默认配置
    */
