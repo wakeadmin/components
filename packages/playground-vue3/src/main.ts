@@ -3,8 +3,6 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import { plugin } from '@wakeadmin/components';
 import Element from 'element-plus';
 
-import '@wakeadmin/components/style/index.scss';
-
 import App from './App.vue';
 import { routes } from './router';
 

@@ -108,7 +108,7 @@ Typescript 配置:
 <br>
 <br>
 
-如果你要在 Vue SPA 中使用 TS + JSX， Eslint 可能会报错，你需要以下配置：
+::: danger 如果你要在 Vue SPA 中使用 TS + JSX， Eslint 可能会报错，你需要以下配置：
 
 ```js{4-10}
 // 支持 .vue 文件中 包含 jsx
@@ -155,22 +155,81 @@ module.exports = {
 };
 ```
 
+:::
+
+<br>
+<br>
+<br>
+<br>
+
+## 初始化
+
+引入样式，并安装 Vue 插件:
+
+```tsx
+import Vue from 'vue';
+import { plugin } from '@wakeadmin/components';
+
+// 引入样式
+import '@wakeadmin/components/style/index.scss';
+
+// vue 2.x 用法
+Vue.use(plugin);
+```
+
+<br>
+<br>
+<br>
+
+::: tip 如果你使用 element-plus, 且使用了[自定义命名空间](https://element-plus.gitee.io/zh-CN/guide/namespace.html)
+`@wakeadmin/components` 定制了部分 element 组件的样式，因此如果你使用自定义命名空间，在导入 @wakeadmin/components 的样式时，同样需要配置一下命名空间变量:
+
+创建一个 新的 scss 文件，或者在`应用根组件` 的 `<style lang="scss">` 中添加以下代码:
+
+```vue
+<template>
+  <el-config-provider namespace="ep">
+    <div id="app">
+      <router-view />
+    </div>
+  </el-config-provider>
+</template>
+
+<script lang="ts" setup></script>
+
+<style lang="scss">
+  // 自定义命名空间
+  @forward 'element-plus/theme-chalk/src/mixins/config.scss' with (
+    $namespace: 'ep'
+  );
+
+  @use 'element-plus/theme-chalk/src/index.scss' as *;
+
+  // 定义 @wakeadmin/components 下的 element-ui 命名空间
+  @forward '@wakeadmin/components/style/_config.scss' with (
+    $el-ns: 'ep'
+  );
+
+  @use '@wakeadmin/components/style/index.scss' as *;
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+</style>
+```
+
+:::
+
+<br>
 <br>
 <br>
 <br>
 
 ## 开启编程之旅
 
-最后安装 Vue 插件:
-
-```tsx
-import Vue from 'vue';
-import { plugin } from '@wakeadmin/components';
-
-// vue 2.x 用法
-Vue.use(plugin);
-```
-
+<br>
+<br>
 <br>
 <br>
 

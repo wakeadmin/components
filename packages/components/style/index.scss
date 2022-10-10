@@ -1,5 +1,7 @@
-@use 'atomics/index';
+@forward 'variables';
+@use 'share';
 @use 'css-variables';
+@use 'atomics/index';
 @use 'fat-actions';
 @use 'fat-content';
 @use 'fat-float-footer';
@@ -13,5 +15,3 @@
 @use 'fat-table';
 @use 'fat-text';
 @use 'fat-utils';
-@use 'share';
-@use 'variables';

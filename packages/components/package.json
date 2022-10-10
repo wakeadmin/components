@@ -29,8 +29,8 @@
   "author": "ivan-lee",
   "license": "MIT",
   "peerDependencies": {
-    "element-plus": "^2.2.12",
-    "element-ui": "^2.15.9",
+    "element-plus": ">=2.2.0",
+    "element-ui": ">=2.14.0",
     "vue": ">=2.7.0"
   },
   "peerDependenciesMeta": {

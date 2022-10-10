@@ -7,6 +7,7 @@
       <div v-if="false">false</div>
       <div v-for="i in 10" :key="i"><div>i</div></div>
     </ChildrenView>
+    <div class="test">hello</div>
     <FatTable
       ref="tableRef"
       row-key="id"
@@ -191,6 +192,12 @@
 </script>
 
 <style lang="scss" scoped>
+  @use '@wakeadmin/components/style/index.scss' as *;
+
+  .test {
+    color: $wk-color-primary;
+  }
+
   .home {
     background-color: #f5f7fa;
     min-height: 100vh;

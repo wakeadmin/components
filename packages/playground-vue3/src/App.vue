@@ -1,15 +1,27 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <el-config-provider namespace="ep">
+    <div id="app">
+      <router-view />
+    </div>
+  </el-config-provider>
 </template>
 
 <script lang="ts" setup></script>
 
 <style lang="scss">
   // 自定义命名空间
-  // element-plus 建议使用 css variable 变量定义: https://element-plus.gitee.io/zh-CN/guide/theming.html#%E9%80%9A%E8%BF%87-css-%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE
-  @import '../node_modules/element-plus/theme-chalk/src/index.scss';
+  @forward 'element-plus/theme-chalk/src/mixins/config.scss' with (
+    $namespace: 'ep'
+  );
+
+  @use 'element-plus/theme-chalk/src/index.scss' as *;
+
+  // 定义 @wakeadmin/components 下的 element-ui 命名空间
+  @forward '@wakeadmin/components/style/_config.scss' with (
+    $el-ns: 'ep'
+  );
+
+  @use '@wakeadmin/components/style/index.scss' as *;
 
   body {
     margin: 0;
