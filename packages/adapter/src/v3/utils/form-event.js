@@ -6,7 +6,7 @@ import { inject } from '@wakeadmin/demi';
  * @returns
  */
 export function useFormItemValidate() {
-  const formItem = inject(formItemContextKey);
+  const formItem = inject(formItemContextKey, null);
 
   /**
    * @param {'change' | 'blur'} event
