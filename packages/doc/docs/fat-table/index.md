@@ -263,7 +263,7 @@ defineFatTable({
 
 示例：
 
-<iframe class="demo-frame" style="height: 900px" src="./slots.demo.html" />
+<iframe class="demo-frame" style="height: 700px" src="./slots.demo.html" />
 
 ::: details 查看代码
 
