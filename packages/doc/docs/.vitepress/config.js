@@ -117,6 +117,7 @@ export default {
         {
           text: 'FatLayout 布局',
           items: [
+            { text: 'FatCard 卡片', link: '/fat-layout/card' },
             { text: 'FatHeader 首部', link: '/fat-layout/header' },
             { text: 'FatFloatFooter 浮动尾部', link: '/fat-layout/float-footer' },
           ],

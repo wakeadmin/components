@@ -1,8 +1,10 @@
 @forward 'variables';
+
 @use 'share';
 @use 'css-variables';
 @use 'atomics/index';
 @use 'fat-actions';
+@use 'fat-card';
 @use 'fat-content';
 @use 'fat-float-footer';
 @use 'fat-form-drawer';

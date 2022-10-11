@@ -1,0 +1,44 @@
+@use 'variables' as *;
+
+.fat-card {
+  $header-height: 46px;
+  $padding: $fat-spacing-sm;
+  $border-color: #ebeef5;
+
+  width: 100%;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background-color: $fat-color-white;
+  position: relative;
+
+  &__header {
+    height: $header-height;
+    line-height: $header-height;
+    padding: 0 $padding;
+    display: flex;
+  }
+
+  &--escaped {
+    margin-top: calc(#{$header-height} - 6px);
+  }
+
+  &--escaped &__header {
+    position: absolute;
+    top: calc(-#{$header-height} + 6px);
+    left: 0;
+    padding: 0;
+  }
+
+  &:not(&--escaped) &__header {
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__title {
+    font-size: 16px;
+    flex: 1;
+  }
+
+  &__content {
+    padding: $padding;
+  }
+}
