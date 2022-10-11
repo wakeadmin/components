@@ -2,10 +2,10 @@
   display: flex;
   width: 100%;
   gap: 8px;
-  align-items: flex-start;
 
   &--placement-top {
     flex-direction: column;
+    align-items: flex-start;
 
     .fat-a-avatar__info--default {
       width: 100%;
@@ -14,13 +14,19 @@
 
   &--placement-bottom {
     flex-direction: column-reverse;
-
+    align-items: flex-start;
     .fat-a-avatar__info--default {
       width: 100%;
     }
   }
 
+  &--placement-left {
+    align-items: center;
+  }
+
   &--placement-right {
+    align-items: center;
+
     flex-direction: row-reverse;
   }
 

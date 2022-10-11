@@ -150,6 +150,16 @@
       </FatFormSection>
 
       <FatFormItem prop="progress" label="progress" value-type="progress" :initial-value="50"></FatFormItem>
+      <FatFormItem
+        prop="avatar"
+        label="avatar"
+        value-type="avatar"
+        :initial-value="{
+          avatar: 'https://test-material-1259575047.cos.ap-guangzhou.myqcloud.com/4b93eb5d5cc7472cbe4ce5149d1c73fe.jpg',
+          title: '这是标题',
+          description: '但远山长，云山乱，晓山青。',
+        }"
+      ></FatFormItem>
 
       <FatFormSection title="文件类">
         <FatFormItem
