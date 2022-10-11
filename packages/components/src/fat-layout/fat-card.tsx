@@ -30,6 +30,11 @@ export interface FatCardProps extends FatCardSlots {
    * 外置标题栏，默认 false
    */
   escapeHeader?: boolean;
+
+  /**
+   * 内容区是否添加 padding, 默认 true
+   */
+  padding?: boolean;
 }
 
 /**
@@ -40,6 +45,7 @@ export const FatCard = declareComponent({
   props: declareProps<FatCardProps>({
     title: null,
     escapeHeader: { type: Boolean, default: false },
+    padding: { type: Boolean, default: true },
     renderTitle: null,
     renderExtra: null,
     renderDefault: null,
@@ -51,7 +57,7 @@ export const FatCard = declareComponent({
     });
 
     return () => {
-      const { title, escapeHeader } = props;
+      const { title, escapeHeader, padding } = props;
 
       return (
         <div class={['fat-card', attrs.class, { 'fat-card--escaped': escapeHeader }]} style={attrs.style}>
@@ -63,7 +69,9 @@ export const FatCard = declareComponent({
               <div class="fat-card__extra">{renderSlot(props, slots, 'extra')}</div>
             </header>
           )}
-          <main class="fat-card__content">{renderSlot(props, slots, 'default')}</main>
+          <main class={['fat-card__content', { 'fat-card__content--padding': padding }]}>
+            {renderSlot(props, slots, 'default')}
+          </main>
         </div>
       );
     };

@@ -809,12 +809,11 @@ export interface FatTableProps<Item extends {}, Query extends {}>
   /**
    * 表格页布局
    * default  惟客云默认布局
-   * simple 惟客云简化布局
    *
    * 也支持自定义
    * 默认 default
    */
-  layout?: 'default' | 'simple' | FatTableLayout;
+  layout?: 'default' | FatTableLayout;
 
   /**
    * 自定义布局参数

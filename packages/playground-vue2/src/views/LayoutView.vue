@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <FatHeader>
+    <FatContainer>
       <template #title> title </template>
       content
-    </FatHeader>
+    </FatContainer>
 
-    <FatHeader
+    <FatContainer
       :tabs="[
         { key: '1', title: '新增' },
         { key: '2', title: '删除' },
@@ -14,7 +14,7 @@
     >
       <template #title> title </template>
       content
-    </FatHeader>
+    </FatContainer>
 
     <FatContent>
       <div>hello</div>
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="tsx" setup>
-  import { FatHeader, FatFloatFooter, FatContent } from '@wakeadmin/components';
+  import { FatContainer, FatFloatFooter, FatContent } from '@wakeadmin/components';
 </script>
 
 <style scoped>

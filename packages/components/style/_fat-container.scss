@@ -1,0 +1,39 @@
+@use 'share' as *;
+@use 'variables' as *;
+
+.fat-container {
+  &__tab {
+    display: inline-block;
+    padding: 0 16px;
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+
+    &.active {
+      color: $fat-color-primary;
+    }
+
+    &.active::after {
+      content: '';
+      position: absolute;
+      height: 3px;
+      left: 16px;
+      right: 16px;
+      bottom: 0;
+      background-color: currentColor;
+    }
+  }
+
+  &__query {
+    padding: $fat-spacing-sm;
+    border-bottom: 1px solid $fat-color-border-light;
+  }
+
+  &__body {
+    padding: $fat-spacing-sm;
+  }
+}
+
+wkc-header.fat-container {
+  --bay-layout-header-body-padding: 0px;
+}

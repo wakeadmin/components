@@ -9,6 +9,12 @@ export const routes: RouteRecordRaw[] = [
     name: 'home',
     component: HomeView,
   },
+  // 微前端测试
+  {
+    path: '/materials/picture/list',
+    name: 'home',
+    component: HomeView,
+  },
   {
     path: '/form',
     name: 'form',

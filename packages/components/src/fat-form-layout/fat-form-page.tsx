@@ -12,7 +12,7 @@ import {
   ToHSlotDefinition,
   forwardExpose,
 } from '../utils';
-import { FatFloatFooter, FatHeader } from '../fat-layout';
+import { FatFloatFooter, FatContainer } from '../fat-layout';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
 
@@ -111,7 +111,7 @@ export type FatFormPageLayout = (renders: {
 const DefaultLayout: FatFormPageLayout = ctx => {
   return (
     <div class={normalizeClassName('fat-form-page', ctx.class)} style={ctx.style}>
-      <FatHeader
+      <FatContainer
         {...ctx.layoutProps}
         v-slots={{
           title: ctx.renderTitle(),
@@ -119,8 +119,8 @@ const DefaultLayout: FatFormPageLayout = ctx => {
         }}
       >
         {ctx.renderForm()}
-        {!!ctx.renderSubmitter && <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>}
-      </FatHeader>
+      </FatContainer>
+      {!!ctx.renderSubmitter && <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>}
     </div>
   );
 };

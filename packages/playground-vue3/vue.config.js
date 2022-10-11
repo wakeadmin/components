@@ -1,14 +1,20 @@
 const { defineConfig } = require('@vue/cli-service');
+const { defineMappChild } = require('@wakeadmin/vue-cli-plugin-mapp-child');
 // 后台服务器地址
 const SERVER = process.env.SERVER || 'https://www.wakecloud.com';
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 module.exports = defineConfig({
   transpileDependencies: [/(wakeapp|wakeadmin)/],
-  publicPath: IS_PRODUCTION ? `[%= cdnDomain ? '//' + cdnDomain : ''  %]/` : '/',
+  pluginOptions: {
+    ...defineMappChild({
+      mapp: {
+        activeRule: '/dsp.html',
+      },
+    }),
+  },
   configureWebpack() {
     return {
-     cache: {
+      cache: {
         type: 'filesystem',
         buildDependencies: {
           // This makes all dependencies of this file - build dependencies
@@ -21,8 +27,6 @@ module.exports = defineConfig({
     };
   },
   devServer: {
-    host: '0.0.0.0',
-    port: 80,
     allowedHosts: 'all',
     // 配置代理
     proxy: ['/api', '/wd'].reduce((prev, cur) => {
@@ -46,5 +50,4 @@ module.exports = defineConfig({
       return prev;
     }, {}),
   },
-  lintOnSave: false,
 });

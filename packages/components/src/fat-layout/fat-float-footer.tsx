@@ -11,13 +11,13 @@ export interface FatFloatFooterProps {
   /**
    * 在微前端环境是否直接使用基座提供的 wkc-float-footer，默认 true
    */
-  useWakeadminHeaderIfNeed?: boolean;
+  reuseBayIfNeed?: boolean;
 }
 
 export const FatFloatFooter = declareComponent({
   name: 'FatFloatFooter',
   props: declareProps<FatFloatFooterProps>({
-    useWakeadminHeaderIfNeed: { type: Boolean, default: true },
+    reuseBayIfNeed: { type: Boolean, default: true },
   }),
   setup(props, { slots, attrs }) {
     const disposer = new Disposer();
@@ -44,7 +44,7 @@ export const FatFloatFooter = declareComponent({
     });
 
     return () => {
-      if (wakeadminBayEnabled && props.useWakeadminHeaderIfNeed) {
+      if (wakeadminBayEnabled && props.reuseBayIfNeed) {
         return (
           <wkc-float-footer class={attrs.class} style={attrs.style}>
             {slots.default?.()}

@@ -1,8 +1,9 @@
 .fat-table--default {
   .fat-table__toolbar,
   .fat-table__bottom-toolbar,
+  .fat-table__body,
   .fat-table__pagination {
-    padding: 16px 20px;
+    margin-bottom: 10px;
   }
 
   .fat-table__pagination {

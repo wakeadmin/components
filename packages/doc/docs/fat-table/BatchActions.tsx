@@ -11,7 +11,6 @@ export default defineFatTable(() => {
 
   return () => ({
     title: '表格操作',
-    layout: 'simple',
     async request() {
       return {
         list: new Array(10).fill(0).map((_, idx) => {

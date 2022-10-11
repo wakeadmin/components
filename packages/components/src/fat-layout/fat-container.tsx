@@ -4,24 +4,41 @@ import { computed, ref, watch } from '@wakeadmin/demi';
 import { hasSlots, renderSlot, ToHSlotDefinition, ToHEmitDefinition } from '../utils';
 
 import { isWakeadminBayEnabled, ceSlot } from './utils';
+import { FatCard } from './fat-card';
 
-export interface FatHeaderSlots {
+export interface FatContainerSlots {
+  /**
+   * 标题区
+   */
   renderTitle?: () => any;
-  renderDefault?: () => any;
+
+  /**
+   * 标题额外区域
+   */
   renderExtra?: () => any;
+
+  /**
+   * 筛选区, 可选
+   */
+  renderQuery?: () => any;
+
+  /**
+   * 内容区域
+   */
+  renderDefault?: () => any;
 }
 
-export interface FatHeaderTab {
+export interface FatContainerTab {
   key: string | number;
   title?: string;
   renderTitle?: () => any;
 }
 
-export interface FatHeaderEvents {
+export interface FatContainerEvents {
   onActiveKeyChange?: (key: string | number) => void;
 }
 
-export interface FatHeaderProps extends FatHeaderSlots, FatHeaderEvents {
+export interface FatContainerProps extends FatContainerSlots, FatContainerEvents {
   /**
    * 标题， 也可以使用 renderTitle 或者 #title slot
    */
@@ -30,7 +47,7 @@ export interface FatHeaderProps extends FatHeaderSlots, FatHeaderEvents {
   /**
    * 标签形式
    */
-  tabs?: FatHeaderTab[];
+  tabs?: FatContainerTab[];
 
   /**
    * 当前激活的 tab key
@@ -40,26 +57,30 @@ export interface FatHeaderProps extends FatHeaderSlots, FatHeaderEvents {
   /**
    * 在微前端环境是否直接使用基座提供的 wkc-header，默认 true
    */
-  useWakeadminHeaderIfNeed?: boolean;
+  reuseBayIfNeed?: boolean;
 }
 
 /**
- * 页面头部布局
+ * 页面布局
  */
-export const FatHeader = declareComponent({
-  name: 'FatHeader',
-  props: declareProps<Omit<FatHeaderProps, keyof FatHeaderEvents>>({
+export const FatContainer = declareComponent({
+  name: 'FatContainer',
+  props: declareProps<Omit<FatContainerProps, keyof FatContainerEvents>>({
     title: null,
-    renderTitle: null,
-    renderDefault: null,
-    renderExtra: null,
     tabs: null,
     activeKey: null,
-    useWakeadminHeaderIfNeed: { type: Boolean, default: true },
+    reuseBayIfNeed: { type: Boolean, default: true },
+
+    // slots
+    renderTitle: null,
+    renderExtra: null,
+    renderQuery: null,
+    renderDefault: null,
   }),
-  emits: declareEmits<ToHEmitDefinition<FatHeaderEvents>>(),
-  slots: declareSlots<ToHSlotDefinition<FatHeaderSlots>>(),
+  emits: declareEmits<ToHEmitDefinition<FatContainerEvents>>(),
+  slots: declareSlots<ToHSlotDefinition<FatContainerSlots>>(),
   setup(props, { slots, emit, attrs }) {
+    const hasQuerySlots = computed(() => hasSlots(props, slots, 'query'));
     const hasDefaultSlot = computed(() => hasSlots(props, slots, 'default'));
     const hasTitleSlots = computed(() => hasSlots(props, slots, 'title'));
     const hasExtraSlots = computed(() => hasSlots(props, slots, 'extra'));
@@ -96,26 +117,32 @@ export const FatHeader = declareComponent({
       const wakeadminBayEnabled = isWakeadminBayEnabled();
 
       // 使用 惟客云 基座实现
-      if (wakeadminBayEnabled && props.useWakeadminHeaderIfNeed) {
+      if (wakeadminBayEnabled && props.reuseBayIfNeed) {
         return (
-          <wkc-header class={['fat-header', attrs.class]} style={attrs.style} title={props.title}>
+          <wkc-header class={['fat-container', attrs.class]} style={attrs.style} title={props.title}>
             {!!hasTitleSlots.value && <div {...ceSlot('title')}>{renderSlot(props, slots, 'title')}</div>}
             {!!hasExtraSlots.value && <div {...ceSlot('extra')}>{renderSlot(props, slots, 'extra')}</div>}
-            {!!hasDefaultSlot.value && renderSlot(props, slots, 'default')}
+            {/* 筛选区， 通常是条件筛选 */}
+            {hasQuerySlots.value && <div class="fat-container__query">{renderSlot(props, slots, 'query')}</div>}
+            {/* 内容区， 可以放置列表或表格 */}
+            {hasDefaultSlot.value && <div class="fat-container__body">{renderSlot(props, slots, 'default')}</div>}
           </wkc-header>
         );
       }
 
       return (
-        <div class={['fat-header', attrs.class]} style={attrs.style}>
-          <div class={['fat-header__top', { lonely: !hasDefaultSlot.value }]}>
-            <div class="fat-header__left">
-              {props.tabs ? (
-                <div class="fat-header__tabs">
+        <FatCard
+          class={['fat-container', attrs.class]}
+          style={attrs.style}
+          padding={false}
+          v-slots={{
+            title: () =>
+              props.tabs ? (
+                <div class="fat-container__tabs">
                   {props.tabs.map(menu => {
                     return (
                       <div
-                        class={['fat-header__tab', { active: menu.key === realActiveKey.value }]}
+                        class={['fat-container__tab', { active: menu.key === realActiveKey.value }]}
                         key={menu.key}
                         onClick={() => handleTabClick(menu.key)}
                       >
@@ -124,18 +151,20 @@ export const FatHeader = declareComponent({
                     );
                   })}
                 </div>
+              ) : hasTitleSlots.value ? (
+                renderSlot(props, slots, 'title')
               ) : (
-                <div class="fat-header__title">
-                  {hasTitleSlots.value ? renderSlot(props, slots, 'title') : props.title}
-                </div>
-              )}
-            </div>
-            {/* 扩展区域，通常放置按钮 */}
-            <div class="fat-header__extra">{renderSlot(props, slots, 'extra')}</div>
-          </div>
-          {/* 内容区， 通常是条件筛选 */}
-          <div class="fat-header__body">{renderSlot(props, slots, 'default')}</div>
-        </div>
+                props.title
+              ),
+            /* 扩展区域，通常放置按钮 */
+            extra: () => renderSlot(props, slots, 'extra'),
+          }}
+        >
+          {/* 筛选区， 通常是条件筛选 */}
+          {hasQuerySlots.value && <div class="fat-container__query">{renderSlot(props, slots, 'query')}</div>}
+          {/* 内容区， 可以放置列表或表格 */}
+          {hasDefaultSlot.value && <div class="fat-container__body">{renderSlot(props, slots, 'default')}</div>}
+        </FatCard>
       );
     };
   },

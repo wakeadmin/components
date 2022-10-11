@@ -93,8 +93,8 @@ export type FatFormPageLayout = (renders: {
 ```tsx
 const DefaultLayout: FatFormPageLayout = ctx => {
   return (
-    <div class={['fat-form-page', ctx.class]} style={ctx.style}>
-      <FatHeader
+    <div class={normalizeClassName('fat-form-page', ctx.class)} style={ctx.style}>
+      <FatContainer
         {...ctx.layoutProps}
         v-slots={{
           title: ctx.renderTitle(),
@@ -102,8 +102,8 @@ const DefaultLayout: FatFormPageLayout = ctx => {
         }}
       >
         {ctx.renderForm()}
-        {!!ctx.renderSubmitter && <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>}
-      </FatHeader>
+      </FatContainer>
+      {!!ctx.renderSubmitter && <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>}
     </div>
   );
 };

@@ -31,8 +31,10 @@
     "@vue/cli-plugin-router": "~5.0.8",
     "@vue/cli-plugin-typescript": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
+    "@wakeadmin/bay": "^0.6.0",
     "@wakeadmin/docker-build": "^0.1.8",
     "@wakeadmin/vue-cli-plugin-i18n": "^0.1.0",
+    "@wakeadmin/vue-cli-plugin-mapp-child": "^0.4.1",
     "babel-preset-wakeadmin": "latest",
     "sass": "^1.54.5",
     "sass-loader": "^12.6.0"

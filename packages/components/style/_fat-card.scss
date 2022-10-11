@@ -39,6 +39,8 @@
   }
 
   &__content {
-    padding: $padding;
+    &--padding {
+      padding: $padding;
+    }
   }
 }

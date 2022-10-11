@@ -27,5 +27,7 @@
         padding-right: 7px;
       }
     }
+
+    margin-bottom: calc(-1 * #{$fat-spacing-sm});
   }
 }
