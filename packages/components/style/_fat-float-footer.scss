@@ -3,7 +3,7 @@
 
 .fat-float-footer {
   $height: getVar(float-footer-height, 60px);
-  $bg: getVar(float-footer-background, $wk-color-white);
+  $bg: getVar(float-footer-background, $fat-color-white);
 
   position: fixed;
   bottom: 0;

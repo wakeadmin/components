@@ -5,19 +5,19 @@
   $gap: getVar(table-actions-gap, 20px);
 
   &__btn {
-    color: $wk-color-info;
+    color: $fat-color-info;
 
     &:hover,
     &:focus {
-      color: $wk-color-info;
+      color: $fat-color-info;
     }
 
     &.danger {
-      color: $wk-color-danger;
+      color: $fat-color-danger;
     }
 
     &.warning {
-      color: $wk-color-warning;
+      color: $fat-color-warning;
     }
 
     & + & {
@@ -43,7 +43,7 @@
     & > svg {
       width: 1.5em;
       height: 1.5em;
-      fill: $wk-color-info;
+      fill: $fat-color-info;
     }
   }
 }

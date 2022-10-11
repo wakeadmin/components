@@ -2,11 +2,11 @@
 @use 'variables' as *;
 
 .fat-header {
-  $radius: $wk-border-radius-sm;
+  $radius: $fat-border-radius-sm;
   $height: getVar(header-height, 58px);
   $body-padding: getVar(header-body-padding, 16px);
 
-  background-color: $wk-color-white;
+  background-color: $fat-color-white;
   border-radius: $radius;
   width: 100%;
 
@@ -15,10 +15,10 @@
     height: $height;
     display: flex;
     align-items: center;
-    font-size: $wk-font-size-h3;
+    font-size: $fat-font-size-h3;
 
     &:not(.lonely) {
-      border-bottom: 1px solid $wk-color-border;
+      border-bottom: 1px solid $fat-color-border;
     }
   }
 
@@ -51,7 +51,7 @@
     cursor: pointer;
 
     &.active {
-      color: $wk-color-primary;
+      color: $fat-color-primary;
     }
 
     &.active::after {

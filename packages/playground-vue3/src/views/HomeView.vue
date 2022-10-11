@@ -195,7 +195,7 @@
   @use '@wakeadmin/components/style/index.scss' as *;
 
   .test {
-    color: $wk-color-primary;
+    color: $fat-color-primary;
   }
 
   .home {

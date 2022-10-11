@@ -1,8 +1,8 @@
 @use 'variables' as *;
 
 .fat-content {
-  background-color: $wk-color-white;
-  border-radius: $wk-border-radius-sm;
+  background-color: $fat-color-white;
+  border-radius: $fat-border-radius-sm;
 
   &:not(:only-child) {
     margin-top: 16px;

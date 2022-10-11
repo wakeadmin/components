@@ -94,8 +94,8 @@
 }
 
 .fat-form-tooltip {
-  $tooltip-color: getVar(tooltip-color, $wk-color-gray-500);
-  $tooltip-hover-color: getVar(tooltip-hover-color, $wk-color-gray-600);
+  $tooltip-color: getVar(tooltip-color, $fat-color-gray-500);
+  $tooltip-hover-color: getVar(tooltip-hover-color, $fat-color-gray-600);
 
   display: inline-block;
   width: 1.2em;
@@ -138,7 +138,7 @@
     margin-bottom: 16px;
     font-size: 16px;
     font-weight: 500;
-    color: $wk-color-font-primary;
+    color: $fat-color-font-primary;
     line-height: 22px;
 
     &::before {
@@ -148,7 +148,7 @@
       left: 0;
       width: 5px;
       height: 24px;
-      background: $wk-color-primary;
+      background: $fat-color-primary;
     }
   }
 
