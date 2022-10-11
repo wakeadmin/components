@@ -80,6 +80,27 @@ export function extraProps(vnode: any) {
   return undefined;
 }
 
+/**
+ * 从 VNode 中提取 组件 name
+ * @param vnode
+ * @returns
+ */
+export function extraComponentName(vnode: any) {
+  if (!vnode || typeof vnode !== 'object') {
+    return undefined;
+  }
+
+  if (isVue2) {
+    if (vnode.componentOptions?.Ctor != null) {
+      return vnode.componentOptions.Ctor?.extendOptions?.name;
+    }
+  } else {
+    return vnode.type?.name;
+  }
+
+  return undefined;
+}
+
 export function isFragment(vnode: any) {
   return isVNode(vnode) && vnode.type === Fragment;
 }
@@ -116,4 +137,13 @@ export function normalizeChildren(children: any[] | undefined | null) {
  */
 export function extraPropsFromChildren(children: any[] | undefined | null) {
   return normalizeChildren(children)?.map(extraProps);
+}
+
+/**
+ * 判断指定名称的组件是否存在
+ * @param children
+ * @param name
+ */
+export function hasChild(children: any[] | undefined | null, name: string) {
+  return normalizeChildren(children)?.some(i => extraComponentName(i) === name);
 }

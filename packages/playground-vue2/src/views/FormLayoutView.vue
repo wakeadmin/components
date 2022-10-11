@@ -7,7 +7,23 @@
     <button @click="showDrawer('add')">新增 drawer</button>
     <FatFormPage :enable-reset="false" @cancel="handleCancel">
       <template #title>你好世界</template>
+      <div>same time</div>
+      ok
       <FatFormSection title="分组1">
+        <FatFormItem
+          prop="name"
+          label="名称"
+          message="必须合法"
+          width="medium"
+          :rules="{ required: true }"
+        ></FatFormItem>
+        <FatFormItem prop="age" label="年龄" width="huge" message="不能超过 18" inline-message></FatFormItem>
+        <FatFormGroup message="分组消息">
+          <FatFormItem prop="id" label="身份证" message="必须合法" width="medium"></FatFormItem>
+          <FatFormItem prop="address" label="地址" width="huge"></FatFormItem>
+        </FatFormGroup>
+      </FatFormSection>
+      <FatFormSection title="分组2">
         <FatFormItem
           prop="name"
           label="名称"

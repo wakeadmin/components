@@ -1,3 +1,7 @@
+<script setup>
+  import PageComplex from './PageComplex.tsx'
+</script>
+
 # FatFormPage 表单页面
 
 `FatFormPage` 是 FatForm 针对页面场景设计的一个组件。用于快速创建一个表单创建、编辑、预览页面。
@@ -42,6 +46,23 @@
 <br>
 <br>
 
+**分组:**
+
+<iframe class="demo-frame" style="height: 650px" src="./page-complex.demo.html" />
+
+::: details 查看代码
+<<< @/fat-form-layout/PageComplex.tsx
+:::
+
+::: warning
+如果包含了 `FatFormSection`, 那么 title、extra 等属性或者插槽将被忽略
+:::
+
+<br>
+<br>
+<br>
+<br>
+
 ## 自定义布局
 
 `FatFormPage` 默认使用的是惟客云的页面布局，我们也支持自定义布局。
@@ -57,7 +78,15 @@ export type FatFormPageLayout = (renders: {
   class?: ClassValue;
   style?: StyleValue;
 
+  /**
+   * 表单实例引用
+   */
   form?: Ref<FatFormMethods<any> | undefined>;
+
+  /**
+   * 子级中是否包含了 FatFormSection
+   */
+  includeSections?: boolean;
 
   /**
    * 渲染标题
@@ -88,21 +117,25 @@ export type FatFormPageLayout = (renders: {
 
 <br>
 
-默认实现：
+**默认实现如下**：
 
 ```tsx
 const DefaultLayout: FatFormPageLayout = ctx => {
   return (
     <div class={normalizeClassName('fat-form-page', ctx.class)} style={ctx.style}>
-      <FatContainer
-        {...ctx.layoutProps}
-        v-slots={{
-          title: ctx.renderTitle(),
-          extra: ctx.renderExtra(),
-        }}
-      >
-        {ctx.renderForm()}
-      </FatContainer>
+      {ctx.includeSections ? (
+        ctx.renderForm()
+      ) : (
+        <FatContainer
+          {...ctx.layoutProps}
+          v-slots={{
+            title: ctx.renderTitle(),
+            extra: ctx.renderExtra(),
+          }}
+        >
+          {ctx.renderForm()}
+        </FatContainer>
+      )}
       {!!ctx.renderSubmitter && <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>}
     </div>
   );

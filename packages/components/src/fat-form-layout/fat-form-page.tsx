@@ -11,6 +11,7 @@ import {
   ToHEmitDefinition,
   ToHSlotDefinition,
   forwardExpose,
+  hasChild,
 } from '../utils';
 import { FatFloatFooter, FatContainer } from '../fat-layout';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
@@ -80,6 +81,14 @@ export type FatFormPageLayout = (renders: {
   class?: ClassValue;
   style?: StyleValue;
 
+  /**
+   * 子级中是否包含了 FatFormSection
+   */
+  includeSections?: boolean;
+
+  /**
+   * 表单实例引用
+   */
   form?: Ref<FatFormMethods<any> | undefined>;
 
   /**
@@ -111,15 +120,19 @@ export type FatFormPageLayout = (renders: {
 const DefaultLayout: FatFormPageLayout = ctx => {
   return (
     <div class={normalizeClassName('fat-form-page', ctx.class)} style={ctx.style}>
-      <FatContainer
-        {...ctx.layoutProps}
-        v-slots={{
-          title: ctx.renderTitle(),
-          extra: ctx.renderExtra(),
-        }}
-      >
-        {ctx.renderForm()}
-      </FatContainer>
+      {ctx.includeSections ? (
+        ctx.renderForm()
+      ) : (
+        <FatContainer
+          {...ctx.layoutProps}
+          v-slots={{
+            title: ctx.renderTitle(),
+            extra: ctx.renderExtra(),
+          }}
+        >
+          {ctx.renderForm()}
+        </FatContainer>
+      )}
       {!!ctx.renderSubmitter && <FatFloatFooter>{ctx.renderSubmitter()}</FatFloatFooter>}
     </div>
   );
@@ -218,11 +231,14 @@ export const FatFormPage = declareComponent({
 
     return () => {
       const layout = props.pageLayout ?? configurable.fatFormPageLayout ?? DefaultLayout;
+      const children = renderSlot(props, slots, 'default');
+      const hasSection = hasChild(children, 'FatFormSection');
 
       return layout({
         class: attrs.class,
         style: attrs.style,
         form,
+        includeSections: hasSection,
         layoutProps: props.pageLayoutProps,
         renderTitle: () => {
           return hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', form.value) : props.title;
@@ -233,7 +249,7 @@ export const FatFormPage = declareComponent({
         renderForm: () => {
           return (
             <FatForm ref={form} mode={props.mode} hierarchyConnect={false} {...inheritProps()} enableSubmitter={false}>
-              {renderSlot(props, slots, 'default')}
+              {children}
             </FatForm>
           );
         },
