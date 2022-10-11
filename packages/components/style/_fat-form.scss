@@ -110,50 +110,5 @@
 }
 
 .fat-form-section {
-  margin-bottom: 20px;
-
-  &__toggle {
-    display: none;
-    margin-left: 0.5em;
-    vertical-align: middle;
-    line-height: 1;
-
-    & > svg {
-      width: 0.9em;
-      fill: gray;
-    }
-  }
-
-  &--collapsable {
-    cursor: pointer;
-  }
-
-  &--collapsable &__toggle {
-    display: inline-block;
-  }
-
-  &__title {
-    position: relative;
-    padding-left: 14px;
-    margin-bottom: 16px;
-    font-size: 16px;
-    font-weight: 500;
-    color: $fat-color-font-primary;
-    line-height: 22px;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 24px;
-      background: $fat-color-primary;
-    }
-  }
-
-  &--collapsed &__body {
-    max-height: 0;
-    overflow: hidden;
-  }
+  margin-bottom: 16px;
 }

@@ -253,6 +253,6 @@
 
 <style lang="scss" scoped>
   .form {
-    margin-top: 50px;
+    margin-top: 20px;
   }
 </style>

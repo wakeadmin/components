@@ -5,8 +5,7 @@
       <FatFormItem prop="age" label="年龄" width="huge"></FatFormItem>
     </FatFormSection>
 
-    <!-- 可折叠 -->
-    <FatFormSection title="详细信息" collapsable>
+    <FatFormSection title="详细信息">
       <FatFormItem prop="id" label="身份证" width="large"></FatFormItem>
       <FatFormItem prop="address" label="地址" width="large"></FatFormItem>
       <FatFormItem prop="note" label="备注" width="huge" value-type="textarea"></FatFormItem>

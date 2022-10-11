@@ -14,6 +14,7 @@ import { Ref } from '@wakeadmin/demi';
 
 import { Atomic } from '../atomic';
 import { FatSpaceSize } from '../fat-space/types';
+import { FatCardProps } from '../fat-layout';
 
 /**
  * 参考 antd-pro https://procomponents.ant.design/components/field-set#%E5%AE%BD%E5%BA%A6
@@ -827,31 +828,10 @@ export interface FatFormItemProps<
 
 export { Rules, Rule } from '@wakeadmin/element-adapter';
 
-export interface FatFormSectionSlots {
-  /**
-   * 自定义渲染标题
-   */
-  renderTitle?: () => any;
-}
 /**
  * 表单分段
  */
-export interface FatFormSectionProps extends FatFormSectionSlots {
-  /**
-   * 标题, 也可以使用 #title slot 或者 renderTitle()
-   */
-  title?: string;
-
-  /**
-   * 是否支持折叠，默认 false
-   */
-  collapsable?: boolean;
-
-  /**
-   * 默认是否折叠，默认 false
-   */
-  defaultCollapse?: boolean;
-}
+export type FatFormSectionProps = FatCardProps;
 
 /**
  * 支持全局配置的参数
