@@ -3,11 +3,11 @@
 .fat-card {
   $header-height: 46px;
   $padding: $fat-spacing-sm;
-  $border-color: #ebeef5;
+  $border-color: $fat-color-border-light;
 
   width: 100%;
   border: 1px solid $border-color;
-  border-radius: 4px;
+  border-radius: $fat-border-radius-base;
   background-color: $fat-color-white;
   position: relative;
 

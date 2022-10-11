@@ -60,36 +60,42 @@ $fat-color-info-300: var(--wk-color-info-300, #5fb1ff) !default;
 $fat-color-info-200: var(--wk-color-info-200, #8ec7ff) !default;
 $fat-color-info-100: var(--wk-color-info-100, #badcff) !default;
 $fat-color-info-50: var(--wk-color-info-50, #e2f1ff) !default;
+
 $fat-color-gray-900: var(--wk-color-gray-900, #303133) !default;
 $fat-color-gray-800: var(--wk-color-gray-800, #535456) !default;
 $fat-color-gray-700: var(--wk-color-gray-700, #737476) !default;
 $fat-color-gray-600: var(--wk-color-gray-600, #88898b) !default;
-$fat-color-gray-500: var(--wk-color-gray-500, #b2b3b6) !default;
-$fat-color-gray-400: var(--wk-color-gray-400, #cfd0d3) !default;
-$fat-color-gray-300: var(--wk-color-gray-300, #edeef1) !default;
-$fat-color-gray-200: var(--wk-color-gray-200, #f2f3f6) !default;
-$fat-color-gray-100: var(--wk-color-gray-100, #f7f8fb) !default;
+$fat-color-gray-500: var(--wk-color-gray-500, #dcdfe6) !default;
+$fat-color-gray-400: var(--wk-color-gray-400, #e4e7ed) !default;
+$fat-color-gray-300: var(--wk-color-gray-300, #ebeef5) !default;
+$fat-color-gray-200: var(--wk-color-gray-200, #f2f6fc) !default;
+$fat-color-gray-100: var(--wk-color-gray-100, #f5f7fa) !default;
 $fat-color-gray-50: var(--wk-color-gray-50, #fcfdff) !default;
 $fat-color-gray-0: var(--wk-color-gray-0, #ffffff) !default;
+
 $fat-color-primary: var(--wk-color-primary, $fat-color-primary-900) !default;
 $fat-color-secondary: var(--wk-color-secondary, $fat-color-secondary-900) !default;
 $fat-color-success: var(--wk-color-success, $fat-color-success-500) !default;
 $fat-color-danger: var(--wk-color-danger, $fat-color-danger-600) !default;
 $fat-color-warning: var(--wk-color-warning, $fat-color-warning-500) !default;
 $fat-color-info: var(--wk-color-info, $fat-color-info-500) !default;
+
 $fat-color-white: var(--wk-color-white, $fat-color-gray-0) !default;
 $fat-color-black: var(--wk-color-black, $fat-color-gray-900) !default;
+
 $fat-color-font-primary: var(--wk-color-font-primary, $fat-color-gray-900) !default;
 $fat-color-font-regular: var(--wk-color-font-regular, #717378) !default;
 $fat-color-font-secondary: var(--wk-color-font-secondary, #909399) !default;
 $fat-color-font-placeholder: var(--wk-color-font-placeholder, #b1b5bd) !default;
 $fat-color-font-disabled: var(--wk-color-font-disabled, #c0c4cc) !default;
 $fat-color-font-inverse: var(--wk-color-font-inverse, $fat-color-gray-0) !default;
-$fat-color-border-dark: var(--wk-color-border-dark, #cfd4d9) !default;
-$fat-color-border: var(--wk-color-border, #dce1e6) !default;
+
+$fat-color-border-dark: var(--wk-color-border-dark, $fat-color-gray-500) !default;
+$fat-color-border: var(--wk-color-border, $fat-color-gray-400) !default;
 $fat-color-border-light: var(--wk-color-border-light, $fat-color-gray-300) !default;
 $fat-color-border-lighter: var(--wk-color-border-lighter, $fat-color-gray-200) !default;
 $fat-color-border-extra-light: var(--wk-color-border-extra-light, $fat-color-gray-100) !default;
+
 $fat-color-bg: var(--wk-color-bg, #f5f7fa) !default;
 $fat-color-bg-dark: var(--wk-color-bg-dark, #f0f2f5) !default;
 $fat-color-link: var(--wk-color-link, $fat-color-info) !default;

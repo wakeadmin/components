@@ -2,6 +2,7 @@ import { declareComponent } from '@wakeadmin/h';
 
 /**
  * 页面内容
+ * @deprecated 使用 FatCard 代替
  */
 export const FatContent = declareComponent({
   name: 'FatContent',
