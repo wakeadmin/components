@@ -60,7 +60,7 @@
       <FatFormGroup message="很重要">
         <FatFormItem class="my-item" label="网格1" prop="col[0]" :rules="[{ required: true }]"></FatFormItem>
         <FatFormItem prop="col[1]" label="网格2"></FatFormItem>
-        <FatFormGroup gutter="small">
+        <FatFormGroup>
           <FatFormItem width="mini" class="my-item" prop="c" />
           你好
           <FatFormItem width="mini" class="my-item" prop="c" />

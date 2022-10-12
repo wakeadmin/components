@@ -66,7 +66,7 @@ export const Query = declareComponent({
                 ctx.slots.submitter ? (
                   ctx.slots.submitter?.(scope)
                 ) : (
-                  <FatFormGroup labelWidth="auto" gutter="medium" col={false}>
+                  <FatFormGroup labelWidth="auto" gutter="sm" col={false}>
                     {buttons()}
                   </FatFormGroup>
                 ),

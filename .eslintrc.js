@@ -9,7 +9,7 @@ ts.ensureScriptKind = function (fileName, ...args) {
 };
 
 module.exports = {
-  extends: ['wkts', 'wkvue/vue3', 'plugin:jest/recommended'],
+  extends: ['wkts', 'wkvue/vue3'],
   plugins: [],
   globals: {},
   rules: {

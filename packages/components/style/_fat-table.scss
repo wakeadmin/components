@@ -3,8 +3,8 @@
 @use 'config' as *;
 
 .fat-table {
-  $tooltip-color: getVar(tooltip-color, $fat-color-gray-500);
-  $tooltip-hover-color: getVar(tooltip-hover-color, $fat-color-gray-600);
+  $tooltip-color: getVar(tooltip-color, $fat-color-font-secondary);
+  $tooltip-hover-color: getVar(tooltip-hover-color, $fat-color-font-regular);
 
   &__tooltip {
     width: 1.2em;

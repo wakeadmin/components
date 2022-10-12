@@ -1,6 +1,6 @@
 <template>
   <FatForm :enable-submitter="false">
-    <FatFormGroup label="分组" vertical gutter="small">
+    <FatFormGroup label="分组" vertical>
       <FatFormItem prop="group[0]"></FatFormItem>
       <FatFormItem prop="group[1]"></FatFormItem>
       <FatFormItem prop="group[2]"></FatFormItem>

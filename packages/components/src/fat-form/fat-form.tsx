@@ -585,7 +585,7 @@ export const FatForm = declareComponent({
             ) : (
               <FatFormGroup
                 labelWidth="auto"
-                gutter="medium"
+                gutter="sm"
                 class={props.submitterClassName}
                 style={props.submitterStyle}
                 col={false}

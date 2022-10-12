@@ -218,7 +218,7 @@ export const FatFormGroup = declareComponent({
         return null;
       }
 
-      const gutter = props.gutter ?? configurable.fatForm?.groupGutter ?? (props.vertical ? 'medium' : 'large');
+      const gutter = props.gutter ?? configurable.fatForm?.groupGutter ?? (props.vertical ? 'sm' : 'xs');
       const gutterInNumber = toNumberSize(gutter);
       const inlineMessage = form.layout === 'inline' || props.inlineMessage;
       const col = normalizedCol.value;

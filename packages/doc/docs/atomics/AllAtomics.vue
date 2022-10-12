@@ -87,7 +87,7 @@
             ],
           }"
         />
-        <FatFormGroup label="checkbox" gutter="small" message="配合 fat-form-group 使用">
+        <FatFormGroup label="checkbox" message="配合 fat-form-group 使用">
           <FatFormItem prop="checkbox" value-type="checkbox" />
           <span>同意 996 吗</span>
         </FatFormGroup>

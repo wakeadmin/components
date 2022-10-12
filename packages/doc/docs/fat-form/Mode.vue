@@ -41,7 +41,7 @@
           separator: ' - ',
         }"
       />
-      <FatFormGroup label="checkbox1" gutter="small">
+      <FatFormGroup label="checkbox1">
         <FatFormItem prop="checkbox1" value-type="checkbox" />
         <span>同意 996 吗</span>
       </FatFormGroup>

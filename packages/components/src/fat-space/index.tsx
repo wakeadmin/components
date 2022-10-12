@@ -4,21 +4,25 @@ import { normalizeChildren, normalizeClassName, normalizeStyle } from '../utils'
 
 import { FatSpaceProps, FatSpaceSize } from './types';
 
+// 遵循惟客云规范
 const SpaceSize: Record<string, number> = {
-  small: 8,
-  medium: 16,
-  large: 24,
-  huge: 32,
+  xs: 8,
+  sm: 16,
+  base: 24,
+  md: 32,
+  lg: 48,
+  xl: 64,
 };
 
-export const toNumberSize = (size: FatSpaceSize | number = 'small') => {
+export const toNumberSize = (size: FatSpaceSize = 'xs') => {
   if (typeof size === 'string' && !(size in SpaceSize)) {
     throw new Error(`Invalid size: ${size}`);
   }
-  return (size in SpaceSize ? SpaceSize[size] : size) as number;
+
+  return (typeof size === 'string' ? SpaceSize[size] : size) as number;
 };
 
-const toSizes = (sizes: FatSpaceProps['size'] = 'small'): [number, number] => {
+const toSizes = (sizes: FatSpaceProps['size'] = 'xs'): [number, number] => {
   return (
     Array.isArray(sizes) ? [toNumberSize(sizes[0]), toNumberSize(sizes[0])] : new Array(2).fill(toNumberSize(sizes))
   ) as [number, number];
@@ -38,7 +42,7 @@ export const FatSpace = declareComponent({
       const direction = props.direction ?? 'horizontal';
       const align = props.align;
       const wrap = props.wrap;
-      const size = props.size ?? 'small';
+      const size = props.size ?? 'xs';
       const sizesInNumber = toSizes(size);
       const inline = props.inline;
 

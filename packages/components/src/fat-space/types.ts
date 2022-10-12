@@ -1,4 +1,7 @@
-export type FatSpaceSize = 'small' | 'medium' | 'large' | 'huge' | number;
+/**
+ * 按照惟客云 spacing 变量定义
+ */
+export type FatSpaceSize = 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl' | Number;
 
 export interface FatSpaceProps {
   /**
