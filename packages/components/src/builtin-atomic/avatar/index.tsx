@@ -1,29 +1,33 @@
-import { computed } from '@wakeadmin/demi';
+import { computed, unref } from '@wakeadmin/demi';
+import { NoopObject } from '@wakeadmin/utils';
+
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { normalizeClassName } from '../../utils';
 import { ImageObjectFit } from '../images';
 
-export interface AAvatarValue {
-  /**
-   * 头像链接
-   */
-  avatar: string;
+export type AAvatarValue =
+  | {
+      /**
+       * 头像链接
+       */
+      avatar: string;
 
-  /**
-   * 标题
-   *
-   * 可以传入jsx对象
-   */
-  title?: any;
+      /**
+       * 标题
+       *
+       * 可以传入jsx对象
+       */
+      title?: any;
 
-  /**
-   * 描述
-   *
-   * 可以传入jsx对象
-   */
-  description?: any;
-}
+      /**
+       * 描述
+       *
+       * 可以传入jsx对象
+       */
+      description?: any;
+    }
+  | string;
 
 export type AAvatarProps = DefineAtomicProps<
   AAvatarValue,
@@ -70,8 +74,14 @@ declare global {
 
 export const AAvatarComponent = defineAtomicComponent(
   (props: AAvatarProps) => {
+    const value = computed<Exclude<AAvatarValue, String>>(() => {
+      if (typeof props.value === 'string') {
+        return { avatar: props.value };
+      }
+      return props.value || (NoopObject as any);
+    });
     const needRenderInfo = computed(() => {
-      const { title, description } = props.value || {};
+      const { title, description } = value.value;
       return !!(props.renderInfo ?? description ?? title);
     });
 
@@ -79,19 +89,22 @@ export const AAvatarComponent = defineAtomicComponent(
 
     return () => {
       const {
-        value,
         fit = 'cover',
         placement = 'left',
         size = '48px',
         shape = 'circle',
-        // 下面三个变量不要
-        'v-slots': _,
-        onChange: __,
-        context: ___,
+        // 下面的变量不要 剔除掉
+        'v-slots': _vSlots,
+        renderInfo: _renderInfo,
+        onChange: _onChange,
+        value: _value,
+        context: _context,
         ...other
       } = props;
 
-      if (!value) {
+      const { avatar, title, description } = unref(value);
+
+      if (!avatar) {
         return configurable.undefinedPlaceholder;
       }
 
@@ -102,22 +115,22 @@ export const AAvatarComponent = defineAtomicComponent(
 
         return (
           <div class="fat-a-avatar__info fat-a-avatar__info--default">
-            {value?.title && (
+            {title && (
               <span
                 key="fat-avatar-title"
                 class="fat-a-avatar__info-title"
-                title={typeof value.title === 'object' ? '' : value.title}
+                title={typeof title === 'object' ? '' : title}
               >
-                {value.title}
+                {title}
               </span>
             )}
-            {value?.description && (
+            {description && (
               <span
                 key="fat-avatar-description"
                 class="fat-a-avatar__info-description"
-                title={typeof value.description === 'object' ? '' : value.description}
+                title={typeof description === 'object' ? '' : description}
               >
-                {value.description}
+                {description}
               </span>
             )}
           </div>
@@ -146,8 +159,8 @@ export const AAvatarComponent = defineAtomicComponent(
                 objectFit: fit,
               }}
               class="fat-a-avatar__avatar-img"
-              src={value.avatar}
-              alt={value.title}
+              src={avatar}
+              alt={title}
               // @ts-expect-error
               loading="lazy"
             ></img>
