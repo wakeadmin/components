@@ -212,8 +212,9 @@
     {
       type: 'actions',
       label: '操作',
-      width: 260,
+      minWidth: 130,
       labelAlign: 'center',
+      align: 'center',
       actions: [
         { name: 'Hello', onClick: () => console.log('Hello'), title: 'hello title', disabled: true },
         {

@@ -3,6 +3,17 @@
 
 .fat-actions {
   $gap: getVar(table-actions-gap, 20px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 $gap;
+
+  &--center {
+    justify-content: center;
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
 
   &__btn {
     color: $fat-color-info;
@@ -19,10 +30,6 @@
     &.warning {
       color: $fat-color-warning;
     }
-
-    & + & {
-      margin-left: $gap;
-    }
   }
 
   &__dropdown {
@@ -35,9 +42,9 @@
 
   &__more {
     cursor: pointer;
-    margin-left: $gap;
     outline: none;
     vertical-align: middle;
+    vertical-align: -webkit-baseline-middle;
     line-height: 1;
 
     & > svg {

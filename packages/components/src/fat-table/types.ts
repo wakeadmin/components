@@ -516,11 +516,6 @@ export interface FatTableColumnStyle {
   minWidth?: string | number;
 
   /**
-   * 对应列的最大宽度
-   */
-  maxWidth?: string | number;
-
-  /**
    * 列是否固定在左侧或者右侧。 true 表示固定在左侧
    */
   fixed?: true | 'left' | 'right';

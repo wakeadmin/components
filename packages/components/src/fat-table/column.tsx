@@ -5,7 +5,7 @@ import { computed } from '@wakeadmin/demi';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
-import { composeAtomProps } from '../utils';
+import { composeAtomProps, normalizeClassName } from '../utils';
 
 import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
 import { genKey, getAtom } from './utils';
@@ -62,7 +62,7 @@ export const Actions = declareComponent({
         <FatActions
           options={derivedActions.value}
           max={column.actionsMax}
-          class={column.actionsClassName}
+          class={normalizeClassName(column.actionsClassName, `fat-actions--${column.align ?? 'left'}`)}
           style={column.actionsStyle}
           type={column.actionsType}
           size={column.actionsSize}
