@@ -8,6 +8,7 @@
   import UniGrid from './UniGrid.vue'
   import Message from './Message.vue'
   import Section from './Section.vue'
+  import Center from './Center.vue'
   import InitialValue from './InitialValue.vue'
   import FatFormItemInitialValue from './FatFormItemInitialValue.vue'
   import InitialValueSync from './InitialValueSync.vue'
@@ -224,6 +225,25 @@ FatForm 内置了提示信息
 
 ::: details 查看代码
 <<< @/fat-form/Section.vue
+:::
+
+<br>
+<br>
+<br>
+<br>
+
+### 1.7 居中布局
+
+居中布局在一些简单的表单场景也是比较常见的，居中可以让界面看起来更加美观
+
+<ClientOnly>
+  <div class="wk-demo">
+    <Center />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/Center.vue
 :::
 
 <br>
