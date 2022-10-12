@@ -71,6 +71,11 @@ export interface FatConfigurable {
    */
   pagination?: Omit<PaginationProps, 'total' | 'pageCount' | 'currentPage' | 'disabled'>;
 
+  /**
+   * 是否开启 FatContainer legacyMode
+   */
+  legacyContainer?: boolean;
+
   // -------------- 以下是内置原件的默认配置  -------------------
 
   /**

@@ -32,8 +32,20 @@
   &__body {
     padding: $fat-spacing-sm;
   }
+
+  &--legacy {
+    .fat-container__query {
+      border-bottom: none;
+    }
+
+    .fat-container__body {
+      padding: unset;
+      margin-top: $fat-spacing-sm;
+    }
+  }
 }
 
+// 禁用 wkc-header 内边距
 wkc-header.fat-container {
   --bay-layout-header-body-padding: 0px;
 }

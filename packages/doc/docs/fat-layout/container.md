@@ -1,6 +1,7 @@
 <script setup>
   import ContainerSimple from './ContainerSimple.vue'
   import ContainerWithQuery from './ContainerWithQuery.vue'
+  import ContainerWithQueryLegacy from './ContainerWithQueryLegacy.vue'
   import ContainerTab from './ContainerTab.vue'
 
 </script>
@@ -52,6 +53,21 @@
 
 ::: details 查看代码
 <<< @/fat-layout/ContainerTab.vue
+:::
+
+<br>
+<br>
+<br>
+<br>
+
+**传统模式(旧的惟客云规范)**
+
+<ClientOnly>
+  <div class="wk-demo"><ContainerWithQueryLegacy /></div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-layout/ContainerWithQueryLegacy.vue
 :::
 
 <br>
