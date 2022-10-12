@@ -70,7 +70,7 @@ export function pickRootField(prop: string) {
 
 export function formItemWidth(width: number | FatFormItemWidth) {
   if (typeof width === 'string' && width in PreDefinedItemWidth) {
-    return `${PreDefinedItemWidth[width]}px`;
+    return PreDefinedItemWidth[width];
   }
 
   if (typeof width === 'number') {
