@@ -102,12 +102,16 @@ export const Query = declareComponent({
                     tooltip={column.tooltip}
                     initialValue={column.initialValue}
                     valueType={column.valueType}
-                    valueProps={{ ...column.valueProps, scene: 'table' }}
+                    valueProps={{
+                      ...(typeof column.valueProps === 'function' ? column.valueProps() : column.valueProps),
+                      scene: 'table',
+                    }}
                     valueStyle={column.valueStyle}
                     {...column.formItemProps}
                     class={normalizeClassName(
                       column.type === 'query' ? column.className : undefined,
-                      column.valueClassName
+                      column.valueClassName,
+                      column.formItemProps?.class
                     )}
                   />
                 );

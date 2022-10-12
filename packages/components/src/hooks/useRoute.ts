@@ -29,7 +29,7 @@ export interface RouterLike {
 export function useRouter() {
   const instance = getCurrentInstance();
 
-  return (instance?.proxy as { $router: RouterLike } | undefined)?.$router;
+  return (instance?.proxy?.$root as { $router: RouterLike } | undefined)?.$router;
 }
 
 export function useRoute(): RouteLike {

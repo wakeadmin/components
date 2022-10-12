@@ -7,9 +7,10 @@ import {
   PaginationProps,
   TableMethods,
   ButtonProps,
+  CommonProps,
 } from '@wakeadmin/element-adapter';
 
-import { Atomic } from '../atomic';
+import { Atomic, GetAtomicProps } from '../atomic';
 import { FatFormItemProps, FatFormMethods } from '../fat-form';
 import { FatFormQueryProps } from '../fat-form-layout';
 
@@ -456,7 +457,8 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
     | 'valueStyle'
     | 'convert'
     | 'transform'
-  >;
+  > &
+    CommonProps;
 
   /**
    * 自定义表单渲染
@@ -672,12 +674,9 @@ export interface FatTableColumn<
 
   /**
    * 字段选项
+   * 支持传入一个函数，不过仅在单元格渲染时才支持 row 和 index 参数, 用于表单时为空
    */
-  valueProps?: ValueType extends keyof AtomicProps
-    ? AtomicProps[ValueType]
-    : ValueType extends Atomic<any, infer B>
-    ? B
-    : Record<string, any>;
+  valueProps?: GetAtomicProps<ValueType> | ((row?: T, index?: number) => GetAtomicProps<ValueType>);
 }
 
 export interface FatTableRemove<T> {

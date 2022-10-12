@@ -1,22 +1,22 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { TableColumnProps, TableColumn, Tooltip } from '@wakeadmin/element-adapter';
-import { NoopObject, NoopArray } from '@wakeadmin/utils';
+import { NoopObject, NoopArray, get } from '@wakeadmin/utils';
 import { computed } from '@wakeadmin/demi';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
-import { composeAtomProps, normalizeClassName } from '../utils';
+import { composeAtomProps, setByPath, normalizeClassName } from '../utils';
+import { FatActions, FatAction } from '../fat-actions';
+import { BaseAtomicContext } from '../atomic';
 
 import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
 import { genKey, getAtom } from './utils';
-import { FatActions, FatAction } from '../fat-actions';
-import { BaseAtomicContext } from '../atomic';
 
 const BUILTIN_TYPES = new Set(['index', 'selection', 'expand']);
 
 const normalizeType = (t: string) => (BUILTIN_TYPES.has(t) ? t : undefined);
 
-export const Actions = declareComponent({
+const Actions = declareComponent({
   name: 'FatTableActions',
   props: declareProps<{
     tableInstance: FatTableMethods<any, any>;
@@ -72,6 +72,75 @@ export const Actions = declareComponent({
   },
 });
 
+const Cell = declareComponent({
+  name: 'FatTableCell',
+  props: declareProps<{ column: FatTableColumn<any>; row: any; index: number }>(['column', 'row', 'index']),
+  setup(props) {
+    const atomics = useAtomicRegistry();
+    const value = computed(() => {
+      const { column, row, index } = props;
+      const prop = column.prop;
+
+      return typeof column.getter === 'function' ? column.getter(row, index) : prop ? get(row, prop) : undefined;
+    });
+
+    const handleChange = (val: any) => {
+      const column = props.column;
+      // 只有设置 prop 才生效
+      if (column.prop && props.row != null) {
+        setByPath(props.row, column.prop, val);
+      }
+    };
+
+    const atom = computed(() => {
+      return getAtom(props.column, atomics);
+    });
+
+    const valueProps = computed(() => {
+      const column = props.column;
+
+      return (
+        (typeof column.valueProps === 'function' ? column.valueProps(props.row, props.index) : column.valueProps) ??
+        NoopObject
+      );
+    });
+
+    const atomProps = computed(() => {
+      const { column, row } = props;
+      return composeAtomProps(
+        {
+          mode: 'preview',
+          scene: 'table',
+          class: column.valueClassName,
+          style: column.valueStyle,
+          context: {
+            label: column.label,
+            prop: column.prop,
+            values: row,
+          } as BaseAtomicContext,
+          // readonly
+          value: value.value,
+          onChange: handleChange,
+        },
+        valueProps.value
+      );
+    });
+
+    return () => {
+      const { column, row, index } = props;
+
+      if (column.render) {
+        return column.render(value.value, row, index);
+      } else {
+        // 原件
+        const { comp } = atom.value;
+
+        return comp(atomProps.value);
+      }
+    };
+  },
+});
+
 export const Column = declareComponent({
   name: 'FatTableColumn',
   props: declareProps<{
@@ -81,9 +150,6 @@ export const Column = declareComponent({
     filter: FatTableFilter;
   }>(['column', 'index', 'tableInstance', 'filter']),
   setup(props) {
-    // 原件
-    const atomics = useAtomicRegistry();
-
     return () => {
       const column = props.column;
       const index = props.index;
@@ -92,7 +158,6 @@ export const Column = declareComponent({
 
       const type = column.type ?? 'default';
       const key = genKey(column, index);
-      const valueProps = column.valueProps ?? NoopObject;
       const extraProps: TableColumnProps = {};
 
       let children: any;
@@ -103,35 +168,10 @@ export const Column = declareComponent({
         children = {
           default: (scope: { row: any; $index: number }) => {
             // 自定义渲染
-            const prop = column.prop;
             const row = scope.row;
             const idx = scope.$index;
-            const value = typeof column.getter === 'function' ? column.getter(row, idx) : prop ? row[prop] : undefined;
 
-            if (column.render) {
-              return column.render(value, row, idx);
-            } else {
-              const { comp } = getAtom(column, atomics);
-
-              return comp(
-                composeAtomProps(
-                  {
-                    mode: 'preview',
-                    scene: 'table',
-                    class: column.valueClassName,
-                    style: column.valueStyle,
-                    context: {
-                      label: column.label,
-                      prop: column.prop,
-                      values: row,
-                    } as BaseAtomicContext,
-                    // readonly
-                    value,
-                  },
-                  valueProps
-                )
-              );
-            }
+            return <Cell row={row} index={idx} column={column} />;
           },
         };
       } else if (type === 'selection') {
