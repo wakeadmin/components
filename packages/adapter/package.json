@@ -27,8 +27,7 @@
     "build:es": "tsc --build tsconfig.json",
     "build:common": "tsc --build tsconfig.common.json",
     "start": "tsc --build tsconfig.json --watch",
-    "postinstall": "node ./scripts/postinstall.mjs",
-    "test": "jest"
+    "postinstall": "node ./scripts/postinstall.mjs"
   },
   "keywords": [],
   "author": "ivan-lee",
