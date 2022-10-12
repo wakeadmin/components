@@ -1,5 +1,25 @@
 # @wakeadmin/element-adapter
 
+## 0.2.6
+
+### Patch Changes
+
+**BUG 修复**
+
+- 时间格式规范化, 处理 w、s
+- Vue 3 下 useFormItemValidate 警告
+
+<br>
+
+**重构和优化**
+
+- 统一使用 @wakeadmin/h 书写渲染代码
+
+<br>
+<br>
+<br>
+<br>
+
 ## 0.2.5
 
 ### Patch Changes

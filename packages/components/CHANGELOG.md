@@ -1,5 +1,34 @@
 # @wakeadmin/components
 
+## 1.0.0-alpha.2
+
+**Breaking Change**
+
+- FatHeader 移除，并使用 FatContainer 取代
+- FatTable 移除 simple 布局
+- FatFloatFooter 属性变更 useWakeadminHeaderIfNeed 修改为 reuseBayIfNeed
+
+**新功能**
+
+- 新增 avatar 原件
+- image 原件支持 fit 属性配置
+- [新 UI 规范适配](https://codesign.qq.com/s/QmlyZwl22kjWRA1/BGAE9Kyg3zNZlRd/inspect)
+  - 新增 FatCard 卡片容器
+  - FatFormSection 调整为卡片形式, **并废弃折叠功能**
+  - **FatHeader 移除** , 使用 FatContainer 替代, **受影响组件主要有 FatTable, simple 布局移除**
+  - FatContent 即将废弃，建议使用 FatCard 取代
+
+<br>
+
+**Bug 修复**
+
+- `date*`/`time*` 相关原件对时间格式化字符串进行规范化，从而支持 element-ui 的语法
+
+<br>
+<br>
+<br>
+<br>
+
 ## 1.0.0-alpha.1
 
 🎉 第一个 alpha 版本
