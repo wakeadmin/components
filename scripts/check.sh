@@ -13,6 +13,8 @@ echo "开始规范化检查"
 npm i -g pnpm
 pnpm install --no-frozen-lockfile
 
+pnpm build:deps
+
 # eslint 检查
 pnpm wkstd gerrit-check
 
