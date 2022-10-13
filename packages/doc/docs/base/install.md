@@ -5,6 +5,8 @@
 `@wakeadmin/components` 是基于 Vue 和 `Element-UI`/`Element-plus` 的高级组件库。旨在解放管理后台端 CRUD 页面的前端生产力。
 
 <br>
+<br>
+<br>
 
 整体架构：
 
@@ -38,9 +40,12 @@
 
 ## Prerequisites
 
+<br>
+<br>
+
 `@wakeadmin/components` 支持 Vue 2/3:
 
-- **Vue 2**: 要求 Vue 2.7+, element-ui 2.14+
+- **Vue 2**: 要求 **Vue 2.7+**, element-ui 2.14+
 - **Vue 3**: Vue 3.0+, element-plus 2.2+
 
 <br>
@@ -49,6 +54,8 @@
 <br>
 
 ## 安装
+
+<br>
 
 ```shell
 $ pnpm add @wakeadmin/components
@@ -67,14 +74,73 @@ $ pnpm add @wakeadmin/components
 $ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi @vue/runtime-dom -D
 ```
 
+::: warning `@vue/runtime-dom` 在 Vue 3 环境不需要安装, vue 3 底层已经包含它。
+:::
+
+<br>
+<br>
+<br>
 <br>
 
-::: tip
+## 更好的 Typescript 支持
 
-推荐使用 Valor 插件，并禁用掉 Vetur 插件
+推荐使用 [`Valor`](https://github.com/johnsoncodehk/volar) 插件，并禁用掉 `Vetur` 插件。在 VSCode 中, 你可以安装一下两个插件:
+
+<br>
+
+- [Vue Language Features](https://marketplace.visualstudio.com/items?itemName=Vue.volar): Vue, Vitepress, petite-vue language support extension for VSCode
+- [TypeScript Vue Plugin ](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) VSCode extension to support Vue in TS server
+
+<br>
+
+::: tip Vue 2
+
+接下来， 如果是 **Vue 2** 下， 需要安装 `@vue/runtime-dom`, 我们让 Volar 统一使用 Vue 3 的类型信息进行验证:
+
+```shell
+$ pnpm add  @vue/runtime-dom -D
+```
+
+<br>
+<br>
+<br>
+
+接着配置 tsconfig.json:
+
+```json{3,4,5}
+{
+  "compilerOptions": {
+    "types": ["@wakeadmin/demi"]
+  },
+  "vueCompilerOptions": {
+    "target": 2.7,
+  }
+}
+
+```
 
 :::
 
+<br>
+<br>
+<br>
+
+最后，配置一个 `.d.ts`(旧的项目可能已存在) 文件，让 TypeScript **标准**的类型检查器可以识别 `*.vue` 文件:
+
+```ts
+// env.d.ts
+// 你可能把旧的 declare module '*.vue' 移除
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue';
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
+}
+```
+
+::: tip _`.vue` 文件, 像 `.css` 这些静态资源文件一样, 标准的 Typescript 是无法识别里面的类型的_, 当然装了 Volar 插件之后, Valor 可以做到。但是仅在 IDE 层面，如果你想要在构建时/CI 时进行类型检查，可以用 [vue-tsc](https://github.com/johnsoncodehk/volar/tree/master/vue-language-tools/vue-tsc)
+:::
+
+<br>
 <br>
 <br>
 <br>
