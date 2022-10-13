@@ -1,5 +1,40 @@
-import { getCurrentInstance } from '@wakeadmin/demi';
+import { getCurrentInstance, inject, computed } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
+
+/**
+ * 获取 ElForm 实例
+ * @returns {{disabled?: boolean} | null}
+ */
+export function useForm() {
+  return inject('elForm', null);
+}
+
+export function useFormItem() {
+  return inject('elFormItem', null);
+}
+
+/**
+ * 获取表单的大小
+ * @param {string[]} [allows]
+ */
+export function useSize(allows) {
+  const vm = getCurrentInstance().proxy;
+  const formItem = useFormItem();
+
+  return computed(() => {
+    const size = vm.$props.size ?? formItem?.elFormItemSize ?? vm.$ELEMENT?.size;
+    if (!size) {
+      return size;
+    }
+
+    // 不在范围的使用默认尺寸
+    if (allows && !allows.includes(size)) {
+      return undefined;
+    }
+
+    return size;
+  });
+}
 
 /**
  *

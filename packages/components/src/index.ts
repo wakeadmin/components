@@ -8,6 +8,7 @@ export * from './fat-actions';
 export * from './fat-icon';
 export * from './fat-text';
 export * from './fat-atomic';
+export * from './fat-switch';
 
 export * from './atomic';
 

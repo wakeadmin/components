@@ -1,5 +1,25 @@
 <template>
   <div class="home">
+    <FatSwitch v-model="active"></FatSwitch>
+    <FatSwitch
+      v-model="active"
+      active-color="red"
+      inactive-color="blue"
+      active-text="ok"
+      inactive-text="off"
+    ></FatSwitch>
+    <FatSwitch v-model="active" active-text="ok" inactive-text="off" inline-prompt></FatSwitch>
+    <FatSwitch v-model="active" active-text="ok" inactive-text="off" inline-prompt loading></FatSwitch>
+    <FatSwitch v-model="active" inline-prompt size="small"></FatSwitch>
+    <FatSwitch
+      v-model="active"
+      active-color="red"
+      inactive-color="blue"
+      active-text="ok"
+      inactive-text="off"
+      size="small"
+    ></FatSwitch>
+
     <FatTable
       ref="tableRef"
       row-key="id"
@@ -37,8 +57,10 @@
 
 <script lang="tsx" setup>
   import { ref } from 'vue';
-  import { FatTable } from '@wakeadmin/components';
+  import { FatTable, FatSwitch } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
+
+  const active = ref(true);
 
   const handleCacheRestore = cache => {
     console.log('cache', cache);

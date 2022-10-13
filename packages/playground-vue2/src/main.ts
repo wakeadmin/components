@@ -7,8 +7,6 @@ import i18n from './i18n';
 import { plugin } from '@wakeadmin/components';
 import './locales';
 
-import '@wakeadmin/components/style/index.scss';
-
 Vue.config.productionTip = false;
 Vue.use(plugin);
 Vue.use(ElementUI);

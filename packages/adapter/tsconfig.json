@@ -4,11 +4,12 @@
     "outDir": "./dist" /* Redirect output structure to the directory. */,
     "allowJs": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "@wakeadmin/h",
     "declaration": false,
     "declarationMap": false,
     "rootDir": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
     "noEmit": false,
     "target": "ES2016"
   },
-  "include": ["src/**/*.js"]
+  "include": ["src/**/*.js", "src/**/*.tsx", "src/**/*.ts"]
 }

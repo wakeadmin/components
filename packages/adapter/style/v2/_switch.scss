@@ -1,0 +1,267 @@
+// 移植 element-plus
+@use 'sass:map';
+
+// 引用 element-ui 变量
+@import 'element-ui/packages/theme-chalk/src/common/var';
+
+$switch-height: () !default;
+$switch-height: map.merge(
+  (
+    'default': 32px,
+    'small': 24px,
+  ),
+  $switch-height
+);
+
+$switch-font-size: () !default;
+$switch-font-size: map.merge(
+  (
+    'default': 14px,
+    'small': 12px,
+  ),
+  $switch-font-size
+);
+
+$switch-core-border-radius: () !default;
+$switch-core-border-radius: map.merge(
+  (
+    'default': 10px,
+    'small': 8px,
+  ),
+  $switch-core-border-radius
+);
+
+$switch-core-width: () !default;
+$switch-core-width: map.merge(
+  (
+    'default': 40px,
+    'small': 30px,
+  ),
+  $switch-core-width
+);
+
+$switch-core-height: () !default;
+$switch-core-height: map.merge(
+  (
+    'default': 20px,
+    'small': 16px,
+  ),
+  $switch-core-height
+);
+
+$switch-button-size: () !default;
+$switch-button-size: map.merge(
+  (
+    'default': 16px,
+    'small': 12px,
+  ),
+  $switch-button-size
+);
+
+.ad-switch {
+  // 支持的 css variables
+  --ad-switch-on-color: #{$--switch-on-color};
+  --ad-switch-off-color: #{$--switch-off-color};
+  // 由用户指定
+  // --ad-switch-border-color: unset;
+
+  --ad-switch-label-off-color: #{$--color-text-primary};
+  --ad-switch-label-on-color: var(--ad-switch-on-color, #{$--color-primary});
+
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  font-size: map.get($switch-font-size, 'default');
+  line-height: map.get($switch-core-height, 'default');
+  height: map.get($switch-height, 'default');
+  vertical-align: middle;
+
+  &--disabled {
+    & .ad-switch__core,
+    & .ad-switch__label {
+      cursor: not-allowed;
+    }
+  }
+
+  // 外置标签
+  &__label {
+    transition: 0.2s;
+    height: map.get($switch-core-height, 'default');
+    display: inline-block;
+    font-size: map.get($switch-font-size, 'default');
+    font-weight: 500;
+    cursor: pointer;
+    vertical-align: middle;
+    color: var(--ad-switch-label-off-color);
+
+    &--active {
+      color: var(--ad-switch-label-on-color);
+    }
+
+    &--left {
+      margin-right: 10px;
+    }
+
+    &--right {
+      margin-left: 10px;
+    }
+
+    & * {
+      line-height: 1;
+      font-size: map.get($switch-font-size, 'default');
+      display: inline-block;
+    }
+
+    .ad-switch__icon {
+      height: inherit;
+    }
+  }
+
+  &__input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+
+    &:focus-visible {
+      & ~ .ad-switch__core {
+        outline: 2px solid var(--ad-switch-on-color);
+        outline-offset: 1px;
+      }
+    }
+  }
+
+  // 核心
+  &__core {
+    margin: 0;
+    display: inline-block;
+    position: relative;
+    width: map.get($switch-core-width, 'default');
+    height: map.get($switch-core-height, 'default');
+    border: 1px solid var(--ad-switch-border-color, var(--ad-switch-off-color));
+    outline: none;
+    border-radius: map.get($switch-core-border-radius, 'default');
+    box-sizing: border-box;
+    background: var(--ad-switch-off-color);
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+    vertical-align: middle;
+
+    .ad-switch__inner {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      transition: all 0.3s;
+      width: map.get($switch-button-size, 'default');
+      height: map.get($switch-button-size, 'default');
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      left: 50%;
+      white-space: nowrap;
+
+      .ad-switch__icon,
+      .ad-switch__text {
+        color: $--color-white;
+        transition: opacity 0.3s;
+        position: absolute;
+        user-select: none;
+      }
+    }
+
+    // 圆扭
+    .ad-switch__action {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      border-radius: $--border-radius-circle;
+      transition: all 0.3s;
+      width: map.get($switch-button-size, 'default');
+      height: map.get($switch-button-size, 'default');
+      background-color: $--color-white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--ad-switch-off-color);
+    }
+
+    .ad-switch__text {
+      font-size: 12px;
+    }
+  }
+
+  &--checked {
+    .ad-switch__core {
+      border-color: var(--ad-switch-border-color, var(--ad-switch-on-color));
+      background-color: var(--ad-switch-on-color);
+
+      .ad-switch__action {
+        left: 100%;
+        margin-left: calc(-1px - #{map.get($switch-button-size, 'default')});
+        color: var(--ad-switch-on-color);
+      }
+
+      .ad-switch__inner {
+        left: 50%;
+        white-space: nowrap;
+        margin-left: calc(-1px - #{map.get($switch-button-size, 'default')});
+      }
+    }
+  }
+
+  &--disabled {
+    opacity: 0.6;
+  }
+
+  & .label-fade-enter-from,
+  & .label-fade-leave-active {
+    opacity: 0;
+  }
+
+  // 尺寸
+  @each $size in (large, small) {
+    &--#{$size} {
+      font-size: map.get($switch-font-size, $size);
+      line-height: map.get($switch-core-height, $size);
+      height: map.get($switch-height, $size);
+
+      .ad-switch__label {
+        height: map.get($switch-core-height, $size);
+        font-size: map.get($switch-font-size, $size);
+
+        & * {
+          font-size: map.get($switch-font-size, $size);
+        }
+      }
+
+      .ad-switch__core {
+        width: map.get($switch-core-width, $size);
+        height: map.get($switch-core-height, $size);
+        border-radius: map.get($switch-core-border-radius, $size);
+
+        .ad-switch__inner {
+          width: map.get($switch-button-size, $size);
+          height: map.get($switch-button-size, $size);
+        }
+
+        .ad-switch__action {
+          width: map.get($switch-button-size, $size);
+          height: map.get($switch-button-size, $size);
+        }
+      }
+
+      &.ad-switch--checked {
+        .ad-switch__core {
+          .ad-switch__action {
+            margin-left: calc(-1px - #{map.get($switch-button-size, $size)});
+          }
+
+          .ad-switch__inner {
+            margin-left: calc(-1px - #{map.get($switch-button-size, $size)});
+          }
+        }
+      }
+    }
+  }
+}
