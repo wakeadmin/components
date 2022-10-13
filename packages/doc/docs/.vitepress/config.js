@@ -134,6 +134,7 @@ export default {
           items: [
             { text: 'FatSpace 间距', link: '/other/space' },
             { text: 'FatIcon 图标', link: '/other/icon' },
+            { text: 'FatSwitch 开关', link: '/other/switch' },
           ],
         },
       ],

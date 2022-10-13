@@ -1,10 +1,13 @@
 import { SwitchProps, Switch, useVModel } from '@wakeadmin/element-adapter';
+import { ref } from '@wakeadmin/demi';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
+export type ASwitchValue = string | number | boolean;
+
 export type ASwitchProps = DefineAtomicProps<
-  string | number | boolean,
-  SwitchProps,
+  ASwitchValue,
+  Omit<SwitchProps, 'beforeChange'>,
   {
     renderPreview?: (active: boolean) => any;
     /**
@@ -15,6 +18,13 @@ export type ASwitchProps = DefineAtomicProps<
      * 预览时 inactiveText
      */
     previewInactiveText?: string;
+
+    /**
+     * switch 状态改变前的钩子， 返回 false 或者返回 Promise 且被 reject 则停止切换
+     *
+     * 如果返回的是 Promise，switch 原件将会帮你维护 loading 状态
+     */
+    beforeChange?: (value?: ASwitchValue) => Promise<boolean> | boolean;
   }
 >;
 
@@ -24,13 +34,27 @@ declare global {
   }
 }
 
-// TODO：支持内联文本
 export const ASwitchComponent = defineAtomicComponent(
   (props: ASwitchProps) => {
     const vmodel = useVModel(props);
 
+    const loading = ref(false);
+
+    const handleBeforeChange = async () => {
+      if (props.beforeChange == null) {
+        return true;
+      }
+
+      try {
+        loading.value = true;
+        return await props.beforeChange(props.value);
+      } finally {
+        loading.value = false;
+      }
+    };
+
     return () => {
-      const { value, mode, onChange, context, scene, renderPreview, ...other } = props;
+      const { value, mode, onChange, context, scene, renderPreview, beforeChange: _beforeChange, ...other } = props;
 
       const activeValue = other.activeValue ?? true;
       const active = value === activeValue;
@@ -47,7 +71,7 @@ export const ASwitchComponent = defineAtomicComponent(
         );
       }
 
-      return <Switch {...other} {...vmodel.value} />;
+      return <Switch loading={loading.value} beforeChange={handleBeforeChange} {...other} {...vmodel.value} />;
     };
   },
   { name: 'ASwitch', globalConfigKey: 'aSwitchProps' }

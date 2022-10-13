@@ -177,10 +177,13 @@
         mode: 'editable',
         activeValue: 1,
         inactiveValue: 0,
+        async beforeChange() {
+          await delay(3e3);
+          return true;
+        },
         async onChange() {
           // FIXME: 这里不应该在初始化时触发 switch
           console.log('switch change', row);
-          await delay(3e3);
         },
       }),
     },
