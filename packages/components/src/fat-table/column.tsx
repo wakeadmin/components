@@ -86,8 +86,9 @@ const Cell = declareComponent({
 
     const handleChange = (val: any) => {
       const column = props.column;
-      // 只有设置 prop 才生效
-      if (column.prop && props.row != null) {
+      if (column.setter) {
+        column.setter(val, props.row, props.index);
+      } else if (column.prop && props.row != null) {
         setByPath(props.row, column.prop, val);
       }
     };

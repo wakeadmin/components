@@ -658,9 +658,14 @@ export interface FatTableColumn<
   key?: string;
 
   /**
-   * 手动从行数据中提取数据, 用于取代 prop 以实现复杂数据的提取和格式化
+   * 手动从行数据中提取单元格数据, 用于取代 prop 以实现复杂数据的提取和格式化
    */
   getter?: (row: T, index: number) => any;
+
+  /**
+   * 和 setter 对应，如果开启了编辑态的原件，想要执行数据修改，可以提供对应的 setter
+   */
+  setter?: (newValue: any, row: T, index: number) => any;
 
   /**
    * 自定义单元格渲染
