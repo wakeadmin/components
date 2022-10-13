@@ -19,15 +19,9 @@ import {
   composeAtomProps,
   toArray,
   takeString,
+  filterStringByTrim,
+  filterStringByRegexp,
 } from '../utils';
-
-function trim(value: any) {
-  if (typeof value === 'string') {
-    return value.trim();
-  }
-
-  return value;
-}
 
 export const FatFormItem = declareComponent({
   name: 'FatFormItem',
@@ -64,6 +58,7 @@ export const FatFormItem = declareComponent({
     convert: null,
     transform: null,
     trim: { type: Boolean, default: false },
+    filter: { type: [RegExp, Function] as any, default: undefined },
 
     // slots here
     renderLabel: null,
@@ -108,9 +103,32 @@ export const FatFormItem = declareComponent({
       return a;
     });
 
+    const beforeChange = computed<((value: any) => any) | undefined>(() => {
+      if (!props.trim && !props.filter) {
+        return;
+      }
+
+      // eslint-disable-next-line consistent-return
+      return (value: any) => {
+        if (props.trim) {
+          value = filterStringByTrim(value);
+        }
+
+        if (props.filter != null) {
+          if (props.filter instanceof RegExp) {
+            value = filterStringByRegexp(value, props.filter);
+          } else if (typeof props.filter === 'function') {
+            value = props.filter(value);
+          }
+        }
+
+        return value;
+      };
+    });
+
     const handleChange = (value: any) => {
-      if (props.trim) {
-        value = trim(value);
+      if (beforeChange.value) {
+        value = beforeChange.value(value);
       }
 
       form.setFieldValue(props.prop, value);

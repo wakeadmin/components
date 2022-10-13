@@ -132,6 +132,14 @@
       },
     },
     {
+      type: 'query',
+      prop: 'phone',
+      label: '手机号',
+      formItemProps: {
+        filter: /\d+/,
+      },
+    },
+    {
       label: '用户信息',
       minWidth: 60,
       getter() {

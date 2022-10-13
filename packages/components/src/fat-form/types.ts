@@ -771,7 +771,20 @@ export interface FatFormItemProps<
   convert?: (value: any, values: Request, prop: string) => any;
 
   /**
+   *
+   * 对输入的值进行过滤或转换
+   *
+   * 会在`onChange`之前进行处理
+   *
+   * regexp 只能作用于字符串值类型的原件, 匹配到 regexp 的会被保留
+   *
+   */
+  filter?: RegExp | (<T = string>(value?: T) => T | undefined);
+
+  /**
    * 相当于 v-model 的 trim 修饰符，只能作用于字符串值类型的原件, 默认 false
+   *
+   * 这是 filter 的一个快捷方式
    */
   trim?: boolean;
 
