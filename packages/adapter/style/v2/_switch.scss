@@ -1,5 +1,6 @@
 // 移植 element-plus
 @use 'sass:map';
+@use '../share/index' as *;
 
 // 引用 element-ui 变量
 @import 'element-ui/packages/theme-chalk/src/common/var';
@@ -58,16 +59,13 @@ $switch-button-size: map.merge(
   $switch-button-size
 );
 
+$switch-on-color: getCSSVar(ad-switch-on-color, #12cd3d) !default;
+$switch-off-color: getCSSVar(ad-switch-off-color, $--switch-off-color) !default;
+$switch-border-color: getCSSVar(ad-switch-border-color) !default;
+$switch-label-off-color: getCSSVar(ad-switch-label-off-color, $--color-text-primary) !default;
+$switch-label-on-color: getCSSVar(ad-switch-label-on-color, var(--ad-switch-on-color, #{$--color-primary})) !default;
+
 .ad-switch {
-  // 支持的 css variables
-  --ad-switch-on-color: #{$--switch-on-color};
-  --ad-switch-off-color: #{$--switch-off-color};
-  // 由用户指定
-  // --ad-switch-border-color: unset;
-
-  --ad-switch-label-off-color: #{$--color-text-primary};
-  --ad-switch-label-on-color: var(--ad-switch-on-color, #{$--color-primary});
-
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -92,10 +90,10 @@ $switch-button-size: map.merge(
     font-weight: 500;
     cursor: pointer;
     vertical-align: middle;
-    color: var(--ad-switch-label-off-color);
+    color: $switch-label-off-color;
 
     &--active {
-      color: var(--ad-switch-label-on-color);
+      color: $switch-label-on-color;
     }
 
     &--left {
@@ -126,7 +124,7 @@ $switch-button-size: map.merge(
 
     &:focus-visible {
       & ~ .ad-switch__core {
-        outline: 2px solid var(--ad-switch-on-color);
+        outline: 2px solid $switch-on-color;
         outline-offset: 1px;
       }
     }
@@ -139,11 +137,11 @@ $switch-button-size: map.merge(
     position: relative;
     width: map.get($switch-core-width, 'default');
     height: map.get($switch-core-height, 'default');
-    border: 1px solid var(--ad-switch-border-color, var(--ad-switch-off-color));
+    border: 1px solid var(--ad-switch-border-color, #{$switch-off-color});
     outline: none;
     border-radius: map.get($switch-core-border-radius, 'default');
     box-sizing: border-box;
-    background: var(--ad-switch-off-color);
+    background: $switch-off-color;
     cursor: pointer;
     transition: border-color 0.3s, background-color 0.3s;
     vertical-align: middle;
@@ -183,7 +181,7 @@ $switch-button-size: map.merge(
       display: flex;
       justify-content: center;
       align-items: center;
-      color: var(--ad-switch-off-color);
+      color: $switch-off-color;
     }
 
     .ad-switch__text {
@@ -193,13 +191,13 @@ $switch-button-size: map.merge(
 
   &--checked {
     .ad-switch__core {
-      border-color: var(--ad-switch-border-color, var(--ad-switch-on-color));
-      background-color: var(--ad-switch-on-color);
+      border-color: var(--ad-switch-border-color, #{$switch-on-color});
+      background-color: $switch-on-color;
 
       .ad-switch__action {
         left: 100%;
         margin-left: calc(-1px - #{map.get($switch-button-size, 'default')});
-        color: var(--ad-switch-on-color);
+        color: $switch-on-color;
       }
 
       .ad-switch__inner {

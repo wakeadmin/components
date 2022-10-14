@@ -1,0 +1,10 @@
+/**
+ * 获取 css 变量
+ */
+@function getCSSVar($name, $fallback: '') {
+  @if $fallback == '' {
+    @return var(--#{$name});
+  } @else {
+    @return var(--#{$name}, #{$fallback});
+  }
+}
