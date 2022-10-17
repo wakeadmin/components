@@ -84,7 +84,7 @@ $ pnpm add @wakeadmin/components
 <br>
 
 ```shell
-$ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi -D
+$ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi vue-tsc -D
 
 # 升级 @wakeadmin/* 相关依赖到最新版本
 $ pnpm up -r -L \"@wakeadmin/*\"
@@ -113,7 +113,16 @@ module.exports = defineConfig({
 
 ## 更好的 Typescript 支持
 
-推荐使用 [`Valor`](https://github.com/johnsoncodehk/volar) 插件，并禁用掉 `Vetur` 插件。在 VSCode 中, 你可以安装一下两个插件:
+首先根据你使用的构建工具，配置相关的 Typescript 构建支持：
+
+- Vue CLI: 安装 [`@vue/cli-plugin-typescript`](https://cli.vuejs.org/core-plugins/typescript.html)
+- Vite: [内置支持转换](https://vitejs.dev/guide/features.html#typescript)
+
+<br>
+<br>
+<br>
+
+**IDE** 上推荐使用 [`Valor`](https://github.com/johnsoncodehk/volar) 插件，并禁用掉 `Vetur` 插件。在 VSCode 中, 你可以安装一下两个插件:
 
 <br>
 
@@ -142,7 +151,7 @@ module.exports = defineConfig({
 <br>
 <br>
 
-最后，配置一个 `src/env.d.ts`(旧的项目可能已存在, 比如 vue-cli, `shims-tsx.d.ts`、`shims-vue.d.ts`, 将这些文件删掉) 文件，让 TypeScript **标准**的类型检查器可以识别 `*.vue` 文件:
+接着，配置一个 `src/env.d.ts`(旧的项目可能已存在, 比如 vue-cli, `shims-tsx.d.ts`、`shims-vue.d.ts`, 将这些文件删掉) 文件，让 TypeScript **标准**的类型检查器可以识别 `*.vue` 文件:
 
 ```ts
 // env.d.ts
@@ -156,6 +165,53 @@ declare module '*.vue' {
 
 ::: tip _`.vue` 文件, 像 `.css` 这些静态资源文件一样, 标准的 Typescript 是无法识别里面的类型的_, 当然装了 Volar 插件之后, Valor 可以做到。但是仅在 IDE 层面，如果你想要在构建时/CI 时进行类型检查，可以用 [vue-tsc](https://github.com/johnsoncodehk/volar/tree/master/vue-language-tools/vue-tsc)
 :::
+
+<br>
+
+::: danger 💥 如果使用了 `@vue/cli-plugin-typescript` 插件，请关闭掉 [`fork-ts-checker-webpack-plugin`](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/tree/6.5.x):
+
+编辑 `package.json`:
+
+```json
+{
+  "fork-ts-checker": {
+    "typescript": false
+  }
+}
+```
+
+<br>
+<br>
+
+为什么不使用它？ [Vue 官方也不推荐使用它](https://vuejs.org/guide/typescript/overview.html#note-on-vue-cli-and-ts-loader)。一个比较重要的问题是，它的执行结果未必和 IDE 一致，异常也很难排查。
+
+:::
+
+<br>
+
+最后，如果想要对类型进行检查，推荐使用 [`vue-tsc`](https://github.com/johnsoncodehk/volar/tree/master/vue-language-tools/vue-tsc):
+
+```json
+// package.json
+{
+  "scripts": {
+    "prebuild": "vue-tsc --noEmit"
+  }
+}
+```
+
+如果使用了惟客云[自动化检查工具](https://wakedata.notion.site/d223981cad664edab0c89fd269aa751d), 可以这样配置：
+
+```json
+// .standard.jsonc
+{
+  // 执行 Typescript 类型检查
+  "typescriptEnable": true,
+
+  // typescript 检查命令
+  "typescriptCmd": "vue-tsc --noEmit"
+}
+```
 
 <br>
 <br>
