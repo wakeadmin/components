@@ -22,7 +22,7 @@
 ### 功能优化
 
 - fat-actions 边距使用 gap CSS 属性
-- fat-table remove 实例方法现在返回 Promise<boolean> 表示是否移除成功
+- fat-table remove 实例方法现在返回 `Promise<boolean>` 表示是否移除成功
 
 <br>
 <br>
