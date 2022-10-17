@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue';
 import FormView from '../views/FormView/index.vue';
 import LayoutView from '../views/LayoutView.vue';
 import FormLayoutView from '../views/FormLayoutView.vue';
+import ComponentTest from '../views/ComponentTest.vue';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes: RouteConfig[] = [
     path: '/form-layout',
     name: 'formLayout',
     component: FormLayoutView,
+  },
+  {
+    path: '/component-test',
+    name: 'componentTest',
+    component: ComponentTest,
   },
   {
     path: '/about',

@@ -2,6 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import FormView from '../views/FormView/index.vue';
 import FormLayoutView from '../views/FormLayoutView.vue';
+import ComponentTest from '../views/ComponentTest.vue';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -24,6 +25,11 @@ export const routes: RouteRecordRaw[] = [
     path: '/form-layout',
     name: 'form-layout',
     component: FormLayoutView,
+  },
+  {
+    path: '/component-test',
+    name: 'component-test',
+    component: ComponentTest,
   },
   {
     path: '/about',

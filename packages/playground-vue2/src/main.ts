@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-ts-expect-error */
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 
@@ -12,6 +13,7 @@ Vue.use(plugin);
 Vue.use(ElementUI);
 
 new Vue({
+  // @ts-ignore
   i18n: i18n.i18n,
   router,
   render: h => h(App),

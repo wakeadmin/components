@@ -36,14 +36,14 @@
   "author": "ivan-lee",
   "license": "MIT",
   "dependencies": {
-    "@wakeadmin/demi": "^0.1.5",
-    "@wakeadmin/h": "^0.2.8",
-    "@wakeadmin/utils": "^0.1.2"
+    "@wakeadmin/demi": "^0.2.2",
+    "@wakeadmin/h": "^0.2.11",
+    "@wakeadmin/utils": "^0.1.4"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
-    "element-plus": "^2.2.17",
-    "element-ui": "^2.15.9"
+    "element-plus": "^2.2.18",
+    "element-ui": "^2.15.10"
   },
   "peerDependencies": {
     "element-plus": ">=2.2.0",

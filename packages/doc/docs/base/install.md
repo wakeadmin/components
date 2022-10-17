@@ -2,13 +2,20 @@
 
 <br>
 
+[[toc]]
+
+<br>
+<br>
+<br>
+<br>
+
 `@wakeadmin/components` 是基于 Vue 和 `Element-UI`/`Element-plus` 的高级组件库。旨在解放管理后台端 CRUD 页面的前端生产力。
 
 <br>
 <br>
 <br>
 
-整体架构：
+## 整体架构
 
 ![](./images/arch.png)
 
@@ -45,8 +52,14 @@
 
 `@wakeadmin/components` 支持 Vue 2/3:
 
-- **Vue 2**: 要求 **Vue 2.7+**, element-ui 2.14+
+- **Vue 2**: 要求 **Vue 2.7.13+**, element-ui 2.14+
 - **Vue 3**: Vue 3.0+, element-plus 2.2+
+
+<br>
+
+::: warning
+注意，Vue 2 下，仅支持 2.7.13+，请升级到最新的 Vue 2 版本。并移除旧的 `@vue/composition-api`
+:::
 
 <br>
 <br>
@@ -66,15 +79,31 @@ $ pnpm add @wakeadmin/components
 
 **开发依赖**:
 
-如果你想要使用 TSX/JSX 开发，并且获取到更好的 Typescript 类型检查，需要安装一下依赖:
+如果你想要使用 `TSX`/`JSX` 开发，并且获取到更好的 `Typescript` 类型检查，需要安装以下依赖:
 
 <br>
 
 ```shell
-$ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi @vue/runtime-dom -D
+$ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi -D
+
+# 升级 @wakeadmin/* 相关依赖到最新版本
+$ pnpm up -r -L \"@wakeadmin/*\"
 ```
 
-::: warning `@vue/runtime-dom` 在 Vue 3 环境不需要安装, vue 3 底层已经包含它。
+::: warning 建议将 @wakeadmin/\* 相关库都升级到最新版本
+:::
+
+:::tip 如果你使用的是 vue-cli，建议在 vue.config.js 中加入以下配置:
+
+```js
+// ...
+module.exports = defineConfig({
+  // 构建时转换 @wakeadmin/* 相关库，让 babel 参与转译，以符合你的兼容性需求
+  transpileDependencies: process.env.NODE_ENV === 'production' ? [/(wakeapp|wakeadmin)/] : false,
+  // ...
+});
+```
+
 :::
 
 <br>
@@ -92,40 +121,28 @@ $ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi @vue/runtime-dom 
 - [TypeScript Vue Plugin ](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) VSCode extension to support Vue in TS server
 
 <br>
-
-::: tip Vue 2
-
-接下来， 如果是 **Vue 2** 下， 需要安装 `@vue/runtime-dom`, 我们让 Volar 统一使用 Vue 3 的类型信息进行验证:
-
-```shell
-$ pnpm add  @vue/runtime-dom -D
-```
-
 <br>
 <br>
 <br>
 
 接着配置 tsconfig.json:
 
-```json{3,4,5}
+```json
 {
   "compilerOptions": {
     "types": ["@wakeadmin/demi"]
   },
   "vueCompilerOptions": {
-    "target": 2.7,
+    "target": 2.7
   }
 }
-
 ```
 
-:::
-
 <br>
 <br>
 <br>
 
-最后，配置一个 `.d.ts`(旧的项目可能已存在) 文件，让 TypeScript **标准**的类型检查器可以识别 `*.vue` 文件:
+最后，配置一个 `src/env.d.ts`(旧的项目可能已存在, 比如 vue-cli, `shims-tsx.d.ts`、`shims-vue.d.ts`, 将这些文件删掉) 文件，让 TypeScript **标准**的类型检查器可以识别 `*.vue` 文件:
 
 ```ts
 // env.d.ts
@@ -145,11 +162,17 @@ declare module '*.vue' {
 <br>
 <br>
 
-## JSX 支持
+## 更好的 JSX 支持
 
-假设你的项目使用 Vue-CLI:
+大部分场景，我们推荐你使用 Vue 的 [SFC](https://vuejs.org/guide/scaling-up/sfc.html) + [setup + TypeScript](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) 来编写组件。
 
-修改 `babel.config.js`
+<br>
+
+然而，在你们使用 `@wakeadmin/components` 时，为了灵活定义组件库，你会经常用到 JSX。
+
+<br>
+
+假设你的项目使用是 Vue-cli, 第一步先修改 `babel.config.js`
 
 ```js
 module.exports = {
@@ -158,19 +181,57 @@ module.exports = {
 };
 ```
 
-Typescript 配置:
+<br>
+<br>
 
-```json{3,4,5}
+接着修改 `tsconfig.json` 配置:
+
+```json{3,4}
 {
   "compilerOptions": {
-    "jsx": "preserve" /* Specify JSX code generation: 'preserve', 'react-native', 'react', 'react-jsx' or 'react-jsxdev'. */,
+    "jsx": "react-jsx",
     "jsxImportSource": "@wakeadmin/h",
-    "types": ["@wakeadmin/demi"]
+    "types": ["@wakeadmin/demi"],
   },
 }
 
 ```
 
+<br>
+<br>
+<br>
+
+这里，我们使用 [`@wakeadmin/h`](https://wakeadmin.wakedata.com/base/h.html) 来编写 JSX。好处是：
+
+<br>
+
+1. **不管你用的是 Vue 2, 还是 Vue 3, 使用 `@wakeadmin/h` 可以提供一致的编写方式**, 更接近我们在 React 上的使用习惯。
+
+   - Vue 2 / 3 JSX 书写上[相差非常大](https://www.notion.so/Vue-2-3-302cbe0e37794345bbfbd89e32d617db)
+   - Vue 官方的 JSX 库携带了很多语法糖。这依赖于 Babel 的转换，这意味着你无法直接使用 esbuild、Typescript 这类工具进行编译。
+
+2. 除此之外，`@wakeadmin/h` 也优化了 Vue JSX 在 Typescript 支持上的一些问题。
+
+<br>
+<br>
+
+使用示例：
+
+```jsx
+<div onClick={handleClick} class="hello" />; // 使用 on* 的语法进行事件监听
+<div onClick={handleClick} class={[hello, { active: isActive }]} style={{ color: 'red' }} />;
+
+// 插槽的使用，使用 v-slots
+<Tooltip v-slots={{ content: <div>hello</div>, named: scope => <div>命名插槽</div> }}>
+  <span class="fat-actions__btn">{content}</span>
+</Tooltip>;
+
+// 指令：https://vuejs.org/api/render-function.html#withdirectives
+<div {...withDirectives([[vLoading, loading.value]])}>加载中</div>;
+```
+
+<br>
+<br>
 <br>
 <br>
 

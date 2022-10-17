@@ -42,14 +42,14 @@
     }
   },
   "dependencies": {
-    "@wakeadmin/demi": "^0.1.5",
+    "@wakeadmin/demi": "^0.2.2",
     "@wakeadmin/element-adapter": "workspace:^0.2.6",
-    "@wakeadmin/h": "^0.2.8",
-    "@wakeadmin/icons": "^0.1.2",
-    "@wakeadmin/utils": "^0.1.2",
+    "@wakeadmin/h": "^0.2.11",
+    "@wakeadmin/icons": "^0.1.4",
+    "@wakeadmin/utils": "^0.1.4",
     "copy-to-clipboard": "^3.3.2"
   },
   "devDependencies": {
-    "vitest": "^0.23.1"
+    "vitest": "^0.23.4"
   }
 }
