@@ -112,6 +112,30 @@ export const FatContainer = declareComponent({
       emit('activeKeyChange', key);
     };
 
+    const titleRenderOrSlot = computed(() => {
+      if (props.tabs) {
+        return (
+          <div class="fat-container__tabs">
+            {props.tabs.map(menu => {
+              return (
+                <div
+                  class={['fat-container__tab', { active: menu.key === realActiveKey.value }]}
+                  key={menu.key}
+                  onClick={() => handleTabClick(menu.key)}
+                >
+                  {menu.renderTitle ? menu.renderTitle() : menu.title}
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+      if (hasTitleSlots.value) {
+        return renderSlot(props, slots, 'title');
+      }
+      return undefined;
+    });
+
     watch(
       () => props.activeKey,
       () => {
@@ -131,7 +155,6 @@ export const FatContainer = declareComponent({
       const rootProps = { class: className, style };
 
       let header: JSX.Element;
-
       // 使用 惟客云 基座实现
       if (wakeadminBayEnabled && props.reuseBayIfNeed) {
         header = (
@@ -150,30 +173,12 @@ export const FatContainer = declareComponent({
         header = (
           <FatCard
             {...(legacyMode ? undefined : rootProps)}
+            title={props.title}
             padding={false}
             v-slots={{
-              title: () =>
-                props.tabs ? (
-                  <div class="fat-container__tabs">
-                    {props.tabs.map(menu => {
-                      return (
-                        <div
-                          class={['fat-container__tab', { active: menu.key === realActiveKey.value }]}
-                          key={menu.key}
-                          onClick={() => handleTabClick(menu.key)}
-                        >
-                          {menu.renderTitle ? menu.renderTitle() : menu.title}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : hasTitleSlots.value ? (
-                  renderSlot(props, slots, 'title')
-                ) : (
-                  props.title
-                ),
+              title: titleRenderOrSlot.value,
               /* 扩展区域，通常放置按钮 */
-              extra: () => renderSlot(props, slots, 'extra'),
+              extra: hasExtraSlots.value ? () => renderSlot(props, slots, 'extra') : undefined,
             }}
           >
             {/* 筛选区， 通常是条件筛选 */}

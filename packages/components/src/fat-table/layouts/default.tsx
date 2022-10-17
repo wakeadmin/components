@@ -9,6 +9,7 @@ import { FatContainer } from '../../fat-layout';
 const DefaultLayout: FatTableLayout = props => {
   return (
     <FatContainer
+      {...props.layoutProps}
       {...props.rootProps}
       class={normalizeClassName(props.rootProps.class, 'fat-table', 'fat-table--default')}
       v-slots={{ title: props.renderTitle, extra: props.renderNavBar, query: props.renderQuery }}
