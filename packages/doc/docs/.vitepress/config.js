@@ -58,6 +58,10 @@ export default {
               link: '/base/install',
             },
             {
+              text: 'Typescript / JSX',
+              link: '/base/typescript',
+            },
+            {
               text: '基本概念',
               link: '/base/concepts',
             },
