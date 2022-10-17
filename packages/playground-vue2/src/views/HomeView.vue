@@ -76,15 +76,16 @@
     {
       name: '删除已选',
       confirm: '确认删除?',
-      onClick: async () => {
+      onClick: async table => {
+        table.removeSelected();
         await delay(3e3);
-        throw new Error('错误信息');
       },
     },
   ];
 
   const remove = () => {
-    return Promise.resolve();
+    throw new Error('123');
+    // return Promise.resolve();
   };
 
   const request = async params => {

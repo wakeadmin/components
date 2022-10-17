@@ -152,9 +152,12 @@ export interface FatTableMethods<T extends {}, S extends {}> {
 
   /**
    * 删除指定记录
+   *
+   * 返回一个是否删除成功的状态
+   *
    * @param items
    */
-  remove(...items: T[]): Promise<void>;
+  remove(...items: T[]): Promise<boolean>;
 
   /**
    * 删除选中项
