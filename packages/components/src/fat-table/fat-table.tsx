@@ -475,6 +475,30 @@ export const FatTable = declareComponent({
      *---------------------------------------+
      */
 
+    // 选择指定行
+    const select = (...items: any[]) => {
+      items.forEach(i => {
+        tableRef.value?.toggleRowSelection(i, true);
+      });
+    };
+
+    const unselect = (...items: any[]) => {
+      items.forEach(i => {
+        tableRef.value?.toggleRowSelection(i, false);
+      });
+    };
+
+    // 选择相关方法
+    const selectAll = () => {
+      selected.value = list.value.slice(0);
+      select(...selected.value);
+    };
+
+    const unselectAll = () => {
+      selected.value = [];
+      tableRef.value?.clearSelection();
+    };
+
     /**
      * 删除指定行
      */
@@ -575,8 +599,7 @@ export const FatTable = declareComponent({
       const result = await remove(...selected.value);
 
       if (result) {
-        // 清理选中
-        selected.value = [];
+        unselectAll();
       }
     };
 
@@ -586,30 +609,6 @@ export const FatTable = declareComponent({
       } else {
         handleReset();
       }
-    };
-
-    // 选择指定行
-    const select = (...items: any[]) => {
-      items.forEach(i => {
-        tableRef.value?.toggleRowSelection(i, true);
-      });
-    };
-
-    const unselect = (...items: any[]) => {
-      items.forEach(i => {
-        tableRef.value?.toggleRowSelection(i, false);
-      });
-    };
-
-    // 选择相关方法
-    const selectAll = () => {
-      selected.value = list.value.slice(0);
-      select(...selected.value);
-    };
-
-    const unselectAll = () => {
-      selected.value = [];
-      tableRef.value?.clearSelection();
     };
 
     const doLayout = () => tableRef.value?.doLayout();
