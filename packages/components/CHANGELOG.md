@@ -1,5 +1,34 @@
 # @wakeadmin/components
 
+## 1.0.0-alpha.3
+
+### 主要更新
+
+- 升级 @wakeadmin/demi, @wakeadmin/h。
+
+  - 现在不再依赖于 `@vue/runtime-dom`, 直接使用 Vue 2/3 的类型。避免了 Vue 2/3 类型胡窜导致的问题
+  - 依赖 Vue 2.7.13+, 请参照安装文档重新配置, 并将所有 @wakeadmin/\* 相关依赖升级到最新
+
+- 新增 FatSwitch 组件。该组件从 element-plus 中移植，支持内联 label、loading、和 beforeChange 钩子。 switch 原件也跟随升级
+
+- 对接新的惟客云 UI 变量。fat-form width 也跟随变化
+- FatContainer 支持 legacyMode
+- fat-table column 新增 setter、valueProps 支持函数形式
+- avatar 原件支持 string 类型直接传入头像链接
+- fat-form-item 新增 filter，可以在字段变更之前对 value 进行操作
+
+<br>
+
+### 功能优化
+
+- fat-actions 边距使用 gap CSS 属性
+- fat-table remove 实例方法现在返回 Promise<boolean> 表示是否移除成功
+
+<br>
+<br>
+<br>
+<br>
+
 ## 1.0.0-alpha.2
 
 **Breaking Change**

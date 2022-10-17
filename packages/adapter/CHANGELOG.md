@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.3.0
+
+### Minor Changes
+
+- 新增 switch 组件
+
 ## 0.2.6
 
 ### Patch Changes

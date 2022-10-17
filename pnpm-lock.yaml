@@ -15,7 +15,7 @@ importers:
       '@types/tapable': ^2.2.2
       '@vue/test-utils': next
       '@wakeadmin/docker-build': ^0.1.8
-      '@wakeadmin/element-adapter': workspace:^0.2.6
+      '@wakeadmin/element-adapter': workspace:^0.3.0
       cpx: ^1.5.0
       cross-env: ^7.0.3
       eslint: ^8.25.0
@@ -95,7 +95,7 @@ importers:
   packages/components:
     specifiers:
       '@wakeadmin/demi': ^0.2.2
-      '@wakeadmin/element-adapter': workspace:^0.2.6
+      '@wakeadmin/element-adapter': workspace:^0.3.0
       '@wakeadmin/h': ^0.2.11
       '@wakeadmin/icons': ^0.1.4
       '@wakeadmin/utils': ^0.1.4
@@ -113,7 +113,7 @@ importers:
 
   packages/doc:
     specifiers:
-      '@wakeadmin/components': workspace:1.0.0-alpha.2
+      '@wakeadmin/components': workspace:1.0.0-alpha.3
       '@wakeadmin/icons': ^0.1.4
       element-plus: ^2.2.18
       imagemin-cli: ^7.0.0
@@ -133,10 +133,10 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:1.0.0-alpha.2
+      '@wakeadmin/components': workspace:1.0.0-alpha.3
       '@wakeadmin/demi': ^0.2.2
       '@wakeadmin/docker-build': ^0.1.8
-      '@wakeadmin/element-adapter': workspace:^0.2.6
+      '@wakeadmin/element-adapter': workspace:^0.3.0
       '@wakeadmin/framework': ^0.1.5
       '@wakeadmin/h': ^0.2.11
       '@wakeadmin/i18n-legacy': ^0.1.6
@@ -181,7 +181,7 @@ importers:
       '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/bay': ^0.6.2
-      '@wakeadmin/components': workspace:1.0.0-alpha.2
+      '@wakeadmin/components': workspace:1.0.0-alpha.3
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/framework': ^0.1.5
       '@wakeadmin/h': ^0.2.11

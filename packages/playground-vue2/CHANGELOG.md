@@ -1,5 +1,11 @@
 # playground-vue2
 
+## 0.1.8
+
+### Patch Changes
+
+更新依赖
+
 ## 0.1.7
 
 ### Patch Changes
