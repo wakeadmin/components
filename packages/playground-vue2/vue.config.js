@@ -6,11 +6,9 @@ const upload = multer({ dest: '.upload-demo' });
 
 // 后台服务器地址
 const SERVER = process.env.SERVER || 'https://www.wakecloud.com';
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 module.exports = defineConfig({
   transpileDependencies: [/(wakeapp|wakeadmin)/],
-  publicPath: IS_PRODUCTION ? `[%= cdnDomain ? '//' + cdnDomain : ''  %]/` : '/',
   configureWebpack() {
     return {
       cache: {

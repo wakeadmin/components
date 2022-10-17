@@ -3,7 +3,7 @@
   "version": "0.2.6",
   "description": "@wakeadmin/components 文档",
   "scripts": {
-    "switch": "vue-demi-switch 3 && wakeadmin-adapter-switch 3 ",
+    "switch": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 ",
     "start": "npm run switch && vitepress dev docs",
     "prebuild": "cp ../components/CHANGELOG.md ./docs/base/change-log.md",
     "postbuild": "imagemin \"./dist/assets/*.png\" --out-dir=./dist/assets",

@@ -36,7 +36,7 @@
   "author": "ivan-lee",
   "license": "MIT",
   "dependencies": {
-    "@wakeadmin/demi": "^0.2.2",
+    "@wakeadmin/demi": "^0.2.3",
     "@wakeadmin/h": "^0.2.11",
     "@wakeadmin/utils": "^0.1.4"
   },

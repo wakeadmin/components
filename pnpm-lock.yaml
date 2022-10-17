@@ -77,14 +77,14 @@ importers:
 
   packages/adapter:
     specifiers:
-      '@wakeadmin/demi': ^0.2.2
+      '@wakeadmin/demi': ^0.2.3
       '@wakeadmin/h': ^0.2.11
       '@wakeadmin/utils': ^0.1.4
       cpx: ^1.5.0
       element-plus: ^2.2.18
       element-ui: ^2.15.10
     dependencies:
-      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.2
+      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.11
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.4
     devDependencies:
@@ -94,7 +94,7 @@ importers:
 
   packages/components:
     specifiers:
-      '@wakeadmin/demi': ^0.2.2
+      '@wakeadmin/demi': ^0.2.3
       '@wakeadmin/element-adapter': workspace:^0.3.0
       '@wakeadmin/h': ^0.2.11
       '@wakeadmin/icons': ^0.1.4
@@ -102,7 +102,7 @@ importers:
       copy-to-clipboard: ^3.3.2
       vitest: ^0.23.4
     dependencies:
-      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.2
+      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/element-adapter': link:../adapter
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.11
       '@wakeadmin/icons': 172.26.59.72+4873/@wakeadmin/icons/0.1.4
@@ -134,7 +134,7 @@ importers:
       '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/components': workspace:1.0.0-alpha.3
-      '@wakeadmin/demi': ^0.2.2
+      '@wakeadmin/demi': ^0.2.3
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/element-adapter': workspace:^0.3.0
       '@wakeadmin/framework': ^0.1.5
@@ -165,7 +165,7 @@ importers:
       '@vue/cli-plugin-router': 172.26.59.72+4873/@vue/cli-plugin-router/5.0.8
       '@vue/cli-plugin-typescript': 172.26.59.72+4873/@vue/cli-plugin-typescript/5.0.8
       '@vue/cli-service': 172.26.59.72+4873/@vue/cli-service/5.0.8_sass-loader@12.6.0
-      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.2
+      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/docker-build': 172.26.59.72+4873/@wakeadmin/docker-build/0.1.8
       '@wakeadmin/element-adapter': link:../adapter
       '@wakeadmin/vue-cli-plugin-i18n': 172.26.59.72+4873/@wakeadmin/vue-cli-plugin-i18n/0.1.1
@@ -3931,7 +3931,7 @@ packages:
     name: '@wakeadmin/assets'
     version: 0.1.3
     dependencies:
-      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.2
+      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.4
     transitivePeerDependencies:
       - lodash
@@ -3948,10 +3948,10 @@ packages:
       - lodash
     dev: true
 
-  172.26.59.72+4873/@wakeadmin/demi/0.2.2:
-    resolution: {integrity: sha512-mLy+dPOixID8nglccvOwKF4WauCsuak65FvA74mtCos34dNRY5KEhMBpx5PjRBi3ugXqjlT73ZHvwAO4w9AdHQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeadmin%2fdemi/-/demi-0.2.2.tgz}
+  172.26.59.72+4873/@wakeadmin/demi/0.2.3:
+    resolution: {integrity: sha512-qNgDWmjtuYUMD3DAmxw4V8Wz6ZlQx6OrMzwZraNR1SPasGwXMQ1D9RvIFBeeEp4ZMxY0jonzOVsD+R3x5SQOLw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeadmin%2fdemi/-/demi-0.2.3.tgz}
     name: '@wakeadmin/demi'
-    version: 0.2.2
+    version: 0.2.3
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
@@ -3969,7 +3969,7 @@ packages:
     name: '@wakeadmin/framework'
     version: 0.1.5
     dependencies:
-      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.2
+      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.11
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.4
       '@wakeapp/framework-core': 172.26.59.72+4873/@wakeapp/framework-core/0.4.0
@@ -3982,7 +3982,7 @@ packages:
     name: '@wakeadmin/h'
     version: 0.2.11
     dependencies:
-      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.2
+      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.4
     transitivePeerDependencies:
       - lodash
@@ -4013,7 +4013,7 @@ packages:
     name: '@wakeadmin/icons'
     version: 0.1.4
     dependencies:
-      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.2
+      '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/h': 172.26.59.72+4873/@wakeadmin/h/0.2.11
     transitivePeerDependencies:
       - lodash

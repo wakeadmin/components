@@ -7,7 +7,7 @@ import { FatTableColumn } from './types';
 
 export function validateColumns(columns?: FatTableColumn<any>[]) {
   if (columns == null) {
-    throw new Error(`[fat-table] 必须指定列`);
+    throw new Error(`[fat-table] 必须指定列 (columns)`);
   }
 
   for (let i = 0; i < columns.length; i++) {

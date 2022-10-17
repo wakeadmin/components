@@ -16,7 +16,7 @@
   "scripts": {
     "start": "tsc -b tsconfig.build.json --watch",
     "prebuild": "rimraf dist .tsBuildInfo",
-    "test": "vue-demi-switch 3 && wakeadmin-adapter-switch 3 && vitest",
+    "test": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 && vitest",
     "build": "npm run build:es && npm run build:common",
     "build:es": "tsc -b tsconfig.build.json",
     "build:common": "tsc -b tsconfig.build.common.json",
@@ -42,7 +42,7 @@
     }
   },
   "dependencies": {
-    "@wakeadmin/demi": "^0.2.2",
+    "@wakeadmin/demi": "^0.2.3",
     "@wakeadmin/element-adapter": "workspace:^0.3.0",
     "@wakeadmin/h": "^0.2.11",
     "@wakeadmin/icons": "^0.1.4",

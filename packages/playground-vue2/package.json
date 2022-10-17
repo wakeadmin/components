@@ -10,7 +10,7 @@
   },
   "browserslist": "Chrome 60",
   "scripts": {
-    "serve": "vue-demi-switch 2.7 vue2 && wakeadmin-adapter-switch 2 && vue-cli-service serve",
+    "serve": "wk-demi-switch 2.7 vue2 && wakeadmin-adapter-switch 2 && vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "inspect": "vue-cli-service inspect",
     "build": "vue-cli-service build",
@@ -33,7 +33,7 @@
     "@vue/cli-plugin-router": "~5.0.8",
     "@vue/cli-plugin-typescript": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
-    "@wakeadmin/demi": "^0.2.2",
+    "@wakeadmin/demi": "^0.2.3",
     "@wakeadmin/docker-build": "^0.1.8",
     "@wakeadmin/element-adapter": "workspace:^0.3.0",
     "@wakeadmin/vue-cli-plugin-i18n": "^0.1.1",
