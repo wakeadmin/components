@@ -28,7 +28,7 @@
     "build": "npm run build:es && npm run build:common",
     "build:es": "tsc --build tsconfig.json",
     "build:common": "tsc --build tsconfig.common.json",
-    "postbuild": "cpx \"src/**/*.+(scss|jpg|jpeg|gif|png|svg|css)\" ./dist",
+    "postbuild": "cpx \"src/**/*.+(scss|jpg|jpeg|gif|png|svg|css)\" ./dist && node ../../scripts/replace-export.js",
     "start": "tsc --build tsconfig.json --watch",
     "postinstall": "node ./scripts/postinstall.mjs"
   },
