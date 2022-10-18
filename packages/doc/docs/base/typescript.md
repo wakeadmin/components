@@ -420,3 +420,45 @@ module.exports = {
 <br>
 <br>
 <br>
+
+## 老项目中启用 TypeScript
+
+老项目(假设是 Vue 2)中也可以按照上文的配置开启 Typescript。有以下几个要点
+
+- 开启 `tsconfig.json` 的 allowJS, 而不是 checkJS。这表示允许和 Javascript 混用，但不检查 Javascript。如果开启 checkJS 可能有成吨的异常抛出来。
+- 如何扩展 Vue 的类型？比如全局方法、全局对象、全局组件等等。 Vue 2/3 定义方式有点区别，**这里展示 Vue 2 的使用方式**，你也可以参考相关的第三方库。以 vue-router 为例
+
+  扩展全局组件实例成员:
+
+  ```typescript
+  declare module 'vue/types/vue' {
+    interface Vue {
+      $router: VueRouter;
+      $route: Route;
+    }
+  }
+  ```
+
+  扩展 optional API
+
+  ```ts
+  declare module 'vue/types/options' {
+    interface ComponentOptions<V extends Vue> {
+      router?: VueRouter;
+      beforeRouteEnter?: NavigationGuard<V>;
+      beforeRouteLeave?: NavigationGuard<V>;
+      beforeRouteUpdate?: NavigationGuard<V>;
+    }
+  }
+  ```
+
+  扩展全局组件:
+
+  ```ts
+  declare module 'vue' {
+    export interface GlobalComponents {
+      RouterLink: typeof import('vue-router')['RouterLink'];
+      RouterView: typeof import('vue-router')['RouterView'];
+    }
+  }
+  ```

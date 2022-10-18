@@ -88,7 +88,7 @@
     console.log('submit', values);
   };
 
-  const handleFinish = (values: any, close: Function) => {
+  const handleFinish = (values: any) => {
     console.log('finish', values);
 
     close();

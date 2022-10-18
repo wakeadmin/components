@@ -184,7 +184,7 @@
   const formRef = useFatFormRef();
 
   const cascaderLazyProps = {
-    async load(node) {
+    async load(node?: string) {
       // root
       if (node == null) {
         return new Array(10).fill(0).map((i, idx) => ({

@@ -13,9 +13,13 @@
     "serve": "wk-demi-switch 2.7 vue2 && wakeadmin-adapter-switch 2 && vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "inspect": "vue-cli-service inspect",
+    "type-check": "wk-demi-switch 2.7 vue2 && wakeadmin-adapter-switch 2 && vue-tsc",
     "build": "vue-cli-service build",
     "build:docker": "node ./scripts/docker-build.js",
     "publish:docker": "node ./scripts/docker-publish.js"
+  },
+  "fork-ts-checker": {
+    "typescript": false
   },
   "dependencies": {
     "@wakeadmin/components": "workspace:1.0.0-alpha.4",
@@ -40,6 +44,7 @@
     "babel-preset-wakeadmin": "latest",
     "multer": "1.4.5-lts.1",
     "sass": "^1.55.0",
-    "sass-loader": "^12.6.0"
+    "sass-loader": "^12.6.0",
+    "vue-tsc": "^1.0.8"
   }
 }

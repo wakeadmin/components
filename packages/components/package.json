@@ -14,14 +14,15 @@
     "**/*.css"
   ],
   "scripts": {
-    "start": "tsc -b tsconfig.build.json --watch",
+    "switch": "wk-demi-switch 3 && wakeadmin-adapter-switch 3",
+    "start": "npm run switch && tsc -b tsconfig.build.json --watch",
     "prebuild": "rimraf dist .tsBuildInfo",
-    "test": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 && vitest",
-    "build": "npm run build:es && npm run build:common",
+    "test": "npm run switch && vitest",
+    "build": "npm run switch && npm run build:es && npm run build:common",
     "build:es": "tsc -b tsconfig.build.json",
     "build:common": "tsc -b tsconfig.build.common.json",
     "postbuild": "node ../../scripts/replace-export.js",
-    "type-check": "tsc"
+    "type-check": "npm run switch && tsc"
   },
   "keywords": [
     "wakeadmin",

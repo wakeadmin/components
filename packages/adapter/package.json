@@ -25,11 +25,12 @@
   ],
   "scripts": {
     "prebuild": "rimraf dist .tsBuildInfo",
-    "build": "npm run build:es && npm run build:common",
+    "build": "wk-demi-switch 3 && npm run build:es && npm run build:common",
     "build:es": "tsc --build tsconfig.json",
     "build:common": "tsc --build tsconfig.common.json",
     "postbuild": "cpx \"src/**/*.+(scss|jpg|jpeg|gif|png|svg|css)\" ./dist && node ../../scripts/replace-export.js",
-    "start": "tsc --build tsconfig.json --watch",
+    "start": "wk-demi-switch 3 && tsc --build tsconfig.json --watch",
+    "type-check": "wk-demi-switch 3 && tsc",
     "postinstall": "node ./scripts/postinstall.mjs"
   },
   "keywords": [],

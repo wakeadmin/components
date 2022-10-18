@@ -55,7 +55,7 @@
   </div>
 </template>
 
-<script lang="tsx" setup>
+<script lang="jsx" setup>
   import { ref } from 'vue';
   import { FatTable, FatSwitch } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
@@ -128,7 +128,7 @@
     {
       type: 'query',
       label: '值',
-      renderFormItem: (q: any) => {
+      renderFormItem: q => {
         return <span>{JSON.stringify(q)}</span>;
       },
     },

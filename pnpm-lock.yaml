@@ -150,6 +150,7 @@ importers:
       vue: ^2.7.13
       vue-i18n: ~8.27.2
       vue-router: ^3.6.5
+      vue-tsc: ^1.0.8
     dependencies:
       '@wakeadmin/components': link:../components
       '@wakeadmin/framework': 172.26.59.72+4873/@wakeadmin/framework/0.1.5
@@ -173,6 +174,7 @@ importers:
       multer: 172.26.59.72+4873/multer/1.4.5-lts.1
       sass: 172.26.59.72+4873/sass/1.55.0
       sass-loader: 172.26.59.72+4873/sass-loader/12.6.0_sass@1.55.0
+      vue-tsc: 172.26.59.72+4873/vue-tsc/1.0.8
 
   packages/playground-vue3:
     specifiers:
@@ -3179,6 +3181,56 @@ packages:
       vite: ^3.0.0
     dependencies:
       vite: 172.26.59.72+4873/vite/3.1.8
+    dev: true
+
+  172.26.59.72+4873/@volar/language-core/1.0.8:
+    resolution: {integrity: sha512-uxYSOqBk8ZFSzGjUIPOBEFPOg8F3CE6cLO5meK95DODGIlUlPytGiy9sy8QZ9w7RpUH4XMOX3MH/G48SLgP07A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@volar%2flanguage-core/-/language-core-1.0.8.tgz}
+    name: '@volar/language-core'
+    version: 1.0.8
+    dependencies:
+      '@volar/source-map': 172.26.59.72+4873/@volar/source-map/1.0.8
+      '@vue/reactivity': 172.26.59.72+4873/@vue/reactivity/3.2.41
+      muggle-string: 172.26.59.72+4873/muggle-string/0.1.0
+    dev: true
+
+  172.26.59.72+4873/@volar/source-map/1.0.8:
+    resolution: {integrity: sha512-uKMe+alyfl1Abs5SviKejFoe7x9g6jDPVpVt63Tet4qn1Ziy7tFsvtCpM2Y1Ko5qw2nLIeloLslPqm9/gmbBLQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@volar%2fsource-map/-/source-map-1.0.8.tgz}
+    name: '@volar/source-map'
+    version: 1.0.8
+    dependencies:
+      muggle-string: 172.26.59.72+4873/muggle-string/0.1.0
+    dev: true
+
+  172.26.59.72+4873/@volar/typescript/1.0.8:
+    resolution: {integrity: sha512-2oY1Apvzcs/5tAn7p1tRlDxNgal5ezaK0h9cutcWALeimsaQBAEE2NAirCrLMHl8DneuDce0tzJqHaQeHw9RmQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@volar%2ftypescript/-/typescript-1.0.8.tgz}
+    name: '@volar/typescript'
+    version: 1.0.8
+    dependencies:
+      '@volar/language-core': 172.26.59.72+4873/@volar/language-core/1.0.8
+    dev: true
+
+  172.26.59.72+4873/@volar/vue-language-core/1.0.8:
+    resolution: {integrity: sha512-cXb7oTybxcm1vpz003agdYQHyxij7UAaSub60d7W1aMWpqb2iaCbVaq9izgQFlrpC4/JnVs+cJPb/Q6fAUVxBg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@volar%2fvue-language-core/-/vue-language-core-1.0.8.tgz}
+    name: '@volar/vue-language-core'
+    version: 1.0.8
+    dependencies:
+      '@volar/language-core': 172.26.59.72+4873/@volar/language-core/1.0.8
+      '@volar/source-map': 172.26.59.72+4873/@volar/source-map/1.0.8
+      '@vue/compiler-dom': 172.26.59.72+4873/@vue/compiler-dom/3.2.41
+      '@vue/compiler-sfc': 172.26.59.72+4873/@vue/compiler-sfc/3.2.41
+      '@vue/reactivity': 172.26.59.72+4873/@vue/reactivity/3.2.41
+      '@vue/shared': 172.26.59.72+4873/@vue/shared/3.2.41
+      minimatch: 172.26.59.72+4873/minimatch/5.1.0
+      vue-template-compiler: 172.26.59.72+4873/vue-template-compiler/2.7.13
+    dev: true
+
+  172.26.59.72+4873/@volar/vue-typescript/1.0.8:
+    resolution: {integrity: sha512-6jBvA7iwBkRqS2VQx2gLJgfLcF3hcODyJ6Lmiw2tN8D/LVfFCovvzJgPvIQb9Y4i+rha1Y0cpsYOUt9XW2Z7ZA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@volar%2fvue-typescript/-/vue-typescript-1.0.8.tgz}
+    name: '@volar/vue-typescript'
+    version: 1.0.8
+    dependencies:
+      '@volar/typescript': 172.26.59.72+4873/@volar/typescript/1.0.8
+      '@volar/vue-language-core': 172.26.59.72+4873/@volar/vue-language-core/1.0.8
     dev: true
 
   172.26.59.72+4873/@vue/babel-helper-vue-jsx-merge-props/1.4.0:
@@ -11169,6 +11221,12 @@ packages:
     version: 2.1.3
     dev: true
 
+  172.26.59.72+4873/muggle-string/0.1.0:
+    resolution: {integrity: sha512-Tr1knR3d2mKvvWthlk7202rywKbiOm4rVFLsfAaSIhJ6dt9o47W4S+JMtWhd/PW9Wrdew2/S2fSvhz3E2gkfEg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/muggle-string/-/muggle-string-0.1.0.tgz}
+    name: muggle-string
+    version: 0.1.0
+    dev: true
+
   172.26.59.72+4873/multer/1.4.5-lts.1:
     resolution: {integrity: sha512-ywPWvcDMeH+z9gQq5qYHCCy+ethsk4goepZ45GLD63fOu0YcNecQxi64nDs3qluZB+murG3/D4dJ7+dGctcCQQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/multer/-/multer-1.4.5-lts.1.tgz}
     name: multer
@@ -15373,6 +15431,18 @@ packages:
     resolution: {integrity: sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz}
     name: vue-template-es2015-compiler
     version: 1.9.1
+    dev: true
+
+  172.26.59.72+4873/vue-tsc/1.0.8:
+    resolution: {integrity: sha512-+0sJ+QVH7SHLt8mV/uIw4xlHDk1mWigZkMFugfZTv8rlHpM3S2tCVZ0BWEGclT/0rKdO8j+St+mljpvhWPN/eQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/vue-tsc/-/vue-tsc-1.0.8.tgz}
+    name: vue-tsc
+    version: 1.0.8
+    hasBin: true
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      '@volar/vue-language-core': 172.26.59.72+4873/@volar/vue-language-core/1.0.8
+      '@volar/vue-typescript': 172.26.59.72+4873/@volar/vue-typescript/1.0.8
     dev: true
 
   172.26.59.72+4873/vue/2.7.13:
