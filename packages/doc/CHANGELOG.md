@@ -1,5 +1,11 @@
 # @wakeadmin/components-doc
 
+## 0.2.7
+
+### Patch Changes
+
+- 优化 Typescript 文档
+
 ## 0.2.6
 
 ### Patch Changes

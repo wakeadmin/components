@@ -1,9 +1,9 @@
 {
+  "version": "0.1.9",
   "name": "playground-vue3",
   "imageName": "wkfe/playground-vue3",
   "workload": "wakeadmin-playground-vue3",
   "private": true,
-  "version": "0.1.8",
   "description": "Wakeadmin 应用",
   "engines": {
     "node": ">=16.0.0"
@@ -18,7 +18,7 @@
     "publish:docker": "node ./scripts/docker-publish.js"
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:1.0.0-alpha.3",
+    "@wakeadmin/components": "workspace:1.0.0-alpha.4",
     "@wakeadmin/framework": "^0.1.5",
     "@wakeadmin/h": "^0.2.11",
     "core-js": "^3.25.5",

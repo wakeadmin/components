@@ -1,5 +1,17 @@
 # @wakeadmin/components
 
+## 1.0.0-alpha.4
+
+Bugs 修复：
+
+- 修复构建结果依赖于 `@vue/reactivity` 导致类型检查失败
+- FatContainer 不传递 title、extra 时支持隐藏 header
+- 修复 FatTable 在批操作之后选中状态显示异常的问题
+
+<br>
+<br>
+<br>
+
 ## 1.0.0-alpha.3
 
 ### 主要更新
