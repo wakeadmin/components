@@ -141,6 +141,7 @@ importers:
       '@wakeadmin/h': ^0.2.11
       '@wakeadmin/i18n-legacy': ^0.1.6
       '@wakeadmin/vue-cli-plugin-i18n': ^0.1.1
+      '@wakeadmin/vue-cli-plugin-typescript': ^0.1.0
       babel-preset-wakeadmin: latest
       core-js: ^3.25.5
       element-ui: latest
@@ -170,6 +171,7 @@ importers:
       '@wakeadmin/docker-build': 172.26.59.72+4873/@wakeadmin/docker-build/0.1.8
       '@wakeadmin/element-adapter': link:../adapter
       '@wakeadmin/vue-cli-plugin-i18n': 172.26.59.72+4873/@wakeadmin/vue-cli-plugin-i18n/0.1.1
+      '@wakeadmin/vue-cli-plugin-typescript': 172.26.59.72+4873/@wakeadmin/vue-cli-plugin-typescript/0.1.0
       babel-preset-wakeadmin: 172.26.59.72+4873/babel-preset-wakeadmin/0.1.1
       multer: 172.26.59.72+4873/multer/1.4.5-lts.1
       sass: 172.26.59.72+4873/sass/1.55.0
@@ -4128,6 +4130,17 @@ packages:
       - lodash
     dev: true
 
+  172.26.59.72+4873/@wakeadmin/vue-cli-plugin-typescript/0.1.0:
+    resolution: {integrity: sha512-wElx0Su+pYLAU8d9GszPXzKVbxYZtWmkZueEwoX9BAQHjQMJQY5TuJAFtoICOV+hvOZ/0uQYX9M0jweIT5HJPw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeadmin%2fvue-cli-plugin-typescript/-/vue-cli-plugin-typescript-0.1.0.tgz}
+    name: '@wakeadmin/vue-cli-plugin-typescript'
+    version: 0.1.0
+    dependencies:
+      esbuild-loader: 172.26.59.72+4873/esbuild-loader/2.20.0
+      json5: 172.26.59.72+4873/json5/2.2.1
+    transitivePeerDependencies:
+      - webpack
+    dev: true
+
   172.26.59.72+4873/@wakeapp/events/0.4.0:
     resolution: {integrity: sha512-+UH8RNDdRJZQh//S6iY6MzcePgsyLIzIZT9RBwn9vNp2T/3CzmOWpUJaG3ajW28QHCm6hO4UQQsBOb4IXSD2Zg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@wakeapp%2fevents/-/events-0.4.0.tgz}
     name: '@wakeapp/events'
@@ -7289,6 +7302,21 @@ packages:
     dev: true
     optional: true
 
+  172.26.59.72+4873/esbuild-loader/2.20.0:
+    resolution: {integrity: sha512-dr+j8O4w5RvqZ7I4PPB4EIyVTd679EBQnMm+JBB7av+vu05Zpje2IpK5N3ld1VWa+WxrInIbNFAg093+E1aRsA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/esbuild-loader/-/esbuild-loader-2.20.0.tgz}
+    name: esbuild-loader
+    version: 2.20.0
+    peerDependencies:
+      webpack: ^4.40.0 || ^5.0.0
+    dependencies:
+      esbuild: 172.26.59.72+4873/esbuild/0.15.11
+      joycon: 172.26.59.72+4873/joycon/3.1.1
+      json5: 172.26.59.72+4873/json5/2.2.1
+      loader-utils: 172.26.59.72+4873/loader-utils/2.0.2
+      tapable: 172.26.59.72+4873/tapable/2.2.1
+      webpack-sources: 172.26.59.72+4873/webpack-sources/2.3.1
+    dev: true
+
   172.26.59.72+4873/esbuild-netbsd-64/0.15.11:
     resolution: {integrity: sha512-hUC9yN06K9sg7ju4Vgu9ChAPdsEgtcrcLfyNT5IKwKyfpLvKUwCMZSdF+gRD3WpyZelgTQfJ+pDx5XFbXTlB0A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/esbuild-netbsd-64/-/esbuild-netbsd-64-0.15.11.tgz}
     name: esbuild-netbsd-64
@@ -10210,6 +10238,13 @@ packages:
       '@sideway/address': 172.26.59.72+4873/@sideway/address/4.1.4
       '@sideway/formula': 172.26.59.72+4873/@sideway/formula/3.0.0
       '@sideway/pinpoint': 172.26.59.72+4873/@sideway/pinpoint/2.0.0
+    dev: true
+
+  172.26.59.72+4873/joycon/3.1.1:
+    resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/joycon/-/joycon-3.1.1.tgz}
+    name: joycon
+    version: 3.1.1
+    engines: {node: '>=10'}
     dev: true
 
   172.26.59.72+4873/jpegtran-bin/5.0.2:
@@ -13909,6 +13944,12 @@ packages:
     dev: true
     optional: true
 
+  172.26.59.72+4873/source-list-map/2.0.1:
+    resolution: {integrity: sha1-OZO9hzv8SEecyp6jpUeDXHwVSzQ=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/source-list-map/-/source-list-map-2.0.1.tgz}
+    name: source-list-map
+    version: 2.0.1
+    dev: true
+
   172.26.59.72+4873/source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/source-map-js/-/source-map-js-1.0.2.tgz}
     name: source-map-js
@@ -15603,6 +15644,16 @@ packages:
     dependencies:
       clone-deep: 172.26.59.72+4873/clone-deep/4.0.1
       wildcard: 172.26.59.72+4873/wildcard/2.0.0
+    dev: true
+
+  172.26.59.72+4873/webpack-sources/2.3.1:
+    resolution: {integrity: sha1-Vw3grxY5Sf4nIjPCzv4bVvdFEf0=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/webpack-sources/-/webpack-sources-2.3.1.tgz}
+    name: webpack-sources
+    version: 2.3.1
+    engines: {node: '>=10.13.0'}
+    dependencies:
+      source-list-map: 172.26.59.72+4873/source-list-map/2.0.1
+      source-map: 172.26.59.72+4873/source-map/0.6.1
     dev: true
 
   172.26.59.72+4873/webpack-sources/3.2.3:

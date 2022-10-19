@@ -9,8 +9,10 @@
       inactive-text="off"
     ></FatSwitch>
     <FatSwitch v-model="active" active-text="ok" inactive-text="off" inline-prompt></FatSwitch>
+    <FatSwitch v-model="active" active-text="开启" inactive-text="另外三个字" inline-prompt></FatSwitch>
     <FatSwitch v-model="active" active-text="ok" inactive-text="off" inline-prompt loading></FatSwitch>
-    <FatSwitch v-model="active" inline-prompt size="small"></FatSwitch>
+    <FatSwitch v-model="active" size="small"></FatSwitch>
+    <FatSwitch v-model="active" inline-prompt active-text="开启" inactive-text="另外三个字" size="small"></FatSwitch>
     <FatSwitch
       v-model="active"
       active-color="red"

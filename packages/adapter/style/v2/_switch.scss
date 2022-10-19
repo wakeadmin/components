@@ -41,6 +41,16 @@ $switch-core-width: map.merge(
   $switch-core-width
 );
 
+// 内联文本的长度
+$switch-core-width-prompt: () !default;
+$switch-core-width-prompt: map.merge(
+  (
+    'default': 52px,
+    'small': 46px,
+  ),
+  $switch-core-width-prompt
+);
+
 $switch-core-height: () !default;
 $switch-core-height: map.merge(
   (
@@ -189,6 +199,10 @@ $switch-label-on-color: getCSSVar(ad-switch-label-on-color, var(--ad-switch-on-c
     }
   }
 
+  &--inline-prompt .ad-switch__core {
+    width: map.get($switch-core-width-prompt, 'default');
+  }
+
   &--checked {
     .ad-switch__core {
       border-color: var(--ad-switch-border-color, #{$switch-on-color});
@@ -258,6 +272,12 @@ $switch-label-on-color: getCSSVar(ad-switch-label-on-color, var(--ad-switch-on-c
           .ad-switch__inner {
             margin-left: calc(-1px - #{map.get($switch-button-size, $size)});
           }
+        }
+      }
+
+      &.ad-switch--inline-prompt {
+        .ad-switch__core {
+          width: map.get($switch-core-width-prompt, $size);
         }
       }
     }

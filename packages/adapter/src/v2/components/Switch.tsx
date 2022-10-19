@@ -108,6 +108,7 @@ export const Switch = defineComponent({
       {
         'ad-switch--disabled': switchDisabled.value,
         'ad-switch--checked': checked.value,
+        'ad-switch--inline-prompt': props.inlinePrompt && (props.activeText || props.inactiveText),
         [`ad-switch--${size.value}`]: size.value,
       },
     ]);
