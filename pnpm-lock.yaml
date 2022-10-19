@@ -131,7 +131,6 @@ importers:
     specifiers:
       '@vue/cli-plugin-babel': ~5.0.8
       '@vue/cli-plugin-router': ~5.0.8
-      '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/components': workspace:1.0.0-alpha.4
       '@wakeadmin/demi': ^0.2.3
@@ -165,7 +164,6 @@ importers:
     devDependencies:
       '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@2.7.13
       '@vue/cli-plugin-router': 172.26.59.72+4873/@vue/cli-plugin-router/5.0.8
-      '@vue/cli-plugin-typescript': 172.26.59.72+4873/@vue/cli-plugin-typescript/5.0.8
       '@vue/cli-service': 172.26.59.72+4873/@vue/cli-service/5.0.8_sass-loader@12.6.0
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
       '@wakeadmin/docker-build': 172.26.59.72+4873/@wakeadmin/docker-build/0.1.8
@@ -182,7 +180,6 @@ importers:
     specifiers:
       '@vue/cli-plugin-babel': ~5.0.8
       '@vue/cli-plugin-router': ~5.0.8
-      '@vue/cli-plugin-typescript': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/bay': ^0.6.2
       '@wakeadmin/components': workspace:1.0.0-alpha.4
@@ -191,6 +188,7 @@ importers:
       '@wakeadmin/h': ^0.2.11
       '@wakeadmin/vue-cli-plugin-i18n': ^0.1.1
       '@wakeadmin/vue-cli-plugin-mapp-child': ^0.4.3
+      '@wakeadmin/vue-cli-plugin-typescript': ^0.1.0
       babel-preset-wakeadmin: latest
       core-js: ^3.25.5
       element-plus: ^2.2.18
@@ -209,12 +207,12 @@ importers:
     devDependencies:
       '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@3.2.41
       '@vue/cli-plugin-router': 172.26.59.72+4873/@vue/cli-plugin-router/5.0.8
-      '@vue/cli-plugin-typescript': 172.26.59.72+4873/@vue/cli-plugin-typescript/5.0.8
       '@vue/cli-service': 172.26.59.72+4873/@vue/cli-service/5.0.8_sass-loader@12.6.0
       '@wakeadmin/bay': 172.26.59.72+4873/@wakeadmin/bay/0.6.2
       '@wakeadmin/docker-build': 172.26.59.72+4873/@wakeadmin/docker-build/0.1.8
       '@wakeadmin/vue-cli-plugin-i18n': 172.26.59.72+4873/@wakeadmin/vue-cli-plugin-i18n/0.1.1
       '@wakeadmin/vue-cli-plugin-mapp-child': 172.26.59.72+4873/@wakeadmin/vue-cli-plugin-mapp-child/0.4.3
+      '@wakeadmin/vue-cli-plugin-typescript': 172.26.59.72+4873/@wakeadmin/vue-cli-plugin-typescript/0.1.0
       babel-preset-wakeadmin: 172.26.59.72+4873/babel-preset-wakeadmin/0.1.1
       sass: 172.26.59.72+4873/sass/1.55.0
       sass-loader: 172.26.59.72+4873/sass-loader/12.6.0_sass@1.55.0
@@ -2402,7 +2400,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 172.26.59.72+4873/@types/istanbul-lib-coverage/2.0.4
       '@types/istanbul-reports': 172.26.59.72+4873/@types/istanbul-reports/3.0.1
-      '@types/node': 172.26.59.72+4873/@types/node/17.0.45
+      '@types/node': 172.26.59.72+4873/@types/node/18.11.0
       '@types/yargs': 172.26.59.72+4873/@types/yargs/15.0.14
       chalk: 172.26.59.72+4873/chalk/4.1.2
     dev: true
@@ -2996,12 +2994,6 @@ packages:
     name: '@types/web-bluetooth'
     version: 0.0.16
 
-  172.26.59.72+4873/@types/webpack-env/1.18.0:
-    resolution: {integrity: sha512-56/MAlX5WMsPVbOg7tAxnYvNYMMWr/QJiIp6BxVSW3JJXUVzzOn64qW8TzQyMSqSUFM2+PVI4aUHcHOzIz/1tg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@types%2fwebpack-env/-/webpack-env-1.18.0.tgz}
-    name: '@types/webpack-env'
-    version: 1.18.0
-    dev: true
-
   172.26.59.72+4873/@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@types%2fws/-/ws-8.5.3.tgz}
     name: '@types/ws'
@@ -3537,39 +3529,6 @@ packages:
       '@vue/cli-shared-utils': 172.26.59.72+4873/@vue/cli-shared-utils/5.0.8
     transitivePeerDependencies:
       - encoding
-    dev: true
-
-  172.26.59.72+4873/@vue/cli-plugin-typescript/5.0.8:
-    resolution: {integrity: sha512-JKJOwzJshBqsmp4yLBexwVMebOZ4VGJgbnYvmHVxasJOStF2RxwyW28ZF+zIvASGdat4sAUuo/3mAQyVhm7JHg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcli-plugin-typescript/-/cli-plugin-typescript-5.0.8.tgz}
-    name: '@vue/cli-plugin-typescript'
-    version: 5.0.8
-    peerDependencies:
-      cache-loader: ^4.1.0
-      typescript: '>=2'
-      vue-template-compiler: '*'
-    peerDependenciesMeta:
-      cache-loader:
-        optional: true
-      vue-template-compiler:
-        optional: true
-    dependencies:
-      '@babel/core': 172.26.59.72+4873/@babel/core/7.19.3
-      '@types/webpack-env': 172.26.59.72+4873/@types/webpack-env/1.18.0
-      '@vue/cli-shared-utils': 172.26.59.72+4873/@vue/cli-shared-utils/5.0.8
-      babel-loader: 172.26.59.72+4873/babel-loader/8.2.5_wfdvla2jorjoj23kkavho2upde
-      fork-ts-checker-webpack-plugin: 172.26.59.72+4873/fork-ts-checker-webpack-plugin/6.5.2_webpack@5.74.0
-      globby: 172.26.59.72+4873/globby/11.1.0
-      thread-loader: 172.26.59.72+4873/thread-loader/3.0.4_webpack@5.74.0
-      ts-loader: 172.26.59.72+4873/ts-loader/9.4.1_webpack@5.74.0
-      webpack: 172.26.59.72+4873/webpack/5.74.0
-    transitivePeerDependencies:
-      - '@swc/core'
-      - encoding
-      - esbuild
-      - eslint
-      - supports-color
-      - uglify-js
-      - webpack-cli
     dev: true
 
   172.26.59.72+4873/@vue/cli-plugin-vuex/5.0.8:
@@ -6182,19 +6141,6 @@ packages:
     version: 1.0.3
     dev: true
 
-  172.26.59.72+4873/cosmiconfig/6.0.0:
-    resolution: {integrity: sha1-2k/uhTxS9rHmk19BwaL8UL1KmYI=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/cosmiconfig/-/cosmiconfig-6.0.0.tgz}
-    name: cosmiconfig
-    version: 6.0.0
-    engines: {node: '>=8'}
-    dependencies:
-      '@types/parse-json': 172.26.59.72+4873/@types/parse-json/4.0.0
-      import-fresh: 172.26.59.72+4873/import-fresh/3.3.0
-      parse-json: 172.26.59.72+4873/parse-json/5.2.0
-      path-type: 172.26.59.72+4873/path-type/4.0.0
-      yaml: 172.26.59.72+4873/yaml/1.10.2
-    dev: true
-
   172.26.59.72+4873/cosmiconfig/7.0.1:
     resolution: {integrity: sha1-cU11ZSLKzoZ4Z8y0R0xdAbuuXW0=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/cosmiconfig/-/cosmiconfig-7.0.1.tgz}
     name: cosmiconfig
@@ -6679,13 +6625,6 @@ packages:
     name: deepmerge
     version: 1.5.2
     engines: {node: '>=0.10.0'}
-
-  172.26.59.72+4873/deepmerge/4.2.2:
-    resolution: {integrity: sha1-RNLqNnm49NT/ujPwPYZfwee/SVU=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/deepmerge/-/deepmerge-4.2.2.tgz}
-    name: deepmerge
-    version: 4.2.2
-    engines: {node: '>=0.10.0'}
-    dev: true
 
   172.26.59.72+4873/default-gateway/6.0.3:
     resolution: {integrity: sha1-gZSUyIgFO9t0PtvzQ9bN9/KUOnE=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/default-gateway/-/default-gateway-6.0.3.tgz}
@@ -8536,39 +8475,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       for-in: 172.26.59.72+4873/for-in/1.0.2
-    dev: true
-
-  172.26.59.72+4873/fork-ts-checker-webpack-plugin/6.5.2_webpack@5.74.0:
-    resolution: {integrity: sha512-m5cUmF30xkZ7h4tWUgTAcEaKmUW7tfyUyTqNNOz7OxWJ0v1VWKTcOvH8FWHUwSjlW/356Ijc9vi3XfcPstpQKA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-6.5.2.tgz}
-    id: 172.26.59.72+4873/fork-ts-checker-webpack-plugin/6.5.2
-    name: fork-ts-checker-webpack-plugin
-    version: 6.5.2
-    engines: {node: '>=10', yarn: '>=1.0.0'}
-    peerDependencies:
-      eslint: '>= 6'
-      typescript: '>= 2.7'
-      vue-template-compiler: '*'
-      webpack: '>= 4'
-    peerDependenciesMeta:
-      eslint:
-        optional: true
-      vue-template-compiler:
-        optional: true
-    dependencies:
-      '@babel/code-frame': 172.26.59.72+4873/@babel/code-frame/7.18.6
-      '@types/json-schema': 172.26.59.72+4873/@types/json-schema/7.0.11
-      chalk: 172.26.59.72+4873/chalk/4.1.2
-      chokidar: 172.26.59.72+4873/chokidar/3.5.3
-      cosmiconfig: 172.26.59.72+4873/cosmiconfig/6.0.0
-      deepmerge: 172.26.59.72+4873/deepmerge/4.2.2
-      fs-extra: 172.26.59.72+4873/fs-extra/9.1.0
-      glob: 172.26.59.72+4873/glob/7.2.3
-      memfs: 172.26.59.72+4873/memfs/3.4.7
-      minimatch: 172.26.59.72+4873/minimatch/3.1.2
-      schema-utils: 172.26.59.72+4873/schema-utils/2.7.0
-      semver: 172.26.59.72+4873/semver/7.3.8
-      tapable: 172.26.59.72+4873/tapable/1.1.3
-      webpack: 172.26.59.72+4873/webpack/5.74.0
     dev: true
 
   172.26.59.72+4873/forwarded/0.2.0:
@@ -13526,17 +13432,6 @@ packages:
       source-map-js: 172.26.59.72+4873/source-map-js/1.0.2
     dev: true
 
-  172.26.59.72+4873/schema-utils/2.7.0:
-    resolution: {integrity: sha1-FxUfdtjq5n+793lgwzxnatn078c=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/schema-utils/-/schema-utils-2.7.0.tgz}
-    name: schema-utils
-    version: 2.7.0
-    engines: {node: '>= 8.9.0'}
-    dependencies:
-      '@types/json-schema': 172.26.59.72+4873/@types/json-schema/7.0.11
-      ajv: 172.26.59.72+4873/ajv/6.12.6
-      ajv-keywords: 172.26.59.72+4873/ajv-keywords/3.5.2_ajv@6.12.6
-    dev: true
-
   172.26.59.72+4873/schema-utils/2.7.1:
     resolution: {integrity: sha1-HKTzLRskxZDCA7jnpQvw6kzTlNc=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/schema-utils/-/schema-utils-2.7.1.tgz}
     name: schema-utils
@@ -14482,13 +14377,6 @@ packages:
       strip-ansi: 172.26.59.72+4873/strip-ansi/6.0.1
     dev: true
 
-  172.26.59.72+4873/tapable/1.1.3:
-    resolution: {integrity: sha1-ofzMBrWNth/XpF2i2kT186Pme6I=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/tapable/-/tapable-1.1.3.tgz}
-    name: tapable
-    version: 1.1.3
-    engines: {node: '>=6'}
-    dev: true
-
   172.26.59.72+4873/tapable/2.2.1:
     resolution: {integrity: sha1-GWenPvQGCoLxKrlq+G1S/bdu7KA=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/tapable/-/tapable-2.2.1.tgz}
     name: tapable
@@ -14793,23 +14681,6 @@ packages:
       escape-string-regexp: 172.26.59.72+4873/escape-string-regexp/1.0.5
     dev: true
     optional: true
-
-  172.26.59.72+4873/ts-loader/9.4.1_webpack@5.74.0:
-    resolution: {integrity: sha512-384TYAqGs70rn9F0VBnh6BPTfhga7yFNdC5gXbQpDrBj9/KsT4iRkGqKXhziofHOlE2j6YEaiTYVGKKvPhGWvw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/ts-loader/-/ts-loader-9.4.1.tgz}
-    id: 172.26.59.72+4873/ts-loader/9.4.1
-    name: ts-loader
-    version: 9.4.1
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      typescript: '*'
-      webpack: ^5.0.0
-    dependencies:
-      chalk: 172.26.59.72+4873/chalk/4.1.2
-      enhanced-resolve: 172.26.59.72+4873/enhanced-resolve/5.10.0
-      micromatch: 172.26.59.72+4873/micromatch/4.0.5
-      semver: 172.26.59.72+4873/semver/7.3.8
-      webpack: 172.26.59.72+4873/webpack/5.74.0
-    dev: true
 
   172.26.59.72+4873/tsconfig-paths/3.14.1:
     resolution: {integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/tsconfig-paths/-/tsconfig-paths-3.14.1.tgz}

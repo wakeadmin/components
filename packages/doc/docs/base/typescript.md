@@ -42,26 +42,14 @@ $ pnpm up -r -L \"@wakeadmin/*\"
 
 首先根据你使用的构建工具，配置相关的 Typescript 构建支持：
 
-- `Vue CLI`: 安装 [`@vue/cli-plugin-typescript`](https://cli.vuejs.org/core-plugins/typescript.html)
-- `Vite`: [内置支持转换](https://vitejs.dev/guide/features.html#typescript), 但是类型检查需要借助 vue-tsc
+- `Vite`: [内置支持转换](https://vitejs.dev/guide/features.html#typescript), 但是类型检查需要借助 `vue-tsc`
+- `Vue CLI`: 卸载掉 [`@vue/cli-plugin-typescript`](https://cli.vuejs.org/core-plugins/typescript.html), 并安装 `@wakeadmin/vue-cli-plugin-typescript`。这个插件底层基于 `esbuild` 进行编译，**不会进行类型检查**, 因此还是需要借助 `vue-tsx`, 详见[下文](#开启类型检查)。
 
 <br>
 <br>
-
-::: danger 💥 **如果使用了 `@vue/cli-plugin-typescript` 插件，请关闭掉 [`fork-ts-checker-webpack-plugin`](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/tree/6.5.x)**:
-
-编辑 `package.json`:
-
-```json
-{
-  "fork-ts-checker": {
-    "typescript": false
-  }
-}
-```
-
 <br>
-<br>
+
+::: danger 💥 不推荐使用 `@vue/cli-plugin-typescript` 插件:
 
 为什么不使用它？ [**Vue 官方也不推荐使用它**](https://vuejs.org/guide/typescript/overview.html#note-on-vue-cli-and-ts-loader)。一个比较重要的问题是，它的执行结果未必和 IDE 一致，异常也很难排查。性能也较差、无法同 vue-tsc 一样真正检查 `*.vue` 文件。
 
