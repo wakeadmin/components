@@ -277,7 +277,7 @@ export const FatActions = declareComponent({
               class="fat-actions__dropdown"
               v-slots={{
                 dropdown: (
-                  <DropdownMenu class="fat-actions__menu">
+                  <DropdownMenu class="fat-actions__menu fat-actions__dropdown-menu">
                     {moreList.value.map((i, idx) => {
                       return (
                         <FatActionInner

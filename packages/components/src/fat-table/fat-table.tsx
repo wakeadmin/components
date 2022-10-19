@@ -796,7 +796,12 @@ export const FatTable = declareComponent({
 
       // 注入选择行
       if (props.enableSelect && !isSelectionColumnDefined) {
-        columns.unshift({ type: 'selection', width: '80', selectable: props.selectable });
+        columns.unshift({
+          type: 'selection',
+          width: '16',
+          selectable: props.selectable,
+          className: 'fat-table__selection-cell',
+        });
       }
 
       return layoutImpl({
