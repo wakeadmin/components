@@ -165,3 +165,17 @@ export type GetAtomicProps<Type extends keyof AtomicProps | Atomic> = Type exten
   : Type extends Atomic<any, infer B>
   ? B
   : Record<string, any>;
+
+/**
+ * 组合所有内置原件属性
+ * 实验性。Typescript 支持不是很好，暂时不能用
+ */
+export type WithAtomics<Share extends {}> = keyof {
+  // @ts-expect-error
+  [A in keyof AtomicProps as A extends 'text'
+    ? { valueType?: 'text' | undefined; valueProps?: AtomicProps['text'] } & Share
+    : {
+        valueType: A;
+        valueProps?: AtomicProps[A];
+      } & Share]: any;
+};

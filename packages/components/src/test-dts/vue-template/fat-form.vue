@@ -6,9 +6,15 @@
       <FatFormGroup label="x">
         <template #label="scope">{{ expectType<FatFormMethods<any>>(scope) }}</template>
       </FatFormGroup>
-      <FatFormItem prop="sample">
+      <FatFormItem prop="sample" :value-props="{
+        // @ts-expect-error volar 暂时不支持推断
+        renderPreview(v) { expectType<string | undefined>(v) }
+      }">
         <template #label="scope">{{ expectType<FatFormItemMethods<any>>(scope) }}</template>
       </FatFormItem>
+      <FatFormItem prop="radio" value-type="checkbox" :value-props="{
+        // @ts-expect-error volar 暂时不支持推断
+        label: (a) => { expectType<boolean>(a) }}" ></FatFormItem>
     </FatForm>
   </div>
 </template>

@@ -1,5 +1,5 @@
 import { Radio, RadioGroup, RadioGroupProps, model, RadioButton } from '@wakeadmin/element-adapter';
-import { computed } from '@wakeadmin/demi';
+import { computed, VNodeChild } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
@@ -7,7 +7,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 
 export interface ARadioOption {
   value: any;
-  label: any;
+  label: VNodeChild | ((checked: boolean) => VNodeChild);
   disabled?: boolean;
 }
 
@@ -55,7 +55,11 @@ export const ARadioComponent = defineAtomicComponent(
           renderPreview(active.value)
         ) : (
           <span class={other.class} style={other.style}>
-            {active.value ? active.value.label : configurable.undefinedPlaceholder}
+            {active.value
+              ? typeof active.value.label === 'function'
+                ? active.value.label(true)
+                : active.value.label
+              : configurable.undefinedPlaceholder}
           </span>
         );
       }
@@ -67,7 +71,7 @@ export const ARadioComponent = defineAtomicComponent(
           {(options ?? NoopArray).map((i, idx) => {
             return (
               <Child label={i.value} disabled={i.disabled} key={i.value ?? idx}>
-                {i.label}
+                {typeof i.label !== 'function' ? i.label : i.label(active.value === i)}
               </Child>
             );
           })}

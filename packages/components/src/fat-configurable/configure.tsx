@@ -38,7 +38,9 @@ export function provideFatConfigurable(config: MaybeRef<FatConfigurable>) {
     { deep: true, immediate: true }
   );
 
-  provide(FatConfigureInjectKey, value);
+  // FIXME: 这里会报错:  Type instantiation is excessively deep and possibly infinite
+  // 因此暂时断言为 any
+  provide(FatConfigureInjectKey as any, value);
 }
 
 /**

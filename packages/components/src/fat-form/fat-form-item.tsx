@@ -21,6 +21,7 @@ import {
   takeString,
   filterStringByTrim,
   filterStringByRegexp,
+  // OurDefineComponent,
 } from '../utils';
 
 export const FatFormItem = declareComponent({
@@ -491,3 +492,17 @@ export const FatFormItem = declareComponent({
     };
   },
 });
+
+// FIXME: volar 暂时不支持泛型
+// export const FatFormItem = FatFormItemInner as {
+//   // eslint-disable-next-line @typescript-eslint/prefer-function-type
+//   new <
+//     Store extends {} = any,
+//     ValueType extends keyof AtomicProps | Atomic = 'text',
+//     Request extends {} = Store
+//   >(): OurDefineComponent<
+//     FatFormItemProps<Store, ValueType, Request>,
+//     FatFormItemSlots<Store>,
+//     FatFormItemMethods<Store>
+//   >;
+// };

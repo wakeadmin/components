@@ -79,6 +79,18 @@
         }"
       />
       <FatFormItem
+        prop="radio"
+        label="radio"
+        value-type="radio"
+        :value-props="{
+          options: [
+            // @ts-expect-error
+            { label: a => `是${a ? '谢谢' : ''}`, value: 1 },
+            { label: '否', value: 0 },
+          ],
+        }"
+      />
+      <FatFormItem
         prop="radioInButton"
         label="radioInButton"
         value-type="radio"
@@ -99,6 +111,18 @@
         :value-props="{
           options: [
             { label: '选我', value: 1 },
+            { label: '选我啊', value: 0 },
+          ],
+        }"
+      />
+      <FatFormItem
+        prop="checkboxs"
+        label="checkboxs"
+        value-type="checkboxs"
+        :value-props="{
+          options: [
+            // @ts-expect-error
+            { label: a => `选我${a ? '谢谢' : ''}`, value: 1 },
             { label: '选我啊', value: 0 },
           ],
         }"

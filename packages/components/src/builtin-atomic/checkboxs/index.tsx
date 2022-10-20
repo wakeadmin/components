@@ -1,6 +1,6 @@
 import { Checkbox, CheckboxGroup, CheckboxGroupProps, model } from '@wakeadmin/element-adapter';
-import { computed } from '@wakeadmin/demi';
-import { NoopArray, booleanPredicate } from '@wakeadmin/utils';
+import { computed, VNodeChild } from '@wakeadmin/demi';
+import { NoopArray, booleanPredicate, arrayJoin } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
@@ -8,7 +8,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 export type ACheckboxsValue = any[];
 
 export interface ACheckboxsOption {
-  label: string;
+  label: VNodeChild | ((checked: boolean) => VNodeChild);
   value: any;
   disabled?: boolean;
 }
@@ -22,7 +22,7 @@ export type ACheckboxsProps = DefineAtomicProps<
     /**
      * 分隔符，默认', '
      */
-    separator?: string;
+    separator?: VNodeChild;
 
     /**
      * 自定义预览
@@ -70,7 +70,10 @@ export const ACheckboxsComponent = defineAtomicComponent(
         ) : (
           <span class={other.class} style={other.style}>
             {checkedOptions.value.length
-              ? checkedOptions.value.map(i => i.label).join(separator)
+              ? arrayJoin(
+                  checkedOptions.value.map(i => (typeof i.label === 'function' ? i.label(true) : i.label)),
+                  separator
+                )
               : configurable.undefinedPlaceholder}
           </span>
         );
@@ -81,7 +84,7 @@ export const ACheckboxsComponent = defineAtomicComponent(
           {options.map((i, idx) => {
             return (
               <Checkbox key={`${i.label}_${idx}`} label={i.value} disabled={i.disabled}>
-                {i.label}
+                {typeof i.label !== 'function' ? i.label : i.label(checkedOptions.value.includes(i))}
               </Checkbox>
             );
           })}

@@ -1,20 +1,16 @@
+import { VNodeChild, computed } from '@wakeadmin/demi';
 import { Checkbox, CheckboxProps, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 export type ACheckboxProps = DefineAtomicProps<
   boolean,
-  CheckboxProps,
+  Omit<CheckboxProps, 'label'>,
   {
     /**
      * 标签
      */
-    label?: string;
-
-    /**
-     * 自定义标签渲染
-     */
-    renderLabel?: (value: boolean) => any;
+    label?: VNodeChild | ((active: boolean) => VNodeChild);
 
     /**
      * 自定义渲染预览
@@ -40,28 +36,33 @@ declare global {
 
 export const ACheckboxComponent = defineAtomicComponent(
   (props: ACheckboxProps) => {
+    const labelContent = computed(() => {
+      const checked = !!props.value;
+
+      return typeof props.label === 'function' ? props.label(checked) : props.label;
+    });
+
     return () => {
-      const { mode, scene, context, value, onChange, renderPreview, renderLabel, label, ...other } = props;
+      const { mode, scene, context, value, onChange, renderPreview, label, ...other } = props;
       const checked = !!value;
 
-      const labelContent = renderLabel ? renderLabel(checked) : label;
       if (mode === 'preview') {
         const checkedText = other.previewActiveText ?? '开启';
         const uncheckedText = other.previewInactiveText ?? '关闭';
 
         return renderPreview ? (
-          renderPreview(checked, labelContent)
+          renderPreview(checked, labelContent.value)
         ) : (
           <span>
             {checked ? checkedText : uncheckedText}
-            {labelContent}
+            {labelContent.value}
           </span>
         );
       }
 
       return (
         <Checkbox {...other} {...model(value, onChange!)}>
-          {labelContent}
+          {labelContent.value}
         </Checkbox>
       );
     };

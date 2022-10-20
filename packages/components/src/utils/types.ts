@@ -1,3 +1,5 @@
+import { Ref } from '@wakeadmin/demi';
+
 /**
  * 选择 _ 开始的属性
  */
@@ -56,6 +58,19 @@ export interface ToVolarSlotDefinition<T extends {}> {
    * @private Volar 用于推断插槽类型
    */
   $slots: TransformRenderFunctionToSlotDefinition<Required<T>>;
+}
+
+/**
+ * 自定义 DefineComponent 声明
+ * Slots 采用 render* 形式声明
+ */
+export interface OurDefineComponent<Props extends {}, Slots extends {}, Expose = any>
+  extends ToVolarSlotDefinition<Slots> {
+  $props: Props & {
+    // 兼容 h 的 slots 写法
+    'v-slots'?: Partial<TransformRenderFunctionToSlotDefinition<Required<Slots>>>;
+    ref?: Ref<Expose | Expose[]> | string;
+  };
 }
 
 type UnionToIntersection<Union> = (Union extends any ? (arg: Union) => void : never) extends (arg: infer I) => void

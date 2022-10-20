@@ -9,7 +9,7 @@ export type ATextProps = DefineAtomicProps<
   string,
   InputProps,
   {
-    renderPreview?: (value: any) => any;
+    renderPreview?: (value?: string) => any;
   } & FatTextOwnProps
 >;
 
