@@ -3,7 +3,7 @@ import { declareComponent, declareEmits, declareProps, declareSlots } from '@wak
 import { ref, watch } from '@wakeadmin/demi';
 import { NoopObject } from '@wakeadmin/utils';
 
-import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
+import { FatFormMethods, FatFormBaseProps, FatFormSlots, FatForm, FatFormEvents } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import {
   forwardExpose,
@@ -30,9 +30,7 @@ export interface FatFormDrawerMethods<Store extends {}> extends FatFormMethods<S
   close(): void;
 }
 
-export const FatFormDrawerMethodKeys = [...FatFormPublicMethodKeys, 'open', 'close'];
-
-export interface FatFormDrawerSlots<S extends {}> {
+export interface FatFormDrawerSlots<S extends {}> extends FatFormSlots<S> {
   /**
    * 渲染标题
    */
@@ -44,7 +42,8 @@ export interface FatFormDrawerSlots<S extends {}> {
   renderFooter?: (instance: FatFormDrawerMethods<S>, buttons: () => any) => any;
 }
 
-export interface FatFormDrawerEvents<S extends {}> {
+export interface FatFormDrawerEvents<Store extends {}, Submit extends {} = Store>
+  extends Omit<FatFormEvents<Store, Submit>, 'onFinish'> {
   /**
    * 可视状态变动
    */
@@ -58,13 +57,13 @@ export interface FatFormDrawerEvents<S extends {}> {
   /**
    * 保存成功
    */
-  onFinish?: (values: S) => void;
+  onFinish?: (values: Store) => void;
 }
 
 export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
   extends Omit<DrawerProps, 'modelValue' | 'onUpdate:modelValue' | 'beforeClose' | 'size'>,
-    FatFormDrawerEvents<Store>,
-    Omit<FatFormProps<Store, Request, Submit>, 'onFinish'>,
+    FatFormDrawerEvents<Store, Submit>,
+    FatFormBaseProps<Store, Request, Submit>,
     FatFormDrawerSlots<Store> {
   /**
    * 受控显示, 你也可以使用 open 实例方法
@@ -102,6 +101,8 @@ export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store
   beforeFinish?: (done: () => void) => void;
 }
 
+export const FatFormDrawerMethodKeys = [...FatFormPublicMethodKeys, 'open', 'close'];
+
 /**
  * 实例引用 hook
  */
@@ -111,7 +112,8 @@ export function useFatFormDrawerRef<Store extends {}>() {
 
 export const FatFormDrawer = declareComponent({
   name: 'FatFormDrawer',
-  props: declareProps<Omit<FatFormDrawerProps<any>, keyof FatFormDrawerEvents<any>>>({
+  // NOTE: 这里要注意，不止这里定义的所有字段都可以通过 props 访问，只有下面函数参数中声明的 props 才支持
+  props: declareProps<FatFormDrawerProps<any>>({
     visible: Boolean,
     drawerSize: null,
     enableSubmitter: { type: Boolean, default: true },

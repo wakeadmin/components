@@ -3,7 +3,7 @@ import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
 
 import { FatFormDefineHelpers, FatFormChild, useFatFormDefineUtils } from '../fat-form';
-import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import {
   FatFormDrawer,
@@ -11,6 +11,8 @@ import {
   FatFormDrawerMethods,
   FatFormDrawerMethodKeys,
   useFatFormDrawerRef,
+  FatFormDrawerSlots,
+  FatFormDrawerEvents,
 } from './fat-form-drawer';
 
 export interface FatFormDrawerDefinition<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -40,7 +42,6 @@ export type FatFormDrawerDefine<
   } & FatFormDefineHelpers<Store, Request, Submit>
 ) => () => FatFormDrawerDefinition<Store, Request, Submit>;
 
-// TODO: define* 返回参数支持 slot 类型提示
 /**
  * 创建 fat-form-drawer
  * @param define
@@ -54,7 +55,12 @@ export function defineFatFormDrawer<
 >(
   define: FatFormDrawerDefine<Store, Request, Submit, Extra>,
   options?: { name?: string }
-): (props: FatFormDrawerDefineProps<Store, Request, Submit, Extra>) => any {
+): DefineOurComponent<
+  FatFormDrawerDefineProps<Store, Request, Submit, Extra>,
+  FatFormDrawerSlots<Store>,
+  FatFormDrawerEvents<Store, Submit>,
+  FatFormDrawerMethods<Store>
+> {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormDrawer',
     setup(_, { slots, expose, attrs, emit }) {

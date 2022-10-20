@@ -301,16 +301,8 @@ export interface FatFormSlots<S extends {}> {
 
 export type FatFormRules<Store extends {}> = Rules | ((values: Store, form: FatFormMethods<Store>) => Rules);
 
-/**
- * fat 表单属性
- * @template Store 表单存储的类型
- * @template Request 从后端请求回来的类型，默认等于 Store
- * @template Submit 提交给后端的类型，默认等于 Store
- */
-export interface FatFormProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
-  extends FatFormEvents<Store, Submit>,
-    FatFormSubmitter<Store>,
-    FatFormSlots<Store> {
+export interface FatFormBaseProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
+  extends FatFormSubmitter<Store> {
   /**
    * 使用场景
    * preview 预览
@@ -451,6 +443,17 @@ export interface FatFormProps<Store extends {} = {}, Request extends {} = Store,
    */
   hideMessageOnPreview?: boolean;
 }
+
+/**
+ * fat 表单属性
+ * @template Store 表单存储的类型
+ * @template Request 从后端请求回来的类型，默认等于 Store
+ * @template Submit 提交给后端的类型，默认等于 Store
+ */
+export interface FatFormProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
+  extends FatFormBaseProps<Store, Request, Submit>,
+    FatFormEvents<Store, Submit>,
+    FatFormSlots<Store> {}
 
 /**
  * 用于获取表单实例，实现一些表单联动的场景
