@@ -1,12 +1,12 @@
 import { expectType, test } from '.';
-import { defineFatTable } from '../fat-table';
+import { defineFatTable, FatTableMethods } from '../fat-table';
 
 test('defineFatTable', () => {
   interface T {
     foo: number;
   }
 
-  defineFatTable<T>(({ column }) => () => ({
+  const Result = defineFatTable<T>(({ column }) => () => ({
     async request() {
       return { total: 0, list: [] };
     },
@@ -34,4 +34,15 @@ test('defineFatTable', () => {
       }),
     ],
   }));
+
+  <Result
+    onLoad={v => {
+      expectType<T[]>(v);
+    }}
+    v-slots={{
+      empty: table => {
+        expectType<FatTableMethods<T, {}>>(table);
+      },
+    }}
+  />;
 });

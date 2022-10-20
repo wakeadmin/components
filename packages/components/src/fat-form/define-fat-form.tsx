@@ -2,7 +2,7 @@ import { CommonProps, KeyType } from '@wakeadmin/element-adapter';
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
-import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { FatForm } from './fat-form';
 import { FatFormConsumer } from './fat-form-consumer';
@@ -11,7 +11,15 @@ import { FatFormItem } from './fat-form-item';
 import { FatFormSection } from './fat-form-section';
 import { useFatFormRef } from './hooks';
 
-import { FatFormItemProps, FatFormGroupProps, FatFormSectionProps, FatFormMethods, FatFormProps } from './types';
+import {
+  FatFormItemProps,
+  FatFormGroupProps,
+  FatFormSectionProps,
+  FatFormMethods,
+  FatFormProps,
+  FatFormSlots,
+  FatFormEvents,
+} from './types';
 import { FatFormPublicMethodKeys } from './constants';
 
 const TYPE = Symbol('fat-form-child-type');
@@ -212,7 +220,12 @@ export function defineFatForm<
 >(
   define: FatFormDefine<Store, Request, Submit, Extra>,
   options?: { name: string }
-): (props: FatFormDefineProps<Store, Request, Submit, Extra>) => any {
+): DefineOurComponent<
+  FatFormDefineProps<Store, Request, Submit, Extra>,
+  FatFormSlots<Store>,
+  FatFormEvents<Store, Submit>,
+  FatFormMethods<Store, Request, Submit>
+> {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatForm',
     setup(_, { slots, expose, attrs, emit }) {

@@ -94,3 +94,7 @@ export interface OurComponentInstance<Props extends {}, Slots extends {}, Events
     ref?: Ref<Expose | Expose[] | undefined> | string;
   };
 }
+
+export type DefineOurComponent<Props extends {}, Slots extends {}, Events extends {}, Expose = any> = new (
+  props: Props
+) => OurComponentInstance<Props, Slots, Events, Expose>;

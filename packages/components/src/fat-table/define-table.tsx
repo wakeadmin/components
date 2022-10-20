@@ -2,12 +2,12 @@ import { CommonProps } from '@wakeadmin/element-adapter';
 import { computed, unref, Ref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
-import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 import { FatTablePublicMethodKeys } from './constants';
 
 import { FatTable } from './fat-table';
 import { useFatTableRef } from './hooks';
-import { FatTableMethods, FatTableProps, FatTableColumn } from './types';
+import { FatTableMethods, FatTableProps, FatTableColumn, FatTableSlots, FatTableEvents } from './types';
 
 export type FatTableDefineProps<Item extends {}, Query extends {}, Extra extends {}> = Partial<
   FatTableProps<Item, Query> & { extra?: Extra }
@@ -66,7 +66,12 @@ export function defineFatTableColumn<Item extends {}, Query extends {}, ValueTyp
 export function defineFatTable<Item extends {}, Query extends {} = {}, Extra extends {} = {}>(
   definitions: FatTableDefine<Item, Query, Extra>,
   options?: { name?: string }
-): (props: FatTableDefineProps<Item, Query, Extra>) => any {
+): DefineOurComponent<
+  FatTableDefineProps<Item, Query, Extra>,
+  FatTableSlots<Item, Query>,
+  FatTableEvents<Item, Query>,
+  FatTableMethods<Item, Query>
+> {
   return declareComponent({
     name: options?.name ?? 'PreDefinedFatTable',
     setup(_, { slots, expose, attrs, emit }) {
@@ -99,18 +104,3 @@ export function defineFatTable<Item extends {}, Query extends {} = {}, Extra ext
     },
   }) as any;
 }
-
-// defineFatTable(({ table, column }) => () => ({
-//   async request() {
-//     return {} as any;
-//   },
-//   columns: [
-//     column({ valueType: 'checkboxs', valueProps: {} }),
-//     column({ valueType: 'text', valueProps: {} }),
-//     column({ valueType: AText, valueProps: {} }),
-//     {valueType: 'hello', valueProps: {}},
-//   ],
-// }));
-
-// defineFatTableColumn({ valueType: AText, valueProps: {} });
-// defineFatTableColumn({ valueType: 'text', valueProps: {} });
