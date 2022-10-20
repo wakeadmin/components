@@ -127,6 +127,12 @@ importers:
       vitepress: 172.26.59.72+4873/vitepress/1.0.0-alpha.16
       vue: 172.26.59.72+4873/vue/3.2.41
 
+  packages/playground-volar:
+    specifiers:
+      vue-tsc: ^1.0.8
+    devDependencies:
+      vue-tsc: 172.26.59.72+4873/vue-tsc/1.0.8
+
   packages/playground-vue2:
     specifiers:
       '@vue/cli-plugin-babel': ~5.0.8

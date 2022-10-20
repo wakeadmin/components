@@ -1,0 +1,14 @@
+{
+  "name": "playground-volar",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vue-tsc": "^1.0.8"
+  }
+}
