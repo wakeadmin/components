@@ -18,6 +18,7 @@ import { isPromise } from '@wakeadmin/utils';
 
 import { RouteLocation, useRouter } from '../hooks';
 import { createMessageBoxOptions, LooseMessageBoxOptions, normalizeClassName, normalizeStyle } from '../utils';
+import { MouseEventButton } from './enum';
 
 export interface FatAction {
   /**
@@ -174,9 +175,11 @@ const FatActionInner = declareComponent({
     };
 
     const handleClick = (e: MouseEvent) => {
-      e.stopPropagation();
+      if (e.button === MouseEventButton.Main) {
+        e.stopPropagation();
 
-      doCommand(props.action);
+        doCommand(props.action);
+      }
     };
 
     return () => {

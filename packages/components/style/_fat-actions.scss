@@ -36,8 +36,9 @@
     vertical-align: middle;
   }
 
-  &__menu-item--disabled {
+  &__menu &__menu-item--disabled {
     pointer-events: auto !important;
+    cursor: not-allowed;
   }
 
   &__more {
