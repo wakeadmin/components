@@ -3,7 +3,7 @@ import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
 
 import { FatFormDefineHelpers, FatFormChild, useFatFormDefineUtils } from '../fat-form';
-import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import {
   FatFormPage,
@@ -11,6 +11,8 @@ import {
   FatFormPageProps,
   FatFormPageMethods,
   useFatFormPageRef,
+  FatFormPageSlots,
+  FatFormPageEvents,
 } from './fat-form-page';
 
 export interface FatFormPageDefinition<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -54,7 +56,12 @@ export function defineFatFormPage<
 >(
   define: FatFormPageDefine<Store, Request, Submit, Extra>,
   options?: { name?: string }
-): (props: FatFormPageDefineProps<Store, Request, Submit, Extra>) => any {
+): DefineOurComponent<
+  FatFormPageDefineProps<Store, Request, Submit, Extra>,
+  FatFormPageSlots<Store>,
+  FatFormPageEvents<Store, Submit>,
+  FatFormPageMethods<Store>
+> {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormPage',
     setup(_, { slots, expose, attrs, emit }) {

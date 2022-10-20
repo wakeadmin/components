@@ -2,7 +2,7 @@ import { declareComponent, declareEmits, declareProps, declareSlots } from '@wak
 import { Button, ButtonProps, ClassValue, StyleValue } from '@wakeadmin/element-adapter';
 import { computed, Ref, ref } from '@wakeadmin/demi';
 
-import { FatFormProps, FatFormMethods, FatForm, FatFormSlots } from '../fat-form';
+import { FatFormBaseProps, FatFormEvents, FatFormMethods, FatForm, FatFormSlots } from '../fat-form';
 import {
   hasSlots,
   renderSlot,
@@ -18,13 +18,14 @@ import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
 
 export type FatFormPageMethods<S extends {}> = FatFormMethods<S>;
+
 export interface FatFormPageSlots<S extends {}> extends FatFormSlots<S> {
   renderTitle?: (form?: FatFormPageMethods<S>) => any;
   renderExtra?: (form?: FatFormPageMethods<S>) => any;
   renderDefault?: () => any;
 }
 
-export interface FatFormPageEvents {
+export interface FatFormPageEvents<Store extends {}, Submit extends {} = Store> extends FatFormEvents<Store, Submit> {
   /**
    * 已取消
    */
@@ -36,9 +37,9 @@ export function useFatFormPageRef<Store extends {}>() {
 }
 
 export interface FatFormPageProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
-  extends FatFormProps<Store, Request, Submit>,
+  extends FatFormBaseProps<Store, Request, Submit>,
     FatFormPageSlots<Store>,
-    FatFormPageEvents {
+    FatFormPageEvents<Store, Submit> {
   /**
    * 页面布局
    */
@@ -143,7 +144,7 @@ const DefaultLayout: FatFormPageLayout = ctx => {
  */
 export const FatFormPage = declareComponent({
   name: 'FatFormPage',
-  props: declareProps<Omit<FatFormPageProps<any>, keyof FatFormPageEvents>>({
+  props: declareProps<FatFormPageProps<any>>({
     mode: null,
     pageLayout: null,
     pageLayoutProps: null,
@@ -170,7 +171,7 @@ export const FatFormPage = declareComponent({
     renderTitle: null,
     renderSubmitter: null,
   }),
-  emits: declareEmits<ToHEmitDefinition<FatFormPageEvents>>(),
+  emits: declareEmits<ToHEmitDefinition<FatFormPageEvents<any, any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormPageSlots<any> & FatFormSlots<any>>>(),
   setup(props, { slots, attrs, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
