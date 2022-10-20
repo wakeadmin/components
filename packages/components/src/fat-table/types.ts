@@ -10,7 +10,7 @@ import {
   CommonProps,
 } from '@wakeadmin/element-adapter';
 
-import { Atomic, GetAtomicProps } from '../atomic';
+import { GetAtomicProps } from '../atomic';
 import { FatFormItemProps, FatFormMethods } from '../fat-form';
 import { FatFormQueryProps } from '../fat-form-layout';
 
@@ -281,7 +281,7 @@ export interface FatTableSlots<T extends {}, S extends {}> {
 /**
  * 表格事件
  */
-export interface FatTableEvents<T> {
+export interface FatTableEvents<T, S> {
   /**
    * 表格加载完毕
    * @param list
@@ -627,7 +627,7 @@ export interface FatTableColumnSelect<T> {
 export interface FatTableColumn<
   T extends {},
   S extends {} = {},
-  ValueType extends keyof AtomicProps | Atomic = keyof AtomicProps
+  ValueType extends keyof AtomicProps = keyof AtomicProps
 > extends FatTableColumnActions<T, S>,
     FatTableColumnForm<T, S>,
     FatTableColumnStyle,
@@ -806,7 +806,7 @@ export interface FatTableProps<Item extends {}, Query extends {}>
     FatTableSelect<Item>,
     FatTablePagination,
     FatTableRawProps,
-    FatTableEvents<Item>,
+    FatTableEvents<Item, Query>,
     FatTableSlots<Item, Query> {
   /**
    * 表格页布局

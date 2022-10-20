@@ -1,8 +1,9 @@
 import { ref } from '@wakeadmin/demi';
 import { FatFormItem } from '../fat-form';
-import { expectType, test } from '.';
+import { FatTable } from '../fat-table';
 import { MyGenericComponent } from './MyGenericComponent';
 import { ADateValue } from '../builtin-atomic';
+import { expectType, test } from '.';
 
 test('MyGenericComponent jsx 正常推断类型', () => {
   const instance = ref<{ getValue(): number }>();
@@ -24,6 +25,28 @@ test('MyGenericComponent jsx 正常推断类型', () => {
     value="string"
     // @ts-expect-error 报错，类型不兼容
     ref={instance}
+  />;
+});
+
+test('FatTable', () => {
+  // 显式定义
+  <FatTable<{ foo: 1 }>
+    // @ts-expect-error list 不匹配
+    request={async () => {
+      return { list: [{ foo: 'ad' }], total: 1 };
+    }}
+    columns={[]}
+  />;
+
+  // 自动推断
+  <FatTable
+    request={async () => {
+      return { list: [{ foo: 'ad' }], total: 1 };
+    }}
+    onLoad={list => {
+      expectType<{ foo: string }[]>(list);
+    }}
+    columns={[]}
   />;
 });
 

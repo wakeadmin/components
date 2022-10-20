@@ -4,7 +4,6 @@ import { declareComponent } from '@wakeadmin/h';
 
 import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 import { FatTablePublicMethodKeys } from './constants';
-import { Atomic } from '../atomic';
 
 import { FatTable } from './fat-table';
 import { useFatTableRef } from './hooks';
@@ -18,9 +17,7 @@ export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> 
   | (FatTableProps<Item, Query> & CommonProps)
   | ((context: {
       table: Ref<FatTableMethods<Item, Query> | undefined>;
-      column: <ValueType extends keyof AtomicProps | Atomic = 'text'>(
-        column: FatTableColumn<Item, Query, ValueType>
-      ) => any;
+      column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
       props: FatTableDefineProps<Item, Query, Extra>;
       emit: (key: string, ...args: any[]) => void;
     }) => () => FatTableProps<Item, Query> & CommonProps);
@@ -30,7 +27,7 @@ export type FatTableDefine<Item extends {}, Query extends {}, Extra extends {}> 
  * @param column
  * @returns
  */
-export function defineFatTableColumn<Item extends {}, Query extends {}, ValueType extends keyof AtomicProps | Atomic>(
+export function defineFatTableColumn<Item extends {}, Query extends {}, ValueType extends keyof AtomicProps>(
   column: FatTableColumn<Item, Query, ValueType>
 ) {
   return column;

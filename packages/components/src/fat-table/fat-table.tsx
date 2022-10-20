@@ -24,6 +24,7 @@ import {
   createMessageBoxOptions,
   createMessageOptions,
   ToHSlotDefinition,
+  OurComponentInstance,
 } from '../utils';
 import { FatFormMethods } from '../fat-form';
 import { useFatConfigurable } from '../fat-configurable';
@@ -48,9 +49,9 @@ import { BUILTIN_LAYOUTS } from './layouts';
 import { BatchActions } from './batch-actions';
 import { provideAtomicHost } from '../atomic/host';
 
-export const FatTable = declareComponent({
+const FatTableInner = declareComponent({
   name: 'FatTable',
-  props: declareProps<Omit<FatTableProps<any, any>, keyof FatTableEvents<any>>>({
+  props: declareProps<Omit<FatTableProps<any, any>, keyof FatTableEvents<any, any>>>({
     rowKey: null,
     request: null,
     requestOnMounted: { type: Boolean, default: true },
@@ -101,7 +102,7 @@ export const FatTable = declareComponent({
     renderAfterTable: null,
     renderBeforeTable: null,
   }),
-  emits: declareEmits<ToHEmitDefinition<FatTableEvents<any>>>(),
+  emits: declareEmits<ToHEmitDefinition<FatTableEvents<any, any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatTableSlots<any, any>>>(),
   setup(props, { slots, expose, attrs, emit }) {
     validateColumns(props.columns);
@@ -869,3 +870,12 @@ export const FatTable = declareComponent({
     };
   },
 });
+
+export const FatTable = FatTableInner as unknown as new <Item extends {} = any, Query extends {} = any>(
+  props: FatTableProps<Item, Query>
+) => OurComponentInstance<
+  typeof props,
+  FatTableSlots<Item, Query>,
+  FatTableEvents<Item, Query>,
+  FatTableMethods<Item, Query>
+>;
