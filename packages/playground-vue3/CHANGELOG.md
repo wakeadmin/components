@@ -1,5 +1,9 @@
 # playground-vue3
 
+## 0.1.10
+
+update deps
+
 ## 0.1.9
 
 ### Patch Changes

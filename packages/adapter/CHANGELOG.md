@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.3.2
+
+### Patch Changes
+
+- switch 内嵌文本优化
+
 ## 0.3.1
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @wakeadmin/components
 
+## 1.0.0-alpha.5
+
+
+- checkboxs, checkbox, radio 原件 label 支持 jsx 和函数形式
+
+<br>
+<br>
+<br>
+
 ## 1.0.0-alpha.4
 
 Bugs 修复：
