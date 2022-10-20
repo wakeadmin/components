@@ -3,7 +3,7 @@ import { declareComponent, declareEmits, declareProps, declareSlots } from '@wak
 import { ref, watch } from '@wakeadmin/demi';
 import { NoopObject } from '@wakeadmin/utils';
 
-import { FatFormMethods, FatFormProps, FatForm } from '../fat-form';
+import { FatFormMethods, FatFormEvents, FatFormBaseProps, FatFormSlots, FatForm } from '../fat-form';
 
 import { useLazyFalsy } from '../hooks';
 import {
@@ -31,7 +31,7 @@ export interface FatFormModalMethods<Store extends {}> extends FatFormMethods<St
   close(): void;
 }
 
-export interface FatFormModalSlots<S extends {}> {
+export interface FatFormModalSlots<S extends {}> extends FatFormSlots<S> {
   /**
    * 渲染标题
    */
@@ -43,7 +43,8 @@ export interface FatFormModalSlots<S extends {}> {
   renderFooter?: (instance: FatFormModalMethods<S>, buttons: () => any) => any;
 }
 
-export interface FatFormModalEvents<S extends {}> {
+export interface FatFormModalEvents<Store extends {}, Submit extends {} = Store>
+  extends Omit<FatFormEvents<Store, Submit>, 'onFinish'> {
   onVisibleChange?: (visible: boolean) => void;
 
   /**
@@ -54,13 +55,13 @@ export interface FatFormModalEvents<S extends {}> {
   /**
    * 保存成功
    */
-  onFinish?: (values: S) => void;
+  onFinish?: (values: Store) => void;
 }
 
 export interface FatFormModalProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
   extends Omit<DialogProps, 'modelValue' | 'onUpdate:modelValue' | 'beforeClose'>,
-    FatFormModalEvents<Store>,
-    Omit<FatFormProps<Store, Request, Submit>, 'onFinish'>,
+    FatFormModalEvents<Store, Submit>,
+    FatFormBaseProps<Store, Request, Submit>,
     FatFormModalSlots<Store> {
   /**
    * 受控显示
@@ -101,7 +102,7 @@ export const FatFormModalMethodKeys = [...FatFormPublicMethodKeys, 'open', 'clos
 
 export const FatFormModal = declareComponent({
   name: 'FatFormModal',
-  props: declareProps<Omit<FatFormModalProps<any>, keyof FatFormModalEvents<any>>>({
+  props: declareProps<FatFormModalProps<any>>({
     visible: Boolean,
     enableSubmitter: { type: Boolean, default: true },
     cancelText: String,

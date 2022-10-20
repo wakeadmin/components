@@ -3,7 +3,7 @@ import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
 
 import { FatFormDefineHelpers, FatFormChild, useFatFormDefineUtils } from '../fat-form';
-import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import {
   FatFormModal,
@@ -11,6 +11,8 @@ import {
   FatFormModalMethods,
   FatFormModalMethodKeys,
   useFatFormModalRef,
+  FatFormModalSlots,
+  FatFormModalEvents,
 } from './fat-form-modal';
 
 export interface FatFormModalDefinition<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -53,7 +55,12 @@ export function defineFatFormModal<
 >(
   define: FatFormModalDefine<Store, Request, Submit, Extra>,
   options?: { name?: string }
-): (props: FatFormModalDefineProps<Store, Request, Submit, Extra>) => any {
+): DefineOurComponent<
+  FatFormModalDefineProps<Store, Request, Submit, Extra>,
+  FatFormModalSlots<Store>,
+  FatFormModalEvents<Store, Submit>,
+  FatFormModalMethods<Store>
+> {
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormModal',
     setup(_, { slots, expose, attrs, emit }) {
