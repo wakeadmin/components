@@ -3,7 +3,7 @@
     <ByDefineComponent ref="refInstance" foo @ok="handleOk" />
     <BySPA ref="refInstance" color="hello" @change="handleOk" />
     <ByDeclareComponent ref="refInstance" foo="x" @ok="handleOk" />
-    <el-button></el-button>
+    <el-button type="primary"></el-button>
   </div>
 </template>
 

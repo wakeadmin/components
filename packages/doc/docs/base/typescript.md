@@ -71,7 +71,9 @@ $ pnpm up -r -L \"@wakeadmin/*\"
   },
   // 如果是 vue 2, 则加上以下配置
   "vueCompilerOptions": {
-    "target": 2.7
+    "target": 2.7,
+    // 转换 template 为 jsx 模式，目前而言好处就是检查更加严格, 而且对泛型组件的支持较好
+    "jsxTemplates": true
   }
 }
 ```
@@ -450,3 +452,29 @@ module.exports = {
     }
   }
   ```
+
+<br>
+<br>
+<br>
+<br>
+
+`element-ui` 同理：
+
+```tsx
+// 注意 element-ui 类型基本上是残废的，无法正常推断 props 类型
+declare module 'vue' {
+  import element from 'element-ui';
+
+  type TypeofElementExpose = typeof element;
+  type KeyOfElementExpose = keyof TypeofElementExpose;
+  type KeyofComponent = Exclude<KeyOfElementExpose, 'version' | 'install'>;
+
+  type ElementComponents = {
+    [K in KeyofComponent as `El${K}`]: TypeofElementExpose[K];
+  };
+
+  export interface GlobalComponents extends ElementComponents {
+    RouterView: typeof import('vue-router').RouterView;
+  }
+}
+```

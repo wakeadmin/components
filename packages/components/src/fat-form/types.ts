@@ -462,11 +462,11 @@ export interface FatFormConsumerProps<S extends {} = {}> {
   renderDefault?: (form: FatFormMethods<S>) => any;
 }
 
-export interface FatFormItemMethods<Store extends {}> {
+export interface FatFormItemMethods<Store extends {} = any> {
   readonly form: FatFormMethods<Store>;
   readonly value: any;
   readonly prop: string;
-  readonly props: FatFormItemProps<Store, any>;
+  readonly props: FatFormItemProps<Store, any, any>;
   readonly disabled?: boolean;
   readonly clearable?: boolean;
   readonly hidden?: boolean;
@@ -658,7 +658,7 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
 /**
  * fat 表单项插槽
  */
-export interface FatFormItemSlots<S extends {}> {
+export interface FatFormItemSlots<S extends {} = any> {
   /**
    * 自定义标签渲染
    */
@@ -697,9 +697,9 @@ export type FatFormItemRules<Store extends {}> = Rule | ((values: Store, form: F
  * @template Request 后端请求的值, 默认等于 Store
  */
 export interface FatFormItemProps<
-  Store extends {},
-  ValueType extends keyof AtomicProps | Atomic,
-  Request extends {} = Store
+  Store extends {} = any,
+  Request extends {} = Store,
+  ValueType extends keyof AtomicProps = 'text'
 > extends FatFormItemShared,
     FatFormItemSlots<Store> {
   /**
@@ -722,11 +722,7 @@ export interface FatFormItemProps<
   /**
    * 原件属性
    */
-  valueProps?: ValueType extends keyof AtomicProps
-    ? AtomicProps[ValueType]
-    : ValueType extends Atomic<any, infer B>
-    ? B
-    : Record<string, any>;
+  valueProps?: AtomicProps[ValueType];
 
   /**
    * 占位

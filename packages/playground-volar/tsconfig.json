@@ -101,7 +101,7 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "vueCompilerOptions": {
-    // "jsxTemplates": true,
+    "jsxTemplates": true
     // "experimentalRfc436": true
   },
   "include": ["./src/**/*", "./src/**/*.vue"]

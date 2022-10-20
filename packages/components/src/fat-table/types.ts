@@ -447,7 +447,7 @@ export interface FatTableColumnForm<T extends {}, S extends {}> {
    * 表单项配置
    */
   formItemProps?: Omit<
-    FatFormItemProps<S, any>,
+    FatFormItemProps<S, S, any>,
     | 'prop'
     | 'initialValue'
     | 'valueType'

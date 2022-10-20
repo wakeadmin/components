@@ -6,15 +6,30 @@
       <FatFormGroup label="x">
         <template #label="scope">{{ expectType<FatFormMethods<any>>(scope) }}</template>
       </FatFormGroup>
-      <FatFormItem prop="sample" :value-props="{
-        // @ts-expect-error volar 暂时不支持推断
-        renderPreview(v) { expectType<string | undefined>(v) }
+      <FatFormItem prop="sample"
+       :rules="(a) => {return []}"
+       :value-props="{
+        // @ts-expect-error FIXME: volar 这里有问题, 下面的例子显示定义 text 就没问题？
+        renderPreview: (v) => {
+           expectType<string | undefined>(v);
+            return ''
+        }
       }">
         <template #label="scope">{{ expectType<FatFormItemMethods<any>>(scope) }}</template>
       </FatFormItem>
-      <FatFormItem prop="radio" value-type="checkbox" :value-props="{
-        // @ts-expect-error volar 暂时不支持推断
-        label: (a) => { expectType<boolean>(a) }}" ></FatFormItem>
+      <FatFormItem prop="sample" value-type="text" :value-props="{
+        renderPreview: (v) => {
+           expectType<string | undefined>(v);
+            return ''
+        }
+      }"></FatFormItem>
+      <FatFormItem prop="radio" :value-type="'checkbox'" :value-props="{
+        label: (a) => {
+          expectType<boolean>(a)
+          return ''
+        },
+        renderPreview(v) {expectType<boolean>(v)}
+        }" ></FatFormItem>
     </FatForm>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import { Ref } from '@wakeadmin/demi';
+import { Ref, ObjectEmitsOptions } from '@wakeadmin/demi';
 
 /**
  * 选择 _ 开始的属性
@@ -60,38 +60,37 @@ export interface ToVolarSlotDefinition<T extends {}> {
   $slots: TransformRenderFunctionToSlotDefinition<Required<T>>;
 }
 
-/**
- * 自定义 DefineComponent 声明
- * Slots 采用 render* 形式声明
- */
-export interface OurDefineComponent<Props extends {}, Slots extends {}, Expose = any>
-  extends ToVolarSlotDefinition<Slots> {
-  $props: Props & {
-    // 兼容 h 的 slots 写法
-    'v-slots'?: Partial<TransformRenderFunctionToSlotDefinition<Required<Slots>>>;
-    ref?: Ref<Expose | Expose[]> | string;
-  };
-}
-
 type UnionToIntersection<Union> = (Union extends any ? (arg: Union) => void : never) extends (arg: infer I) => void
   ? I
   : never;
 
-type UnionToUoF<Union> = Union extends any ? (arg: Union) => void : never;
-type UnionToIoF<Union> = UnionToIntersection<UnionToUoF<Union>>;
+/**
+ * 将 on* 类型渲染转换为 volar $emit 类型
+ */
+export interface ToVolarEmitDefinition<
+  T extends {},
+  // @ts-expect-error
+  HEmit extends ObjectEmitsOptions = ToHEmitDefinition<T>,
+  Event extends keyof HEmit = keyof HEmit
+> {
+  $emit: UnionToIntersection<
+    {
+      [key in Event]: HEmit[key] extends (...args: infer Args) => any
+        ? (event: key, ...args: Args) => void
+        : (event: key, ...args: any[]) => void;
+    }[Event]
+  >;
+}
 
-// eslint-disable-next-line @typescript-eslint/prefer-function-type
-type FirstOfUnion<Union> = UnionToIoF<Union> extends { (arg: infer T): void } ? T : never;
-
-type UnionToTupleRecurser<Union, Res extends any[]> = [
-  FirstOfUnion<Union>,
-  Exclude<Union, FirstOfUnion<Union>>
-] extends [infer FirstElement, infer OtherElements]
-  ? [FirstElement] extends [never]
-    ? Res
-    : UnionToTupleRecurser<OtherElements, [FirstElement, ...Res]>
-  : never;
-
-export type UnionToTuple<Union> = UnionToTupleRecurser<Union, []>;
-
-export type GetArrayMeta<T> = T extends (infer M)[] ? M : never;
+/**
+ * 自定义组件实例
+ */
+export interface OurComponentInstance<Props extends {}, Slots extends {}, Events extends {}, Expose = any>
+  extends ToVolarSlotDefinition<Slots>,
+    ToVolarEmitDefinition<Events> {
+  $props: Props & {
+    // 兼容 h 的 slots 写法
+    'v-slots'?: Partial<TransformRenderFunctionToSlotDefinition<Required<Slots>>>;
+    ref?: Ref<Expose | Expose[] | undefined> | string;
+  };
+}

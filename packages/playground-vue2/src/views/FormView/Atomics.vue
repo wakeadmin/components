@@ -84,7 +84,6 @@
         value-type="radio"
         :value-props="{
           options: [
-            // @ts-expect-error
             { label: a => `是${a ? '谢谢' : ''}`, value: 1 },
             { label: '否', value: 0 },
           ],
@@ -121,7 +120,6 @@
         value-type="checkboxs"
         :value-props="{
           options: [
-            // @ts-expect-error
             { label: a => `选我${a ? '谢谢' : ''}`, value: 1 },
             { label: '选我啊', value: 0 },
           ],
@@ -201,7 +199,7 @@
 
 <script lang="tsx" setup>
   import { useFatFormRef, FatForm, FatFormItem, FatFormGroup, FatText, FatFormConsumer } from '@wakeadmin/components';
-  import { Message } from 'element-ui';
+  import { Message, Switch as ElSwitch } from 'element-ui';
   import { delay } from '@wakeapp/utils';
   import { ref } from 'vue';
 

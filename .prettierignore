@@ -6,3 +6,4 @@ vendors/
 templates/
 **/test-dts/**/*.vue
 *.yaml
+**/playground-volar/**/*.vue

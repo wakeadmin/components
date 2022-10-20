@@ -2,7 +2,6 @@ import { CommonProps, KeyType } from '@wakeadmin/element-adapter';
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
-import { Atomic } from '../atomic';
 import { forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { FatForm } from './fat-form';
@@ -29,8 +28,8 @@ export interface CommonDefinitionProps extends CommonProps {
 export interface FatFormItemDefinition<
   Store extends {},
   Request extends {} = Store,
-  ValueType extends keyof AtomicProps | Atomic = 'text'
-> extends FatFormItemProps<Store, ValueType, Request>,
+  ValueType extends keyof AtomicProps = 'text'
+> extends FatFormItemProps<Store, Request, ValueType>,
     CommonDefinitionProps {
   [TYPE]: 'item';
 }
@@ -80,7 +79,7 @@ export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Sto
   /**
    * 表单项
    */
-  item: <ValueType extends keyof AtomicProps | Atomic = 'text'>(
+  item: <ValueType extends keyof AtomicProps = 'text'>(
     g: OmitType<FatFormItemDefinition<Store, Request, ValueType>>
   ) => FatFormItemDefinition<Store, Request, ValueType>;
 

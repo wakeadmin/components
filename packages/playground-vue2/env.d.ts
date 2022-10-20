@@ -4,6 +4,24 @@ declare module '*.vue' {
   export default component;
 }
 
+// element-ui 类型基本上是残废的，无法正常推断类型
+// 这里因为冲突才使用 '@vue/runtime-core', 正式的应该使用 vue 模块
+declare module '@vue/runtime-core' {
+  import element from 'element-ui';
+
+  type TypeofElementExpose = typeof element;
+  type KeyOfElementExpose = keyof TypeofElementExpose;
+  type KeyofComponent = Exclude<KeyOfElementExpose, 'version' | 'install'>;
+
+  type ElementComponents = {
+    [K in KeyofComponent as `El${K}`]: TypeofElementExpose[K];
+  };
+
+  export interface GlobalComponents extends ElementComponents {
+    RouterView: typeof import('vue-router').RouterView;
+  }
+}
+
 // CSS modules
 interface CSSModuleClasses {
   readonly [key: string]: string;

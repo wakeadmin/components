@@ -21,10 +21,10 @@ import {
   takeString,
   filterStringByTrim,
   filterStringByRegexp,
-  // OurDefineComponent,
+  OurComponentInstance,
 } from '../utils';
 
-export const FatFormItem = declareComponent({
+const FatFormItemInner = declareComponent({
   name: 'FatFormItem',
   props: declareProps<FatFormItemProps<any, any>>({
     mode: null,
@@ -493,16 +493,10 @@ export const FatFormItem = declareComponent({
   },
 });
 
-// FIXME: volar 暂时不支持泛型
-// export const FatFormItem = FatFormItemInner as {
-//   // eslint-disable-next-line @typescript-eslint/prefer-function-type
-//   new <
-//     Store extends {} = any,
-//     ValueType extends keyof AtomicProps | Atomic = 'text',
-//     Request extends {} = Store
-//   >(): OurDefineComponent<
-//     FatFormItemProps<Store, ValueType, Request>,
-//     FatFormItemSlots<Store>,
-//     FatFormItemMethods<Store>
-//   >;
-// };
+export const FatFormItem = FatFormItemInner as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  ValueType extends keyof AtomicProps = 'text'
+>(
+  props: FatFormItemProps<Store, Request, ValueType>
+) => OurComponentInstance<typeof props, FatFormItemSlots<Store>, {}, FatFormItemMethods<Store>>;

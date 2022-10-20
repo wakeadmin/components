@@ -76,6 +76,7 @@
   },
 
   "vueCompilerOptions": {
+    "jsxTemplates": true,
     "target": 2.7
   },
 
