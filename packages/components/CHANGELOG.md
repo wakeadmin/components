@@ -1,7 +1,24 @@
 # @wakeadmin/components
 
-## 1.0.0-alpha.5
+## 1.0.0-alpha.6 (2022/10/21)
 
+主要功能更新：
+
+- fat-table、fat-form 相关组件支持泛型
+- Typescript 类型优化
+
+<br>
+
+Bug 修复：
+
+- FatActions Dropdown 禁止右键点击
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-alpha.5 (2022/10/20)
 
 - checkboxs, checkbox, radio 原件 label 支持 jsx 和函数形式
 
@@ -9,7 +26,7 @@
 <br>
 <br>
 
-## 1.0.0-alpha.4
+## 1.0.0-alpha.4 (2022/10/18)
 
 Bugs 修复：
 
@@ -21,7 +38,7 @@ Bugs 修复：
 <br>
 <br>
 
-## 1.0.0-alpha.3
+## 1.0.0-alpha.3 (2022/10/17)
 
 ### 主要更新
 
@@ -50,7 +67,7 @@ Bugs 修复：
 <br>
 <br>
 
-## 1.0.0-alpha.2
+## 1.0.0-alpha.2 (2022/10/12)
 
 **Breaking Change**
 
@@ -79,20 +96,20 @@ Bugs 修复：
 <br>
 <br>
 
-## 1.0.0-alpha.1
+## 1.0.0-alpha.1 (2022/10/10)
 
 🎉 第一个 alpha 版本
 
 <br>
 <br>
 
-## 0.6.1
+## 0.6.1 (2022/10/9)
 
 ### Patch Changes
 
 - 原件 renderPreview 执行方式统一; 文件相关原件兼容 element-plus
 
-## 0.6.0
+## 0.6.0 (2022/10/8)
 
 ### Minor Changes
 
@@ -125,7 +142,7 @@ Bugs 修复：
 - Updated dependencies
   - @wakeadmin/element-adapter@0.2.4
 
-## 0.5.7
+## 0.5.7 (2022/10/30)
 
 ### Patch Changes
 
