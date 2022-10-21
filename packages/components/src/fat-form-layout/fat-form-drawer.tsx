@@ -10,6 +10,7 @@ import {
   hasSlots,
   inheritProps,
   normalizeClassName,
+  OurComponentInstance,
   renderSlot,
   ToHEmitDefinition,
   ToHSlotDefinition,
@@ -110,7 +111,7 @@ export function useFatFormDrawerRef<Store extends {}>() {
   return ref<FatFormDrawerMethods<Store>>();
 }
 
-export const FatFormDrawer = declareComponent({
+const FatFormDrawerInner = declareComponent({
   name: 'FatFormDrawer',
   // NOTE: 这里要注意，不止这里定义的所有字段都可以通过 props 访问，只有下面函数参数中声明的 props 才支持
   props: declareProps<FatFormDrawerProps<any>>({
@@ -273,3 +274,16 @@ export const FatFormDrawer = declareComponent({
     };
   },
 });
+
+export const FatFormDrawer = FatFormDrawerInner as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormDrawerProps<Store, Request, Submit>
+) => OurComponentInstance<
+  typeof props,
+  FatFormDrawerSlots<Store>,
+  FatFormDrawerEvents<Store, Submit>,
+  FatFormDrawerMethods<Store>
+>;

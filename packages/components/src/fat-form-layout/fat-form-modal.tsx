@@ -11,6 +11,7 @@ import {
   hasSlots,
   inheritProps,
   normalizeClassName,
+  OurComponentInstance,
   renderSlot,
   ToHEmitDefinition,
   ToHSlotDefinition,
@@ -100,7 +101,7 @@ export function useFatFormModalRef<Store extends {}>() {
 
 export const FatFormModalMethodKeys = [...FatFormPublicMethodKeys, 'open', 'close'];
 
-export const FatFormModal = declareComponent({
+const FatFormModalInner = declareComponent({
   name: 'FatFormModal',
   props: declareProps<FatFormModalProps<any>>({
     visible: Boolean,
@@ -259,3 +260,16 @@ export const FatFormModal = declareComponent({
     };
   },
 });
+
+export const FatFormModal = FatFormModalInner as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormModalProps<Store, Request, Submit>
+) => OurComponentInstance<
+  typeof props,
+  FatFormModalSlots<Store>,
+  FatFormModalEvents<Store, Submit>,
+  FatFormModalMethods<Store>
+>;

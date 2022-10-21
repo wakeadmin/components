@@ -3,13 +3,24 @@
 // allowClear
 
 import { ref } from '@wakeadmin/demi';
-import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
+import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { debounce } from 'lodash';
 import { useFatConfigurable } from '../fat-configurable';
 
-import { FatForm, FatFormMethods, FatFormProps, FatFormSlots } from '../fat-form';
+import { FatForm, FatFormMethods, FatFormProps, FatFormSlots, FatFormEvents } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
-import { forwardExpose, inheritProps, pickEnumerable, ToHSlotDefinition } from '../utils';
+import {
+  forwardExpose,
+  inheritProps,
+  OurComponentInstance,
+  pickEnumerable,
+  ToHEmitDefinition,
+  ToHSlotDefinition,
+} from '../utils';
+
+export type FatFormQuerySlot<Store extends {}> = FatFormSlots<Store>;
+
+export type FatFormQueryEvent<Store extends {}, Submit extends {} = Store> = FatFormEvents<Store, Submit>;
 
 export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store> = FatFormProps<
   Store,
@@ -27,13 +38,13 @@ export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Subm
   queryWatchDelay?: number;
 };
 
-export type FatFormQueryMethods<S extends {}> = FatFormMethods<S>;
+export type FatFormQueryMethods<Store extends {}> = FatFormMethods<Store>;
 
 export function useFatFormQueryMethods<Store extends {}>() {
   return ref<FatFormQueryMethods<Store>>();
 }
 
-export const FatFormQuery = declareComponent({
+const FatFormQueryInner = declareComponent({
   name: 'FatFormQuery',
   props: declareProps<FatFormQueryProps<any>>({
     layout: { type: String as any, default: 'inline' },
@@ -41,6 +52,7 @@ export const FatFormQuery = declareComponent({
     submitOnQueryChange: { type: Boolean, default: true },
     queryWatchDelay: { type: Number, default: 800 },
   }),
+  emits: declareEmits<ToHEmitDefinition<FatFormEvents<any, any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormSlots<any>>>(),
   setup(props, { slots, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
@@ -57,6 +69,7 @@ export const FatFormQuery = declareComponent({
 
     const handleValuesChange = (...args: any[]) => {
       // 透传
+      // @ts-expect-error
       emit('valuesChange', ...args);
 
       if (props.submitOnQueryChange) {
@@ -80,3 +93,16 @@ export const FatFormQuery = declareComponent({
     };
   },
 });
+
+export const FatFormQuery = FatFormQueryInner as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormQueryProps<Store, Request, Submit>
+) => OurComponentInstance<
+  typeof props,
+  FatFormQuerySlot<Store>,
+  FatFormQueryEvent<Store, Submit>,
+  FatFormQueryMethods<Store>
+>;

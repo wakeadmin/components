@@ -93,7 +93,7 @@ export function defineFatFormModal<
           <FatFormModal
             ref={modalRef}
             {...mergeProps(fatFormModalProps, inheritProps(false))}
-            v-slots={pickEnumerable(slots, 'default')}
+            v-slots={pickEnumerable(slots, 'default') as any}
           >
             {renderChildren(children)}
             {slots.default?.()}

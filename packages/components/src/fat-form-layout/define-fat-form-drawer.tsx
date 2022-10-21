@@ -93,7 +93,7 @@ export function defineFatFormDrawer<
           <FatFormDrawer
             ref={drawerRef}
             {...mergeProps(fatFormDrawerProps, inheritProps(false))}
-            v-slots={pickEnumerable(slots, 'default')}
+            v-slots={pickEnumerable(slots, 'default') as any}
           >
             {renderChildren(children)}
             {slots.default?.()}

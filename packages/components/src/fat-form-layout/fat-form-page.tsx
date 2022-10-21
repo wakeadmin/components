@@ -12,16 +12,17 @@ import {
   ToHSlotDefinition,
   forwardExpose,
   hasChild,
+  OurComponentInstance,
 } from '../utils';
 import { FatFloatFooter, FatContainer } from '../fat-layout';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
 
-export type FatFormPageMethods<S extends {}> = FatFormMethods<S>;
+export type FatFormPageMethods<Store extends {}> = FatFormMethods<Store>;
 
-export interface FatFormPageSlots<S extends {}> extends FatFormSlots<S> {
-  renderTitle?: (form?: FatFormPageMethods<S>) => any;
-  renderExtra?: (form?: FatFormPageMethods<S>) => any;
+export interface FatFormPageSlots<Store extends {}> extends FatFormSlots<Store> {
+  renderTitle?: (form?: FatFormPageMethods<Store>) => any;
+  renderExtra?: (form?: FatFormPageMethods<Store>) => any;
   renderDefault?: () => any;
 }
 
@@ -142,7 +143,7 @@ const DefaultLayout: FatFormPageLayout = ctx => {
 /**
  * 表单页面
  */
-export const FatFormPage = declareComponent({
+const FatFormPageInner = declareComponent({
   name: 'FatFormPage',
   props: declareProps<FatFormPageProps<any>>({
     mode: null,
@@ -259,3 +260,16 @@ export const FatFormPage = declareComponent({
     };
   },
 });
+
+export const FatFormPage = FatFormPageInner as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormPageProps<Store, Request, Submit>
+) => OurComponentInstance<
+  typeof props,
+  FatFormPageSlots<Store>,
+  FatFormPageEvents<Store, Submit>,
+  FatFormPageMethods<Store>
+>;
