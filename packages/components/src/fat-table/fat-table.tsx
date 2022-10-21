@@ -251,8 +251,8 @@ const FatTableInner = declareComponent({
 
         const response = await props.request(params);
 
-        pagination.total = response.total;
-        list.value = response.list;
+        pagination.total = response.total ?? 0;
+        list.value = response.list ?? [];
 
         emit('load', list.value);
 
@@ -799,7 +799,7 @@ const FatTableInner = declareComponent({
       if (props.enableSelect && !isSelectionColumnDefined) {
         columns.unshift({
           type: 'selection',
-          width: '16',
+          width: '40',
           selectable: props.selectable,
           className: 'fat-table__selection-cell',
         });
