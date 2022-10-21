@@ -10,7 +10,7 @@ import { FatFormMethods } from './types';
  * fat-form 实例引用
  * @returns
  */
-export function useFatFormRef<S extends {}>() {
+export function useFatFormRef<S extends {} = any>() {
   return ref<FatFormMethods<S>>();
 }
 

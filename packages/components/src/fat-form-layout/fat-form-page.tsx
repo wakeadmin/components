@@ -33,7 +33,7 @@ export interface FatFormPageEvents<Store extends {}, Submit extends {} = Store> 
   onCancel?: () => void;
 }
 
-export function useFatFormPageRef<Store extends {}>() {
+export function useFatFormPageRef<Store extends {} = any>() {
   return ref<FatFormPageMethods<Store>>();
 }
 

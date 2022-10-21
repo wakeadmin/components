@@ -40,7 +40,7 @@ export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Subm
 
 export type FatFormQueryMethods<Store extends {}> = FatFormMethods<Store>;
 
-export function useFatFormQueryMethods<Store extends {}>() {
+export function useFatFormQueryRef<Store extends {} = any>() {
   return ref<FatFormQueryMethods<Store>>();
 }
 

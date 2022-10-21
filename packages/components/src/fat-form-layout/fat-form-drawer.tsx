@@ -107,7 +107,7 @@ export const FatFormDrawerMethodKeys = [...FatFormPublicMethodKeys, 'open', 'clo
 /**
  * 实例引用 hook
  */
-export function useFatFormDrawerRef<Store extends {}>() {
+export function useFatFormDrawerRef<Store extends {} = any>() {
   return ref<FatFormDrawerMethods<Store>>();
 }
 

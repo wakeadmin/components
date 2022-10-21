@@ -95,7 +95,7 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
   beforeFinish?: (done: () => void) => void;
 }
 
-export function useFatFormModalRef<Store extends {}>() {
+export function useFatFormModalRef<Store extends {} = any>() {
   return ref<FatFormModalMethods<Store>>();
 }
 

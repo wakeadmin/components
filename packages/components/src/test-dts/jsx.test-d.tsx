@@ -1,6 +1,16 @@
 import { ref } from '@wakeadmin/demi';
-import { FatFormItem } from '../fat-form';
-import { FatTable } from '../fat-table';
+import { FatForm, FatFormItem, useFatFormRef } from '../fat-form';
+import { FatTable, useFatTableRef } from '../fat-table';
+import {
+  FatFormDrawer,
+  FatFormModal,
+  FatFormPage,
+  FatFormQuery,
+  useFatFormDrawerRef,
+  useFatFormModalRef,
+  useFatFormPageRef,
+  useFatFormQueryRef,
+} from '../fat-form-layout';
 import { MyGenericComponent } from './MyGenericComponent';
 import { ADateValue } from '../builtin-atomic';
 import { expectType, test } from '.';
@@ -29,8 +39,11 @@ test('MyGenericComponent jsx 正常推断类型', () => {
 });
 
 test('FatTable', () => {
+  const tableRef = useFatTableRef();
+
   // 显式定义
   <FatTable<{ foo: 1 }>
+    ref={tableRef}
     // @ts-expect-error list 不匹配
     request={async () => {
       return { list: [{ foo: 'ad' }], total: 1 };
@@ -48,6 +61,12 @@ test('FatTable', () => {
     }}
     columns={[]}
   />;
+});
+
+test('FatForm', () => {
+  const formRef = useFatFormRef();
+
+  <FatForm ref={formRef} />;
 });
 
 test('FatFormItem', () => {
@@ -94,4 +113,24 @@ test('FatFormItem', () => {
       },
     }}
   ></FatFormItem>;
+});
+
+test('FatFormDrawer', () => {
+  const r = useFatFormDrawerRef();
+  <FatFormDrawer ref={r} />;
+});
+
+test('FatFormModal', () => {
+  const r = useFatFormModalRef();
+  <FatFormModal ref={r} />;
+});
+
+test('FatFormPage', () => {
+  const r = useFatFormPageRef();
+  <FatFormPage ref={r} />;
+});
+
+test('FatFormQuery', () => {
+  const r = useFatFormQueryRef();
+  <FatFormQuery ref={r} />;
 });
