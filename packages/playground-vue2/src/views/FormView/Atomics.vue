@@ -83,6 +83,18 @@
         label="radio"
         value-type="radio"
         :value-props="{
+          vertical: true,
+          options: [
+            { label: '是', value: 1 },
+            { label: '否', value: 0 },
+          ],
+        }"
+      />
+      <FatFormItem
+        prop="radio"
+        label="radio"
+        value-type="radio"
+        :value-props="{
           options: [
             { label: a => `是${a ? '谢谢' : ''}`, value: 1 },
             { label: '否', value: 0 },
@@ -104,6 +116,15 @@
         }"
       />
       <FatFormItem
+        prop="radioVertical"
+        label="radioVertical"
+        value-type="radio"
+        :value-props="{
+          vertical: true,
+          options: optionsWithJSX,
+        }"
+      />
+      <FatFormItem
         prop="checkboxs"
         label="checkboxs"
         value-type="checkboxs"
@@ -112,6 +133,15 @@
             { label: '选我', value: 1 },
             { label: '选我啊', value: 0 },
           ],
+        }"
+      />
+      <FatFormItem
+        prop="checkboxsVertical"
+        label="checkboxsVertical"
+        value-type="checkboxs"
+        :value-props="{
+          vertical: true,
+          options: optionsWithJSX,
         }"
       />
       <FatFormItem
@@ -233,6 +263,25 @@
     await delay(1000);
     Message.success('验证码获取成功');
   };
+
+  const optionsWithJSX = [
+    {
+      label: (
+        <FatFormGroup>
+          选我, <FatFormItem valueType="text" required prop="embedText"></FatFormItem>
+        </FatFormGroup>
+      ),
+      value: 1,
+    },
+    {
+      label: (
+        <FatFormGroup>
+          选我 啊, <FatFormItem valueType="text" required prop="embedText"></FatFormItem>
+        </FatFormGroup>
+      ),
+      value: 2,
+    },
+  ];
 
   const cascaderProps = {
     async options() {

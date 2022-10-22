@@ -4,6 +4,7 @@ import { NoopArray } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
+import { normalizeClassName } from '../../utils';
 
 export interface ARadioOption {
   value: any;
@@ -28,6 +29,11 @@ export type ARadioProps = DefineAtomicProps<
     renderPreview?: (option?: ARadioOption) => any;
 
     /**
+     * 垂直布局，默认 false, inButton 模式下无效
+     */
+    vertical?: boolean;
+
+    /**
      * 是否为按钮形式, 默认 false
      */
     inButton?: boolean;
@@ -48,7 +54,7 @@ export const ARadioComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, scene, context, value, onChange, renderPreview, options, inButton, ...other } = props;
+      const { mode, scene, context, value, onChange, renderPreview, options, inButton, vertical, ...other } = props;
 
       if (mode === 'preview') {
         return renderPreview ? (
@@ -67,7 +73,11 @@ export const ARadioComponent = defineAtomicComponent(
       const Child = inButton ? RadioButton : Radio;
 
       return (
-        <RadioGroup {...other} {...model(value, onChange!)}>
+        <RadioGroup
+          {...other}
+          class={normalizeClassName(other.class, 'fat-a-radio', { 'fat-a-radio--vertical': !inButton && vertical })}
+          {...model(value, onChange!)}
+        >
           {(options ?? NoopArray).map((i, idx) => {
             return (
               <Child label={i.value} disabled={i.disabled} key={i.value ?? idx}>

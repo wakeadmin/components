@@ -4,6 +4,7 @@ import { NoopArray, booleanPredicate, arrayJoin } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
+import { normalizeClassName } from '../../utils';
 
 export type ACheckboxsValue = any[];
 
@@ -23,6 +24,11 @@ export type ACheckboxsProps = DefineAtomicProps<
      * 分隔符，默认', '
      */
     separator?: VNodeChild;
+
+    /**
+     * 垂直布局
+     */
+    vertical?: boolean;
 
     /**
      * 自定义预览
@@ -60,6 +66,7 @@ export const ACheckboxsComponent = defineAtomicComponent(
         onChange,
         renderPreview,
         options = NoopArray,
+        vertical,
         separator = ', ',
         ...other
       } = props;
@@ -80,7 +87,11 @@ export const ACheckboxsComponent = defineAtomicComponent(
       }
 
       return (
-        <CheckboxGroup {...other} {...model(value ?? NoopArray, onChange!)}>
+        <CheckboxGroup
+          {...other}
+          class={normalizeClassName(other.class, 'fat-a-checkboxs', { 'fat-a-checkboxs--vertical': vertical })}
+          {...model(value ?? NoopArray, onChange!)}
+        >
           {options.map((i, idx) => {
             return (
               <Checkbox key={`${i.label}_${idx}`} label={i.value} disabled={i.disabled}>

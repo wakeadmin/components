@@ -1,0 +1,25 @@
+.fat-a-radio {
+  // 垂直布局
+  &--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .el-radio {
+      height: auto;
+
+      &:not(:last-child) {
+        // 这是足以放下错误信息最小大小
+        margin-bottom: 16px;
+      }
+    }
+
+    // element-ui 适配
+    @at-root .vue2 & {
+      .el-radio {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
