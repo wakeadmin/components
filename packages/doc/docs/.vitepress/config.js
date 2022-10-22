@@ -71,7 +71,7 @@ export default {
           text: 'FatTable 表格',
           items: [
             {
-              text: 'FatTable',
+              text: '🏃🏻‍♀️ FatTable',
               link: '/fat-table/',
             },
           ],
@@ -82,6 +82,10 @@ export default {
             {
               text: 'FatForm 表单',
               link: '/fat-form/',
+            },
+            {
+              text: '🏃🏻‍♀️ defineFatForm 定义器',
+              link: '/fat-form/define',
             },
             {
               text: 'FatFormItem 表单项',
@@ -98,10 +102,6 @@ export default {
             {
               text: 'FatFormConsumer 表单内省',
               link: '/fat-form/consumer',
-            },
-            {
-              text: 'defineFatForm 定义器',
-              link: '/fat-form/define',
             },
           ],
         },

@@ -1,6 +1,7 @@
 <script setup>
   import DefineHelloWorld from './DefineHelloWorld'
   import {UseConsumer, NotUseConsumer} from './DefineCompare'
+  import DefineDemo from './DefineDemo.tsx'
 </script>
 
 # defineFatForm 定义器
@@ -143,3 +144,32 @@ defineFatForm(({ item, group, section, consumer }) => {
 ::: details 查看代码
 <<< @/fat-form/DefineCompare.tsx
 :::
+
+<br>
+<br>
+<br>
+<br>
+
+## 示例
+
+来看一个相对复杂的案例，这个案例来源于惟客云(会员中心/积分倍率活动)。这个例子会展示 checkboxs 原件，FatFormGroup 的妙用：
+
+<ClientOnly>
+  <div class="wk-demo"><DefineDemo /></div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/DefineDemo.tsx
+:::
+
+<br>
+<br>
+<br>
+
+要点：
+
+- `FatFormGroup` 配置的状态可以被下级继承。这些状态包含 mode, size, disabled, hidden, hideMessageOnPreview, clearable, col 等。如果下级显式配置了这些属性，那么将以下级的优先。
+- `renderChild` 用于将 item, group, consumer, section 等 helper 的输出转换为 JSX。这是一个底层方法，用于一些复杂的场景。
+- 当 `FatFormItem` 的状态为 hidden，disabled 或者 mode 为 'preview' 时，针对该字段的验证规则也会自动移除。
+- `rules` 支持传入一个函数，用于依赖上下文的一些验证。 另外一个配合 dependencies 配置依赖的其他字段，当这些字段变化时重新验证。
+- 最佳实践是在 FatFormItem 上配置 rule，而不是在 FatForm 上。这样更加灵活，尤其是在动态表单的场景。
