@@ -394,6 +394,16 @@ const FatFormItemInner = declareComponent({
       }, 500)
     );
 
+    watch(
+      () => validateEnabled.value,
+      enabled => {
+        if (!enabled) {
+          // 通知表单移除
+          form.clearValidate(props.prop);
+        }
+      }
+    );
+
     expose(instance);
 
     // 注册表单项
