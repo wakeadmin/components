@@ -28,3 +28,4 @@ export * from './TimeSelect';
 export * from './Tooltip';
 export * from './Upload';
 export * from './Cascader';
+export * from './Steps';
