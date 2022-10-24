@@ -1,8 +1,5 @@
-/**
- * 分布表单
- */
 import { StepsProps, ButtonProps } from '@wakeadmin/element-adapter';
-import { FatFormBaseProps, FatFormMethods, FatFormSlots, FatFormEvents } from '../fat-form';
+import { FatFormBaseProps, FatFormMethods, FatFormSlots, FatFormEvents } from '../../fat-form';
 
 export type FatFormStepsSlots<Store extends {}> = FatFormSlots<Store>;
 
@@ -13,6 +10,7 @@ export interface FatFormStepEvents<Store extends {}, Submit extends {} = Store> 
   onActiveChange?: (nextActive: number) => void;
 }
 
+// TODO: 支持上一步，下一步等跳转
 export type FatFormStepsMethods<
   Store extends {} = {},
   Request extends {} = Store,
@@ -47,7 +45,6 @@ export interface FatFormStepsProps<Store extends {} = {}, Request extends {} = S
     FatFormStepsSlots<Store>,
     Omit<StepsProps, 'active' | 'processStatus' | 'finishStatus'>,
     FatFormStepsSubmitter {
-  // TODO: layout
   /**
    * 初始激活的步骤，默认为 0, 也可以在 request 方法中返回
    */
@@ -74,4 +71,46 @@ export interface FatFormStepsProps<Store extends {} = {}, Request extends {} = S
    * 默认为 true
    */
   strict?: boolean;
+
+  /**
+   * 自定义布局
+   */
+  pageLayout?: FatFormStepsLayout;
+
+  /**
+   * 传递给布局器的自定义属性
+   */
+  layoutProps?: any;
 }
+
+export type FatFormStepsLayout = (renders: {
+  /**
+   * 布局自定义参数
+   */
+  layoutProps: any;
+
+  /**
+   * 表单实例引用
+   */
+  form?: FatFormStepsMethods<any>;
+
+  /**
+   * 垂直模式
+   */
+  vertical?: boolean;
+
+  /**
+   * 渲染步骤条
+   */
+  renderSteps(): any;
+
+  /**
+   * 渲染表单主体
+   */
+  renderContent(): any;
+
+  /**
+   * 渲染提交按钮
+   */
+  renderSubmitter(): any;
+}) => any;

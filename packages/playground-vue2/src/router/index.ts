@@ -36,6 +36,11 @@ const routes: RouteConfig[] = [
     component: ComponentTest,
   },
   {
+    path: '/steps',
+    name: 'steps',
+    component: () => import('../views/Steps.vue'),
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

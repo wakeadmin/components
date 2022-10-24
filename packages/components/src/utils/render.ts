@@ -102,6 +102,7 @@ export function extraComponentName(vnode: any) {
 }
 
 export function isFragment(vnode: any) {
+  // @ts-expect-error
   return isVNode(vnode) && vnode.type === Fragment;
 }
 
