@@ -29,6 +29,16 @@ export type FatFormMode = 'preview' | 'editable';
 export type FatFormLayout = 'horizontal' | 'vertical' | 'inline';
 
 /**
+ * 用于表单项收集
+ */
+export interface FatFormItemCollection {
+  /**
+   * 注册表单
+   */
+  registerItem(item: FatFormItemMethods): () => void;
+}
+
+/**
  * fat 表单实例方法
  */
 export interface FatFormMethods<Store extends {}, Request extends {} = Store, Submit extends {} = Store> {
@@ -486,6 +496,11 @@ export interface FatFormItemMethods<Store extends {} = any> {
    * 前转换
    */
   convert?: (value: any, values: any, prop: string) => any;
+
+  /**
+   * 触发验证
+   */
+  validate(): Promise<boolean>;
 }
 
 export interface FatFormItemShared {

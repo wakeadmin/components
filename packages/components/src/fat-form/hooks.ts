@@ -1,10 +1,18 @@
-import { inject, ref } from '@wakeadmin/demi';
+import { inject, provide, ref } from '@wakeadmin/demi';
 import memoize from 'lodash/memoize';
 
 import { normalizeKeyPath } from '../utils';
 
-import { FatFormContext, FatFormInheritanceContext } from './constants';
-import { FatFormMethods } from './types';
+import { FatFormContext, FatFormInheritanceContext, FatFormItemCollectionContext } from './constants';
+import { FatFormMethods, FatFormItemCollection } from './types';
+
+export function provideFatFormCollection(collection: FatFormItemCollection) {
+  provide(FatFormItemCollectionContext, collection);
+}
+
+export function useFatFormCollection() {
+  return inject(FatFormItemCollectionContext, null);
+}
 
 /**
  * fat-form 实例引用

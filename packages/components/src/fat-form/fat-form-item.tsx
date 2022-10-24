@@ -6,7 +6,7 @@ import { Inquiry } from '@wakeadmin/icons';
 
 import { Atomic, BaseAtomicContext } from '../atomic';
 
-import { useFatFormContext, useInheritableProps } from './hooks';
+import { useFatFormCollection, useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
 import { formItemWidth, validateFormItemProps } from './utils';
 import { useAtomicRegistry } from '../hooks';
@@ -73,6 +73,7 @@ const FatFormItemInner = declareComponent({
     validateFormItemProps(props);
 
     const form = useFatFormContext()!;
+    const collection = useFatFormCollection();
     const registry = useAtomicRegistry();
     const inheritedProps = useInheritableProps();
 
@@ -200,6 +201,9 @@ const FatFormItemInner = declareComponent({
       },
       get convert() {
         return props.convert;
+      },
+      validate() {
+        return form.validateField(props.prop);
       },
     };
 
@@ -408,8 +412,14 @@ const FatFormItemInner = declareComponent({
 
     // 注册表单项
     form.__registerFormItem(instance);
+
+    // 有些容器需要收集表单信息
+    const disposeCollection = collection?.registerItem(instance);
+
     onBeforeUnmount(() => {
       form.__unregisterFormItem(instance);
+
+      disposeCollection?.();
     });
 
     return () => {
