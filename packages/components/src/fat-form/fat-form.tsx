@@ -1,6 +1,6 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
+import { isVue2, ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
 import { cloneDeep, isPlainObject, merge, get, set, equal, isObject } from '@wakeadmin/utils';
 
 import {
@@ -213,8 +213,21 @@ export const FatForm = declareComponent({
     };
 
     const validateField = async (prop: string | string[]) => {
-      await formRef.value?.validateField(prop);
-      return true;
+      // FUCK: element-ui / element-plus 这里 API 不一样
+      if (isVue2) {
+        return await new Promise<boolean>((resolve, reject) => {
+          formRef.value?.validateField(prop, errorMessage => {
+            if (errorMessage) {
+              reject(new Error(errorMessage));
+            } else {
+              resolve(true);
+            }
+          });
+        });
+      } else {
+        await formRef.value?.validateField(prop);
+        return true;
+      }
     };
 
     const clearValidate = async (prop?: string | string[]) => {
