@@ -5,7 +5,7 @@
   background-color: $fat-color-white;
   border-radius: $fat-border-radius-base;
 
-  &:not(:only-child) {
+  &:not(:only-of-type) {
     margin-top: 16px;
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <FatFormSteps :form-width="550" :submit="handleSubmit">
+    <FatFormSteps :form-width="550" :submit="handleSubmit" direction="vertical">
       <FatFormStep title="步骤1">
         <FatFormItem prop="a" label="a" required></FatFormItem>
         <FatFormItem prop="b" label="b" required></FatFormItem>

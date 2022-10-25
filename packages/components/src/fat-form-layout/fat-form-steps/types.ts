@@ -78,6 +78,11 @@ export interface FatFormStepsProps<Store extends {} = {}, Request extends {} = S
   pageLayout?: FatFormStepsLayout;
 
   /**
+   * 表单宽度
+   */
+  formWidth?: string | number;
+
+  /**
    * 传递给布局器的自定义属性
    */
   layoutProps?: any;
@@ -87,17 +92,27 @@ export type FatFormStepsLayout = (renders: {
   /**
    * 布局自定义参数
    */
-  layoutProps: any;
+  readonly layoutProps: any;
 
   /**
    * 表单实例引用
    */
-  form?: FatFormStepsMethods<any>;
+  readonly form?: FatFormStepsMethods<any>;
 
   /**
    * 垂直模式
    */
-  vertical?: boolean;
+  readonly vertical?: boolean;
+
+  /**
+   * 下级是否包含了 FatFormSection
+   */
+  readonly hasSections: boolean;
+
+  /**
+   * 表单内容宽度
+   */
+  readonly formWidth?: number | string;
 
   /**
    * 渲染步骤条

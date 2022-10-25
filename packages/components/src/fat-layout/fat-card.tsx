@@ -60,7 +60,7 @@ export const FatCard = declareComponent({
       const { title, escapeHeader, padding } = props;
 
       return (
-        <div class={['fat-card', attrs.class, { 'fat-card--escaped': escapeHeader }]} style={attrs.style}>
+        <section class={['fat-card', attrs.class, { 'fat-card--escaped': escapeHeader }]} style={attrs.style}>
           {hasHeader.value && (
             <header class="fat-card__header">
               <div class="fat-card__title">
@@ -72,7 +72,7 @@ export const FatCard = declareComponent({
           <main class={['fat-card__content', { 'fat-card__content--padding': padding }]}>
             {renderSlot(props, slots, 'default')}
           </main>
-        </div>
+        </section>
       );
     };
   },

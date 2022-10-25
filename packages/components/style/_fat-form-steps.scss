@@ -7,3 +7,40 @@
     }
   }
 }
+
+.fat-form-steps-default-layout {
+  .fat-form-steps-default-layout__content {
+    margin-top: 24px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .fat-form-steps__steps {
+    justify-content: center;
+  }
+
+  &__body {
+    padding: 36px 36px 8px 36px;
+  }
+
+  &__standalone {
+  }
+
+  // 垂直布局
+  &--vertical {
+    .fat-form-steps-default-layout__body,
+    .fat-form-steps-default-layout__standalone {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .fat-form-steps-default-layout__content {
+      margin-top: 0;
+      margin-left: unset;
+      margin-right: unset;
+      flex: 1;
+    }
+  }
+}

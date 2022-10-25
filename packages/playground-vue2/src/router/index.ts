@@ -41,6 +41,21 @@ const routes: RouteConfig[] = [
     component: () => import('../views/Steps.vue'),
   },
   {
+    path: '/steps-vertical',
+    name: 'steps-vertical',
+    component: () => import('../views/Steps-Vertical.vue'),
+  },
+  {
+    path: '/steps-complex',
+    name: 'steps-complex',
+    component: () => import('../views/Steps-Complex.vue'),
+  },
+  {
+    path: '/steps-complex-vertical',
+    name: 'steps-complex-vertical',
+    component: () => import('../views/Steps-Complex-Vertical.vue'),
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

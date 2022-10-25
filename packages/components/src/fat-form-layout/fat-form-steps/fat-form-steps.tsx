@@ -24,12 +24,13 @@ export const FatFormSteps = declareComponent({
     strict: { type: Boolean, default: true },
     pageLayout: null,
     layoutProps: null,
+    formWidth: { type: [Number, String], default: undefined },
 
     // steps 属性
     initialActive: { type: Number, default: undefined },
-    space: null,
+    space: { type: [String, Number], default: 250 },
     direction: null,
-    alignCenter: { type: Boolean, default: undefined },
+    alignCenter: { type: Boolean, default: true },
     simple: { type: Boolean, default: undefined },
 
     // submitter
@@ -48,6 +49,10 @@ export const FatFormSteps = declareComponent({
     const steps = ref<FatFormStepMethods[]>([]);
     const nextStepLoading = ref(false);
     const submitLoading = ref(false);
+
+    const hasSections = computed(() => {
+      return steps.value.some(i => i.hasSections);
+    });
 
     const handleRequest = computed(() => {
       if (props.request == null) {
@@ -245,6 +250,8 @@ export const FatFormSteps = declareComponent({
             form: exposed,
             vertical: direction === 'vertical',
             layoutProps: props.layoutProps,
+            hasSections: hasSections.value,
+            formWidth: props.formWidth,
             renderSteps() {
               return (
                 <Steps

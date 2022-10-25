@@ -89,6 +89,9 @@ export const FatFormStep = declareComponent({
     };
 
     const instance: FatFormStepMethods = markRaw({
+      get hasSections() {
+        return !!sections.value.length;
+      },
       async validate() {
         // 让管辖内的表单项进行验证
         await Promise.all(items.map(i => i.validate()));

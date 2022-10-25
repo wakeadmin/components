@@ -25,6 +25,11 @@ export interface FatFormStepMethods {
    * 表单内容
    */
   renderForm(status: FatFormStepStatus): any;
+
+  /**
+   * 是否包含了 FatFormSection
+   */
+  readonly hasSections: boolean;
 }
 
 export interface FatFormStepsContextValue {
