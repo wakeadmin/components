@@ -31,11 +31,16 @@ export type FatFormLayout = 'horizontal' | 'vertical' | 'inline';
 /**
  * 用于表单项收集
  */
-export interface FatFormItemCollection {
+export interface FatFormCollection {
   /**
    * 注册表单
    */
   registerItem(item: FatFormItemMethods): () => void;
+
+  /**
+   * 注册 FatFormSection, 父级可能会根据是否包含 section 来决定布局方式
+   */
+  registerSection(item: {}): () => void;
 }
 
 /**

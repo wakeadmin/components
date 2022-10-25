@@ -1,11 +1,11 @@
 import { InjectionKey } from '@wakeadmin/demi';
 import { OmitUnderScore } from '../utils';
 
-import { FatFormItemInheritableProps, FatFormItemWidth, FatFormMethods, FatFormItemCollection } from './types';
+import { FatFormItemInheritableProps, FatFormItemWidth, FatFormMethods, FatFormCollection } from './types';
 
 export const FatFormContext: InjectionKey<FatFormMethods<any>> = Symbol('fat-form-context');
 
-export const FatFormItemCollectionContext: InjectionKey<FatFormItemCollection> = Symbol('fat-form-item-collection');
+export const FatFormCollectionContext: InjectionKey<FatFormCollection> = Symbol('fat-form-collection');
 
 export const FatFormInheritanceContext: InjectionKey<FatFormItemInheritableProps> =
   Symbol('fat-form-inheritance-context');

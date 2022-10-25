@@ -3,15 +3,15 @@ import memoize from 'lodash/memoize';
 
 import { normalizeKeyPath } from '../utils';
 
-import { FatFormContext, FatFormInheritanceContext, FatFormItemCollectionContext } from './constants';
-import { FatFormMethods, FatFormItemCollection } from './types';
+import { FatFormContext, FatFormInheritanceContext, FatFormCollectionContext } from './constants';
+import { FatFormMethods, FatFormCollection } from './types';
 
-export function provideFatFormCollection(collection: FatFormItemCollection) {
-  provide(FatFormItemCollectionContext, collection);
+export function provideFatFormCollection(collection: FatFormCollection) {
+  provide(FatFormCollectionContext, collection);
 }
 
 export function useFatFormCollection() {
-  return inject(FatFormItemCollectionContext, null);
+  return inject(FatFormCollectionContext, null);
 }
 
 /**

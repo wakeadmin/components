@@ -1,10 +1,10 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { provideFatFormCollection } from './hooks';
-import { FatFormItemCollection } from './types';
+import { FatFormCollection } from './types';
 
-export const FatFormItemCollectionProvider = declareComponent({
+export const FatFormCollectionProvider = declareComponent({
   name: 'FatalFormItemCollection',
-  props: declareProps<{ value: FatFormItemCollection }>({
+  props: declareProps<{ value: FatFormCollection }>({
     value: null,
   }),
   setup(props, { slots }) {

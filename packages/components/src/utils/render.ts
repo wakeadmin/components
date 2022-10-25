@@ -102,7 +102,8 @@ export function extraComponentName(vnode: any) {
 }
 
 export function isFragment(vnode: any) {
-  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+  // @ts-ignore
   return isVNode(vnode) && vnode.type === Fragment;
 }
 

@@ -1,9 +1,9 @@
 import { StepProps, Step } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { onBeforeUnmount, markRaw } from '@wakeadmin/demi';
+import { onBeforeUnmount, markRaw, ref } from '@wakeadmin/demi';
 
 import { FatFormStepMethods, useFatFormStepsContext } from './fat-form-steps-context';
-import { FatFormItemMethods, FatFormItemCollection, FatFormItemCollectionProvider } from '../../fat-form';
+import { FatFormItemMethods, FatFormCollection, FatFormCollectionProvider } from '../../fat-form';
 import { hasSlots, normalizeClassName, renderSlot } from '../../utils';
 
 export interface FatFormStepSlots {
@@ -59,7 +59,19 @@ export const FatFormStep = declareComponent({
     const parent = useFatFormStepsContext();
     // 收集到的所有表单项
     const items: FatFormItemMethods[] = [];
-    const collection: FatFormItemCollection = {
+    const sections = ref<any[]>([]);
+
+    const collection: FatFormCollection = {
+      registerSection(item) {
+        sections.value.push(item);
+
+        return () => {
+          const idx = sections.value.indexOf(item);
+          if (idx !== -1) {
+            sections.value.splice(idx, 1);
+          }
+        };
+      },
       registerItem(item) {
         items.push(item);
 
@@ -99,7 +111,7 @@ export const FatFormStep = declareComponent({
       },
       renderForm(status) {
         return (
-          <FatFormItemCollectionProvider value={collection}>
+          <FatFormCollectionProvider value={collection}>
             <div
               class={normalizeClassName('fat-form-steps__form', {
                 'fat-form-steps__form--active': status.active,
@@ -107,7 +119,7 @@ export const FatFormStep = declareComponent({
             >
               {renderSlot(props, slots, 'default')}
             </div>
-          </FatFormItemCollectionProvider>
+          </FatFormCollectionProvider>
         );
       },
     });
