@@ -3,7 +3,7 @@ import { provideFatFormCollection } from './hooks';
 import { FatFormCollection } from './types';
 
 export const FatFormCollectionProvider = declareComponent({
-  name: 'FatalFormItemCollection',
+  name: 'FatFormItemCollection',
   props: declareProps<{ value: FatFormCollection }>({
     value: null,
   }),

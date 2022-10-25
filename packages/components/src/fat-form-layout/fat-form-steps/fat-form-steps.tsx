@@ -20,7 +20,7 @@ import { FatFormStepsMethods, FatFormStepsEvents, FatFormStepsProps, FatFormStep
 import { defaultLayout } from './default-layout';
 import { FatFormPublicMethodKeys } from '../../fat-form/constants';
 
-export function useFatFormSteps<Store extends {} = any, Request extends {} = Store, Submit extends {} = Store>() {
+export function useFatFormStepsRef<Store extends {} = any, Request extends {} = Store, Submit extends {} = Store>() {
   return ref<FatFormStepsMethods<Store, Request, Submit>>();
 }
 
@@ -31,6 +31,7 @@ export const FatFormStepsPublicMethodKeys: (keyof FatFormStepsMethods)[] = [
   'goto',
 ];
 
+// TODO: 支持自定义 submitter
 const FatFormStepsInner = declareComponent({
   name: 'FatFormSteps',
   props: declareProps<FatFormStepsProps>({
@@ -64,10 +65,6 @@ const FatFormStepsInner = declareComponent({
     const steps = ref<FatFormStepMethods[]>([]);
     const nextStepLoading = ref(false);
     const submitLoading = ref(false);
-
-    const hasSections = computed(() => {
-      return steps.value.some(i => i.hasSections);
-    });
 
     const handleRequest = computed(() => {
       if (props.request == null) {
@@ -296,6 +293,17 @@ const FatFormStepsInner = declareComponent({
       const layout = props.pageLayout ?? defaultLayout;
       const children = renderSlot(props, slots, 'default');
 
+      let hasSections = false;
+      const content = steps.value.map((s, index) => {
+        const { vnode, hasSections: _hasSections } = s.renderForm({ index, active: active.value === index });
+
+        if (_hasSections) {
+          hasSections = true;
+        }
+
+        return vnode;
+      });
+
       return (
         <FatForm
           {...inheritProps()}
@@ -309,7 +317,7 @@ const FatFormStepsInner = declareComponent({
             form: exposed,
             vertical: direction === 'vertical',
             layoutProps: props.layoutProps,
-            hasSections: hasSections.value,
+            hasSections,
             formWidth: props.formWidth,
             renderSteps() {
               return (
@@ -324,13 +332,7 @@ const FatFormStepsInner = declareComponent({
               );
             },
             renderContent() {
-              return (
-                <div class="fat-form-steps__forms">
-                  {steps.value.map((s, index) => {
-                    return s.renderForm({ index, active: active.value === index });
-                  })}
-                </div>
-              );
+              return <div class="fat-form-steps__forms">{content}</div>;
             },
             renderSubmitter() {
               return <div class="fat-form-steps__submitter">{renderButtons()}</div>;

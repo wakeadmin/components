@@ -1,19 +1,115 @@
 # @wakeadmin/components
 
-## 1.0.0-alpha.1
+## 1.0.0-alpha.6 (2022/10/21)
+
+主要功能更新：
+
+- fat-table、fat-form 相关组件支持泛型
+- Typescript 类型优化
+
+<br>
+
+Bug 修复：
+
+- FatActions Dropdown 禁止右键点击
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-alpha.5 (2022/10/20)
+
+- checkboxs, checkbox, radio 原件 label 支持 jsx 和函数形式
+
+<br>
+<br>
+<br>
+
+## 1.0.0-alpha.4 (2022/10/18)
+
+Bugs 修复：
+
+- 修复构建结果依赖于 `@vue/reactivity` 导致类型检查失败
+- FatContainer 不传递 title、extra 时支持隐藏 header
+- 修复 FatTable 在批操作之后选中状态显示异常的问题
+
+<br>
+<br>
+<br>
+
+## 1.0.0-alpha.3 (2022/10/17)
+
+### 主要更新
+
+- 升级 @wakeadmin/demi, @wakeadmin/h。
+
+  - 现在不再依赖于 `@vue/runtime-dom`, 直接使用 Vue 2/3 的类型。避免了 Vue 2/3 类型胡窜导致的问题
+  - 依赖 Vue 2.7.13+, 请参照安装文档重新配置, 并将所有 @wakeadmin/\* 相关依赖升级到最新
+
+- 新增 FatSwitch 组件。该组件从 element-plus 中移植，支持内联 label、loading、和 beforeChange 钩子。 switch 原件也跟随升级
+
+- 对接新的惟客云 UI 变量。fat-form width 也跟随变化
+- FatContainer 支持 legacyMode
+- fat-table column 新增 setter、valueProps 支持函数形式
+- avatar 原件支持 string 类型直接传入头像链接
+- fat-form-item 新增 filter，可以在字段变更之前对 value 进行操作
+
+<br>
+
+### 功能优化
+
+- fat-actions 边距使用 gap CSS 属性
+- fat-table remove 实例方法现在返回 `Promise<boolean>` 表示是否移除成功
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-alpha.2 (2022/10/12)
+
+**Breaking Change**
+
+- FatHeader 移除，并使用 FatContainer 取代
+- FatTable 移除 simple 布局
+- FatFloatFooter 属性变更 useWakeadminHeaderIfNeed 修改为 reuseBayIfNeed
+
+**新功能**
+
+- 新增 avatar 原件
+- image 原件支持 fit 属性配置
+- [新 UI 规范适配](https://codesign.qq.com/s/QmlyZwl22kjWRA1/BGAE9Kyg3zNZlRd/inspect)
+  - 新增 FatCard 卡片容器
+  - FatFormSection 调整为卡片形式, **并废弃折叠功能**
+  - **FatHeader 移除** , 使用 FatContainer 替代, **受影响组件主要有 FatTable, simple 布局移除**
+  - FatContent 即将废弃，建议使用 FatCard 取代
+
+<br>
+
+**Bug 修复**
+
+- `date*`/`time*` 相关原件对时间格式化字符串进行规范化，从而支持 element-ui 的语法
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-alpha.1 (2022/10/10)
 
 🎉 第一个 alpha 版本
 
 <br>
 <br>
 
-## 0.6.1
+## 0.6.1 (2022/10/9)
 
 ### Patch Changes
 
 - 原件 renderPreview 执行方式统一; 文件相关原件兼容 element-plus
 
-## 0.6.0
+## 0.6.0 (2022/10/8)
 
 ### Minor Changes
 
@@ -46,7 +142,7 @@
 - Updated dependencies
   - @wakeadmin/element-adapter@0.2.4
 
-## 0.5.7
+## 0.5.7 (2022/10/30)
 
 ### Patch Changes
 

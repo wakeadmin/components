@@ -112,6 +112,7 @@ export default {
             { text: 'FatFormDrawer 抽屉', link: '/fat-form-layout/drawer' },
             { text: 'FatFormPage 页面', link: '/fat-form-layout/page' },
             { text: 'FatFormQuery 查询', link: '/fat-form-layout/query' },
+            { text: 'FatFormSteps 分步 (beta)', link: '/fat-form-layout/steps' },
           ],
         },
         {

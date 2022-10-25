@@ -4,7 +4,7 @@ import { onBeforeUnmount, markRaw, ref } from '@wakeadmin/demi';
 
 import { FatFormStepMethods, useFatFormStepsContext } from './fat-form-steps-context';
 import { FatFormItemMethods, FatFormCollection, FatFormCollectionProvider } from '../../fat-form';
-import { hasSlots, normalizeClassName, OurComponentInstance, renderSlot } from '../../utils';
+import { hasChild, hasSlots, normalizeClassName, OurComponentInstance, renderSlot } from '../../utils';
 
 export interface FatFormStepSlots {
   /**
@@ -36,6 +36,7 @@ export interface FatFormStepProps<Store extends {} = {}, Request extends {} = St
     FatFormStepEvents {
   /**
    * 步骤提交。在点击下一步或者提交(最后异步)时触发, 可以在这里进行一些数据验证之类的操作，如果抛出异常则终止运行。
+   * TODO: 最后一步没有触发
    */
   beforeSubmit?: (value: Store) => Promise<void>;
 }
@@ -91,9 +92,6 @@ const FatFormStepInner = declareComponent({
     };
 
     const instance: FatFormStepMethods = markRaw({
-      get hasSections() {
-        return !!sections.value.length;
-      },
       async validate() {
         // 让管辖内的表单项进行验证
         await Promise.all(items.map(i => i.validate()));
@@ -121,17 +119,24 @@ const FatFormStepInner = declareComponent({
         );
       },
       renderForm(status) {
-        return (
+        const children = renderSlot(props, slots, 'default');
+        const hasSections = !!hasChild(children, 'FatFormSection');
+        const vnode = (
           <FatFormCollectionProvider value={collection}>
             <div
               class={normalizeClassName('fat-form-steps__form', {
                 'fat-form-steps__form--active': status.active,
               })}
             >
-              {renderSlot(props, slots, 'default')}
+              {children}
             </div>
           </FatFormCollectionProvider>
         );
+
+        return {
+          vnode,
+          hasSections,
+        };
       },
     });
 

@@ -12,7 +12,7 @@ import {
 } from '../../fat-form';
 import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../../utils';
 import { FatFormStep, FatFormStepProps } from './fat-form-step';
-import { FatFormStepsPublicMethodKeys, useFatFormSteps, FatFormSteps } from './fat-form-steps';
+import { FatFormStepsPublicMethodKeys, useFatFormStepsRef, FatFormSteps } from './fat-form-steps';
 
 import { FatFormStepsEvents, FatFormStepsMethods, FatFormStepsProps, FatFormStepsSlots } from './types';
 
@@ -87,7 +87,7 @@ export function defineFatFormSteps<
   return declareComponent({
     name: options?.name ?? 'PreDefineFatFormSteps',
     setup(_, { slots, expose, attrs, emit }) {
-      const stepsRef = useFatFormSteps<Store>();
+      const stepsRef = useFatFormStepsRef<Store>();
       const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils(
         // 扩展 step 渲染器
         (child, render) => {
