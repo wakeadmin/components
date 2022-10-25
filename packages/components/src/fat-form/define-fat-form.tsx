@@ -22,7 +22,7 @@ import {
 } from './types';
 import { FatFormPublicMethodKeys } from './constants';
 
-const TYPE = Symbol('fat-form-child-type');
+export const FAT_FORM_CHILD_TYPE = Symbol('fat-form-child-type');
 
 export type FatFormChild<Store extends {}, Request extends {} = Store> = any;
 
@@ -39,7 +39,7 @@ export interface FatFormItemDefinition<
   ValueType extends keyof AtomicProps = 'text'
 > extends FatFormItemProps<Store, Request, ValueType>,
     CommonDefinitionProps {
-  [TYPE]: 'item';
+  [FAT_FORM_CHILD_TYPE]: 'item';
 }
 
 /**
@@ -48,7 +48,7 @@ export interface FatFormItemDefinition<
 export interface FatFormSectionDefinition<Store extends {}, Request extends {} = Store>
   extends FatFormSectionProps,
     CommonDefinitionProps {
-  [TYPE]: 'section';
+  [FAT_FORM_CHILD_TYPE]: 'section';
   children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
 }
 
@@ -58,7 +58,7 @@ export interface FatFormSectionDefinition<Store extends {}, Request extends {} =
 export interface FatFormGroupDefinition<Store extends {}, Request extends {} = Store>
   extends FatFormGroupProps<Store>,
     CommonDefinitionProps {
-  [TYPE]: 'group';
+  [FAT_FORM_CHILD_TYPE]: 'group';
   children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
 }
 
@@ -66,7 +66,7 @@ export interface FatFormGroupDefinition<Store extends {}, Request extends {} = S
  * fat-consumer
  */
 export interface FatFormConsumerDefinition<Store extends {}, Request extends {} = Store> {
-  [TYPE]: 'consumer';
+  [FAT_FORM_CHILD_TYPE]: 'consumer';
   render?: (form: FatFormMethods<Store>) => any | FatFormChild<Store, Request>[];
 }
 
@@ -76,7 +76,7 @@ export interface FatFormDefinition<Store extends {}, Request extends {} = Store,
   children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
 }
 
-type OmitType<T> = Omit<T, typeof TYPE>;
+export type OmitType<T> = Omit<T, typeof FAT_FORM_CHILD_TYPE>;
 
 export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Store, Submit extends {} = Store> {
   /**
@@ -128,28 +128,28 @@ export type FatFormDefine<
 ) => () => FatFormDefinition<Store, Request, Submit>;
 
 function isItem(value: any): value is FatFormItemDefinition<any, any, any> {
-  return value != null && typeof value === 'object' && value[TYPE] === 'item';
+  return value != null && typeof value === 'object' && value[FAT_FORM_CHILD_TYPE] === 'item';
 }
 
 function isSection(value: any): value is FatFormSectionDefinition<any, any> {
-  return value != null && typeof value === 'object' && value[TYPE] === 'section';
+  return value != null && typeof value === 'object' && value[FAT_FORM_CHILD_TYPE] === 'section';
 }
 
 function isGroup(value: any): value is FatFormGroupDefinition<any, any> {
-  return value != null && typeof value === 'object' && value[TYPE] === 'group';
+  return value != null && typeof value === 'object' && value[FAT_FORM_CHILD_TYPE] === 'group';
 }
 
 function isConsumer(value: any): value is FatFormConsumerDefinition<any> {
-  return value != null && typeof value === 'object' && value[TYPE] === 'consumer';
+  return value != null && typeof value === 'object' && value[FAT_FORM_CHILD_TYPE] === 'consumer';
 }
 
-export function useFatFormDefineUtils() {
-  const item = (val: any) => ({ [TYPE]: 'item', ...val } as any);
-  const group = (val: any) => ({ [TYPE]: 'group', ...val } as any);
-  const section = (val: any) => ({ [TYPE]: 'section', ...val } as any);
+export function useFatFormDefineUtils(customRender?: (child: any, renderChildren: (children: any) => any) => any) {
+  const item = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'item', ...val } as any);
+  const group = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'group', ...val } as any);
+  const section = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'section', ...val } as any);
   const consumer = (render: any) =>
     ({
-      [TYPE]: 'consumer',
+      [FAT_FORM_CHILD_TYPE]: 'consumer',
       render: (form: FatFormMethods<any>) => {
         const rtn = render(form);
 
@@ -181,6 +181,9 @@ export function useFatFormDefineUtils() {
       return <FatFormSection {...other}>{renderChildren(sectionChildren)}</FatFormSection>;
     } else if (isConsumer(child)) {
       return <FatFormConsumer renderDefault={child.render} />;
+    } else if (customRender != null) {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return customRender(child, renderChildren);
     } else {
       return child;
     }

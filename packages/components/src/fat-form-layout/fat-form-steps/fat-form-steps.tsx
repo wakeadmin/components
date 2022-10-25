@@ -24,6 +24,13 @@ export function useFatFormSteps<Store extends {} = any, Request extends {} = Sto
   return ref<FatFormStepsMethods<Store, Request, Submit>>();
 }
 
+export const FatFormStepsPublicMethodKeys: (keyof FatFormStepsMethods)[] = [
+  ...FatFormPublicMethodKeys,
+  'goPrev',
+  'goNext',
+  'goto',
+];
+
 const FatFormStepsInner = declareComponent({
   name: 'FatFormSteps',
   props: declareProps<FatFormStepsProps>({

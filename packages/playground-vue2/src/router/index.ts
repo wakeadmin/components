@@ -41,6 +41,11 @@ const routes: RouteConfig[] = [
     component: () => import('../views/Steps.vue'),
   },
   {
+    path: '/steps-define',
+    name: 'steps-define',
+    component: () => import('../views/StepsDefine'),
+  },
+  {
     path: '/steps-vertical',
     name: 'steps-vertical',
     component: () => import('../views/Steps-Vertical.vue'),
