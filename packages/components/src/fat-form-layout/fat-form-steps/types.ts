@@ -10,12 +10,23 @@ export interface FatFormStepEvents<Store extends {}, Submit extends {} = Store> 
   onActiveChange?: (nextActive: number) => void;
 }
 
-// TODO: 支持上一步，下一步等跳转
-export type FatFormStepsMethods<
-  Store extends {} = {},
-  Request extends {} = Store,
-  Submit extends {} = Store
-> = FatFormMethods<Store, Request, Submit>;
+export interface FatFormStepsMethods<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
+  extends FatFormMethods<Store, Request, Submit> {
+  /**
+   * 跳转到上一步
+   */
+  goPrev(): Promise<void>;
+
+  /**
+   * 跳转到下一步
+   */
+  goNext(): Promise<void>;
+
+  /**
+   * 跳转到指定步骤
+   */
+  goto(index: number): Promise<void>;
+}
 
 export interface FatFormStepsSubmitter {
   /**

@@ -6,6 +6,10 @@ import { Ref } from '@wakeadmin/demi';
  */
 export function forwardExpose(exposed: Record<string, unknown>, fields: string[], ref: Ref<any>) {
   for (const field of fields) {
+    if (field in exposed) {
+      continue;
+    }
+
     Object.defineProperty(exposed, field, {
       configurable: true,
       enumerable: true,

@@ -105,12 +105,20 @@ export const FatFormSteps = declareComponent({
       return form.value?.submitting || submitLoading.value;
     });
 
-    const goPrev = () => {
+    const goPrev = async () => {
+      if (!hasPrev.value) {
+        return;
+      }
+
       // 前往上一步，不需要验证
       active.value--;
     };
 
     const goNext = async () => {
+      if (!hasNext.value) {
+        return;
+      }
+
       const index = active.value;
 
       try {
@@ -148,14 +156,23 @@ export const FatFormSteps = declareComponent({
       }
     };
 
-    const handleStepClick = (index: number) => {
+    const goto = async (index: number) => {
+      if (index < 0 || index >= steps.value.length) {
+        return;
+      }
+
       // 严格模式只能点击前面的步骤
       if (props.strict) {
-        if (index >= active.value) {
+        if (index < active.value) {
+          active.value = index;
           return;
         }
 
-        active.value = index;
+        // 下一步
+        if (index === active.value + 1) {
+          goNext();
+          return;
+        }
 
         return;
       }
@@ -235,8 +252,15 @@ export const FatFormSteps = declareComponent({
       { immediate: true }
     );
 
-    const exposed: any = {};
-    forwardExpose(exposed, FatFormPublicMethodKeys, form);
+    // @ts-expect-error
+    const exposed: FatFormStepsMethods<any> = {
+      goPrev,
+      goNext,
+      goto,
+      submit,
+    };
+
+    forwardExpose(exposed as any, FatFormPublicMethodKeys, form);
     expose(exposed);
 
     provideFatFormStepsContext(context);
@@ -275,7 +299,7 @@ export const FatFormSteps = declareComponent({
                   {...{ space, direction, alignCenter, simple, active: active.value }}
                 >
                   {steps.value.map((s, index) => {
-                    return s.renderStep({ index, active: active.value === index }, () => handleStepClick(index));
+                    return s.renderStep({ index, active: active.value === index }, () => goto(index));
                   })}
                 </Steps>
               );
