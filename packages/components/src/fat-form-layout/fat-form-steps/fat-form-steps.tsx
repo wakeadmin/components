@@ -2,14 +2,21 @@
  * 分布表单
  */
 import { Button, Steps, Message } from '@wakeadmin/element-adapter';
-import { declareComponent, declareProps } from '@wakeadmin/h';
+import { declareComponent, declareEmits, declareProps } from '@wakeadmin/h';
 import { computed, ref, watch } from '@wakeadmin/demi';
 
 import { FatForm, FatFormMethods } from '../../fat-form';
-import { forwardExpose, inheritProps, normalizeClassName, renderSlot } from '../../utils';
+import {
+  forwardExpose,
+  inheritProps,
+  normalizeClassName,
+  OurComponentInstance,
+  renderSlot,
+  ToHEmitDefinition,
+} from '../../utils';
 import { FatFormStepMethods, FatFormStepsContextValue, provideFatFormStepsContext } from './fat-form-steps-context';
 import { useFatConfigurable } from '../../fat-configurable';
-import { FatFormStepsMethods, FatFormStepsProps } from './types';
+import { FatFormStepsMethods, FatFormStepsEvents, FatFormStepsProps, FatFormStepsSlots } from './types';
 import { defaultLayout } from './default-layout';
 import { FatFormPublicMethodKeys } from '../../fat-form/constants';
 
@@ -17,7 +24,7 @@ export function useFatFormSteps<Store extends {} = any, Request extends {} = Sto
   return ref<FatFormStepsMethods<Store, Request, Submit>>();
 }
 
-export const FatFormSteps = declareComponent({
+const FatFormStepsInner = declareComponent({
   name: 'FatFormSteps',
   props: declareProps<FatFormStepsProps>({
     request: null,
@@ -41,7 +48,8 @@ export const FatFormSteps = declareComponent({
     submitText: null,
     submitProps: null,
   }),
-  setup(props, { attrs, slots, expose }) {
+  emits: declareEmits<ToHEmitDefinition<FatFormStepsEvents<any>>>(),
+  setup(props, { attrs, slots, expose, emit }) {
     const configurable = useFatConfigurable();
     const form = ref<FatFormMethods<any>>();
     const active = ref(0);
@@ -252,6 +260,10 @@ export const FatFormSteps = declareComponent({
       { immediate: true }
     );
 
+    watch(active, value => {
+      emit('activeChange', value);
+    });
+
     // @ts-expect-error
     const exposed: FatFormStepsMethods<any> = {
       goPrev,
@@ -324,3 +336,16 @@ export const FatFormSteps = declareComponent({
     };
   },
 });
+
+export const FatFormSteps = FatFormStepsInner as unknown as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormStepsProps<Store, Request, Submit>
+) => OurComponentInstance<
+  typeof props,
+  FatFormStepsSlots<Store>,
+  FatFormStepsEvents<Store, Submit>,
+  FatFormStepsMethods<Store, Request, Submit>
+>;

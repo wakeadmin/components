@@ -4,7 +4,7 @@ import { onBeforeUnmount, markRaw, ref } from '@wakeadmin/demi';
 
 import { FatFormStepMethods, useFatFormStepsContext } from './fat-form-steps-context';
 import { FatFormItemMethods, FatFormCollection, FatFormCollectionProvider } from '../../fat-form';
-import { hasSlots, normalizeClassName, renderSlot } from '../../utils';
+import { hasSlots, normalizeClassName, OurComponentInstance, renderSlot } from '../../utils';
 
 export interface FatFormStepSlots {
   /**
@@ -28,17 +28,19 @@ export interface FatFormStepSlots {
   renderDefault?: () => any;
 }
 
-// TODO: 支持点击
+export interface FatFormStepEvents {}
+
 export interface FatFormStepProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
   extends StepProps,
-    FatFormStepSlots {
+    FatFormStepSlots,
+    FatFormStepEvents {
   /**
    * 步骤提交。在点击下一步或者提交(最后异步)时触发, 可以在这里进行一些数据验证之类的操作，如果抛出异常则终止运行。
    */
   beforeSubmit?: (value: Store) => Promise<void>;
 }
 
-export const FatFormStep = declareComponent({
+const FatFormStepInner = declareComponent({
   name: 'FatFormStep',
   props: declareProps<FatFormStepProps>({
     beforeSubmit: null,
@@ -144,3 +146,11 @@ export const FatFormStep = declareComponent({
     };
   },
 });
+
+export const FatFormStep = FatFormStepInner as unknown as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormStepProps<Store, Request, Submit>
+) => OurComponentInstance<typeof props, FatFormStepSlots, FatFormStepEvents, void>;

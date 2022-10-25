@@ -3,7 +3,7 @@ import { FatFormBaseProps, FatFormMethods, FatFormSlots, FatFormEvents } from '.
 
 export type FatFormStepsSlots<Store extends {}> = FatFormSlots<Store>;
 
-export interface FatFormStepEvents<Store extends {}, Submit extends {} = Store> extends FatFormEvents<Store, Submit> {
+export interface FatFormStepsEvents<Store extends {}, Submit extends {} = Store> extends FatFormEvents<Store, Submit> {
   /**
    * 步骤变化
    */
@@ -52,7 +52,7 @@ export interface FatFormStepsSubmitter {
 
 export interface FatFormStepsProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
   extends Omit<FatFormBaseProps<Store, Request, Submit>, 'request'>,
-    FatFormStepEvents<Store, Submit>,
+    FatFormStepsEvents<Store, Submit>,
     FatFormStepsSlots<Store>,
     Omit<StepsProps, 'active' | 'processStatus' | 'finishStatus'>,
     FatFormStepsSubmitter {
