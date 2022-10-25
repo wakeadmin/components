@@ -99,11 +99,17 @@ export const FatFormStep = declareComponent({
       async beforeSubmit(value: any) {
         await props.beforeSubmit?.(value);
       },
-      renderStep() {
+      renderStep(_status, onClick) {
         const { title, description, icon, status } = props;
         return (
           <Step
             {...{ title, description, icon, status }}
+            class={normalizeClassName('fat-form-steps__step', {
+              'fat-form-steps__step--active': _status.active,
+            })}
+            // @ts-expect-error 原始属性挂载
+            onClickNative={onClick}
+            onClick={onClick}
             v-slots={{
               icon: renderSlotIfNeeded('icon'),
               title: renderSlotIfNeeded('title'),

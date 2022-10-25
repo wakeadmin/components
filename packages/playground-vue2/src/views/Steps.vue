@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <FatFormSteps :form-width="550" :submit="handleSubmit">
+    <FatFormSteps :form-width="550" :submit="handleSubmit" :strict="false">
       <FatFormStep title="步骤1">
         <FatFormItem prop="a" label="a" required></FatFormItem>
         <FatFormItem prop="b" label="b" required></FatFormItem>
@@ -10,6 +10,11 @@
         <FatFormItem prop="d" label="d" required></FatFormItem>
         <FatFormItem prop="e" label="e" required></FatFormItem>
         <FatFormItem prop="f" label="f" required></FatFormItem>
+      </FatFormStep>
+      <FatFormStep title="步骤3">
+        <FatFormItem prop="g" label="g" required></FatFormItem>
+        <FatFormItem prop="h" label="h" required></FatFormItem>
+        <FatFormItem prop="i" label="i" required></FatFormItem>
       </FatFormStep>
     </FatFormSteps>
   </div>

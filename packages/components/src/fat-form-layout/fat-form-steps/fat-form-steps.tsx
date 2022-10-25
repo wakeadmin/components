@@ -148,6 +148,22 @@ export const FatFormSteps = declareComponent({
       }
     };
 
+    const handleStepClick = (index: number) => {
+      // 严格模式只能点击前面的步骤
+      if (props.strict) {
+        if (index >= active.value) {
+          return;
+        }
+
+        active.value = index;
+
+        return;
+      }
+
+      // 非严格模式可以自由跳转
+      active.value = index;
+    };
+
     /**
      * 表单提交，首先进行验证，如果某一步验证失败，会激活验证失败的 step
      */
@@ -259,7 +275,7 @@ export const FatFormSteps = declareComponent({
                   {...{ space, direction, alignCenter, simple, active: active.value }}
                 >
                   {steps.value.map((s, index) => {
-                    return s.renderStep({ index, active: active.value === index });
+                    return s.renderStep({ index, active: active.value === index }, () => handleStepClick(index));
                   })}
                 </Steps>
               );

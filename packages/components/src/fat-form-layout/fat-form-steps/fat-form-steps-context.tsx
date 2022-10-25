@@ -19,7 +19,7 @@ export interface FatFormStepMethods {
   /**
    * 渲染步骤
    */
-  renderStep(status: FatFormStepStatus): any;
+  renderStep(status: FatFormStepStatus, onClick: () => void): any;
 
   /**
    * 表单内容
