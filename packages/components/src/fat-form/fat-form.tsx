@@ -588,9 +588,6 @@ export const FatForm = declareComponent({
           validateOnRuleChange={props.validateOnRuleChange}
           onValidate={handleValidate}
           // @ts-expect-error 原生事件
-          // vue3
-          onSubmit={handleSubmit}
-          // vue2
           onSubmitNative={handleSubmit}
         >
           {slots.default?.()}

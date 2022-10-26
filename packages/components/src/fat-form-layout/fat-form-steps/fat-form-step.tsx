@@ -109,7 +109,6 @@ const FatFormStepInner = declareComponent({
             })}
             // @ts-expect-error 原始属性挂载
             onClickNative={onClick}
-            onClick={onClick}
             v-slots={{
               icon: renderSlotIfNeeded('icon'),
               title: renderSlotIfNeeded('title'),

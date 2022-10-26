@@ -224,9 +224,8 @@ const FatActionInner = declareComponent({
             disabled={disabled || loading}
             command={i}
             icon={i.icon}
-            // @ts-expect-error
-            onMousedown={handleClick} // vue 3
-            onMousedownNative={handleClick} // vue 2
+            // @ts-expect-error 原生事件监听
+            onMousedownNative={handleClick}
           >
             {i.name}
           </DropdownItem>
