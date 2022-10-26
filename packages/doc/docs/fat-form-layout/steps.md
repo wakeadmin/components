@@ -62,6 +62,21 @@
 <br>
 <br>
 
+非严格模式，即步骤之间可以任意切换：
+
+<iframe class="demo-frame" style="height: 380px" src="./steps-loose.demo.html" />
+
+::: details 查看代码
+
+<<< @/fat-form-layout/Steps-Loose.tsx
+
+:::
+
+<br>
+<br>
+<br>
+<br>
+
 ## API
 
 `FatFormSteps`:
