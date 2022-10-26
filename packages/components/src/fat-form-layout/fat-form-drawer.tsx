@@ -31,7 +31,7 @@ export interface FatFormDrawerMethods<Store extends {}> extends FatFormMethods<S
   close(): void;
 }
 
-export interface FatFormDrawerSlots<S extends {}> extends FatFormSlots<S> {
+export interface FatFormDrawerSlots<S extends {}> extends Omit<FatFormSlots<S>, 'renderSubmitter'> {
   /**
    * 渲染标题
    */
@@ -40,7 +40,12 @@ export interface FatFormDrawerSlots<S extends {}> extends FatFormSlots<S> {
   /**
    * 渲染底部
    */
-  renderFooter?: (instance: FatFormDrawerMethods<S>, buttons: () => any) => any;
+  renderFooter?: (instance: FatFormDrawerMethods<S>) => any;
+
+  /**
+   * 自定义提交器渲染
+   */
+  renderSubmitter?: (instance: FatFormDrawerMethods<S>) => any;
 }
 
 export interface FatFormDrawerEvents<Store extends {}, Submit extends {} = Store>
@@ -199,16 +204,6 @@ const FatFormDrawerInner = declareComponent({
       });
     };
 
-    const instance = {
-      open,
-      close,
-    };
-
-    // 转发 fat-form props
-    forwardExpose(instance, FatFormPublicMethodKeys, form);
-
-    expose(instance);
-
     const renderButtons = () => {
       return [
         !!props.enableCancel && (
@@ -226,6 +221,17 @@ const FatFormDrawerInner = declareComponent({
         </Button>,
       ];
     };
+
+    const instance = {
+      open,
+      close,
+      renderButtons,
+    };
+
+    // 转发 fat-form props
+    forwardExpose(instance, FatFormPublicMethodKeys, form);
+
+    expose(instance);
 
     const renderFooter = () => {
       return <div class="fat-form-drawer__footer">{renderButtons()}</div>;
@@ -266,9 +272,7 @@ const FatFormDrawerInner = declareComponent({
               </FatForm>
             )}
           </div>
-          {hasSlots(props, slots, 'footer')
-            ? renderSlot(props, slots, 'footer', instance, renderButtons)
-            : renderFooter()}
+          {hasSlots(props, slots, 'footer') ? renderSlot(props, slots, 'footer', instance) : renderFooter()}
         </Drawer>
       );
     };

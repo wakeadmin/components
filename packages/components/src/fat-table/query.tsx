@@ -60,14 +60,14 @@ export const Query = declareComponent({
             initialValue={props.initialValue}
             layout="inline"
             submitOnQueryChange={false}
-            renderSubmitter={(form, buttons) => {
+            renderSubmitter={form => {
               return [
                 ctx.slots.beforeButtons?.(scope),
                 ctx.slots.submitter ? (
                   ctx.slots.submitter?.(scope)
                 ) : (
                   <FatFormGroup labelWidth="auto" gutter="sm" col={false}>
-                    {buttons()}
+                    {form.renderButtons()}
                   </FatFormGroup>
                 ),
                 ctx.slots.afterButtons?.(scope),

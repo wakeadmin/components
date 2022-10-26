@@ -32,7 +32,7 @@ export interface FatFormModalMethods<Store extends {}> extends FatFormMethods<St
   close(): void;
 }
 
-export interface FatFormModalSlots<S extends {}> extends FatFormSlots<S> {
+export interface FatFormModalSlots<S extends {}> extends Omit<FatFormSlots<S>, 'renderSubmitter'> {
   /**
    * 渲染标题
    */
@@ -41,7 +41,12 @@ export interface FatFormModalSlots<S extends {}> extends FatFormSlots<S> {
   /**
    * 渲染底部
    */
-  renderFooter?: (instance: FatFormModalMethods<S>, buttons: () => any) => any;
+  renderFooter?: (instance: FatFormModalMethods<S>) => any;
+
+  /**
+   * 自定义提交器
+   */
+  renderSubmitter?: (instance: FatFormModalMethods<S>) => any;
 }
 
 export interface FatFormModalEvents<Store extends {}, Submit extends {} = Store>
@@ -190,15 +195,6 @@ const FatFormModalInner = declareComponent({
       });
     };
 
-    const instance = {
-      open,
-      close,
-    };
-
-    forwardExpose(instance, FatFormPublicMethodKeys, form);
-
-    expose(instance);
-
     const renderButtons = () => {
       return [
         !!props.enableCancel && (
@@ -216,6 +212,16 @@ const FatFormModalInner = declareComponent({
         </Button>,
       ];
     };
+
+    const instance = {
+      open,
+      close,
+      renderButtons,
+    };
+
+    forwardExpose(instance, FatFormPublicMethodKeys, form);
+
+    expose(instance);
 
     const renderFooter = () => {
       return <div class="fat-form-modal__footer">{renderButtons()}</div>;
@@ -238,9 +244,7 @@ const FatFormModalInner = declareComponent({
           beforeClose={handleCancel}
           v-slots={{
             title: hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', instance) : undefined,
-            footer: hasSlots(props, slots, 'footer')
-              ? renderSlot(props, slots, 'footer', instance, renderButtons)
-              : renderFooter(),
+            footer: hasSlots(props, slots, 'footer') ? renderSlot(props, slots, 'footer', instance) : renderFooter(),
           }}
         >
           {(!props.destroyOnClose || !!lazyVisible.value) && (

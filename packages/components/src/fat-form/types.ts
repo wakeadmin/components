@@ -167,6 +167,11 @@ export interface FatFormMethods<Store extends {}, Request extends {} = Store, Su
    */
   unsetFieldValue(prop: string): void;
 
+  /**
+   * 返回默认的提交按钮
+   */
+  renderButtons(): any;
+
   // 以下是私有方法
 
   /**
@@ -309,9 +314,8 @@ export interface FatFormSlots<S extends {}> {
   /**
    * 自定义渲染 提交按钮
    * @param form 表单实例
-   * @param buttons 默认按钮渲染
    */
-  renderSubmitter?: (form: FatFormMethods<S>, buttons: () => any) => any;
+  renderSubmitter?: (form: FatFormMethods<S>) => any;
 }
 
 export type FatFormRules<Store extends {}> = Rules | ((values: Store, form: FatFormMethods<Store>) => Rules);

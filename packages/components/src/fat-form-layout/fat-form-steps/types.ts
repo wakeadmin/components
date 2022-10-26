@@ -1,7 +1,9 @@
 import { StepsProps, ButtonProps } from '@wakeadmin/element-adapter';
 import { FatFormBaseProps, FatFormMethods, FatFormSlots, FatFormEvents } from '../../fat-form';
 
-export type FatFormStepsSlots<Store extends {}> = FatFormSlots<Store>;
+export interface FatFormStepsSlots<Store extends {}> extends Omit<FatFormSlots<Store>, 'renderSubmitter'> {
+  renderSubmitter?: (instance: FatFormStepsMethods<Store>) => any;
+}
 
 export interface FatFormStepsEvents<Store extends {}, Submit extends {} = Store> extends FatFormEvents<Store, Submit> {
   /**
@@ -138,5 +140,5 @@ export type FatFormStepsLayout = (renders: {
   /**
    * 渲染提交按钮
    */
-  renderSubmitter(): any;
+  renderSubmitter?: () => any;
 }) => any;

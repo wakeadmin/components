@@ -8,6 +8,7 @@ import { computed, ref, watch } from '@wakeadmin/demi';
 import { FatForm, FatFormMethods } from '../../fat-form';
 import {
   forwardExpose,
+  hasSlots,
   inheritProps,
   normalizeClassName,
   OurComponentInstance,
@@ -41,6 +42,9 @@ const FatFormStepsInner = declareComponent({
     layoutProps: null,
     formWidth: { type: [Number, String], default: undefined },
 
+    // override
+    mode: null,
+
     // steps 属性
     initialActive: { type: Number, default: undefined },
     space: { type: [String, Number], default: 250 },
@@ -55,6 +59,10 @@ const FatFormStepsInner = declareComponent({
     nextProps: null,
     submitText: null,
     submitProps: null,
+    enableSubmitter: { type: Boolean, default: undefined },
+
+    // slots
+    renderSubmitter: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormStepsEvents<any>>>(),
   setup(props, { attrs, slots, expose, emit }) {
@@ -250,6 +258,10 @@ const FatFormStepsInner = declareComponent({
       ];
     };
 
+    const enabledSubmitter = computed(() => {
+      return props.enableSubmitter ?? props.mode !== 'preview';
+    });
+
     watch(
       () => props.initialActive,
       value => {
@@ -274,6 +286,7 @@ const FatFormStepsInner = declareComponent({
       goNext,
       goto,
       submit,
+      renderButtons,
     };
 
     forwardExpose(exposed as any, FatFormPublicMethodKeys, form);
@@ -281,8 +294,21 @@ const FatFormStepsInner = declareComponent({
 
     provideFatFormStepsContext(context);
 
+    const renderSubmitter = computed(() => {
+      return enabledSubmitter.value
+        ? () => {
+            return hasSlots(props, slots, 'submitter') ? (
+              renderSlot(props, slots, 'submitter', exposed)
+            ) : (
+              <div class="fat-form-steps__submitter">{renderButtons()}</div>
+            );
+          }
+        : undefined;
+    });
+
     return () => {
       const {
+        mode,
         // steps 属性
         space,
         direction,
@@ -307,6 +333,8 @@ const FatFormStepsInner = declareComponent({
       return (
         <FatForm
           {...inheritProps()}
+          hierarchyConnect={false}
+          mode={mode}
           ref={form}
           class={normalizeClassName('fat-form-steps', attrs.class)}
           style={attrs.style}
@@ -334,9 +362,7 @@ const FatFormStepsInner = declareComponent({
             renderContent() {
               return <div class="fat-form-steps__forms">{content}</div>;
             },
-            renderSubmitter() {
-              return <div class="fat-form-steps__submitter">{renderButtons()}</div>;
-            },
+            renderSubmitter: renderSubmitter.value,
           })}
 
           {children}

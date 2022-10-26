@@ -30,7 +30,9 @@ export const defaultLayout: FatFormStepsLayout = renders => {
           </div>
         </FatContent>
       )}
-      <FatFloatFooter class="fat-form-steps-default-layout__footer">{renders.renderSubmitter()}</FatFloatFooter>
+      {!!renders.renderSubmitter && (
+        <FatFloatFooter class="fat-form-steps-default-layout__footer">{renders.renderSubmitter()}</FatFloatFooter>
+      )}
     </div>
   );
 };

@@ -19,7 +19,6 @@ export type AImagesValue = any[];
 
 export type ImageObjectFit = 'fill' | 'contain' | 'cover' | 'scale-down' | 'none';
 
-// TODO: vue3 测试
 export type AImagesProps = DefineAtomicProps<
   AImagesValue,
   Omit<UploadProps, 'fileList' | 'onChange' | 'onRemove' | 'accept'> & CommonUploadProps,

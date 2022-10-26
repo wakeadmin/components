@@ -20,10 +20,11 @@ import { useFatConfigurable } from '../fat-configurable';
 
 export type FatFormPageMethods<Store extends {}> = FatFormMethods<Store>;
 
-export interface FatFormPageSlots<Store extends {}> extends FatFormSlots<Store> {
+export interface FatFormPageSlots<Store extends {}> extends Omit<FatFormSlots<Store>, 'renderSubmitter'> {
   renderTitle?: (form?: FatFormPageMethods<Store>) => any;
   renderExtra?: (form?: FatFormPageMethods<Store>) => any;
   renderDefault?: () => any;
+  renderSubmitter?: (form?: FatFormPageMethods<Store>) => any;
 }
 
 export interface FatFormPageEvents<Store extends {}, Submit extends {} = Store> extends FatFormEvents<Store, Submit> {
@@ -194,10 +195,6 @@ const FatFormPageInner = declareComponent({
       }
     };
 
-    const exposed = {};
-    forwardExpose(exposed, FatFormPublicMethodKeys, form);
-    expose(exposed);
-
     const renderButtons = () => {
       return [
         !!props.enableCancel && (
@@ -216,6 +213,10 @@ const FatFormPageInner = declareComponent({
       ];
     };
 
+    const exposed = { renderButtons };
+    forwardExpose(exposed, FatFormPublicMethodKeys, form);
+    expose(exposed);
+
     const enableSubmitter = computed(() => {
       return props.enableSubmitter ?? props.mode !== 'preview';
     });
@@ -226,9 +227,7 @@ const FatFormPageInner = declareComponent({
       }
 
       return () =>
-        hasSlots(props, slots, 'submitter')
-          ? renderSlot(props, slots, 'submitter', form.value, renderButtons)
-          : renderButtons();
+        hasSlots(props, slots, 'submitter') ? renderSlot(props, slots, 'submitter', form.value) : renderButtons();
     });
 
     return () => {

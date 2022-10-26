@@ -6,6 +6,8 @@ import {
   FatFormModal,
   FatFormPage,
   FatFormQuery,
+  FatFormSteps,
+  FatFormStepsMethods,
   useFatFormDrawerRef,
   useFatFormModalRef,
   useFatFormPageRef,
@@ -13,7 +15,7 @@ import {
 } from '../fat-form-layout';
 import { MyGenericComponent } from './MyGenericComponent';
 import { ADateValue } from '../builtin-atomic';
-import { expectType, test } from '.';
+import { expectType, noop, test } from '.';
 
 test('MyGenericComponent jsx 正常推断类型', () => {
   const instance = ref<{ getValue(): number }>();
@@ -133,4 +135,9 @@ test('FatFormPage', () => {
 test('FatFormQuery', () => {
   const r = useFatFormQueryRef();
   <FatFormQuery ref={r} />;
+});
+
+test('FatFormSteps', () => {
+  const instance = new FatFormSteps(noop);
+  expectType<(instance: FatFormStepsMethods<any>) => any>(instance.$slots.submitter);
 });

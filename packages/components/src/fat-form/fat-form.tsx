@@ -97,6 +97,7 @@ export const FatForm = declareComponent({
     const touches = useTouches();
     const childForms = new Set<FatFormMethods<any>>();
     const items = new Set<FatFormItemMethods<any>>();
+    let instance: FatFormMethods<any>;
 
     /**
      * 初始值
@@ -414,8 +415,22 @@ export const FatForm = declareComponent({
       }
     };
 
+    const renderButtons = () => {
+      const pending = loading.value || submitting.value;
+      return [
+        <Button loading={pending} type="primary" {...props.submitProps} onClick={instance.submit}>
+          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+        </Button>,
+        !!props.enableReset && (
+          <Button loading={pending} {...props.resetProps} onClick={instance.reset}>
+            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
+          </Button>
+        ),
+      ];
+    };
+
     // 表单实例
-    const instance: FatFormMethods<any> = {
+    instance = {
       get mode() {
         return props.mode ?? 'editable';
       },
@@ -466,6 +481,7 @@ export const FatForm = declareComponent({
       unsetFieldValue,
       isFieldTouched,
       getValuesToSubmit,
+      renderButtons,
       __setInitialValue,
       __registerChildForm,
       __unregisterChildForm,
@@ -543,20 +559,6 @@ export const FatForm = declareComponent({
       emit('validate', prop, valid, message);
     };
 
-    const renderButtons = () => {
-      const pending = loading.value || submitting.value;
-      return [
-        <Button loading={pending} type="primary" {...props.submitProps} onClick={instance.submit}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
-        </Button>,
-        !!props.enableReset && (
-          <Button loading={pending} {...props.resetProps} onClick={instance.reset}>
-            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
-          </Button>
-        ),
-      ];
-    };
-
     return () => {
       const layout = instance.layout;
       const labelAlign = props.labelAlign ?? configurable.fatForm?.labelAlign ?? 'right';
@@ -594,7 +596,7 @@ export const FatForm = declareComponent({
           {slots.default?.()}
           {props.enableSubmitter &&
             (hasSubmitter.value ? (
-              renderSlot(props, slots, 'submitter', instance, renderButtons)
+              renderSlot(props, slots, 'submitter', instance)
             ) : (
               <FatFormGroup
                 labelWidth="auto"

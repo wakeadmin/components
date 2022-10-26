@@ -16,12 +16,19 @@
         <FatFormItem prop="h" label="h" required></FatFormItem>
         <FatFormItem prop="i" label="i" required></FatFormItem>
       </FatFormStep>
+      <template #submitter="scope"> ok <VNode :vnodes="scope.renderButtons()"></VNode> </template>
     </FatFormSteps>
   </div>
 </template>
 
 <script lang="tsx" setup>
   import { FatFormSteps, FatFormStep, FatFormItem } from '@wakeadmin/components';
+
+  const VNode: any = {
+    functional: true,
+    // @ts-ignore
+    render: (h, ctx) => ctx.props.vnodes,
+  };
 
   const handleSubmit = async (values: any) => {
     console.log(values);

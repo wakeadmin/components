@@ -18,7 +18,7 @@ import {
   ToHSlotDefinition,
 } from '../utils';
 
-export type FatFormQuerySlot<Store extends {}> = FatFormSlots<Store>;
+export type FatFormQuerySlots<Store extends {}> = FatFormSlots<Store>;
 
 export type FatFormQueryEvent<Store extends {}, Submit extends {} = Store> = FatFormEvents<Store, Submit>;
 
@@ -53,7 +53,7 @@ const FatFormQueryInner = declareComponent({
     queryWatchDelay: { type: Number, default: 800 },
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormEvents<any, any>>>(),
-  slots: declareSlots<ToHSlotDefinition<FatFormSlots<any>>>(),
+  slots: declareSlots<ToHSlotDefinition<FatFormQuerySlots<any>>>(),
   setup(props, { slots, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
     const configurable = useFatConfigurable();
@@ -102,7 +102,7 @@ export const FatFormQuery = FatFormQueryInner as new <
   props: FatFormQueryProps<Store, Request, Submit>
 ) => OurComponentInstance<
   typeof props,
-  FatFormQuerySlot<Store>,
+  FatFormQuerySlots<Store>,
   FatFormQueryEvent<Store, Submit>,
   FatFormQueryMethods<Store>
 >;
