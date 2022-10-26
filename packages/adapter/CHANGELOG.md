@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.4.0
+
+### Minor Changes
+
+- 新增 Steps 组件
+
 ## 0.3.2
 
 ### Patch Changes

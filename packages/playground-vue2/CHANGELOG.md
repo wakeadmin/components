@@ -1,5 +1,9 @@
 # playground-vue2
 
+## 0.1.12
+
+update deps
+
 ## 0.1.11
 
 ### Patch Changes

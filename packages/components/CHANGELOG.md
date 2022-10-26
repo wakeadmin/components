@@ -1,5 +1,24 @@
 # @wakeadmin/components
 
+## 1.0.0-alpha.7 (2022/10/26)
+
+主要功能更新:
+
+- checkboxs, radio 原件支持垂直布局
+- 新增 FatFormSteps 分布表单
+
+<br>
+<br>
+
+Bug 修复：
+
+- 修复 fat-form validateField 在 element-ui 下没有返回 promise
+
+
+<br>
+<br>
+<br>
+
 ## 1.0.0-alpha.6 (2022/10/21)
 
 主要功能更新：
