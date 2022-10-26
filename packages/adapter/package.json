@@ -38,12 +38,12 @@
   "license": "MIT",
   "dependencies": {
     "@wakeadmin/demi": "^0.2.3",
-    "@wakeadmin/h": "^0.2.11",
+    "@wakeadmin/h": "^0.2.12",
     "@wakeadmin/utils": "^0.1.4"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
-    "element-plus": "^2.2.18",
+    "element-plus": "^2.2.19",
     "element-ui": "^2.15.10"
   },
   "peerDependencies": {

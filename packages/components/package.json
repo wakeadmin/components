@@ -46,7 +46,7 @@
   "dependencies": {
     "@wakeadmin/demi": "^0.2.3",
     "@wakeadmin/element-adapter": "workspace:^0.3.2",
-    "@wakeadmin/h": "^0.2.11",
+    "@wakeadmin/h": "^0.2.12",
     "@wakeadmin/icons": "^0.1.4",
     "@wakeadmin/utils": "^0.1.4",
     "copy-to-clipboard": "^3.3.2"

@@ -19,7 +19,7 @@
   "devDependencies": {
     "@wakeadmin/components": "workspace:1.0.0-alpha.6",
     "@wakeadmin/icons": "^0.1.4",
-    "element-plus": "^2.2.18",
+    "element-plus": "^2.2.19",
     "imagemin-cli": "^7.0.0",
     "vitepress": "1.0.0-alpha.16",
     "vue": "^3.2.41"
