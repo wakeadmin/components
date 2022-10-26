@@ -431,7 +431,7 @@ const FatFormItemInner = declareComponent({
       const col = normalizedCol.value;
 
       const labelSlot =
-        hasTooltip.value || hasSlots(props, slots, 'label')
+        hasTooltip.value || hasLabel.value
           ? {
               label: (
                 <span>

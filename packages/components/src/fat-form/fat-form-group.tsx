@@ -258,7 +258,7 @@ export const FatFormGroup = declareComponent({
       }
 
       const labelSlot =
-        hasTooltip.value || hasSlots(props, slots, 'label')
+        hasTooltip.value || hasLabel.value
           ? {
               label: (
                 <span>

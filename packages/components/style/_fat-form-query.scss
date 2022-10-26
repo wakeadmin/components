@@ -1,0 +1,11 @@
+@use 'config' as *;
+
+.fat-form-query {
+  position: relative;
+
+  &__submitter {
+    &--align .#{$el-ns}-form-item__label-wrap {
+      visibility: hidden;
+    }
+  }
+}
