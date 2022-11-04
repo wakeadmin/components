@@ -113,7 +113,7 @@ importers:
 
   packages/doc:
     specifiers:
-      '@wakeadmin/components': workspace:1.0.0-alpha.7
+      '@wakeadmin/components': workspace:1.0.0-beta.1
       '@wakeadmin/icons': ^0.1.4
       element-plus: ^2.2.19
       imagemin-cli: ^7.0.0
@@ -138,7 +138,7 @@ importers:
       '@vue/cli-plugin-babel': ~5.0.8
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:1.0.0-alpha.7
+      '@wakeadmin/components': workspace:1.0.0-beta.1
       '@wakeadmin/demi': ^0.2.3
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/element-adapter': workspace:^0.4.0
@@ -168,7 +168,7 @@ importers:
       vue-i18n: 172.26.59.72+4873/vue-i18n/8.27.2
       vue-router: 172.26.59.72+4873/vue-router/3.6.5
     devDependencies:
-      '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@2.7.13
+      '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_core-js@3.26.0+vue@2.7.13
       '@vue/cli-plugin-router': 172.26.59.72+4873/@vue/cli-plugin-router/5.0.8
       '@vue/cli-service': 172.26.59.72+4873/@vue/cli-service/5.0.8_sass-loader@12.6.0
       '@wakeadmin/demi': 172.26.59.72+4873/@wakeadmin/demi/0.2.3
@@ -188,7 +188,7 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/bay': ^0.6.2
-      '@wakeadmin/components': workspace:1.0.0-alpha.7
+      '@wakeadmin/components': workspace:1.0.0-beta.1
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/framework': ^0.1.5
       '@wakeadmin/h': ^0.2.12
@@ -211,7 +211,7 @@ importers:
       vue: 172.26.59.72+4873/vue/3.2.41
       vue-router: 172.26.59.72+4873/vue-router/4.1.6
     devDependencies:
-      '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@3.2.41
+      '@vue/cli-plugin-babel': 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_core-js@3.26.0+vue@3.2.41
       '@vue/cli-plugin-router': 172.26.59.72+4873/@vue/cli-plugin-router/5.0.8
       '@vue/cli-service': 172.26.59.72+4873/@vue/cli-service/5.0.8_sass-loader@12.6.0
       '@wakeadmin/bay': 172.26.59.72+4873/@wakeadmin/bay/0.6.2
@@ -2403,7 +2403,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 172.26.59.72+4873/@types/istanbul-lib-coverage/2.0.4
       '@types/istanbul-reports': 172.26.59.72+4873/@types/istanbul-reports/3.0.1
-      '@types/node': 172.26.59.72+4873/@types/node/17.0.45
+      '@types/node': 172.26.59.72+4873/@types/node/18.11.5
       '@types/yargs': 172.26.59.72+4873/@types/yargs/15.0.14
       chalk: 172.26.59.72+4873/chalk/4.1.2
     dev: true
@@ -3279,12 +3279,13 @@ packages:
       svg-tags: 172.26.59.72+4873/svg-tags/1.0.0
     dev: true
 
-  172.26.59.72+4873/@vue/babel-preset-app/5.0.8_vue@2.7.13:
+  172.26.59.72+4873/@vue/babel-preset-app/5.0.8_core-js@3.26.0+vue@2.7.13:
     resolution: {integrity: sha512-yl+5qhpjd8e1G4cMXfORkkBlvtPCIgmRf3IYCWYDKIQ7m+PPa5iTm4feiNmCMD6yGqQWMhhK/7M3oWGL9boKwg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fbabel-preset-app/-/babel-preset-app-5.0.8.tgz}
     id: 172.26.59.72+4873/@vue/babel-preset-app/5.0.8
     name: '@vue/babel-preset-app'
     version: 5.0.8
     peerDependencies:
+      core-js: ^3
       vue: '*'
     peerDependenciesMeta:
       core-js:
@@ -3313,12 +3314,13 @@ packages:
       - supports-color
     dev: true
 
-  172.26.59.72+4873/@vue/babel-preset-app/5.0.8_vue@3.2.41:
+  172.26.59.72+4873/@vue/babel-preset-app/5.0.8_core-js@3.26.0+vue@3.2.41:
     resolution: {integrity: sha512-yl+5qhpjd8e1G4cMXfORkkBlvtPCIgmRf3IYCWYDKIQ7m+PPa5iTm4feiNmCMD6yGqQWMhhK/7M3oWGL9boKwg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fbabel-preset-app/-/babel-preset-app-5.0.8.tgz}
     id: 172.26.59.72+4873/@vue/babel-preset-app/5.0.8
     name: '@vue/babel-preset-app'
     version: 5.0.8
     peerDependencies:
+      core-js: ^3
       vue: '*'
     peerDependenciesMeta:
       core-js:
@@ -3480,20 +3482,21 @@ packages:
     version: 5.0.8
     dev: true
 
-  172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@2.7.13:
+  172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_core-js@3.26.0+vue@2.7.13:
     resolution: {integrity: sha512-a4qqkml3FAJ3auqB2kN2EMPocb/iu0ykeELwed+9B1c1nQ1HKgslKMHMPavYx3Cd/QAx2mBD4hwKBqZXEI/CsQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcli-plugin-babel/-/cli-plugin-babel-5.0.8.tgz}
     id: 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8
     name: '@vue/cli-plugin-babel'
     version: 5.0.8
     dependencies:
       '@babel/core': 172.26.59.72+4873/@babel/core/7.19.6
-      '@vue/babel-preset-app': 172.26.59.72+4873/@vue/babel-preset-app/5.0.8_vue@2.7.13
+      '@vue/babel-preset-app': 172.26.59.72+4873/@vue/babel-preset-app/5.0.8_core-js@3.26.0+vue@2.7.13
       '@vue/cli-shared-utils': 172.26.59.72+4873/@vue/cli-shared-utils/5.0.8
       babel-loader: 172.26.59.72+4873/babel-loader/8.2.5_6zc4kxld457avlfyhj3lzsljlm
       thread-loader: 172.26.59.72+4873/thread-loader/3.0.4_webpack@5.74.0
       webpack: 172.26.59.72+4873/webpack/5.74.0
     transitivePeerDependencies:
       - '@swc/core'
+      - core-js
       - encoding
       - esbuild
       - supports-color
@@ -3502,20 +3505,21 @@ packages:
       - webpack-cli
     dev: true
 
-  172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_vue@3.2.41:
+  172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8_core-js@3.26.0+vue@3.2.41:
     resolution: {integrity: sha512-a4qqkml3FAJ3auqB2kN2EMPocb/iu0ykeELwed+9B1c1nQ1HKgslKMHMPavYx3Cd/QAx2mBD4hwKBqZXEI/CsQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/@vue%2fcli-plugin-babel/-/cli-plugin-babel-5.0.8.tgz}
     id: 172.26.59.72+4873/@vue/cli-plugin-babel/5.0.8
     name: '@vue/cli-plugin-babel'
     version: 5.0.8
     dependencies:
       '@babel/core': 172.26.59.72+4873/@babel/core/7.19.6
-      '@vue/babel-preset-app': 172.26.59.72+4873/@vue/babel-preset-app/5.0.8_vue@3.2.41
+      '@vue/babel-preset-app': 172.26.59.72+4873/@vue/babel-preset-app/5.0.8_core-js@3.26.0+vue@3.2.41
       '@vue/cli-shared-utils': 172.26.59.72+4873/@vue/cli-shared-utils/5.0.8
       babel-loader: 172.26.59.72+4873/babel-loader/8.2.5_6zc4kxld457avlfyhj3lzsljlm
       thread-loader: 172.26.59.72+4873/thread-loader/3.0.4_webpack@5.74.0
       webpack: 172.26.59.72+4873/webpack/5.74.0
     transitivePeerDependencies:
       - '@swc/core'
+      - core-js
       - encoding
       - esbuild
       - supports-color
@@ -15348,7 +15352,7 @@ packages:
     name: vue-loader
     version: 15.10.0
     peerDependencies:
-      '@vue/compiler-sfc': ^3.0.8
+      '@vue/compiler-sfc': '*'
       cache-loader: '*'
       css-loader: '*'
       vue-template-compiler: '*'

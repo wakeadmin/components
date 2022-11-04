@@ -1,5 +1,33 @@
 # @wakeadmin/components
 
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.1 (2022/11/04)
+
+主要功能更新
+
+- 新增 FatVNode 用于支持在 template 中渲染 VNode
+- fat-form-query, fat-table 表单提交按钮独占一行时，自动对齐 
+
+<br>
+<br>
+
+功能修复
+
+- 修复 fat-table formRef 没有包含 renderButtons
+
+<br>
+<br>
+
+欢迎给我们提[问题](http://gitlab.wakedata-inc.com/wakeadmin/components/-/issues)
+
+
+<br>
+<br>
+<br>
+
 ## 1.0.0-alpha.7 (2022/10/26)
 
 主要功能更新:
@@ -13,7 +41,6 @@
 Bug 修复：
 
 - 修复 fat-form validateField 在 element-ui 下没有返回 promise
-
 
 <br>
 <br>
