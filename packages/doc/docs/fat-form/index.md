@@ -20,6 +20,8 @@
   import Transform from './Transform.vue'
   import Dynamic from './Dynamic.vue'
   import Mode from './Mode.vue'
+  import CustomSubmitter from './CustomSubmitter.vue'
+  import CustomSubmitterReuse from './CustomSubmitterReuse.vue'
 </script>
 
 # 表单
@@ -246,6 +248,45 @@ FatForm 内置了提示信息
 <<< @/fat-form/Center.vue
 :::
 
+<br>
+<br>
+<br>
+<br>
+
+### 1.8 自定义提交按钮
+
+FatForm 也支持自定义提交按钮，不过只是简单的文案修改，可以通过 props 进行修改
+
+<ClientOnly>
+  <div class="wk-demo">
+    <CustomSubmitter />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/CustomSubmitter.vue
+:::
+
+<br>
+<br>
+
+复用内置的提交按钮：
+
+<ClientOnly>
+  <div class="wk-demo">
+    <CustomSubmitterReuse />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/CustomSubmitterReuse.vue
+:::
+
+::: details 查看 defineFatForm 版本代码
+<<< @/fat-form/CustomSubmitterReuseJSX.tsx
+:::
+
+<br>
 <br>
 <br>
 <br>

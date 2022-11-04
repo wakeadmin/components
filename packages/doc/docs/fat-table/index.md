@@ -343,6 +343,7 @@ const DefaultLayout: FatTableLayout = props => {
   return (
     <FatContainer
       {...props.rootProps}
+      {...props.layoutProps}
       class={normalizeClassName(props.rootProps.class, 'fat-table', 'fat-table--default')}
       v-slots={{ title: props.renderTitle, extra: props.renderNavBar, query: props.renderQuery }}
     >
@@ -366,6 +367,12 @@ const DefaultLayout: FatTableLayout = props => {
 
 ::: tip
 当插槽不存在时会传入 `undefined`，你可以根据这个决定要不要渲染包裹器
+:::
+
+<br>
+
+::: warning
+默认布局使用的是 [FatContainer](../fat-layout/container.md), 在惟客云微前端底座下，FatContainer 默认复用基座提供的 `wkc-header`。如果要关闭这个行为，可以通过 `layoutProps#reuseBayIfNeed` 关闭掉
 :::
 
 <br>

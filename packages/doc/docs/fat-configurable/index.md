@@ -48,6 +48,67 @@
 <br>
 <br>
 <br>
+<br>
+
+## 示例
+
+```ts
+import { provideFatConfigurable } from '@wakeadmin/components';
+import { Message } from 'element-ui';
+
+export function injectFatConfigurations() {
+  provideFatConfigurable({
+    // 统一处理 images 原件上传
+    aImagesProps: {
+      action: '/permission/web/permission/sso/client/upload',
+      // 从
+      filter: item => {
+        if (item.response) {
+          if (!item.response.success) {
+            const message = item.response.msg ?? item.response.errorMessage;
+            Message.error(message);
+
+            throw new Error(message);
+          }
+
+          item.url = item.response.data.url;
+        }
+      },
+    },
+    // 统一 date-range 原件属性
+    aDateRangeProps: {
+      rangeSeparator: '至',
+      startPlaceholder: '开始日期',
+      endPlaceholder: '结束日期',
+      valueFormat: 'yyyy-MM-dd',
+      shortcuts: [
+        {
+          text: '最近一周',
+          onClick(picker: any) {
+            picker.$emit('pick', getTime(7));
+          },
+        },
+        {
+          text: '最近一个月',
+          onClick(picker: any) {
+            picker.$emit('pick', getTime(30));
+          },
+        },
+        {
+          text: '最近三个月',
+          onClick(picker: any) {
+            picker.$emit('pick', getTime(90));
+          },
+        },
+      ],
+    },
+  });
+}
+```
+
+<br>
+<br>
+<br>
 
 ## 配置项
 
