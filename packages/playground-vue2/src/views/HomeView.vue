@@ -52,7 +52,8 @@
         <el-button>导出</el-button>
       </template>
       <template #beforeSubmit> hello </template>
-      <template #formTrailing> hello </template>
+      <template #formTrailing> after </template>
+      <template #afterSubmit> after buttons </template>
     </FatTable>
   </div>
 </template>

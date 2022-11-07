@@ -11,6 +11,7 @@ import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useDisposer, useUid } from '../hooks';
 import {
   forwardExpose,
+  hasSlots,
   inheritProps,
   normalizeClassName,
   OurComponentInstance,
@@ -109,6 +110,7 @@ const FatFormQueryInner = declareComponent({
     submitText: null,
     submitOnQueryChange: { type: Boolean, default: false },
     queryWatchDelay: { type: Number, default: 800 },
+    renderSubmitter: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormEvents<any, any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormQuerySlots<any>>>(),
@@ -146,10 +148,17 @@ const FatFormQueryInner = declareComponent({
           clearable
           {...inheritProps(false)}
           class={normalizeClassName('fat-form-query', attrs.class)}
-          v-slots={pickEnumerable(slots, 'submitter')}
-          renderSubmitter={f => {
-            return <FatFormQuerySubmitter>{f.renderButtons()}</FatFormQuerySubmitter>;
-          }}
+          {...(hasSlots(props, slots, 'submitter')
+            ? {
+                'v-slots': pickEnumerable(slots),
+                renderSubmitter: props.renderSubmitter,
+              }
+            : {
+                'v-slots': pickEnumerable(slots, 'submitter'),
+                renderSubmitter: f => {
+                  return <FatFormQuerySubmitter>{f.renderButtons()}</FatFormQuerySubmitter>;
+                },
+              })}
         />
       );
     };
