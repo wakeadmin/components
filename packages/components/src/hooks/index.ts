@@ -4,3 +4,4 @@ export * from './useLazyFalsy';
 export * from './useLazyOptions';
 export * from './useUid';
 export * from './useDisposer';
+export * from './useDevtoolsExpose';

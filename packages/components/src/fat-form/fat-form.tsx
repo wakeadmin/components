@@ -15,6 +15,7 @@ import {
   reactiveUnset,
   unset,
 } from '../utils';
+import { useDevtoolsExpose } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
 
 import {
@@ -527,6 +528,13 @@ export const FatForm = declareComponent({
     });
 
     expose(instance);
+    useDevtoolsExpose({
+      loading,
+      submitting,
+      error,
+      values,
+      initialValue,
+    });
 
     onMounted(() => {
       if (parentForm && props.hierarchyConnect) {

@@ -13,7 +13,7 @@ import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, compu
 import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
-import { useRoute, useRouter } from '../hooks';
+import { useRoute, useRouter, useDevtoolsExpose } from '../hooks';
 import {
   hasSlots,
   inheritProps,
@@ -666,6 +666,16 @@ const FatTableInner = declareComponent({
     };
 
     expose(tableInstance);
+    useDevtoolsExpose({
+      list,
+      selected,
+      loading,
+      error,
+      pagination,
+      query,
+      sort,
+      filter,
+    });
 
     provideAtomicHost(tableInstance);
 
