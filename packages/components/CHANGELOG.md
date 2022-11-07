@@ -1,5 +1,15 @@
 # @wakeadmin/components
 
+## 1.0.0-beta.2
+
+
+功能修复
+
+- 修复 fat-table 首次加载数据是 empty 组件闪烁
+- 修复 fat-form-query 无法覆盖 renderSubmitter
+- 暴露 fat-form, fat-table 状态到 Vue 开发者工具
+
+
 <br>
 <br>
 <br>
@@ -9,7 +19,7 @@
 主要功能更新
 
 - 新增 FatVNode 用于支持在 template 中渲染 VNode
-- fat-form-query, fat-table 表单提交按钮独占一行时，自动对齐 
+- fat-form-query, fat-table 表单提交按钮独占一行时，自动对齐
 
 <br>
 <br>
@@ -22,7 +32,6 @@
 <br>
 
 欢迎给我们提[问题](http://gitlab.wakedata-inc.com/wakeadmin/components/-/issues)
-
 
 <br>
 <br>

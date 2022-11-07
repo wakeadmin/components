@@ -22,7 +22,7 @@
     "typescript": false
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:1.0.0-beta.1",
+    "@wakeadmin/components": "workspace:1.0.0-beta.2",
     "@wakeadmin/framework": "^0.1.5",
     "@wakeadmin/h": "^0.2.12",
     "@wakeadmin/i18n-legacy": "^0.1.6",
