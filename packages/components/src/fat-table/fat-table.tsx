@@ -25,6 +25,7 @@ import {
   createMessageOptions,
   ToHSlotDefinition,
   OurComponentInstance,
+  normalizeClassName,
 } from '../utils';
 import { FatFormMethods } from '../fat-form';
 import { useFatConfigurable } from '../fat-configurable';
@@ -740,7 +741,10 @@ const FatTableInner = declareComponent({
       return hasSlots(props, slots, 'empty') ? (
         renderSlot(props, slots, 'empty', tableInstance)
       ) : (
-        <Empty description={props.emptyText ?? configurable.fatTable?.emptyText ?? '暂无数据'}></Empty>
+        <Empty
+          description={props.emptyText ?? configurable.fatTable?.emptyText ?? '暂无数据'}
+          class="fat-table__empty"
+        ></Empty>
       );
     });
 
@@ -841,6 +845,7 @@ const FatTableInner = declareComponent({
             v-slots={{
               empty: renderEmpty.value,
             }}
+            class={normalizeClassName([{ 'fat-table--ready': ready.value }])}
           >
             {renderSlot(props, slots, 'tableHeading', tableInstance)}
 

@@ -23,7 +23,9 @@
     ></FatSwitch>
 
     <FatTable
+      v-if="active"
       ref="tableRef"
+      enable-cache-query
       row-key="id"
       :request="request"
       :remove="remove"
@@ -97,6 +99,7 @@
       pagination: { pageSize, page },
     } = params;
 
+    await delay(1e2);
     return {
       total: 100,
       list: new Array(pageSize).fill(0).map((_, index) => {

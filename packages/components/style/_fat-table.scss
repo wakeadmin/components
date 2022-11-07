@@ -30,4 +30,13 @@
 
     margin-bottom: calc(-1 * #{$fat-spacing-sm});
   }
+
+  &__empty {
+    transition: opacity 225ms ease-out 200ms;
+    opacity: 0;
+  }
+
+  &--ready &__empty {
+    opacity: 1;
+  }
 }
