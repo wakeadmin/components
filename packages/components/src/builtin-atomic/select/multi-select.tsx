@@ -7,6 +7,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 
 import { useOptions } from './loader';
 import { ASelectOption } from './shared';
+import { getOrCreatePlaceholder } from '../../utils/placeholder';
 
 export type AMultiSelectValue = (string | number)[];
 
@@ -41,8 +42,7 @@ export const AMultiSelectComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, value, onChange, context, scene, renderPreview, options: _, ...other } = props;
-
+      const { mode, value, onChange, context, scene, renderPreview, options: _, placeholder: __, ...other } = props;
       if (mode === 'preview') {
         if (renderPreview) {
           return renderPreview(active.value);
@@ -58,7 +58,13 @@ export const AMultiSelectComponent = defineAtomicComponent(
       }
 
       return (
-        <Select loading={loading.value} multiple {...other} {...model(value, onChange!)}>
+        <Select
+          loading={loading.value}
+          multiple
+          {...other}
+          {...model(value, onChange!)}
+          placeholder={getOrCreatePlaceholder('multi-select', props)}
+        >
           {options.value.map((i, idx) => {
             return <Option key={i.value ?? idx} {...i}></Option>;
           })}

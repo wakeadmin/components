@@ -3,6 +3,7 @@ import { DatePicker, DatePickerProps, model } from '@wakeadmin/element-adapter';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { formatDate } from '../../utils';
+import { getOrCreatePlaceholder } from '../../utils/placeholder';
 
 export type ADateValue = string | Date | number;
 export type ADateProps = DefineAtomicProps<
@@ -37,14 +38,15 @@ export const ADateComponent = defineAtomicComponent(
     };
 
     return () => {
-      let { value, mode, onChange, previewFormat, scene, context, ...other } = props;
+      let { value, mode, onChange, previewFormat, scene, context, placeholder, ...other } = props;
 
       previewFormat ??= other.format ?? configurable.dateFormat ?? 'YYYY-MM-DD';
+      placeholder ??= getOrCreatePlaceholder('date', props);
 
       return mode === 'preview' ? (
         <span>{preview(value, previewFormat)}</span>
       ) : (
-        <DatePicker type="date" {...other} {...model(value, onChange!)} />
+        <DatePicker type="date" placeholder={placeholder} {...other} {...model(value, onChange!)} />
       );
     };
   },

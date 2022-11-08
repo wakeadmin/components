@@ -11,6 +11,7 @@ import { normalizeClassName, normalizeStyle } from '../../utils';
 import { useFatConfigurable } from '../../fat-configurable';
 
 import { CommonUploadProps, useUpload } from '../files/useUpload';
+import { getOrCreatePlaceholder } from '../../utils/placeholder';
 
 /**
  * 值由用户自定定义，默认为 string 类型
@@ -39,6 +40,15 @@ export type AImagesProps = DefineAtomicProps<
      * 自定义渲染
      */
     renderPreview?: (list: FileListItem[]) => any;
+    /*
+     * 文案提示
+     */
+    tip?: any;
+
+    /**
+     * 是否隐藏默认文案提示
+     */
+    hideTip?: boolean;
   }
 >;
 
@@ -60,6 +70,20 @@ export const AImagesComponent = defineAtomicComponent(
       '--fat-a-images-size': props.size ?? '86px',
     }));
 
+    const tip = computed(() => {
+      if (props.tip) {
+        return props.tip;
+      }
+      if (props.hideTip) {
+        return undefined;
+      }
+      return (
+        <div class="fat-form-item-placeholder">
+          {getOrCreatePlaceholder('files', { ...props, accept: accept.value })}
+        </div>
+      );
+    });
+
     return () => {
       const {
         mode,
@@ -75,6 +99,7 @@ export const AImagesComponent = defineAtomicComponent(
         renderPreview,
         fit,
         accept: _accept, // ignore
+        tip: _tip,
 
         ...other
       } = props;
@@ -122,6 +147,9 @@ export const AImagesComponent = defineAtomicComponent(
           beforeUpload={beforeUpload}
           onRemove={handleChange}
           onChange={handleChange}
+          v-slots={{
+            tip: tip.value,
+          }}
         >
           <FatIcon class="fat-a-images__add" color="gray" size="2em">
             <Plus />

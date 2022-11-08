@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, ref } from '@wakeadmin/demi';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { normalizeClassName } from '../../utils';
+import { getOrCreatePlaceholder } from '../../utils/placeholder';
 
 export enum ACaptchaStatus {
   Initial = 'initial', // 初始状态
@@ -140,6 +141,7 @@ export const ACaptchaComponent = defineAtomicComponent(
         countDown: _ignoreCountDown,
         onGetCaptcha: _ignoreOnGetCaptcha,
         onError: _ignoreOnError,
+        placeholder: _placeholder,
 
         ...other
       } = props;
@@ -148,7 +150,12 @@ export const ACaptchaComponent = defineAtomicComponent(
 
       return (
         <div class={normalizeClassName('fat-a-captcha', className)} style={style}>
-          <Input class="fat-a-captcha__input" {...other} {...model(value, onChange!)} />
+          <Input
+            class="fat-a-captcha__input"
+            {...other}
+            {...model(value, onChange!)}
+            placeholder={getOrCreatePlaceholder('captcha', props)}
+          />
           <Button
             {...buttonProps}
             class="fat-a-captcha__button"

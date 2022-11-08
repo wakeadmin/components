@@ -3,6 +3,7 @@
  */
 import { Button, FileListItem, Upload, UploadProps } from '@wakeadmin/element-adapter';
 import { File, Upload as UploadIcon } from '@wakeadmin/icons';
+import { computed } from '@wakeadmin/demi';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { normalizeClassName } from '../../utils';
@@ -10,6 +11,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 
 import { CommonUploadProps, useUpload } from './useUpload';
 import { FatIcon } from '../../fat-icon';
+import { getOrCreatePlaceholder } from '../../utils/placeholder';
 
 /**
  * 值由用户自定定义，默认为 string 类型
@@ -34,6 +36,11 @@ export type AFilesProps = DefineAtomicProps<
      * 文案提示
      */
     tip?: any;
+
+    /**
+     * 是否隐藏默认文案提示
+     */
+    hideTip?: boolean;
   }
 >;
 
@@ -50,6 +57,16 @@ export const AFilesComponent = defineAtomicComponent(
       name: 'files',
     });
 
+    const tip = computed(() => {
+      if (props.tip) {
+        return props.tip;
+      }
+      if (props.hideTip) {
+        return undefined;
+      }
+      return <div class="fat-form-item-placeholder">{getOrCreatePlaceholder('files', props)}</div>;
+    });
+
     return () => {
       const {
         mode,
@@ -59,7 +76,6 @@ export const AFilesComponent = defineAtomicComponent(
         onChange,
         renderPreview,
         renderPlaceholder,
-        tip,
         drag,
 
         // ignore
@@ -68,6 +84,7 @@ export const AFilesComponent = defineAtomicComponent(
         sizeLimit,
         filter,
         accept: _accept, // ignore
+        tip: _tip,
 
         ...other
       } = props;
@@ -109,7 +126,7 @@ export const AFilesComponent = defineAtomicComponent(
           onRemove={handleChange}
           onChange={handleChange}
           v-slots={{
-            tip,
+            tip: tip.value,
           }}
         >
           {renderPlaceholder ? (

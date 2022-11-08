@@ -7,6 +7,7 @@ import { normalizeClassName, normalizeStyle } from '../../utils';
 
 import { useOptions } from './loader';
 import { ASelectOption, normalizeColor } from './shared';
+import { getOrCreatePlaceholder } from '../../utils/placeholder';
 
 export type ASelectValue = string | number;
 
@@ -38,7 +39,18 @@ export const ASelectComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, value, renderPreview, onChange, context, scene, options: _, colorMode = 'text', ...other } = props;
+      const {
+        mode,
+        value,
+        renderPreview,
+        onChange,
+        context,
+        scene,
+        options: _,
+        placeholder: __,
+        colorMode = 'text',
+        ...other
+      } = props;
 
       if (mode === 'preview') {
         if (renderPreview) {
@@ -59,7 +71,12 @@ export const ASelectComponent = defineAtomicComponent(
       }
 
       return (
-        <Select loading={loading.value} {...other} {...model(value, onChange!)}>
+        <Select
+          loading={loading.value}
+          {...other}
+          {...model(value, onChange!)}
+          placeholder={getOrCreatePlaceholder('select', props)}
+        >
           {options.value.map((i, idx) => {
             return <Option key={i.value ?? idx} {...i}></Option>;
           })}
