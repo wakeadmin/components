@@ -48,6 +48,7 @@ export const FatFormGroup = declareComponent({
     hideMessageOnPreview: { type: Boolean, default: undefined },
     hideOnPreview: { type: Boolean, default: undefined },
     hideOnEdit: { type: Boolean, default: undefined },
+    spaceProps: null,
 
     // slots
     renderLabel: null,
@@ -250,7 +251,8 @@ export const FatFormGroup = declareComponent({
             direction={props.vertical ? 'vertical' : 'horizontal'}
             class={normalizeClassName('fat-form-group-container')}
             inline={false}
-            align={form.layout === 'vertical' ? 'end' : 'start'}
+            align="start"
+            {...props.spaceProps}
           >
             {children}
           </FatSpace>

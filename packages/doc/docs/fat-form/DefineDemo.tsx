@@ -23,6 +23,7 @@ export default defineFatForm<Values>(({ group, renderChild, item }) => {
         group({
           label: '触发条件',
           gutter: 'sm',
+          vertical: true,
           children: [
             item({
               prop: 'type',

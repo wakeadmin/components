@@ -47,6 +47,10 @@ export default {
         text: '变更记录',
         link: '/base/change-log',
       },
+      {
+        text: '主站',
+        link: 'https://wakeadmin.wakedata.com',
+      },
     ],
     sidebar: {
       '/': [

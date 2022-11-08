@@ -13,7 +13,7 @@ import {
 import { Ref } from '@wakeadmin/demi';
 
 import { Atomic } from '../atomic';
-import { FatSpaceSize } from '../fat-space/types';
+import { FatSpaceProps, FatSpaceSize } from '../fat-space/types';
 import { FatCardProps } from '../fat-layout';
 
 /**
@@ -680,6 +680,11 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
    * 当字段被删除时保留字段值， 默认 true
    */
   preserve?: boolean;
+
+  /**
+   * 透传给 FatSpace 的参数
+   */
+  spaceProps?: FatSpaceProps;
 }
 
 /**
