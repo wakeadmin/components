@@ -78,6 +78,10 @@ export default {
               text: '🏃🏻‍♀️ FatTable',
               link: '/fat-table/',
             },
+            {
+              text: '🏃🏻‍♀️ defineFatTable',
+              link: '/fat-table/define',
+            },
           ],
         },
         {
