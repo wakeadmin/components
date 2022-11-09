@@ -6,10 +6,8 @@ import {
   Message,
 } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
-import { NoopArray, isPromise, queryString } from '@wakeadmin/utils';
+import { NoopArray, isPromise, queryString, formatFileSize } from '@wakeadmin/utils';
 import memoize from 'lodash/memoize';
-
-import { formatFileSize } from '../../utils';
 
 // 尝试从 url 中提取原始文件名称
 const tryPickNameFromUrl = memoize((value: string) => {

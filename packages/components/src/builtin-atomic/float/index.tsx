@@ -1,9 +1,10 @@
 import { InputNumberProps, InputNumber, model } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
+import { trimEndingZero } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
-import { toFloat, trimEndingZero } from '../../utils';
+import { toFloat } from '../../utils';
 
 export type AFloatProps = DefineAtomicProps<
   number,
