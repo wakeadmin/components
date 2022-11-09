@@ -229,10 +229,7 @@ const FatTableInner = declareComponent({
       pagination.current = 1;
     };
 
-    /**
-     * 数据请求
-     */
-    const fetch = async () => {
+    const getRequestParams = () => {
       const q = mergeAndTransformQuery(query.value, props.extraQuery, props.columns);
       const params: FatTableRequestParams<any, any> = {
         pagination: {
@@ -246,9 +243,17 @@ const FatTableInner = declareComponent({
         sort: toUndefined(sort.value),
       };
 
+      return params;
+    };
+
+    /**
+     * 数据请求
+     */
+    const fetch = async () => {
       try {
         loading.value = true;
         error.value = null;
+        const params = getRequestParams();
 
         const response = await props.request(params);
 
@@ -664,6 +669,7 @@ const FatTableInner = declareComponent({
       search: leadingDebouncedSearch,
       refresh: fetch,
       reset,
+      getRequestParams,
     };
 
     expose(tableInstance);

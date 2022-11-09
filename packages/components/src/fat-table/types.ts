@@ -77,7 +77,7 @@ export interface FatTableRequestResponse<T> {
 /**
  * 表格方法、实例属性
  */
-export interface FatTableMethods<T extends {}, S extends {}> {
+export interface FatTableMethods<Item extends {}, Query extends {}> {
   /**
    * 获取底层 el-table 实例
    */
@@ -86,17 +86,17 @@ export interface FatTableMethods<T extends {}, S extends {}> {
   /**
    * 获取底层 fat-form 实例
    */
-  readonly formRef: FatFormMethods<S> | undefined;
+  readonly formRef: FatFormMethods<Query> | undefined;
 
   /**
    * 获取已选中的记录
    */
-  readonly selected: T[];
+  readonly selected: Item[];
 
   /**
    * 查询表单
    */
-  readonly query: S;
+  readonly query: Query;
 
   /**
    * 当前排序字段
@@ -126,19 +126,19 @@ export interface FatTableMethods<T extends {}, S extends {}> {
   /**
    * 当前页数据
    */
-  list: T[];
+  list: Item[];
 
   /**
    * 选中指定记录
    * @param items
    */
-  select(...items: T[]): void;
+  select(...items: Item[]): void;
 
   /**
    * 取消选中指定记录
    * @param items
    */
-  unselect(...items: T[]): void;
+  unselect(...items: Item[]): void;
 
   /**
    * 全选当前页面
@@ -157,7 +157,7 @@ export interface FatTableMethods<T extends {}, S extends {}> {
    *
    * @param items
    */
-  remove(...items: T[]): Promise<boolean>;
+  remove(...items: Item[]): Promise<boolean>;
 
   /**
    * 删除选中项
@@ -188,6 +188,11 @@ export interface FatTableMethods<T extends {}, S extends {}> {
    * 重置到初始状态并重新加载
    */
   reset(): void;
+
+  /**
+   * 获取 request 参数
+   */
+  getRequestParams: () => FatTableRequestParams<Item, Query>;
 }
 
 export interface FatTableSlots<T extends {}, S extends {}> {
