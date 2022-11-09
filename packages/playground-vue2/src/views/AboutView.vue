@@ -1,18 +1,24 @@
 <template>
   <div class="about">
     <h1>This is an about page</h1>
-    <MyTable class="my-table" row-key="id" @cell-click="handleCellClick">
+    <Button @click="open">open</Button>
+    <MyTable ref="tableRef" class="my-table" row-key="id" @cell-click="handleCellClick">
       <template #afterForm>after form</template>
     </MyTable>
+    <MyTableModal ref="tableModalRef"></MyTableModal>
   </div>
 </template>
 
-<script lang="ts" setup>
-  import { defineFatTable } from '@wakeadmin/components';
+<script lang="tsx" setup>
+  import { defineFatTable, defineFatTableModal, useFatTableModalRef, useFatTableRef } from '@wakeadmin/components';
+  import { Button } from 'element-ui';
 
   const handleCellClick = () => {
     console.log('cell click');
   };
+  const tableModalRef = useFatTableModalRef();
+
+  const tableRef = useFatTableRef();
 
   const MyTable = defineFatTable<{ id: string; name: string; date: Date }, { name?: string }>(() => {
     return () => ({
@@ -40,7 +46,6 @@
         {
           prop: 'name',
           queryable: true,
-          valueType: 'input',
           valueProps: {
             placeholder: '名称',
           },
@@ -57,4 +62,52 @@
       },
     });
   });
+  const MyTableModal = defineFatTableModal<{ id: string; name: string; date: Date }, { name?: string }>(() => {
+    return () => ({
+      style: 'color: red',
+      async request(params) {
+        console.log('request', params);
+
+        const {
+          pagination: { pageSize, page },
+        } = params;
+
+        return {
+          total: 100,
+          list: new Array(pageSize).fill(0).map((_, index) => {
+            return {
+              id: `${page}_${index}`,
+              name: `name_${page}_${index}`,
+              date: new Date(Date.now() + index * 2000),
+            };
+          }),
+        };
+      },
+      enableQuery: true,
+      columns: [
+        {
+          prop: 'name',
+          queryable: true,
+          valueProps: {
+            placeholder: '名称',
+          },
+        },
+        {
+          prop: 'date',
+        },
+      ],
+      renderBeforeForm() {
+        return 'before form';
+      },
+      onCellDblclick() {
+        console.log('cell dbclick');
+      },
+    });
+  });
+
+  const open = () => {
+    tableModalRef.value!.open({
+      title: '标题',
+    });
+  };
 </script>

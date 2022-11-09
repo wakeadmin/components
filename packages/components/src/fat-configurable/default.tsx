@@ -121,4 +121,11 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
   aCaptchaProps: {
     placeholder: '请输入验证码',
   },
+
+  fatTableModal: {
+    cancelText: '关闭',
+    enableCancel: true,
+    enableConfirm: false,
+    confirmText: '确认',
+  },
 };

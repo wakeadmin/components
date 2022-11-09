@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <el-button @click="open">open</el-button>
     <FatSwitch v-model="active"></FatSwitch>
     <FatSwitch
       v-model="active"
@@ -57,15 +58,34 @@
       <template #formTrailing> after </template>
       <template #afterSubmit> after buttons </template>
     </FatTable>
+    <FatTableModal
+      ref="tableModalRef"
+      :visible="visible"
+      :request="request"
+      :remove="remove"
+      :columns="columns"
+      :request-on-removed="false"
+      confirm-before-remove="hello"
+      message-on-removed="fuck"
+      :enable-select="true"
+      row-class-name="fuck"
+      :batch-actions="batchActions"
+      @close="close"
+      @row-click="handleClick"
+      @queryCacheRestore="handleCacheRestore"
+    >
+      <template #title>标题123</template>
+    </FatTableModal>
   </div>
 </template>
 
 <script lang="jsx" setup>
   import { ref } from 'vue';
-  import { FatTable, FatSwitch } from '@wakeadmin/components';
+  import { FatTable, FatSwitch, FatTableModal, useFatTableModalRef } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
 
   const active = ref(true);
+  const visible = ref(false);
 
   const handleCacheRestore = cache => {
     console.log('cache', cache);
@@ -306,6 +326,17 @@
 
   const removeSelected = () => {
     tableRef.value?.removeSelected();
+  };
+
+  const tableModalRef = useFatTableModalRef();
+
+  const open = () => tableModalRef.value.open({ title: 'Nnnn' });
+  // const open = () => {
+  //   visible.value = true;
+  // };
+
+  const close = () => {
+    visible.value = false;
   };
 </script>
 

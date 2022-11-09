@@ -703,7 +703,7 @@ export interface FatTableRemove<T> {
   /**
    * 行删除
    */
-  remove?: (list: T[], ids: any[]) => Promise<void>;
+  remove?: (list: T[], ids: any[]) => Promise<Boolean>;
 
   /**
    * 是否在删除之前弹出确认提示, 默认开启

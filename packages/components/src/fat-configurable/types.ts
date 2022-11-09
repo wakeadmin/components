@@ -40,6 +40,7 @@ import {
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
 import { FatTableGlobalConfigurations } from '../fat-table';
+import { FatTableModalGlobalConfigurations } from '../fat-table-layout/fat-table-modal';
 
 /**
  * 这里定义了组件库一些可以全局配置的参数
@@ -253,6 +254,10 @@ export interface FatConfigurable {
    */
   fatTable?: FatTableGlobalConfigurations;
 
+  /**
+   *
+   */
+  fatTableModal?: FatTableModalGlobalConfigurations;
   /**
    * 表单全局配置
    */
