@@ -1,7 +1,7 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { TableColumnProps, TableColumn, Tooltip } from '@wakeadmin/element-adapter';
 import { NoopObject, NoopArray, get } from '@wakeadmin/utils';
-import { computed } from '@wakeadmin/demi';
+import { computed, inject } from '@wakeadmin/demi';
 import { Inquiry } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
@@ -11,6 +11,7 @@ import { BaseAtomicContext } from '../atomic';
 
 import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
 import { genKey, getAtom } from './utils';
+import { FatTableInstanceContext } from './constants';
 
 const BUILTIN_TYPES = new Set(['index', 'selection', 'expand']);
 
@@ -154,7 +155,7 @@ export const Column = declareComponent({
     return () => {
       const column = props.column;
       const index = props.index;
-      const tableInstance = props.tableInstance;
+      const tableInstance = inject(FatTableInstanceContext, props.tableInstance);
       const filter = props.filter;
 
       const type = column.type ?? 'default';

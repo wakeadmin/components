@@ -1,10 +1,11 @@
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { computed, ref } from '@wakeadmin/demi';
+import { computed, inject, ref } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
 import { Button, MessageBox, Message } from '@wakeadmin/element-adapter';
 
 import { FatTableBatchAction, FatTableMethods } from './types';
 import { createMessageBoxOptions, normalizeClassName } from '../utils';
+import { FatTableInstanceContext } from './constants';
 
 const BatchAction = declareComponent({
   name: 'FatBatchAction',
@@ -83,12 +84,14 @@ export const BatchActions = declareComponent({
     actions: FatTableBatchAction<any, any>[] | ((table: FatTableMethods<any, any>) => FatTableBatchAction<any, any>[]);
   }>(['tableInstance', 'actions']),
   setup(props, { slots }) {
+    const tableInstance = inject(FatTableInstanceContext, props.tableInstance);
+
     const actions = computed(() => {
-      return (typeof props.actions === 'function' ? props.actions(props.tableInstance) : props.actions) ?? NoopArray;
+      return (typeof props.actions === 'function' ? props.actions(tableInstance) : props.actions) ?? NoopArray;
     });
 
     const selected = computed(() => {
-      return !!props.tableInstance.selected.length;
+      return !!tableInstance.selected?.length;
     });
 
     return () => {
@@ -96,7 +99,7 @@ export const BatchActions = declareComponent({
         <div class="fat-table__batch-actions">
           {slots.default?.()}
           {actions.value.map((i, idx) => {
-            return <BatchAction key={idx} action={i} table={props.tableInstance} selected={selected.value} />;
+            return <BatchAction key={idx} action={i} table={tableInstance} selected={selected.value} />;
           })}
         </div>
       );

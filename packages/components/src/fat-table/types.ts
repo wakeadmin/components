@@ -767,7 +767,7 @@ export interface FatTableQuery<T extends {}, S extends {}> {
   formProps?: Omit<FatFormQueryProps<S>, 'submit' | 'initialValue' | 'submitOnQueryChange'>;
 }
 
-export interface FatTableSelect<T> {
+interface FatTableSelect<T> {
   /**
    * 是否开启选择模式， 默认关闭
    */

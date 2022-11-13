@@ -1,4 +1,5 @@
-import { FatTableMethods } from './types';
+import { InjectionKey } from '@wakeadmin/demi';
+import type { FatTableMethods } from './types';
 
 /**
  * fat-table 对外公开的实例成员
@@ -26,3 +27,10 @@ export const FatTablePublicMethodKeys: (keyof FatTableMethods<any, any>)[] = [
   'refresh',
   'reset',
 ];
+
+/**
+ * Fat-table instance 注入标识
+ *
+ * 允许开发者可以自行扩展fat-table
+ */
+export const FatTableInstanceContext: InjectionKey<FatTableMethods<any, any>> = Symbol('FatTableInstance');

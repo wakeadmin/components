@@ -32,6 +32,11 @@ export const routes: RouteRecordRaw[] = [
     component: ComponentTest,
   },
   {
+    path: '/table-select',
+    name: 'table-select',
+    component: () => import('../views/tableSelect.vue'),
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

@@ -40,6 +40,7 @@ import {
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
 import { FatTableGlobalConfigurations } from '../fat-table';
+import { FatTableSelectGlobalConfigurations } from '../fat-table-layout';
 import { FatTableModalGlobalConfigurations } from '../fat-table-layout/fat-table-modal';
 
 /**
@@ -255,9 +256,15 @@ export interface FatConfigurable {
   fatTable?: FatTableGlobalConfigurations;
 
   /**
-   *
+   * 表格弹窗全局配置
    */
   fatTableModal?: FatTableModalGlobalConfigurations;
+
+  /**
+   * 表格选择全局配置
+   */
+  fatTableSelect?: FatTableSelectGlobalConfigurations;
+
   /**
    * 表单全局配置
    */

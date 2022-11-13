@@ -1,4 +1,4 @@
-import { isVue2, getCurrentInstance } from '@wakeadmin/demi';
+import { getCurrentInstance, isVue2 } from '@wakeadmin/demi';
 
 import { isObject, NoopObject, omit, upperFirst } from '@wakeadmin/utils';
 

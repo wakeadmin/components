@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <el-button @click="open">open</el-button>
     <FatSwitch v-model="active"></FatSwitch>
     <FatSwitch
       v-model="active"
@@ -23,10 +22,12 @@
       size="small"
     ></FatSwitch>
 
-    <FatTable
+    <FatTableSelect
       v-if="active"
       ref="tableRef"
+      v-model="selected"
       enable-cache-query
+      multiple
       row-key="id"
       :request="request"
       :remove="remove"
@@ -34,10 +35,12 @@
       :request-on-removed="false"
       confirm-before-remove="hello"
       message-on-removed="fuck"
-      :enable-select="true"
       row-class-name="fuck"
       :batch-actions="batchActions"
       :height="600"
+      :limit="3"
+      :disabled="disabledFn"
+      :select-action-text="text"
       @row-click="handleClick"
       @queryCacheRestore="handleCacheRestore"
       @select="log"
@@ -60,36 +63,19 @@
       <template #beforeSubmit> hello </template>
       <template #formTrailing> after </template>
       <template #afterSubmit> after buttons </template>
-    </FatTable>
-    <FatTableModal
-      ref="tableModalRef"
-      :visible="visible"
-      :request="request"
-      :remove="remove"
-      :columns="columns"
-      :request-on-removed="false"
-      confirm-before-remove="hello"
-      message-on-removed="fuck"
-      :enable-select="true"
-      row-class-name="fuck"
-      :batch-actions="batchActions"
-      @close="close"
-      @row-click="handleClick"
-      @queryCacheRestore="handleCacheRestore"
-    >
-      <template #title>标题123</template>
-    </FatTableModal>
+    </FatTableSelect>
   </div>
 </template>
 
 <script lang="jsx" setup>
-  import { ref } from 'vue';
-  import { FatTable, FatSwitch, FatTableModal, useFatTableModalRef } from '@wakeadmin/components';
+  import { ref, watch } from 'vue';
+  import { FatTableSelect, FatSwitch } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
 
   const log = (...args) => console.log(...args);
   const active = ref(true);
-  const visible = ref(false);
+
+  const text = <i>S</i>;
 
   const handleCacheRestore = cache => {
     console.log('cache', cache);
@@ -101,6 +87,10 @@
 
   const tableRef = ref();
 
+  const selected = ref([{ id: '1_4', name: '123' }]);
+
+  watch(selected, v => console.log(v));
+
   const batchActions = [
     {
       name: '删除已选',
@@ -110,7 +100,16 @@
         await delay(3e3);
       },
     },
+    {
+      name: '反选全部',
+      onClick: async table => {
+        table.toggle(...new Array(10).fill('_').map((_, i) => `1_${i}`));
+      },
+    },
   ];
+  const disabledFn = (item, status) => {
+    return item.id === '1_4';
+  };
 
   const remove = () => {
     throw new Error('123');
@@ -273,47 +272,47 @@
       ],
       filteredValue: [1],
     },
-    {
-      type: 'actions',
-      label: '操作',
-      minWidth: 130,
-      labelAlign: 'center',
-      align: 'center',
-      actions: [
-        { name: 'Hello', onClick: () => console.log('Hello'), title: 'hello title', disabled: true },
-        {
-          name: 'World',
-          type: 'warning',
-          title: '????',
-          confirm: ({ row }) => ({ message: `${JSON.stringify(row)}` }),
-          onClick: () => delay(3e3),
-        },
-        {
-          name: 'delete',
-          type: 'danger',
-          onClick: (t, row) => {
-            t.remove(row);
-          },
-        },
-        { name: 'Bar', disabled: true },
-        {
-          name: 'Foo',
-          disabled: true,
-          title: 'hello title',
-          onClick: () => {
-            console.log('foo click');
-          },
-        },
-        { name: 'Baz', visible: false },
-        {
-          name: 'Bazz',
-          title: 'hello title',
-          onClick: () => {
-            console.log('bazz click');
-          },
-        },
-      ],
-    },
+    // {
+    //   type: 'actions',
+    //   label: '操作',
+    //   minWidth: 130,
+    //   labelAlign: 'center',
+    //   align: 'center',
+    //   actions: [
+    //     { name: 'Hello', onClick: () => console.log('Hello'), title: 'hello title', disabled: true },
+    //     {
+    //       name: 'World',
+    //       type: 'warning',
+    //       title: '????',
+    //       confirm: ({ row }) => ({ message: `${JSON.stringify(row)}` }),
+    //       onClick: () => delay(3e3),
+    //     },
+    //     {
+    //       name: 'delete',
+    //       type: 'danger',
+    //       onClick: (t, row) => {
+    //         t.remove(row);
+    //       },
+    //     },
+    //     { name: 'Bar', disabled: true },
+    //     {
+    //       name: 'Foo',
+    //       disabled: true,
+    //       title: 'hello title',
+    //       onClick: () => {
+    //         console.log('foo click');
+    //       },
+    //     },
+    //     { name: 'Baz', visible: false },
+    //     {
+    //       name: 'Bazz',
+    //       title: 'hello title',
+    //       onClick: () => {
+    //         console.log('bazz click');
+    //       },
+    //     },
+    //   ],
+    // },
   ];
 
   const selectAll = () => {
@@ -330,17 +329,6 @@
 
   const removeSelected = () => {
     tableRef.value?.removeSelected();
-  };
-
-  const tableModalRef = useFatTableModalRef();
-
-  const open = () => tableModalRef.value.open({ title: 'Nnnn' });
-  // const open = () => {
-  //   visible.value = true;
-  // };
-
-  const close = () => {
-    visible.value = false;
   };
 </script>
 
