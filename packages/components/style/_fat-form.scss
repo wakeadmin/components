@@ -113,3 +113,16 @@
 .fat-form-section {
   margin-bottom: 16px;
 }
+
+.fat-form-table {
+  &__body {
+    width: 100%;
+  }
+
+  &__table {
+  }
+
+  &__footer {
+    margin-top: $fat-spacing-xs;
+  }
+}

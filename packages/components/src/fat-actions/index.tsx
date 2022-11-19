@@ -36,7 +36,7 @@ export interface FatAction {
   /**
    * 显示状态, 默认为 true
    */
-  visible?: boolean;
+  visible?: boolean | (() => boolean);
 
   /**
    * 禁用
@@ -255,7 +255,7 @@ export const FatActions = declareComponent({
     });
 
     const rawList = computed(() => {
-      return props.options.filter(i => i.visible !== false);
+      return props.options.filter(i => (typeof i.visible === 'function' ? i.visible() : i.visible !== false));
     });
 
     const list = computed(() => {

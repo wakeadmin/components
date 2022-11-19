@@ -4,6 +4,18 @@
     <div># 内置原件 <el-switch v-model="previewMode" /></div>
     <FatText copyable>hello</FatText>
     <FatForm ref="formRef" :mode="previewMode ? 'preview' : 'editable'" class="form">
+      <FatFormTable
+        label="table"
+        prop="table"
+        sortable
+        required
+        :width="800"
+        :columns="[
+          { prop: 'foo', initialValue: '1', label: '姓名', width: 'small' },
+          { prop: 'bar.bar', initialValue: '2', label: '地址' },
+          { prop: 'baz', initialValue: false, valueType: 'switch', label: '开启', width: 'mini' },
+        ]"
+      ></FatFormTable>
       <FatFormItem prop="text" label="text" value-type="text" width="small" trim required />
       <FatFormItem prop="password" label="password" value-type="password" width="small" />
       <FatFormItem prop="search" label="search" value-type="search" width="medium" />
@@ -228,7 +240,15 @@
 </template>
 
 <script lang="tsx" setup>
-  import { useFatFormRef, FatForm, FatFormItem, FatFormGroup, FatText, FatFormConsumer } from '@wakeadmin/components';
+  import {
+    useFatFormRef,
+    FatForm,
+    FatFormItem,
+    FatFormTable,
+    FatFormGroup,
+    FatText,
+    FatFormConsumer,
+  } from '@wakeadmin/components';
   import { Message, Switch as ElSwitch } from 'element-ui';
   import { delay } from '@wakeapp/utils';
   import { ref } from 'vue';

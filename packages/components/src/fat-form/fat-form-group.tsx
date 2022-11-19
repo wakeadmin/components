@@ -20,7 +20,7 @@ import {
 import { FatFormInheritanceContext } from './constants';
 import { useFatFormCollection, useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormGroupProps, FatFormGroupSlots, FatFormItemInheritableProps } from './types';
-import { formItemWidth } from './utils';
+import { formItemWidth, isInModifyContext } from './utils';
 
 const DEFAULT_ROW: RowProps & CommonProps = NoopObject;
 
@@ -54,6 +54,7 @@ export const FatFormGroup = declareComponent({
     hideOnPreview: { type: Boolean, default: undefined },
     hideOnEdit: { type: Boolean, default: undefined },
     spaceProps: null,
+    bareness: Boolean,
 
     // slots
     renderLabel: null,
@@ -276,6 +277,9 @@ export const FatFormGroup = declareComponent({
     const disposeCollection = props.prop ? collection?.registerItem(instance) : undefined;
 
     if (props.prop) {
+      const debounceValidate = debounce(() => {
+        instance.validate();
+      }, 500);
       // 监听 dependencies 重新进行验证
       watch(
         (): any[] | undefined => {
@@ -290,15 +294,15 @@ export const FatFormGroup = declareComponent({
             return form.getFieldValue(p);
           });
         },
-        debounce(values => {
+        values => {
           // touched 状态下才验证
           if (values == null || !validateEnabled.value) {
             return;
           }
 
           // 验证自身
-          instance.validate();
-        }, 500)
+          debounceValidate();
+        }
       );
 
       // 通知表单移除验证状态
@@ -314,13 +318,15 @@ export const FatFormGroup = declareComponent({
       // 在分组中使用验证规则时, 无法通过 change 事件来触发验证，所以需要手动监听
       watch(
         () => form.getFieldValue(props.prop!),
-        debounce(() => {
-          if (validateEnabled.value) {
-            instance.validate();
+        () => {
+          if (validateEnabled.value && isInModifyContext()) {
+            debounceValidate();
           }
-        }, 500),
+        },
         {
           deep: true,
+          // 同步监听，这个主要为了判断是否在 modify context 下
+          flush: 'sync',
         }
       );
     }
@@ -348,7 +354,9 @@ export const FatFormGroup = declareComponent({
         row = DEFAULT_ROW;
       }
 
-      if (row) {
+      if (props.bareness) {
+        // do not wrap
+      } else if (row) {
         children = (
           <Row
             {...row}

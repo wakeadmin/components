@@ -6,6 +6,7 @@ export * from './fat-form-consumer';
 export * from './fat-form-group';
 export * from './fat-form-collection';
 export * from './fat-form-section';
+export * from './fat-form-table';
 
 export * from './define-fat-form';
 

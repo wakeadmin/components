@@ -719,6 +719,11 @@ export interface FatFormGroupProps<Store extends {}> extends FatFormItemShared, 
    * 透传给 FatSpace 的参数
    */
   spaceProps?: FatSpaceProps;
+
+  /**
+   * 不要添加任何包装元素(space/row)，裸露模式
+   */
+  bareness?: boolean;
 }
 
 /**

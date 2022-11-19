@@ -29,7 +29,7 @@ import {
 import { FatFormContext, FatFormInheritanceContext } from './constants';
 import { FatFormGroup } from './fat-form-group';
 import { useFatFormContext, useTouches } from './hooks';
-import { convert, transform } from './utils';
+import { convert, transform, runInModifyContext } from './utils';
 
 export const FatForm = declareComponent({
   name: 'FatForm',
@@ -314,18 +314,20 @@ export const FatForm = declareComponent({
       const oldValue = get(values.value, prop);
 
       if (oldValue !== value) {
-        setByPath(values.value, prop, value);
+        runInModifyContext(() => {
+          setByPath(values.value, prop, value);
 
-        emit('valuesChange', values.value, prop, value, oldValue);
+          emit('valuesChange', values.value, prop, value, oldValue);
 
-        if (props.syncToInitialValues && isObject(props.initialValue)) {
-          // 直接同步修改 initialValue
-          set(props.initialValue, prop, value);
-        }
+          if (props.syncToInitialValues && isObject(props.initialValue)) {
+            // 直接同步修改 initialValue
+            set(props.initialValue, prop, value);
+          }
 
-        if (ready) {
-          touches.touch(prop);
-        }
+          if (ready) {
+            touches.touch(prop);
+          }
+        });
       }
     };
 
