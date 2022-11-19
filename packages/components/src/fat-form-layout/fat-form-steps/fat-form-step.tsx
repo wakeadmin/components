@@ -3,7 +3,7 @@ import { declareComponent, declareProps } from '@wakeadmin/h';
 import { onBeforeUnmount, markRaw, ref } from '@wakeadmin/demi';
 
 import { FatFormStepMethods, useFatFormStepsContext } from './fat-form-steps-context';
-import { FatFormItemMethods, FatFormCollection, FatFormCollectionProvider } from '../../fat-form';
+import { FatFormCollectionItem, FatFormCollection, FatFormCollectionProvider } from '../../fat-form';
 import { hasChild, hasSlots, normalizeClassName, OurComponentInstance, renderSlot } from '../../utils';
 
 export interface FatFormStepSlots {
@@ -61,7 +61,7 @@ const FatFormStepInner = declareComponent({
   setup(props, { slots, attrs }) {
     const parent = useFatFormStepsContext();
     // 收集到的所有表单项
-    const items: FatFormItemMethods[] = [];
+    const items: FatFormCollectionItem[] = [];
     const sections = ref<any[]>([]);
 
     const collection: FatFormCollection = {

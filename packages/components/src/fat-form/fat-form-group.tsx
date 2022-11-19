@@ -1,7 +1,8 @@
 import { FormItem, Col, Row, RowProps, Tooltip, ColProps, CommonProps } from '@wakeadmin/element-adapter';
-import { computed, provide, onBeforeUnmount } from '@wakeadmin/demi';
+import { computed, provide, onBeforeUnmount, watch } from '@wakeadmin/demi';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { Inquiry } from '@wakeadmin/icons';
+import { NoopObject, equal, debounce } from '@wakeadmin/utils';
 
 import { useFatConfigurable } from '../fat-configurable';
 import { FatSpace, toNumberSize } from '../fat-space';
@@ -12,13 +13,14 @@ import {
   normalizeStyle,
   renderSlot,
   ToHSlotDefinition,
+  takeString,
+  toArray,
 } from '../utils';
 
 import { FatFormInheritanceContext } from './constants';
-import { useFatFormContext, useInheritableProps } from './hooks';
+import { useFatFormCollection, useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormGroupProps, FatFormGroupSlots, FatFormItemInheritableProps } from './types';
 import { formItemWidth } from './utils';
-import { NoopObject } from '@wakeadmin/utils';
 
 const DEFAULT_ROW: RowProps & CommonProps = NoopObject;
 
@@ -41,8 +43,11 @@ export const FatFormGroup = declareComponent({
     clearable: { type: Boolean, default: undefined },
     preserve: { type: Boolean, default: undefined },
     prop: null,
+    initialValue: null,
     required: Boolean,
     vertical: Boolean,
+    dependencies: null,
+    rules: null,
     contentClassName: null,
     contentStyle: null,
     hideMessageOnPreview: { type: Boolean, default: undefined },
@@ -60,7 +65,28 @@ export const FatFormGroup = declareComponent({
   setup(props, { slots, attrs, expose }) {
     const configurable = useFatConfigurable();
     const form = useFatFormContext()!;
+    const collection = useFatFormCollection();
     const inherited = useInheritableProps();
+
+    // 初始化数据
+    if (props.prop) {
+      if (props.initialValue !== undefined) {
+        form.__setInitialValue(props.prop, props.initialValue);
+      }
+
+      // 监听 initialValue 变动
+      watch(
+        () => props.initialValue,
+        (value, oldValue) => {
+          if (value === undefined || value === oldValue || equal(value, oldValue)) {
+            return;
+          }
+
+          form.__setInitialValue(props.prop!, value);
+        },
+        {}
+      );
+    }
 
     const mode = computed(() => {
       return props.mode ?? inherited?.mode;
@@ -102,6 +128,35 @@ export const FatFormGroup = declareComponent({
       return true;
     });
 
+    /**
+     * 是否开启字段验证
+     */
+    const validateEnabled = computed(() => {
+      return !!props.prop && !hidden.value && !disabled.value && mode.value !== 'preview';
+    });
+
+    const rules = computed(() => {
+      if (props.prop == null) {
+        return undefined;
+      }
+
+      let values = typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
+
+      if (props.required) {
+        values = toArray(values);
+
+        // 检查是否已经包含了 required 验证规则
+        if (!values.some(i => i.required)) {
+          values.unshift({
+            required: true,
+            message: `${takeString(props.label)}不能为空`,
+          });
+        }
+      }
+
+      return values;
+    });
+
     const inheritProps: FatFormItemInheritableProps = {
       get mode() {
         return mode.value;
@@ -135,6 +190,13 @@ export const FatFormGroup = declareComponent({
       },
       get prop() {
         return props.prop;
+      },
+      async validate() {
+        if (props.prop) {
+          return await form.validateField(props.prop);
+        }
+
+        return true;
       },
     };
 
@@ -210,8 +272,62 @@ export const FatFormGroup = declareComponent({
     provide(FatFormInheritanceContext, inheritProps);
     expose(instance);
 
+    // 支持验证的分组
+    const disposeCollection = props.prop ? collection?.registerItem(instance) : undefined;
+
+    if (props.prop) {
+      // 监听 dependencies 重新进行验证
+      watch(
+        (): any[] | undefined => {
+          if (props.dependencies == null) {
+            return;
+          }
+
+          const paths = Array.isArray(props.dependencies) ? props.dependencies : [props.dependencies];
+
+          // eslint-disable-next-line consistent-return
+          return paths.map(p => {
+            return form.getFieldValue(p);
+          });
+        },
+        debounce(values => {
+          // touched 状态下才验证
+          if (values == null || !validateEnabled.value) {
+            return;
+          }
+
+          // 验证自身
+          instance.validate();
+        }, 500)
+      );
+
+      // 通知表单移除验证状态
+      watch(
+        () => validateEnabled.value,
+        enabled => {
+          if (!enabled) {
+            form.clearValidate(props.prop);
+          }
+        }
+      );
+
+      // 在分组中使用验证规则时, 无法通过 change 事件来触发验证，所以需要手动监听
+      watch(
+        () => form.getFieldValue(props.prop!),
+        debounce(() => {
+          if (validateEnabled.value) {
+            instance.validate();
+          }
+        }, 500),
+        {
+          deep: true,
+        }
+      );
+    }
+
     onBeforeUnmount(() => {
       form.__unregisterFormGroup(instance);
+      disposeCollection?.();
     });
 
     return () => {
@@ -306,6 +422,8 @@ export const FatFormGroup = declareComponent({
           labelWidth={labelWidth.value}
           size={inheritProps.size}
           required={props.required}
+          prop={props.prop}
+          rules={validateEnabled.value ? rules.value : undefined}
           v-slots={labelSlot}
         >
           <div

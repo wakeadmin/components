@@ -4,10 +4,6 @@ import { ref } from 'vue';
 export default defineFatForm<{ list: { name: string; id: number }[] }>(
   ({ form, consumer, item, group, renderChild }) => {
     let uid = 0;
-    const initialValue = {
-      title: '',
-      list: [],
-    };
 
     // 条件表单项
     const conditionItem = ref(false);
@@ -33,15 +29,27 @@ export default defineFatForm<{ list: { name: string; id: number }[] }>(
 
     return () => {
       return {
-        initialValue,
         children: [
-          renderChild(item({ label: '名称', prop: 'title' })),
+          renderChild(item({ label: '名称', prop: 'title', initialValue: 'title' })),
           consumer(f => {
             return group({
               label: '列表',
               vertical: true,
               gutter: 0,
-              children: f.values.list.map((i, idx) =>
+              prop: 'list',
+              initialValue: [{ name: 'hello' }],
+              rules: [
+                {
+                  validator(rule, value, callback) {
+                    if (value == null || value.length === 0) {
+                      callback(new Error('请填写选项组'));
+                    } else {
+                      callback();
+                    }
+                  },
+                },
+              ],
+              children: f.values.list?.map((i, idx) =>
                 item({
                   // 只有在动态渲染列表时才需要id， 大部分情况不需要
                   key: i.id,

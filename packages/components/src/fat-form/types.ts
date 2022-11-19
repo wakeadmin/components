@@ -28,6 +28,13 @@ export type FatFormMode = 'preview' | 'editable';
 
 export type FatFormLayout = 'horizontal' | 'vertical' | 'inline';
 
+export interface FatFormCollectionItem {
+  /**
+   * 触发验证
+   */
+  validate(): Promise<boolean>;
+}
+
 /**
  * 用于表单项收集
  */
@@ -35,7 +42,7 @@ export interface FatFormCollection {
   /**
    * 注册表单
    */
-  registerItem(item: FatFormItemMethods): () => void;
+  registerItem(item: FatFormCollectionItem): () => void;
 
   /**
    * 注册 FatFormSection, 父级可能会根据是否包含 section 来决定布局方式
@@ -623,7 +630,7 @@ export interface FatFormGroupMethods {
 /**
  * fat 表单分组属性
  */
-export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatFormGroupSlots<S> {
+export interface FatFormGroupProps<Store extends {}> extends FatFormItemShared, FatFormGroupSlots<Store> {
   /**
    * 间隔大小.
    * 当开启了 row， gutter 会设置 row 的 gutter props
@@ -651,14 +658,14 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
    *
    * 隐藏后当前字段将不会进行校验
    */
-  hidden?: boolean | ((instance: FatFormMethods<S>) => boolean);
+  hidden?: boolean | ((instance: FatFormMethods<Store>) => boolean);
 
   /**
    * 是否禁用。下级 form-item 会继承
    *
    * 禁用后当前字段将不会进行校验
    */
-  disabled?: boolean | ((instance: FatFormMethods<S>) => boolean);
+  disabled?: boolean | ((instance: FatFormMethods<Store>) => boolean);
 
   /**
    * 是否支持清除
@@ -666,20 +673,47 @@ export interface FatFormGroupProps<S extends {}> extends FatFormItemShared, FatF
   clearable?: boolean;
 
   /**
-   * 是否必填，会显示必填符号，但不会有实际作用
-   */
-  required?: boolean;
-
-  /**
-   * 属性路径。 没有实际意义
+   * 属性路径。
    * 目前和 preserve 配合使用，用于控制当分组被移除时，删除 prop 指定的字段
    */
   prop?: string;
 
   /**
+   * 字段初始值
+   *
+   * note: 优先级会高于 FatForm 定义的 initialValues
+   * 当 prop 为空时没有实际意义
+   */
+  initialValue?: any;
+
+  /**
+   * 是否必填，会显示必填符号
+   *
+   * 当 prop 为空时不会有实际验证作用
+   */
+  required?: boolean;
+
+  /**
    * 当字段被删除时保留字段值， 默认 true
+   *
+   * 当 prop 为空时没有实际意义
    */
   preserve?: boolean;
+
+  /**
+   * 声明该字段依赖的字段，格式同 prop
+   * 当列表中的字段变更后，通知当前字段进行重新验证
+   *
+   * 当 prop 为空时没有实际意义
+   */
+  dependencies?: string[] | string;
+
+  /**
+   * 验证规则
+   *
+   * 当 prop 为空时没有实际意义
+   */
+  rules?: FatFormItemRules<Store>;
 
   /**
    * 透传给 FatSpace 的参数
