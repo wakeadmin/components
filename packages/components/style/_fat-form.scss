@@ -122,6 +122,22 @@
   &__table {
   }
 
+  // 处理表单验证消息提示被隐藏问题
+  &.fat-form-table__editable {
+    .fat-form-table__table {
+      .#{$el-ns}-table__body {
+        .#{$el-ns}-table__cell {
+          padding-top: 15px;
+          padding-bottom: 17px;
+
+          .cell {
+            overflow: visible !important;
+          }
+        }
+      }
+    }
+  }
+
   &__footer {
     margin-top: $fat-spacing-xs;
   }

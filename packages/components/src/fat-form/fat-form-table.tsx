@@ -111,6 +111,11 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
   columnAlign?: 'left' | 'right' | 'center';
 
   /**
+   * 表单 columnHeader 对齐方式，默认 left
+   */
+  columnHeaderAlign?: 'left' | 'right' | 'center';
+
+  /**
    * 字段路径。例如 a.b.c、b[0]
    */
   prop: string;
@@ -199,6 +204,7 @@ export const FatFormTable = declareComponent({
     columns: null,
     sortable: Boolean,
     columnAlign: null,
+    columnHeaderAlign: null,
 
     enableCreate: { type: Boolean, default: true },
     beforeCreate: null,
@@ -223,6 +229,10 @@ export const FatFormTable = declareComponent({
 
     const mode = computed(() => {
       return props.mode ?? inherited?.mode;
+    });
+
+    const editable = computed(() => {
+      return mode.value !== 'preview';
     });
 
     const rowKey = (row: any) => {
@@ -405,7 +415,7 @@ export const FatFormTable = declareComponent({
     };
 
     const renderActions = computed(() => {
-      if (mode.value === 'preview') {
+      if (!editable.value) {
         return undefined;
       }
 
@@ -414,7 +424,12 @@ export const FatFormTable = declareComponent({
       }
 
       return () => (
-        <TableColumn label={props.actionText ?? '操作'} width={200} align={props.columnAlign}>
+        <TableColumn
+          label={props.actionText ?? '操作'}
+          width={200}
+          align={props.columnAlign}
+          headerAlign={props.columnHeaderAlign}
+        >
           {{
             default: (scope: { row: any; $index: number }) => {
               return <FatActions options={getActions(scope.row, scope.$index)} />;
@@ -434,7 +449,9 @@ export const FatFormTable = declareComponent({
           v-slots={pickEnumerable(slots, 'default', 'actions')}
           bareness
           {...inheritProps(false)}
-          class={normalizeClassName('fat-form-table', attrs.class)}
+          class={normalizeClassName('fat-form-table', attrs.class, {
+            'fat-form-table__editable': editable.value,
+          })}
         >
           <div class="fat-form-table__body">
             <Table
@@ -489,6 +506,7 @@ export const FatFormTable = declareComponent({
                     label={label}
                     renderHeader={renderHeader}
                     align={props.columnAlign}
+                    headerAlign={props.columnHeaderAlign}
                     width={width}
                   >
                     {children}
@@ -498,7 +516,7 @@ export const FatFormTable = declareComponent({
               {renderActions.value?.()}
             </Table>
             {renderSlot(props, slots, 'default', instance)}
-            {mode.value === 'preview' || !props.enableCreate ? undefined : (
+            {!editable.value || !props.enableCreate ? undefined : (
               <div class="fat-form-table__footer">
                 <Button type="text" {...props.createProps} onClick={create}>
                   {props.createText ?? '新增'}
