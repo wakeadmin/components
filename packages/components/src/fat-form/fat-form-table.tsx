@@ -106,16 +106,6 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
   rowKey?: TableProps['rowKey'];
 
   /**
-   * 表单 column 对齐方式, 默认 left
-   */
-  columnAlign?: 'left' | 'right' | 'center';
-
-  /**
-   * 表单 columnHeader 对齐方式，默认 left
-   */
-  columnHeaderAlign?: 'left' | 'right' | 'center';
-
-  /**
    * 字段路径。例如 a.b.c、b[0]
    */
   prop: string;
@@ -124,6 +114,21 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
    * 表单项
    */
   columns: FatFormTableColumn<Store, Request, any>[];
+
+  /**
+   * 子项大小限制，默认不限制
+   */
+  max?: number;
+
+  /**
+   * 表单 column 对齐方式, 默认 left
+   */
+  columnAlign?: 'left' | 'right' | 'center';
+
+  /**
+   * 表单 columnHeader 对齐方式，默认 left
+   */
+  columnHeaderAlign?: 'left' | 'right' | 'center';
 
   /**
    * 是否可排序, 默认 false
@@ -202,6 +207,7 @@ export const FatFormTable = declareComponent({
     tableProps: null,
     rowKey: null,
     columns: null,
+    max: { type: Number, default: Number.MAX_SAFE_INTEGER },
     sortable: Boolean,
     columnAlign: null,
     columnHeaderAlign: null,
@@ -254,8 +260,12 @@ export const FatFormTable = declareComponent({
       return form.getFieldValue(props.prop);
     });
 
-    const value = computed(() => {
+    const value = computed<any[]>(() => {
       return rawValue.value ?? NoopArray;
+    });
+
+    const exceeded = computed(() => {
+      return value.value.length >= props.max!;
     });
 
     const getValue = () => {
@@ -318,6 +328,10 @@ export const FatFormTable = declareComponent({
      * 创建一条新项目
      */
     const create = () => {
+      if (exceeded.value) {
+        return;
+      }
+
       try {
         if (props.beforeCreate) {
           const item = props.beforeCreate();
@@ -518,7 +532,7 @@ export const FatFormTable = declareComponent({
             {renderSlot(props, slots, 'default', instance)}
             {!editable.value || !props.enableCreate ? undefined : (
               <div class="fat-form-table__footer">
-                <Button type="text" {...props.createProps} onClick={create}>
+                <Button type="text" {...props.createProps} onClick={create} disabled={exceeded.value}>
                   {props.createText ?? '新增'}
                 </Button>
               </div>

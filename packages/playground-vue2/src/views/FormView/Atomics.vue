@@ -10,6 +10,7 @@
         sortable
         required
         :width="800"
+        :max="3"
         :columns="[
           { prop: 'foo', initialValue: '1', label: '姓名', width: 'small', required: true },
           { prop: 'bar.bar', initialValue: '2', label: '地址' },
