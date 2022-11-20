@@ -66,7 +66,8 @@ export function defineFatFormPage<
     name: options?.name ?? 'PreDefineFatFormPage',
     setup(_, { slots, expose, attrs, emit }) {
       const pageRef = useFatFormPageRef<Store>();
-      const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
+      const { item, group, section, consumer, table, tableColumn, renderChild, renderChildren } =
+        useFatFormDefineUtils();
 
       const dsl = computed(
         define({
@@ -77,6 +78,8 @@ export function defineFatFormPage<
           consumer,
           renderChild,
           renderChildren,
+          table,
+          tableColumn,
           props: attrs as any,
           emit,
         })

@@ -12,7 +12,7 @@ import {
   ButtonProps,
   Message,
 } from '@wakeadmin/element-adapter';
-import { declareComponent, declareProps } from '@wakeadmin/h';
+import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { computed, ref, set as $set } from '@wakeadmin/demi';
 import { Inquiry } from '@wakeadmin/icons';
 import { get, isObject, NoopArray, set, cloneDeep } from '@wakeadmin/utils';
@@ -27,6 +27,7 @@ import {
   normalizeClassName,
   pickEnumerable,
   renderSlot,
+  ToHSlotDefinition,
 } from '../utils';
 
 import { FatFormItemProps, FatFormGroupSlots, FatFormGroupProps } from './types';
@@ -171,6 +172,11 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
   actionText?: string;
 
   /**
+   * 操作列的宽度, 默认 180px
+   */
+  actionWidth?: number;
+
+  /**
    * 删除确认配置, 默认为 确认删除？
    */
   removeConfirm?: LooseMessageBoxOptions<{ instance: FatFormTableMethods }>;
@@ -208,6 +214,7 @@ export const FatFormTable = declareComponent({
     rowKey: null,
     columns: null,
     max: { type: Number, default: Number.MAX_SAFE_INTEGER },
+    actionWidth: { type: Number, default: undefined },
     sortable: Boolean,
     columnAlign: null,
     columnHeaderAlign: null,
@@ -227,6 +234,7 @@ export const FatFormTable = declareComponent({
     // 自定义操作栏
     renderActions: null,
   }),
+  slots: declareSlots<ToHSlotDefinition<FatFormTableSlots<any>>>(),
   setup(props, { slots, expose, attrs }) {
     validateFormItemProps(props, 'fat-form-table');
     const form = useFatFormContext()!;
@@ -440,7 +448,7 @@ export const FatFormTable = declareComponent({
       return () => (
         <TableColumn
           label={props.actionText ?? '操作'}
-          width={200}
+          width={props.actionWidth ?? (props.sortable ? 180 : 80)}
           align={props.columnAlign}
           headerAlign={props.columnHeaderAlign}
         >

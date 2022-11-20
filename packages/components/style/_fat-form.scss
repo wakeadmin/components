@@ -129,6 +129,7 @@
         .#{$el-ns}-table__cell {
           padding-top: 15px;
           padding-bottom: 17px;
+          vertical-align: top;
 
           .cell {
             overflow: visible !important;

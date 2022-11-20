@@ -88,7 +88,7 @@ export function defineFatFormSteps<
     name: options?.name ?? 'PreDefineFatFormSteps',
     setup(_, { slots, expose, attrs, emit }) {
       const stepsRef = useFatFormStepsRef<Store>();
-      const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils(
+      const { item, group, section, consumer, table, tableColumn, renderChild, renderChildren } = useFatFormDefineUtils(
         // 扩展 step 渲染器
         (child, render) => {
           if (isStep(child)) {
@@ -110,6 +110,8 @@ export function defineFatFormSteps<
           section,
           step,
           consumer,
+          table,
+          tableColumn,
           renderChild,
           renderChildren,
           props: attrs as any,

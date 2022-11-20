@@ -121,6 +121,7 @@ export default {
             { text: 'FatFormPage 页面', link: '/fat-form-layout/page' },
             { text: 'FatFormQuery 查询', link: '/fat-form-layout/query' },
             { text: 'FatFormSteps 分步 (beta)', link: '/fat-form-layout/steps' },
+            { text: 'FatFormTable 表格数组 (beta)', link: '/fat-form-layout/table' },
           ],
         },
         {

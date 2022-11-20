@@ -18,6 +18,8 @@
 
   &__btn {
     color: $fat-color-info;
+    // 使用了 gap， button 本身的 margin-left 可以去掉
+    margin-left: 0 !important;
 
     &:hover,
     &:focus {

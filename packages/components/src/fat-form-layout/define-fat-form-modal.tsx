@@ -65,7 +65,8 @@ export function defineFatFormModal<
     name: options?.name ?? 'PreDefineFatFormModal',
     setup(_, { slots, expose, attrs, emit }) {
       const modalRef = useFatFormModalRef<Store>();
-      const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
+      const { item, group, section, consumer, table, tableColumn, renderChild, renderChildren } =
+        useFatFormDefineUtils();
 
       const dsl = computed(
         define({
@@ -74,6 +75,8 @@ export function defineFatFormModal<
           group,
           section,
           consumer,
+          table,
+          tableColumn,
           renderChild,
           renderChildren,
           props: attrs as any,

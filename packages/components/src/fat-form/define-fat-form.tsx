@@ -21,6 +21,7 @@ import {
   FatFormEvents,
 } from './types';
 import { FatFormPublicMethodKeys } from './constants';
+import { FatFormTable, FatFormTableColumn, FatFormTableProps } from './fat-form-table';
 
 export const FAT_FORM_CHILD_TYPE = Symbol('fat-form-child-type');
 
@@ -62,6 +63,23 @@ export interface FatFormGroupDefinition<Store extends {}, Request extends {} = S
   children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
 }
 
+export interface FatFormTableColumnDefinition<
+  Store extends {},
+  Request extends {} = Store,
+  ValueType extends keyof AtomicProps = 'text'
+> extends FatFormTableColumn<Store, Request, ValueType>,
+    CommonDefinitionProps {
+  [FAT_FORM_CHILD_TYPE]: 'tableColumn';
+}
+
+export interface FatFormTableDefinition<Store extends {}, Request extends {} = Store>
+  extends Omit<FatFormTableProps<Store, Request>, 'columns'>,
+    CommonDefinitionProps {
+  [FAT_FORM_CHILD_TYPE]: 'table';
+  // columns: FatFormTableColumnDefinition<Store, Request, any>[];
+  columns: any[];
+}
+
 /**
  * fat-consumer
  */
@@ -80,19 +98,31 @@ export type OmitType<T> = Omit<T, typeof FAT_FORM_CHILD_TYPE>;
 
 export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Store, Submit extends {} = Store> {
   /**
-   * 分组
+   * 分组, FatFormGroup
    */
   group: (g: OmitType<FatFormGroupDefinition<Store, Request>>) => FatFormGroupDefinition<Store, Request>;
 
   /**
-   * 表单项
+   * 表单项, FatFormItem
    */
   item: <ValueType extends keyof AtomicProps = 'text'>(
     g: OmitType<FatFormItemDefinition<Store, Request, ValueType>>
   ) => FatFormItemDefinition<Store, Request, ValueType>;
 
   /**
-   * 分节
+   * 表格列表, FatFormTable
+   */
+  table: (g: OmitType<FatFormTableDefinition<Store, Request>>) => FatFormTableDefinition<Store, Request>;
+
+  /**
+   * 表格项, FatFormTable#columns
+   */
+  tableColumn: <ValueType extends keyof AtomicProps = 'text'>(
+    g: OmitType<FatFormTableColumnDefinition<Store, Request, ValueType>>
+  ) => FatFormTableColumnDefinition<Store, Request, ValueType>;
+
+  /**
+   * 分节, FatFormSection
    */
   section: (g: OmitType<FatFormSectionDefinition<Store, Request>>) => FatFormSectionDefinition<Store, Request>;
 
@@ -143,9 +173,19 @@ function isConsumer(value: any): value is FatFormConsumerDefinition<any> {
   return value != null && typeof value === 'object' && value[FAT_FORM_CHILD_TYPE] === 'consumer';
 }
 
+function isTable(value: any): value is FatFormTableDefinition<any> {
+  return value != null && typeof value === 'object' && value[FAT_FORM_CHILD_TYPE] === 'table';
+}
+
+function isTableColumn(value: any): value is FatFormTableColumnDefinition<any> {
+  return value != null && typeof value === 'object' && value[FAT_FORM_CHILD_TYPE] === 'tableColumn';
+}
+
 export function useFatFormDefineUtils(customRender?: (child: any, renderChildren: (children: any) => any) => any) {
   const item = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'item', ...val } as any);
   const group = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'group', ...val } as any);
+  const table = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'table', ...val } as any);
+  const tableColumn = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'tableColumn', ...val } as any);
   const section = (val: any) => ({ [FAT_FORM_CHILD_TYPE]: 'section', ...val } as any);
   const consumer = (render: any) =>
     ({
@@ -181,6 +221,13 @@ export function useFatFormDefineUtils(customRender?: (child: any, renderChildren
       return <FatFormSection {...other}>{renderChildren(sectionChildren)}</FatFormSection>;
     } else if (isConsumer(child)) {
       return <FatFormConsumer renderDefault={child.render} />;
+    } else if (isTable(child)) {
+      const { columns } = child;
+      if (!Array.isArray(columns) || columns.some(i => !isTableColumn(i))) {
+        throw new Error(`table() 必须指定 columns 属性，且属性值必须是 tableColumn`);
+      }
+
+      return <FatFormTable {...child} />;
     } else if (customRender != null) {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       return customRender(child, renderChildren);
@@ -210,6 +257,8 @@ export function useFatFormDefineUtils(customRender?: (child: any, renderChildren
     group,
     section,
     consumer,
+    table,
+    tableColumn,
     renderChild,
     renderChildren,
   };
@@ -233,7 +282,8 @@ export function defineFatForm<
     name: options?.name ?? 'PreDefineFatForm',
     setup(_, { slots, expose, attrs, emit }) {
       const formRef = useFatFormRef<Store>();
-      const { item, group, section, consumer, renderChild, renderChildren } = useFatFormDefineUtils();
+      const { item, group, section, consumer, table, tableColumn, renderChild, renderChildren } =
+        useFatFormDefineUtils();
 
       const dsl = computed(
         define({
@@ -242,6 +292,8 @@ export function defineFatForm<
           group,
           section,
           consumer,
+          table,
+          tableColumn,
           renderChild,
           renderChildren,
           props: attrs as any,
