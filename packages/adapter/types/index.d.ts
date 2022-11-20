@@ -32,3 +32,4 @@ export * from './utils';
 export * from './cascader';
 export * from './cascader-panel';
 export * from './steps';
+export * from './tabs';
