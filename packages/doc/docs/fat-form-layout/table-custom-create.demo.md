@@ -3,7 +3,7 @@ layout: false
 ---
 
 <script setup>
-  import Page from './Table.tsx'
+  import Page from './TableCustomCreate.tsx'
 
 </script>
 

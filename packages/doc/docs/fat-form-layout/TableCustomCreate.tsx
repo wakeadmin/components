@@ -1,15 +1,24 @@
 import { defineFatForm } from '@wakeadmin/components';
 
 export default defineFatForm(({ item, table, tableColumn, consumer, group }) => {
+  let uid = 0;
   return () => ({
     children: [
-      item({ label: '标题', prop: 'title', width: 'small' }),
       table({
         prop: 'list',
         label: '详情',
         width: 700,
-        // list 数组本身的验证规则
-        required: true,
+        rowKey: 'id',
+        // 关闭删除提示
+        removeConfirm: false,
+        beforeCreate() {
+          const id = uid++;
+          return {
+            id,
+            name: `ivan-${id}`,
+            address: '广东省汕尾市',
+          };
+        },
         columns: [
           tableColumn({
             prop: 'name',
@@ -21,18 +30,9 @@ export default defineFatForm(({ item, table, tableColumn, consumer, group }) => 
           tableColumn({
             prop: 'address',
             label: '地址',
-            valueType: 'textarea',
-            valueProps: {
-              maxlength: 100,
-              showWordLimit: true,
-            },
             required: true,
           }),
-          tableColumn({ prop: 'enabled', label: '状态', valueType: 'switch', width: 'mini' }),
         ],
-        sortable: true,
-        createText: '新增一行',
-        removeText: '删除',
       }),
       consumer(form =>
         group({

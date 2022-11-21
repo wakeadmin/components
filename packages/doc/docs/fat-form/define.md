@@ -39,6 +39,8 @@ defineFatForm 的 `DSL` 需要满足类似 `<template>` 的灵活结构的同时
 - `item` 定义 [`FatFormItem`](./item.md)
 - `section` 定义 [`FatFormSection`](./section.md)
 - `consumer` 定义 [`FatFormConsumer`](./consumer.md)
+- `table` 定义 [`FatFormTable`](../fat-form-layout/table.md)
+- `tableColumn` 定义 [`FatFormTable#columns` 子项](../fat-form-layout/table.md)
 
 <br>
 <br>

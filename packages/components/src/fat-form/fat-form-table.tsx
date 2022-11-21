@@ -341,8 +341,10 @@ export const FatFormTable = declareComponent({
       }
 
       try {
+        const uid = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
         if (props.beforeCreate) {
           const item = props.beforeCreate();
+          item[AUTO_UNIQ_KEY] = uid;
 
           if (isObject(item)) {
             const list = getValue();
@@ -355,7 +357,6 @@ export const FatFormTable = declareComponent({
         }
 
         // 默认创建逻辑
-        const uid = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
         const item = {
           // 隐藏的唯一 id
           [AUTO_UNIQ_KEY]: uid,
