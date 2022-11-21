@@ -5,10 +5,18 @@ import { ref, watch, computed } from '@wakeadmin/demi';
 import { FatFormPublicMethodKeys } from '../../fat-form/constants';
 import { FatForm, useFatFormRef } from '../../fat-form';
 import { useFatConfigurable } from '../../fat-configurable';
-import { forwardExpose, hasSlots, inheritProps, normalizeClassName, renderSlot, ToHEmitDefinition } from '../../utils';
+import {
+  forwardExpose,
+  hasSlots,
+  inheritProps,
+  normalizeClassName,
+  OurComponentInstance,
+  renderSlot,
+  ToHEmitDefinition,
+} from '../../utils';
 
 import { FatFormTabPaneMethods, FatFormTabsContextValue, provideFatFormTabsContext } from './fat-form-tabs-context';
-import { FatFormTabsEvents, FatFormTabsMethods, FatFormTabsProps } from './types';
+import { FatFormTabsEvents, FatFormTabsMethods, FatFormTabsProps, FatFormTabsSlots } from './types';
 import { useDevtoolsExpose } from '../../hooks';
 import { DEFAULT_LAYOUT } from './default-layout';
 
@@ -221,4 +229,19 @@ const FatFormTabsInner = declareComponent({
   },
 });
 
-export const FatFormTabs = FatFormTabsInner;
+export function useFatFormTabsRef<Store extends {} = any, Request extends {} = Store, Submit extends {} = Store>() {
+  return ref<FatFormTabsMethods<Store, Request, Submit>>();
+}
+
+export const FatFormTabs = FatFormTabsInner as unknown as new <
+  Store extends {} = any,
+  Request extends {} = Store,
+  Submit extends {} = Store
+>(
+  props: FatFormTabsProps<Store, Request, Submit>
+) => OurComponentInstance<
+  typeof props,
+  FatFormTabsSlots<Store>,
+  FatFormTabsEvents<Store, Submit>,
+  FatFormTabsMethods<Store, Request, Submit>
+>;

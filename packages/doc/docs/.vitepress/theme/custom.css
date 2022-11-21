@@ -19,6 +19,10 @@ body {
   color: #111;
 }
 
+.full-height {
+  height: 100vh;
+}
+
 .demo-frame {
   border: none;
   width: 100%;

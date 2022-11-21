@@ -63,7 +63,7 @@ export interface FatFormTabsProps<Store extends {} = {}, Request extends {} = St
   /**
    * 表单验证失败处理
    */
-  validateErrorCapture: (name: string | number, error: Error) => void;
+  validateErrorCapture?: (name: string | number, error: Error) => void;
 }
 
 export interface FatFormTabPaneSlots {
