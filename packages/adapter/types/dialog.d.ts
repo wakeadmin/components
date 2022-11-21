@@ -17,6 +17,11 @@ export interface DialogProps {
   /** Whether a mask is displayed */
   modal?: boolean;
 
+  /**
+   * Dialog 自身是否插入至 body 元素上。嵌套的 Dialog 必须指定该属性并赋值为 true
+   */
+  appendToBody?: boolean;
+
   /** Whether to append modal to body element. If false, the modal will be appended to Dialog's parent element */
   modalAppendToBody?: boolean;
 
