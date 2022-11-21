@@ -317,12 +317,12 @@ export interface FatFormSubmitter<S extends {}> {
   submitterStyle?: StyleValue;
 }
 
-export interface FatFormSlots<S extends {}> {
+export interface FatFormSlots<Store extends {}> {
   /**
    * 自定义渲染 提交按钮
    * @param form 表单实例
    */
-  renderSubmitter?: (form: FatFormMethods<S>) => any;
+  renderSubmitter?: (form: FatFormMethods<Store>) => any;
 }
 
 export type FatFormRules<Store extends {}> = Rules | ((values: Store, form: FatFormMethods<Store>) => Rules);

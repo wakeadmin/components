@@ -123,10 +123,11 @@ const CLASS_AND_STYLE = ['class', 'style'];
 /**
  * 继承 props 和 listener
  * @param omitClassAndStyle 是否忽略class 和 style, 仅 vue3 下有效, vue 2 下 class、style 会始终添加到根节点, 默认为 true
+ * @param instance 自定义 vue 实例，默认从 getCurrentInstance 中获取
  * @returns
  */
-export function inheritProps(omitClassAndStyle = true) {
-  const instance = getCurrentInstance()?.proxy as any;
+export function inheritProps(omitClassAndStyle = true, instance?: any) {
+  instance ??= getCurrentInstance()?.proxy as any;
 
   if (instance == null) {
     return NoopObject;
