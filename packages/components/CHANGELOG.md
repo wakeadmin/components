@@ -1,14 +1,28 @@
 # @wakeadmin/components
 
-## 1.0.0-beta.2
+## 1.0.0-beta.3
 
+主要功能更新
+
+- 原件默认提示文案优化
+- fat-table 新增 getRequestParams 实例方法
+- 新增 fat-form-table，支持表单形式的数据项编辑
+- 新增 fat-form-tabs 支持标签页表单
+- fat-form-group 新增 spaceProps 参数
+- fat-form-group 支持数据验证
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.2
 
 功能修复
 
 - 修复 fat-table 首次加载数据是 empty 组件闪烁
 - 修复 fat-form-query 无法覆盖 renderSubmitter
 - 暴露 fat-form, fat-table 状态到 Vue 开发者工具
-
 
 <br>
 <br>

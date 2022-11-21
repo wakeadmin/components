@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/element-adapter",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "基础组件适配层",
   "sideEffects": [
     "**/*.scss"
@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "cpx": "^1.5.0",
-    "element-plus": "^2.2.19",
-    "element-ui": "^2.15.10"
+    "element-plus": "^2.2.22",
+    "element-ui": "^2.15.12"
   },
   "peerDependencies": {
     "element-plus": ">=2.2.0",

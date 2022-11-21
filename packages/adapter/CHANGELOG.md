@@ -1,5 +1,12 @@
 # @wakeadmin/element-adapter
 
+## 0.5.0
+
+### Minor Changes
+
+- 新增 Tabs/TabPane 组件
+- Dialog 组件类型优化
+
 ## 0.4.0
 
 ### Minor Changes
