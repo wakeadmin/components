@@ -138,9 +138,9 @@ export interface AtomicCommonProps<T> {
 以最简单的 `switch` 原件为例:
 
 ```tsx
-import { ElSwitchProps, ElSwitch, globalRegistry } from 'element-plus';
+import { ElSwitchProps, ElSwitch } from 'element-plus';
 
-import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '@wakeadmin/components';
+import { defineAtomic, defineAtomicComponent, DefineAtomicProps, globalRegistry } from '@wakeadmin/components';
 
 /**
  * 定义原件 props
@@ -192,14 +192,14 @@ export const ASwitchComponent = defineAtomicComponent(
       }
 
       // 编辑模式
-      return <ElSwitch {...other} {...model(value, onChange!)} />;
+      return <ElSwitch {...other} modelValue={value} onUpdate:modelValue={onChange} />;
     };
   },
   { name: 'ASwitch' }
 );
 
 // 🔴 注册
-globalRegistry.register({
+globalRegistry.register('switch', {
   name: 'switch',
   component: ASwitchComponent,
   description: '开关',
