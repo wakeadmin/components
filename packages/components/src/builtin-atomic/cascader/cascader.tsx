@@ -1,4 +1,4 @@
-import { model, CascaderProps, Cascader } from '@wakeadmin/element-adapter';
+import { model, CascaderProps, Cascader, CascaderInnerProps } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
 import { NoopArray, pick } from '@wakeadmin/utils';
 
@@ -13,7 +13,7 @@ export type ACascaderValue = any[];
 
 export type ACascaderProps = DefineAtomicProps<
   ACascaderValue,
-  Omit<CascaderProps, 'options'>,
+  Omit<CascaderProps, 'options' | 'props'>,
   {
     /**
      * 级联选项，可以是异步
@@ -24,6 +24,11 @@ export type ACascaderProps = DefineAtomicProps<
      * 自定义预览
      */
     renderPreview?: (options: ACascaderOption[]) => any;
+
+    /**
+     * options 是固定结构的
+     */
+    props?: Omit<CascaderInnerProps<any, ACascaderOption>, 'value' | 'label' | 'children' | 'disabled'>;
   }
 >;
 

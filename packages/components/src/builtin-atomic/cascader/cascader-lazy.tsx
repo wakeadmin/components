@@ -32,7 +32,7 @@ export interface ACascaderOption {
 
 export type ACascaderLazyProps = DefineAtomicProps<
   ACascaderLazyValue,
-  CascaderProps,
+  Omit<CascaderProps, 'props'>,
   {
     /**
      * 数据加载，parentId 为父节点 id，如果是根节点，则为 undefined
@@ -43,6 +43,11 @@ export type ACascaderLazyProps = DefineAtomicProps<
      * 自定义预览
      */
     renderPreview?: (options: ACascaderOption[]) => any;
+
+    /**
+     * options 是固定结构的
+     */
+    props?: Omit<CascaderInnerProps<any, ACascaderOption>, 'value' | 'label' | 'children' | 'disabled'>;
   }
 >;
 
@@ -132,7 +137,7 @@ export const ACascaderLazyComponent = defineAtomicComponent(
     });
 
     const cascaderProps = computed(() => {
-      const innerProps: CascaderInnerProps = {
+      const innerProps: CascaderInnerProps<any, ACascaderOption> = {
         lazy: true,
         async lazyLoad(node, resolve) {
           const item = node.level === 0 ? undefined : node.value;
