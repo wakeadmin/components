@@ -92,9 +92,9 @@ export type FatFormTabsLayout = (renderers: {
   form: FatFormTabsMethods<any>;
 
   /**
-   * 提交器渲染
+   * 提交器渲染, 当 submitter 关闭时为 undefined
    */
-  renderSubmitter(): any;
+  renderSubmitter?: () => any;
 
   /**
    * Tabs 主体渲染

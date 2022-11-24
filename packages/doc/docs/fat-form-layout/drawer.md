@@ -1,5 +1,6 @@
 <script setup>
   import Drawer from './Drawer.vue'
+  import DrawerWithSteps from './DrawerWithSteps.vue'
 
 </script>
 
@@ -20,6 +21,21 @@
 
 ::: details 查看代码
 <<< @/fat-form-layout/Drawer.vue
+:::
+
+<br>
+<br>
+<br>
+<br>
+
+`FatFormSteps`、`FatFormTabs` 等 `FatForm` 的'子类' 也支持和 `FatFormDrawer` 配合使用
+
+<ClientOnly>
+  <div class="wk-demo"><DrawerWithSteps /></div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form-layout/DrawerWithSteps.vue
 :::
 
 <br>

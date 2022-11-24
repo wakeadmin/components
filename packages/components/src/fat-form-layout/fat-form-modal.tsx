@@ -98,6 +98,11 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
    * 表单保存成功后调用，默认行为是关闭弹窗。调用 done 可以执行默认行为
    */
   beforeFinish?: (done: () => void) => void;
+
+  /**
+   * 传入和 FatForm 兼容的组件, 默认为 FatForm
+   */
+  Form?: any;
 }
 
 export function useFatFormModalRef<Store extends {} = any>() {
@@ -130,6 +135,8 @@ const FatFormModalInner = declareComponent({
     // slots
     renderTitle: null,
     renderFooter: null,
+
+    Form: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormModalEvents<any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormModalSlots<any>>>(),
@@ -229,6 +236,7 @@ const FatFormModalInner = declareComponent({
 
     return () => {
       const passthroughProps = inheritProps();
+      const Form = props.Form ?? FatForm;
 
       return (
         <Dialog
@@ -248,7 +256,7 @@ const FatFormModalInner = declareComponent({
           }}
         >
           {(!props.destroyOnClose || !!lazyVisible.value) && (
-            <FatForm
+            <Form
               {...passthroughProps}
               {...tempProps}
               ref={form}
@@ -257,7 +265,7 @@ const FatFormModalInner = declareComponent({
               onFinish={handleFinish}
             >
               {slots.default?.()}
-            </FatForm>
+            </Form>
           )}
         </Dialog>
       );

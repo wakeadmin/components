@@ -30,7 +30,7 @@ const FatFormTabsInner = declareComponent({
     initialActive: null,
 
     // submitter
-    enableSubmitter: { type: Boolean, default: true },
+    enableSubmitter: { type: Boolean, default: undefined },
     enableCancel: { type: Boolean, default: true },
     cancelText: String,
     cancelProps: null,
@@ -205,9 +205,7 @@ const FatFormTabsInner = declareComponent({
           {layout({
             layoutProps: props.layoutProps,
             form: exposed,
-            renderSubmitter() {
-              return renderSubmitter.value?.();
-            },
+            renderSubmitter: renderSubmitter.value,
             renderTabs() {
               return [
                 <Tabs

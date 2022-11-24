@@ -5,7 +5,7 @@ export const DEFAULT_LAYOUT: FatFormTabsLayout = renderers => {
   return (
     <div class="fat-form-tabs-default-layout">
       {renderers.renderTabs()}
-      <FatFloatFooter>{renderers.renderSubmitter()}</FatFloatFooter>
+      {!!renderers.renderSubmitter && <FatFloatFooter>{renderers.renderSubmitter()}</FatFloatFooter>}
     </div>
   );
 };

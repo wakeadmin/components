@@ -1,5 +1,6 @@
 <script setup>
   import Modal from './Modal.vue'
+  import ModalWithTabs from './ModalWithTabs.vue'
 
 </script>
 
@@ -18,6 +19,20 @@
 
 ::: details 查看代码
 <<< @/fat-form-layout/Modal.vue
+:::
+
+<br>
+<br>
+<br>
+
+`FatFormSteps`、`FatFormTabs` 等 `FatForm` 的'子类' 也支持和 `FatFormModal` 配合使用
+
+<ClientOnly>
+  <div class="wk-demo"><ModalWithTabs /></div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form-layout/ModalWithTabs.vue
 :::
 
 <br>

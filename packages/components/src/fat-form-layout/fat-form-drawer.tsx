@@ -64,6 +64,11 @@ export interface FatFormDrawerEvents<Store extends {}, Submit extends {} = Store
    * 保存成功
    */
   onFinish?: (values: Store) => void;
+
+  /**
+   * 传入和 FatForm 兼容的组件, 默认为 FatForm
+   */
+  Form?: any;
 }
 
 export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -139,6 +144,8 @@ const FatFormDrawerInner = declareComponent({
     // slots
     renderTitle: null,
     renderFooter: null,
+
+    Form: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormDrawerEvents<any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormDrawerSlots<any>>>(),
@@ -239,6 +246,7 @@ const FatFormDrawerInner = declareComponent({
 
     return () => {
       const passthroughProps = inheritProps();
+      const Form = props.Form ?? FatForm;
 
       return (
         <Drawer
@@ -260,7 +268,7 @@ const FatFormDrawerInner = declareComponent({
         >
           <div class="fat-form-drawer__body">
             {(!props.destroyOnClose || !!lazyVisible.value) && (
-              <FatForm
+              <Form
                 {...passthroughProps}
                 {...tempProps}
                 ref={form}
@@ -269,7 +277,7 @@ const FatFormDrawerInner = declareComponent({
                 onFinish={handleFinish}
               >
                 {slots.default?.()}
-              </FatForm>
+              </Form>
             )}
           </div>
           {hasSlots(props, slots, 'footer') ? renderSlot(props, slots, 'footer', instance) : renderFooter()}
