@@ -30,3 +30,4 @@ export * from './Upload';
 export * from './Cascader';
 export * from './Steps';
 export * from './Tabs';
+export * from './Tree';
