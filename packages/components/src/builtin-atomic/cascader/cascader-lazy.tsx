@@ -3,7 +3,7 @@ import { computed, watch, shallowReactive, isVue2, set as $set } from '@wakeadmi
 import { NoopArray, pick } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
-import { toUndefined } from '../../utils';
+import { toArray, toUndefined } from '../../utils';
 import { memoizeTask } from '../../atomic/host';
 
 export type ACascaderLazyValue = any[];
@@ -106,7 +106,7 @@ export const ACascaderLazyComponent = defineAtomicComponent(
 
     // 预览模式匹配选项
     const matched = computed(() => {
-      const value = props.value;
+      const value = toArray(props.value);
       if (value == null || value.length === 0 || props.mode !== 'preview') {
         return NoopArray;
       }
@@ -156,7 +156,8 @@ export const ACascaderLazyComponent = defineAtomicComponent(
     watch(
       () => props.value,
       async value => {
-        if (value == null || !Array.isArray(value) || props.mode !== 'preview') {
+        value = toArray(value);
+        if (value.length === 0 || props.mode !== 'preview') {
           return;
         }
 

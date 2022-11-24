@@ -4,7 +4,7 @@ import { NoopArray, pick } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useLazyOptions } from '../../hooks';
-import { toUndefined } from '../../utils';
+import { toArray, toUndefined } from '../../utils';
 import { memoizeTask } from '../../atomic/host';
 
 import { ACascaderOption } from './cascader-lazy';
@@ -44,7 +44,7 @@ export const ACascaderComponent = defineAtomicComponent(
     const { value: options } = useLazyOptions(loader, []);
 
     const matched = computed(() => {
-      const value = props.value;
+      const value = toArray(props.value);
       if (value == null || value.length === 0 || props.mode !== 'preview' || options.value.length === 0) {
         return NoopArray;
       }
