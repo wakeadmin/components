@@ -22,6 +22,7 @@
   import Mode from './Mode.vue'
   import CustomSubmitter from './CustomSubmitter.vue'
   import CustomSubmitterReuse from './CustomSubmitterReuse.vue'
+  import CustomItemByConsumer from './CustomItemByConsumer.vue'
 </script>
 
 # 表单
@@ -664,16 +665,51 @@ transform 返回的是 {startTime、endTime}
 <br>
 <br>
 
-## 6. API
+## 6. 自定义表单项
 
-### 6.1 FatForm Props
+自定义表单项有两种方式：
+
+- (推荐)[自定义原件](../atomics/custom.md)。
+- 使用 [FatFormConsumer]('./consumer.md') 集成已有表单。
+
+<br>
+<br>
+<br>
+
+`原件` 是 `@wakeadmin/components` 的核心概念，我们优先推荐使用这种形式，将其构建成真正具备复用能力的组件。 详见[自定义原件](../atomics/custom.md)。
+
+<br>
+<br>
+<br>
+
+使用 [FatFormConsumer](./consumer.md) 也可以使用将外部表单组件集成到 `FatForm` 的体系下：
+
+<ClientOnly>
+  <div class="wk-demo">
+    <CustomItemByConsumer />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/CustomItemByConsumer.vue
+:::
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## 7. API
+
+### 7.1 FatForm Props
 
 ![](./images/fat-form-api.png)
 
 <br>
 <br>
 
-### 6.2 FatForm Events
+### 7.2 FatForm Events
 
 ![](./images/fat-form-events.png)
 
@@ -681,7 +717,7 @@ transform 返回的是 {startTime、endTime}
 <br>
 <br>
 
-### 6.3 FatForm Methods
+### 7.3 FatForm Methods
 
 ![](./images/fat-form-methods.png)
 

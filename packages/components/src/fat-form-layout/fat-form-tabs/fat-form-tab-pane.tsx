@@ -56,6 +56,7 @@ export const FatFormTabPane = declareComponent({
             key={props.name}
             {...inheritProps(false, vm?.proxy)}
             name={props.name}
+            class={`fat-form-tabs__tab-pane--${props.name}`}
             v-slots={pickEnumerable(slots, 'default')}
           >
             <FatFormCollectionProvider value={collection}>
