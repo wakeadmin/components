@@ -119,6 +119,13 @@
           :value-props="cascaderProps"
           :initial-value="[0, 2]"
         />
+        <FatFormItem
+          prop="treeSelect"
+          label="tree-select"
+          value-type="tree-select"
+          width="huge"
+          :value-props="treeSelectProps"
+        />
       </FatFormSection>
 
       <FatFormSection title="数字类">
@@ -243,6 +250,103 @@
   const handleGetCaptcha = async () => {
     await delay(1000);
     ElMessage.success('验证码获取成功');
+  };
+
+  const treeSelectProps = {
+    multiple: true,
+    async data() {
+      return [
+        {
+          label: '一级 1',
+          value: 1,
+          children: [
+            {
+              label: '二级 1-1',
+              value: 11,
+              children: [
+                {
+                  label: '三级 1-1-1',
+                  value: 111,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: '一级 2',
+          value: 2,
+          disabled: true,
+          children: [
+            {
+              label: '二级 2-1',
+              value: 21,
+              children: [
+                {
+                  label: '三级 2-1-1',
+                  value: 211,
+                },
+              ],
+            },
+            {
+              label: '二级 2-2',
+              value: 22,
+              children: [
+                {
+                  label: '三级 2-2-1',
+                  value: 221,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: '一级 3',
+          value: 3,
+          children: [
+            {
+              label: '二级 3-1',
+              value: 31,
+              children: [
+                {
+                  label: '三级 3-1-1',
+                  value: 311,
+                  children: [
+                    {
+                      label: '四级 3-1-1-1',
+                      value: 3111,
+                      children: [
+                        {
+                          label: '五级 -------- 3-1-1-1-1',
+                          value: 31111,
+                        },
+                        {
+                          label: '五级 --------- 3-1-1-1-2',
+                          value: 31112,
+                        },
+                      ],
+                    },
+                    {
+                      label: '四级 3-1-1-2',
+                      value: 3112,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: '二级 3-2',
+              value: 32,
+              children: [
+                {
+                  label: '三级 3-2-1',
+                  value: 321,
+                },
+              ],
+            },
+          ],
+        },
+      ];
+    },
   };
 
   const cascaderProps = {
