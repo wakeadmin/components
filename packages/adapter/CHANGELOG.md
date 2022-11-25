@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.0
+
+### Minor Changes
+
+- 新增 tree-select, tree 组件
+
 ## 0.5.0
 
 ### Minor Changes

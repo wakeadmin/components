@@ -18,7 +18,7 @@
     "publish:docker": "node ./scripts/docker-publish.js"
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:1.0.0-beta.3",
+    "@wakeadmin/components": "workspace:*",
     "@wakeadmin/framework": "^0.1.5",
     "@wakeadmin/h": "^0.2.12",
     "core-js": "^3.26.1",

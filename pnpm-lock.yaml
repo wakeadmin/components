@@ -15,7 +15,7 @@ importers:
       '@types/tapable': ^2.2.2
       '@vue/test-utils': next
       '@wakeadmin/docker-build': ^0.1.8
-      '@wakeadmin/element-adapter': workspace:^0.5.0
+      '@wakeadmin/element-adapter': workspace:*
       cpx: ^1.5.0
       cross-env: ^7.0.3
       eslint: ^8.28.0
@@ -95,7 +95,7 @@ importers:
   packages/components:
     specifiers:
       '@wakeadmin/demi': ^0.2.3
-      '@wakeadmin/element-adapter': workspace:^0.5.0
+      '@wakeadmin/element-adapter': workspace:^0.6.0
       '@wakeadmin/h': ^0.2.12
       '@wakeadmin/icons': ^0.1.4
       '@wakeadmin/utils': ^0.1.4
@@ -113,7 +113,7 @@ importers:
 
   packages/doc:
     specifiers:
-      '@wakeadmin/components': workspace:1.0.0-beta.3
+      '@wakeadmin/components': workspace:1.0.0-beta.4
       '@wakeadmin/icons': ^0.1.4
       element-plus: ^2.2.22
       imagemin-cli: ^7.0.0
@@ -138,10 +138,10 @@ importers:
       '@vue/cli-plugin-babel': ~5.0.8
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:1.0.0-beta.3
+      '@wakeadmin/components': workspace:*
       '@wakeadmin/demi': ^0.2.3
       '@wakeadmin/docker-build': ^0.1.8
-      '@wakeadmin/element-adapter': workspace:^0.5.0
+      '@wakeadmin/element-adapter': workspace:*
       '@wakeadmin/framework': ^0.1.5
       '@wakeadmin/h': ^0.2.12
       '@wakeadmin/i18n-legacy': ^0.1.6
@@ -188,7 +188,7 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/bay': ^0.6.2
-      '@wakeadmin/components': workspace:1.0.0-beta.3
+      '@wakeadmin/components': workspace:*
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/framework': ^0.1.5
       '@wakeadmin/h': ^0.2.12
@@ -2403,7 +2403,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 172.26.59.72+4873/@types/istanbul-lib-coverage/2.0.4
       '@types/istanbul-reports': 172.26.59.72+4873/@types/istanbul-reports/3.0.1
-      '@types/node': 172.26.59.72+4873/@types/node/17.0.45
+      '@types/node': 172.26.59.72+4873/@types/node/18.11.9
       '@types/yargs': 172.26.59.72+4873/@types/yargs/15.0.14
       chalk: 172.26.59.72+4873/chalk/4.1.2
     dev: true

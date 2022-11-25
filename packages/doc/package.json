@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/components-doc",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "@wakeadmin/components 文档",
   "scripts": {
     "switch": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 ",
@@ -17,7 +17,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@wakeadmin/components": "workspace:1.0.0-beta.3",
+    "@wakeadmin/components": "workspace:1.0.0-beta.4",
     "@wakeadmin/icons": "^0.1.4",
     "element-plus": "^2.2.22",
     "imagemin-cli": "^7.0.0",

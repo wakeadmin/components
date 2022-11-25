@@ -29,7 +29,7 @@
     "@types/tapable": "^2.2.2",
     "@vue/test-utils": "next",
     "@wakeadmin/docker-build": "^0.1.8",
-    "@wakeadmin/element-adapter": "workspace:^0.5.0",
+    "@wakeadmin/element-adapter": "workspace:*",
     "cpx": "^1.5.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.28.0",

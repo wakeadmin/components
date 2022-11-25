@@ -1,6 +1,19 @@
 # @wakeadmin/components
 
-## 1.0.0-beta.3
+## 1.0.0-beta.4 (2022/11/25)
+
+主要功能更新
+
+- 新增 FatTreeSelect 组件
+- 新增 tree-select 原件
+- FatFormModal、FatFormDrawer 支持配置 FatFormTabs、FatFormSteps 使用
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.3 (2022/11/20)
 
 主要功能更新
 
@@ -16,7 +29,7 @@
 <br>
 <br>
 
-## 1.0.0-beta.2
+## 1.0.0-beta.2 (2022/11/7)
 
 功能修复
 
