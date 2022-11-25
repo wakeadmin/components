@@ -103,6 +103,8 @@ export interface FatFormModalProps<Store extends {}, Request extends {} = Store,
    * 传入和 FatForm 兼容的组件, 默认为 FatForm
    */
   Form?: any;
+  // 同上，vue 的 eslint 会自动转换大小写，fuck vue
+  form?: any;
 }
 
 export function useFatFormModalRef<Store extends {} = any>() {
@@ -137,6 +139,7 @@ const FatFormModalInner = declareComponent({
     renderFooter: null,
 
     Form: null,
+    form: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormModalEvents<any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormModalSlots<any>>>(),
@@ -236,7 +239,7 @@ const FatFormModalInner = declareComponent({
 
     return () => {
       const passthroughProps = inheritProps();
-      const Form = props.Form ?? FatForm;
+      const Form = props.Form ?? props.form ?? FatForm;
 
       return (
         <Dialog

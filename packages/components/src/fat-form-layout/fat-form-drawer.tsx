@@ -69,6 +69,8 @@ export interface FatFormDrawerEvents<Store extends {}, Submit extends {} = Store
    * 传入和 FatForm 兼容的组件, 默认为 FatForm
    */
   Form?: any;
+  // 同上，vue 的 eslint 会自动转换大小写，fuck vue
+  form?: any;
 }
 
 export interface FatFormDrawerProps<Store extends {}, Request extends {} = Store, Submit extends {} = Store>
@@ -146,6 +148,7 @@ const FatFormDrawerInner = declareComponent({
     renderFooter: null,
 
     Form: null,
+    form: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatFormDrawerEvents<any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatFormDrawerSlots<any>>>(),
@@ -246,7 +249,7 @@ const FatFormDrawerInner = declareComponent({
 
     return () => {
       const passthroughProps = inheritProps();
-      const Form = props.Form ?? FatForm;
+      const Form = props.Form ?? props.form ?? FatForm;
 
       return (
         <Drawer
