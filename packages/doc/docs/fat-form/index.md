@@ -670,7 +670,7 @@ transform 返回的是 {startTime、endTime}
 自定义表单项有两种方式：
 
 - (推荐)[自定义原件](../atomics/custom.md)。
-- 使用 [FatFormConsumer]('./consumer.md') 集成已有表单。
+- 使用 [FatFormConsumer](./consumer.md) 集成已有表单。
 
 <br>
 <br>
