@@ -36,6 +36,7 @@ import {
   ASliderRangeProps,
   ACaptchaProps,
   AAvatarProps,
+  ATreeSelectProps,
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
@@ -249,6 +250,11 @@ export interface FatConfigurable {
    * captcha 默认配置
    */
   aCaptchaProps?: OmitAtomicCommonProps<ACaptchaProps>;
+
+  /**
+   * tree-select 默认配置
+   */
+  aTreeSelectProps?: OmitAtomicCommonProps<ATreeSelectProps>;
 
   /**
    * 表格全局配置

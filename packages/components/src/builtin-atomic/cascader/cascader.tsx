@@ -28,7 +28,10 @@ export type ACascaderProps = DefineAtomicProps<
     /**
      * options 是固定结构的
      */
-    props?: Omit<CascaderInnerProps<any, ACascaderOption>, 'value' | 'label' | 'children' | 'disabled'>;
+    props?: Omit<
+      CascaderInnerProps<any, ACascaderOption>,
+      'value' | 'label' | 'children' | 'disabled' | 'lazy' | 'lazyLoad'
+    >;
   }
 >;
 
@@ -40,6 +43,13 @@ declare global {
 
 export const ACascaderComponent = defineAtomicComponent(
   (props: ACascaderProps) => {
+    if (process.env.NODE_ENV !== 'production') {
+      // @ts-expect-error
+      if (props.props?.lazy || props.props?.lazyLoad) {
+        throw new Error(`cascader 原件不支持 lazy 动态加载模式，请使用 cascader-lazy 原件代替`);
+      }
+    }
+
     const loader = typeof props.options === 'function' ? memoizeTask(props.options) : computed(() => props.options);
     const { value: options } = useLazyOptions(loader, []);
 

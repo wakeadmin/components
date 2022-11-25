@@ -38,6 +38,7 @@ import {
   ACaptcha,
   ANumber,
   AAvatar,
+  ATreeSelect,
 } from './builtin-atomic';
 import { globalRegistry } from './atomic';
 
@@ -105,6 +106,7 @@ function registerAtomics() {
     ACaptcha,
     ANumber,
     AAvatar,
+    ATreeSelect,
   ];
 
   for (const item of list) {

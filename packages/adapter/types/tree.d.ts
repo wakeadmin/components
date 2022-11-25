@@ -75,6 +75,8 @@ export interface TreeProps<K, D extends TreeData> extends TreeEvents<K, D> {
   /** Configuration options, see the following table */
   props?: TreePropsInner;
 
+  lazy?: boolean;
+
   /** Method for loading subtree data */
   load?: (data: D, resolve: Function) => void;
 

@@ -24,3 +24,4 @@ export * from './currency';
 export * from './slider-range';
 export * from './captcha';
 export * from './avatar';
+export * from './tree-select';
