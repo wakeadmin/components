@@ -150,6 +150,7 @@ export default {
             { text: 'FatSpace 间距', link: '/other/space' },
             { text: 'FatIcon 图标', link: '/other/icon' },
             { text: 'FatSwitch 开关', link: '/other/switch' },
+            { text: 'FatTreeSelect 树选择器', link: '/other/tree-select' },
             { text: 'FatVNode VNode渲染', link: '/other/vnode' },
           ],
         },
