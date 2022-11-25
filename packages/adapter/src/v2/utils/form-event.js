@@ -45,7 +45,7 @@ export function useSize(allows) {
  * @param {string} eventName
  * @param {any[]} params
  */
-function dispatch(vm, componentName, eventName, params) {
+export function dispatch(vm, componentName, eventName, params) {
   let parent = vm.$parent || vm.$root;
   let name = parent.$options.componentName;
 

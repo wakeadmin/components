@@ -11,5 +11,5 @@
     "noEmit": false,
     "target": "ES2016"
   },
-  "include": ["src/**/*.js", "src/**/*.tsx", "src/**/*.ts"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.tsx", "src/**/*.ts"]
 }

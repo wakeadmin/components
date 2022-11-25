@@ -36,6 +36,11 @@ const routes: RouteConfig[] = [
     component: ComponentTest,
   },
   {
+    path: '/tree-select',
+    name: 'tree-select',
+    component: () => import('../views/TreeSelect.vue'),
+  },
+  {
     path: '/form-tabs',
     name: 'form-tabs',
     component: () => import('../views/FormTabs.vue'),

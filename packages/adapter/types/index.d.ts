@@ -34,3 +34,4 @@ export * from './cascader-panel';
 export * from './steps';
 export * from './tabs';
 export * from './tree';
+export * from './tree-select';

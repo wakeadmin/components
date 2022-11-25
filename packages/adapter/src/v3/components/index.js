@@ -31,3 +31,4 @@ export * from './Cascader';
 export * from './Steps';
 export * from './Tabs';
 export * from './Tree';
+export * from './TreeSelect';
