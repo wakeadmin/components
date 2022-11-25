@@ -113,7 +113,7 @@ importers:
 
   packages/doc:
     specifiers:
-      '@wakeadmin/components': workspace:1.0.0-beta.4
+      '@wakeadmin/components': workspace:*
       '@wakeadmin/icons': ^0.1.4
       element-plus: ^2.2.22
       imagemin-cli: ^7.0.0
