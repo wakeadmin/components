@@ -1,5 +1,9 @@
 import { Ref, ObjectEmitsOptions } from '@wakeadmin/demi';
 
+export type PickOnEvent<T extends {}> = {
+  [K in keyof T as K extends `on${string}` ? K : never]: T[K];
+};
+
 /**
  * 选择 _ 开始的属性
  */

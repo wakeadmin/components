@@ -375,7 +375,7 @@ export const TreeSelect = defineComponent({
 
     return () => {
       return (
-        <Select {...props} class="ad-tree-select" on={vm.$listeners} ref={selectRef}>
+        <Select {...props} class="ad-tree-select" on={vm.$listeners} ref={selectRef} v-slots={omit(slots, 'default')}>
           <TreeInner
             class="ad-tree-select__tree"
             {...attrs}
