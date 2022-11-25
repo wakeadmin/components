@@ -184,6 +184,16 @@ defineFatTable 类似于 Vue 的 [defineComponent](https://vuejs.org/api/general
 
 <br>
 <br>
+
+::: tip
+
+`FatTable` 的表单底层使用 [`FatForm`](../fat-form/index.md) 渲染，你可以通过 `formProps` 深入定义它的行为，比如修改提交按钮文案等等.
+
+:::
+
+<br>
+<br>
+<br>
 <br>
 
 ## 5. 操作按钮
@@ -277,7 +287,7 @@ defineFatTable({
 
 ## 8. 自定义布局
 
-FatTable 默认使用惟客云 UI 规范的布局。你也可以自定义布局，布局协议如下：
+FatTable 默认使用惟客云 UI 规范的布局。你也可以 `layout` 属性自定义布局，布局协议如下：
 
 ```ts
 export type FatTableLayout = (slots: {
