@@ -1,5 +1,5 @@
 import { computed, Ref, ref, unref, watch } from '@wakeadmin/demi';
-import { Button, ButtonProps, Dialog, DialogProps } from '@wakeadmin/element-adapter';
+import { Button, ButtonProps, Drawer, DrawerProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 
 import { useFatConfigurable } from '../fat-configurable';
@@ -21,47 +21,32 @@ import { FatTable } from '../fat-table/fat-table';
 import { useFatTableRef } from '../fat-table/hooks';
 
 import { FatTableEvents, FatTableMethods, FatTableProps, FatTableSlots } from '../fat-table/types';
+import { FatTableModalMethods } from './fat-table-modal';
 import { useLazyFalsy } from '../hooks';
 
-export interface FatTableModalMethods<T extends {}, S extends {}> extends FatTableMethods<T, S> {
-  /**
-   * 显示弹窗
-   *
-   * 如果传入 `props` 那么会优先使用该`props`进行渲染
-   * @param props
-   */
-  open: (props?: Partial<FatTableModalProps<any, any>>) => void;
-  close: () => void;
-  /**
-   * 是否处于开启状态
-   */
-  isOpen: () => boolean;
-  /**
-   * 是否处于关闭状态
-   */
-  isClose: () => boolean;
+export type FatTableDrawerMethods<Item extends {}, QUery extends {}> = FatTableModalMethods<Item, QUery>;
+
+export interface FatTableDrawerSlots<Item extends {}, Query extends {}>
+  extends Omit<FatTableSlots<Item, Query>, 'renderTitle'> {
+  renderTitle?: (tableModalRef: FatTableDrawerMethods<Item, Query>) => any;
+
+  renderFooter?: (tableModalRef: FatTableDrawerMethods<Item, Query>) => any;
 }
 
-export interface FatTableModalSlots<T extends {}, S extends {}> extends Omit<FatTableSlots<T, S>, 'renderTitle'> {
-  renderTitle?: (tableModalRef: FatTableModalMethods<T, S>) => any;
-
-  renderFooter?: (tableModalRef: FatTableModalMethods<T, S>) => any;
-}
-
-export interface FatTableModalEvents<T extends {}, S extends {}> {
+export interface FatTableDrawerEvents<Item extends {}, Query extends {}> {
   onOpen?: () => void;
   onOpened?: () => void;
   onClose?: () => void;
   onClosed?: () => void;
 }
 
-export interface FatTableModalProps<T extends {}, S extends {}>
+export interface FatTableDrawerProps<Item extends {}, Query extends {}>
   extends Omit<
-      FatTableProps<T, S>,
-      'width' | keyof FatTableSlots<T, S> | keyof FatTableMethods<T, S> | keyof FatTableEvents<T, S>
+      FatTableProps<Item, Query>,
+      'size' | keyof FatTableSlots<Item, Query> | keyof FatTableMethods<Item, Query> | keyof FatTableEvents<Item, Query>
     >,
-    FatTableModalSlots<S, T>,
-    Omit<DialogProps, 'modelValue' | 'onUpdate:modelValue' | 'beforeClose'> {
+    FatTableDrawerSlots<Item, Query>,
+    Omit<DrawerProps, 'modelValue' | 'onUpdate:modelValue' | 'beforeClose'> {
   /**
    * 标题
    *
@@ -111,9 +96,14 @@ export interface FatTableModalProps<T extends {}, S extends {}>
    * 关闭弹窗前调用，默认行为是关闭弹窗。调用 done 可以执行默认行为
    */
   beforeConfirm?: (done: () => void) => void;
+
+  /**
+   * 抽屉大小
+   */
+  drawerSize?: number | string;
 }
 
-export interface FatTableModalGlobalConfigurations {
+export interface FatTableDrawerGlobalConfigurations {
   /**
    * 是否开启取消按钮, 默认开启
    */
@@ -144,13 +134,13 @@ export interface FatTableModalGlobalConfigurations {
   confirmProps?: ButtonProps;
 }
 
-export function useFatTableModalRef<S extends {} = any, T extends {} = any>() {
-  return ref<FatTableModalMethods<S, T>>();
+export function useFatTableDrawerRef<S extends {} = any, T extends {} = any>() {
+  return ref<FatTableDrawerMethods<S, T>>();
 }
 
-const FatTableModalInner = declareComponent({
-  name: 'FatTableModal',
-  props: declareProps<FatTableModalProps<any, any>>({
+const FatTableDrawerInner = declareComponent({
+  name: 'FatTableDrawer',
+  props: declareProps<FatTableDrawerProps<any, any>>({
     visible: Boolean,
     cancelText: String,
     cancelProps: null,
@@ -170,25 +160,24 @@ const FatTableModalInner = declareComponent({
     renderTitle: null,
     renderFooter: null,
 
-    // dialog
-    top: String,
+    // drawer
+    drawerSize: null,
     modal: { type: Boolean, default: true },
     modalAppendToBody: { type: Boolean, default: false },
-    lockScroll: { type: Boolean, default: true },
     customClass: String,
     closeOnClickModal: { type: Boolean, default: false },
     closeOnPressEscape: { type: Boolean, default: true },
     showClose: { type: Boolean, default: true },
-    center: { type: Boolean, default: false },
     destroyOnClose: { type: Boolean, default: true },
     appendToBody: { type: Boolean, default: true },
+    wrapperClosable: { type: Boolean, default: false },
 
     // fat-table-overwrite
     layoutProps: null,
     layout: null,
   }),
-  emits: declareEmits<ToHEmitDefinition<FatTableModalEvents<any, any>>>(),
-  slots: declareSlots<ToHSlotDefinition<FatTableModalSlots<any, any>>>(),
+  emits: declareEmits<ToHEmitDefinition<FatTableDrawerEvents<any, any>>>(),
+  slots: declareSlots<ToHSlotDefinition<FatTableDrawerSlots<any, any>>>(),
   setup(props, { attrs, expose, slots }) {
     const visible = ref(false);
     const lazyVisible = useLazyFalsy(visible);
@@ -197,7 +186,7 @@ const FatTableModalInner = declareComponent({
 
     const tableInstance = useFatTableRef<FatTableMethods<any, any>>();
 
-    const tempProps: Ref<Partial<FatTableModalProps<any, any>>> = ref({});
+    const tempProps: Ref<Partial<FatTableDrawerProps<any, any>>> = ref({});
 
     watch(
       () => props.visible,
@@ -244,7 +233,7 @@ const FatTableModalInner = declareComponent({
       return props.layoutProps;
     });
 
-    const open = (newProps?: Partial<FatTableModalProps<any, any>>) => {
+    const open = (newProps?: Partial<FatTableDrawerProps<any, any>>) => {
       tempProps.value = newProps ?? {};
       handleVisibleChange(true);
     };
@@ -280,25 +269,26 @@ const FatTableModalInner = declareComponent({
         return renderSlot(mergedPropsValue, slots, 'footer', instance);
       }
 
-      const fatTableModalConfigurable = configurable.fatTableModal ?? {};
+      // 共用同一个
+      const fatTableDrawerConfigurable = configurable.fatTableModal ?? {};
 
       return (
-        <div class="fat-table-model__footer">
-          {(mergedPropsValue.enableCancel ?? fatTableModalConfigurable.enableCancel) && (
+        <div class="fat-table-drawer__footer">
+          {(mergedPropsValue.enableCancel ?? fatTableDrawerConfigurable.enableCancel) && (
             <Button
               onClick={() => close()}
-              {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}
+              {...(mergedPropsValue.cancelProps ?? fatTableDrawerConfigurable.cancelProps ?? {})}
             >
-              {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? '取消'}
+              {mergedPropsValue.cancelText ?? fatTableDrawerConfigurable.cancelText ?? '取消'}
             </Button>
           )}
-          {(mergedPropsValue.enableConfirm ?? fatTableModalConfigurable.enableConfirm) && (
+          {(mergedPropsValue.enableConfirm ?? fatTableDrawerConfigurable.enableConfirm) && (
             <Button
               type="primary"
               onClick={() => handleConfirm(() => handleVisibleChange(false))}
-              {...(mergedPropsValue.confirmProps ?? fatTableModalConfigurable.confirmProps ?? {})}
+              {...(mergedPropsValue.confirmProps ?? fatTableDrawerConfigurable.confirmProps ?? {})}
             >
-              {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? '确认'}
+              {mergedPropsValue.confirmText ?? fatTableDrawerConfigurable.confirmText ?? '确认'}
             </Button>
           )}
         </div>
@@ -316,44 +306,49 @@ const FatTableModalInner = declareComponent({
         renderTitle: _renderTitle,
         renderFooter: _renderFooter,
         title,
+        drawerSize,
         ...other
       } = unref(mergedProps);
 
       return (
-        <Dialog
-          class={normalizeClassName(attrs.class, 'fat-table-modal')}
+        <Drawer
+          class={normalizeClassName(attrs.class, 'fat-table-drawer')}
           style={attrs.style}
           modelValue={visible.value}
           title={title}
-          v-slots={{ title: renderTitle.value, footer: renderFooter.value }}
+          size={drawerSize}
+          v-slots={{ title: renderTitle.value }}
           {...other}
           beforeClose={handleCancel as any}
           onUpdate:modelValue={handleVisibleChange}
         >
-          {(!destroyOnClose || !!lazyVisible.value) && (
-            <FatTable
-              {...other}
-              {...inheritProps(true)}
-              layout={layout}
-              layoutProps={tableLayoutProp.value}
-              v-slots={pickEnumerable(slots)}
-              // 强制行为
-              enableCacheQuery={false}
-              requestOnMounted={true}
-              ref={tableInstance}
-            ></FatTable>
-          )}
-        </Dialog>
+          <div class="fat-table-drawer__body">
+            {(!destroyOnClose || !!lazyVisible.value) && (
+              <FatTable
+                {...other}
+                {...inheritProps(true)}
+                layout={layout}
+                layoutProps={tableLayoutProp.value}
+                v-slots={pickEnumerable(slots)}
+                // 强制行为
+                enableCacheQuery={false}
+                requestOnMounted={true}
+                ref={tableInstance}
+              ></FatTable>
+            )}
+          </div>
+          {renderFooter.value}
+        </Drawer>
       );
     };
   },
 });
 
-export const FatTableModal = FatTableModalInner as new <T extends {} = any, S extends {} = any>(
-  props: FatTableModalProps<T, S>
+export const FatTableDrawer = FatTableDrawerInner as new <Item extends {} = any, Query extends {} = any>(
+  props: FatTableDrawerProps<Item, Query>
 ) => OurComponentInstance<
   typeof props,
-  FatTableModalSlots<T, S>,
-  FatTableModalEvents<T, S>,
-  FatTableModalMethods<T, S>
+  FatTableDrawerSlots<Item, Query>,
+  FatTableDrawerEvents<Item, Query>,
+  FatTableDrawerMethods<Item, Query>
 >;

@@ -20,7 +20,7 @@
 <script lang="tsx" setup>
   import {
     defineFatTable,
-    defineFatTableModal,
+    defineFatTableDrawer,
     useFatTableModalRef,
     useFatTableRef,
     defineFatTableSelect,
@@ -79,8 +79,9 @@
       },
     });
   });
-  const MyTableModal = defineFatTableModal<{ id: string; name: string; date: Date }, { name?: string }>(() => {
+  const MyTableModal = defineFatTableDrawer<{ id: string; name: string; date: Date }, { name?: string }>(() => {
     return () => ({
+      drawerSize: '1000px',
       style: 'color: red',
       async request(params) {
         console.log('request', params);

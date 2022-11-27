@@ -28,6 +28,7 @@ import {
   FatTableSelectProps,
   FatTableSelectPublicMethodKeys,
 } from './fat-table-select';
+import { useLazyFalsy } from '../hooks';
 
 export interface FatTableSelectModalMethods<
   Item extends {},
@@ -130,6 +131,7 @@ const FatTableSelectModalInner = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatTableSelectModalSlots<any, any, any>>>(),
   setup(props, { attrs, expose, slots }) {
     const visible = ref(false);
+    const lazyVisible = useLazyFalsy(visible);
 
     const configurable = useFatConfigurable();
 
@@ -268,7 +270,7 @@ const FatTableSelectModalInner = declareComponent({
           beforeClose={handleCancel as any}
           onUpdate:modelValue={handleVisibleChange}
         >
-          {(!destroyOnClose || visible.value) && (
+          {(!destroyOnClose || !!lazyVisible.value) && (
             <FatTableSelect
               {...other}
               {...inheritProps(true)}
