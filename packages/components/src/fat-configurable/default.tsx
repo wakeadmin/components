@@ -128,4 +128,10 @@ export const DEFAULT_CONFIGURABLE: FatConfigurable = {
     enableConfirm: false,
     confirmText: '确认',
   },
+  fatTableSelectModal: {
+    cancelText: '关闭',
+    enableCancel: true,
+    enableConfirm: true,
+    confirmText: '确认',
+  },
 };

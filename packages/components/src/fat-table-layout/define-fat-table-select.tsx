@@ -1,7 +1,7 @@
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps } from '../utils';
+import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { defineFatTableColumn, FatTableColumn, FatTableSlots } from '../fat-table';
 import { FatTablePublicMethodKeys } from '../fat-table/constants';
@@ -54,7 +54,7 @@ export function defineFatTableSelect<
 > {
   return declareComponent({
     name: 'PreDefineFatTableSelect',
-    setup(_, { expose, attrs, emit }) {
+    setup(_, { expose, attrs, emit, slots }) {
       const tableRef = useFatTableSelectRef();
 
       const extraDefinitions =
@@ -71,7 +71,11 @@ export function defineFatTableSelect<
       return () => {
         const preDefineProps = unref(extraDefinitions);
         return (
-          <FatTableSelect ref={tableRef} {...(mergeProps(preDefineProps, inheritProps(false)) as any)}></FatTableSelect>
+          <FatTableSelect
+            ref={tableRef}
+            {...(mergeProps(preDefineProps, inheritProps(false)) as any)}
+            v-slots={pickEnumerable(slots)}
+          ></FatTableSelect>
         );
       };
     },

@@ -2,11 +2,18 @@
   <div class="about">
     <h1>This is an about page</h1>
     <Button @click="open">open</Button>
+    <Button @click="openSelect">open select</Button>
     <MyTable ref="tableRef" class="my-table" row-key="id" @cell-click="handleCellClick">
       <template #afterForm>after form</template>
     </MyTable>
     <MyTableModal ref="tableModalRef"></MyTableModal>
-    <MyTableSelect></MyTableSelect>
+    <MyTableSelect>
+      <template #bottomToolbar>12312312</template>
+    </MyTableSelect>
+    <MyTableSelectModal ref="selectTableModalRef">
+      <template #afterForm>after form</template>
+      <template #bottomToolbar>1231231211111</template>
+    </MyTableSelectModal>
   </div>
 </template>
 
@@ -17,6 +24,8 @@
     useFatTableModalRef,
     useFatTableRef,
     defineFatTableSelect,
+    defineFatTableSelectModal,
+    useFatTableSelectModalRef,
   } from '@wakeadmin/components';
   import { Button } from 'element-ui';
 
@@ -24,6 +33,7 @@
     console.log('cell click');
   };
   const tableModalRef = useFatTableModalRef();
+  const selectTableModalRef = useFatTableSelectModalRef();
 
   const tableRef = useFatTableRef();
 
@@ -118,6 +128,16 @@
     });
   };
 
+  const openSelect = () => {
+    selectTableModalRef.value!.open({
+      title: '明月如霜',
+      limit: 3,
+      // renderBottomToolbar(_,v){
+      //   return <span>{v}</span>
+      // }
+    });
+  };
+
   const columns = [
     {
       label: '用户信息',
@@ -185,6 +205,30 @@
     },
   ];
   const MyTableSelect = defineFatTableSelect(() => () => ({
+    multiple: true,
+    async request(params: any) {
+      console.log('request', params);
+
+      const {
+        pagination: { pageSize, page },
+      } = params;
+
+      return {
+        total: 100,
+        list: new Array(pageSize).fill(0).map((_, index) => {
+          return {
+            id: `${page}_${index}`,
+            name: `name_${page}_${index}`,
+            date: new Date(Date.now() + index * 2000),
+          };
+        }),
+      };
+    },
+    rowKey: 'name',
+    enableQuery: true,
+    columns,
+  }));
+  const MyTableSelectModal = defineFatTableSelectModal(() => () => ({
     multiple: true,
     async request(params: any) {
       console.log('request', params);

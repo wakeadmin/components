@@ -43,6 +43,7 @@ import { FatFormPageLayout } from '../fat-form-layout';
 import { FatTableGlobalConfigurations } from '../fat-table';
 import { FatTableSelectGlobalConfigurations } from '../fat-table-layout';
 import { FatTableModalGlobalConfigurations } from '../fat-table-layout/fat-table-modal';
+import { FatTableSelectModalGlobalConfigurations } from '../fat-table-layout/fat-table-select-modal';
 
 /**
  * 这里定义了组件库一些可以全局配置的参数
@@ -270,6 +271,10 @@ export interface FatConfigurable {
    * 表格选择全局配置
    */
   fatTableSelect?: FatTableSelectGlobalConfigurations;
+  /**
+   * 表格选择弹窗全局配置
+   */
+  fatTableSelectModal?: FatTableSelectModalGlobalConfigurations;
 
   /**
    * 表单全局配置

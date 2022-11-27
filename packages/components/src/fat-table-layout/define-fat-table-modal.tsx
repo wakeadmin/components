@@ -1,7 +1,7 @@
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps } from '../utils';
+import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { defineFatTableColumn, FatTableColumn } from '../fat-table';
 import {
@@ -38,7 +38,7 @@ export function defineFatTableModal<T extends {}, S extends {}>(
 > {
   return declareComponent({
     name: 'PreDefineFatTableModal',
-    setup(_, { expose, attrs, emit }) {
+    setup(_, { expose, attrs, emit, slots }) {
       const modalRef = useFatTableModalRef();
 
       const extraDefinitions =
@@ -54,7 +54,11 @@ export function defineFatTableModal<T extends {}, S extends {}>(
       return () => {
         const preDefineProps = unref(extraDefinitions);
         return (
-          <FatTableModal ref={modalRef} {...(mergeProps(preDefineProps, inheritProps(false)) as any)}></FatTableModal>
+          <FatTableModal
+            ref={modalRef}
+            {...(mergeProps(preDefineProps, inheritProps(false)) as any)}
+            v-slots={pickEnumerable(slots)}
+          ></FatTableModal>
         );
       };
     },

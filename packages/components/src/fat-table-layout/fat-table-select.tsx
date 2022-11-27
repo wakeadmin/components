@@ -9,7 +9,15 @@ import { FatTable } from '../fat-table/fat-table';
 import { useFatTableRef } from '../fat-table/hooks';
 import { FatTableEvents, FatTableMethods, FatTableProps, FatTableRemove, FatTableSlots } from '../fat-table/types';
 import { useDevtoolsExpose } from '../hooks';
-import { forwardExpose, inheritProps, OurComponentInstance, toArray, ToHEmitDefinition } from '../utils';
+import {
+  forwardExpose,
+  hasSlots,
+  inheritProps,
+  OurComponentInstance,
+  renderSlot,
+  toArray,
+  ToHEmitDefinition,
+} from '../utils';
 
 const IgnoreFatTableProps = {
   confirmBeforeRemove: null,
@@ -85,6 +93,13 @@ export interface FatTableSelectMethods<
   getCurrentPageSelected: () => Selection[];
 }
 
+export interface FatTableSelectSlots<
+  Item extends {},
+  Query extends {},
+  Selection extends Partial<Item> | number | string
+> extends Omit<FatTableProps<Item, Query>, 'renderBottomToolbar'> {
+  renderBottomToolbar?(instance: FatTableSelectMethods<Item, Query, Selection>, count: number): any;
+}
 export interface FatTableSelectEvents<
   Item extends {},
   Query extends {},
@@ -102,13 +117,15 @@ export interface FatTableSelectProps<
 > extends Omit<
       FatTableProps<Item, Query>,
       | keyof FatTableRemove<Item>
+      | 'renderBottomToolbar'
       | 'rowKey'
       | 'namespace'
       | 'enableCacheQuery'
       | 'removeSelected'
       | IgnoreFatTablePropsKeys
     >,
-    FatTableSelectEvents<Item, Query, Selection> {
+    FatTableSelectEvents<Item, Query, Selection>,
+    FatTableSelectSlots<Item, Query, Selection> {
   rowKey: keyof Omit<Item, symbol | number>;
   /**
    * 是否多选
@@ -226,6 +243,9 @@ export const FatTableSelectInner = declareComponent({
 
     selectActionText: null,
 
+    // slots
+    renderBottomToolbar: null,
+
     // fat table overwrite
     columns: null,
 
@@ -233,8 +253,10 @@ export const FatTableSelectInner = declareComponent({
     modelValue: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatTableSelectEvents<any, any, any>>>(),
-  setup(props, { expose, emit }) {
+  setup(props, { expose, emit, slots }) {
     const itemStore = new Map<string, any>();
+
+    const selectedCount = ref<number>(0);
 
     const fatTableRef = useFatTableRef();
 
@@ -321,6 +343,8 @@ export const FatTableSelectInner = declareComponent({
       });
 
       emit('update:modelValue' as any, props.multiple ? data : data[0]);
+
+      selectedCount.value = values.length;
     });
 
     onUnmounted(() => {
@@ -473,13 +497,25 @@ export const FatTableSelectInner = declareComponent({
 
     provide(FatTableInstanceContext, instance as any);
 
+    const renderBottomToolbar = computed(() => {
+      if (hasSlots(props, slots, 'bottomToolbar')) {
+        return () => renderSlot(props, slots, 'bottomToolbar', instance, selectedCount.value);
+      }
+      return () => (
+        <div class="fat-table-select__counter">
+          已选<span class="fat-table-select__counter-value">{selectedCount.value}</span>条
+        </div>
+      );
+    });
+
     return () => {
-      const { multiple, rowKey } = props;
+      const { multiple, rowKey, renderBottomToolbar: _renderBottomToolbar } = props;
       return (
         <FatTable
           class="fat-table-select"
           {...inheritProps()}
           {...IgnoreFatTableProps}
+          renderBottomToolbar={renderBottomToolbar.value}
           columns={columns.value}
           enableSelect={multiple}
           selectable={selectable}

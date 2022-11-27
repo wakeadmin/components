@@ -1,0 +1,18 @@
+@use 'share' as *;
+@use 'variables' as *;
+@use 'config' as *;
+
+.fat-table-select {
+  .fat-table__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__counter {
+    color: getVar(color-font-regular, $fat-color-font-regular);
+    font-size: getVar(font-size, $fat-font-size);
+    &-value {
+      padding: 0 calc(getVar(spacing-xs, $fat-spacing-xs) / 2);
+    }
+  }
+}
