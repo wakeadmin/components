@@ -253,6 +253,11 @@ const FatFormDrawerInner = declareComponent({
 
       return (
         <Drawer
+          appendToBody
+          modalAppendToBody
+          wrapperClosable={false}
+          closeOnClickModal={false}
+          closeOnPressEscape={false}
           {...passthroughProps}
           {...tempProps}
           modelValue={visible.value}
@@ -260,10 +265,6 @@ const FatFormDrawerInner = declareComponent({
           class={normalizeClassName('fat-form-drawer', attrs.class)}
           style={attrs.style}
           size={props.drawerSize}
-          modalAppendToBody={true}
-          wrapperClosable={false}
-          closeOnClickModal={false}
-          closeOnPressEscape={false}
           beforeClose={handleCancel}
           v-slots={{
             title: hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', instance) : undefined,

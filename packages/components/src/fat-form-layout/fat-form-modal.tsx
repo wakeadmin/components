@@ -243,15 +243,16 @@ const FatFormModalInner = declareComponent({
 
       return (
         <Dialog
+          appendToBody
+          modalAppendToBody
+          closeOnClickModal={false}
+          closeOnPressEscape={false}
           {...passthroughProps}
           {...tempProps}
           modelValue={visible.value}
           onUpdate:modelValue={handleVisibleChange}
           class={normalizeClassName('fat-form-modal', attrs.class)}
           style={attrs.style}
-          modalAppendToBody={true}
-          closeOnClickModal={false}
-          closeOnPressEscape={false}
           beforeClose={handleCancel}
           v-slots={{
             title: hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title', instance) : undefined,
