@@ -153,11 +153,9 @@ export interface FatTableMethods<Item extends {}, Query extends {}> {
   /**
    * 删除指定记录
    *
-   * 返回一个是否删除成功的状态
-   *
    * @param items
    */
-  remove(...items: Item[]): Promise<boolean>;
+  remove(...items: Item[]): Promise<void>;
 
   /**
    * 删除选中项
@@ -703,7 +701,7 @@ export interface FatTableRemove<T> {
   /**
    * 行删除
    */
-  remove?: (list: T[], ids: any[]) => Promise<Boolean>;
+  remove?: (list: T[], ids: any[]) => Promise<void>;
 
   /**
    * 是否在删除之前弹出确认提示, 默认开启

@@ -509,9 +509,9 @@ const FatTableInner = declareComponent({
     /**
      * 删除指定行
      */
-    const remove = async (...items: any[]): Promise<boolean> => {
+    const remove = async (...items: any[]): Promise<void> => {
       if (items.length === 0) {
-        return true;
+        return undefined;
       }
 
       const ids = items.map(getId);
@@ -533,7 +533,7 @@ const FatTableInner = declareComponent({
             await MessageBox(confirmBeforeRemoveOptions);
           } catch (err) {
             // ignore
-            return false;
+            return undefined;
           }
         }
 
@@ -573,8 +573,6 @@ const FatTableInner = declareComponent({
           }
           pagination.total -= deleted;
         }
-
-        return true;
       } catch (err) {
         console.error(`[fat-table] 删除失败`, err);
 
@@ -590,9 +588,9 @@ const FatTableInner = declareComponent({
         if (removeFailedMessageOptions) {
           Message(removeFailedMessageOptions);
         }
-      }
 
-      return false;
+        throw err;
+      }
     };
 
     /**
@@ -602,12 +600,8 @@ const FatTableInner = declareComponent({
       if (!selected.value?.length) {
         return;
       }
-
-      const result = await remove(...selected.value);
-
-      if (result) {
-        unselectAll();
-      }
+      await remove(...selected.value);
+      unselectAll();
     };
 
     const reset = async () => {
