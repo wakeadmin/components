@@ -4,6 +4,7 @@
 import { Button, Steps, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps } from '@wakeadmin/h';
 import { computed, ref, watch } from '@wakeadmin/demi';
+import { debounce } from '@wakeadmin/utils';
 
 import { FatForm, FatFormMethods } from '../../fat-form';
 import {
@@ -15,7 +16,12 @@ import {
   renderSlot,
   ToHEmitDefinition,
 } from '../../utils';
-import { FatFormStepMethods, FatFormStepsContextValue, provideFatFormStepsContext } from './fat-form-steps-context';
+import {
+  FatFormStepMethods,
+  FatFormStepsContextValue,
+  FatFormStepState,
+  provideFatFormStepsContext,
+} from './fat-form-steps-context';
 import { useFatConfigurable } from '../../fat-configurable';
 import { FatFormStepsMethods, FatFormStepsEvents, FatFormStepsProps, FatFormStepsSlots } from './types';
 import { defaultLayout } from './default-layout';
@@ -32,7 +38,6 @@ export const FatFormStepsPublicMethodKeys: (keyof FatFormStepsMethods)[] = [
   'goto',
 ];
 
-// TODO: 支持自定义 submitter
 const FatFormStepsInner = declareComponent({
   name: 'FatFormSteps',
   props: declareProps<FatFormStepsProps>({
@@ -71,6 +76,8 @@ const FatFormStepsInner = declareComponent({
     const active = ref(0);
     let remoteInitialized = false;
     const steps = ref<FatFormStepMethods[]>([]);
+    // 缓存传递给子步骤的状态
+    const stepStates: Map<FatFormStepMethods, FatFormStepState> = new Map();
     const nextStepLoading = ref(false);
     const submitLoading = ref(false);
 
@@ -91,18 +98,15 @@ const FatFormStepsInner = declareComponent({
       };
     });
 
-    const context: FatFormStepsContextValue = {
-      register(instance) {
-        steps.value.push(instance);
-
-        return () => {
-          const idx = steps.value.indexOf(instance);
-          if (idx !== -1) {
-            steps.value.splice(idx, 1);
-          }
-        };
-      },
-    };
+    // 重新计算 index
+    const updateIndex = debounce(() => {
+      steps.value.forEach((i, nIdx) => {
+        const s = stepStates.get(i);
+        if (s != null) {
+          s.index.value = nIdx;
+        }
+      });
+    });
 
     const hasNext = computed(() => {
       return active.value < steps.value.length - 1;
@@ -262,6 +266,38 @@ const FatFormStepsInner = declareComponent({
       return props.enableSubmitter ?? props.mode !== 'preview';
     });
 
+    const context: FatFormStepsContextValue = {
+      register(instance) {
+        steps.value.push(instance);
+        const index = ref(steps.value.length - 1);
+        const isActive = computed(() => {
+          return index.value === active.value;
+        });
+
+        const state: FatFormStepState = {
+          index,
+          active: isActive,
+          handleClick: () => {
+            goto(index.value);
+          },
+          // 释放
+          disposer: () => {
+            const idx = steps.value.indexOf(instance);
+            if (idx !== -1) {
+              steps.value.splice(idx, 1);
+              stepStates.delete(instance);
+
+              updateIndex();
+            }
+          },
+        };
+
+        stepStates.set(instance, state);
+
+        return state;
+      },
+    };
+
     watch(
       () => props.initialActive,
       value => {
@@ -321,13 +357,17 @@ const FatFormStepsInner = declareComponent({
 
       let hasSections = false;
       const content = steps.value.map((s, index) => {
-        const { vnode, hasSections: _hasSections } = s.renderForm({ index, active: active.value === index });
+        if (s.renderFormResult) {
+          const { vnode, hasSections: _hasSections } = s.renderFormResult;
 
-        if (_hasSections) {
-          hasSections = true;
+          if (_hasSections) {
+            hasSections = true;
+          }
+
+          return vnode;
         }
 
-        return vnode;
+        return null;
       });
 
       return (
@@ -354,7 +394,7 @@ const FatFormStepsInner = declareComponent({
                   {...{ space, direction, alignCenter, simple, active: active.value }}
                 >
                   {steps.value.map((s, index) => {
-                    return s.renderStep({ index, active: active.value === index }, () => goto(index));
+                    return s.renderStepResult;
                   })}
                 </Steps>
               );

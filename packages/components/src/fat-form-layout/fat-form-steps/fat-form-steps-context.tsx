@@ -1,9 +1,4 @@
-import { InjectionKey, provide, inject } from '@wakeadmin/demi';
-
-export interface FatFormStepStatus {
-  index: number;
-  active: boolean;
-}
+import { InjectionKey, provide, inject, Ref } from '@wakeadmin/demi';
 
 export interface FatFormStepMethods {
   /**
@@ -19,12 +14,22 @@ export interface FatFormStepMethods {
   /**
    * 渲染步骤
    */
-  renderStep(status: FatFormStepStatus, onClick: () => void): any;
+  renderStepResult?: any;
 
   /**
    * 表单内容
    */
-  renderForm(status: FatFormStepStatus): { vnode: any; hasSections: boolean };
+  renderFormResult?: { vnode: any; hasSections: boolean };
+}
+
+export interface FatFormStepState {
+  /**
+   * 资源释放
+   */
+  disposer: () => void;
+  index: Ref<number>;
+  active: Ref<boolean>;
+  handleClick: () => void;
 }
 
 export interface FatFormStepsContextValue {
@@ -33,7 +38,7 @@ export interface FatFormStepsContextValue {
    * @param instance
    * @returns 返回 disposer 用于解除注册
    */
-  register(instance: FatFormStepMethods): () => void;
+  register(instance: FatFormStepMethods): FatFormStepState;
 }
 
 const Context: InjectionKey<FatFormStepsContextValue> = Symbol('fat-form-step-context');

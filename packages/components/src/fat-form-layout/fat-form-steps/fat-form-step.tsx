@@ -1,6 +1,6 @@
 import { StepProps, Step } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps } from '@wakeadmin/h';
-import { onBeforeUnmount, markRaw, ref } from '@wakeadmin/demi';
+import { onBeforeUnmount, ref, shallowReactive } from '@wakeadmin/demi';
 
 import { FatFormStepMethods, useFatFormStepsContext } from './fat-form-steps-context';
 import { FatFormCollectionItem, FatFormCollection, FatFormCollectionProvider } from '../../fat-form';
@@ -91,7 +91,7 @@ const FatFormStepInner = declareComponent({
       return hasSlots(props, slots, name) ? renderSlot(props, slots, name) : undefined;
     };
 
-    const instance: FatFormStepMethods = markRaw({
+    const instance: FatFormStepMethods = shallowReactive({
       async validate() {
         // 让管辖内的表单项进行验证
         await Promise.all(items.map(i => i.validate()));
@@ -99,53 +99,59 @@ const FatFormStepInner = declareComponent({
       async beforeSubmit(value: any) {
         await props.beforeSubmit?.(value);
       },
-      renderStep(_status, onClick) {
-        const { title, description, icon, status } = props;
-        return (
-          <Step
-            {...{ title, description, icon, status }}
-            class={normalizeClassName('fat-form-steps__step', {
-              'fat-form-steps__step--active': _status.active,
-            })}
-            // @ts-expect-error 原始属性挂载
-            onClickNative={onClick}
-            v-slots={{
-              icon: renderSlotIfNeeded('icon'),
-              title: renderSlotIfNeeded('title'),
-              description: renderSlotIfNeeded('description'),
-            }}
-          ></Step>
-        );
-      },
-      renderForm(status) {
-        const children = renderSlot(props, slots, 'default');
-        const hasSections = !!hasChild(children, 'FatFormSection');
-        const vnode = (
-          <FatFormCollectionProvider value={collection}>
-            <div
-              class={normalizeClassName('fat-form-steps__form', {
-                'fat-form-steps__form--active': status.active,
-              })}
-            >
-              {children}
-            </div>
-          </FatFormCollectionProvider>
-        );
-
-        return {
-          vnode,
-          hasSections,
-        };
-      },
+      renderStepResult: undefined,
+      renderFormResult: undefined,
     });
 
-    const disposer = parent?.register(instance);
+    const state = parent?.register(instance);
+    if (state == null) {
+      throw new Error(`fat-form-step 必须作为 fat-form-steps 的子孙节点使用`);
+    }
 
+    const { disposer, active, handleClick } = state!;
+
+    // 释放
     if (disposer) {
       onBeforeUnmount(disposer);
     }
 
     return () => {
+      const { title, description, icon, status } = props;
+      instance.renderStepResult = (
+        <Step
+          {...{ title, description, icon, status }}
+          class={normalizeClassName('fat-form-steps__step', {
+            'fat-form-steps__step--active': active.value,
+          })}
+          // @ts-expect-error 原始属性挂载
+          onClickNative={handleClick}
+          v-slots={{
+            icon: renderSlotIfNeeded('icon'),
+            title: renderSlotIfNeeded('title'),
+            description: renderSlotIfNeeded('description'),
+          }}
+        ></Step>
+      );
+
+      const children = renderSlot(props, slots, 'default');
+      const hasSections = !!hasChild(children, 'FatFormSection');
+      const vnode = (
+        <FatFormCollectionProvider value={collection}>
+          <div
+            class={normalizeClassName('fat-form-steps__form', {
+              'fat-form-steps__form--active': active.value,
+            })}
+          >
+            {children}
+          </div>
+        </FatFormCollectionProvider>
+      );
+
+      instance.renderFormResult = {
+        vnode,
+        hasSections,
+      };
+
       return null;
     };
   },
