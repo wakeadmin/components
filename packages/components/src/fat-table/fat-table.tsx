@@ -371,7 +371,7 @@ const FatTableInner = declareComponent({
       watch(
         () => [query.value, props.extraQuery],
         () => {
-          if (!ready.value || loading.value) {
+          if ((!ready.value && props.requestOnMounted) || loading.value) {
             return;
           }
           debouncedSearch();
