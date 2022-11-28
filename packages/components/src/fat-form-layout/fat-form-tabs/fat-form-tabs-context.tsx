@@ -11,7 +11,7 @@ export interface FatFormTabPaneMethods {
   /**
    * 渲染 tab, 垃圾 element-ui 的 tab-pane 必须是 tabs 的直接子级
    */
-  render(): any;
+  renderResult: any;
 }
 
 export interface FatFormTabsContextValue {

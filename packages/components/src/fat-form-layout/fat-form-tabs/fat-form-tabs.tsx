@@ -1,6 +1,6 @@
 import { Tabs, Button, model, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps } from '@wakeadmin/h';
-import { ref, watch, computed } from '@wakeadmin/demi';
+import { ref, watch, computed, defineComponent } from '@wakeadmin/demi';
 
 import { FatFormPublicMethodKeys } from '../../fat-form/constants';
 import { FatForm, useFatFormRef } from '../../fat-form';
@@ -183,6 +183,24 @@ const FatFormTabsInner = declareComponent({
         : undefined;
     });
 
+    // 局部渲染优化
+    const TabsInner = defineComponent({
+      name: 'TabsInner',
+      render() {
+        return (
+          <Tabs
+            {...props.tabsProps}
+            {...model(active.value, handleActiveChange)}
+            class={normalizeClassName('fat-form-tabs__tabs', props.tabsProps?.class)}
+          >
+            {Array.from(tabs.values()).map(i => {
+              return i.renderResult;
+            })}
+          </Tabs>
+        );
+      },
+    });
+
     provideFatFormTabsContext(context);
 
     useDevtoolsExpose({
@@ -207,18 +225,7 @@ const FatFormTabsInner = declareComponent({
             form: exposed,
             renderSubmitter: renderSubmitter.value,
             renderTabs() {
-              return [
-                <Tabs
-                  {...props.tabsProps}
-                  {...model(active.value, handleActiveChange)}
-                  class={normalizeClassName('fat-form-tabs__tabs', props.tabsProps?.class)}
-                >
-                  {Array.from(tabs.values()).map(i => {
-                    return i.render();
-                  })}
-                </Tabs>,
-                renderSlot(props, slots, 'default'),
-              ];
+              return [<TabsInner />, renderSlot(props, slots, 'default')];
             },
           })}
         </FatForm>

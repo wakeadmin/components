@@ -1,12 +1,12 @@
 import { TabPane } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { Noop } from '@wakeadmin/utils';
-import { getCurrentInstance, onBeforeUnmount } from '@wakeadmin/demi';
+import { onBeforeUnmount, shallowReactive } from '@wakeadmin/demi';
 
 import { FatFormCollectionProvider } from '../../fat-form/fat-form-collection';
 import { FatFormCollection, FatFormCollectionItem } from '../../fat-form/types';
 
-import { inheritProps, pickEnumerable, ToHSlotDefinition } from '../../utils';
+import { inheritProps, ToHSlotDefinition } from '../../utils';
 import { FatFormTabPaneMethods, useFatFormTabsContext } from './fat-form-tabs-context';
 
 import { FatFormTabPaneProps, FatFormTabPaneSlots } from './types';
@@ -43,29 +43,13 @@ export const FatFormTabPane = declareComponent({
       },
     };
 
-    const vm = getCurrentInstance();
-
-    const instance: FatFormTabPaneMethods = {
+    const instance: FatFormTabPaneMethods = shallowReactive({
       name: props.name,
       async validate() {
         await Promise.all(items.map(i => i.validate()));
       },
-      render() {
-        return (
-          <TabPane
-            key={props.name}
-            {...inheritProps(false, vm?.proxy)}
-            name={props.name}
-            class={`fat-form-tabs__tab-pane--${props.name}`}
-            v-slots={pickEnumerable(slots, 'default')}
-          >
-            <FatFormCollectionProvider value={collection}>
-              <div>{slots.default?.()}</div>
-            </FatFormCollectionProvider>
-          </TabPane>
-        );
-      },
-    };
+      renderResult: null,
+    });
 
     const disposer = parent?.register(instance);
 
@@ -74,6 +58,20 @@ export const FatFormTabPane = declareComponent({
     }
 
     return () => {
+      instance.renderResult = (
+        <TabPane
+          key={props.name}
+          {...inheritProps(false)}
+          name={props.name}
+          class={`fat-form-tabs__tab-pane--${props.name}`}
+          v-slots={{ label: slots.label?.() }}
+        >
+          <FatFormCollectionProvider value={collection}>
+            <div>{slots.default?.()}</div>
+          </FatFormCollectionProvider>
+        </TabPane>
+      );
+
       return null;
     };
   },
