@@ -1,5 +1,17 @@
 # @wakeadmin/components
 
+## 1.0.0-beta.6 (2022/11/29)
+
+Bug 修复
+
+- 修复 fat-form-modal/drawer 快速关闭和打开导致表单初始值错误
+- 修复 fat-table 在关闭 requestOnMounted 时，无法启用 requestOnQueryChange
+- 修复 fat-form-tabs、fat-form-steps 渲染延迟问题
+
+<br>
+<br>
+<br>
+
 ## 1.0.0-beta.4 (2022/11/25)
 
 主要功能更新
