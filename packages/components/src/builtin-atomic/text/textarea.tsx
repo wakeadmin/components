@@ -2,7 +2,7 @@ import { InputProps, Input, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
-import { FatText, FatTextOwnProps } from '../../fat-text';
+import { FatText, FatTextOwnProps, FatTextProps } from '../../fat-text';
 import { normalizeClassName } from '../../utils';
 
 export type ATextareaProps = DefineAtomicProps<
@@ -10,6 +10,10 @@ export type ATextareaProps = DefineAtomicProps<
   InputProps,
   {
     renderPreview?: (value: any) => any;
+    /**
+     * 透传 FatText 参数
+     */
+    textProps?: FatTextProps;
   } & FatTextOwnProps
 >;
 
@@ -36,6 +40,7 @@ export const ATextareaComponent = defineAtomicComponent(
         tag = 'p',
         underline,
         color,
+        textProps,
         ...other
       } = props;
 
@@ -63,6 +68,7 @@ export const ATextareaComponent = defineAtomicComponent(
               underline,
               color,
             }}
+            {...textProps}
           >
             {String(value)}
           </FatText>
