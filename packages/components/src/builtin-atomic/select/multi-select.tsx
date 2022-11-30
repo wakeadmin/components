@@ -1,4 +1,5 @@
-import { SelectProps, Select, Option, model } from '@wakeadmin/element-adapter';
+import { SelectProps, Select, Option, model, vLoading } from '@wakeadmin/element-adapter';
+import { withDirectives } from '@wakeadmin/h';
 import { computed } from '@wakeadmin/demi';
 import { booleanPredicate, NoopArray } from '@wakeadmin/utils';
 
@@ -59,6 +60,9 @@ export const AMultiSelectComponent = defineAtomicComponent(
 
       return (
         <Select
+          // 垃圾 element-ui loading 没有效果
+          {...withDirectives([[vLoading, loading.value]])}
+          disabled={loading.value}
           loading={loading.value}
           multiple
           {...other}

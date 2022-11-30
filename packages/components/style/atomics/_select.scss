@@ -21,8 +21,18 @@
 }
 
 .a-select,
+.a-tree-select,
 .a-multi-select {
   .#{$el-ns}-select {
     width: 100%;
+
+    // 加载状态修复
+    .#{$el-ns}-loading-mask {
+      opacity: 0.3;
+
+      .circular {
+        width: 20px;
+      }
+    }
   }
 }

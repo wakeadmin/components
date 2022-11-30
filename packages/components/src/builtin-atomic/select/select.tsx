@@ -1,5 +1,6 @@
-import { SelectProps, Select, Option, model } from '@wakeadmin/element-adapter';
+import { SelectProps, Select, Option, model, vLoading } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
+import { withDirectives } from '@wakeadmin/h';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
@@ -72,6 +73,9 @@ export const ASelectComponent = defineAtomicComponent(
 
       return (
         <Select
+          // 垃圾 element-ui loading 没有效果
+          {...withDirectives([[vLoading, loading.value]])}
+          disabled={loading.value}
           loading={loading.value}
           {...other}
           {...model(value, onChange!)}

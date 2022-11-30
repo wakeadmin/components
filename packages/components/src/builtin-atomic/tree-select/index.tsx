@@ -1,6 +1,7 @@
-import { model } from '@wakeadmin/element-adapter';
+import { model, vLoading } from '@wakeadmin/element-adapter';
 import { booleanPredicate, NoopArray, NoopObject, pick } from '@wakeadmin/utils';
 import { computed } from '@wakeadmin/demi';
+import { withDirectives } from '@wakeadmin/h';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { FatTreeSelectProps, FatTreeSelectData, FatTreeSelect } from '../../fat-tree-select';
@@ -103,7 +104,17 @@ export const ATreeSelectComponent = defineAtomicComponent(
         );
       }
 
-      return <FatTreeSelect loading={loading.value} {...other} data={data.value} {...model(value, onChange!)} />;
+      return (
+        <FatTreeSelect
+          // 垃圾 element-ui loading 没有效果
+          {...withDirectives([[vLoading, loading.value]])}
+          disabled={loading.value}
+          loading={loading.value}
+          {...other}
+          data={data.value}
+          {...model(value, onChange!)}
+        />
+      );
     };
   },
   {

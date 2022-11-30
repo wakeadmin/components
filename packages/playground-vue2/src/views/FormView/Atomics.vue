@@ -239,6 +239,7 @@
         value-type="tree-select"
         label="tree-select"
         :value-props="treeSelectProps"
+        width="medium"
       />
       <FatFormConsumer v-slot="scope">
         {{ JSON.stringify(scope.values) }}
@@ -314,6 +315,8 @@
   const treeSelectProps = {
     multiple: true,
     async data() {
+      await delay(500);
+
       return [
         {
           label: '一级 1',
