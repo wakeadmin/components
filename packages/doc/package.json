@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/components-doc",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "@wakeadmin/components 文档",
   "scripts": {
     "switch": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 ",

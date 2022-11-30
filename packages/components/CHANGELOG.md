@@ -1,5 +1,24 @@
 # @wakeadmin/components
 
+## 1.0.0-beta.7 (2022/11/30)
+
+新功能
+
+- 新增 fat-text、fat-link 组件
+
+<br>
+<br>
+
+Bug 修复
+
+- 调整 fat-table remove props 类型，不需要返回 boolean
+- 修复 select\* 相关原件 loading 状态不展示
+- 文本相关原件支持透传 fat-text props
+
+<br>
+<br>
+<br>
+
 ## 1.0.0-beta.6 (2022/11/29)
 
 Bug 修复
