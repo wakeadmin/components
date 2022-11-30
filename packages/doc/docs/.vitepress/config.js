@@ -152,6 +152,7 @@ export default {
             { text: 'FatSwitch 开关', link: '/other/switch' },
             { text: 'FatTreeSelect 树选择器', link: '/other/tree-select' },
             { text: 'FatVNode VNode渲染', link: '/other/vnode' },
+            { text: 'FatText/FatLink 文本', link: '/other/text' },
           ],
         },
       ],

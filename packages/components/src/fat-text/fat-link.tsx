@@ -9,7 +9,7 @@ export interface FatLinkOwnProps extends Omit<FatTextOwnProps, 'tag'> {
   href?: RouteLocation;
   /**
    * 导航拦截，支持自定义
-   * @param href 用户参数值
+   * @param href 用户指定的导航链接
    * @param defaultHandler 默认行为, 如果是 http 链接就调用 window.open 或者 window.location.href 跳转，其余清除使用 router.push 跳转
    */
   beforeNavigate?: (href: RouteLocation, defaultHandler: () => void) => void;
@@ -22,6 +22,7 @@ export const FatLink = declareComponent({
   props: declareProps<FatLinkProps>({
     href: null,
     target: null,
+    copyable: { type: [Boolean, String], default: undefined },
     beforeNavigate: null,
   }),
   setup(props, { slots, attrs, emit }) {
@@ -67,6 +68,12 @@ export const FatLink = declareComponent({
           class={normalizeClassName('fat-link', attrs.class)}
           href={typeof props.href === 'string' ? props.href : undefined}
           onClick={handleClick}
+          copyable={
+            // 默认拷贝链接
+            typeof props.copyable !== 'string' && props.copyable && typeof props.href === 'string'
+              ? props.href
+              : props.copyable
+          }
           v-slots={slots}
         />
       );
