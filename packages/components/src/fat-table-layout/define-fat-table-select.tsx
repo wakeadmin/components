@@ -24,18 +24,20 @@ export interface FatTableSelectDefinition<
 export type FatTableSelectDefineProps<
   Item extends {} = any,
   Query extends {} = any,
-  Selection extends Partial<Item> | number | string = any
-> = Partial<FatTableSelectProps<Item, Query, Selection>>;
+  Selection extends Partial<Item> | number | string = any,
+  Extra extends {} = {}
+> = Partial<FatTableSelectProps<Item, Query, Selection> & { extra: Extra }>;
 
 export type FatTableSelectDefine<
   Item extends {} = any,
   Query extends {} = any,
-  Selection extends Partial<Item> | number | string = any
+  Selection extends Partial<Item> | number | string = any,
+  Extra extends {} = {}
 > =
   | (FatTableSelectProps<Item, Query, Selection> & CommonProps)
   | ((context: {
       tableRef: Ref<FatTableSelectMethods<Item, Query, Selection> | undefined>;
-      props: FatTableSelectDefineProps<Item, Query, Selection>;
+      props: FatTableSelectDefineProps<Item, Query, Selection, Extra>;
       emit: (key: string, ...args: any[]) => void;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
     }) => () => FatTableSelectDefinition<Item, Query, Selection>);
@@ -43,11 +45,12 @@ export type FatTableSelectDefine<
 export function defineFatTableSelect<
   Item extends {} = any,
   Query extends {} = any,
-  Selection extends Partial<Item> | number | string = any
+  Selection extends Partial<Item> | number | string = any,
+  Extra extends {} = {}
 >(
-  define: FatTableSelectDefine<Item, Query, Selection>
+  define: FatTableSelectDefine<Item, Query, Selection, Extra>
 ): DefineOurComponent<
-  FatTableSelectDefineProps<Item, Query, Selection>,
+  FatTableSelectDefineProps<Item, Query, Selection, Extra>,
   FatTableSlots<Item, Query>,
   FatTableSelectEvents<Item, Query, Selection>,
   FatTableSelectMethods<Item, Query, Selection>

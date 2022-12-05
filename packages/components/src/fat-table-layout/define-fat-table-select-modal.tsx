@@ -25,19 +25,21 @@ export interface FatTableSelectModalDefinition<
 export type FatTableSelectModalDefineProps<
   Item extends {},
   Query extends {},
-  Selection extends Partial<Item> | number | string
-> = Partial<FatTableSelectModalProps<Item, Query, Selection>>;
+  Selection extends Partial<Item> | number | string,
+  Extra extends {} = {}
+> = Partial<FatTableSelectModalProps<Item, Query, Selection> & { extra: Extra }>;
 
 export type FatTableSelectModalDefine<
   Item extends {},
   Query extends {},
-  Selection extends Partial<Item> | number | string
+  Selection extends Partial<Item> | number | string,
+  Extra extends {} = {}
 > =
   | (FatTableSelectModalProps<Item, Query, Selection> & CommonProps)
   | ((context: {
       // modal 实例 引用
       modelRef: Ref<FatTableSelectModalMethods<Item, Query, Selection> | undefined>;
-      props: FatTableSelectModalDefineProps<Item, Query, Selection>;
+      props: FatTableSelectModalDefineProps<Item, Query, Selection, Extra>;
       emit: (key: string, ...args: any[]) => void;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
     }) => () => FatTableSelectModalDefinition<Item, Query, Selection>);
@@ -45,11 +47,12 @@ export type FatTableSelectModalDefine<
 export function defineFatTableSelectModal<
   Item extends {},
   Query extends {},
-  Selection extends Partial<Item> | number | string
+  Selection extends Partial<Item> | number | string,
+  Extra extends {} = {}
 >(
-  define: FatTableSelectModalDefine<Item, Query, Selection>
+  define: FatTableSelectModalDefine<Item, Query, Selection, Extra>
 ): DefineOurComponent<
-  FatTableSelectModalDefineProps<Item, Query, Selection>,
+  FatTableSelectModalDefineProps<Item, Query, Selection, Extra>,
   FatTableSelectModalSlots<Item, Query, Selection>,
   FatTableSelectModalEvents<Item, Query, Selection>,
   FatTableSelectModalMethods<Item, Query, Selection>

@@ -18,22 +18,24 @@ export interface FatTableDrawerDefinition<Item extends {}, Query extends {}>
   extends FatTableDrawerProps<Item, Query>,
     CommonProps {}
 
-export type FatTableDrawerDefineProps<Item extends {}, Query extends {}> = Partial<FatTableDrawerProps<Item, Query>>;
+export type FatTableDrawerDefineProps<Item extends {}, Query extends {}, Extra extends {} = {}> = Partial<
+  FatTableDrawerProps<Item, Query> & { extra: Extra }
+>;
 
-export type FatTableDrawerDefine<Item extends {}, Query extends {}> =
+export type FatTableDrawerDefine<Item extends {}, Query extends {}, Extra extends {} = {}> =
   | (FatTableDrawerProps<Item, Query> & CommonProps)
   | ((context: {
       // modal 实例 引用
       modelRef: Ref<FatTableDrawerMethods<Item, Query> | undefined>;
-      props: FatTableDrawerDefineProps<Item, Query>;
+      props: FatTableDrawerDefineProps<Item, Query, Extra>;
       emit: (key: string, ...args: any[]) => void;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
     }) => () => FatTableDrawerDefinition<Item, Query>);
 
-export function defineFatTableDrawer<Item extends {}, Query extends {}>(
-  define: FatTableDrawerDefine<Item, Query>
+export function defineFatTableDrawer<Item extends {}, Query extends {}, Extra extends {} = {}>(
+  define: FatTableDrawerDefine<Item, Query, Extra>
 ): DefineOurComponent<
-  FatTableDrawerDefineProps<Item, Query>,
+  FatTableDrawerDefineProps<Item, Query, Extra>,
   FatTableDrawerSlots<Item, Query>,
   FatTableDrawerEvents<Item, Query>,
   FatTableDrawerMethods<Item, Query>

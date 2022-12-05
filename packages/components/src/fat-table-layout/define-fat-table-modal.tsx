@@ -16,22 +16,24 @@ import { FatTablePublicMethodKeys } from '../fat-table/constants';
 
 export interface FatTableModalDefinition<T extends {}, S extends {}> extends FatTableModalProps<T, S>, CommonProps {}
 
-export type FatTableModalDefineProps<T extends {}, S extends {}> = Partial<FatTableModalProps<T, S>>;
+export type FatTableModalDefineProps<T extends {}, S extends {}, Extra extends {} = {}> = Partial<
+  FatTableModalProps<T, S> & { extra: Extra }
+>;
 
-export type FatTableModalDefine<T extends {}, S extends {}> =
+export type FatTableModalDefine<T extends {}, S extends {}, Extra extends {} = {}> =
   | (FatTableModalProps<T, S> & CommonProps)
   | ((context: {
       // modal 实例 引用
       modelRef: Ref<FatTableModalMethods<T, S> | undefined>;
-      props: FatTableModalDefineProps<T, S>;
+      props: FatTableModalDefineProps<T, S, Extra>;
       emit: (key: string, ...args: any[]) => void;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<T, S, ValueType>) => any;
     }) => () => FatTableModalDefinition<T, S>);
 
-export function defineFatTableModal<T extends {}, S extends {}>(
-  define: FatTableModalDefine<T, S>
+export function defineFatTableModal<T extends {}, S extends {}, Extra extends {} = {}>(
+  define: FatTableModalDefine<T, S, Extra>
 ): DefineOurComponent<
-  FatTableModalDefineProps<T, S>,
+  FatTableModalDefineProps<T, S, Extra>,
   FatTableModalSlots<T, S>,
   FatTableModalEvents<T, S>,
   FatTableModalMethods<T, S>
