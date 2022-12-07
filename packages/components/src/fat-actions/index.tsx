@@ -107,6 +107,35 @@ export interface FatActionsProps extends CommonProps {
    * 按钮大小，默认为 default
    */
   size?: Size;
+
+  /**
+   * 下拉操作栏容器属性
+   */
+  dropdownProps?: {
+    /**
+     * 下拉列表的className
+     */
+    class?: string;
+    /**
+     * 菜单弹出位置
+     */
+    placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end';
+
+    /**
+     * 触发下拉的行为
+     *
+     * 默认为 click
+     */
+    trigger?: 'hover' | 'click';
+    /**
+     * 展开下拉菜单的延时（仅在 trigger 为 hover 时有效）
+     */
+    'show-timeout'?: number;
+    /**
+     * 收起下拉菜单的延时（仅在 trigger 为 hover 时有效）
+     */
+    'hide-timeout'?: number;
+  };
 }
 
 const FatActionInner = declareComponent({
@@ -245,7 +274,7 @@ const FatActionInner = declareComponent({
 
 export const FatActions = declareComponent({
   name: 'FatActions',
-  props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size']),
+  props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size', 'dropdownProps']),
   setup(props, { attrs }) {
     const propsWithDefault = withDefaults(props, { max: 3, type: 'text' });
     const max = toRef(propsWithDefault, 'max');
@@ -267,6 +296,8 @@ export const FatActions = declareComponent({
     });
 
     return () => {
+      const dropdownProps = props.dropdownProps || {};
+
       return (
         <div class={normalizeClassName('fat-actions', attrs.class)} style={attrs.style}>
           {list.value.map((i, idx) => {
@@ -275,11 +306,14 @@ export const FatActions = declareComponent({
 
           {!!moreList.value.length && (
             <Dropdown
-              trigger="click"
+              {...dropdownProps}
+              trigger={dropdownProps.trigger ?? 'click'}
               class="fat-actions__dropdown"
               v-slots={{
                 dropdown: (
-                  <DropdownMenu class="fat-actions__menu fat-actions__dropdown-menu">
+                  <DropdownMenu
+                    class={normalizeClassName('fat-actions__menu fat-actions__dropdown-menu', dropdownProps.class)}
+                  >
                     {moreList.value.map((i, idx) => {
                       return (
                         <FatActionInner
