@@ -488,8 +488,8 @@ export const FatTableSelectInner = declareComponent({
       },
     };
 
-    expose(instance);
     forwardExpose(instance, FatTablePublicMethodKeys, fatTableRef);
+    expose(instance);
 
     useDevtoolsExpose({
       model,

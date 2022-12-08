@@ -51,8 +51,7 @@ export function defineFatTableDrawer<Item extends {}, Query extends {}, Extra ex
           : define;
 
       const instance = {};
-      forwardExpose(instance, [...FatTablePublicMethodKeys, 'open', 'close'], modalRef);
-
+      forwardExpose(instance, [...FatTablePublicMethodKeys, 'open', 'close', 'isOpen', 'isClose'], modalRef);
       expose(instance as any);
 
       return () => {

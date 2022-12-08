@@ -245,8 +245,8 @@ const FatTableSelectModalInner = declareComponent({
       );
     });
 
-    expose(instance);
     forwardExpose(instance, [...FatTableSelectPublicMethodKeys, ...FatTablePublicMethodKeys], tableInstance);
+    expose(instance);
 
     return () => {
       const {

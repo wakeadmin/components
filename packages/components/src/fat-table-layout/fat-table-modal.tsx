@@ -305,8 +305,8 @@ const FatTableModalInner = declareComponent({
       );
     });
 
-    expose(instance);
     forwardExpose(instance, FatTablePublicMethodKeys, tableInstance);
+    expose(instance);
 
     return () => {
       const {
