@@ -1,5 +1,19 @@
 # @wakeadmin/components
 
+## 1.0.0-beta.8 (2022/12/8)
+
+Bug 修复
+
+- defineFatTableModal/Drawer/SelectModal 方法支持 extra props
+- FatActions 新增 dropdownProps
+- 修复 FatTable* 相关组件 expose 调用错误
+
+<br>
+<br>
+<br>
+<br>
+
+
 ## 1.0.0-beta.7 (2022/11/30)
 
 新功能
