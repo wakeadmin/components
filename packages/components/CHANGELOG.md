@@ -1,5 +1,20 @@
 # @wakeadmin/components
 
+## 1.0.0-beta.9 (2022/12/9)
+
+功能更新
+
+- fat-form-group 支持自定义验证时机
+
+Bug 修复
+
+- fat-form submitting 延迟关闭
+
+<br>
+<br>
+<br>
+<br>
+
 ## 1.0.0-beta.8 (2022/12/8)
 
 Bug 修复
