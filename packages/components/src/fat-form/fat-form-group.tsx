@@ -48,6 +48,7 @@ export const FatFormGroup = declareComponent({
     vertical: Boolean,
     dependencies: null,
     rules: null,
+    triggerOn: null,
     contentClassName: null,
     contentStyle: null,
     hideMessageOnPreview: { type: Boolean, default: undefined },
@@ -319,7 +320,7 @@ export const FatFormGroup = declareComponent({
       watch(
         () => form.getFieldValue(props.prop!),
         () => {
-          if (validateEnabled.value && isInModifyContext()) {
+          if (validateEnabled.value && isInModifyContext() && (props.triggerOn ?? 'change') === 'change') {
             debounceValidate();
           }
         },

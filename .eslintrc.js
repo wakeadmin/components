@@ -15,7 +15,6 @@ module.exports = {
   rules: {
     'no-magic-numbers': 'off',
     'vue/no-deprecated-slot-attribute': 'off',
-    '@typescript-eslint/no-misused-promises': 'off',
     'vue/multi-word-component-names': 'off',
   },
   parser: 'vue-eslint-parser',
@@ -35,6 +34,8 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         // 使用 typescript 检查
+        '@typescript-eslint/return-await': 'off',
+        '@typescript-eslint/no-misused-promises': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/no-unnecessary-type-assertion': 'off',

@@ -716,6 +716,13 @@ export interface FatFormGroupProps<Store extends {}> extends FatFormItemShared, 
   rules?: FatFormItemRules<Store>;
 
   /**
+   * 定义验证的时机
+   * change: 深度监听值变动, 默认
+   * submit: 提交时验证
+   */
+  triggerOn?: 'change' | 'submit';
+
+  /**
    * 透传给 FatSpace 的参数
    */
   spaceProps?: FatSpaceProps;
