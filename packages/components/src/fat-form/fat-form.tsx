@@ -1,7 +1,7 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { isVue2, ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
-import { cloneDeep, isPlainObject, merge, get, set, equal, isObject } from '@wakeadmin/utils';
+import { cloneDeep, isPlainObject, merge, get, set, equal, isObject, delay } from '@wakeadmin/utils';
 
 import {
   hasByPath,
@@ -252,16 +252,16 @@ export const FatForm = declareComponent({
     };
 
     const submit = async () => {
+      if (submitting.value) {
+        return;
+      }
+
       if (!(await validate())) {
         return;
       }
 
       if (props.submit == null) {
         console.warn(`[fat-form] 未设置 submit 选项`);
-        return;
-      }
-
-      if (submitting.value) {
         return;
       }
 
@@ -274,6 +274,9 @@ export const FatForm = declareComponent({
         await props.submit(valuesToSubmit);
 
         emit('finish', valuesToSubmit);
+
+        // 延迟关闭 loading
+        await delay(100);
       } catch (err) {
         error.value = err as Error;
         console.log(`[fat-form] submit error`, err);

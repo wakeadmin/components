@@ -207,7 +207,7 @@ const FatFormPageInner = declareComponent({
             {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
           </Button>
         ),
-        <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
+        <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
           {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
         </Button>,
       ];

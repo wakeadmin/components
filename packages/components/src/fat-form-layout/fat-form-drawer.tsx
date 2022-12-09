@@ -191,8 +191,8 @@ const FatFormDrawerInner = declareComponent({
 
     const handleFinish = (values: any) => {
       const doit = () => {
-        emit('finish', values);
         handleVisibleChange(false);
+        emit('finish', values);
       };
 
       if (props.beforeFinish) {
@@ -226,7 +226,7 @@ const FatFormDrawerInner = declareComponent({
             {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
           </Button>
         ),
-        <Button onClick={form.value?.submit} type="primary" {...props.submitProps}>
+        <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
           {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
         </Button>,
       ];
