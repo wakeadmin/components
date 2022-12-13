@@ -1,6 +1,6 @@
 import { computed, nextTick, onUnmounted, provide, ref } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps } from '@wakeadmin/h';
-import { pick } from '@wakeadmin/utils';
+import { Noop, pick } from '@wakeadmin/utils';
 
 import { SelectionModel, SelectionModelChange } from '../collections/selection';
 import { useFatConfigurable } from '../fat-configurable';
@@ -40,6 +40,7 @@ export const FatTableSelectPublicMethodKeys = [
   'unselect',
   'unselectAll',
   'toggle',
+  'toggleAll',
   'removeSelected',
   'remove',
 ] as const;
@@ -98,7 +99,7 @@ export interface FatTableSelectSlots<
   Query extends {},
   Selection extends Partial<Item> | number | string
 > extends Omit<FatTableProps<Item, Query>, 'renderBottomToolbar'> {
-  renderBottomToolbar?(instance: FatTableSelectMethods<Item, Query, Selection>, count: number): any;
+  renderBottomToolbar?(instance: FatTableSelectMethods<Item, Query, Selection>, selectedList: Selection[]): any;
 }
 export interface FatTableSelectEvents<
   Item extends {},
@@ -256,8 +257,6 @@ export const FatTableSelectInner = declareComponent({
   setup(props, { expose, emit, slots }) {
     const itemStore = new Map<string, any>();
 
-    const selectedCount = ref<number>(0);
-
     const fatTableRef = useFatTableRef();
 
     const globalConfiguration = useFatConfigurable();
@@ -270,6 +269,9 @@ export const FatTableSelectInner = declareComponent({
     if (modelValue) {
       toArray(modelValue).forEach(item => itemStore.set(toId(item, props.rowKey), item));
     }
+
+    const selectedList = ref<any[]>(toArray(modelValue));
+    const selectedCount = computed(() => selectedList.value.length);
 
     const isDisabled = computed(() => {
       const disabled = props.disabled;
@@ -344,7 +346,7 @@ export const FatTableSelectInner = declareComponent({
 
       emit('update:modelValue' as any, props.multiple ? data : data[0]);
 
-      selectedCount.value = values.length;
+      selectedList.value = data;
     });
 
     onUnmounted(() => {
@@ -464,6 +466,11 @@ export const FatTableSelectInner = declareComponent({
       );
     };
 
+    const toggleAll = (...items: any[]) => {
+      const list = fatTableRef.value!.list;
+      toggle(list);
+    };
+
     const clear = () => {
       model.clear();
     };
@@ -480,6 +487,7 @@ export const FatTableSelectInner = declareComponent({
       unselect,
       unselectAll,
       toggle,
+      toggleAll,
       removeSelected: () => {
         throw new FatTableSelectError('该模式下不支持删除');
       },
@@ -499,13 +507,17 @@ export const FatTableSelectInner = declareComponent({
 
     const renderBottomToolbar = computed(() => {
       if (hasSlots(props, slots, 'bottomToolbar')) {
-        return () => renderSlot(props, slots, 'bottomToolbar', instance, selectedCount.value);
+        return renderSlot(props, slots, 'bottomToolbar', instance, selectedList.value);
       }
-      return () => (
-        <div class="fat-table-select__counter">
-          已选<span class="fat-table-select__counter-value">{selectedCount.value}</span>条
-        </div>
-      );
+      if (props.multiple) {
+        return () => (
+          <div class="fat-table-select__counter">
+            已选<span class="fat-table-select__counter-value">{selectedCount.value}</span>条
+          </div>
+        );
+      }
+
+      return undefined;
     });
 
     return () => {
@@ -520,6 +532,7 @@ export const FatTableSelectInner = declareComponent({
           enableSelect={multiple}
           selectable={selectable}
           ref={fatTableRef}
+          onChange={Noop}
           onSelect={(_, change) => handleSelect(change)}
           onSelect-all={handleSelectAll}
           onLoad={handleLoad}

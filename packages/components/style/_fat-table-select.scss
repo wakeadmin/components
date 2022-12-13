@@ -8,6 +8,10 @@
     align-items: center;
     justify-content: space-between;
   }
+  .fat-table__pagination {
+    margin-left: auto;
+  }
+
   &__counter {
     color: getVar(color-font-regular, $fat-color-font-regular);
     font-size: getVar(font-size, $fat-font-size);
