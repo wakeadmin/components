@@ -7,7 +7,14 @@ import { useFatConfigurable } from '../fat-configurable';
 import { FatTableInstanceContext, FatTablePublicMethodKeys } from '../fat-table/constants';
 import { FatTable } from '../fat-table/fat-table';
 import { useFatTableRef } from '../fat-table/hooks';
-import { FatTableEvents, FatTableMethods, FatTableProps, FatTableRemove, FatTableSlots } from '../fat-table/types';
+import {
+  FatTableBatchAction,
+  FatTableEvents,
+  FatTableMethods,
+  FatTableProps,
+  FatTableRemove,
+  FatTableSlots,
+} from '../fat-table/types';
 import { useDevtoolsExpose } from '../hooks';
 import {
   forwardExpose,
@@ -52,7 +59,10 @@ export interface FatTableSelectMethods<
   Item extends {},
   Query extends {},
   Selection extends Partial<Item> | number | string
-> extends Omit<FatTableMethods<Item, Query>, 'selected' | 'select' | 'unselect' | 'selectAll' | 'unselectAll'> {
+> extends Omit<
+    FatTableMethods<Item, Query>,
+    keyof Omit<FatTableSelectInstanceExposeMethods, 'removeSelected' | 'remove'>
+  > {
   /**
    * 选中指定值
    * @param values 选择值
@@ -70,12 +80,22 @@ export interface FatTableSelectMethods<
    */
   toggle(...values: (string | number)[]): void;
 
+  /**
+   * 切换当前页的选择状态
+   * @param values
+   */
+  toggleAll(): void;
+
   /***
    * 全选当前页
+   *
+   * 不会处理**禁止选择**的数据
    */
   selectAll(): void;
   /**
    * 取消全选当前页
+   *
+   * 不会处理**禁止选择**的数据
    */
   unselectAll(): void;
 
@@ -98,7 +118,7 @@ export interface FatTableSelectSlots<
   Item extends {},
   Query extends {},
   Selection extends Partial<Item> | number | string
-> extends Omit<FatTableProps<Item, Query>, 'renderBottomToolbar'> {
+> extends Omit<FatTableProps<Item, Query>, 'renderBottomToolbar' | 'batchActions'> {
   renderBottomToolbar?(instance: FatTableSelectMethods<Item, Query, Selection>, selectedList: Selection[]): any;
 }
 export interface FatTableSelectEvents<
@@ -123,6 +143,7 @@ export interface FatTableSelectProps<
       | 'namespace'
       | 'enableCacheQuery'
       | 'removeSelected'
+      | 'batchActions'
       | IgnoreFatTablePropsKeys
     >,
     FatTableSelectEvents<Item, Query, Selection>,
@@ -171,6 +192,12 @@ export interface FatTableSelectProps<
    * 用户可以传入一个`string`或者是一个jsx对象来控制该列的显示内容
    */
   selectActionText?: any;
+  /**
+   * 批量操作按钮
+   */
+  batchActions?:
+    | FatTableBatchAction<Item, Query>[]
+    | ((table: FatTableSelectMethods<Item, Query, Selection>) => FatTableBatchAction<Item, Query>[]);
 }
 
 class FatTableSelectError extends Error {
@@ -249,6 +276,7 @@ export const FatTableSelectInner = declareComponent({
 
     // fat table overwrite
     columns: null,
+    batchActions: null,
 
     // @ts-expect-error
     modelValue: null,
@@ -353,6 +381,12 @@ export const FatTableSelectInner = declareComponent({
       dispose();
     });
 
+    /**
+     * 是否可被选择
+     *
+     * @param row
+     * @returns
+     */
     const selectable = (row: any) => {
       const disabled = isDisabled.value(row);
       if (disabled) {
@@ -402,9 +436,19 @@ export const FatTableSelectInner = declareComponent({
       // length 为 0 代表取消全选
       if (list.length === 0) {
         const currentPageList = fatTableRef.value!.list;
-        model.unselect(...toIds(currentPageList, props.rowKey));
+        model.unselect(
+          ...toIds(
+            currentPageList.filter(row => selectable(row)),
+            props.rowKey
+          )
+        );
       } else {
-        model.select(...toIds(list, props.rowKey));
+        model.select(
+          ...toIds(
+            list.filter(row => selectable(row)),
+            props.rowKey
+          )
+        );
         // 在全选的情况 如果超出了限制 会出现表格状态跟 selectionModel 数据不同步的情况
         // 因此 我们需要手动同步一下状态
         if (model.exceeded) {
@@ -439,6 +483,8 @@ export const FatTableSelectInner = declareComponent({
      * 全选当前页数据
      *
      * 手动更改无法触发 el-table 的事件 因此手动处理
+     *
+     *  不会处理**禁止选择**的数据
      */
     const selectAll = () => {
       const list = fatTableRef.value!.list;
@@ -466,9 +512,9 @@ export const FatTableSelectInner = declareComponent({
       );
     };
 
-    const toggleAll = (...items: any[]) => {
+    const toggleAll = () => {
       const list = fatTableRef.value!.list;
-      toggle(list);
+      toggle(...list);
     };
 
     const clear = () => {
@@ -479,7 +525,7 @@ export const FatTableSelectInner = declareComponent({
       return model.selected.map(id => itemStore.get(id)!).map(transformValue);
     };
 
-    const instance: FatTableSelectInstanceExposeMethods = {
+    const instance: FatTableSelectMethods<any, any, any> = {
       getSelected,
       clear,
       select,
@@ -494,9 +540,32 @@ export const FatTableSelectInner = declareComponent({
       remove: () => {
         throw new FatTableSelectError('该模式下不支持删除');
       },
-    };
+    } as any;
 
-    forwardExpose(instance, FatTablePublicMethodKeys, fatTableRef);
+    /**
+     * 默认情况下 TableSelect 的批操作按钮的禁用状态跟是否存在所选项无关
+     */
+    const batchActions = computed<FatTableBatchAction<any, any>[] | undefined>(() => {
+      const propBatchActions = props.batchActions;
+      if (propBatchActions) {
+        if (typeof propBatchActions === 'function') {
+          const actions = propBatchActions(instance);
+          return actions.map(item => {
+            item.disabledUnselected = item.disabledUnselected ?? false;
+            return item;
+          });
+        }
+        return propBatchActions.map(item => {
+          return {
+            ...item,
+            disabledUnselected: item.disabledUnselected ?? false,
+          };
+        });
+      }
+      return undefined;
+    });
+
+    forwardExpose(instance as any, FatTablePublicMethodKeys, fatTableRef);
     expose(instance);
 
     useDevtoolsExpose({
@@ -531,6 +600,7 @@ export const FatTableSelectInner = declareComponent({
           columns={columns.value}
           enableSelect={multiple}
           selectable={selectable}
+          batchActions={batchActions.value}
           ref={fatTableRef}
           onChange={Noop}
           onSelect={(_, change) => handleSelect(change)}
