@@ -85,6 +85,19 @@ export default {
           ],
         },
         {
+          text: 'FatTable 预定义场景',
+          items: [
+            {
+              text: 'FatTableModal',
+              link: '/fat-table-layout/modal',
+            },
+            {
+              text: 'FatTableSelect',
+              link: '/fat-table-layout/table-select',
+            },
+          ],
+        },
+        {
           text: 'FatForm 表单',
           items: [
             {

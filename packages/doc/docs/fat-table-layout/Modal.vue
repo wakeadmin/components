@@ -1,7 +1,7 @@
 <template>
   <div>
     <MyTableModal ref="tableModalRef"></MyTableModal>
-    <Button @click="open"></Button>
+    <el-button @click="open">打开</el-button>
   </div>
 </template>
 
@@ -55,7 +55,7 @@
 
   const open = () => {
     tableModalRef.value!.open({
-      title: '标题',
+      title: '浮槎来',
     });
   };
 </script>

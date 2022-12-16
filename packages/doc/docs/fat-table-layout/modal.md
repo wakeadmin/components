@@ -3,9 +3,9 @@
 
 </script>
 
-# FatTableModal 表单模态框
+# FatTableModal 表格模态框
 
-`FatTableModal` 是 FatForm 针对 模态框场景设计的一个组件。适用于弹窗式的表格显示。
+`FatTableModal` 是 FatTable 针对 模态框场景设计的一个组件。适用于弹窗式的表格显示。
 
 <br>
 <br>
