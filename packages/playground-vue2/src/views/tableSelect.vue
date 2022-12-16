@@ -26,7 +26,6 @@
       v-if="active"
       ref="tableRef"
       v-model="selected"
-      enable-cache-query
       multiple
       row-key="id"
       :request="request"
@@ -39,7 +38,7 @@
       :batch-actions="batchActions"
       :height="600"
       :limit="3"
-      :disabled="disabledFn"
+      :selectable="selectableFn"
       :select-action-text="text"
       @row-click="handleClick"
       @queryCacheRestore="handleCacheRestore"
@@ -107,8 +106,8 @@
       },
     },
   ];
-  const disabledFn = (item, status) => {
-    return item.id === '1_4';
+  const selectableFn = (item, status) => {
+    return item.id !== '1_4';
   };
 
   const remove = () => {

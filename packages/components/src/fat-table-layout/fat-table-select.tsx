@@ -27,7 +27,10 @@ import {
 } from '../utils';
 
 const IgnoreFatTableProps = {
+  onQueryCacheRestore: null,
   confirmBeforeRemove: null,
+  enableCacheQuery: null,
+  namespace: null,
   messageOnRemoved: null,
   messageOnRemoveFailed: null,
   remove: null,
@@ -67,18 +70,18 @@ export interface FatTableSelectMethods<
    * 选中指定值
    * @param values 选择值
    */
-  select(...values: (string | number)[]): void;
+  select(...values: (string | Item | number)[]): void;
   /**
    * 取消指定值
    * @param values 选择值
    */
-  unselect(...values: (string | number)[]): void;
+  unselect(...values: (string | Item | number)[]): void;
 
   /**
    * 切换选择状态
    * @param values
    */
-  toggle(...values: (string | number)[]): void;
+  toggle(...values: (string | Item | number)[]): void;
 
   /**
    * 切换当前页的选择状态
@@ -118,7 +121,7 @@ export interface FatTableSelectSlots<
   Item extends {},
   Query extends {},
   Selection extends Partial<Item> | number | string
-> extends Omit<FatTableProps<Item, Query>, 'renderBottomToolbar' | 'batchActions'> {
+> extends Omit<FatTableProps<Item, Query>, 'renderBottomToolbar' | 'batchActions' | 'selectable'> {
   renderBottomToolbar?(instance: FatTableSelectMethods<Item, Query, Selection>, selectedList: Selection[]): any;
 }
 export interface FatTableSelectEvents<
@@ -141,7 +144,6 @@ export interface FatTableSelectProps<
       | 'renderBottomToolbar'
       | 'rowKey'
       | 'namespace'
-      | 'enableCacheQuery'
       | 'removeSelected'
       | 'batchActions'
       | IgnoreFatTablePropsKeys
@@ -179,7 +181,7 @@ export interface FatTableSelectProps<
    * - 单选模式下 如果用户传入`actions`列 那么需要自行判断
    *
    */
-  disabled?: string | ((row: Item, selected: boolean) => boolean);
+  selectable?: string | ((row: Item, selected: boolean) => boolean);
 
   /**
    *
@@ -267,7 +269,7 @@ export const FatTableSelectInner = declareComponent({
     },
     value: null,
 
-    disabled: null,
+    selectable: null,
 
     selectActionText: null,
 
@@ -301,26 +303,27 @@ export const FatTableSelectInner = declareComponent({
     const selectedList = ref<any[]>(toArray(modelValue));
     const selectedCount = computed(() => selectedList.value.length);
 
-    const isDisabled = computed(() => {
-      const disabled = props.disabled;
+    
+    const selectableFn = computed(() => {
+      const propSelectable = props.selectable;
       const rowKey = props.rowKey;
 
-      if (disabled == null) {
-        return () => false;
+      if (propSelectable == null) {
+        return () => true;
       }
 
-      if (typeof disabled === 'string') {
-        return (row: any) => !!row[disabled];
+      if (typeof propSelectable === 'string') {
+        return (row: any) => !!row[propSelectable];
       }
 
-      if (typeof disabled === 'function') {
+      if (typeof propSelectable === 'function') {
         return (row: any) => {
           const id = toId(row, rowKey);
-          return disabled(row, model.isSelected(id));
+          return propSelectable(row, model.isSelected(id));
         };
       }
 
-      throw new FatTableSelectError(`disabled 必须是一个 字符串 或者 函数`);
+      throw new FatTableSelectError(`selectable 必须是一个 字符串 或者 函数`);
     });
 
     const columns = computed(() => {
@@ -335,7 +338,7 @@ export const FatTableSelectInner = declareComponent({
               {
                 name: props.selectActionText ?? globalConfiguration.fatTableSelect?.selectActionText ?? '选择',
                 disabled(_, row) {
-                  return isDisabled.value(row);
+                  return !selectableFn.value(row);
                 },
                 onClick: (_, row) => {
                   // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -388,7 +391,7 @@ export const FatTableSelectInner = declareComponent({
      * @returns
      */
     const selectable = (row: any) => {
-      const disabled = isDisabled.value(row);
+      const disabled = !selectableFn.value(row);
       if (disabled) {
         return false;
       }
@@ -473,6 +476,15 @@ export const FatTableSelectInner = declareComponent({
       fatTableRef.value!.select(...selectedNodes);
     };
 
+    const normalizeUserSelectItems: (items: any[]) => string[] = (items: any[]) => {
+      return items.map(item => {
+        if (typeof item === 'object') {
+          return toId(item, props.rowKey);
+        }
+        return item;
+      });
+    };
+
     /**
      *---------------------------------------+
      *          以下是公开方法                |
@@ -490,24 +502,22 @@ export const FatTableSelectInner = declareComponent({
       const list = fatTableRef.value!.list;
       handleSelectAll(list);
     };
-
     const unselectAll = () => {
       handleSelectAll([]);
     };
-
     const select = (...items: any[]) => {
-      model.select(...toIds(items, props.rowKey));
+      model.select(...normalizeUserSelectItems(items));
     };
 
     const unselect = (...items: any[]) => {
-      model.unselect(...toIds(items, props.rowKey));
+      model.unselect(...normalizeUserSelectItems(items));
     };
 
     const toggle = (...items: any[]) => {
       model.toggle(
-        ...toIds(items, props.rowKey).filter(id => {
+        ...normalizeUserSelectItems(items).filter(id => {
           const item = itemStore.get(id);
-          return !isDisabled.value(item);
+          return selectableFn.value(item);
         })
       );
     };
@@ -565,7 +575,11 @@ export const FatTableSelectInner = declareComponent({
       return undefined;
     });
 
-    forwardExpose(instance as any, FatTablePublicMethodKeys, fatTableRef);
+    forwardExpose(
+      instance as any,
+      FatTablePublicMethodKeys.filter(key => key !== 'selected'),
+      fatTableRef
+    );
     expose(instance);
 
     useDevtoolsExpose({
