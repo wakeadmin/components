@@ -34,7 +34,7 @@ export const FatSpace = declareComponent({
     align: { type: null, default: 'center' },
     direction: null,
     size: null,
-    wrap: null,
+    wrap: { type: Boolean, default: false },
     inline: { type: Boolean, default: true },
   }),
   setup(props, { attrs, slots }) {
