@@ -1,5 +1,5 @@
 {
-  "version": "0.1.12",
+  "version": "0.1.14",
   "name": "playground-vue3",
   "imageName": "wkfe/playground-vue3",
   "workload": "wakeadmin-playground-vue3",
@@ -18,11 +18,11 @@
     "publish:docker": "node ./scripts/docker-publish.js"
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:*",
+    "@wakeadmin/components": "workspace:1.0.1",
     "@wakeadmin/framework": "^0.1.5",
     "@wakeadmin/h": "^0.2.12",
-    "core-js": "^3.26.1",
-    "element-plus": "^2.2.22",
+    "core-js": "^3.27.1",
+    "element-plus": "^2.2.28",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
@@ -36,7 +36,7 @@
     "@wakeadmin/vue-cli-plugin-mapp-child": "^0.4.3",
     "@wakeadmin/vue-cli-plugin-typescript": "^0.1.0",
     "babel-preset-wakeadmin": "latest",
-    "sass": "^1.56.1",
+    "sass": "^1.57.1",
     "sass-loader": "^12.6.0"
   }
 }
