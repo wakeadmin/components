@@ -122,6 +122,9 @@ export class SelectionModel<T> {
   }
 
   private emitChange() {
+    // 清空上次的数据 确保每次发射的都是最新值
+    this._selected = null;
+
     if (this.selectedEmit.length || this.unselectedEmit.length) {
       this.listeners.forEach(fn =>
         fn({
@@ -133,7 +136,6 @@ export class SelectionModel<T> {
     }
     this.selectedEmit = [];
     this.unselectedEmit = [];
-    this._selected = null;
   }
 
   private markSelected(value: T): void {

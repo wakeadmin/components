@@ -18,7 +18,7 @@ import { isPromise } from '@wakeadmin/utils';
 
 import { RouteLocation, useRouter } from '../hooks';
 import { createMessageBoxOptions, LooseMessageBoxOptions, normalizeClassName, normalizeStyle } from '../utils';
-import { MouseEventButton } from './enum';
+import { MouseEventButton } from '../enum';
 
 export interface FatAction {
   /**

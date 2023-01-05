@@ -32,6 +32,18 @@ type TrimOnEvents<T extends {}> = {
   [K in keyof T as TrimOnPrefix<string & K>]: T[K];
 };
 
+type AddOnPrefix<K extends string> = K extends `on${infer E}`
+  ? K
+  : K extends `${infer F}${infer L}`
+  ? `on${Uppercase<F>}${L}`
+  : `on${Uppercase<K>}`;
+
+/**
+ * 将事件名称都转换成`onXxxx`格式
+ */
+export type ToJSXEmitDefinition<T extends {}> = {
+  [K in keyof T as AddOnPrefix<K & string>]: T[K];
+};
 /**
  * 将 on* 类型的事件转换为 h 库的 emit 类型格式
  */
@@ -102,3 +114,10 @@ export interface OurComponentInstance<Props extends {}, Slots extends {}, Events
 export type DefineOurComponent<Props extends {}, Slots extends {}, Events extends {}, Expose = any> = new (
   props: Props
 ) => OurComponentInstance<Props, Slots, Events, Expose>;
+
+/**
+ * 获取Set类型里函数的参数
+ */
+export type GetParameterInSet<S extends Set<any>> = S extends Set<infer F extends (...args: any) => any>
+  ? Parameters<F>
+  : never;

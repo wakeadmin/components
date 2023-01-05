@@ -12,10 +12,11 @@ export * from './fat-switch';
 export * from './fat-tree-select';
 export * from './fat-vnode';
 export * from './fat-table-layout';
+export * from './fat-drag-drop';
 
 export * from './atomic';
 
 export * from './builtin-atomic';
 
 export { plugin } from './plugin';
-export { normalizeClassName, normalizeStyle } from './utils';
+export { normalizeClassName, normalizeStyle, Portal, moveItemInRefArray, moveItemInArray } from './utils';

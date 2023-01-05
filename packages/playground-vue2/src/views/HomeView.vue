@@ -83,8 +83,8 @@
 </template>
 
 <script lang="jsx" setup>
-  import { ref } from 'vue';
-  import { FatTable, FatSwitch, FatTableModal, useFatTableModalRef } from '@wakeadmin/components';
+  import { getCurrentInstance, ref } from 'vue';
+  import { FatTable, FatSwitch, FatTableModal, useFatTableModalRef, Portal } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
 
   const log = (...args) => console.log(...args);
@@ -95,7 +95,13 @@
     console.log('cache', cache);
   };
 
+  const instance = getCurrentInstance()?.proxy;
+
   const handleClick = () => {
+    const p = new Portal(() => <div>一叶叶 一声声 空阶滴到明</div>, {
+      context: instance,
+    });
+    p.attach();
     console.log('click');
   };
 

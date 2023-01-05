@@ -68,3 +68,18 @@ export function normalizeStyle(...styles: LooseStyleValue[]): NormalizedStyle {
 
   return style;
 }
+
+export function extendStyles<T extends {} = Record<string, string>>(
+  ele: HTMLElement,
+  styles: T,
+  important: Set<keyof T> = new Set()
+): void {
+  const dest = ele.style;
+  for (const [key, value] of Object.entries<string>(styles)) {
+    if (value) {
+      dest.setProperty(key, value, important.has(key as any) ? 'important' : '');
+    } else {
+      dest.removeProperty(key);
+    }
+  }
+}

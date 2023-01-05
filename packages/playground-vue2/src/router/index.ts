@@ -83,6 +83,11 @@ const routes: RouteConfig[] = [
     name: 'tableSelect',
     component: () => import('../views/tableSelect.vue'),
   },
+  {
+    path: '/drag',
+    name: 'drag',
+    component: () => import('../views/drag.vue'),
+  },
 ];
 
 const router = new VueRouter({
