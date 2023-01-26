@@ -1,11 +1,12 @@
 import { computed, getCurrentInstance, inject, provide, watch, onUnmounted, onMounted } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
+import { useDevtoolsExpose } from '../hooks';
 
 import { hasSlots, OurComponentInstance, renderSlot, ToHEmitDefinition, ToHSlotDefinition } from '../utils';
 
 import { DragRef } from './dragRef';
 import { FatDragRefToken, FatDropContainerToken } from './token';
-import { FatDragItemEvents, FatDragItemProps, FatDragItemSlots } from './type';
+import { FatDragItemEvents, FatDragItemMethods, FatDragItemProps, FatDragItemSlots } from './type';
 
 const FatDragItemInner = declareComponent({
   name: 'FatDragItem',
@@ -21,6 +22,8 @@ const FatDragItemInner = declareComponent({
       default: false,
     },
     previewContainer: undefined,
+    previewClass: undefined,
+    placeholderClass: undefined,
 
     // emits
     onDropped: null,
@@ -37,7 +40,7 @@ const FatDragItemInner = declareComponent({
   }),
   emits: declareEmits<ToHEmitDefinition<FatDragItemEvents>>(),
   slots: declareSlots<ToHSlotDefinition<FatDragItemSlots>>(),
-  setup(props, { emit, slots }) {
+  setup(props, { emit, slots, expose }) {
     const instance = getCurrentInstance()!.proxy!;
     const dropContainer = inject(FatDropContainerToken, null);
     const parentDragContainer = inject(FatDragRefToken, null);
@@ -73,6 +76,8 @@ const FatDragItemInner = declareComponent({
       {
         dragStartDelay: props.dragDelay,
         lockAxis: props.lockAxis,
+        previewClass: props.previewClass,
+        placeholderClass: props.placeholderClass,
       }
     );
 
@@ -81,6 +86,7 @@ const FatDragItemInner = declareComponent({
     if (parentDragContainer) {
       dragInstance.withParentDragRef(parentDragContainer);
     }
+
     if (dropContainer) {
       dragInstance.withDropContainer(dropContainer.instance);
       dropContainer.instance.addItem(dragInstance);
@@ -90,6 +96,14 @@ const FatDragItemInner = declareComponent({
     // 对内部进行暴露
     // 以便允许自定义 Handler
     provide(FatDragRefToken, dragInstance);
+
+    expose({
+      reset: dragInstance.reset,
+    });
+
+    useDevtoolsExpose({
+      dragRef: dragInstance,
+    });
 
     watch(
       () => props.disabled,
@@ -113,6 +127,9 @@ const FatDragItemInner = declareComponent({
 
     onUnmounted(() => {
       dragInstance.destroy();
+      if (dropContainer) {
+        dropContainer.instance.removeItem(dragInstance);
+      }
     });
 
     return () => {
@@ -124,5 +141,6 @@ const FatDragItemInner = declareComponent({
 export const FatDragItem = FatDragItemInner as unknown as new (props: FatDragItemProps) => OurComponentInstance<
   typeof props,
   FatDragItemSlots,
-  FatDragItemEvents
+  FatDragItemEvents,
+  FatDragItemMethods
 >;

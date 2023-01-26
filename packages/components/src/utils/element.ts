@@ -75,6 +75,14 @@ export function adjustClientRect(clientRect: Omit<ClientRect, 'x' | 'y'>, top: n
   clientRect.right = clientRect.left + clientRect.width;
 }
 
+/**
+ * 判断是否接近这个容器
+ * @param rect
+ * @param threshold
+ * @param pointerX
+ * @param pointerY
+ * @returns
+ */
 export function isPointerNearClientRect(
   rect: ClientRect,
   threshold: number,
@@ -91,4 +99,16 @@ export function isPointerNearClientRect(
     pointerX > left - xThreshold &&
     pointerX < right + xThreshold
   );
+}
+
+/**
+ * 判断是否在指定容器内
+ * @param clientRect
+ * @param x
+ * @param y
+ * @returns
+ */
+export function isInsideClientRect(clientRect: ClientRect, x: number, y: number): boolean {
+  const { top, bottom, left, right } = clientRect;
+  return y >= top && y <= bottom && x >= left && x <= right;
 }

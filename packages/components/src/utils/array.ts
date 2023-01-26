@@ -1,4 +1,9 @@
-import { Ref, isRef } from '@wakeadmin/demi';
+import { Ref, unref, set } from '@wakeadmin/demi';
+
+function clamp(value: number, max: number): number {
+  return Math.max(0, Math.min(max, value));
+}
+
 /**
  * 数组比较。子节点浅比较
  * @param a
@@ -36,8 +41,8 @@ export function arrayEq(a: any[], b: any[]) {
  * @returns
  */
 export function moveItemInArray<T = any>(arr: T[], currentIndex: number, newIndex: number): void {
-  const from = Math.max(0, Math.min(currentIndex, arr.length - 1));
-  const to = Math.max(0, Math.min(newIndex, arr.length - 1));
+  const from = clamp(currentIndex, arr.length - 1);
+  const to = clamp(newIndex, arr.length - 1);
 
   if (from === to) {
     return;
@@ -54,17 +59,41 @@ export function moveItemInArray<T = any>(arr: T[], currentIndex: number, newInde
 /**
  * 基于vue ref的数组操作
  *
+ *
  * @param arr
  * @param currentIndex
  * @param newIndex
  */
 export function moveItemInRefArray<T = any>(arr: Ref<T[]>, currentIndex: number, newIndex: number): void {
   // 垃圾vue
-  if (isRef(arr)) {
-    const tempList = [...arr.value];
-    moveItemInArray(tempList, currentIndex, newIndex);
-    arr.value = tempList;
-  } else {
-    moveItemInArray(arr, currentIndex, newIndex);
+
+  const list = unref(arr);
+
+  const from = clamp(currentIndex, list.length - 1);
+  const to = clamp(newIndex, list.length - 1);
+
+  if (from === to) {
+    return;
+  }
+  const target = list[from];
+  const delta = from > to ? -1 : 1;
+  let i = from;
+  for (; i !== to; i += delta) {
+    set(list, i, list[i + delta]);
+  }
+  set(list, to, target);
+}
+
+export function transferArrayItem<T = any>(
+  currentArray: T[],
+  targetArray: T[],
+  currentIndex: number,
+  targetIndex: number
+): void {
+  const from = clamp(currentIndex, currentArray.length - 1);
+  const to = clamp(targetIndex, targetArray.length);
+
+  if (currentArray.length) {
+    targetArray.splice(to, 0, currentArray.splice(from, 1)[0]);
   }
 }

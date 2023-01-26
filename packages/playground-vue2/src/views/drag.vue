@@ -10,8 +10,6 @@
       <h4>自定义触发元素</h4>
       <FatDragItem class="inline-block">
         <FatDragHandler class="handler"> 🐇 </FatDragHandler>
-        <span class="handler"> 🐇 </span>
-
         <span>点火樱桃，照一架、荼蘼如雪 </span>
       </FatDragItem>
     </div>
@@ -65,11 +63,7 @@
     </div>
     <div>
       <h4>列表排序 - 自定义预览</h4>
-      <FatDropList
-        :data="[]"
-        class="list"
-        @dropped="move($event, 3)"
-      >
+      <FatDropList :data="[]" class="list" @dropped="move($event, 3)">
         <FatDragItem v-for="item of dataSource4" :key="item.name" class="inline-block w-300" :data="item">
           <span> {{ item.name }} </span>
         </FatDragItem>
@@ -81,8 +75,11 @@
       </FatDropList>
     </div>
     <div>
-      <h4>列表排序 - 自定义展位</h4>
-      <FatDropList :data="[]" class="list custom-drop-list"  @dropped="move($event, 3)">
+      <h4>列表排序 - 自定义占位</h4>
+      <el-alert class="w-300">
+        这里使用了自定义占位 默认的情况下 只有鼠标在容器附近才会进行排序 我们可以将这个基准值设大一些
+      </el-alert>
+      <FatDropList :data="[]" class="list custom-drop-list" :drop-sort-threshold="1" @dropped="move($event, 3)">
         <FatDragItem v-for="item of dataSource4" :key="item.name" class="inline-block w-300" :data="item">
           <span> {{ item.name }} </span>
         </FatDragItem>
@@ -93,12 +90,102 @@
         </template>
       </FatDropList>
     </div>
+    <div>
+      <h4>列表组 - FatDropListGroup</h4>
+      <FatDropListGroup class="drop-group">
+        <FatDropList class="list drop-item" :data="dataSource5">
+          <FatDragItem
+            v-for="item of dataSource5"
+            :key="item"
+            class="inline-block w-300"
+            :data="item"
+            @dropped="dropListGroupDropHandler"
+          >
+            <span> {{ item }} </span>
+          </FatDragItem>
+        </FatDropList>
+        <FatDropList class="list drop-item" :data="dataSource6">
+          <FatDragItem
+            v-for="item of dataSource6"
+            :key="item"
+            class="inline-block w-300"
+            :data="item"
+            @dropped="dropListGroupDropHandler"
+          >
+            <span> {{ item }} </span>
+          </FatDragItem>
+        </FatDropList>
+      </FatDropListGroup>
+    </div>
+    <div>
+      <h4>列表组 - connectTo</h4>
+      <el-alert class="w-300"> 左边的无法进入右边的 但是右边能进入左边 </el-alert>
+      <div class="drop-group">
+        <FatDropList ref="dropListRef1" class="list drop-item">
+          <FatDragItem
+            v-for="item of dataSource5"
+            :key="item"
+            class="inline-block w-300"
+            :data="item"
+            @dropped="dropListGroupDropHandler"
+          >
+            <span> {{ item }} </span>
+          </FatDragItem>
+        </FatDropList>
+        <FatDropList class="list drop-item" :connect-to="connectTo">
+          <FatDragItem
+            v-for="item of dataSource6"
+            :key="item"
+            class="inline-block w-300"
+            :data="item"
+            @dropped="dropListGroupDropHandler"
+          >
+            <span> {{ item }} </span>
+          </FatDragItem>
+        </FatDropList>
+      </div>
+    </div>
+    <div>
+      <h4>列表组 - 是否允许进入</h4>
+      <el-alert class="w-300"> 只有左边的 町、時の流れ、人 能拖进去 </el-alert>
+      <FatDropListGroup class="drop-group">
+        <FatDropList
+          :data="dataSource5"
+          class="list drop-item"
+          :enter-predicate="enterPredicate"
+          @dropped="dropListGroupDropHandler"
+        >
+          <FatDragItem v-for="item of dataSource5" :key="item" class="inline-block w-300" :data="item">
+            <span> {{ item }} </span>
+          </FatDragItem>
+        </FatDropList>
+        <FatDropList
+          :data="dataSource6"
+          class="list drop-item"
+          :enter-predicate="enterPredicate"
+          @dropped="dropListGroupDropHandler"
+        >
+          <FatDragItem v-for="item of dataSource6" :key="item" class="inline-block w-300" :data="item">
+            <span> {{ item }} </span>
+          </FatDragItem>
+        </FatDropList>
+      </FatDropListGroup>
+    </div>
   </div>
 </template>
 <script setup>
-  import { FatDragItem, FatDragHandler, FatDropList, moveItemInRefArray } from '@wakeadmin/components';
-  import { ref } from 'vue';
+  import {
+    FatDragItem,
+    FatDragHandler,
+    FatDropList,
+    moveItemInRefArray,
+    FatDropListGroup,
+    transferArrayItem,
+  } from '@wakeadmin/components';
+  import { computed, ref } from 'vue';
 
+  const dropListRef1 = ref();
+  const connectTo = computed(() => [dropListRef1.value?.instance].filter(val => !!val));
   const allowDrag = ref(false);
   const toggleAllowDrag = () => {
     allowDrag.value = !allowDrag.value;
@@ -155,9 +242,41 @@
       cover: require('./imgs/6.jpg'),
     },
   ]);
+
+  const dataSource5 = ref([
+    '町、時の流れ、人',
+    'nostalgia',
+    'Dearly Beloved',
+    '蒼崎青子',
+    '谁が为に',
+    'Sorrow',
+    "Dead's dream",
+  ]);
+  const dataSource6 = ref([
+    'グーラ領/森林',
+    'ザナルカンドにて',
+    'The Final Battle',
+    'Blood Upon the Snow',
+    'Old Soldiers Die Hard',
+    'Lost Again',
+    'I Really Want to Stay At Your House',
+  ]);
+
+  const enterPredicate = drag => {
+    return drag.data === '町、時の流れ、人';
+  };
   const sourceList = [dataSource1, dataSource2, dataSource3, dataSource4];
   const move = (obj, index) => {
     moveItemInRefArray(sourceList[index], obj.previousIndex, obj.currentIndex);
+  };
+
+  const dropListGroupDropHandler = event => {
+    const { container, previousContainer, previousIndex, currentIndex } = event;
+    if (container !== previousContainer) {
+      transferArrayItem(previousContainer.data, container.data, previousIndex, currentIndex);
+    } else {
+      moveItemInRefArray(container.data, previousIndex, currentIndex);
+    }
   };
 </script>
 <!-- eslint-disable-next-line wkvue/no-style-scoped -->
@@ -194,7 +313,7 @@
     }
   }
 
-  .w300 {
+  .w-300 {
     width: 300px;
   }
   .cursor-move {
@@ -215,5 +334,11 @@
   }
   .custom-drop-list .fat-drag-placeholder {
     opacity: 1;
+  }
+  .drop-group {
+    display: flex;
+  }
+  .drop-item {
+    margin-bottom: 3vw;
   }
 </style>

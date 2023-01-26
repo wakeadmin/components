@@ -19,4 +19,11 @@ export * from './atomic';
 export * from './builtin-atomic';
 
 export { plugin } from './plugin';
-export { normalizeClassName, normalizeStyle, Portal, moveItemInRefArray, moveItemInArray } from './utils';
+export {
+  normalizeClassName,
+  normalizeStyle,
+  Portal,
+  moveItemInRefArray,
+  moveItemInArray,
+  transferArrayItem,
+} from './utils';

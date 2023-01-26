@@ -16,6 +16,7 @@ export interface DragDropListStrategy<T> {
   getItemIndex(item: T): number;
   withItems(items: T[]): void;
   updateOnScroll(top: number, left: number): void;
+  getActiveItemsSnapshot(): readonly T[];
 }
 
 interface CachedItemPosition<T extends DragRef> {
@@ -30,13 +31,13 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
   private previousSwapItem: { source: T; delta: Delta['x']; overlap: boolean } = {} as any;
   private itemsPosition: CachedItemPosition<T>[] = [];
 
-  private startedDrag: T[] = [];
+  private activeDrags: T[] = [];
   orientation: Orientation = 'vertical';
 
   constructor(public rootElement: HTMLElement) {}
 
   start(items: readonly T[]): void {
-    this.startedDrag = [...items];
+    this.activeDrags = [...items];
     this.cacheItemsPositions();
   }
 
@@ -62,7 +63,6 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
     const siblingOffset = this.getSiblingOffset(currentIndex, this.itemsPosition, delta);
 
     const oldOrder = [...this.itemsPosition];
-
     moveItemInArray(this.itemsPosition, currentIndex, newIndex);
 
     this.itemsPosition.forEach((sibling, index) => {
@@ -98,31 +98,31 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
 
   enter(item: T, pointerX: number, pointerY: number, index?: number | undefined): void {
     const newIndex = index == null || index < 0 ? this.getIndexFromPosition(item, pointerX, pointerY) : index;
-    const currentIndex = this.startedDrag.indexOf(item);
+    const currentIndex = this.activeDrags.indexOf(item);
     const placeholderElement = item.getPlaceholderEle();
-    let newPositionReference: T | undefined = this.startedDrag[newIndex];
+    let newPositionReference: T | undefined = this.activeDrags[newIndex];
 
-    // 两个一直 代表拖动的时候最终拖回了原来的位置
+    // 两个一致 代表拖动的时候最终拖回了原来的位置
     // 基于下一个对象进行参考
     if (newPositionReference === item) {
-      newPositionReference = this.startedDrag[newIndex + 1];
+      newPositionReference = this.activeDrags[newIndex + 1];
     }
 
     // 如果不存在 且新的索引位置不存在或者为 -1
     // 尝试将其判断为第一个子元素
     if (
       !newPositionReference &&
-      (newIndex == null || newIndex === -1 || newIndex < this.startedDrag.length - 1) &&
+      (newIndex == null || newIndex === -1 || newIndex < this.activeDrags.length - 1) &&
       this.enterIsFirstChild(pointerX, pointerY)
     ) {
-      newPositionReference = this.startedDrag[0];
+      newPositionReference = this.activeDrags[0];
     }
 
     // 防止存在重复的元素
     // 先删除原来的
     // 再进行添加
     if (currentIndex > -1) {
-      this.itemsPosition.splice(currentIndex, 1);
+      this.activeDrags.splice(currentIndex, 1);
     }
 
     // 这里使用dragEventRegistry来进行判断是否正在拖拽中
@@ -133,10 +133,10 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
     if (newPositionReference && !this.registry.isDragging(newPositionReference)) {
       const element = newPositionReference.getVisibleElement();
       element.parentElement!.insertBefore(placeholderElement, element);
-      this.startedDrag.splice(newIndex, 0, item);
+      this.activeDrags.splice(newIndex, 0, item);
     } else {
       this.rootElement.appendChild(placeholderElement);
-      this.startedDrag.push(item);
+      this.activeDrags.push(item);
     }
 
     placeholderElement.style.transform = '';
@@ -145,7 +145,7 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
   }
 
   reset(): void {
-    this.startedDrag.forEach(item => {
+    this.activeDrags.forEach(item => {
       const rootElement = item.getVisibleElement();
 
       if (rootElement) {
@@ -155,7 +155,7 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
     });
 
     this.itemsPosition = [];
-    this.startedDrag = [];
+    this.activeDrags = [];
     this.previousSwapItem = {
       // @ts-expect-error
       source: null,
@@ -175,7 +175,7 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
    * @internal
    */
   withItems(items: T[]): void {
-    this.startedDrag = [...items];
+    this.activeDrags = [...items];
     this.cacheItemsPositions();
   }
 
@@ -193,12 +193,16 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
     });
   }
 
+  getActiveItemsSnapshot(): readonly T[] {
+    return this.activeDrags;
+  }
+
   private cacheItemsPositions(): void {
     const sortFn =
       this.orientation === 'horizontal'
         ? (a: CachedItemPosition<T>, b: CachedItemPosition<T>) => a.clientRect.left - b.clientRect.left
         : (a: CachedItemPosition<T>, b: CachedItemPosition<T>) => a.clientRect.top - b.clientRect.top;
-    this.itemsPosition = this.startedDrag
+    this.itemsPosition = this.activeDrags
       .map(item => {
         const element = item.getVisibleElement();
         return {
@@ -251,6 +255,7 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
 
   private getIndexFromPosition(item: T, x: number, y: number, delta?: Delta): number {
     const isHorizontal = this.orientation === 'horizontal';
+
     const index = this.itemsPosition.findIndex(({ source, clientRect }) => {
       // 不跟自己比较
       if (source === item) {
@@ -289,7 +294,7 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
     // startedDarg 基于index
     // 这里判断下位置信息是否一致 有可能存在 row-reverse 的样式
     const lastChild = this.itemsPosition.at(-1)!;
-    const isReversed = lastChild.source === this.startedDrag[0];
+    const isReversed = lastChild.source === this.activeDrags[0];
 
     if (isReversed) {
       const lastChildPosition = lastChild.clientRect;

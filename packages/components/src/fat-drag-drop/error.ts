@@ -1,4 +1,4 @@
-export class FatDragRefError extends Error {
+export class FatDragDropError extends Error {
   constructor(message: string) {
     super(`[fat-drag error]: ${message}`);
   }

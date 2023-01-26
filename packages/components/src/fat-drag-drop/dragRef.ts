@@ -83,7 +83,7 @@ export class DragRef {
   private activeTransform: Point = { x: 0, y: 0 };
   /**
    * 拖拽结束之后的位移信息
-   * 
+   *
    * @remark
    * 这个主要是针对自由拖拽
    */
@@ -173,26 +173,8 @@ export class DragRef {
     this.initialTransform = undefined;
   }
 
-
   isDragging(): boolean {
     return this.hasStartedDragging.value && this.registry.isDragging(this);
-  }
-
-  /**
-   * todo 是否处于释放状态
-   * 
-   *
-   * @remarks
-   * 拖拽结束后存在释放的动画过程
-   *
-   * 因此我们需要一个状态来进行判断
-   *
-   *
-   * 以防止拖拽结束后立马开始一个新的拖拽所导致页面异常问题
-   *
-   */
-  isReceiving(): boolean {
-    return false;
   }
 
   withHandlerElement(ele: HTMLElement): void {
@@ -293,14 +275,13 @@ export class DragRef {
         this.rootElement.classList.add('fat-drag-dragging');
       }
     }
-
   }
 
-  reset(): void {
+  reset = () => {
     this.rootElement.style.transform = this.initialTransform || '';
-    this.activeTransform = {x: 0, y: 0};
-    this.passiveTransform = {x: 0, y: 0};
-  }
+    this.activeTransform = { x: 0, y: 0 };
+    this.passiveTransform = { x: 0, y: 0 };
+  };
 
   private removePreviewInstance() {
     if (this.previewInstance) {
@@ -311,7 +292,7 @@ export class DragRef {
 
   private addListener(): void {
     if (this.isListening && this.rootElement) {
-      return ;
+      return;
     }
     this.isListening = true;
 
@@ -422,7 +403,9 @@ export class DragRef {
         if (!isDelayElapsed) {
           return this.endDrag(event);
         }
-        const container = this.parentDragRef;
+
+        const container = this.dropContainer;
+
         if (!container || (!container.isDragging() && !container.isReceiving())) {
           event.preventDefault();
           this.hasStartedDragging.value = true;
@@ -535,7 +518,6 @@ export class DragRef {
         this.cleanPositionTrackCache();
       });
     } else {
-
       this.passiveTransform = {
         ...this.activeTransform,
       };
@@ -770,6 +752,9 @@ export class DragRef {
 
     element.style.pointerEvents = 'none';
     element.classList.add('fat-drag-placeholder');
+    if (this.dragConfig.placeholderClass) {
+      element.classList.add(...toArray(this.dragConfig.placeholderClass));
+    }
     return element;
   }
 
@@ -809,7 +794,7 @@ export class DragRef {
 
     element.classList.add(...toArray(this.dragConfig.previewClass), 'fat-drag-preview');
 
-    if(this.initialTransform){
+    if (this.initialTransform) {
       element.style.transform = this.initialTransform;
     }
 

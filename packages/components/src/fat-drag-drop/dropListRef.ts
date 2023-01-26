@@ -3,22 +3,26 @@ import { ref } from '@wakeadmin/demi';
 import { DragDropRegistry } from './event';
 import { DragPositionTrack } from './positionTrack';
 import { Noop } from '@wakeadmin/utils';
-import { type GetParameterInSet, type ClientRect } from '../utils';
+import { type GetParameterInSet, type ClientRect, isInsideClientRect, isPointerNearClientRect } from '../utils';
 import { DefaultDragDropListStrategy, DragDropListStrategy } from './strategy/defaultStrategy';
 
 import type { Delta, DragRefEvents, Orientation, Point } from './type';
 
 type DropListEvents = Extract<keyof DragRefEvents, 'exited' | 'enter' | 'dropped'>;
 
+/**
+ * 判断鼠标是否靠近容器的宽容值
+ */
+export const DropSortThreshold = 0.112;
+
 const DropListDraggingClass = 'fat-drop-list__dragging';
 export class DropListRef {
   disabled: boolean = false;
 
-  // todo
-  enterPredicate: (drag: DragRef, drop: DropListRef) => boolean = () => true;
+  enterPredicate: (drag: DragRef, dropList: DropListRef) => boolean = () => true;
 
   // todo
-  sortPredicate: (index: number, drag: DragRef, drop: DropListRef) => boolean = () => true;
+  sortPredicate: (index: number, drag: DragRef, dropList: DropListRef) => boolean = () => true;
 
   private _dragging = ref(false);
 
@@ -27,7 +31,6 @@ export class DropListRef {
   private registry = DragDropRegistry;
 
   private scrollElements: HTMLElement[] = [];
-  // @ts-expect-error
   private rootClientRect!: ClientRect;
 
   private strategy: DragDropListStrategy<DragRef>;
@@ -40,6 +43,24 @@ export class DropListRef {
   private droppedEvents = new Set<DragRefEvents['dropped']>();
 
   private unSortItems: Set<DragRef> = new Set();
+  private dropSortThreshold = DropSortThreshold;
+
+  data: any[] = [];
+
+  /**
+   * 拖拽列表组
+   *
+   * **❗❗只读**
+   *
+   * **❗❗只读**
+   *
+   * **❗❗只读**
+   *
+   */
+  private dropListGroup: Set<DropListRef> | null = null;
+  private connectToList: DropListRef[] = [];
+  private activeSiblings: Set<DropListRef> = new Set();
+  private siblings: DropListRef[] = [];
 
   constructor(private rootElement: HTMLElement, strategy?: DragDropListStrategy<DragRef>) {
     this.registry.addDropContainer(this);
@@ -52,11 +73,45 @@ export class DropListRef {
 
   start(): void {
     this.startDrag();
+    this.syncSiblings();
+    this.cacheParentPositions();
+    this.standingByReceiving();
+  }
+
+  standingByReceiving() {
+    const draggedItem = this.strategy.getActiveItemsSnapshot().find(item => item.isDragging())!;
+    this.siblings.forEach(instance => instance.startReceiving(this, draggedItem));
+  }
+
+  startReceiving(dropList: DropListRef, item: DragRef): void {
+    const activeSiblings = this.activeSiblings;
+    if (
+      !activeSiblings.has(dropList) ||
+      // 是否允许进入
+      // 如果原本就是在这个列表里的 当然是要允许的
+      this.enterPredicate(item, this) ||
+      this.items.has(item)
+    ) {
+      activeSiblings.add(dropList);
+      this.cacheParentPositions();
+      this.listenScrollEvent();
+    }
+  }
+
+  stopReceiving(sibling: DropListRef) {
+    this.activeSiblings.delete(sibling);
   }
 
   isReceiving() {
-    // todo
-    return false;
+    return this.activeSiblings.size > 0;
+  }
+
+  canReceive(item: DragRef, x: number, y: number): boolean {
+    return !(
+      !this.rootClientRect ||
+      !isInsideClientRect(this.rootClientRect, x, y) ||
+      !this.enterPredicate(item, this)
+    );
   }
 
   getItemIndex(item: DragRef): number {
@@ -64,6 +119,17 @@ export class DropListRef {
       return this.strategy.getItemIndex(item);
     }
     return this.findItem(item);
+  }
+
+  getSiblings(): DropListRef[] {
+    if (this.dropListGroup) {
+      return [...this.dropListGroup].filter(instance => instance !== this).concat(this.connectToList);
+    }
+    return this.connectToList;
+  }
+
+  setDropSortThreshold(threshold: number): void {
+    this.dropSortThreshold = threshold;
   }
 
   withItems(items: DragRef[]): void {
@@ -80,12 +146,24 @@ export class DropListRef {
     }
   }
 
+  withData(data: any[]): void {
+    this.data = data;
+  }
+
   withRootElement(element: HTMLElement): void {
     this.rootElement = element;
     this.rootClientRect = null as any;
     this.scrollElements = [element];
     this.cacheParentPositions();
-    this.strategy ||= new DefaultDragDropListStrategy(element);
+    this.strategy = new DefaultDragDropListStrategy(element);
+  }
+
+  withConnectTo(list: DropListRef[]): void {
+    this.connectToList = list;
+  }
+
+  withDropListGroup(group: Set<DropListRef>): void {
+    this.dropListGroup = group;
   }
 
   reset() {
@@ -94,11 +172,11 @@ export class DropListRef {
     this.strategy.reset();
     this.positionTrack.clear();
     this.removeListenScrollEvent();
+    this.siblings.forEach(item => item.stopReceiving(this));
   }
 
   getContainerFromPosition(item: DragRef, x: number, y: number): DropListRef | undefined {
-    // todo
-    return this;
+    return this.siblings.find(sibling => sibling.canReceive(item, x, y));
   }
 
   exit(item: DragRef): void {
@@ -128,6 +206,9 @@ export class DropListRef {
   }
 
   sortItem(item: DragRef, x: number, y: number, delta: Delta) {
+    if (!this.rootClientRect || !isPointerNearClientRect(this.rootClientRect, this.dropSortThreshold, x, y)) {
+      return;
+    }
     this.strategy.sort(item, x, y, delta);
   }
 
@@ -274,5 +355,9 @@ export class DropListRef {
     this.positionTrack.cache(this.scrollElements);
 
     this.rootClientRect = this.positionTrack.positions.get(this.rootElement)!.clientRect!;
+  }
+
+  private syncSiblings() {
+    this.siblings = this.getSiblings();
   }
 }

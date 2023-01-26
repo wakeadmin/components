@@ -3,6 +3,11 @@ import type { DragRef } from './dragRef';
 import type { DropListRef } from './dropListRef';
 
 export interface DragConfig {
+  /**
+   * 锁定移动方向
+   *
+   * 默认为不限制
+   */
   lockAxis?: 'x' | 'y';
   dragStartDelay: number;
   previewClass?: string | string[];
@@ -15,6 +20,7 @@ export interface DragConfig {
    * 鼠标移动了多少个像素才需要进行更新
    */
   pointerDirectionChangeThreshold: number;
+  placeholderClass?: string | string[];
 }
 
 export interface Point {
@@ -97,18 +103,21 @@ export interface FatDragItemSlots {
   renderPlaceholder?: (data?: any) => any;
 }
 
-export interface FatDragItemProps extends FatDragItemEvents, FatDragItemSlots {
+export interface FatDragItemMethods {
+  /**
+   * 重置拖拽状态
+   */
+  reset(): void;
+}
+
+export interface FatDragItemProps
+  extends FatDragItemEvents,
+    FatDragItemSlots,
+    Omit<DragConfig, 'dragStartDelay' | 'zIndex' | 'pointerDirectionChangeThreshold' | 'dragStartThreshold'> {
   /**
    * 允许拖拽
    */
   disabled?: boolean;
-
-  /**
-   * 锁定移动方向
-   *
-   * 默认为不限制
-   */
-  lockAxis?: 'x' | 'y';
 
   /**
    * 按下鼠标后持续多久才进行响应拖拽事件
@@ -117,6 +126,9 @@ export interface FatDragItemProps extends FatDragItemEvents, FatDragItemSlots {
 
   /**
    * 所对应的数据源
+   *
+   * @remarks
+   * 只有在初始化的时候进行一次赋值 后续变动是不会进行更新的
    */
   data: any;
 
@@ -132,13 +144,10 @@ export type Orientation = 'vertical' | 'horizontal';
 
 export interface FatDropListProps extends Omit<FatDragItemProps, 'lockAxis'> {
   /**
-   *
-   *
    * 允许拖拽元素移动到哪些容器上
    *
-   * **未实现**
    */
-  connectTo?: string[];
+  connectTo?: DropListRef[];
 
   /**
    * 数据列表
@@ -151,6 +160,18 @@ export interface FatDropListProps extends Omit<FatDragItemProps, 'lockAxis'> {
    * 默认为 `vertical`
    */
   orientation?: Orientation;
+
+  /**
+   * 是否允许拖拽对象进入该容器
+   * @param drag
+   * @param dropList
+   */
+  enterPredicate?: (drag: DragRef, dropList: DropListRef) => boolean;
+
+  /**
+   * 判断鼠标是否靠近容器的宽容值
+   */
+  dropSortThreshold?: number;
 }
 
 export type FatDropListEvents = FatDragItemEvents;

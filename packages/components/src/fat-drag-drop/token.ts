@@ -9,4 +9,7 @@ export const FatDropContainerToken: InjectionKey<{
   renderPlaceholder?: (...args: any) => any;
   renderPreview?: (...args: any) => any;
 }> = Symbol('FatDropContainer');
+
 export const FatDragRefToken: InjectionKey<DragRef> = Symbol('FatDragRef');
+
+export const FatDropListGroupToken: InjectionKey<Set<DropListRef>> = Symbol('FatDropListGroup');

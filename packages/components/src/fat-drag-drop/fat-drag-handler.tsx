@@ -2,7 +2,7 @@ import { declareComponent, declareProps } from '@wakeadmin/h';
 import { getCurrentInstance, inject, onMounted } from '@wakeadmin/demi';
 import { inheritProps, OurComponentInstance, renderSlot } from '../utils';
 import { FatDragRefToken } from './token';
-import { FatDragRefError } from './error';
+import { FatDragDropError } from './error';
 
 export interface FatDragHandlerProps {
   disabled?: boolean;
@@ -28,7 +28,7 @@ const FatDragHandlerInner = declareComponent({
     const dragRef = inject(FatDragRefToken);
     const instance = getCurrentInstance()!.proxy!;
     if (!dragRef) {
-      throw new FatDragRefError('FatDragHandler 只能工作在 FatDragItem 组件中');
+      throw new FatDragDropError('FatDragHandler 只能工作在 FatDragItem 组件中');
     }
 
     onMounted(() => {
