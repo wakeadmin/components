@@ -1,11 +1,17 @@
 import { ref } from '@wakeadmin/demi';
-import { merge, Noop } from '@wakeadmin/utils';
+import { merge, Noop, throttle } from '@wakeadmin/utils';
 
 import { MouseEventButton } from '../enum';
-import { cloneElement, extendStyles, GetParameterInSet, Portal, toArray, type ClientRect } from '../utils';
+import { clamp, cloneElement, extendStyles, GetParameterInSet, Portal, toArray, type ClientRect } from '../utils';
 
 import { type DropListRef } from './dropListRef';
-import { activeEventListenerOptions, DragDropRegistry, isTouchEvent, passiveEventListenerOptions } from './event';
+import {
+  activeEventListenerOptions,
+  DragDropRegistry,
+  isTouchEvent,
+  passiveEventListenerOptions,
+  ViewPortRegister,
+} from './event';
 import { DragPositionTrack } from './positionTrack';
 import { getTransform, matchElementSize, toggleElementDragStyle, toggleElementDragVisibility } from './style';
 import type { Delta, DragConfig, DragRefEvents, Point } from './type';
@@ -28,8 +34,13 @@ export class DragRef {
 
   private previewInstance?: Portal<{}>;
   private previewElement: HTMLElement | null = null;
+  private previewClientRect?: ClientRect;
   private placeholderElement: HTMLElement | null = null;
   private placeholderInstance?: Portal<{}>;
+
+  private dragBoundaryElement?: HTMLElement;
+  private dragBoundaryClientRect?: ClientRect;
+  private viewportDispose = Noop;
 
   private anchor?: Comment;
 
@@ -191,6 +202,16 @@ export class DragRef {
     this.dropContainer = dropContainer;
   }
 
+  withDragBoundary(element?: HTMLElement): void {
+    this.dragBoundaryElement = element;
+    if (element) {
+      this.viewportDispose = ViewPortRegister.subscribe(this.handlerBoundaryOnResize);
+    } else {
+      this.viewportDispose();
+      this.dragBoundaryClientRect = undefined;
+    }
+  }
+
   forwardSubscribeToEmit<K extends keyof DragRefEvents>(
     emits: (key: K, ...args: Parameters<DragRefEvents[K]>) => void,
     eventNames?: K[]
@@ -283,6 +304,70 @@ export class DragRef {
     this.passiveTransform = { x: 0, y: 0 };
   };
 
+  /**
+   * 窗口大小变更之后 我们需要判断下拖拽对象是否还位于范围之内 并做一些处理
+   */
+  private handlerBoundaryOnResize = throttle(() => {
+    let { x, y } = this.passiveTransform;
+    if ((x === 0 && y === 0) || this.isDragging() || !this.dragBoundaryElement) {
+      return;
+    }
+
+    // 这里直接取 缓存值可能不是最新的
+    const rootElementClientRect = this.rootElement.getBoundingClientRect();
+    const boundaryElementClientRect = this.dragBoundaryElement.getBoundingClientRect();
+
+    if (
+      (boundaryElementClientRect.width === 0 && boundaryElementClientRect.height === 0) ||
+      (rootElementClientRect.width === 0 && rootElementClientRect.height === 0)
+    ) {
+      return;
+    }
+
+    const left = boundaryElementClientRect.left - rootElementClientRect.left;
+    const right = rootElementClientRect.right - boundaryElementClientRect.right;
+    const top = boundaryElementClientRect.top - rootElementClientRect.top;
+    const bottom = rootElementClientRect.bottom - boundaryElementClientRect.bottom;
+
+    if (boundaryElementClientRect.width > rootElementClientRect.width) {
+      if (left > 0) {
+        x += left;
+      }
+      if (right > 0) {
+        x -= right;
+      }
+    } else {
+      x = 0;
+    }
+
+    if (boundaryElementClientRect.height > rootElementClientRect.height) {
+      if (top > 0) {
+        y += top;
+      }
+      if (bottom > 0) {
+        y -= bottom;
+      }
+    } else {
+      y = 0;
+    }
+
+    if (x !== this.passiveTransform.x || y !== this.passiveTransform.y) {
+      this.setDragPosition(x, y);
+    }
+  }, 10);
+
+  private setDragPosition(x: number, y: number): void {
+    this.activeTransform = { x: 0, y: 0 };
+    this.passiveTransform = {
+      x,
+      y,
+    };
+
+    if (!this.dropContainer) {
+      this.applyRootElementTransform(x, y);
+    }
+  }
+
   private removePreviewInstance() {
     if (this.previewInstance) {
       this.previewInstance.detach();
@@ -358,11 +443,18 @@ export class DragRef {
     this.registrySubscription.push(this.registry.subscribe('pointUp', this.pointUpHandler));
     this.registrySubscription.push(this.registry.subscribe('scroll', this.scrollHandler));
 
+    if (this.dragBoundaryElement) {
+      this.dragBoundaryClientRect = this.dragBoundaryElement.getBoundingClientRect();
+    }
+
     const position = this.getPointerPositionOnPage(event);
+
     this.pickupPositionOnElement = this.previewTemplate
       ? { x: 0, y: 0 }
       : this.getPointerPosition(this.initialRootElementClientRect, ele, event);
+
     this.pickUpPositionOnPage = this.lastPointPosition = position;
+
     this.pointerDirectionDelta = { x: 0, y: 0 };
 
     this.pointerPositionAtLastDirectionChange = { x: position.x, y: position.y };
@@ -543,7 +635,11 @@ export class DragRef {
     this.destroyPlaceHolder();
     this.destroyPreview();
 
-    this.initialRootElementClientRect = this.initialTransform = undefined;
+    this.previewClientRect =
+      this.dragBoundaryClientRect =
+      this.initialRootElementClientRect =
+      this.initialTransform =
+        undefined;
 
     const container = this.dropContainer!;
     const currentIndex = container.getItemIndex(this);
@@ -707,19 +803,40 @@ export class DragRef {
    * @param point
    */
   private getPreviewPositionOnPage(point: Point): Point {
-    const dropContainerLock = this.parentDragRef ? this.parentDragRef.dragConfig.lockAxis : null;
+    const dragContainerLock = this.parentDragRef ? this.parentDragRef.dragConfig.lockAxis : null;
     let { x, y } = point;
+
     const lockAxis = this.dragConfig.lockAxis;
-    if (lockAxis === 'x' || dropContainerLock === 'x') {
+    if (lockAxis === 'x' || dragContainerLock === 'x') {
       y = this.pickUpPositionOnPage.y;
     }
-    if (lockAxis === 'y' || dropContainerLock === 'y') {
+    if (lockAxis === 'y' || dragContainerLock === 'y') {
       x = this.pickUpPositionOnPage.x;
     }
 
-    // todo 拖动范围限制
+    if (this.dragBoundaryClientRect) {
+      const { width: previewWidth, height: previewHeight } = this.getPreviewRect();
+
+      const maxX = this.dragBoundaryClientRect.right - previewWidth + this.pickupPositionOnElement.x;
+      const minX = this.dragBoundaryClientRect.left + this.pickupPositionOnElement.x;
+      const maxY = this.dragBoundaryClientRect.bottom - previewHeight + this.pickupPositionOnElement.y;
+      const minY = this.dragBoundaryClientRect.top + this.pickupPositionOnElement.y;
+
+      x = clamp(x, minX, maxX);
+      y = clamp(y, minY, maxY);
+    }
 
     return { x, y };
+  }
+
+  private getPreviewRect(): ClientRect {
+    if (!this.previewClientRect || (!this.previewClientRect.width && !this.previewClientRect.height)) {
+      this.previewClientRect = this.previewElement
+        ? this.previewElement.getBoundingClientRect()
+        : this.initialRootElementClientRect!;
+    }
+
+    return this.previewClientRect;
   }
 
   private getScrollPosition(): Point {

@@ -1,8 +1,5 @@
 import { Ref, unref, set } from '@wakeadmin/demi';
-
-function clamp(value: number, max: number): number {
-  return Math.max(0, Math.min(max, value));
-}
+import { clamp } from './number';
 
 /**
  * 数组比较。子节点浅比较
@@ -41,8 +38,8 @@ export function arrayEq(a: any[], b: any[]) {
  * @returns
  */
 export function moveItemInArray<T = any>(arr: T[], currentIndex: number, newIndex: number): void {
-  const from = clamp(currentIndex, arr.length - 1);
-  const to = clamp(newIndex, arr.length - 1);
+  const from = clamp(currentIndex, 0, arr.length - 1);
+  const to = clamp(newIndex, 0, arr.length - 1);
 
   if (from === to) {
     return;
@@ -69,8 +66,8 @@ export function moveItemInRefArray<T = any>(arr: Ref<T[]>, currentIndex: number,
 
   const list = unref(arr);
 
-  const from = clamp(currentIndex, list.length - 1);
-  const to = clamp(newIndex, list.length - 1);
+  const from = clamp(currentIndex, 0, list.length - 1);
+  const to = clamp(newIndex, 0, list.length - 1);
 
   if (from === to) {
     return;
@@ -90,8 +87,8 @@ export function transferArrayItem<T = any>(
   currentIndex: number,
   targetIndex: number
 ): void {
-  const from = clamp(currentIndex, currentArray.length - 1);
-  const to = clamp(targetIndex, targetArray.length);
+  const from = clamp(currentIndex, 0, currentArray.length - 1);
+  const to = clamp(targetIndex, 0, targetArray.length);
 
   if (currentArray.length) {
     targetArray.splice(to, 0, currentArray.splice(from, 1)[0]);

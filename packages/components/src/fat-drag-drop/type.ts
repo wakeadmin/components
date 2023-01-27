@@ -68,13 +68,13 @@ export interface FatDragItemEvents {
    * @param payload
    * @returns
    */
-  onExited?: (payload: { source: DragRef; container: any }) => void;
+  onExited?: (payload: { source: DragRef; container: DropListRef }) => void;
   /**
    * 拖拽对象进入容器
    * @param payload
    * @returns
    */
-  onEnter?: (payload: { source: DragRef; container: any; index: number }) => void;
+  onEnter?: (payload: { source: DragRef; container: DropListRef; index: number }) => void;
   /**
    * 拖拽元素落在容器上
    * @param payload
@@ -136,6 +136,14 @@ export interface FatDragItemProps
    * 预览元素的容器位置
    */
   previewContainer?: HTMLElement;
+
+  /**
+   * 限制拖拽范围
+   *
+   * @remarks   *
+   * 如果传入的是一个字符串 那么会通过`document.querySelector`去进行获取元素
+   */
+  dragBoundary?: HTMLElement | string;
 }
 
 export type DragRefEvents = ToHEmitDefinition<FatDragItemEvents>;

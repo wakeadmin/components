@@ -24,6 +24,7 @@ const FatDragItemInner = declareComponent({
     previewContainer: undefined,
     previewClass: undefined,
     placeholderClass: undefined,
+    dragBoundary: undefined,
 
     // emits
     onDropped: null,
@@ -93,6 +94,15 @@ const FatDragItemInner = declareComponent({
       dragInstance.forwardSubscribeToEmit(dropContainer.emits, ['ended', 'move', 'release', 'started']);
     }
 
+    const withBoundary = (target: string | HTMLElement) => {
+      let element: HTMLElement;
+      if (typeof target === 'string') {
+        element = document.querySelector(target)!;
+      } else {
+        element = target!;
+      }
+      dragInstance.withDragBoundary(element);
+    };
     // 对内部进行暴露
     // 以便允许自定义 Handler
     provide(FatDragRefToken, dragInstance);
@@ -119,10 +129,18 @@ const FatDragItemInner = declareComponent({
       }
     );
 
+    watch(
+      () => props.dragBoundary,
+      val => {
+        withBoundary(val!);
+      }
+    );
+
     dragInstance.forwardSubscribeToEmit(emit);
 
     onMounted(() => {
       dragInstance.withRootElement(instance.$el as any);
+      withBoundary(props.dragBoundary!);
     });
 
     onUnmounted(() => {

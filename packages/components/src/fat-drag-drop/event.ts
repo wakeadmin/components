@@ -139,3 +139,48 @@ export const DragDropRegistry = new DragDropGlobalEventManager<DragRef, DropList
 export function isTouchEvent(event: Event): event is TouchEvent {
   return event.type.startsWith('touch');
 }
+
+class ViewPort {
+  private document = document;
+
+  private eventHandlers = new Set<(event: Event) => void>();
+
+  private onResize = (event: Event) => {
+    // eslint-disable-next-line no-useless-call
+    this.eventHandlers.forEach(handler => handler.call(null, event));
+  };
+
+  private addHandler(handler: (event: Event) => void): void {
+    this.eventHandlers.add(handler);
+    if (this.eventHandlers.size === 1) {
+      const _window = this.getWindows();
+      _window.addEventListener('resize', this.onResize);
+    }
+  }
+
+  private deleteHandler(handler: (event: Event) => void): void {
+    this.eventHandlers.delete(handler);
+    if (this.eventHandlers.size === 0) {
+      const _window = this.getWindows();
+      _window.removeEventListener('resize', this.onResize);
+    }
+  }
+
+  private getWindows() {
+    return this.document.defaultView || window;
+  }
+
+  /**
+   * 监听window onResize 变化
+   *
+   * 返回的是一个取消订阅的函数
+   * @param handler
+   * @returns
+   */
+  subscribe(handler: (event: Event) => void): () => void {
+    this.addHandler(handler);
+    return () => this.deleteHandler(handler);
+  }
+}
+
+export const ViewPortRegister = new ViewPort();

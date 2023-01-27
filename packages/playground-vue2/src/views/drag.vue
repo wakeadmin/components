@@ -24,6 +24,12 @@
         <span>微雨燕双飞 </span>
       </FatDragItem>
     </div>
+    <div>
+      <h4>限制范围</h4>
+      <div id="boundary" class="drag-boundary">
+        <FatDragItem class="drag-boundary-item" drag-boundary="#boundary"> </FatDragItem>
+      </div>
+    </div>
 
     <div>
       <h4>禁用拖拽</h4>
@@ -121,7 +127,7 @@
       <h4>列表组 - connectTo</h4>
       <el-alert class="w-300"> 左边的无法进入右边的 但是右边能进入左边 </el-alert>
       <div class="drop-group">
-        <FatDropList ref="dropListRef1" class="list drop-item">
+        <FatDropList ref="dropListRef1" class="list drop-item" :data="dataSource5">
           <FatDragItem
             v-for="item of dataSource5"
             :key="item"
@@ -132,7 +138,7 @@
             <span> {{ item }} </span>
           </FatDragItem>
         </FatDropList>
-        <FatDropList class="list drop-item" :connect-to="connectTo">
+        <FatDropList class="list drop-item" :connect-to="connectTo" :data="dataSource6">
           <FatDragItem
             v-for="item of dataSource6"
             :key="item"
@@ -340,5 +346,18 @@
   }
   .drop-item {
     margin-bottom: 3vw;
+  }
+  .drag-boundary {
+    display: inline-block;
+    width: 664px;
+    height: 664px;
+    border: 1px solid #ccc;
+    margin-left: 3vw;
+  }
+  .drag-boundary-item {
+    display: inline-block;
+    width: 83px;
+    height: 83px;
+    background-color: bisque;
   }
 </style>
