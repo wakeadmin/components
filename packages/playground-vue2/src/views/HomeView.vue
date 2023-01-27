@@ -86,6 +86,7 @@
   import { getCurrentInstance, ref } from 'vue';
   import { FatTable, FatSwitch, FatTableModal, useFatTableModalRef, Portal } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
+  import Child from './child.vue';
 
   const log = (...args) => console.log(...args);
   const active = ref(true);
@@ -98,10 +99,14 @@
   const instance = getCurrentInstance()?.proxy;
 
   const handleClick = () => {
-    const p = new Portal(() => <div>一叶叶 一声声 空阶滴到明</div>, {
+    const p = new Portal(() => <Child></Child>, {
       context: instance,
     });
     p.attach();
+    p.instance.say();
+    setTimeout(() => {
+      p.detach();
+    }, 2e3);
     console.log('click');
   };
 
@@ -249,11 +254,11 @@
     {
       prop: 'date',
       label: '时间',
-      valueType: 'date-range',
+      valueType: 'date-time-range',
       valueProps: {
-        valueFormat: 'YYYY-MM-DD',
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
       },
-      initialValue: ['2022-03-13', '2022-03-17'],
+      initialValue: ['2022-03-13 00:00:00', '2022-03-17 23:59:59'],
       transform: v => {
         if (Array.isArray(v)) {
           return { startTime: v[0], endTime: v[1] };

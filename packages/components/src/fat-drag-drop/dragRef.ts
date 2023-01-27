@@ -2,7 +2,16 @@ import { ref } from '@wakeadmin/demi';
 import { merge, Noop, throttle } from '@wakeadmin/utils';
 
 import { MouseEventButton } from '../enum';
-import { clamp, cloneElement, extendStyles, GetParameterInSet, Portal, toArray, type ClientRect } from '../utils';
+import {
+  clamp,
+  cloneElement,
+  extendStyles,
+  GetParameterInSet,
+  Portal,
+  toArray,
+  type IPortal,
+  type ClientRect,
+} from '../utils';
 
 import { type DropListRef } from './dropListRef';
 import {
@@ -32,11 +41,11 @@ export class DragRef {
 
   private _disabled: boolean = false;
 
-  private previewInstance?: Portal<{}>;
+  private previewInstance?: IPortal<{}>;
   private previewElement: HTMLElement | null = null;
   private previewClientRect?: ClientRect;
   private placeholderElement: HTMLElement | null = null;
-  private placeholderInstance?: Portal<{}>;
+  private placeholderInstance?: IPortal<{}>;
 
   private dragBoundaryElement?: HTMLElement;
   private dragBoundaryClientRect?: ClientRect;

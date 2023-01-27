@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <el-button @click="attach"> attach </el-button>
     <FatSwitch v-model="active"></FatSwitch>
     <FatSwitch
       v-model="active"
@@ -68,11 +69,14 @@
 </template>
 
 <script lang="jsx" setup>
-  import { ref, watch } from 'vue';
-  import { FatTableSelect, FatSwitch } from '@wakeadmin/components';
+  import { ref, watch, getCurrentInstance, provide } from 'vue';
+  import { FatTableSelect, FatSwitch, Portal } from '@wakeadmin/components';
   import { delay } from '@wakeapp/utils';
+  import Child from './child.vue';
 
+  provide('S', 'SSS');
   const log = (...args) => console.log(...args);
+
   const active = ref(true);
 
   const text = <i>S</i>;
@@ -329,6 +333,25 @@
 
   const removeSelected = () => {
     tableRef.value?.removeSelected();
+  };
+
+  const context = getCurrentInstance().proxy;
+
+  defineExpose({
+    remove: removeSelected,
+  });
+
+  console.log(context);
+
+  const attach = () => {
+    const instance = new Portal(() => <Child></Child>, {
+      context,
+    });
+    instance.attach();
+    instance.instance.open();
+    setTimeout(() => {
+      instance.detach();
+    }, 1e3);
   };
 </script>
 

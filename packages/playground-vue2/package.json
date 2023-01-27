@@ -24,7 +24,7 @@
   "dependencies": {
     "@wakeadmin/components": "workspace:1.0.1",
     "@wakeadmin/framework": "^0.1.5",
-    "@wakeadmin/h": "^0.2.12",
+    "@wakeadmin/h": "^0.2.13",
     "@wakeadmin/i18n-legacy": "^0.1.6",
     "core-js": "^3.27.1",
     "element-ui": "latest",
@@ -36,7 +36,7 @@
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-router": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
-    "@wakeadmin/demi": "^0.2.3",
+    "@wakeadmin/demi": "^0.2.5",
     "@wakeadmin/docker-build": "^0.1.8",
     "@wakeadmin/element-adapter": "workspace:0.6.0",
     "@wakeadmin/vue-cli-plugin-i18n": "^0.1.1",

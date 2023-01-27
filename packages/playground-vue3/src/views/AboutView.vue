@@ -37,14 +37,6 @@
     enableQuery: true,
     columns: [
       {
-        prop: 'name',
-        queryable: true,
-        valueType: 'input',
-        valueProps: {
-          placeholder: '名称',
-        },
-      },
-      {
         prop: 'date',
       },
     ],
