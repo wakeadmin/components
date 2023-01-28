@@ -1,7 +1,7 @@
 import { inject, getCurrentInstance, onMounted, onUnmounted, provide, watch } from '@wakeadmin/demi';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { useDevtoolsExpose } from '../hooks';
-import { hasSlots, OurComponentInstance, renderSlot } from '../utils';
+import { hasSlots, normalizeClassName, OurComponentInstance, renderSlot } from '../utils';
 import { DropListRef, DropSortThreshold } from './dropListRef';
 import { FatDragDropError } from './error';
 import { FatDropContainerToken, FatDropListGroupToken } from './token';
@@ -49,17 +49,13 @@ const FatDropListInner = declareComponent({
     renderPlaceholder: null,
     renderPreview: null,
   }),
-  setup(props, { emit, slots, expose }) {
+  setup(props, { emit, slots, expose, attrs }) {
     const instance = getCurrentInstance()!.proxy!;
     const dropListInstance = new DropListRef(instance.$el as any);
 
     const renderPlaceholder = hasSlots(props, slots, 'placeholder')
       ? (data: any) => renderSlot(props, slots, 'placeholder', data)
       : undefined;
-
-    if (props.orientation) {
-      dropListInstance.setOrientation(props.orientation);
-    }
 
     const renderPreview = hasSlots(props, slots, 'preview')
       ? (data: any) => renderSlot(props, slots, 'preview', data)
@@ -86,6 +82,15 @@ const FatDropListInner = declareComponent({
       () => props.disabled,
       val => {
         dropListInstance.disabled = !!val;
+      },
+      {
+        immediate: true,
+      }
+    );
+    watch(
+      () => props.orientation,
+      val => {
+        dropListInstance.setOrientation(val || 'vertical');
       },
       {
         immediate: true,
@@ -168,7 +173,11 @@ const FatDropListInner = declareComponent({
     });
 
     return () => {
-      return <div class="fat-drop-list">{renderSlot(props, slots, 'default')}</div>;
+      return (
+        <div class={normalizeClassName('fat-drop-list', attrs.class)} style={attrs.style}>
+          {renderSlot(props, slots, 'default')}
+        </div>
+      );
     };
   },
 });

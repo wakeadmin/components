@@ -155,7 +155,9 @@ export class DropListRef {
     this.rootClientRect = null as any;
     this.scrollElements = [element];
     this.cacheParentPositions();
+    const orientation = (this.strategy as DefaultDragDropListStrategy<DragRef>).orientation;
     this.strategy = new DefaultDragDropListStrategy(element);
+    this.setOrientation(orientation);
   }
 
   withConnectTo(list: DropListRef[]): void {

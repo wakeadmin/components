@@ -37,6 +37,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../views/tableSelect.vue'),
   },
   {
+    path: '/drag',
+    name: 'drag',
+    component: () => import('../views/drag.vue'),
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

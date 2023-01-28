@@ -1,13 +1,12 @@
-import { provide } from '@wakeadmin/demi';
+import { provide, onUnmounted } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
-import { onUnmounted } from 'vue2';
 import { useDevtoolsExpose } from '../hooks';
-import { renderSlot } from '../utils';
+import { normalizeClassName, renderSlot } from '../utils';
 import { DropListRef } from './dropListRef';
 import { FatDropListGroupToken } from './token';
 
 export const FatDropListGroup = declareComponent({
-  setup(props, { slots }) {
+  setup(props, { slots, attrs }) {
     const group: Set<DropListRef> = new Set();
     provide(FatDropListGroupToken, group);
     onUnmounted(() => {
@@ -16,6 +15,10 @@ export const FatDropListGroup = declareComponent({
     useDevtoolsExpose({
       dropListGroup: group,
     });
-    return () => <div class="fat-drop-list-group">{renderSlot(props, slots, 'default')}</div>;
+    return () => (
+      <div class={normalizeClassName('fat-drop-list-group', attrs.class)} style={attrs.style}>
+        {renderSlot(props, slots, 'default')}
+      </div>
+    );
   },
 });

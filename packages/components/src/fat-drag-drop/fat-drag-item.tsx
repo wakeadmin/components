@@ -2,7 +2,14 @@ import { computed, getCurrentInstance, inject, provide, watch, onUnmounted, onMo
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { useDevtoolsExpose } from '../hooks';
 
-import { hasSlots, OurComponentInstance, renderSlot, ToHEmitDefinition, ToHSlotDefinition } from '../utils';
+import {
+  hasSlots,
+  normalizeClassName,
+  OurComponentInstance,
+  renderSlot,
+  ToHEmitDefinition,
+  ToHSlotDefinition,
+} from '../utils';
 
 import { DragRef } from './dragRef';
 import { FatDragRefToken, FatDropContainerToken } from './token';
@@ -41,7 +48,7 @@ const FatDragItemInner = declareComponent({
   }),
   emits: declareEmits<ToHEmitDefinition<FatDragItemEvents>>(),
   slots: declareSlots<ToHSlotDefinition<FatDragItemSlots>>(),
-  setup(props, { emit, slots, expose }) {
+  setup(props, { emit, slots, expose, attrs }) {
     const instance = getCurrentInstance()!.proxy!;
     const dropContainer = inject(FatDropContainerToken, null);
     const parentDragContainer = inject(FatDragRefToken, null);
@@ -151,7 +158,11 @@ const FatDragItemInner = declareComponent({
     });
 
     return () => {
-      return <div class="fat-drag-item">{renderSlot(props, slots, 'default')}</div>;
+      return (
+        <div class={normalizeClassName('fat-drag-item', attrs.class)} style={attrs.style}>
+          {renderSlot(props, slots, 'default')}
+        </div>
+      );
     };
   },
 });
