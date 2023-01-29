@@ -33,54 +33,25 @@ export interface Delta {
   y: -1 | 0 | 1;
 }
 
-export interface FatDragItemEvents {
-  /**
-   * 拖拽移动
-   * @param payload
-   * @returns
-   */
-  onMove?: (payload: {
+export interface FatDragItemEventPayload {
+  move: {
     source: DragRef;
     pointerPosition: Point;
     event: MouseEvent | TouchEvent;
     distance: Point;
-  }) => void;
-  /**
-   * 拖拽开始
-   * @param payload
-   * @returns
-   */
-  onStarted?: (payload: { source: DragRef; event: MouseEvent | TouchEvent }) => void;
-  /**
-   * 拖拽释放
-   * @param payload
-   * @returns
-   */
-  onRelease?: (payload: { source: DragRef; event: MouseEvent | TouchEvent }) => void;
-  /**
-   * 拖拽结束
-   * @param payload
-   * @returns
-   */
-  onEnded?: (payload: { source: DragRef; distance: Point; dropPoint: Point; event: MouseEvent | TouchEvent }) => void;
-  /**
-   * 拖拽对象离开容器
-   * @param payload
-   * @returns
-   */
-  onExited?: (payload: { source: DragRef; container: DropListRef }) => void;
-  /**
-   * 拖拽对象进入容器
-   * @param payload
-   * @returns
-   */
-  onEnter?: (payload: { source: DragRef; container: DropListRef; index: number }) => void;
-  /**
-   * 拖拽元素落在容器上
-   * @param payload
-   * @returns
-   */
-  onDropped?: (payload: {
+  };
+
+  started: { source: DragRef; event: MouseEvent | TouchEvent };
+
+  release: { source: DragRef; event: MouseEvent | TouchEvent };
+
+  ended: { source: DragRef; distance: Point; dropPoint: Point; event: MouseEvent | TouchEvent };
+
+  exited: { source: DragRef; container: DropListRef };
+
+  enter: { source: DragRef; container: DropListRef; index: number };
+
+  dropped: {
     previousIndex: number;
     currentIndex: number;
     item: DragRef;
@@ -89,7 +60,52 @@ export interface FatDragItemEvents {
     distance: Point;
     dropPoint: Point;
     event: MouseEvent | TouchEvent;
-  }) => void;
+  };
+}
+
+export interface FatDragItemEvents {
+  /**
+   * 拖拽移动
+   * @param payload
+   * @returns
+   */
+  onMove?: (payload: FatDragItemEventPayload['move']) => void;
+  /**
+   * 拖拽开始
+   * @param payload
+   * @returns
+   */
+  onStarted?: (payload: FatDragItemEventPayload['started']) => void;
+  /**
+   * 拖拽释放
+   * @param payload
+   * @returns
+   */
+  onRelease?: (payload: FatDragItemEventPayload['release']) => void;
+  /**
+   * 拖拽结束
+   * @param payload
+   * @returns
+   */
+  onEnded?: (payload: FatDragItemEventPayload['ended']) => void;
+  /**
+   * 拖拽对象离开容器
+   * @param payload
+   * @returns
+   */
+  onExited?: (payload: FatDragItemEventPayload['exited']) => void;
+  /**
+   * 拖拽对象进入容器
+   * @param payload
+   * @returns
+   */
+  onEnter?: (payload: FatDragItemEventPayload['enter']) => void;
+  /**
+   * 拖拽元素落在容器上
+   * @param payload
+   * @returns
+   */
+  onDropped?: (payload: FatDragItemEventPayload['dropped']) => void;
 }
 
 export interface FatDragItemSlots {
@@ -150,7 +166,7 @@ export type DragRefEvents = ToHEmitDefinition<FatDragItemEvents>;
 
 export type Orientation = 'vertical' | 'horizontal';
 
-export interface FatDropListProps extends Omit<FatDragItemProps, 'lockAxis'> {
+export interface FatDropListProps extends Omit<FatDragItemProps, 'lockAxis' | 'dragBoundary'> {
   /**
    * 允许拖拽元素移动到哪些容器上
    *
@@ -163,7 +179,7 @@ export interface FatDropListProps extends Omit<FatDragItemProps, 'lockAxis'> {
   data: any[];
 
   /**
-   * 排序位置
+   * 排序方向
    *
    * 默认为 `vertical`
    */

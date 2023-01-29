@@ -1,5 +1,157 @@
 # @wakeadmin/components
 
+## 1.0.1 (2022/1/5)
+
+功能更新
+
+- 新增 fat-table-modal、fat-table-drawer、fat-table-select-modal、fat-table-select 等组件
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.9 (2022/12/9)
+
+功能更新
+
+- fat-form-group 支持自定义验证时机
+
+Bug 修复
+
+- fat-form submitting 延迟关闭
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.8 (2022/12/8)
+
+Bug 修复
+
+- defineFatTableModal/Drawer/SelectModal 方法支持 extra props
+- FatActions 新增 dropdownProps
+- 修复 FatTable\* 相关组件 expose 调用错误
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.7 (2022/11/30)
+
+新功能
+
+- 新增 fat-text、fat-link 组件
+
+<br>
+<br>
+
+Bug 修复
+
+- 调整 fat-table remove props 类型，不需要返回 boolean
+- 修复 select\* 相关原件 loading 状态不展示
+- 文本相关原件支持透传 fat-text props
+
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.6 (2022/11/29)
+
+Bug 修复
+
+- 修复 fat-form-modal/drawer 快速关闭和打开导致表单初始值错误
+- 修复 fat-table 在关闭 requestOnMounted 时，无法启用 requestOnQueryChange
+- 修复 fat-form-tabs、fat-form-steps 渲染延迟问题
+
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.4 (2022/11/25)
+
+主要功能更新
+
+- 新增 FatTreeSelect 组件
+- 新增 tree-select 原件
+- FatFormModal、FatFormDrawer 支持配置 FatFormTabs、FatFormSteps 使用
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.3 (2022/11/20)
+
+主要功能更新
+
+- 原件默认提示文案优化
+- fat-table 新增 getRequestParams 实例方法
+- 新增 fat-form-table，支持表单形式的数据项编辑
+- 新增 fat-form-tabs 支持标签页表单
+- fat-form-group 新增 spaceProps 参数
+- fat-form-group 支持数据验证
+
+<br>
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.2 (2022/11/7)
+
+功能修复
+
+- 修复 fat-table 首次加载数据是 empty 组件闪烁
+- 修复 fat-form-query 无法覆盖 renderSubmitter
+- 暴露 fat-form, fat-table 状态到 Vue 开发者工具
+
+<br>
+<br>
+<br>
+
+## 1.0.0-beta.1 (2022/11/04)
+
+主要功能更新
+
+- 新增 FatVNode 用于支持在 template 中渲染 VNode
+- fat-form-query, fat-table 表单提交按钮独占一行时，自动对齐
+
+<br>
+<br>
+
+功能修复
+
+- 修复 fat-table formRef 没有包含 renderButtons
+
+<br>
+<br>
+
+欢迎给我们提[问题](http://gitlab.wakedata-inc.com/wakeadmin/components/-/issues)
+
+<br>
+<br>
+<br>
+
+## 1.0.0-alpha.7 (2022/10/26)
+
+主要功能更新:
+
+- checkboxs, radio 原件支持垂直布局
+- 新增 FatFormSteps 分布表单
+
+<br>
+<br>
+
+Bug 修复：
+
+- 修复 fat-form validateField 在 element-ui 下没有返回 promise
+
+<br>
+<br>
+<br>
+
 ## 1.0.0-alpha.6 (2022/10/21)
 
 主要功能更新：

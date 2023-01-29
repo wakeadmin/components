@@ -3,6 +3,7 @@ export * from './atom';
 export * from './className';
 export * from './color';
 export * from './date';
+export * from './document';
 export * from './element';
 export * from './expose';
 export * from './loose-message';

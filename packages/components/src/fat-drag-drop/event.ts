@@ -2,6 +2,7 @@ import type { DragRef } from './dragRef';
 import type { DropListRef } from './dropListRef';
 
 import { normalizePassiveListenerOptions } from '../utils/event';
+import { getDocument } from '../utils';
 
 type DragEventName = 'pointUp' | 'mousemove' | 'touchmove' | 'scroll';
 
@@ -12,7 +13,7 @@ export const activeEventListenerOptions = normalizePassiveListenerOptions({ pass
 export const activeCapturingEventOptions = normalizePassiveListenerOptions({ passive: false, capture: true });
 
 class DragDropGlobalEventManager<T extends { isDragging(): boolean }, C> {
-  private document = document;
+  private document = getDocument();
 
   private dropContainerInstance = new Set<C>();
 
@@ -141,7 +142,7 @@ export function isTouchEvent(event: Event): event is TouchEvent {
 }
 
 class ViewPort {
-  private document = document;
+  private document = getDocument();
 
   private eventHandlers = new Set<(event: Event) => void>();
 

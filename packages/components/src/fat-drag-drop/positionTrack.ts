@@ -1,10 +1,9 @@
-import { adjustClientRect, getClientRect, type ClientRect } from '../utils';
+import { adjustClientRect, getClientRect, getDocument, type ClientRect } from '../utils';
 
 interface ScrollPosition {
   top: number;
   left: number;
 }
-
 
 export class DragPositionTrack {
   readonly positions = new Map<
@@ -15,7 +14,7 @@ export class DragPositionTrack {
     }
   >();
 
-  private readonly document = document;
+  private readonly document = getDocument();
 
   clear() {
     this.positions.clear();

@@ -92,7 +92,15 @@ export default {
               link: '/fat-table-layout/modal',
             },
             {
+              text: 'FatTableDrawer',
+              link: '/fat-table-layout/modal',
+            },
+            {
               text: 'FatTableSelect',
+              link: '/fat-table-layout/table-select',
+            },
+            {
+              text: 'FatTableSelectModal',
               link: '/fat-table-layout/table-select',
             },
           ],
@@ -136,6 +144,13 @@ export default {
             { text: 'FatFormSteps 分步 (beta)', link: '/fat-form-layout/steps' },
             { text: 'FatFormTabs 标签页 (beta)', link: '/fat-form-layout/tabs' },
             { text: 'FatFormTable 表格数组 (beta)', link: '/fat-form-layout/table' },
+          ],
+        },
+        {
+          text: 'FatDragDrop 拖拽',
+          items: [
+            { text: '基本使用', link: '/fat-drag-drop/' },
+            { text: '高级', link: '/fat-drag-drop/advanced' },
           ],
         },
         {
