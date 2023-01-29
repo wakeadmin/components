@@ -36,7 +36,7 @@ const FatDragHandlerInner = declareComponent({
     });
     return () => {
       const Tag = props.tag as 'span';
-      return <Tag {...inheritProps()}>{renderSlot(props, slots, 'default')}</Tag>;
+      return <Tag {...inheritProps(false)}>{renderSlot(props, slots, 'default')}</Tag>;
     };
   },
 });

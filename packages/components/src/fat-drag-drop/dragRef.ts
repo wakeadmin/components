@@ -137,7 +137,7 @@ export class DragRef {
     private placeholderTemplate?: () => HTMLElement,
     _dragConfig?: Partial<DragConfig>
   ) {
-    this.dragConfig = merge(_dragConfig, defaultDragConfig);
+    this.dragConfig = merge({ ...defaultDragConfig }, _dragConfig);
   }
 
   get disabled() {
