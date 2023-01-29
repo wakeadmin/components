@@ -8,11 +8,8 @@ import {
   type AppContext,
 } from '@wakeadmin/demi';
 
-const Outlet = defineComponent({
+const Vue2Outlet = defineComponent({
   name: 'PortalHost',
-  setup(props, { slots }) {
-    return () => <div>{slots.default!()}</div>;
-  },
 });
 
 export interface IPortal<T = any> {
@@ -115,7 +112,7 @@ class Vue2Portal<T extends {} = any> extends BasePortal<T> {
   }
 
   private createPortal(): any {
-    const Portal = Vue2.extend(Outlet);
+    const Portal = Vue2.extend(Vue2Outlet);
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const context = this;
     return new Portal({
@@ -131,10 +128,6 @@ class Vue2Portal<T extends {} = any> extends BasePortal<T> {
 }
 
 export class Vue3Portal<T extends {} = any> extends BasePortal<T> {
-  private LifecycleHooksEnum = {
-    onUnmounted: 'um',
-  };
-
   constructor(
     component: () => any,
     options: {
@@ -177,11 +170,9 @@ export class Vue3Portal<T extends {} = any> extends BasePortal<T> {
     }
     this.attached = false;
     this._instance = undefined;
-    const hooks = this.getOnUnmountedHook(this.portalInstance);
-    if (hooks) {
-      // eslint-disable-next-line no-useless-call
-      hooks.forEach(fn => fn.call(null));
-    }
+    // 借助render null 从而执行unmount;
+    render(null, { _vnode: this.portalInstance.component.vnode } as any);
+
     this.portalInstance.el.remove();
     this.portalInstance = null;
     this._host = null;
@@ -196,14 +187,6 @@ export class Vue3Portal<T extends {} = any> extends BasePortal<T> {
       return component.exposed;
     }
     return component.proxy;
-  }
-
-  private getOnUnmountedHook(vnode: any): Function[] | undefined {
-    const component = vnode.component.subTree.children[0].component;
-    if (component) {
-      return component[this.LifecycleHooksEnum.onUnmounted];
-    }
-    return undefined;
   }
 
   private createAppContext(): AppContext {
@@ -231,20 +214,22 @@ export class Vue3Portal<T extends {} = any> extends BasePortal<T> {
 
   private mergeAppContext(context: AppContext): AppContext {
     const initialAppContext = this.createAppContext();
+
     const keys = [
       ...new Set([...Object.keys(context), ...Object.keys(initialAppContext)]),
     ] as unknown as (keyof AppContext)[];
+
     return keys.reduce<AppContext>((appContext: AppContext, key: keyof AppContext) => {
       // @ts-expect-error
       appContext[key] = context[key] || initialAppContext[key];
-      return appContext as any;
+      return appContext;
       // eslint-disable-next-line @typescript-eslint/prefer-reduce-type-parameter
     }, {} as any);
   }
 
   private createPortal(): any {
     const portal = createVNode(
-      Outlet,
+      this.createOutlet(),
       {},
       {
         default: this.component,
@@ -253,6 +238,18 @@ export class Vue3Portal<T extends {} = any> extends BasePortal<T> {
 
     portal.appContext = this.mergeAppContext(this.context.$);
     return portal;
+  }
+
+  private createOutlet() {
+    // eslint-disable-next-line vue/one-component-per-file
+    return defineComponent({
+      name: 'Vue3Portal',
+      setup(_, { slots }) {
+        return () => {
+          return <div>{slots.default!()}</div>;
+        };
+      },
+    });
   }
 }
 
