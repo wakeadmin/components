@@ -22,7 +22,7 @@ export { plugin } from './plugin';
 export {
   normalizeClassName,
   normalizeStyle,
-  Portal,
+  Portal as DANGEROUS_Portal,
   moveItemInRefArray,
   moveItemInArray,
   transferArrayItem,
