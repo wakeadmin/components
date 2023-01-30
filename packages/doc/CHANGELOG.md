@@ -1,5 +1,11 @@
 # @wakeadmin/components-doc
 
+## 0.3.0
+
+### Minor Changes
+
+- 更新文档
+
 ## 0.2.16
 
 更新文档

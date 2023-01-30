@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.1
+
+### Patch Changes
+
+- 更新依赖
+
 ## 0.6.0
 
 ### Minor Changes

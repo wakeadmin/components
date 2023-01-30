@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.1.0
+
+### Minor Changes
+
+- 新增 fat-drag-drop 组件
+- 新增 `DANGEROUS_Portal` API (实验性 API)
+
 ## 1.0.1 (2022/1/5)
 
 功能更新
