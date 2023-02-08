@@ -23,6 +23,7 @@ export {
   normalizeClassName,
   normalizeStyle,
   Portal as DANGEROUS_Portal,
+  type IPortal,
   moveItemInRefArray,
   moveItemInArray,
   transferArrayItem,
