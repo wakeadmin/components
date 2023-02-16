@@ -27,4 +27,5 @@ export {
   moveItemInRefArray,
   moveItemInArray,
   transferArrayItem,
+  ToHEmitDefinition,
 } from './utils';
