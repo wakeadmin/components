@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.1
+
+### Patch Changes
+
+- 导入部分 typescript 类型
+
 ## 1.1.0
 
 ### Minor Changes
