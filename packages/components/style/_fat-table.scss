@@ -34,8 +34,17 @@
   &__empty {
     transition: opacity 225ms ease-out 200ms;
     opacity: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 40px 0;
+
     .el-empty__image {
-      width: 160px;
+      height: 160px;
     }
     .el-empty__image img,
     .el-empty__image svg {
@@ -43,6 +52,9 @@
       height: 100%;
       vertical-align: top;
       width: 100%;
+    }
+    .el-empty__description {
+      line-height: 1;
     }
   }
 
