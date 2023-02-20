@@ -113,7 +113,7 @@ importers:
 
   packages/doc:
     specifiers:
-      '@wakeadmin/components': workspace:1.1.1
+      '@wakeadmin/components': workspace:1.1.2
       '@wakeadmin/icons': ^0.1.4
       element-plus: ^2.2.28
       imagemin-cli: ^7.0.0
@@ -138,7 +138,7 @@ importers:
       '@vue/cli-plugin-babel': ~5.0.8
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:1.1.1
+      '@wakeadmin/components': workspace:1.1.2
       '@wakeadmin/demi': ^0.2.5
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/element-adapter': workspace:0.6.1
@@ -188,7 +188,7 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/bay': ^0.8.3
-      '@wakeadmin/components': workspace:1.1.1
+      '@wakeadmin/components': workspace:1.1.2
       '@wakeadmin/docker-build': ^0.1.8
       '@wakeadmin/framework': ^0.1.5
       '@wakeadmin/h': ^0.2.13
@@ -440,7 +440,7 @@ packages:
     dependencies:
       '@ampproject/remapping': 172.26.59.72+4873/@ampproject/remapping/2.2.0
       '@babel/code-frame': 172.26.59.72+4873/@babel/code-frame/7.18.6
-      '@babel/generator': 172.26.59.72+4873/@babel/generator/7.20.7
+      '@babel/generator': 172.26.59.72+4873/@babel/generator/7.20.14
       '@babel/helper-compilation-targets': 172.26.59.72+4873/@babel/helper-compilation-targets/7.20.7_@babel+core@7.20.12
       '@babel/helper-module-transforms': 172.26.59.72+4873/@babel/helper-module-transforms/7.20.11
       '@babel/helpers': 172.26.59.72+4873/@babel/helpers/7.20.7
@@ -704,7 +704,7 @@ packages:
       '@babel/helper-split-export-declaration': 172.26.59.72+4873/@babel/helper-split-export-declaration/7.18.6
       '@babel/helper-validator-identifier': 172.26.59.72+4873/@babel/helper-validator-identifier/7.19.1
       '@babel/template': 172.26.59.72+4873/@babel/template/7.20.7
-      '@babel/traverse': 172.26.59.72+4873/@babel/traverse/7.20.12
+      '@babel/traverse': 172.26.59.72+4873/@babel/traverse/7.20.13
       '@babel/types': 172.26.59.72+4873/@babel/types/7.20.7
     transitivePeerDependencies:
       - supports-color
@@ -827,7 +827,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 172.26.59.72+4873/@babel/template/7.20.7
-      '@babel/traverse': 172.26.59.72+4873/@babel/traverse/7.20.12
+      '@babel/traverse': 172.26.59.72+4873/@babel/traverse/7.20.13
       '@babel/types': 172.26.59.72+4873/@babel/types/7.20.7
     transitivePeerDependencies:
       - supports-color
@@ -2044,12 +2044,12 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 172.26.59.72+4873/@babel/code-frame/7.18.6
-      '@babel/generator': 172.26.59.72+4873/@babel/generator/7.20.7
+      '@babel/generator': 172.26.59.72+4873/@babel/generator/7.20.14
       '@babel/helper-environment-visitor': 172.26.59.72+4873/@babel/helper-environment-visitor/7.18.9
       '@babel/helper-function-name': 172.26.59.72+4873/@babel/helper-function-name/7.19.0
       '@babel/helper-hoist-variables': 172.26.59.72+4873/@babel/helper-hoist-variables/7.18.6
       '@babel/helper-split-export-declaration': 172.26.59.72+4873/@babel/helper-split-export-declaration/7.18.6
-      '@babel/parser': 172.26.59.72+4873/@babel/parser/7.20.7
+      '@babel/parser': 172.26.59.72+4873/@babel/parser/7.20.13
       '@babel/types': 172.26.59.72+4873/@babel/types/7.20.7
       debug: 172.26.59.72+4873/debug/4.3.4
       globals: 172.26.59.72+4873/globals/11.12.0
@@ -2092,7 +2092,7 @@ packages:
     name: '@changesets/apply-release-plan'
     version: 6.1.3
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/config': 172.26.59.72+4873/@changesets/config/2.3.0
       '@changesets/get-version-range-type': 172.26.59.72+4873/@changesets/get-version-range-type/0.3.2
       '@changesets/git': 172.26.59.72+4873/@changesets/git/2.0.0
@@ -2112,7 +2112,7 @@ packages:
     name: '@changesets/assemble-release-plan'
     version: 5.2.3
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/errors': 172.26.59.72+4873/@changesets/errors/0.1.4
       '@changesets/get-dependents-graph': 172.26.59.72+4873/@changesets/get-dependents-graph/1.3.5
       '@changesets/types': 172.26.59.72+4873/@changesets/types/5.2.1
@@ -2208,7 +2208,7 @@ packages:
     name: '@changesets/get-release-plan'
     version: 3.0.16
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/assemble-release-plan': 172.26.59.72+4873/@changesets/assemble-release-plan/5.2.3
       '@changesets/config': 172.26.59.72+4873/@changesets/config/2.3.0
       '@changesets/pre': 172.26.59.72+4873/@changesets/pre/1.0.14
@@ -2228,7 +2228,7 @@ packages:
     name: '@changesets/git'
     version: 2.0.0
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/errors': 172.26.59.72+4873/@changesets/errors/0.1.4
       '@changesets/types': 172.26.59.72+4873/@changesets/types/5.2.1
       '@manypkg/get-packages': 172.26.59.72+4873/@manypkg/get-packages/1.1.3
@@ -2259,7 +2259,7 @@ packages:
     name: '@changesets/pre'
     version: 1.0.14
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/errors': 172.26.59.72+4873/@changesets/errors/0.1.4
       '@changesets/types': 172.26.59.72+4873/@changesets/types/5.2.1
       '@manypkg/get-packages': 172.26.59.72+4873/@manypkg/get-packages/1.1.3
@@ -2271,7 +2271,7 @@ packages:
     name: '@changesets/read'
     version: 0.5.9
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/git': 172.26.59.72+4873/@changesets/git/2.0.0
       '@changesets/logger': 172.26.59.72+4873/@changesets/logger/0.0.5
       '@changesets/parse': 172.26.59.72+4873/@changesets/parse/0.3.16
@@ -2298,7 +2298,7 @@ packages:
     name: '@changesets/write'
     version: 0.2.3
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/types': 172.26.59.72+4873/@changesets/types/5.2.1
       fs-extra: 172.26.59.72+4873/fs-extra/7.0.1
       human-id: 172.26.59.72+4873/human-id/1.0.2
@@ -2789,7 +2789,7 @@ packages:
     name: '@manypkg/get-packages'
     version: 1.1.3
     dependencies:
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@changesets/types': 172.26.59.72+4873/@changesets/types/4.1.0
       '@manypkg/find-root': 172.26.59.72+4873/@manypkg/find-root/1.1.0
       fs-extra: 172.26.59.72+4873/fs-extra/8.1.0
@@ -2925,7 +2925,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@babel/code-frame': 172.26.59.72+4873/@babel/code-frame/7.18.6
-      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.7
+      '@babel/runtime': 172.26.59.72+4873/@babel/runtime/7.20.13
       '@types/aria-query': 172.26.59.72+4873/@types/aria-query/5.0.1
       aria-query: 172.26.59.72+4873/aria-query/5.1.3
       chalk: 172.26.59.72+4873/chalk/4.1.2
@@ -6715,6 +6715,18 @@ packages:
       postcss: 172.26.59.72+4873/postcss/8.4.20
     dev: true
 
+  172.26.59.72+4873/css-declaration-sorter/6.3.1_postcss@8.4.21:
+    resolution: {integrity: sha512-fBffmak0bPAnyqc/HO8C3n2sHrp9wcqQz6ES9koRF2/mLOVAx9zIQ3Y7R29sYCteTPqMCwns4WYQoCX91Xl3+w==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/css-declaration-sorter/-/css-declaration-sorter-6.3.1.tgz}
+    id: 172.26.59.72+4873/css-declaration-sorter/6.3.1
+    name: css-declaration-sorter
+    version: 6.3.1
+    engines: {node: ^10 || ^12 || >=14}
+    peerDependencies:
+      postcss: ^8.0.9
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+    dev: true
+
   172.26.59.72+4873/css-loader/6.7.3_webpack@5.75.0:
     resolution: {integrity: sha512-qhOH1KlBMnZP8FzRO6YCH9UHXQhVMcEGLyNdb7Hv2cpcmJbW0YrddO+tG1ab5nT41KpHIYGsbeHqxB9xPu1pKQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/css-loader/-/css-loader-6.7.3.tgz}
     id: 172.26.59.72+4873/css-loader/6.7.3
@@ -6724,12 +6736,12 @@ packages:
     peerDependencies:
       webpack: ^5.0.0
     dependencies:
-      icss-utils: 172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.20
-      postcss: 172.26.59.72+4873/postcss/8.4.20
-      postcss-modules-extract-imports: 172.26.59.72+4873/postcss-modules-extract-imports/3.0.0_postcss@8.4.20
-      postcss-modules-local-by-default: 172.26.59.72+4873/postcss-modules-local-by-default/4.0.0_postcss@8.4.20
-      postcss-modules-scope: 172.26.59.72+4873/postcss-modules-scope/3.0.0_postcss@8.4.20
-      postcss-modules-values: 172.26.59.72+4873/postcss-modules-values/4.0.0_postcss@8.4.20
+      icss-utils: 172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-modules-extract-imports: 172.26.59.72+4873/postcss-modules-extract-imports/3.0.0_postcss@8.4.21
+      postcss-modules-local-by-default: 172.26.59.72+4873/postcss-modules-local-by-default/4.0.0_postcss@8.4.21
+      postcss-modules-scope: 172.26.59.72+4873/postcss-modules-scope/3.0.0_postcss@8.4.21
+      postcss-modules-values: 172.26.59.72+4873/postcss-modules-values/4.0.0_postcss@8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
       semver: 172.26.59.72+4873/semver/7.3.8
       webpack: 172.26.59.72+4873/webpack/5.75.0
@@ -6757,9 +6769,9 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      cssnano: 172.26.59.72+4873/cssnano/5.1.14_postcss@8.4.20
+      cssnano: 172.26.59.72+4873/cssnano/5.1.14_postcss@8.4.21
       jest-worker: 172.26.59.72+4873/jest-worker/27.5.1
-      postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       schema-utils: 172.26.59.72+4873/schema-utils/4.0.0
       serialize-javascript: 172.26.59.72+4873/serialize-javascript/6.0.0
       source-map: 172.26.59.72+4873/source-map/0.6.1
@@ -6844,6 +6856,47 @@ packages:
       postcss-unique-selectors: 172.26.59.72+4873/postcss-unique-selectors/5.1.1_postcss@8.4.20
     dev: true
 
+  172.26.59.72+4873/cssnano-preset-default/5.2.13_postcss@8.4.21:
+    resolution: {integrity: sha512-PX7sQ4Pb+UtOWuz8A1d+Rbi+WimBIxJTRyBdgGp1J75VU0r/HFQeLnMYgHiCAp6AR4rqrc7Y4R+1Rjk3KJz6DQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/cssnano-preset-default/-/cssnano-preset-default-5.2.13.tgz}
+    id: 172.26.59.72+4873/cssnano-preset-default/5.2.13
+    name: cssnano-preset-default
+    version: 5.2.13
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      css-declaration-sorter: 172.26.59.72+4873/css-declaration-sorter/6.3.1_postcss@8.4.21
+      cssnano-utils: 172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-calc: 172.26.59.72+4873/postcss-calc/8.2.4_postcss@8.4.21
+      postcss-colormin: 172.26.59.72+4873/postcss-colormin/5.3.0_postcss@8.4.21
+      postcss-convert-values: 172.26.59.72+4873/postcss-convert-values/5.1.3_postcss@8.4.21
+      postcss-discard-comments: 172.26.59.72+4873/postcss-discard-comments/5.1.2_postcss@8.4.21
+      postcss-discard-duplicates: 172.26.59.72+4873/postcss-discard-duplicates/5.1.0_postcss@8.4.21
+      postcss-discard-empty: 172.26.59.72+4873/postcss-discard-empty/5.1.1_postcss@8.4.21
+      postcss-discard-overridden: 172.26.59.72+4873/postcss-discard-overridden/5.1.0_postcss@8.4.21
+      postcss-merge-longhand: 172.26.59.72+4873/postcss-merge-longhand/5.1.7_postcss@8.4.21
+      postcss-merge-rules: 172.26.59.72+4873/postcss-merge-rules/5.1.3_postcss@8.4.21
+      postcss-minify-font-values: 172.26.59.72+4873/postcss-minify-font-values/5.1.0_postcss@8.4.21
+      postcss-minify-gradients: 172.26.59.72+4873/postcss-minify-gradients/5.1.1_postcss@8.4.21
+      postcss-minify-params: 172.26.59.72+4873/postcss-minify-params/5.1.4_postcss@8.4.21
+      postcss-minify-selectors: 172.26.59.72+4873/postcss-minify-selectors/5.2.1_postcss@8.4.21
+      postcss-normalize-charset: 172.26.59.72+4873/postcss-normalize-charset/5.1.0_postcss@8.4.21
+      postcss-normalize-display-values: 172.26.59.72+4873/postcss-normalize-display-values/5.1.0_postcss@8.4.21
+      postcss-normalize-positions: 172.26.59.72+4873/postcss-normalize-positions/5.1.1_postcss@8.4.21
+      postcss-normalize-repeat-style: 172.26.59.72+4873/postcss-normalize-repeat-style/5.1.1_postcss@8.4.21
+      postcss-normalize-string: 172.26.59.72+4873/postcss-normalize-string/5.1.0_postcss@8.4.21
+      postcss-normalize-timing-functions: 172.26.59.72+4873/postcss-normalize-timing-functions/5.1.0_postcss@8.4.21
+      postcss-normalize-unicode: 172.26.59.72+4873/postcss-normalize-unicode/5.1.1_postcss@8.4.21
+      postcss-normalize-url: 172.26.59.72+4873/postcss-normalize-url/5.1.0_postcss@8.4.21
+      postcss-normalize-whitespace: 172.26.59.72+4873/postcss-normalize-whitespace/5.1.1_postcss@8.4.21
+      postcss-ordered-values: 172.26.59.72+4873/postcss-ordered-values/5.1.3_postcss@8.4.21
+      postcss-reduce-initial: 172.26.59.72+4873/postcss-reduce-initial/5.1.1_postcss@8.4.21
+      postcss-reduce-transforms: 172.26.59.72+4873/postcss-reduce-transforms/5.1.0_postcss@8.4.21
+      postcss-svgo: 172.26.59.72+4873/postcss-svgo/5.1.0_postcss@8.4.21
+      postcss-unique-selectors: 172.26.59.72+4873/postcss-unique-selectors/5.1.1_postcss@8.4.21
+    dev: true
+
   172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-JQNR19/YZhz4psLX/rQ9M83e3z2Wf/HdJbryzte4a3NSuafyp9w/I4U+hx5C2S9g41qlstH7DEWnZaaj83OuEA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/cssnano-utils/-/cssnano-utils-3.1.0.tgz}
     id: 172.26.59.72+4873/cssnano-utils/3.1.0
@@ -6854,6 +6907,18 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+    dev: true
+
+  172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-JQNR19/YZhz4psLX/rQ9M83e3z2Wf/HdJbryzte4a3NSuafyp9w/I4U+hx5C2S9g41qlstH7DEWnZaaj83OuEA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/cssnano-utils/-/cssnano-utils-3.1.0.tgz}
+    id: 172.26.59.72+4873/cssnano-utils/3.1.0
+    name: cssnano-utils
+    version: 3.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
     dev: true
 
   172.26.59.72+4873/cssnano/5.1.14_postcss@8.4.20:
@@ -6868,6 +6933,21 @@ packages:
       cssnano-preset-default: 172.26.59.72+4873/cssnano-preset-default/5.2.13_postcss@8.4.20
       lilconfig: 172.26.59.72+4873/lilconfig/2.0.6
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      yaml: 172.26.59.72+4873/yaml/1.10.2
+    dev: true
+
+  172.26.59.72+4873/cssnano/5.1.14_postcss@8.4.21:
+    resolution: {integrity: sha512-Oou7ihiTocbKqi0J1bB+TRJIQX5RMR3JghA8hcWSw9mjBLQ5Y3RWqEDoYG3sRNlAbCIXpqMoZGbq5KDR3vdzgw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/cssnano/-/cssnano-5.1.14.tgz}
+    id: 172.26.59.72+4873/cssnano/5.1.14
+    name: cssnano
+    version: 5.1.14
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      cssnano-preset-default: 172.26.59.72+4873/cssnano-preset-default/5.2.13_postcss@8.4.21
+      lilconfig: 172.26.59.72+4873/lilconfig/2.0.6
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       yaml: 172.26.59.72+4873/yaml/1.10.2
     dev: true
 
@@ -9933,7 +10013,7 @@ packages:
       safer-buffer: 172.26.59.72+4873/safer-buffer/2.1.2
     dev: true
 
-  172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.20:
+  172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.21:
     resolution: {integrity: sha1-xr5oWKvQE9do6YNmrkfiXViHsa4=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/icss-utils/-/icss-utils-5.1.0.tgz}
     id: 172.26.59.72+4873/icss-utils/5.1.0
     name: icss-utils
@@ -9942,7 +10022,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss: 172.26.59.72+4873/postcss/8.4.21
     dev: true
 
   172.26.59.72+4873/ieee754/1.2.1:
@@ -12852,6 +12932,19 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-calc/8.2.4_postcss@8.4.21:
+    resolution: {integrity: sha512-SmWMSJmB8MRnnULldx0lQIyhSNvuDl9HfrZkaqqE/WHAhToYsAvDq+yAsA/kIyINDszOp3Rh0GFoNuH5Ypsm3Q==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-calc/-/postcss-calc-8.2.4.tgz}
+    id: 172.26.59.72+4873/postcss-calc/8.2.4
+    name: postcss-calc
+    version: 8.2.4
+    peerDependencies:
+      postcss: ^8.2.2
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-colormin/5.3.0_postcss@8.4.20:
     resolution: {integrity: sha512-WdDO4gOFG2Z8n4P8TWBpshnL3JpmNmJwdnfP2gbk2qBA8PWwOYcmjmI/t3CmMeL72a7Hkd+x/Mg9O2/0rD54Pg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-colormin/-/postcss-colormin-5.3.0.tgz}
     id: 172.26.59.72+4873/postcss-colormin/5.3.0
@@ -12865,6 +12958,22 @@ packages:
       caniuse-api: 172.26.59.72+4873/caniuse-api/3.0.0
       colord: 172.26.59.72+4873/colord/2.9.3
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-colormin/5.3.0_postcss@8.4.21:
+    resolution: {integrity: sha512-WdDO4gOFG2Z8n4P8TWBpshnL3JpmNmJwdnfP2gbk2qBA8PWwOYcmjmI/t3CmMeL72a7Hkd+x/Mg9O2/0rD54Pg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-colormin/-/postcss-colormin-5.3.0.tgz}
+    id: 172.26.59.72+4873/postcss-colormin/5.3.0
+    name: postcss-colormin
+    version: 5.3.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: 172.26.59.72+4873/browserslist/4.21.4
+      caniuse-api: 172.26.59.72+4873/caniuse-api/3.0.0
+      colord: 172.26.59.72+4873/colord/2.9.3
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -12882,6 +12991,20 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-convert-values/5.1.3_postcss@8.4.21:
+    resolution: {integrity: sha512-82pC1xkJZtcJEfiLw6UXnXVXScgtBrjlO5CBmuDQc+dlb88ZYheFsjTn40+zBVi3DkfF7iezO0nJUPLcJK3pvA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-convert-values/-/postcss-convert-values-5.1.3.tgz}
+    id: 172.26.59.72+4873/postcss-convert-values/5.1.3
+    name: postcss-convert-values
+    version: 5.1.3
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: 172.26.59.72+4873/browserslist/4.21.4
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-discard-comments/5.1.2_postcss@8.4.20:
     resolution: {integrity: sha512-+L8208OVbHVF2UQf1iDmRcbdjJkuBF6IS29yBDSiWUIzpYaAhtNl6JYnYm12FnkeCwQqF5LeklOu6rAqgfBZqQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-discard-comments/-/postcss-discard-comments-5.1.2.tgz}
     id: 172.26.59.72+4873/postcss-discard-comments/5.1.2
@@ -12892,6 +13015,18 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+    dev: true
+
+  172.26.59.72+4873/postcss-discard-comments/5.1.2_postcss@8.4.21:
+    resolution: {integrity: sha512-+L8208OVbHVF2UQf1iDmRcbdjJkuBF6IS29yBDSiWUIzpYaAhtNl6JYnYm12FnkeCwQqF5LeklOu6rAqgfBZqQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-discard-comments/-/postcss-discard-comments-5.1.2.tgz}
+    id: 172.26.59.72+4873/postcss-discard-comments/5.1.2
+    name: postcss-discard-comments
+    version: 5.1.2
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
     dev: true
 
   172.26.59.72+4873/postcss-discard-duplicates/5.1.0_postcss@8.4.20:
@@ -12906,6 +13041,18 @@ packages:
       postcss: 172.26.59.72+4873/postcss/8.4.20
     dev: true
 
+  172.26.59.72+4873/postcss-discard-duplicates/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-zmX3IoSI2aoenxHV6C7plngHWWhUOV3sP1T8y2ifzxzbtnuhk1EdPwm0S1bIUNaJ2eNbWeGLEwzw8huPD67aQw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-discard-duplicates/-/postcss-discard-duplicates-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-discard-duplicates/5.1.0
+    name: postcss-discard-duplicates
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+    dev: true
+
   172.26.59.72+4873/postcss-discard-empty/5.1.1_postcss@8.4.20:
     resolution: {integrity: sha512-zPz4WljiSuLWsI0ir4Mcnr4qQQ5e1Ukc3i7UfE2XcrwKK2LIPIqE5jxMRxO6GbI3cv//ztXDsXwEWT3BHOGh3A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-discard-empty/-/postcss-discard-empty-5.1.1.tgz}
     id: 172.26.59.72+4873/postcss-discard-empty/5.1.1
@@ -12918,6 +13065,18 @@ packages:
       postcss: 172.26.59.72+4873/postcss/8.4.20
     dev: true
 
+  172.26.59.72+4873/postcss-discard-empty/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-zPz4WljiSuLWsI0ir4Mcnr4qQQ5e1Ukc3i7UfE2XcrwKK2LIPIqE5jxMRxO6GbI3cv//ztXDsXwEWT3BHOGh3A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-discard-empty/-/postcss-discard-empty-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-discard-empty/5.1.1
+    name: postcss-discard-empty
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+    dev: true
+
   172.26.59.72+4873/postcss-discard-overridden/5.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-21nOL7RqWR1kasIVdKs8HNqQJhFxLsyRfAnUDm4Fe4t4mCWL9OJiHvlHPjcd8zc5Myu89b/7wZDnOSjFgeWRtw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-discard-overridden/-/postcss-discard-overridden-5.1.0.tgz}
     id: 172.26.59.72+4873/postcss-discard-overridden/5.1.0
@@ -12928,6 +13087,18 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+    dev: true
+
+  172.26.59.72+4873/postcss-discard-overridden/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-21nOL7RqWR1kasIVdKs8HNqQJhFxLsyRfAnUDm4Fe4t4mCWL9OJiHvlHPjcd8zc5Myu89b/7wZDnOSjFgeWRtw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-discard-overridden/-/postcss-discard-overridden-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-discard-overridden/5.1.0
+    name: postcss-discard-overridden
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
     dev: true
 
   172.26.59.72+4873/postcss-loader/6.2.1_qxxfhhrl3yknjjmta266mo3u64:
@@ -12961,6 +13132,20 @@ packages:
       stylehacks: 172.26.59.72+4873/stylehacks/5.1.1_postcss@8.4.20
     dev: true
 
+  172.26.59.72+4873/postcss-merge-longhand/5.1.7_postcss@8.4.21:
+    resolution: {integrity: sha512-YCI9gZB+PLNskrK0BB3/2OzPnGhPkBEwmwhfYk1ilBHYVAZB7/tkTHFBAnCrvBBOmeYyMYw3DMjT55SyxMBzjQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-merge-longhand/-/postcss-merge-longhand-5.1.7.tgz}
+    id: 172.26.59.72+4873/postcss-merge-longhand/5.1.7
+    name: postcss-merge-longhand
+    version: 5.1.7
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+      stylehacks: 172.26.59.72+4873/stylehacks/5.1.1_postcss@8.4.21
+    dev: true
+
   172.26.59.72+4873/postcss-merge-rules/5.1.3_postcss@8.4.20:
     resolution: {integrity: sha512-LbLd7uFC00vpOuMvyZop8+vvhnfRGpp2S+IMQKeuOZZapPRY4SMq5ErjQeHbHsjCUgJkRNrlU+LmxsKIqPKQlA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-merge-rules/-/postcss-merge-rules-5.1.3.tgz}
     id: 172.26.59.72+4873/postcss-merge-rules/5.1.3
@@ -12977,6 +13162,22 @@ packages:
       postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
     dev: true
 
+  172.26.59.72+4873/postcss-merge-rules/5.1.3_postcss@8.4.21:
+    resolution: {integrity: sha512-LbLd7uFC00vpOuMvyZop8+vvhnfRGpp2S+IMQKeuOZZapPRY4SMq5ErjQeHbHsjCUgJkRNrlU+LmxsKIqPKQlA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-merge-rules/-/postcss-merge-rules-5.1.3.tgz}
+    id: 172.26.59.72+4873/postcss-merge-rules/5.1.3
+    name: postcss-merge-rules
+    version: 5.1.3
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: 172.26.59.72+4873/browserslist/4.21.4
+      caniuse-api: 172.26.59.72+4873/caniuse-api/3.0.0
+      cssnano-utils: 172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
+    dev: true
+
   172.26.59.72+4873/postcss-minify-font-values/5.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-el3mYTgx13ZAPPirSVsHqFzl+BBBDrXvbySvPGFnQcTI4iNslrPaFq4muTkLZmKlGk4gyFAYUBMH30+HurREyA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-minify-font-values/-/postcss-minify-font-values-5.1.0.tgz}
     id: 172.26.59.72+4873/postcss-minify-font-values/5.1.0
@@ -12987,6 +13188,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-minify-font-values/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-el3mYTgx13ZAPPirSVsHqFzl+BBBDrXvbySvPGFnQcTI4iNslrPaFq4muTkLZmKlGk4gyFAYUBMH30+HurREyA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-minify-font-values/-/postcss-minify-font-values-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-minify-font-values/5.1.0
+    name: postcss-minify-font-values
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -13005,6 +13219,21 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-minify-gradients/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-VGvXMTpCEo4qHTNSa9A0a3D+dxGFZCYwR6Jokk+/3oB6flu2/PnPXAh2x7x52EkY5xlIHLm+Le8tJxe/7TNhzw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-minify-gradients/-/postcss-minify-gradients-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-minify-gradients/5.1.1
+    name: postcss-minify-gradients
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      colord: 172.26.59.72+4873/colord/2.9.3
+      cssnano-utils: 172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-minify-params/5.1.4_postcss@8.4.20:
     resolution: {integrity: sha512-+mePA3MgdmVmv6g+30rn57USjOGSAyuxUmkfiWpzalZ8aiBkdPYjXWtHuwJGm1v5Ojy0Z0LaSYhHaLJQB0P8Jw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-minify-params/-/postcss-minify-params-5.1.4.tgz}
     id: 172.26.59.72+4873/postcss-minify-params/5.1.4
@@ -13017,6 +13246,21 @@ packages:
       browserslist: 172.26.59.72+4873/browserslist/4.21.4
       cssnano-utils: 172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.20
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-minify-params/5.1.4_postcss@8.4.21:
+    resolution: {integrity: sha512-+mePA3MgdmVmv6g+30rn57USjOGSAyuxUmkfiWpzalZ8aiBkdPYjXWtHuwJGm1v5Ojy0Z0LaSYhHaLJQB0P8Jw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-minify-params/-/postcss-minify-params-5.1.4.tgz}
+    id: 172.26.59.72+4873/postcss-minify-params/5.1.4
+    name: postcss-minify-params
+    version: 5.1.4
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: 172.26.59.72+4873/browserslist/4.21.4
+      cssnano-utils: 172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -13033,7 +13277,20 @@ packages:
       postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
     dev: true
 
-  172.26.59.72+4873/postcss-modules-extract-imports/3.0.0_postcss@8.4.20:
+  172.26.59.72+4873/postcss-minify-selectors/5.2.1_postcss@8.4.21:
+    resolution: {integrity: sha512-nPJu7OjZJTsVUmPdm2TcaiohIwxP+v8ha9NehQ2ye9szv4orirRU3SDdtUmKH+10nzn0bAyOXZ0UEr7OpvLehg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-minify-selectors/-/postcss-minify-selectors-5.2.1.tgz}
+    id: 172.26.59.72+4873/postcss-minify-selectors/5.2.1
+    name: postcss-minify-selectors
+    version: 5.2.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
+    dev: true
+
+  172.26.59.72+4873/postcss-modules-extract-imports/3.0.0_postcss@8.4.21:
     resolution: {integrity: sha1-zaHwR8CugMl9vijD52pDuIAldB0=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-modules-extract-imports/-/postcss-modules-extract-imports-3.0.0.tgz}
     id: 172.26.59.72+4873/postcss-modules-extract-imports/3.0.0
     name: postcss-modules-extract-imports
@@ -13042,10 +13299,10 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss: 172.26.59.72+4873/postcss/8.4.21
     dev: true
 
-  172.26.59.72+4873/postcss-modules-local-by-default/4.0.0_postcss@8.4.20:
+  172.26.59.72+4873/postcss-modules-local-by-default/4.0.0_postcss@8.4.21:
     resolution: {integrity: sha1-67tU+uFZjuz99pGgKz/zs5ClpRw=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-modules-local-by-default/-/postcss-modules-local-by-default-4.0.0.tgz}
     id: 172.26.59.72+4873/postcss-modules-local-by-default/4.0.0
     name: postcss-modules-local-by-default
@@ -13054,13 +13311,13 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: 172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.20
-      postcss: 172.26.59.72+4873/postcss/8.4.20
+      icss-utils: 172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
-  172.26.59.72+4873/postcss-modules-scope/3.0.0_postcss@8.4.20:
+  172.26.59.72+4873/postcss-modules-scope/3.0.0_postcss@8.4.21:
     resolution: {integrity: sha1-nvMVFFbTu/oSDKRImN/Kby+gHwY=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-modules-scope/-/postcss-modules-scope-3.0.0.tgz}
     id: 172.26.59.72+4873/postcss-modules-scope/3.0.0
     name: postcss-modules-scope
@@ -13069,11 +13326,11 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
     dev: true
 
-  172.26.59.72+4873/postcss-modules-values/4.0.0_postcss@8.4.20:
+  172.26.59.72+4873/postcss-modules-values/4.0.0_postcss@8.4.21:
     resolution: {integrity: sha1-18Xn5ow7s8myfL9Iyguz/7RgLJw=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-modules-values/-/postcss-modules-values-4.0.0.tgz}
     id: 172.26.59.72+4873/postcss-modules-values/4.0.0
     name: postcss-modules-values
@@ -13082,8 +13339,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: 172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.20
-      postcss: 172.26.59.72+4873/postcss/8.4.20
+      icss-utils: 172.26.59.72+4873/icss-utils/5.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
     dev: true
 
   172.26.59.72+4873/postcss-normalize-charset/5.1.0_postcss@8.4.20:
@@ -13098,6 +13355,18 @@ packages:
       postcss: 172.26.59.72+4873/postcss/8.4.20
     dev: true
 
+  172.26.59.72+4873/postcss-normalize-charset/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-mSgUJ+pd/ldRGVx26p2wz9dNZ7ji6Pn8VWBajMXFf8jk7vUoSrZ2lt/wZR7DtlZYKesmZI680qjr2CeFF2fbUg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-charset/-/postcss-normalize-charset-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-charset/5.1.0
+    name: postcss-normalize-charset
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+    dev: true
+
   172.26.59.72+4873/postcss-normalize-display-values/5.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-WP4KIM4o2dazQXWmFaqMmcvsKmhdINFblgSeRgn8BJ6vxaMyaJkwAzpPpuvSIoG/rmX3M+IrRZEz2H0glrQNEA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-display-values/-/postcss-normalize-display-values-5.1.0.tgz}
     id: 172.26.59.72+4873/postcss-normalize-display-values/5.1.0
@@ -13108,6 +13377,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-normalize-display-values/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-WP4KIM4o2dazQXWmFaqMmcvsKmhdINFblgSeRgn8BJ6vxaMyaJkwAzpPpuvSIoG/rmX3M+IrRZEz2H0glrQNEA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-display-values/-/postcss-normalize-display-values-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-display-values/5.1.0
+    name: postcss-normalize-display-values
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -13124,6 +13406,19 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-normalize-positions/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-6UpCb0G4eofTCQLFVuI3EVNZzBNPiIKcA1AKVka+31fTVySphr3VUgAIULBhxZkKgwLImhzMR2Bw1ORK+37INg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-positions/-/postcss-normalize-positions-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-positions/5.1.1
+    name: postcss-normalize-positions
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-normalize-repeat-style/5.1.1_postcss@8.4.20:
     resolution: {integrity: sha512-mFpLspGWkQtBcWIRFLmewo8aC3ImN2i/J3v8YCFUwDnPu3Xz4rLohDO26lGjwNsQxB3YF0KKRwspGzE2JEuS0g==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-repeat-style/-/postcss-normalize-repeat-style-5.1.1.tgz}
     id: 172.26.59.72+4873/postcss-normalize-repeat-style/5.1.1
@@ -13134,6 +13429,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-normalize-repeat-style/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-mFpLspGWkQtBcWIRFLmewo8aC3ImN2i/J3v8YCFUwDnPu3Xz4rLohDO26lGjwNsQxB3YF0KKRwspGzE2JEuS0g==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-repeat-style/-/postcss-normalize-repeat-style-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-repeat-style/5.1.1
+    name: postcss-normalize-repeat-style
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -13150,6 +13458,19 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-normalize-string/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-oYiIJOf4T9T1N4i+abeIc7Vgm/xPCGih4bZz5Nm0/ARVJ7K6xrDlLwvwqOydvyL3RHNf8qZk6vo3aatiw/go3w==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-string/-/postcss-normalize-string-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-string/5.1.0
+    name: postcss-normalize-string
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-normalize-timing-functions/5.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-DOEkzJ4SAXv5xkHl0Wa9cZLF3WCBhF3o1SKVxKQAa+0pYKlueTpCgvkFAHfk+Y64ezX9+nITGrDZeVGgITJXjg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-timing-functions/-/postcss-normalize-timing-functions-5.1.0.tgz}
     id: 172.26.59.72+4873/postcss-normalize-timing-functions/5.1.0
@@ -13160,6 +13481,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-normalize-timing-functions/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-DOEkzJ4SAXv5xkHl0Wa9cZLF3WCBhF3o1SKVxKQAa+0pYKlueTpCgvkFAHfk+Y64ezX9+nITGrDZeVGgITJXjg==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-timing-functions/-/postcss-normalize-timing-functions-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-timing-functions/5.1.0
+    name: postcss-normalize-timing-functions
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -13177,6 +13511,20 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-normalize-unicode/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-qnCL5jzkNUmKVhZoENp1mJiGNPcsJCs1aaRmURmeJGES23Z/ajaln+EPTD+rBeNkSryI+2WTdW+lwcVdOikrpA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-unicode/-/postcss-normalize-unicode-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-unicode/5.1.1
+    name: postcss-normalize-unicode
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: 172.26.59.72+4873/browserslist/4.21.4
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-normalize-url/5.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-5upGeDO+PVthOxSmds43ZeMeZfKH+/DKgGRD7TElkkyS46JXAUhMzIKiCa7BabPeIy3AQcTkXwVVN7DbqsiCew==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-url/-/postcss-normalize-url-5.1.0.tgz}
     id: 172.26.59.72+4873/postcss-normalize-url/5.1.0
@@ -13191,6 +13539,20 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-normalize-url/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-5upGeDO+PVthOxSmds43ZeMeZfKH+/DKgGRD7TElkkyS46JXAUhMzIKiCa7BabPeIy3AQcTkXwVVN7DbqsiCew==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-url/-/postcss-normalize-url-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-url/5.1.0
+    name: postcss-normalize-url
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      normalize-url: 172.26.59.72+4873/normalize-url/6.1.0
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-normalize-whitespace/5.1.1_postcss@8.4.20:
     resolution: {integrity: sha512-83ZJ4t3NUDETIHTa3uEg6asWjSBYL5EdkVB0sDncx9ERzOKBVJIUeDO9RyA9Zwtig8El1d79HBp0JEi8wvGQnA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-whitespace/-/postcss-normalize-whitespace-5.1.1.tgz}
     id: 172.26.59.72+4873/postcss-normalize-whitespace/5.1.1
@@ -13201,6 +13563,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-normalize-whitespace/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-83ZJ4t3NUDETIHTa3uEg6asWjSBYL5EdkVB0sDncx9ERzOKBVJIUeDO9RyA9Zwtig8El1d79HBp0JEi8wvGQnA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-normalize-whitespace/-/postcss-normalize-whitespace-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-normalize-whitespace/5.1.1
+    name: postcss-normalize-whitespace
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -13218,6 +13593,20 @@ packages:
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
+  172.26.59.72+4873/postcss-ordered-values/5.1.3_postcss@8.4.21:
+    resolution: {integrity: sha512-9UO79VUhPwEkzbb3RNpqqghc6lcYej1aveQteWY+4POIwlqkYE21HKWaLDF6lWNuqCobEAyTovVhtI32Rbv2RQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-ordered-values/-/postcss-ordered-values-5.1.3.tgz}
+    id: 172.26.59.72+4873/postcss-ordered-values/5.1.3
+    name: postcss-ordered-values
+    version: 5.1.3
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      cssnano-utils: 172.26.59.72+4873/cssnano-utils/3.1.0_postcss@8.4.21
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
   172.26.59.72+4873/postcss-reduce-initial/5.1.1_postcss@8.4.20:
     resolution: {integrity: sha512-//jeDqWcHPuXGZLoolFrUXBDyuEGbr9S2rMo19bkTIjBQ4PqkaO+oI8wua5BOUxpfi97i3PCoInsiFIEBfkm9w==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-reduce-initial/-/postcss-reduce-initial-5.1.1.tgz}
     id: 172.26.59.72+4873/postcss-reduce-initial/5.1.1
@@ -13232,6 +13621,20 @@ packages:
       postcss: 172.26.59.72+4873/postcss/8.4.20
     dev: true
 
+  172.26.59.72+4873/postcss-reduce-initial/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-//jeDqWcHPuXGZLoolFrUXBDyuEGbr9S2rMo19bkTIjBQ4PqkaO+oI8wua5BOUxpfi97i3PCoInsiFIEBfkm9w==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-reduce-initial/-/postcss-reduce-initial-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-reduce-initial/5.1.1
+    name: postcss-reduce-initial
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: 172.26.59.72+4873/browserslist/4.21.4
+      caniuse-api: 172.26.59.72+4873/caniuse-api/3.0.0
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+    dev: true
+
   172.26.59.72+4873/postcss-reduce-transforms/5.1.0_postcss@8.4.20:
     resolution: {integrity: sha512-2fbdbmgir5AvpW9RLtdONx1QoYG2/EtqpNQbFASDlixBbAYuTcJ0dECwlqNqH7VbaUnEnh8SrxOe2sRIn24XyQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-reduce-transforms/-/postcss-reduce-transforms-5.1.0.tgz}
     id: 172.26.59.72+4873/postcss-reduce-transforms/5.1.0
@@ -13242,6 +13645,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+    dev: true
+
+  172.26.59.72+4873/postcss-reduce-transforms/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-2fbdbmgir5AvpW9RLtdONx1QoYG2/EtqpNQbFASDlixBbAYuTcJ0dECwlqNqH7VbaUnEnh8SrxOe2sRIn24XyQ==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-reduce-transforms/-/postcss-reduce-transforms-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-reduce-transforms/5.1.0
+    name: postcss-reduce-transforms
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
     dev: true
 
@@ -13269,6 +13685,20 @@ packages:
       svgo: 172.26.59.72+4873/svgo/2.8.0
     dev: true
 
+  172.26.59.72+4873/postcss-svgo/5.1.0_postcss@8.4.21:
+    resolution: {integrity: sha512-D75KsH1zm5ZrHyxPakAxJWtkyXew5qwS70v56exwvw542d9CRtTo78K0WeFxZB4G7JXKKMbEZtZayTGdIky/eA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-svgo/-/postcss-svgo-5.1.0.tgz}
+    id: 172.26.59.72+4873/postcss-svgo/5.1.0
+    name: postcss-svgo
+    version: 5.1.0
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
+      postcss-value-parser: 172.26.59.72+4873/postcss-value-parser/4.2.0
+      svgo: 172.26.59.72+4873/svgo/2.8.0
+    dev: true
+
   172.26.59.72+4873/postcss-unique-selectors/5.1.1_postcss@8.4.20:
     resolution: {integrity: sha512-5JiODlELrz8L2HwxfPnhOWZYWDxVHWL83ufOv84NrcgipI7TaeRsatAhK4Tr2/ZiYldpK/wBvw5BD3qfaK96GA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-unique-selectors/-/postcss-unique-selectors-5.1.1.tgz}
     id: 172.26.59.72+4873/postcss-unique-selectors/5.1.1
@@ -13279,6 +13709,19 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
+    dev: true
+
+  172.26.59.72+4873/postcss-unique-selectors/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-5JiODlELrz8L2HwxfPnhOWZYWDxVHWL83ufOv84NrcgipI7TaeRsatAhK4Tr2/ZiYldpK/wBvw5BD3qfaK96GA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/postcss-unique-selectors/-/postcss-unique-selectors-5.1.1.tgz}
+    id: 172.26.59.72+4873/postcss-unique-selectors/5.1.1
+    name: postcss-unique-selectors
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
     dev: true
 
@@ -15001,6 +15444,20 @@ packages:
     dependencies:
       browserslist: 172.26.59.72+4873/browserslist/4.21.4
       postcss: 172.26.59.72+4873/postcss/8.4.20
+      postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
+    dev: true
+
+  172.26.59.72+4873/stylehacks/5.1.1_postcss@8.4.21:
+    resolution: {integrity: sha512-sBpcd5Hx7G6seo7b1LkpttvTz7ikD0LlH5RmdcBNb6fFR0Fl7LQwHDFr300q4cwUqi+IYrFGmsIHieMBfnN/Bw==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/stylehacks/-/stylehacks-5.1.1.tgz}
+    id: 172.26.59.72+4873/stylehacks/5.1.1
+    name: stylehacks
+    version: 5.1.1
+    engines: {node: ^10 || ^12 || >=14.0}
+    peerDependencies:
+      postcss: ^8.2.15
+    dependencies:
+      browserslist: 172.26.59.72+4873/browserslist/4.21.4
+      postcss: 172.26.59.72+4873/postcss/8.4.21
       postcss-selector-parser: 172.26.59.72+4873/postcss-selector-parser/6.0.11
     dev: true
 
