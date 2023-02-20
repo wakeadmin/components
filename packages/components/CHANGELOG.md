@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.2
+
+### Patch Changes
+
+- fat-table 空数据支持自定义图片
+
 ## 1.1.1
 
 ### Patch Changes
