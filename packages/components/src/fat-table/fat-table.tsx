@@ -742,6 +742,7 @@ const FatTableInner = declareComponent({
         renderSlot(props, slots, 'empty', tableInstance)
       ) : (
         <Empty
+          image={props.emptyImage ?? configurable.fatTable?.emptyImage}
           description={props.emptyText ?? configurable.fatTable?.emptyText ?? '暂无数据'}
           class="fat-table__empty"
         ></Empty>

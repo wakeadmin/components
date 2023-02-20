@@ -34,6 +34,16 @@
   &__empty {
     transition: opacity 225ms ease-out 200ms;
     opacity: 0;
+    .el-empty__image {
+      width: 160px;
+    }
+    .el-empty__image img,
+    .el-empty__image svg {
+      fill: #dcdde0;
+      height: 100%;
+      vertical-align: top;
+      width: 100%;
+    }
   }
 
   &--ready &__empty {

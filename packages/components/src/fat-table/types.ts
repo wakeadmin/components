@@ -861,6 +861,11 @@ export interface FatTableProps<Item extends {}, Query extends {}>
   enableErrorCapture?: boolean;
 
   /**
+   * 空数据提示图片
+   */
+  emptyImage?: string;
+
+  /**
    * 无数据提示文案, 默认为 暂无数据
    */
   emptyText?: string;
@@ -961,6 +966,11 @@ export interface FatTableGlobalConfigurations {
    * 自定义表格布局
    */
   layout?: FatTableLayout;
+
+  /**
+   * 空数据提示图片
+   */
+  emptyImage?: string;
 
   /**
    * 表格默认空文案, 默认为暂无数据
