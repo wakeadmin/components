@@ -1,5 +1,5 @@
 {
-  "version": "0.1.17",
+  "version": "0.1.18",
   "name": "playground-vue2",
   "imageName": "wkfe/playground-vue2",
   "workload": "wakeadmin-playground-vue2",
@@ -22,7 +22,7 @@
     "typescript": false
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:1.1.2",
+    "@wakeadmin/components": "workspace:1.1.3",
     "@wakeadmin/framework": "^0.1.5",
     "@wakeadmin/h": "^0.2.13",
     "@wakeadmin/i18n-legacy": "^0.1.6",
