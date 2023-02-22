@@ -560,6 +560,14 @@ const FatTableInner = declareComponent({
 
         // 移除
         if (props.requestOnRemoved) {
+          // 当页最后一条且不是首页，则查询上一页
+          if (
+            pagination.current > 1 &&
+            list.value.length <= items.length &&
+            pagination.total <= pagination.pageSize * pagination.current
+          ) {
+            pagination.current--;
+          }
           fetch();
         } else {
           // 原地删除
