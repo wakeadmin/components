@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.4
+
+### Patch Changes
+
+- fix:修复 fat-table 在删除数据之后分页可能异常的问题
+
 ## 1.1.3
 
 ### Patch Changes
