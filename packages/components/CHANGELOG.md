@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.5
+
+### Patch Changes
+
+- feat: 调整 fatForm initialValue 的类型以及 initialValue 的合并模式
+
 ## 1.1.4
 
 ### Patch Changes
