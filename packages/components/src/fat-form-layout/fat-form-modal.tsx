@@ -1,7 +1,7 @@
 import { Dialog, DialogProps, Button, ButtonProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, watch } from '@wakeadmin/demi';
-import { NoopObject } from '@wakeadmin/utils';
+import { merge, NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormEvents, FatFormBaseProps, FatFormSlots, FatForm } from '../fat-form';
 
@@ -195,6 +195,8 @@ const FatFormModalInner = declareComponent({
 
     const open = (p: any) => {
       tempProps = p ?? NoopObject;
+
+      (tempProps as any).initialValue = merge({}, props.initialValue, (tempProps as any).initialValue);
 
       visible.value = true;
     };

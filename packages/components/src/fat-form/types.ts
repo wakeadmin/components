@@ -341,7 +341,7 @@ export interface FatFormBaseProps<Store extends {} = {}, Request extends {} = St
   /**
    * 初始化值, 表单默认值，只有初始化(比如新建场景)以及重置时生效
    */
-  initialValue?: Store;
+  initialValue?: Partial<Store>;
 
   /**
    * 数据请求。用于预览、编辑场景

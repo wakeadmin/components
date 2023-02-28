@@ -1,7 +1,7 @@
 import { Drawer, DrawerProps, Button, ButtonProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, watch } from '@wakeadmin/demi';
-import { NoopObject } from '@wakeadmin/utils';
+import { merge, NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormBaseProps, FatFormSlots, FatForm, FatFormEvents } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
@@ -204,7 +204,7 @@ const FatFormDrawerInner = declareComponent({
 
     const open = (p: any) => {
       tempProps = p ?? NoopObject;
-
+      (tempProps as any).initialValue = merge({}, props.initialValue, (tempProps as any).initialValue);
       visible.value = true;
     };
 
