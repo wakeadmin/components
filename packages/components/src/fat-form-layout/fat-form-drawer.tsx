@@ -250,6 +250,7 @@ const FatFormDrawerInner = declareComponent({
     return () => {
       const passthroughProps = inheritProps();
       const Form = props.Form ?? props.form ?? FatForm;
+      const initialValue = merge({}, passthroughProps.initialValue, (tempProps as any).initialValue);
 
       return (
         <Drawer
@@ -275,6 +276,7 @@ const FatFormDrawerInner = declareComponent({
               <Form
                 {...passthroughProps}
                 {...tempProps}
+                initialValue={initialValue}
                 ref={form}
                 enableSubmitter={false}
                 hierarchyConnect={false}

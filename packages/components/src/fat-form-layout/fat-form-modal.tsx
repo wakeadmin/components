@@ -196,8 +196,6 @@ const FatFormModalInner = declareComponent({
     const open = (p: any) => {
       tempProps = p ?? NoopObject;
 
-      (tempProps as any).initialValue = merge({}, props.initialValue, (tempProps as any).initialValue);
-
       visible.value = true;
     };
 
@@ -242,6 +240,7 @@ const FatFormModalInner = declareComponent({
     return () => {
       const passthroughProps = inheritProps();
       const Form = props.Form ?? props.form ?? FatForm;
+      const initialValue = merge({}, passthroughProps.initialValue, (tempProps as any).initialValue);
 
       return (
         <Dialog
@@ -265,6 +264,7 @@ const FatFormModalInner = declareComponent({
             <Form
               {...passthroughProps}
               {...tempProps}
+              initialValue={initialValue}
               ref={form}
               enableSubmitter={false}
               hierarchyConnect={false}
