@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.6
+
+### Patch Changes
+
+- 修复 fatFrom 没有正确合并 initialValue 的问题
+
 ## 1.1.5
 
 ### Patch Changes
