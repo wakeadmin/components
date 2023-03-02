@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.7
+
+### Patch Changes
+
+- pref: 删除无用代码
+
 ## 1.1.6
 
 ### Patch Changes
