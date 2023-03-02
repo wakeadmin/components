@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.8
+
+### Patch Changes
+
+- 导出类型转换函数
+
 ## 1.1.7
 
 ### Patch Changes
