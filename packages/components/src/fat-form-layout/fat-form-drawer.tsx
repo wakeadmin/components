@@ -204,7 +204,6 @@ const FatFormDrawerInner = declareComponent({
 
     const open = (p: any) => {
       tempProps = p ?? NoopObject;
-      (tempProps as any).initialValue = merge({}, props.initialValue, (tempProps as any).initialValue);
       visible.value = true;
     };
 
