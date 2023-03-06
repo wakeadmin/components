@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.1.9
+
+### Patch Changes
+
+- 导出所有工具类函数
+
 ## 1.1.8
 
 ### Patch Changes
