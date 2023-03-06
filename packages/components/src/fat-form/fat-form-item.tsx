@@ -1,28 +1,28 @@
+import { computed, onBeforeUnmount, watch } from '@wakeadmin/demi';
+import { Col, ColProps, CommonProps, FormItem, Tooltip } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
-import { FormItem, Col, Tooltip, ColProps, CommonProps } from '@wakeadmin/element-adapter';
-import { watch, computed, onBeforeUnmount } from '@wakeadmin/demi';
-import { get, debounce, NoopObject, equal } from '@wakeadmin/utils';
 import { Inquiry } from '@wakeadmin/icons';
+import { debounce, equal, get, NoopObject } from '@wakeadmin/utils';
 
 import { Atomic, BaseAtomicContext } from '../atomic';
 
-import { useFatFormCollection, useFatFormContext, useInheritableProps } from './hooks';
-import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
-import { formItemWidth, validateFormItemProps } from './utils';
 import { useAtomicRegistry } from '../hooks';
 import {
+  composeAtomProps,
+  filterStringByRegexp,
+  filterStringByTrim,
   hasSlots,
   normalizeClassName,
   normalizeStyle,
-  renderSlot,
-  ToHSlotDefinition,
-  composeAtomProps,
-  toArray,
-  takeString,
-  filterStringByTrim,
-  filterStringByRegexp,
   OurComponentInstance,
+  renderSlot,
+  takeString,
+  toArray,
+  ToHSlotDefinition,
 } from '../utils';
+import { useFatFormCollection, useFatFormContext, useInheritableProps } from './hooks';
+import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
+import { formItemWidth, validateFormItemProps } from './utils';
 
 const FatFormItemInner = declareComponent({
   name: 'FatFormItem',
@@ -42,6 +42,8 @@ const FatFormItemInner = declareComponent({
     required: { type: Boolean, default: undefined },
     col: null,
     width: null,
+    maxWidth: null,
+    minWidth: null,
     disabled: { type: [Boolean, Function] as any, default: undefined },
     hidden: { type: [Boolean, Function] as any, default: undefined },
     preserve: { type: Boolean, default: undefined },
@@ -313,9 +315,14 @@ const FatFormItemInner = declareComponent({
     });
 
     const contentStyle = computed(() => {
-      if (props.width !== undefined) {
-        const w = formItemWidth(props.width);
-        return { maxWidth: w };
+      const widthProps = ['width', 'maxWidth', 'minWidth'] satisfies (keyof FatFormItemProps)[];
+      const hasValueProps = widthProps.filter(key => props[key] !== undefined);
+      if (hasValueProps.length > 0) {
+        return hasValueProps.reduce<Record<typeof widthProps[number], string>>((obj, key) => {
+          obj[key] = formItemWidth(props[key]!);
+          return obj;
+          // @ts-expect-error
+        }, {});
       }
 
       return undefined;

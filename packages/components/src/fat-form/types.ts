@@ -564,6 +564,14 @@ export interface FatFormItemShared {
    * 字段宽度(不包含label)
    */
   width?: number | FatFormItemWidth;
+  /**
+   * 字段最大宽度(不包含label)
+   */
+  maxWidth?: number | FatFormItemWidth;
+  /**
+   * 字段最小宽度(不包含label)
+   */
+  minWidth?: number | FatFormItemWidth;
 
   /**
    * 表单大小, 会覆盖 FatForm 指定的大小

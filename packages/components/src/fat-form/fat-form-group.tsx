@@ -35,6 +35,8 @@ export const FatFormGroup = declareComponent({
     inlineMessage: { type: Boolean, default: false },
     col: null,
     width: null,
+    maxWidth: null,
+    minWidth: null,
     size: null,
     gutter: null,
     row: null,
@@ -213,8 +215,14 @@ export const FatFormGroup = declareComponent({
     });
 
     const contentStyle = computed(() => {
-      if (props.width !== undefined) {
-        return { maxWidth: formItemWidth(props.width) };
+      const widthProps = ['width', 'maxWidth', 'minWidth'] satisfies (keyof FatFormGroupProps<any>)[];
+      const hasValueProps = widthProps.filter(key => props[key] !== undefined);
+      if (hasValueProps.length > 0) {
+        return hasValueProps.reduce<Record<typeof widthProps[number], string>>((obj, key) => {
+          obj[key] = formItemWidth(props[key]!);
+          return obj;
+          // @ts-expect-error
+        }, {});
       }
 
       return undefined;
