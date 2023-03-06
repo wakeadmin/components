@@ -19,13 +19,6 @@ export * from './atomic';
 export * from './builtin-atomic';
 
 export { plugin } from './plugin';
-export {
-  normalizeClassName,
-  normalizeStyle,
-  Portal as DANGEROUS_Portal,
-  type IPortal,
-  moveItemInRefArray,
-  moveItemInArray,
-  transferArrayItem,
-} from './utils';
-export * from './utils/types';
+
+export { Portal as DANGEROUS_Portal, type IPortal } from './utils';
+export * from './utils';
