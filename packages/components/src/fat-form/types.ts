@@ -695,6 +695,15 @@ export interface FatFormGroupProps<Store extends {}> extends FatFormItemShared, 
   initialValue?: any;
 
   /**
+   *
+   * 必填规则的错误提示
+   *
+   * 默认为 `${label} 不能为空`
+   *
+   */
+  requiredMessage?: string;
+
+  /**
    * 是否必填，会显示必填符号
    *
    * 当 prop 为空时不会有实际验证作用
@@ -876,10 +885,20 @@ export interface FatFormItemProps<
   rules?: FatFormItemRules<Store>;
 
   /**
-   * 是否必填，会自动添加一个 required rule, 默认消息的 {label}不能为空
+   * 是否必填，会自动添加一个 required rule
+   *
+   * 默认消息的 `{label}不能为空`
    */
   required?: boolean;
 
+  /**
+   *
+   * 必填规则的错误提示
+   *
+   * 默认为 `${label} 不能为空`
+   *
+   */
+  requiredMessage?: string;
   /**
    * 是否隐藏
    *

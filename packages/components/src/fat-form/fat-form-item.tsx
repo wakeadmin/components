@@ -40,6 +40,7 @@ const FatFormItemInner = declareComponent({
     placeholder: null,
     rules: null,
     required: { type: Boolean, default: undefined },
+    requiredMessage: null,
     col: null,
     width: null,
     maxWidth: null,
@@ -264,7 +265,7 @@ const FatFormItemInner = declareComponent({
         if (!values.some(i => i.required)) {
           values.unshift({
             required: true,
-            message: `${takeString(props.label)}不能为空`,
+            message: props.requiredMessage || `${takeString(props.label)}不能为空`,
           });
         }
       }

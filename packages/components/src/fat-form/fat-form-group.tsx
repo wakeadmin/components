@@ -47,6 +47,7 @@ export const FatFormGroup = declareComponent({
     prop: null,
     initialValue: null,
     required: Boolean,
+    requiredMessage: null,
     vertical: Boolean,
     dependencies: null,
     rules: null,
@@ -153,7 +154,7 @@ export const FatFormGroup = declareComponent({
         if (!values.some(i => i.required)) {
           values.unshift({
             required: true,
-            message: `${takeString(props.label)}不能为空`,
+            message: props.requiredMessage || `${takeString(props.label)}不能为空`,
           });
         }
       }
