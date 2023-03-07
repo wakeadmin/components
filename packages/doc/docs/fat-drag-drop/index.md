@@ -141,7 +141,7 @@
 
 ::: warning
 `FatDropList` 不会修改任何数据，因此，使用者需要监听对应的事件来修改对应的数据源;
-我们也提供了`moveItemInRefArray`、`moveItemInRefArray`这两个方法来方便使用者对数据源进行修改
+我们也提供了`moveItemInRefArray`、`transferArrayItem`这两个方法来方便使用者对数据源进行修改
 :::
 
 <br>
