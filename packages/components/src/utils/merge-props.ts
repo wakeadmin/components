@@ -3,6 +3,7 @@ import { getCurrentInstance, isVue2 } from '@wakeadmin/demi';
 import { isObject, NoopObject, omit, upperFirst } from '@wakeadmin/utils';
 
 import { normalizeClassName } from './className';
+import { camelize } from './string';
 import { normalizeStyle } from './style';
 
 const onRE = /^on[^a-z]/;
@@ -64,7 +65,7 @@ export function mergeProps(...args: any[]) {
         // vue2 事件处理器
         ret[key] = mergeListeners(ret[key], toMerge[key]);
       } else if (key !== '') {
-        ret[key] = toMerge[key];
+        ret[camelize(key)] = toMerge[key];
       }
     }
   }

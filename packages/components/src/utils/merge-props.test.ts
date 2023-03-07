@@ -22,6 +22,16 @@ test('mergeProps', () => {
     onWorld: handle1,
   });
 
+  // kebab-case
+  expect(mergeProps({ 'initial-value': 123 }, { S: 's' }, { ni: 'Mi' }, {})).toEqual({
+    initialValue: 123,
+    s: 's',
+    ni: 'Mi',
+  });
+  expect(mergeProps({ 'initial-value': 123 }, { 'initial-value': 'Mi' })).toEqual({ initialValue: 'Mi' });
+  expect(mergeProps({ initialValue: 123 }, { 'initial-value': 'Mi' })).toEqual({ initialValue: 'Mi' });
+  expect(mergeProps({ 'initial-value': 123 }, { initialValue: 'Mi' })).toEqual({ initialValue: 'Mi' });
+
   // vue2 特殊属性合并
   expect(mergeProps({ attrs: { foo: 1 } }, { attrs: { bar: 2 } })).toEqual({ attrs: { foo: 1, bar: 2 } });
 
