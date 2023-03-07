@@ -1,5 +1,16 @@
 # @wakeadmin/components
 
+## 1.1.0
+
+### Minor Changes
+
+- FatFormItem、FatFormGroup 新增`requiredMessage` 支持
+- FatFormItem、FatFormGroup 新增 `maxWidth` 、`minWidth`
+
+#### Break Change
+
+- 在之前的版本中, FatFormItem、FatFormGroup 的 `width` 会被设置成`maxWidth`, 现在`width` 就是 `width`。因此这次升级可能会对之前的布局造成一些影响
+
 ## 1.1.9
 
 ### Patch Changes

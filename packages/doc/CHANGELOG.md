@@ -1,5 +1,11 @@
 # @wakeadmin/components-doc
 
+## 0.3.1
+
+### Patch Changes
+
+- xxxx
+
 ## 0.3.0
 
 ### Minor Changes
