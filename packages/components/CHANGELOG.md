@@ -1,6 +1,12 @@
 # @wakeadmin/components
 
-## 1.1.0
+## 1.2.1
+
+### Patch Changes
+
+- 修复 kebab-case 传参无法正常覆盖 lowerCamelCase 的问题
+
+## 1.2.0
 
 ### Minor Changes
 
