@@ -232,7 +232,7 @@ $switch-label-on-color: getCSSVar(ad-switch-label-on-color, var(--ad-switch-on-c
   }
 
   // 尺寸
-  @each $size in (large, small) {
+  @each $size in (default, small) {
     &--#{$size} {
       font-size: map.get($switch-font-size, $size);
       line-height: map.get($switch-core-height, $size);
