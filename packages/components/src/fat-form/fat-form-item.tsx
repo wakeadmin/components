@@ -334,6 +334,12 @@ const FatFormItemInner = declareComponent({
     });
 
     const labelWidth = computed(() => {
+      // fix [ElementForm]unpected width
+      // element-ui 下 如果当前 FormItem 的 hidden 为 true, 那么其内部获取不到对应的 label 的实际宽度 从而在销毁的时候报错
+      if (hidden.value && (!props.labelWidth || props.labelWidth === 'auto')) {
+        return '0px';
+      }
+
       if (props.labelWidth !== undefined) {
         // 自动模式下尝试继承 form 的 label-width 配置
         if (props.labelWidth === 'auto' && form.labelWidth && form.labelWidth !== 'auto') {
