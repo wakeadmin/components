@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.2.2
+
+### Patch Changes
+
+- 修复 [ElementForm]unpected width
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.2
+
 ## 1.2.1
 
 ### Patch Changes

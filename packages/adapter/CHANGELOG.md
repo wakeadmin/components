@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.2
+
+### Patch Changes
+
+- 修复 switch 样式异常的问题
+
 ## 0.6.1
 
 ### Patch Changes
