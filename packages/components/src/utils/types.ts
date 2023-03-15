@@ -121,3 +121,6 @@ export type DefineOurComponent<Props extends {}, Slots extends {}, Events extend
 export type GetParameterInSet<S extends Set<any>> = S extends Set<infer F extends (...args: any) => any>
   ? Parameters<F>
   : never;
+
+type Without<T> = { [K in keyof T]?: never };
+export type XOR<T, U> = (Without<T> & U) | (Without<U> & T);

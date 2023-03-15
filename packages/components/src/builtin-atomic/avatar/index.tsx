@@ -3,7 +3,7 @@ import { NoopObject } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
-import { normalizeClassName } from '../../utils';
+import { normalizeClassName, XOR } from '../../utils';
 import { ImageObjectFit } from '../images';
 
 export type AAvatarValue =
@@ -43,7 +43,7 @@ export type AAvatarProps = DefineAtomicProps<
      *
      * 默认为`circle`
      */
-    shape?: 'square' | 'circle';
+    shape?: 'square' | 'circle' | 'rect';
 
     /**
      * 头像如何适应容器框
@@ -53,17 +53,31 @@ export type AAvatarProps = DefineAtomicProps<
     fit?: ImageObjectFit;
 
     /**
-     * 头像大小
-     *
-     * 默认为48px
-     */
-    size?: string;
-
-    /**
      * 自定义渲染用户信息
      */
     renderInfo?: (prop: AAvatarProps) => any;
-  }
+  } & XOR<
+    {
+      /**
+       * 头像大小
+       *
+       * 默认为48px
+       */
+      size?: string;
+    },
+    {
+      /**
+       * 头像宽
+       *
+       */
+      width?: string;
+      /**
+       * 头像高
+       *
+       */
+      height?: string;
+    }
+  >
 >;
 
 declare global {
@@ -80,6 +94,7 @@ export const AAvatarComponent = defineAtomicComponent(
       }
       return props.value || (NoopObject as any);
     });
+
     const needRenderInfo = computed(() => {
       const { title, description } = value.value;
       return !!(props.renderInfo ?? description ?? title);
@@ -87,22 +102,37 @@ export const AAvatarComponent = defineAtomicComponent(
 
     const configurable = useFatConfigurable();
 
+    const sizes = computed(() => {
+      if (props.width) {
+        return {
+          w: props.width,
+          h: props.height!,
+        };
+      }
+      const s = props.size || '48px';
+      return {
+        w: s,
+        h: s,
+      };
+    });
+
     return () => {
       const {
         fit = 'cover',
         placement = 'left',
-        size = '48px',
         shape = 'circle',
         // 下面的变量不要 剔除掉
         'v-slots': _vSlots,
         renderInfo: _renderInfo,
         onChange: _onChange,
         value: _value,
+        size: _size,
         context: _context,
         ...other
       } = props;
 
       const { avatar, title, description } = unref(value);
+      const { w, h } = unref(sizes);
 
       if (!avatar) {
         return configurable.undefinedPlaceholder;
@@ -150,8 +180,8 @@ export const AAvatarComponent = defineAtomicComponent(
           <picture
             class="fat-a-avatar__avatar"
             style={{
-              width: size,
-              height: size,
+              width: w,
+              height: h,
             }}
           >
             <img

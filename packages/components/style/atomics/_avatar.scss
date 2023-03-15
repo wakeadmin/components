@@ -34,6 +34,10 @@
     border-radius: 50%;
   }
 
+  &--rect &__avatar {
+    border-radius: 0;
+  }
+
   &--square &__avatar {
     border-radius: 2px;
   }
