@@ -3,6 +3,7 @@ import {
   defineComponent,
   getCurrentInstance,
   isVue2,
+  nextTick,
   render,
   Vue2,
   type AppContext,
@@ -49,6 +50,23 @@ abstract class BasePortal<T> implements IPortal {
     this.context = context;
   }
 
+  /**
+   * 等待当前setup上下文全部执行完毕
+   *
+   * @remark
+   * 如果当前上下文没有全部执行完成的话就调用`attach`的话 会导致后面的 composition API 都没办法正确挂载到正确的地方
+   */
+  protected async waitSetupFinish(): Promise<void> {
+    while (true) {
+      if (getCurrentInstance()) {
+        // eslint-disable-next-line no-await-in-loop
+        await nextTick();
+        continue;
+      }
+      return undefined;
+    }
+  }
+
   get instance() {
     return this._instance;
   }
@@ -57,7 +75,7 @@ abstract class BasePortal<T> implements IPortal {
     return this._host;
   }
 
-  abstract attach(): void;
+  abstract attach(): Promise<void>;
   abstract detach(): void;
 }
 
@@ -83,10 +101,12 @@ class Vue2Portal<T extends {} = any> extends BasePortal<T> {
   ) {
     super(component, options);
   }
-  attach() {
+  async attach() {
     if (this.attached) {
       return undefined;
     }
+
+    await super.waitSetupFinish();
 
     this.portalInstance = this.createPortal();
 
@@ -145,10 +165,12 @@ export class Vue3Portal<T extends {} = any> extends BasePortal<T> {
     super(component, options);
   }
 
-  attach() {
+  async attach() {
     if (this.attached) {
       return undefined;
     }
+
+    await super.waitSetupFinish();
 
     this.portalInstance = this.createPortal();
 
