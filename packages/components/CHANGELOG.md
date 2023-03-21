@@ -1,5 +1,22 @@
 # @wakeadmin/components
 
+## 1.2.3
+
+### Patch Changes
+
+- 现在 avatar 原件允许自定义宽高
+- 修复 Portal 在 attach 时会导致 vue 上下文异常的问题
+  > 现在 `Portal.attach` 不再是同步行为，因此如果需要在`attach` 后立刻执行一些操作需要进行一些调整
+
+```typescript
+// before
+portal.attach();
+portal.show();
+
+// after
+portal.attach().then(() => portal.show());
+```
+
 ## 1.2.2
 
 ### Patch Changes
