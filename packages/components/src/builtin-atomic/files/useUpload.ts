@@ -1,13 +1,14 @@
+import { computed } from '@wakeadmin/demi';
 import {
   FileListItem,
-  useFormItemValidate,
-  UploadInternalRawFile,
-  UploadInternalFileDetail,
   Message,
+  UploadInternalFileDetail,
+  UploadInternalRawFile,
+  useFormItemValidate,
 } from '@wakeadmin/element-adapter';
-import { computed } from '@wakeadmin/demi';
-import { NoopArray, isPromise, queryString, formatFileSize } from '@wakeadmin/utils';
+import { formatFileSize, isPromise, NoopArray, queryString } from '@wakeadmin/utils';
 import memoize from 'lodash/memoize';
+import { useTrigger } from './useTrigger';
 
 // 尝试从 url 中提取原始文件名称
 const tryPickNameFromUrl = memoize((value: string) => {
@@ -102,6 +103,7 @@ export function useUpload(
   }
 ) {
   const formItemValidate = useFormItemValidate();
+  const fileListTrigger = useTrigger();
 
   // 缓存 uid 修复动画问题
   const uidCache: Map<any, string | number> = new Map();
@@ -123,6 +125,7 @@ export function useUpload(
   });
 
   const fileList = computed(() => {
+    fileListTrigger.track();
     return props.value == null
       ? NoopArray
       : props.value.map(item => {
@@ -189,6 +192,7 @@ export function useUpload(
   // 新增、上传成功、错误都会调用 onChange
   // 我们在这里处理双向绑定
   const handleChange = async (file: UploadInternalFileDetail, list: UploadInternalFileDetail[]) => {
+    let needTrigger = false;
     if (isAllDone(list)) {
       const newList: any[] = [];
       const add = (item: UploadInternalFileDetail) => {
@@ -214,7 +218,7 @@ export function useUpload(
               add(item);
             }
           } catch (err) {
-            // ignore error
+            needTrigger = true;
             console.error(err);
             Message.error(`上传失败：${(err as Error).message}`);
           }
@@ -226,6 +230,9 @@ export function useUpload(
       // 触发更新
       props.onChange?.(newList);
 
+      if (needTrigger) {
+        fileListTrigger.trigger();
+      }
       // 触发 form item 变更
       formItemValidate('change');
     }
