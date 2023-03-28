@@ -154,13 +154,11 @@ export class DragRef {
     this._data = data;
   }
 
-  getPreviewEle(): HTMLElement {
-    this.previewElement ||= this.createPreviewElement();
+  getPreviewEle(): HTMLElement | null {
     return this.previewElement;
   }
 
-  getPlaceholderEle(): HTMLElement {
-    this.placeholderElement ||= this.createPlaceholderElement();
+  getPlaceholderEle(): HTMLElement | null {
     return this.placeholderElement;
   }
 
@@ -544,7 +542,7 @@ export class DragRef {
     }
   };
 
-  private startDrag(event: MouseEvent | TouchEvent) {
+  private async startDrag(event: MouseEvent | TouchEvent) {
     if (isTouchEvent(event)) {
       this.lastTouchEventTime = Date.now();
     }
@@ -556,7 +554,7 @@ export class DragRef {
     if (dropContainer) {
       const element = this.rootElement;
       const parentElement = element.parentElement!;
-      const placeholderElement = (this.placeholderElement = this.createPlaceholderElement());
+      const placeholderElement = (this.placeholderElement = await this.createPlaceholderElement());
 
       this.initialTransform = element.style.transform || '';
 
@@ -574,7 +572,7 @@ export class DragRef {
       // 创建一个注释元素 以便之后将元素重新还原回来
       const anchor = (this.anchor ||= document.createComment(''));
       parentElement.insertBefore(anchor, element);
-      this.previewElement = this.createPreviewElement();
+      this.previewElement = await this.createPreviewElement();
 
       toggleElementDragVisibility(element, false, DragImportantProperties);
       this.document.body.appendChild(parentElement.replaceChild(placeholderElement, element));
@@ -855,7 +853,7 @@ export class DragRef {
     return { x, y };
   }
 
-  private createPlaceholderElement(): HTMLElement {
+  private async createPlaceholderElement(): Promise<HTMLElement> {
     if (this.placeholderElement) {
       this.placeholderElement.remove();
     }
@@ -870,7 +868,7 @@ export class DragRef {
         target: null,
       });
 
-      portal.attach();
+      await portal.attach();
       element = portal.host!;
     } else {
       element = cloneElement(this.rootElement);
@@ -894,7 +892,7 @@ export class DragRef {
     this.placeholderElement = null;
   }
 
-  private createPreviewElement(): HTMLElement {
+  private async createPreviewElement(): Promise<HTMLElement> {
     if (this.previewElement) {
       this.previewElement.remove();
     }
@@ -909,7 +907,7 @@ export class DragRef {
         context: this.context,
       });
 
-      portal.attach();
+      await portal.attach();
       this.previewInstance = portal;
       element = portal.host!;
     } else {

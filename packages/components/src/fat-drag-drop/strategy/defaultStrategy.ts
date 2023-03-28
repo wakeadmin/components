@@ -73,7 +73,7 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
       const isDraggedItem = sibling.source === item;
       const offset = isDraggedItem ? itemOffset : siblingOffset;
 
-      const elementOffset = isDraggedItem ? item.getPlaceholderEle() : sibling.source.getVisibleElement();
+      const elementOffset = isDraggedItem ? item.getPlaceholderEle()! : sibling.source.getVisibleElement();
 
       sibling.offset += offset;
 
@@ -99,7 +99,7 @@ export class DefaultDragDropListStrategy<T extends DragRef> implements DragDropL
   enter(item: T, pointerX: number, pointerY: number, index?: number | undefined): void {
     const newIndex = index == null || index < 0 ? this.getIndexFromPosition(item, pointerX, pointerY) : index;
     const currentIndex = this.activeDrags.indexOf(item);
-    const placeholderElement = item.getPlaceholderEle();
+    const placeholderElement = item.getPlaceholderEle()!;
     let newPositionReference: T | undefined = this.activeDrags[newIndex];
 
     // 两个一致 代表拖动的时候最终拖回了原来的位置

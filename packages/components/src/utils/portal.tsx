@@ -16,7 +16,7 @@ const Vue2Outlet = defineComponent({
 export interface IPortal<T = any> {
   readonly instance: T;
   readonly host: HTMLElement | null;
-  attach(): void;
+  attach(): Promise<void>;
   detach(): void;
 }
 
@@ -101,6 +101,7 @@ class Vue2Portal<T extends {} = any> extends BasePortal<T> {
   ) {
     super(component, options);
   }
+
   async attach() {
     if (this.attached) {
       return undefined;
