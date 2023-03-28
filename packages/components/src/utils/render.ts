@@ -1,5 +1,6 @@
 import { getCurrentInstance, isVue2, Fragment, isVNode } from '@wakeadmin/demi';
 import { NoopObject, upperFirst } from '@wakeadmin/utils';
+import { isDev } from './isDev';
 
 /**
  * 是否存在事件订阅者
@@ -29,7 +30,7 @@ function safeCall(fn: any, args: any[]) {
     return;
   }
 
-  if (typeof fn !== 'function' && process.env.NODE_ENV !== 'production') {
+  if (typeof fn !== 'function' && isDev) {
     throw new Error(`[@wakeadmin/components] 期望接收到的是函数，当前为 ${typeof fn}`);
   }
 

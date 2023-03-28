@@ -8,6 +8,7 @@ import { FatTreeSelectProps, FatTreeSelectData, FatTreeSelect } from '../../fat-
 import { memoizeTask } from '../../atomic/host';
 import { useDevtoolsExpose, useLazyOptions } from '../../hooks';
 import { toArray } from '../../utils';
+import { isDev } from '../../utils/isDev';
 
 export type ATreeSelectValue = string | number | (string | number)[];
 
@@ -40,7 +41,7 @@ declare global {
 
 export const ATreeSelectComponent = defineAtomicComponent(
   (props: ATreeSelectProps) => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (isDev) {
       if (props.data == null) {
         throw new Error('tree-select 组件需要提供 data 选项');
       }

@@ -3,6 +3,7 @@ import { set, get } from '@wakeadmin/utils';
 
 import toPath from 'lodash/toPath';
 import has from 'lodash/has';
+import { isDev } from './isDev';
 
 /**
  * 筛选可枚举的值
@@ -138,7 +139,7 @@ export function unset(
   }
 
   if (typeof target !== 'object') {
-    if (process.env.NODE_ENV !== 'production') {
+    if (isDev) {
       console.warn(`[wakeadmin/components] 不能unset 非对象值: `, target);
     }
 
@@ -158,7 +159,7 @@ export function unset(
     if (Array.isArray(parent)) {
       const index = parseInt(deleteKey);
       if (Number.isNaN(index)) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (isDev) {
           console.warn(
             `[wakeadmin/components] unset 失败，当对象为数组时， deleteKey 必须为数字(现在为 ${deleteKey}) `,
             parent
@@ -166,7 +167,7 @@ export function unset(
         }
         return false;
       } else if (index >= parent.length || index < 0) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (isDev) {
           console.warn(
             `[wakeadmin/components] unset 失败，当对象为数组时， deleteKey(${index}) 超出数组长度范围 `,
             parent

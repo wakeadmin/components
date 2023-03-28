@@ -8,6 +8,7 @@ import { toArray, toUndefined } from '../../utils';
 import { memoizeTask } from '../../atomic/host';
 
 import { ACascaderOption } from './cascader-lazy';
+import { isDev } from '../../utils/isDev';
 
 export type ACascaderValue = any[];
 
@@ -43,7 +44,7 @@ declare global {
 
 export const ACascaderComponent = defineAtomicComponent(
   (props: ACascaderProps) => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (isDev) {
       // @ts-expect-error
       if (props.props?.lazy || props.props?.lazyLoad) {
         throw new Error(`cascader 原件不支持 lazy 动态加载模式，请使用 cascader-lazy 原件代替`);

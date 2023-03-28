@@ -1,4 +1,5 @@
 import { ref } from '@wakeadmin/demi';
+import { isDev } from '../utils/isDev';
 
 export interface SelectionModelChange<T> {
   /**
@@ -116,7 +117,7 @@ export class SelectionModel<T> {
   }
 
   private verifyValues(values: T[]): void {
-    if (values.length > 1 && !this.multiple && process.env.NODE_ENV !== 'production') {
+    if (values.length > 1 && !this.multiple && isDev) {
       throw new Error('单选模式下不允许传入多个选择值');
     }
   }

@@ -8,6 +8,7 @@ import {
 } from '@wakeadmin/element-adapter';
 import { formatFileSize, isPromise, NoopArray, queryString } from '@wakeadmin/utils';
 import memoize from 'lodash/memoize';
+import { isDev } from '../../utils/isDev';
 import { useTrigger } from './useTrigger';
 
 // 尝试从 url 中提取原始文件名称
@@ -112,7 +113,7 @@ export function useUpload(
 
   const accept = computed(() => {
     if (Array.isArray(props.accept)) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (isDev) {
         // 检查是否为扩展名
         if (props.accept.some(i => !i.startsWith('.'))) {
           throw new Error(`[wakeadmin/components] ${options.name} atomic accept 需要传入扩展名数组，例如 [".png"]`);
