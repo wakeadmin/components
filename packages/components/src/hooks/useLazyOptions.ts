@@ -1,6 +1,7 @@
 import { Message } from '@wakeadmin/element-adapter';
 import { Ref, ref, unref } from '@wakeadmin/demi';
 import { MaybeRef } from '@wakeadmin/h';
+import { useT } from './useI18n';
 
 export function useLazyOptions<T>(options: MaybeRef<T | (() => Promise<T>) | undefined>, defaultValue: T) {
   const loading = ref(false);
@@ -11,6 +12,8 @@ export function useLazyOptions<T>(options: MaybeRef<T | (() => Promise<T>) | und
     // 加载器模式
     const value = ref<T>(defaultValue) as Ref<T>;
 
+    const t = useT();
+
     const load = async () => {
       try {
         loading.value = true;
@@ -19,7 +22,7 @@ export function useLazyOptions<T>(options: MaybeRef<T | (() => Promise<T>) | und
         value.value = results;
       } catch (err) {
         console.error(err);
-        Message.error(`选项加载失败：${(err as Error).message}`);
+        Message.error(t('wkc.optionLoadFailed', { message: (err as Error).message }));
       } finally {
         loading.value = false;
       }

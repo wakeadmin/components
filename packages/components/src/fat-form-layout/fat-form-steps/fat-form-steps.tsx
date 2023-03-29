@@ -26,6 +26,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 import { FatFormStepsMethods, FatFormStepsEvents, FatFormStepsProps, FatFormStepsSlots } from './types';
 import { defaultLayout } from './default-layout';
 import { FatFormPublicMethodKeys } from '../../fat-form/constants';
+import { useT } from '../../hooks';
 
 export function useFatFormStepsRef<Store extends {} = any, Request extends {} = Store, Submit extends {} = Store>() {
   return ref<FatFormStepsMethods<Store, Request, Submit>>();
@@ -72,6 +73,8 @@ const FatFormStepsInner = declareComponent({
   emits: declareEmits<ToHEmitDefinition<FatFormStepsEvents<any>>>(),
   setup(props, { attrs, slots, expose, emit }) {
     const configurable = useFatConfigurable();
+    const t = useT();
+
     const form = ref<FatFormMethods<any>>();
     const active = ref(0);
     let remoteInitialized = false;
@@ -154,7 +157,7 @@ const FatFormStepsInner = declareComponent({
           try {
             await step.validate();
           } catch (err) {
-            Message.error('请按照要求完成表单填写');
+            Message.error(t('wkc.fillForm'));
             return;
           }
         }
@@ -225,7 +228,7 @@ const FatFormStepsInner = declareComponent({
             await step.validate();
           } catch (e) {
             active.value = i;
-            Message.error('请按照要求完成表单填写');
+            Message.error(t('wkc.fillForm'));
             return;
           }
         }
@@ -241,7 +244,7 @@ const FatFormStepsInner = declareComponent({
       return [
         hasPrev.value && (
           <Button type="primary" {...props.prevProps} onClick={goPrev} loading={submitting.value}>
-            {props.prevText ?? '上一步'}
+            {props.prevText ?? t('wkc.previousStep')}
           </Button>
         ),
         hasNext.value && (
@@ -251,12 +254,12 @@ const FatFormStepsInner = declareComponent({
             onClick={goNext}
             loading={props.nextProps?.loading || nextStepLoading.value || submitting.value}
           >
-            {props.nextText ?? '下一步'}
+            {props.nextText ?? t('wkc.nextStep')}
           </Button>
         ),
         hasSubmit.value && (
           <Button type="primary" {...props.submitProps} onClick={submit} loading={submitting.value}>
-            {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+            {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
           </Button>
         ),
       ];

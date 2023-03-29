@@ -2,6 +2,7 @@ import { SwitchProps, Switch, useVModel } from '@wakeadmin/element-adapter';
 import { ref } from '@wakeadmin/demi';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { useT } from '../../hooks';
 
 export type ASwitchValue = string | number | boolean;
 
@@ -40,6 +41,8 @@ export const ASwitchComponent = defineAtomicComponent(
 
     const loading = ref(false);
 
+    const t = useT();
+
     const handleBeforeChange = async () => {
       if (props.beforeChange == null) {
         return true;
@@ -58,8 +61,8 @@ export const ASwitchComponent = defineAtomicComponent(
 
       const activeValue = other.activeValue ?? true;
       const active = value === activeValue;
-      const activeText = other.previewActiveText ?? other.activeText ?? '开启';
-      const inactiveText = other.previewInactiveText ?? other.inactiveText ?? '关闭';
+      const activeText = other.previewActiveText ?? other.activeText ?? t('wkc.on');
+      const inactiveText = other.previewInactiveText ?? other.inactiveText ?? t('wkc.off');
 
       if (mode === 'preview') {
         return renderPreview ? (

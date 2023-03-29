@@ -6,6 +6,7 @@ import { Button, MessageBox, Message } from '@wakeadmin/element-adapter';
 import { FatTableBatchAction, FatTableMethods } from './types';
 import { createMessageBoxOptions, normalizeClassName } from '../utils';
 import { FatTableInstanceContext } from './constants';
+import { useT } from '../hooks';
 
 const BatchAction = declareComponent({
   name: 'FatBatchAction',
@@ -17,12 +18,14 @@ const BatchAction = declareComponent({
   setup(props) {
     const _loading = ref(false);
 
+    const t = useT();
+
     const handleClick = async () => {
       const { action, table } = props;
       if (action.confirm) {
         const options = createMessageBoxOptions(
           action.confirm,
-          { title: '提示', showCancelButton: true, type: 'warning', message: '提示消息' },
+          { title: t('wkc.alertTitle'), showCancelButton: true, type: 'warning', message: t('wkc.alertMessage') },
           { table }
         );
         if (options) {

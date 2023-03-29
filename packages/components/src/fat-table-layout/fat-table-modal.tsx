@@ -21,7 +21,7 @@ import { FatTable } from '../fat-table/fat-table';
 import { useFatTableRef } from '../fat-table/hooks';
 
 import { FatTableEvents, FatTableMethods, FatTableProps, FatTableSlots } from '../fat-table/types';
-import { useLazyFalsy } from '../hooks';
+import { useLazyFalsy, useT } from '../hooks';
 
 export interface FatTableModalMethods<T extends {}, S extends {}> extends FatTableMethods<T, S> {
   /**
@@ -192,6 +192,7 @@ const FatTableModalInner = declareComponent({
   setup(props, { attrs, expose, slots }) {
     const visible = ref(false);
     const lazyVisible = useLazyFalsy(visible);
+    const t = useT();
 
     const configurable = useFatConfigurable();
 
@@ -289,7 +290,7 @@ const FatTableModalInner = declareComponent({
               onClick={() => close()}
               {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}
             >
-              {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? '取消'}
+              {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? t('wkc.cancel')}
             </Button>
           )}
           {(mergedPropsValue.enableConfirm ?? fatTableModalConfigurable.enableConfirm) && (
@@ -298,7 +299,7 @@ const FatTableModalInner = declareComponent({
               onClick={() => handleConfirm(() => handleVisibleChange(false))}
               {...(mergedPropsValue.confirmProps ?? fatTableModalConfigurable.confirmProps ?? {})}
             >
-              {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? '确认'}
+              {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? t('wkc.confirm')}
             </Button>
           )}
         </div>

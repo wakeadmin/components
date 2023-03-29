@@ -15,7 +15,7 @@ import {
   FatTableRemove,
   FatTableSlots,
 } from '../fat-table/types';
-import { useDevtoolsExpose } from '../hooks';
+import { useDevtoolsExpose, useT } from '../hooks';
 import {
   forwardExpose,
   hasSlots,
@@ -288,6 +288,7 @@ export const FatTableSelectInner = declareComponent({
     const itemStore = new Map<string, any>();
 
     const fatTableRef = useFatTableRef();
+    const t = useT();
 
     const globalConfiguration = useFatConfigurable();
 
@@ -303,7 +304,6 @@ export const FatTableSelectInner = declareComponent({
     const selectedList = ref<any[]>(toArray(modelValue));
     const selectedCount = computed(() => selectedList.value.length);
 
-    
     const selectableFn = computed(() => {
       const propSelectable = props.selectable;
       const rowKey = props.rowKey;
@@ -333,7 +333,7 @@ export const FatTableSelectInner = declareComponent({
         return propsColumns.concat([
           {
             type: 'actions',
-            label: '操作',
+            label: t('wkc.operation'),
             actions: [
               {
                 name: props.selectActionText ?? globalConfiguration.fatTableSelect?.selectActionText ?? '选择',
@@ -545,10 +545,10 @@ export const FatTableSelectInner = declareComponent({
       toggle,
       toggleAll,
       removeSelected: () => {
-        throw new FatTableSelectError('该模式下不支持删除');
+        throw new FatTableSelectError(t('wkc.notSupportDeleteInMode'));
       },
       remove: () => {
-        throw new FatTableSelectError('该模式下不支持删除');
+        throw new FatTableSelectError(t('wkc.notSupportDeleteInMode'));
       },
     } as any;
 
@@ -595,7 +595,7 @@ export const FatTableSelectInner = declareComponent({
       if (props.multiple) {
         return () => (
           <div class="fat-table-select__counter">
-            已选<span class="fat-table-select__counter-value">{selectedCount.value}</span>条
+            {t('wkc.selected')} <span class="fat-table-select__counter-value">{selectedCount.value}</span>
           </div>
         );
       }

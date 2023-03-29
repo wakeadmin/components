@@ -44,6 +44,7 @@ import { FatTableGlobalConfigurations } from '../fat-table';
 import { FatTableSelectGlobalConfigurations } from '../fat-table-layout';
 import { FatTableModalGlobalConfigurations } from '../fat-table-layout/fat-table-modal';
 import { FatTableSelectModalGlobalConfigurations } from '../fat-table-layout/fat-table-select-modal';
+import { II18n } from '../i18n';
 
 /**
  * 这里定义了组件库一些可以全局配置的参数
@@ -285,4 +286,9 @@ export interface FatConfigurable {
    * 自定义表单页面布局
    */
   fatFormPageLayout?: FatFormPageLayout;
+
+  /**
+   * i18n 实例
+   */
+  i18n?: II18n;
 }

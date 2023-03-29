@@ -1,10 +1,12 @@
 import { formatFileSize } from '@wakeadmin/utils';
+import { getI18nInstance } from '../i18n';
 
 function formatAccept(accept: string | string[]): string {
+  const i18n = getI18nInstance();
   const textMap = {
-    image: '图片',
-    video: '视频',
-    audio: '音频',
+    image: i18n.t('wkc.image'),
+    video: i18n.t('wkc.video'),
+    audio: i18n.t('wkc.audio'),
   };
 
   const list = Array.isArray(accept) ? accept : accept.split(',');
@@ -31,19 +33,20 @@ function formatAccept(accept: string | string[]): string {
 }
 
 function createFilesPlaceholder(props: AtomicProps['files']): string {
+  const i18n = getI18nInstance();
   const { tip, sizeLimit, accept, limit } = props;
   if (tip) {
     return tip;
   }
   const texts = [];
   if (accept) {
-    texts.push(`请上传 ${formatAccept(accept)} 格式的文件`);
+    texts.push(i18n.t('wkc.uploadFormat', { accept: formatAccept(accept) }));
   }
   if (sizeLimit) {
-    texts.push(`大小不能超过 ${formatFileSize(sizeLimit)} `);
+    texts.push(i18n.t('wkc.uploadFileSizeLimit', { sizeLimit: formatFileSize(sizeLimit) }));
   }
   if (limit && limit !== 1) {
-    texts.push(`最多只能上传 ${limit} 个文件`);
+    texts.push(i18n.t('wkc.uploadFileLimit', { limit }));
   }
   return texts.join(', ');
 }
@@ -51,14 +54,38 @@ function createFilesPlaceholder(props: AtomicProps['files']): string {
 const createPlaceholderMap: Partial<Record<keyof AtomicProps, (props: any) => string>> = {
   files: createFilesPlaceholder,
   images: createFilesPlaceholder,
-  select: prop => `请选择${prop.label ?? '选项'}`,
-  'multi-select': prop => `请选择${prop.label ?? '选项'}`,
-  cascader: prop => `请选择${prop.label ?? '选项'}`,
-  'cascader-lazy': prop => `请选择${prop.label ?? '选项'}`,
-  date: prop => `请选择${prop.label ?? '日期'}`,
-  'date-time': prop => `请选择${prop.label ?? '日期时间'}`,
-  time: prop => `请选择${prop.label ?? '时间'}`,
-  captcha: prop => `请输入${prop.label ?? '验证码'}`,
+  select: prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.selectOption', { label: prop.label ?? '选项' });
+  },
+  'multi-select': prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.selectOption', { label: prop.label ?? '选项' });
+  },
+  cascader: prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.selectOption', { label: prop.label ?? '选项' });
+  },
+  'cascader-lazy': prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.selectOption', { label: prop.label ?? '选项' });
+  },
+  date: prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.selectOption', { label: prop.label ?? '日期' });
+  },
+  'date-time': prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.selectOption', { label: prop.label ?? '日期时间' });
+  },
+  time: prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.selectOption', { label: prop.label ?? '时间' });
+  },
+  captcha: prop => {
+    const i18n = getI18nInstance();
+    return i18n.t('wkc.inputCaptcha', { label: prop.label ?? '验证码' });
+  },
 };
 
 /**

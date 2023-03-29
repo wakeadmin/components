@@ -15,7 +15,7 @@ import {
   ToHEmitDefinition,
   ToHSlotDefinition,
 } from '../utils';
-import { useLazyFalsy } from '../hooks';
+import { useLazyFalsy, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
 
 export interface FatFormDrawerMethods<Store extends {}> extends FatFormMethods<Store> {
@@ -157,6 +157,7 @@ const FatFormDrawerInner = declareComponent({
     const lazyVisible = useLazyFalsy(visible);
     const configurable = useFatConfigurable();
     const form = ref<FatFormMethods<any>>();
+    const t = useT();
 
     // 临时 props
     let tempProps = {};
@@ -217,16 +218,16 @@ const FatFormDrawerInner = declareComponent({
       return [
         !!props.enableCancel && (
           <Button onClick={close} {...props.cancelProps}>
-            {props.cancelText ?? configurable.fatForm?.cancelText ?? '取消'}
+            {props.cancelText ?? configurable.fatForm?.cancelText ?? t('wkc.cancel')}
           </Button>
         ),
         !!props.enableReset && (
           <Button onClick={form.value?.reset} {...props.resetProps}>
-            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
+            {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
         <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
         </Button>,
       ];
     };

@@ -16,12 +16,12 @@
   "scripts": {
     "switch": "wk-demi-switch 3 && wakeadmin-adapter-switch 3",
     "start": "npm run switch && tsc -b tsconfig.build.json --watch",
-    "prebuild": "rimraf dist .tsBuildInfo",
+    "prebuild": "rimraf dist .tsBuildInfo &node ../../scripts/generate-languages.js",
     "test": "npm run switch && vitest",
     "build": "npm run switch && npm run build:es && npm run build:common",
     "build:es": "tsc -b tsconfig.build.json",
     "build:common": "tsc -b tsconfig.build.common.json",
-    "postbuild": "node ../../scripts/replace-export.js",
+    "postbuild": "node ../../scripts/replace-export.js && bbt-tools build",
     "type-check": "npm run switch && tsc"
   },
   "keywords": [
@@ -52,6 +52,7 @@
     "copy-to-clipboard": "^3.3.3"
   },
   "devDependencies": {
+    "@wakeapp/bbt-tools": "^1.1.4",
     "vitest": "^0.23.4"
   }
 }

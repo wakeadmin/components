@@ -8,6 +8,7 @@ import {
 } from '@wakeadmin/element-adapter';
 import { formatFileSize, isPromise, NoopArray, queryString } from '@wakeadmin/utils';
 import memoize from 'lodash/memoize';
+import { useT } from '../../hooks';
 import { isDev } from '../../utils/isDev';
 import { useTrigger } from './useTrigger';
 
@@ -105,6 +106,7 @@ export function useUpload(
 ) {
   const formItemValidate = useFormItemValidate();
   const fileListTrigger = useTrigger();
+  const t = useT();
 
   // 缓存 uid 修复动画问题
   const uidCache: Map<any, string | number> = new Map();
@@ -130,8 +132,8 @@ export function useUpload(
     return props.value == null
       ? NoopArray
       : props.value.map(item => {
-          const t = props.transformToFileListItem ?? defaultTransformToFileList;
-          const result = t(item);
+          const transform = props.transformToFileListItem ?? defaultTransformToFileList;
+          const result = transform(item);
 
           if (uidCache.has(item)) {
             result.uid = uidCache.get(item);
@@ -155,13 +157,18 @@ export function useUpload(
   const beforeUpload = async (file: UploadInternalRawFile) => {
     try {
       if (props.sizeLimit && file.size > props.sizeLimit) {
-        throw new Error(props.limitMessage ?? `请选择小于 ${formatFileSize(props.sizeLimit)} 的文件`);
+        throw new Error(
+          props.limitMessage ?? t<string>('wkc.selectFileLessThan', { size: formatFileSize(props.sizeLimit) })
+        );
       }
 
       if (Array.isArray(props.accept)) {
         const filename = file.name;
         if (!props.accept.some(ext => filename.endsWith(ext))) {
-          throw new Error(props.limitMessage ?? `请选择 ${props.accept.map(i => i.slice(1)).join('/')} 格式的文件`);
+          throw new Error(
+            props.limitMessage ??
+              t<string>('wkc.selectFileFormat', { format: props.accept.map(i => i.slice(1)).join('/') })
+          );
         }
       }
 
@@ -183,7 +190,7 @@ export function useUpload(
   };
 
   const handleExceed = (file: UploadInternalFileDetail, list: UploadInternalFileDetail[]) => {
-    Message.warning(`最多只能选择 ${props.limit} 个文件`);
+    Message.warning(t('wkc.selectMaxFiles', { limit: props.limit }));
   };
 
   const isAllDone = (list: UploadInternalFileDetail[]) => {
@@ -197,8 +204,8 @@ export function useUpload(
     if (isAllDone(list)) {
       const newList: any[] = [];
       const add = (item: UploadInternalFileDetail) => {
-        const t = props.transformToValue ?? defaultTransformToValue;
-        const value = t(item as FileListItem);
+        const transformToValue = props.transformToValue ?? defaultTransformToValue;
+        const value = transformToValue(item as FileListItem);
 
         // 缓存 uid
         uidCache.set(value, item.uid);

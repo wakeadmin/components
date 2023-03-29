@@ -35,6 +35,7 @@ import { FatFormGroup } from './fat-form-group';
 import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormItem } from './fat-form-item';
 import { formItemWidth, runInModifyContext, validateFormItemProps } from './utils';
+import { useT } from '../hooks';
 
 export interface FatFormTableMethods<Store extends {} = any> {
   /**
@@ -238,6 +239,7 @@ export const FatFormTable = declareComponent({
   setup(props, { slots, expose, attrs }) {
     validateFormItemProps(props, 'fat-form-table');
     const form = useFatFormContext()!;
+    const t = useT();
     const tableRef = ref();
     const inherited = useInheritableProps();
 
@@ -401,14 +403,14 @@ export const FatFormTable = declareComponent({
       if (props.sortable) {
         list.push(
           {
-            name: props.moveUpText ?? '上移',
+            name: props.moveUpText ?? t('wkc.moveUp'),
             visible: index > 0,
             onClick: () => {
               moveUp(row);
             },
           },
           {
-            name: props.moveDownText ?? '下移',
+            name: props.moveDownText ?? t('wkc.moveDown'),
             visible: index < value.value.length - 1,
             onClick: () => {
               moveDown(row);
@@ -418,12 +420,12 @@ export const FatFormTable = declareComponent({
       }
 
       list.push({
-        name: props.removeText ?? '删除',
+        name: props.removeText ?? t('wkc.delete'),
         confirm: createMessageBoxOptions(
           props.removeConfirm,
           {
-            title: '提示',
-            message: '确认删除?',
+            title: t('wkc.alertTitle'),
+            message: t('wkc.confirmDelete'),
             type: 'warning',
             showCancelButton: true,
           },
@@ -448,7 +450,7 @@ export const FatFormTable = declareComponent({
 
       return () => (
         <TableColumn
-          label={props.actionText ?? '操作'}
+          label={props.actionText ?? t('wkc.operation')}
           width={props.actionWidth ?? (props.sortable ? 180 : 80)}
           align={props.columnAlign}
           headerAlign={props.columnHeaderAlign}
@@ -542,7 +544,7 @@ export const FatFormTable = declareComponent({
             {!editable.value || !props.enableCreate ? undefined : (
               <div class="fat-form-table__footer">
                 <Button type="text" {...props.createProps} onClick={create} disabled={exceeded.value}>
-                  {props.createText ?? '新增'}
+                  {props.createText ?? t('wkc.add')}
                 </Button>
               </div>
             )}

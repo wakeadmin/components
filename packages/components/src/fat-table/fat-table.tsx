@@ -13,7 +13,7 @@ import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, compu
 import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
 
-import { useRoute, useRouter, useDevtoolsExpose } from '../hooks';
+import { useRoute, useRouter, useDevtoolsExpose, useT } from '../hooks';
 import {
   hasSlots,
   inheritProps,
@@ -121,6 +121,8 @@ const FatTableInner = declareComponent({
     const router = useRouter();
     const route = useRoute();
     const configurable = useFatConfigurable();
+
+    const t = useT();
 
     // 列表数据
     const list = ref<any[]>([]);
@@ -520,8 +522,8 @@ const FatTableInner = declareComponent({
         const confirmBeforeRemoveOptions = createMessageBoxOptions(
           props.confirmBeforeRemove,
           {
-            title: '提示',
-            message: '是否确认删除?',
+            title: t('wkc.alertTitle'),
+            message: t('wkc.alertMessage'),
             type: 'warning',
             showCancelButton: true,
           },
@@ -539,7 +541,7 @@ const FatTableInner = declareComponent({
 
         // 开始删除
         if (props.remove == null) {
-          throw new Error('[fat-table] 删除需要配置 remove 参数');
+          throw new Error(t('wkc.fatTableRemoveParamRequired'));
         }
 
         await props.remove(items, ids);
@@ -548,7 +550,7 @@ const FatTableInner = declareComponent({
         const removedMessageOptions = createMessageOptions(
           props.messageOnRemoved,
           {
-            message: '删除成功',
+            message: t('wkc.deleteSuccess'),
             type: 'success',
           },
           { items, ids }
@@ -587,7 +589,7 @@ const FatTableInner = declareComponent({
         const removeFailedMessageOptions = createMessageOptions(
           props.messageOnRemoveFailed,
           {
-            message: `删除失败: ${(err as Error).message}`,
+            message: t('wkc.deleteFail', { message: (err as Error).message }),
             type: 'error',
           },
           { items, ids, error: err as Error }
@@ -701,7 +703,6 @@ const FatTableInner = declareComponent({
     const queryable = computed(() => props.enableQuery && props.columns.some(isQueryable));
 
     const enableQuerySlot = computed(() => {
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       return queryable.value || hasSlots(props, slots, 'beforeForm') || hasSlots(props, slots, 'afterForm');
     });
 
@@ -751,7 +752,7 @@ const FatTableInner = declareComponent({
       ) : (
         <Empty
           image={props.emptyImage ?? configurable.fatTable?.emptyImage}
-          description={props.emptyText ?? configurable.fatTable?.emptyText ?? '暂无数据'}
+          description={props.emptyText ?? configurable.fatTable?.emptyText ?? t('wkc.noDataAvailable')}
           class="fat-table__empty"
         ></Empty>
       );
@@ -798,7 +799,7 @@ const FatTableInner = declareComponent({
               renderSlot(props, slots, 'error')
             ) : (
               <Alert
-                title={props.errorTitle ?? configurable.fatTable?.errorTitle ?? '数据加载失败'}
+                title={props.errorTitle ?? configurable.fatTable?.errorTitle ?? t('wkc.dataLoadFailed')}
                 type="error"
                 showIcon
                 description={error.value!.message}

@@ -3,6 +3,7 @@ import { InputProps, Input, model } from '@wakeadmin/element-adapter';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { FatText, FatTextOwnProps, FatTextProps } from '../../fat-text';
+import { useT } from '../../hooks';
 import { takeString } from '../../utils';
 
 export type ATextProps = DefineAtomicProps<
@@ -26,6 +27,7 @@ declare global {
 export const ATextComponent = defineAtomicComponent(
   (props: ATextProps) => {
     const configurable = useFatConfigurable();
+    const t = useT();
 
     return () => {
       let {
@@ -71,7 +73,7 @@ export const ATextComponent = defineAtomicComponent(
         );
       }
 
-      placeholder ??= `请输入${takeString(context?.label)}`;
+      placeholder ??= t('wkc.enterValue', { value: takeString(context?.label) });
 
       return <Input {...other} placeholder={placeholder} {...model(value, onChange!)} />;
     };

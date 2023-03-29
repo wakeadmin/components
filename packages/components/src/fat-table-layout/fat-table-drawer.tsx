@@ -22,7 +22,7 @@ import { useFatTableRef } from '../fat-table/hooks';
 
 import { FatTableEvents, FatTableMethods, FatTableProps, FatTableSlots } from '../fat-table/types';
 import { FatTableModalMethods } from './fat-table-modal';
-import { useLazyFalsy } from '../hooks';
+import { useLazyFalsy, useT } from '../hooks';
 
 export type FatTableDrawerMethods<Item extends {}, QUery extends {}> = FatTableModalMethods<Item, QUery>;
 
@@ -184,6 +184,8 @@ const FatTableDrawerInner = declareComponent({
 
     const configurable = useFatConfigurable();
 
+    const t = useT();
+
     const tableInstance = useFatTableRef<FatTableMethods<any, any>>();
 
     const tempProps: Ref<Partial<FatTableDrawerProps<any, any>>> = ref({});
@@ -279,7 +281,7 @@ const FatTableDrawerInner = declareComponent({
               onClick={() => close()}
               {...(mergedPropsValue.cancelProps ?? fatTableDrawerConfigurable.cancelProps ?? {})}
             >
-              {mergedPropsValue.cancelText ?? fatTableDrawerConfigurable.cancelText ?? '取消'}
+              {mergedPropsValue.cancelText ?? fatTableDrawerConfigurable.cancelText ?? t('wkc.cancel')}
             </Button>
           )}
           {(mergedPropsValue.enableConfirm ?? fatTableDrawerConfigurable.enableConfirm) && (
@@ -288,7 +290,7 @@ const FatTableDrawerInner = declareComponent({
               onClick={() => handleConfirm(() => handleVisibleChange(false))}
               {...(mergedPropsValue.confirmProps ?? fatTableDrawerConfigurable.confirmProps ?? {})}
             >
-              {mergedPropsValue.confirmText ?? fatTableDrawerConfigurable.confirmText ?? '确认'}
+              {mergedPropsValue.confirmText ?? fatTableDrawerConfigurable.confirmText ?? t('wkc.confirm')}
             </Button>
           )}
         </div>

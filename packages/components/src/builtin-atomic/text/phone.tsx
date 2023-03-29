@@ -2,6 +2,7 @@ import { hidePhoneNumber, PHONE_REG } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
+import { getI18nInstance } from '../../i18n';
 
 import { ATextProps, ATextComponent } from './text';
 
@@ -53,7 +54,8 @@ export const APhone = defineAtomic({
   author: 'ivan-lee',
   async validate(value) {
     if (value && !PHONE_REG.test(value)) {
-      throw new Error('请输入正确的手机号码');
+      const i18n = getI18nInstance();
+      throw new Error(i18n.t('wkc.enterCorrectPhoneNumber'));
     }
   },
   validateTrigger: 'blur',

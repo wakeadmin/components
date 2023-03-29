@@ -1,8 +1,9 @@
-import { InputProps, Input, model } from '@wakeadmin/element-adapter';
+import { Input, InputProps, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { FatLink, FatLinkProps, FatTextOwnProps } from '../../fat-text';
+import { getI18nInstance } from '../../i18n';
 
 export type AUrlProps = DefineAtomicProps<
   string,
@@ -69,7 +70,8 @@ export const AUrl = defineAtomic({
         // eslint-disable-next-line no-new
         new URL(value);
       } catch (err) {
-        throw new Error('请输入合法 URL');
+        const i18n = getI18nInstance();
+        throw new Error(i18n.t('wkc.enterValidURL'));
       }
     }
   },

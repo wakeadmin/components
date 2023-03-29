@@ -8,7 +8,7 @@ import { useFatConfigurable } from '../fat-configurable';
 
 import { FatForm, FatFormGroup, FatFormMethods, FatFormProps, FatFormSlots, FatFormEvents } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
-import { useDisposer, useUid } from '../hooks';
+import { useDisposer, useT, useUid } from '../hooks';
 import {
   forwardExpose,
   hasSlots,
@@ -117,6 +117,7 @@ const FatFormQueryInner = declareComponent({
   setup(props, { slots, attrs, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
     const configurable = useFatConfigurable();
+    const t = useT();
 
     const instance = {};
     forwardExpose(instance, FatFormPublicMethodKeys, form);
@@ -142,7 +143,7 @@ const FatFormQueryInner = declareComponent({
         <FatForm
           ref={form}
           layout={props.layout}
-          submitText={props.submitText ?? configurable.fatForm?.searchText ?? '搜索'}
+          submitText={props.submitText ?? configurable.fatForm?.searchText ?? t('wkc.search')}
           onValuesChange={handleValuesChange}
           hierarchyConnect={false}
           clearable

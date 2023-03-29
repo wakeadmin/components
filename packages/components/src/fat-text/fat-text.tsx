@@ -7,6 +7,7 @@ import copy from 'copy-to-clipboard';
 
 import { FatIcon } from '../fat-icon';
 import { Color, inheritProps, normalizeClassName, normalizeColor, normalizeStyle } from '../utils';
+import { useT } from '../hooks';
 
 export interface FatTextOwnProps {
   /**
@@ -55,6 +56,7 @@ export const FatText = declareComponent({
     const width = ref(0);
     const isEllipsis = ref(false);
     const textContent = ref('');
+    const t = useT();
 
     const measureStyle = computed<CSSProperties>(() => ({
       position: 'fixed',
@@ -160,7 +162,7 @@ export const FatText = declareComponent({
       let content = typeof props.copyable === 'string' ? props.copyable : textContent.value;
 
       copy(content);
-      Message.success('已拷贝');
+      Message.success(t('wkc.copied'));
     };
 
     return () => {
@@ -184,7 +186,7 @@ export const FatText = declareComponent({
           {children}
 
           {!!copyable && (
-            <Tooltip v-slots={{ content: '拷贝' }}>
+            <Tooltip v-slots={{ content: t('wkc.copy') }}>
               <FatIcon class="fat-text__copy" onClick={handleCopy}>
                 <Copy />
               </FatIcon>

@@ -2,6 +2,7 @@ import { VNodeChild, computed } from '@wakeadmin/demi';
 import { Checkbox, CheckboxProps, model } from '@wakeadmin/element-adapter';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
+import { useT } from '../../hooks';
 
 export type ACheckboxProps = DefineAtomicProps<
   boolean,
@@ -42,13 +43,15 @@ export const ACheckboxComponent = defineAtomicComponent(
       return typeof props.label === 'function' ? props.label(checked) : props.label;
     });
 
+    const t = useT();
+
     return () => {
       const { mode, scene, context, value, onChange, renderPreview, label, ...other } = props;
       const checked = !!value;
 
       if (mode === 'preview') {
-        const checkedText = other.previewActiveText ?? '开启';
-        const uncheckedText = other.previewInactiveText ?? '关闭';
+        const checkedText = other.previewActiveText ?? t('wkc.on');
+        const uncheckedText = other.previewInactiveText ?? t('wkc.off');
 
         return renderPreview ? (
           renderPreview(checked, labelContent.value)

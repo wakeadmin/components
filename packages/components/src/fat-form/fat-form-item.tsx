@@ -6,7 +6,7 @@ import { debounce, equal, get, NoopObject } from '@wakeadmin/utils';
 
 import { Atomic, BaseAtomicContext } from '../atomic';
 
-import { useAtomicRegistry } from '../hooks';
+import { useAtomicRegistry, useT } from '../hooks';
 import {
   composeAtomProps,
   filterStringByRegexp,
@@ -79,6 +79,7 @@ const FatFormItemInner = declareComponent({
     const collection = useFatFormCollection();
     const registry = useAtomicRegistry();
     const inheritedProps = useInheritableProps();
+    const t = useT();
 
     // 初始化: 就算是空数据也需要初始化，否则 element-ui 会报错
     form.__setInitialValue(props.prop, props.initialValue);
@@ -265,7 +266,7 @@ const FatFormItemInner = declareComponent({
         if (!values.some(i => i.required)) {
           values.unshift({
             required: true,
-            message: props.requiredMessage || `${takeString(props.label)}不能为空`,
+            message: props.requiredMessage || t('wkc.valueCannotBeNull', { label: takeString(props.label) }),
           });
         }
       }

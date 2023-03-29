@@ -15,7 +15,7 @@ import {
   reactiveUnset,
   unset,
 } from '../utils';
-import { useDevtoolsExpose } from '../hooks';
+import { useDevtoolsExpose, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
 
 import {
@@ -82,6 +82,7 @@ export const FatForm = declareComponent({
     const parentForm = useFatFormContext();
     const formRef = ref<FormMethods>();
     const _loading = ref(false);
+    const t = useT();
     const loading = computed({
       get() {
         return !!(_loading.value || props.loading);
@@ -425,11 +426,11 @@ export const FatForm = declareComponent({
       const pending = loading.value || submitting.value;
       return [
         <Button loading={pending} type="primary" {...props.submitProps} onClick={instance.submit}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
         </Button>,
         !!props.enableReset && (
           <Button loading={pending} {...props.resetProps} onClick={instance.reset}>
-            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
+            {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
       ];

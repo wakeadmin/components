@@ -1,0 +1,50 @@
+﻿path,key,zh,en
+locale,wkc.getCaptcha,获取验证码
+locale,wkc.retrieving,获取中
+locale,wkc.retrievalFailed,获取失败
+locale,wkc.on,开启
+locale,wkc.off,关闭
+locale,wkc.clickToUpload,点击上传
+locale,wkc.dragAndDropFileOrClickToUpload,将文件拖到此处，或点击上传
+locale,wkc.selectFileFormat,请选择 {format} 格式的文件
+locale,wkc.selectFileLessThan,请选择小于 {size} 的文件
+locale,wkc.selectMaxFiles,最多只能选择 {limit} 个文件
+locale,wkc.enterCorrectEmail,请输入正确的邮箱地址
+locale,wkc.enterCorrectPhoneNumber,请输入正确的手机号码
+locale,wkc.enterValue,请输入 {value}
+locale,wkc.enterValidURL,请输入合法 URL
+locale,wkc.alertTitle,提示
+locale,wkc.alertMessage,提示信息
+locale,wkc.valueCannotBeNull,{label} 不能为空
+locale,wkc.moveUp,上移
+locale,wkc.moveDown,下移
+locale,wkc.delete,删除
+locale,wkc.confirmDelete,确认删除?
+locale,wkc.operation,操作
+locale,wkc.add,新增
+locale,wkc.save,保存
+locale,wkc.reset,重置
+locale,wkc.fillForm,请按照要求完成表单填写
+locale,wkc.previousStep,上一步
+locale,wkc.nextStep,下一步
+locale,wkc.cancel,取消
+locale,wkc.search,搜索
+locale,wkc.confirm,确定
+locale,wkc.fatTableRemoveParamRequired,[fat-table] 删除需要配置 remove 参数
+locale,wkc.deleteSuccess,删除成功
+locale,wkc.deleteFail,删除失败：{message}
+locale,wkc.noDataAvailable,暂无数据
+locale,wkc.dataLoadFailed,数据加载失败
+locale,wkc.notSupportDeleteInMode,该模式下不支持删除
+locale,wkc.selected,已选择
+locale,wkc.copied,已拷贝
+locale,wkc.copy,拷贝
+locale,wkc.optionLoadFailed,选项加载失败：{message}
+locale,wkc.image,图片
+locale,wkc.video,视频
+locale,wkc.audio,音频
+locale,wkc.uploadFormat,请上传 {accept} 格式的文件
+locale,wkc.uploadFileSizeLimit,大小不能超过 {sizeLimit}
+locale,wkc.uploadFileLimit,最多只能上传 {limit} 个文件
+locale,wkc.selectOption,请选择{label}
+locale,wkc.inputCaptcha,请输入{label}

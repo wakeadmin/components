@@ -1,0 +1,7 @@
+{
+  "langs": ["zh", "en"],
+  "resourcePath": "./dist",
+  "src": "./",
+  "exclude": [],
+  "__version": "1.1.4"
+}

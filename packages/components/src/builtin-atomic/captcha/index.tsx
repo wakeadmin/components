@@ -4,6 +4,7 @@ import { computed, onBeforeUnmount, ref } from '@wakeadmin/demi';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { normalizeClassName } from '../../utils';
 import { getOrCreatePlaceholder } from '../../utils/placeholder';
+import { useT } from '../../hooks';
 
 export enum ACaptchaStatus {
   Initial = 'initial', // 初始状态
@@ -53,6 +54,7 @@ export const ACaptchaComponent = defineAtomicComponent(
     const status = ref(ACaptchaStatus.Initial);
     const countDown = props.countDown ?? 60;
     const count = ref(countDown);
+    const t = useT();
     let timer: any;
 
     const buttonText = computed(() => {
@@ -62,9 +64,9 @@ export const ACaptchaComponent = defineAtomicComponent(
 
       switch (status.value) {
         case ACaptchaStatus.Initial:
-          return '获取验证码';
+          return t('wkc.getCaptcha');
         case ACaptchaStatus.Loading:
-          return '获取中';
+          return t('wkc.retrieving');
         case ACaptchaStatus.Waiting:
           return `${count.value} S`;
         default:
@@ -117,7 +119,7 @@ export const ACaptchaComponent = defineAtomicComponent(
         if (props.onError) {
           props.onError(err as Error);
         } else {
-          Message.error(`获取验证码失败：${(err as Error).message}`);
+          Message.error(`${t('wkc.retrievalFailed')}：${(err as Error).message}`);
         }
       }
     };

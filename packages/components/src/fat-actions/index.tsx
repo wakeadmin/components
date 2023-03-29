@@ -16,7 +16,7 @@ import { declareComponent, declareProps, withDefaults } from '@wakeadmin/h';
 import { More } from '@wakeadmin/icons';
 import { isPromise } from '@wakeadmin/utils';
 
-import { RouteLocation, useRouter } from '../hooks';
+import { RouteLocation, useRouter, useT } from '../hooks';
 import { createMessageBoxOptions, LooseMessageBoxOptions, normalizeClassName, normalizeStyle } from '../utils';
 import { MouseEventButton } from '../enum';
 
@@ -149,6 +149,7 @@ const FatActionInner = declareComponent({
   setup(props) {
     const router = useRouter();
     const _loading = ref(false);
+    const t = useT();
 
     const isDisabled = (action: FatAction) => {
       if (action.disabled != null) {
@@ -166,7 +167,7 @@ const FatActionInner = declareComponent({
       if (action.confirm) {
         const options = createMessageBoxOptions(
           action.confirm,
-          { title: '提示', message: '提示信息', type: 'warning', showCancelButton: true },
+          { title: t('wkc.alertTitle'), message: t('wkc.alertMessage'), type: 'warning', showCancelButton: true },
           { action }
         );
 

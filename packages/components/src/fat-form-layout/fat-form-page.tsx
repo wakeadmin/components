@@ -17,6 +17,7 @@ import {
 import { FatFloatFooter, FatContainer } from '../fat-layout';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
+import { useT } from '../hooks';
 
 export type FatFormPageMethods<Store extends {}> = FatFormMethods<Store>;
 
@@ -178,6 +179,7 @@ const FatFormPageInner = declareComponent({
   setup(props, { slots, attrs, expose, emit }) {
     const form = ref<FatFormMethods<any>>();
     const configurable = useFatConfigurable();
+    const t = useT();
 
     const handleCancel = () => {
       const done = () => {
@@ -199,16 +201,16 @@ const FatFormPageInner = declareComponent({
       return [
         !!props.enableCancel && (
           <Button onClick={handleCancel} {...props.cancelProps}>
-            {props.cancelText ?? configurable.fatForm?.backText ?? '取消'}
+            {props.cancelText ?? configurable.fatForm?.backText ?? t('wkc.cancel')}
           </Button>
         ),
         !!props.enableReset && (
           <Button onClick={form.value?.reset} {...props.resetProps}>
-            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
+            {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
         <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
         </Button>,
       ];
     };

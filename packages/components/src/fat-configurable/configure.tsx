@@ -1,6 +1,7 @@
 import { InjectionKey, inject, provide, computed, unref, watch, reactive } from '@wakeadmin/demi';
 import { declareComponent, declareProps, MaybeRef } from '@wakeadmin/h';
 import { cloneDeep, merge } from '@wakeadmin/utils';
+import { setI18nInstance } from '../i18n';
 import { assertPluginInstalled } from '../plugin';
 import { isDev } from '../utils/isDev';
 
@@ -34,6 +35,8 @@ export function provideFatConfigurable(config: MaybeRef<FatConfigurable>) {
     nextValue => {
       if (nextValue) {
         merge(value, nextValue);
+        // 这里允许传入一个null
+        setI18nInstance(value.i18n!);
       }
     },
     { deep: true, immediate: true }

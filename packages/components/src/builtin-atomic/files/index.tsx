@@ -12,6 +12,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 import { CommonUploadProps, useUpload } from './useUpload';
 import { FatIcon } from '../../fat-icon';
 import { getOrCreatePlaceholder } from '../../utils/placeholder';
+import { useT } from '../../hooks';
 
 /**
  * 值由用户自定定义，默认为 string 类型
@@ -56,6 +57,8 @@ export const AFilesComponent = defineAtomicComponent(
     const { handleExceed, fileList, accept, beforeUpload, handleChange, exceeded } = useUpload(props, {
       name: 'files',
     });
+
+    const t = useT();
 
     const tip = computed(() => {
       if (props.tip) {
@@ -136,13 +139,11 @@ export const AFilesComponent = defineAtomicComponent(
               <FatIcon class="fat-a-files__dragger-icon">
                 <UploadIcon />
               </FatIcon>
-              <div class="fat-a-files__dragger-text">
-                将文件拖到此处，或<em>点击上传</em>
-              </div>
+              <div class="fat-a-files__dragger-text">{t('wkc.dragAndDropFileOrClickToUpload')}</div>
             </div>
           ) : (
             <Button type="primary" disabled={exceeded.value}>
-              点击上传
+              {t('wkc.clickToUpload')}
             </Button>
           )}
         </Upload>

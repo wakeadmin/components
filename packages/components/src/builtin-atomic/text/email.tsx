@@ -1,6 +1,7 @@
 import { EMAIL_REG } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent } from '../../atomic';
+import { getI18nInstance } from '../../i18n';
 
 import { ATextProps, ATextComponent } from './text';
 
@@ -25,7 +26,8 @@ export const AEmail = defineAtomic({
   author: 'ivan-lee',
   async validate(value) {
     if (value && !EMAIL_REG.test(value)) {
-      throw new Error('请输入正确的邮箱地址');
+      const i18n = getI18nInstance();
+      throw new Error(i18n.t('wkc.enterCorrectEmail'));
     }
   },
   validateTrigger: 'blur',

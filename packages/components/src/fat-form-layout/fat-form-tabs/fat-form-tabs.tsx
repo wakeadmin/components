@@ -17,7 +17,7 @@ import {
 
 import { FatFormTabPaneMethods, FatFormTabsContextValue, provideFatFormTabsContext } from './fat-form-tabs-context';
 import { FatFormTabsEvents, FatFormTabsMethods, FatFormTabsProps, FatFormTabsSlots } from './types';
-import { useDevtoolsExpose } from '../../hooks';
+import { useDevtoolsExpose, useT } from '../../hooks';
 import { DEFAULT_LAYOUT } from './default-layout';
 
 export const FatFormTabsPublicMethodKeys: (keyof FatFormTabsMethods)[] = [...FatFormPublicMethodKeys];
@@ -56,7 +56,7 @@ const FatFormTabsInner = declareComponent({
     const submitLoading = ref(false);
     const form = useFatFormRef();
     const active = ref<string | number | undefined>(props.initialActive);
-
+    const t = useT();
     const enabledSubmitter = computed(() => {
       return props.enableSubmitter ?? props.mode !== 'preview';
     });
@@ -120,7 +120,7 @@ const FatFormTabsInner = declareComponent({
             if (props.validateErrorCapture) {
               props.validateErrorCapture(tab.name, err as Error);
             } else {
-              Message.error('请按照要求完成表单填写');
+              Message.error(t('wkc.fillForm'));
             }
 
             handleActiveChange(tab.name);
@@ -150,16 +150,16 @@ const FatFormTabsInner = declareComponent({
       return [
         !!props.enableCancel && (
           <Button onClick={handleCancel} {...props.cancelProps}>
-            {props.cancelText ?? configurable.fatForm?.backText ?? '取消'}
+            {props.cancelText ?? configurable.fatForm?.backText ?? t('wkc.cancel')}
           </Button>
         ),
         !!props.enableReset && (
           <Button onClick={form.value?.reset} {...props.resetProps}>
-            {props.resetText ?? configurable.fatForm?.resetText ?? '重置'}
+            {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
         <Button type="primary" onClick={submit} loading={submitting.value} {...props.submitProps}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? '保存'}
+          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
         </Button>,
       ];
     };
