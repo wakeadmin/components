@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.2.4
+
+### Patch Changes
+
+- 修复上传文件时 filter 抛出异常导致文件缓存没有正常同步的问题
+
 ## 1.2.3
 
 ### Patch Changes
