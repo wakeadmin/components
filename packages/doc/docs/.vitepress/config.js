@@ -181,6 +181,7 @@ export default {
             { text: 'FatTreeSelect 树选择器', link: '/other/tree-select' },
             { text: 'FatVNode VNode渲染', link: '/other/vnode' },
             { text: 'FatText/FatLink 文本', link: '/other/text' },
+            { text: 'I18n 国际化', link: '/other/i18n' },
           ],
         },
       ],
