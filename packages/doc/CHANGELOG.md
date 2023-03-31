@@ -1,5 +1,11 @@
 # @wakeadmin/components-doc
 
+## 0.3.2
+
+### Patch Changes
+
+- 新增国际化支持文档
+
 ## 0.3.1
 
 ### Patch Changes
