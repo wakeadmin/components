@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.3
+
+### Patch Changes
+
+- 新增 popover
+
 ## 0.6.2
 
 ### Patch Changes

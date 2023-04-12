@@ -17,7 +17,7 @@ fi
 env
 node -v
 
-npm i -g pnpm
+npm i -g pnpm@7
 pnpm install
 
 # 构建静态资源

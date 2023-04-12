@@ -38,7 +38,7 @@
     "@vue/cli-service": "~5.0.8",
     "@wakeadmin/demi": "^0.2.5",
     "@wakeadmin/docker-build": "^0.1.8",
-    "@wakeadmin/element-adapter": "workspace:0.6.2",
+    "@wakeadmin/element-adapter": "workspace:0.6.3",
     "@wakeadmin/vue-cli-plugin-i18n": "^0.1.1",
     "@wakeadmin/vue-cli-plugin-typescript": "^0.1.0",
     "babel-preset-wakeadmin": "latest",
