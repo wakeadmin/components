@@ -1,5 +1,120 @@
 # @wakeadmin/components
 
+## 1.3.0
+
+### Minor Changes
+
+- 新增国际化支持
+
+## 1.2.4
+
+### Patch Changes
+
+- 修复上传文件时 filter 抛出异常导致文件缓存没有正常同步的问题
+
+## 1.2.3
+
+### Patch Changes
+
+- 现在 avatar 原件允许自定义宽高
+- 修复 Portal 在 attach 时会导致 vue 上下文异常的问题
+  > 现在 `Portal.attach` 不再是同步行为，因此如果需要在`attach` 后立刻执行一些操作需要进行一些调整
+
+```typescript
+// before
+portal.attach();
+portal.show();
+
+// after
+portal.attach().then(() => portal.show());
+```
+
+## 1.2.2
+
+### Patch Changes
+
+- 修复 [ElementForm]unpected width
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.2
+
+## 1.2.1
+
+### Patch Changes
+
+- 修复 kebab-case 传参无法正常覆盖 lowerCamelCase 的问题
+
+## 1.2.0
+
+### Minor Changes
+
+- FatFormItem、FatFormGroup 新增`requiredMessage` 支持
+- FatFormItem、FatFormGroup 新增 `maxWidth` 、`minWidth`
+
+#### Break Change
+
+- 在之前的版本中, FatFormItem、FatFormGroup 的 `width` 会被设置成`maxWidth`, 现在`width` 就是 `width`。因此这次升级可能会对之前的布局造成一些影响
+
+## 1.1.9
+
+### Patch Changes
+
+- 导出所有工具类函数
+
+## 1.1.8
+
+### Patch Changes
+
+- 导出类型转换函数
+
+## 1.1.7
+
+### Patch Changes
+
+- pref: 删除无用代码
+
+## 1.1.6
+
+### Patch Changes
+
+- 修复 fatFrom 没有正确合并 initialValue 的问题
+
+## 1.1.5
+
+### Patch Changes
+
+- feat: 调整 fatForm initialValue 的类型以及 initialValue 的合并模式
+
+## 1.1.4
+
+### Patch Changes
+
+- fix:修复 fat-table 在删除数据之后分页可能异常的问题
+
+## 1.1.3
+
+### Patch Changes
+
+- 修改 fat-table 空图片样式
+
+## 1.1.2
+
+### Patch Changes
+
+- fat-table 空数据支持自定义图片
+
+## 1.1.1
+
+### Patch Changes
+
+- 导入部分 typescript 类型
+
+## 1.1.0
+
+### Minor Changes
+
+- 新增 fat-drag-drop 组件
+- 新增 `DANGEROUS_Portal` API (实验性 API)
+
 ## 1.0.1 (2022/1/5)
 
 功能更新

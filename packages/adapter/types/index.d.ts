@@ -35,3 +35,4 @@ export * from './steps';
 export * from './tabs';
 export * from './tree';
 export * from './tree-select';
+export * from './popover';
