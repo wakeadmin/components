@@ -3,6 +3,7 @@
     "add": "เพิ่ม",
     "alertMessage": "ข้อความแจ้งเตือน",
     "alertTitle": "เตือน",
+    "audio": "เสียง",
     "cancel": "ยกเลิก",
     "clickToUpload": "คลิกเพื่ออัปโหลด",
     "confirm": "ยืนยัน",
@@ -21,6 +22,8 @@
     "fatTableRemoveParamRequired": "[fat-table] การลบต้องมีการตั้งค่าพารามิเตอร์ remove",
     "fillForm": "โปรดกรอกแบบฟอร์มตามความต้องการ",
     "getCaptcha": "รับรหัสยืนยัน",
+    "image": "รูปภาพ",
+    "inputCaptcha": "โปรดกรอก{label}",
     "moveDown": "ย้ายลง",
     "moveUp": "ย้ายขึ้น",
     "nextStep": "ขั้นตอนถัดไป",
@@ -39,15 +42,12 @@
     "selectFileFormat": "กรุณาเลือกไฟล์รูปแบบ {format}",
     "selectFileLessThan": "กรุณาเลือกไฟล์ขนาดเล็กกว่า {size}",
     "selectMaxFiles": "สามารถเลือกได้มากสุด {limit} ไฟล์",
-    "selected": "เลือกแล้ว",
-    "valueCannotBeNull": "{label} ต้องไม่ว่างเปล่า",
-    "image": "รูปภาพ",
-    "video": "วิดีโอ",
-    "audio": "เสียง",
-    "uploadFormat": "โปรดอัปโหลดไฟล์รูปแบบ {accept}",
-    "uploadFileSizeLimit": "ขนาดไม่เกิน {sizeLimit}",
-    "uploadFileLimit": "สามารถอัปโหลดได้มากสุด {limit} ไฟล์",
     "selectOption": "โปรดเลือก{label}",
-    "inputCaptcha": "โปรดกรอก{label}"
+    "selected": "เลือกแล้ว",
+    "uploadFileLimit": "สามารถอัปโหลดได้มากสุด {limit} ไฟล์",
+    "uploadFileSizeLimit": "ขนาดไม่เกิน {sizeLimit}",
+    "uploadFormat": "โปรดอัปโหลดไฟล์รูปแบบ {accept}",
+    "valueCannotBeNull": "{label} ต้องไม่ว่างเปล่า",
+    "video": "วิดีโอ"
   }
 }

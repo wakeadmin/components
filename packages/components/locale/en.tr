@@ -3,6 +3,7 @@
     "add": "Add",
     "alertMessage": "Alert Message",
     "alertTitle": "Alert",
+    "audio": "Audio",
     "cancel": "Cancel",
     "clickToUpload": "Click to Upload",
     "confirm": "Confirm",
@@ -21,6 +22,8 @@
     "fatTableRemoveParamRequired": "[fat-table] Remove parameter required",
     "fillForm": "Please complete the form as required",
     "getCaptcha": "Get captcha",
+    "image": "Image",
+    "inputCaptcha": "Please enter {label}",
     "moveDown": "Move down",
     "moveUp": "Move up",
     "nextStep": "Next step",
@@ -39,15 +42,12 @@
     "selectFileFormat": "Please select a {format} format file",
     "selectFileLessThan": "Please select a file smaller than {size}",
     "selectMaxFiles": "You can only select up to {limit} files",
-    "selected": "Selected",
-    "valueCannotBeNull": "{label} cannot be empty",
-    "image": "Image",
-    "video": "Video",
-    "audio": "Audio",
-    "uploadFormat": "Please upload {accept} format file",
-    "uploadFileSizeLimit": "Size cannot exceed {sizeLimit}",
-    "uploadFileLimit": "You can only upload up to {limit} files",
     "selectOption": "Please select {label}",
-    "inputCaptcha": "Please enter {label}"
+    "selected": "Selected",
+    "uploadFileLimit": "You can only upload up to {limit} files",
+    "uploadFileSizeLimit": "Size cannot exceed {sizeLimit}",
+    "uploadFormat": "Please upload {accept} format file",
+    "valueCannotBeNull": "{label} cannot be empty",
+    "video": "Video"
   }
 }
