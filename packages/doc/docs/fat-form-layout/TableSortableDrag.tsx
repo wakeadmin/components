@@ -1,40 +1,32 @@
-import { defineFatForm } from '@wakeadmin/components';
+import { FatFormTableSortType, defineFatForm } from '@wakeadmin/components';
 
 export default defineFatForm(({ item, table, tableColumn, consumer, group }) => {
-  let uid = 0;
   return () => ({
     children: [
+      item({ label: '标题', prop: 'title', width: 'small' }),
       table({
         prop: 'list',
         label: '详情',
         width: 700,
-        rowKey: 'id',
-        // 关闭删除提示
-        removeConfirm: false,
-
-        // 🔴 自定义创建行的数据
-        beforeCreate() {
-          const id = uid++;
-          return {
-            id,
-            name: `ivan-${id}`,
-            address: '广东省汕尾市',
-          };
-        },
         columns: [
           tableColumn({
             prop: 'name',
             label: '姓名',
-            width: 'mini',
             // 表单项级别的验证规则
             required: true,
           }),
-          tableColumn({
-            prop: 'address',
-            label: '地址',
-            required: true,
-          }),
         ],
+        // 🔴 开启排序
+        sortable: true,
+
+        // 🔴 自定义排序规则, 可选
+        sortableProps: {
+          type: FatFormTableSortType.ByDrag,
+          rowSortable(params) {
+            // 索引为偶数的可以排序
+            return params.index % 2 === 0;
+          },
+        },
       }),
       consumer(form =>
         group({

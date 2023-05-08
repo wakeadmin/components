@@ -30,7 +30,7 @@ export default defineFatForm(({ item, table, tableColumn, consumer, group }) => 
           }),
           tableColumn({ prop: 'enabled', label: '状态', valueType: 'switch', width: 'mini' }),
         ],
-        sortable: true,
+        // 自定义文案
         createText: '新增一行',
         removeText: '删除',
       }),

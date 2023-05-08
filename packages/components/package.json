@@ -51,9 +51,11 @@
     "@wakeadmin/h": "^0.2.13",
     "@wakeadmin/icons": "^0.1.4",
     "@wakeadmin/utils": "^0.1.4",
-    "copy-to-clipboard": "^3.3.3"
+    "copy-to-clipboard": "^3.3.3",
+    "sortablejs": "^1.15.0"
   },
   "devDependencies": {
+    "@types/sortablejs": "^1.15.1",
     "@wakeapp/bbt-tools": "^1.1.4",
     "vitest": "^0.23.4"
   }

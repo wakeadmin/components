@@ -23,5 +23,8 @@
     "imagemin-cli": "^7.0.0",
     "vitepress": "1.0.0-alpha.16",
     "vue": "^3.2.45"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0"
   }
 }

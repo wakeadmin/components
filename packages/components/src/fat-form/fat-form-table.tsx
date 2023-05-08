@@ -13,10 +13,11 @@ import {
   Message,
 } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
-import { computed, ref, set as $set } from '@wakeadmin/demi';
+import { computed, ref, set as $set, ComponentPublicInstance, watchPostEffect } from '@wakeadmin/demi';
 import { Inquiry } from '@wakeadmin/icons';
 import { get, isObject, NoopArray, set, cloneDeep } from '@wakeadmin/utils';
 import memoize from 'lodash/memoize';
+import Sortable from 'sortablejs';
 
 import { FatAction, FatActions } from '../fat-actions';
 import {
@@ -75,6 +76,11 @@ export interface FatFormTableSlots<Store extends {} = any> extends Omit<FatFormG
   renderDefault?: (inst: FatFormTableMethods) => any;
 
   /**
+   * 自定义列
+   */
+  renderColumns?: (inst: FatFormTableMethods) => any;
+
+  /**
    * 自定义操作栏，可以在这里使用 el-table-column
    */
   renderActions?: (inst: FatFormTableMethods) => any;
@@ -92,6 +98,89 @@ export interface FatFormTableColumn<
     Omit<FatFormItemProps<Store, Request, ValueType>, 'renderLabel' | 'renderTooltip'> {
   renderLabel?: (inst: FatFormTableMethods) => any;
   renderTooltip?: (inst: FatFormTableMethods) => any;
+}
+
+export const FatFormTableDropGuide = {
+  Prevent: false,
+  InsertBefore: -1,
+  InsertAfter: 1,
+  Ok: true,
+};
+
+/**
+ * 排序的方式
+ */
+export enum FatFormTableSortType {
+  ByDrag = 'by-drag',
+  ByAction = 'by-action',
+}
+
+export interface FatFormTableSortableOptions<Store extends {} = any> {
+  /**
+   * 排序的方式，默认是 FatFormTableSortType.ByAction
+   */
+  type?: FatFormTableSortType;
+
+  /**
+   * 确定行是否可以被排序
+   * @returns
+   */
+  rowSortable?: (params: { row: Store; index: number; list: Store[] }) => boolean;
+
+  /**
+   * 拖拽块选择器
+   * 默认整行可以进行拖拽
+   * @note 只有拖拽排序的方式支持该方法
+   */
+  handle?: string;
+
+  /**
+   * 判断是否可以放置
+   * @note 只有拖拽排序的方式支持该方法
+   * @returns 可以使用 FatFormTableDropGuide
+   *  return false; — for cancel
+   *  return -1; — insert before target
+   *  return 1; — insert after target
+   *  return true; — keep default insertion point based on the direction
+   *  return void; — keep default insertion point based on the direction
+   */
+  canDrop?: (params: {
+    /**
+     * sortable 原始 move 事件类型
+     */
+    nativeMoveEvent: Sortable.MoveEvent;
+    nativeEvent: Event;
+
+    /**
+     * 当前正在拖拽的子项
+     */
+    dragged: Store;
+
+    /**
+     * dragged 对应的索引
+     */
+    draggedIndex: number;
+
+    /**
+     * 即将释放的参考元素
+     */
+    related: Store;
+
+    /**
+     * related 对应的索引
+     */
+    relatedIndex: number;
+
+    /**
+     * 是否插入到 related 之前
+     */
+    willInsertAfter?: boolean;
+
+    /**
+     * 完整的列表
+     */
+    list: Store[];
+  }) => false | -1 | 1 | true | void;
 }
 
 export interface FatFormTableProps<Store extends {} = any, Request extends {} = Store>
@@ -136,6 +225,11 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
    * 是否可排序, 默认 false
    */
   sortable?: boolean;
+
+  /**
+   * 排序配置
+   */
+  sortableProps?: FatFormTableSortableOptions<Store>;
 
   /**
    * 是否支持创建, 默认 true
@@ -193,6 +287,8 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
 }
 
 const AUTO_UNIQ_KEY: unique symbol = Symbol('AUTO_UNIQ_KEY');
+const ROW_DISABLE_TO_DRAG = 'disable-to-drag';
+const UUID_CLASS_REG = /row-uuid-([^\s]+)/;
 
 const parseWidth = memoize((width: string | number) => {
   const value = formItemWidth(width as any);
@@ -217,6 +313,7 @@ export const FatFormTable = declareComponent({
     max: { type: Number, default: Number.MAX_SAFE_INTEGER },
     actionWidth: { type: Number, default: undefined },
     sortable: Boolean,
+    sortableProps: null,
     columnAlign: null,
     columnHeaderAlign: null,
 
@@ -234,13 +331,14 @@ export const FatFormTable = declareComponent({
 
     // 自定义操作栏
     renderActions: null,
+    renderColumns: null,
   }),
   slots: declareSlots<ToHSlotDefinition<FatFormTableSlots<any>>>(),
   setup(props, { slots, expose, attrs }) {
     validateFormItemProps(props, 'fat-form-table');
     const form = useFatFormContext()!;
     const t = useT();
-    const tableRef = ref();
+    const tableRef = ref<ComponentPublicInstance>();
     const inherited = useInheritableProps();
 
     const mode = computed(() => {
@@ -249,6 +347,20 @@ export const FatFormTable = declareComponent({
 
     const editable = computed(() => {
       return mode.value !== 'preview';
+    });
+
+    /**
+     * 拖拽的方式
+     */
+    const sortType = computed(() => {
+      return props.sortableProps?.type ?? FatFormTableSortType.ByAction;
+    });
+
+    /**
+     * 是否支持排序
+     */
+    const sortable = computed(() => {
+      return props.sortable && editable.value;
     });
 
     const rowKey = (row: any) => {
@@ -266,7 +378,7 @@ export const FatFormTable = declareComponent({
       return key;
     };
 
-    const rawValue = computed(() => {
+    const rawValue = computed<any[] | undefined>(() => {
       return form.getFieldValue(props.prop);
     });
 
@@ -278,7 +390,7 @@ export const FatFormTable = declareComponent({
       return value.value.length >= props.max!;
     });
 
-    const getValue = () => {
+    const getValue = (): any[] => {
       const val = rawValue.value;
 
       // 初始化
@@ -321,6 +433,19 @@ export const FatFormTable = declareComponent({
           $set(list, idx, target);
         });
       }
+    };
+
+    /**
+     * 交换数据的位置
+     */
+    const swap = (oldIndex: number, newIndex: number) => {
+      const clone = value.value.slice(0);
+      const oldItem = clone.splice(oldIndex, 1)[0];
+      clone.splice(newIndex, 0, oldItem);
+
+      runInModifyContext(() => {
+        form.setFieldValue(props.prop, clone);
+      });
     };
 
     const remove = (row: any) => {
@@ -378,6 +503,7 @@ export const FatFormTable = declareComponent({
           list.push(item);
         });
       } catch (err) {
+        console.error(err);
         Message.error((err as Error).message);
       }
     };
@@ -400,18 +526,20 @@ export const FatFormTable = declareComponent({
     const getActions = (row: any, index: number) => {
       const list: FatAction[] = [];
 
-      if (props.sortable) {
+      if (sortable.value && sortType.value === FatFormTableSortType.ByAction) {
+        const rowSortable = props.sortableProps?.rowSortable?.({ row, index, list: getValue() }) ?? true;
+
         list.push(
           {
             name: props.moveUpText ?? t('wkc.moveUp'),
-            visible: index > 0,
+            visible: index > 0 && rowSortable,
             onClick: () => {
               moveUp(row);
             },
           },
           {
             name: props.moveDownText ?? t('wkc.moveDown'),
-            visible: index < value.value.length - 1,
+            visible: index < value.value.length - 1 && rowSortable,
             onClick: () => {
               moveDown(row);
             },
@@ -439,6 +567,29 @@ export const FatFormTable = declareComponent({
       return list;
     };
 
+    /**
+     * 生成行类名
+     * @param scope
+     * @returns
+     */
+    const generateRowClassName = (scope: { row: any; rowIndex: number }) => {
+      const classNames = [];
+      if (props.sortableProps?.rowSortable) {
+        const result = props.sortableProps.rowSortable({ row: scope.row, index: scope.rowIndex, list: getValue() });
+        if (!result) {
+          classNames.push(ROW_DISABLE_TO_DRAG);
+        }
+      }
+
+      if (sortable.value) {
+        // 给每一行注入唯一的 id
+        const id = rowKey(scope.row);
+        classNames.push(`row-uuid-${id}`);
+      }
+
+      return classNames.filter(Boolean).join(' ');
+    };
+
     const renderActions = computed(() => {
       if (!editable.value) {
         return undefined;
@@ -451,7 +602,7 @@ export const FatFormTable = declareComponent({
       return () => (
         <TableColumn
           label={props.actionText ?? t('wkc.operation')}
-          width={props.actionWidth ?? (props.sortable ? 180 : 80)}
+          width={props.actionWidth ?? (sortable.value ? 180 : 80)}
           align={props.columnAlign}
           headerAlign={props.columnHeaderAlign}
         >
@@ -462,6 +613,87 @@ export const FatFormTable = declareComponent({
           }}
         </TableColumn>
       );
+    });
+
+    // 拖拽排序
+    watchPostEffect(onCleanup => {
+      if (!sortable.value || sortType.value !== FatFormTableSortType.ByDrag) {
+        return;
+      }
+
+      const tableElement = tableRef.value?.$el;
+      const tbody = tableElement?.querySelector('tbody');
+
+      if (!tbody) {
+        return;
+      }
+
+      const getUUIDFromElement = (el: HTMLElement) => {
+        const matched = el.className.match(UUID_CLASS_REG);
+        const id = matched?.[1];
+
+        if (id == null) {
+          throw new Error(`[fat-form-table] Can not find uuid from element(${el.className})`);
+        }
+
+        return id;
+      };
+
+      const getItemByUUID = (uuid: string) => {
+        const list = getValue();
+        const idx = list.findIndex(i => String(rowKey(i)) === uuid);
+
+        if (idx === -1) {
+          throw new Error(`[fat-form-table] Can not find item by uuid(${uuid})`);
+        }
+
+        return {
+          index: idx,
+          value: list[idx],
+        };
+      };
+
+      const sortableInstance = Sortable.create(tbody, {
+        handle: props.sortableProps?.handle,
+        // 禁用移动的行
+        filter: `.${ROW_DISABLE_TO_DRAG}`,
+        preventOnFilter: false,
+
+        /**
+         * 决定是否能够拖入
+         * @param evt
+         * @param nativeEvent
+         * @returns
+         */
+        onMove: (evt, nativeEvent) => {
+          const { index: draggedIndex, value: dragged } = getItemByUUID(getUUIDFromElement(evt.dragged));
+          const { index: relatedIndex, value: related } = getItemByUUID(getUUIDFromElement(evt.related));
+
+          return props.sortableProps?.canDrop?.({
+            nativeMoveEvent: evt,
+            nativeEvent,
+            draggedIndex,
+            dragged,
+            relatedIndex,
+            related,
+            willInsertAfter: evt.willInsertAfter,
+            list: getValue(),
+          });
+        },
+
+        /**
+         * 完成排序
+         * @param evt
+         */
+        onEnd: evt => {
+          const { oldIndex, newIndex } = evt;
+          swap(oldIndex!, newIndex!);
+        },
+      });
+
+      onCleanup(() => {
+        sortableInstance.destroy();
+      });
     });
 
     expose(instance);
@@ -485,9 +717,11 @@ export const FatFormTable = declareComponent({
               size={size('default')}
               border
               ref={tableRef}
+              rowClassName={generateRowClassName}
               {...props.tableProps}
               class={normalizeClassName('fat-form-table__table', props.tableProps?.class)}
             >
+              {renderSlot(props, slots, 'columns', instance)}
               {props.columns?.map((col, idx) => {
                 const { tooltip, prop, renderTooltip, renderLabel, label, ...other } = col;
                 let renderHeader: (() => any) | undefined;
