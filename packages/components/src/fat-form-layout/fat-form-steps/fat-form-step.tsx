@@ -117,6 +117,7 @@ const FatFormStepInner = declareComponent({
 
     return () => {
       const { title, description, icon, status } = props;
+
       instance.renderStepResult = (
         <Step
           {...{ title, description, icon, status }}

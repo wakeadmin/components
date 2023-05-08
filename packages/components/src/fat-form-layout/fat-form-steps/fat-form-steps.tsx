@@ -3,7 +3,7 @@
  */
 import { Button, Steps, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps } from '@wakeadmin/h';
-import { computed, ref, watch } from '@wakeadmin/demi';
+import { computed, ref, watch, Ref } from '@wakeadmin/demi';
 import { debounce } from '@wakeadmin/utils';
 
 import { FatForm, FatFormMethods } from '../../fat-form';
@@ -38,6 +38,79 @@ export const FatFormStepsPublicMethodKeys: (keyof FatFormStepsMethods)[] = [
   'goNext',
   'goto',
 ];
+
+/**
+ * 将分步表单的渲染提取出来，避免循环渲染问题
+ */
+const FatFormStepsRenderer = declareComponent({
+  name: 'FatFormStepsRenderer',
+  props: declareProps<{
+    innerProps: {
+      steps: Ref<FatFormStepMethods[]>;
+      renderSubmitter?: () => any;
+      exposed: FatFormStepsMethods;
+      active: Ref<number>;
+    } & Pick<
+      FatFormStepsProps,
+      'direction' | 'space' | 'alignCenter' | 'simple' | 'pageLayout' | 'layoutProps' | 'formWidth'
+    >;
+  }>({
+    innerProps: null,
+  }),
+  setup(props) {
+    return () => {
+      const {
+        steps,
+        direction,
+        formWidth,
+        space,
+        alignCenter,
+        simple,
+        pageLayout,
+        layoutProps,
+        renderSubmitter,
+        exposed,
+        active,
+      } = props.innerProps;
+      const layout = pageLayout ?? defaultLayout;
+
+      let hasSections = false;
+      const content = steps.value.map((s, index) => {
+        if (s.renderFormResult) {
+          const { vnode, hasSections: _hasSections } = s.renderFormResult;
+
+          if (_hasSections) {
+            hasSections = true;
+          }
+
+          return vnode;
+        }
+
+        return null;
+      });
+      return layout({
+        form: exposed,
+        vertical: direction === 'vertical',
+        layoutProps,
+        hasSections,
+        formWidth,
+        renderSteps() {
+          return (
+            <Steps class="fat-form-steps__steps" {...{ space, direction, alignCenter, simple, active: active.value }}>
+              {steps.value.map((s, index) => {
+                return s.renderStepResult;
+              })}
+            </Steps>
+          );
+        },
+        renderContent() {
+          return <div class="fat-form-steps__forms">{content}</div>;
+        },
+        renderSubmitter,
+      });
+    };
+  },
+});
 
 const FatFormStepsInner = declareComponent({
   name: 'FatFormSteps',
@@ -78,9 +151,13 @@ const FatFormStepsInner = declareComponent({
     const form = ref<FatFormMethods<any>>();
     const active = ref(0);
     let remoteInitialized = false;
+
+    // 已注册的步骤
     const steps = ref<FatFormStepMethods[]>([]);
+
     // 缓存传递给子步骤的状态
     const stepStates: Map<FatFormStepMethods, FatFormStepState> = new Map();
+
     const nextStepLoading = ref(false);
     const submitLoading = ref(false);
 
@@ -353,25 +430,12 @@ const FatFormStepsInner = declareComponent({
         direction,
         alignCenter,
         simple,
+        pageLayout,
+        layoutProps,
+        formWidth,
       } = props;
 
-      const layout = props.pageLayout ?? defaultLayout;
       const children = renderSlot(props, slots, 'default');
-
-      let hasSections = false;
-      const content = steps.value.map((s, index) => {
-        if (s.renderFormResult) {
-          const { vnode, hasSections: _hasSections } = s.renderFormResult;
-
-          if (_hasSections) {
-            hasSections = true;
-          }
-
-          return vnode;
-        }
-
-        return null;
-      });
 
       return (
         <FatForm
@@ -384,31 +448,22 @@ const FatFormStepsInner = declareComponent({
           request={handleRequest.value}
           enableSubmitter={false}
         >
-          {layout({
-            form: exposed,
-            vertical: direction === 'vertical',
-            layoutProps: props.layoutProps,
-            hasSections,
-            formWidth: props.formWidth,
-            renderSteps() {
-              return (
-                <Steps
-                  class="fat-form-steps__steps"
-                  {...{ space, direction, alignCenter, simple, active: active.value }}
-                >
-                  {steps.value.map((s, index) => {
-                    return s.renderStepResult;
-                  })}
-                </Steps>
-              );
-            },
-            renderContent() {
-              return <div class="fat-form-steps__forms">{content}</div>;
-            },
-            renderSubmitter: renderSubmitter.value,
-          })}
-
           {children}
+          <FatFormStepsRenderer
+            innerProps={{
+              space,
+              active,
+              direction,
+              alignCenter,
+              simple,
+              pageLayout,
+              layoutProps,
+              formWidth,
+              exposed,
+              steps,
+              renderSubmitter: renderSubmitter.value,
+            }}
+          />
         </FatForm>
       );
     };
