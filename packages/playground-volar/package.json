@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "vue-tsc": "^1.0.22"
+    "vue-tsc": "^1.6.4"
   }
 }

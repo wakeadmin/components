@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.4
+
+### Patch Changes
+
+- 修复 element-plus button 警告
+
 ## 0.6.3
 
 ### Patch Changes

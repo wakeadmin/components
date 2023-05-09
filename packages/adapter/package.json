@@ -1,6 +1,6 @@
 {
   "name": "@wakeadmin/element-adapter",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "基础组件适配层",
   "sideEffects": [
     "**/*.scss"
@@ -37,14 +37,14 @@
   "author": "ivan-lee",
   "license": "MIT",
   "dependencies": {
-    "@wakeadmin/demi": "^0.2.5",
+    "@wakeadmin/demi": "^0.2.6",
     "@wakeadmin/h": "^0.2.15",
     "@wakeadmin/utils": "^0.1.4"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
-    "element-plus": "^2.2.28",
-    "element-ui": "^2.15.12"
+    "element-plus": "^2.3.4",
+    "element-ui": "^2.15.13"
   },
   "peerDependencies": {
     "element-plus": ">=2.2.0",

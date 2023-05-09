@@ -1,5 +1,17 @@
 # @wakeadmin/components
 
+## 1.4.0
+
+### Minor Changes
+
+- fat-form-table 支持拖拽排序
+- 修复 fat-form-steps 循环依赖问题
+
+### Patch Changes
+
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.4
+
 ## 1.3.0
 
 ### Minor Changes
