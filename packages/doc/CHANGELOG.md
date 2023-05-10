@@ -1,5 +1,11 @@
 # @wakeadmin/components-doc
 
+## 0.5.0
+
+### Minor Changes
+
+- 新增 fat-logic-tree
+
 ## 0.4.0
 
 ### Minor Changes
