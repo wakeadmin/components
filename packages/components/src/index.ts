@@ -13,6 +13,7 @@ export * from './fat-tree-select';
 export * from './fat-vnode';
 export * from './fat-table-layout';
 export * from './fat-drag-drop';
+export * from './fat-logic-tree';
 
 export * from './atomic';
 

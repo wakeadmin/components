@@ -183,6 +183,7 @@ export default {
             { text: 'FatIcon 图标', link: '/other/icon' },
             { text: 'FatSwitch 开关', link: '/other/switch' },
             { text: 'FatTreeSelect 树选择器', link: '/other/tree-select' },
+            { text: 'FatLogicTree 逻辑树 (alpha)', link: '/other/logic-tree' },
             { text: 'FatVNode VNode渲染', link: '/other/vnode' },
             { text: 'FatText/FatLink 文本', link: '/other/text' },
             { text: 'I18n 国际化', link: '/other/i18n' },

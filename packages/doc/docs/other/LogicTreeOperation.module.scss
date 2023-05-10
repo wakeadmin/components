@@ -1,0 +1,28 @@
+.root {
+  border: 1px solid rgb(180, 180, 180);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.group {
+  background-color: rgb(135, 208, 135);
+  border-radius: 4px;
+  padding: 5px;
+
+  margin-bottom: 10px;
+}
+
+.subGroup {
+  margin-top: 1em;
+}
+
+.node {
+  background-color: white;
+  padding: 4px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.button {
+  margin-top: 5px;
+}
