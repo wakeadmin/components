@@ -95,6 +95,15 @@ export interface FatFormTableColumnMethods<Store extends {} = any> {
   table: FatFormTableMethods<Store>;
   itemProps: FatFormItemProps;
   /**
+   * 当前行的数据
+   */
+  row: any;
+
+  /**
+   * 当前字段的数据
+   */
+  value: any;
+  /**
    * 父级的 prop
    */
   parentProp: string;
@@ -780,6 +789,8 @@ export const FatFormTable = declareComponent({
                         parentProp,
                         itemProps,
                         index,
+                        row: scope.row,
+                        value: scope.row[prop],
                       });
                     }
 

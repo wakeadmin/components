@@ -1,4 +1,4 @@
-import { StepProps, Step } from '@wakeadmin/element-adapter';
+import { StepProps, Step, ClassValue, StyleValue } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { onBeforeUnmount, ref, shallowReactive } from '@wakeadmin/demi';
 
@@ -39,12 +39,36 @@ export interface FatFormStepProps<Store extends {} = {}, Request extends {} = St
    * TODO: 最后一步没有触发
    */
   beforeSubmit?: (value: Store) => Promise<void>;
+
+  /**
+   * 内容区类名
+   */
+  contentClass?: ClassValue;
+
+  /**
+   * 内容区样式
+   */
+  contentStyle?: StyleValue;
+
+  /**
+   * 步骤区类名
+   */
+  stepClass?: ClassValue;
+
+  /**
+   * 步骤区样式
+   */
+  stepStyle?: StyleValue;
 }
 
 const FatFormStepInner = declareComponent({
   name: 'FatFormStep',
   props: declareProps<FatFormStepProps>({
     beforeSubmit: null,
+    contentClass: null,
+    contentStyle: null,
+    stepClass: null,
+    stepStyle: null,
 
     // slots
     renderIcon: null,
@@ -116,14 +140,15 @@ const FatFormStepInner = declareComponent({
     }
 
     return () => {
-      const { title, description, icon, status } = props;
+      const { title, description, icon, status, contentClass, contentStyle, stepClass, stepStyle } = props;
 
       instance.renderStepResult = (
         <Step
           {...{ title, description, icon, status }}
-          class={normalizeClassName('fat-form-steps__step', {
+          class={normalizeClassName('fat-form-steps__step', stepClass, {
             'fat-form-steps__step--active': active.value,
           })}
+          style={stepStyle}
           // @ts-expect-error 原始属性挂载
           onClickNative={handleClick}
           v-slots={{
@@ -139,9 +164,10 @@ const FatFormStepInner = declareComponent({
       const vnode = (
         <FatFormCollectionProvider value={collection}>
           <div
-            class={normalizeClassName('fat-form-steps__form', {
+            class={normalizeClassName('fat-form-steps__form', contentClass, {
               'fat-form-steps__form--active': active.value,
             })}
+            style={contentStyle}
           >
             {children}
           </div>
