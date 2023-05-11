@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.0
+
+### Minor Changes
+
+- 扩展 fat-form-step, fat-form-table props 以支持更多样式定制
+
 ## 1.6.0
 
 ### Minor Changes
