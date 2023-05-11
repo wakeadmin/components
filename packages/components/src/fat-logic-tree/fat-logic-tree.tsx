@@ -557,6 +557,10 @@ const FatLogicTreeInner = declareComponent({
       const nodeInfo = getNodeInfo(modelValue, treeStruct);
       const childrenKey = getChildrenKey(treeStruct);
 
+      if (nodeInfo == null) {
+        return null;
+      }
+
       return (
         <div class={normalizeClassName('fat-logic-tree', attrs.class)} style={attrs.style}>
           <TreeList
