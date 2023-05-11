@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.6.0
+
+### Minor Changes
+
+- fat-form-table 支持自定义渲染
+
 ## 1.5.0
 
 ### Minor Changes
