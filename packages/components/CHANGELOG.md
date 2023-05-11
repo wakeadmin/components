@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.1
+
+### Patch Changes
+
+- 修复 fat-logic-tree 传入空值时异常
+
 ## 1.7.0
 
 ### Minor Changes
