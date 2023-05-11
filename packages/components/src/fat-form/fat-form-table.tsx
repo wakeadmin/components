@@ -31,7 +31,7 @@ import {
   ToHSlotDefinition,
 } from '../utils';
 
-import { FatFormItemProps, FatFormGroupSlots, FatFormGroupProps } from './types';
+import { FatFormItemProps, FatFormGroupSlots, FatFormGroupProps, FatFormMethods } from './types';
 import { FatFormGroup } from './fat-form-group';
 import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormItem } from './fat-form-item';
@@ -90,14 +90,27 @@ export function useFatFormTableRef<Store extends {} = any>() {
   return ref<FatFormTableMethods<Store>>();
 }
 
+export interface FatFormTableColumnMethods<Store extends {} = any> {
+  form: FatFormMethods<Store>;
+  table: FatFormTableMethods<Store>;
+  itemProps: FatFormItemProps;
+  /**
+   * 父级的 prop
+   */
+  parentProp: string;
+  prop: string;
+  index: number;
+}
+
 export interface FatFormTableColumn<
   Store extends {} = any,
   Request extends {} = Store,
   ValueType extends keyof AtomicProps = 'text'
 > extends CommonProps,
     Omit<FatFormItemProps<Store, Request, ValueType>, 'renderLabel' | 'renderTooltip'> {
-  renderLabel?: (inst: FatFormTableMethods) => any;
-  renderTooltip?: (inst: FatFormTableMethods) => any;
+  renderColumn?: (inst: FatFormTableColumnMethods<Store>) => any;
+  renderLabel?: (inst: FatFormTableMethods<Store>) => any;
+  renderTooltip?: (inst: FatFormTableMethods<Store>) => any;
 }
 
 export const FatFormTableDropGuide = {
@@ -723,7 +736,7 @@ export const FatFormTable = declareComponent({
             >
               {renderSlot(props, slots, 'columns', instance)}
               {props.columns?.map((col, idx) => {
-                const { tooltip, prop, renderTooltip, renderLabel, label, ...other } = col;
+                const { tooltip, prop, renderTooltip, renderLabel, renderColumn, label, ...other } = col;
                 let renderHeader: (() => any) | undefined;
 
                 const hasTooltip = !!(tooltip || renderTooltip);
@@ -751,7 +764,24 @@ export const FatFormTable = declareComponent({
                   default: (scope: { row: any; $index: number }) => {
                     // 自定义渲染
                     const index = scope.$index;
-                    const finalProp = `${props.prop}[${index}].${prop}`;
+                    const parentProp = `${props.prop}[${index}]`;
+                    const finalProp = `${parentProp}.${prop}`;
+                    const itemProps = {
+                      prop: finalProp,
+                      ...other,
+                    };
+
+                    // 自定义渲染
+                    if (typeof renderColumn === 'function') {
+                      return renderColumn({
+                        form,
+                        prop: finalProp,
+                        table: instance,
+                        parentProp,
+                        itemProps,
+                        index,
+                      });
+                    }
 
                     return <FatFormItem prop={finalProp} {...other} />;
                   },

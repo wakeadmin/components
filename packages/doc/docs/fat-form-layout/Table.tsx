@@ -29,6 +29,14 @@ export default defineFatForm(({ item, table, tableColumn, consumer, group }) => 
             required: true,
           }),
           tableColumn({ prop: 'enabled', label: '状态', valueType: 'switch', width: 'mini' }),
+          tableColumn({
+            prop: 'action',
+            label: '当前行数据',
+            // 复杂场景，自定义表单
+            renderColumn({ form, parentProp }) {
+              return <pre>{JSON.stringify(form.getFieldValue(parentProp), undefined, 2)}</pre>;
+            },
+          }),
         ],
         // 自定义文案
         createText: '新增一行',

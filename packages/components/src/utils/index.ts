@@ -18,3 +18,4 @@ export * from './render';
 export * from './string';
 export * from './style';
 export * from './types';
+export * from './path';
