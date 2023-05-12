@@ -126,10 +126,12 @@ importers:
       '@wakeadmin/icons': ^0.1.4
       element-plus: ^2.3.4
       imagemin-cli: ^7.0.0
+      swrv: ^1.0.3
       vitepress: 1.0.0-alpha.16
       vue: ^3.2.47
     dependencies:
       '@element-plus/icons-vue': 172.26.59.72+4873/@element-plus/icons-vue/2.1.0
+      swrv: 172.26.59.72+4873/swrv/1.0.3
     devDependencies:
       '@wakeadmin/components': link:../components
       '@wakeadmin/icons': 172.26.59.72+4873/@wakeadmin/icons/0.1.4
@@ -16287,6 +16289,12 @@ packages:
       picocolors: 172.26.59.72+4873/picocolors/1.0.0
       stable: 172.26.59.72+4873/stable/0.1.8
     dev: true
+
+  172.26.59.72+4873/swrv/1.0.3:
+    resolution: {integrity: sha512-sl+eLEE+aPPjhP1E8gQ75q3RPRyw5Gd/kROnrTFo3+LkCeLskv7F+uAl5W97wgJkzitobL6FLsRPVm0DgIgN8A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/swrv/-/swrv-1.0.3.tgz}
+    name: swrv
+    version: 1.0.3
+    dev: false
 
   172.26.59.72+4873/table/6.8.1:
     resolution: {integrity: sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/table/-/table-6.8.1.tgz}

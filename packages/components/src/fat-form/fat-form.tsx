@@ -18,6 +18,7 @@ import {
 } from '../utils';
 import { useDevtoolsExpose, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
+import { provideAtomicHost } from '../atomic/host';
 
 import {
   FatFormEvents,
@@ -495,6 +496,8 @@ export const FatForm = declareComponent({
       __unregisterFormItem,
       __unregisterFormGroup,
     };
+
+    provideAtomicHost(instance);
 
     const rules = computed(() => {
       return typeof props.rules === 'function' ? props.rules(values.value, instance) : props.rules;

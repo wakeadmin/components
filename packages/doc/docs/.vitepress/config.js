@@ -174,6 +174,10 @@ export default {
           items: [
             { text: '内置原件', link: '/atomics/' },
             { text: '自定义原件', link: '/atomics/custom' },
+            {
+              text: '🙋 FAQ',
+              link: '/atomics/faq',
+            },
           ],
         },
         {

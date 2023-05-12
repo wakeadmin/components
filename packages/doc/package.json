@@ -25,6 +25,7 @@
     "vue": "^3.2.47"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.1.0"
+    "@element-plus/icons-vue": "^2.1.0",
+    "swrv": "^1.0.3"
   }
 }

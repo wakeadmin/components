@@ -13,6 +13,13 @@ const AtomicHost: InjectionKey<AtomicHostData> = Symbol('atomic-host');
  * @param data
  */
 export function provideAtomicHost(data: AtomicHostData) {
+  const parent = inject(AtomicHost, null);
+
+  if (parent != null) {
+    // 直接复用父级
+    return;
+  }
+
   provide(AtomicHost, data);
 }
 
@@ -51,9 +58,9 @@ function createTaskCacheStoreIfNeed(store: TaskStore, task: Function) {
     return cache;
   }
 
-  const taskCache = new Map<any, TaskExecuteState>();
-  store.set(task, taskCache);
-  return taskCache;
+  const taskCacheStore = new Map<any, TaskExecuteState>();
+  store.set(task, taskCacheStore);
+  return taskCacheStore;
 }
 
 /**
