@@ -14,7 +14,7 @@ import {
   renderSlot,
   ToHEmitDefinition,
   ToHSlotDefinition,
-  merge,
+  sideEffectLessMerge,
 } from '../utils';
 import { useLazyFalsy, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
@@ -251,7 +251,7 @@ const FatFormDrawerInner = declareComponent({
     return () => {
       const passthroughProps = inheritProps();
       const Form = props.Form ?? props.form ?? FatForm;
-      const initialValue = merge({}, passthroughProps.initialValue, (tempProps as any).initialValue);
+      const initialValue = sideEffectLessMerge(passthroughProps.initialValue, (tempProps as any).initialValue);
 
       return (
         <Drawer

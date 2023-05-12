@@ -1,10 +1,9 @@
 import { InjectionKey, inject, provide, computed, unref, watch, reactive } from '@wakeadmin/demi';
 import { declareComponent, declareProps, MaybeRef } from '@wakeadmin/h';
-import { cloneDeep } from '@wakeadmin/utils';
+import { cloneDeep, merge } from '@wakeadmin/utils';
 import { setI18nInstance } from '../i18n';
 import { assertPluginInstalled } from '../plugin';
 import { isDev } from '../utils/isDev';
-import { merge } from '../utils';
 
 import { DEFAULT_CONFIGURABLE } from './default';
 import { FatConfigurable } from './types';

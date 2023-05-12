@@ -1,10 +1,12 @@
 import { describe, test, expect } from 'vitest';
-import { unset, reactiveUnset, merge } from './object';
+import { unset, reactiveUnset, sideEffectLessMerge } from './object';
 import m from 'lodash/merge';
 
 test('merge', () => {
-  expect(merge({ a: 1 }, { b: 2 })).toEqual({ a: 1, b: 2 });
-  expect(merge({ a: { c: { foo: 1 } } }, { a: { c: { bar: 2 } } })).toEqual({
+  expect(sideEffectLessMerge(null, null)).toEqual({});
+  expect(sideEffectLessMerge(undefined, undefined)).toEqual({});
+  expect(sideEffectLessMerge({ a: 1 }, { b: 2 })).toEqual({ a: 1, b: 2 });
+  expect(sideEffectLessMerge({ a: { c: { foo: 1 } } }, { a: { c: { bar: 2 } } })).toEqual({
     a: {
       c: {
         bar: 2,
@@ -13,13 +15,13 @@ test('merge', () => {
     },
   });
   expect(m({ a: [1] }, { a: [2] })).toEqual({ a: [2] });
-  expect(merge({ a: [1] }, { a: [2] })).toEqual({ a: [2] });
+  expect(sideEffectLessMerge({ a: [1] }, { a: [2] })).toEqual({ a: [2] });
 
   // symbol
   const s1 = Symbol(1);
   const s2 = Symbol(2);
   expect(
-    merge(
+    sideEffectLessMerge(
       {
         [s1]: 1,
       },

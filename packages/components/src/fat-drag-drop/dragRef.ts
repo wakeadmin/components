@@ -1,5 +1,5 @@
 import { ref } from '@wakeadmin/demi';
-import { Noop, throttle } from '@wakeadmin/utils';
+import { Noop, throttle, merge } from '@wakeadmin/utils';
 
 import { MouseEventButton } from '../enum';
 import {
@@ -9,7 +9,6 @@ import {
   GetParameterInSet,
   Portal,
   toArray,
-  merge,
   type IPortal,
   type ClientRect,
 } from '../utils';

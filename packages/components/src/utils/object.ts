@@ -7,8 +7,8 @@ import has from 'lodash/has';
 import m from 'lodash/merge';
 import { isDev } from './isDev';
 
-export const merge: typeof m = (...args: any[]) => {
-  return deepmerge.all(args, {
+export const sideEffectLessMerge: typeof m = (...args: any[]) => {
+  return deepmerge.all(args.filter(Boolean), {
     arrayMerge: (destinationArray, sourceArray, options) => sourceArray,
   });
 };

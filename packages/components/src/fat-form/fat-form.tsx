@@ -14,7 +14,7 @@ import {
   ToHSlotDefinition,
   reactiveUnset,
   unset,
-  merge,
+  sideEffectLessMerge,
 } from '../utils';
 import { useDevtoolsExpose, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
@@ -105,12 +105,10 @@ export const FatForm = declareComponent({
     /**
      * 初始值
      */
-    const initialValue: any = {};
+    let initialValue: any = {};
 
     const setInitialValue = (value: any, force: boolean) => {
-      merge(initialValue, value);
-
-      const cloned = cloneDeep(initialValue);
+      const cloned = cloneDeep((initialValue = sideEffectLessMerge(initialValue, value)));
 
       if (!force && ready) {
         // 用户已经修改的字段不能覆盖
@@ -540,7 +538,9 @@ export const FatForm = declareComponent({
       submitting,
       error,
       values,
-      initialValue,
+      get initialValue() {
+        return initialValue;
+      },
     });
 
     onMounted(() => {

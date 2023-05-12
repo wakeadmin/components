@@ -15,7 +15,7 @@ import {
   renderSlot,
   ToHEmitDefinition,
   ToHSlotDefinition,
-  merge,
+  sideEffectLessMerge,
 } from '../utils';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
@@ -242,7 +242,7 @@ const FatFormModalInner = declareComponent({
     return () => {
       const passthroughProps = inheritProps();
       const Form = props.Form ?? props.form ?? FatForm;
-      const initialValue = merge({}, passthroughProps.initialValue, (tempProps as any).initialValue);
+      const initialValue = sideEffectLessMerge(passthroughProps.initialValue, (tempProps as any).initialValue);
 
       return (
         <Dialog
