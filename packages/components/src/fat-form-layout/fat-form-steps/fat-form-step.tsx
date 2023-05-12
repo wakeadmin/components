@@ -166,6 +166,7 @@ const FatFormStepInner = declareComponent({
           <div
             class={normalizeClassName('fat-form-steps__form', contentClass, {
               'fat-form-steps__form--active': active.value,
+              'fat-form-steps__form--hide': !active.value,
             })}
             style={contentStyle}
           >

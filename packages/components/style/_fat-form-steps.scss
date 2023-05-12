@@ -1,9 +1,7 @@
 .fat-form-steps {
   &__form {
-    display: none;
-
-    &--active {
-      display: block;
+    &--hide {
+      display: none !important;
     }
   }
 }
