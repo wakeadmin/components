@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.5
+
+### Patch Changes
+
+- 修复 fat-form-drawer/modal renderSubmitter 不生效
+
 ## 1.7.4
 
 ### Patch Changes
