@@ -147,6 +147,7 @@ const FatFormDrawerInner = declareComponent({
     // slots
     renderTitle: null,
     renderFooter: null,
+    renderSubmitter: null,
 
     Form: null,
     form: null,
@@ -245,7 +246,11 @@ const FatFormDrawerInner = declareComponent({
     expose(instance);
 
     const renderFooter = () => {
-      return <div class="fat-form-drawer__footer">{renderButtons()}</div>;
+      return (
+        <div class="fat-form-drawer__footer">
+          {hasSlots(props, slots, 'submitter') ? renderSlot(props, slots, 'submitter', instance) : renderButtons()}
+        </div>
+      );
     };
 
     return () => {

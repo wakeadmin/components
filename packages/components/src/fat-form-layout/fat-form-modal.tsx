@@ -138,6 +138,7 @@ const FatFormModalInner = declareComponent({
     // slots
     renderTitle: null,
     renderFooter: null,
+    renderSubmitter: null,
 
     Form: null,
     form: null,
@@ -236,7 +237,11 @@ const FatFormModalInner = declareComponent({
     expose(instance);
 
     const renderFooter = () => {
-      return <div class="fat-form-modal__footer">{renderButtons()}</div>;
+      return (
+        <div class="fat-form-modal__footer">
+          {hasSlots(props, slots, 'submitter') ? renderSlot(props, slots, 'submitter', instance) : renderButtons()}
+        </div>
+      );
     };
 
     return () => {
