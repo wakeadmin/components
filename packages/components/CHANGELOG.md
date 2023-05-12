@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.7.4
+
+### Patch Changes
+
+- - 修复 fat-form-step 隐藏问题
+  - fat-form-table 新增 beforeRemove props. sortableProps.ignoreMode
+
 ## 1.7.3
 
 ### Patch Changes
