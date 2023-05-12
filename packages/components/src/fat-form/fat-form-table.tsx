@@ -312,6 +312,13 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
    * 如果要自定义复杂的创建逻辑，比如插入到队列前面，可以关闭 enableCreate, 并自己实现
    */
   beforeCreate?: () => any;
+
+  /**
+   * 删除前触发，可以返回 false 或抛出异常 阻止提交
+   * @param item
+   * @returns
+   */
+  beforeRemove?: (item: any) => Promise<boolean | void>;
 }
 
 const AUTO_UNIQ_KEY: unique symbol = Symbol('AUTO_UNIQ_KEY');
@@ -347,6 +354,7 @@ export const FatFormTable = declareComponent({
 
     enableCreate: { type: Boolean, default: true },
     beforeCreate: null,
+    beforeRemove: null,
 
     createText: String,
     moveUpText: String,
@@ -476,11 +484,18 @@ export const FatFormTable = declareComponent({
       });
     };
 
-    const remove = (row: any) => {
+    const remove = async (row: any) => {
       const list = rawValue.value! as any[];
       const idx = list.indexOf(row);
 
       if (idx !== -1) {
+        const item = list[idx];
+
+        if ((await props.beforeRemove?.(item)) === false) {
+          // 取消删除
+          return;
+        }
+
         runInModifyContext(() => {
           list.splice(idx, 1);
         });
