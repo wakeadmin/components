@@ -1,7 +1,7 @@
-import { cloneDeep, merge, get, isPlainObject, set } from '@wakeadmin/utils';
+import { cloneDeep, get, isPlainObject, set } from '@wakeadmin/utils';
 
 import { Registry } from '../atomic';
-import { unset } from '../utils';
+import { unset, merge } from '../utils';
 
 import { FatTableColumn } from './types';
 

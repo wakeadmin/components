@@ -1,7 +1,7 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { isVue2, ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
-import { cloneDeep, isPlainObject, merge, get, set, equal, isObject, delay } from '@wakeadmin/utils';
+import { cloneDeep, isPlainObject, get, set, equal, isObject, delay } from '@wakeadmin/utils';
 
 import {
   hasByPath,
@@ -14,6 +14,7 @@ import {
   ToHSlotDefinition,
   reactiveUnset,
   unset,
+  merge,
 } from '../utils';
 import { useDevtoolsExpose, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';

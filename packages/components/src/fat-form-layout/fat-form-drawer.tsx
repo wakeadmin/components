@@ -1,7 +1,7 @@
 import { Drawer, DrawerProps, Button, ButtonProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, watch } from '@wakeadmin/demi';
-import { merge, NoopObject } from '@wakeadmin/utils';
+import { NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormBaseProps, FatFormSlots, FatForm, FatFormEvents } from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
@@ -14,6 +14,7 @@ import {
   renderSlot,
   ToHEmitDefinition,
   ToHSlotDefinition,
+  merge,
 } from '../utils';
 import { useLazyFalsy, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';

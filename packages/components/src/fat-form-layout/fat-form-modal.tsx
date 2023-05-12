@@ -1,7 +1,7 @@
 import { Dialog, DialogProps, Button, ButtonProps } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { ref, watch } from '@wakeadmin/demi';
-import { merge, NoopObject } from '@wakeadmin/utils';
+import { NoopObject } from '@wakeadmin/utils';
 
 import { FatFormMethods, FatFormEvents, FatFormBaseProps, FatFormSlots, FatForm } from '../fat-form';
 
@@ -15,6 +15,7 @@ import {
   renderSlot,
   ToHEmitDefinition,
   ToHSlotDefinition,
+  merge,
 } from '../utils';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';

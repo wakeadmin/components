@@ -102,6 +102,7 @@ importers:
       '@wakeadmin/utils': ^0.1.4
       '@wakeapp/bbt-tools': ^1.1.4
       copy-to-clipboard: ^3.3.3
+      deepmerge: ^4.3.1
       sortablejs: ^1.15.0
       vitest: ^0.23.4
     dependencies:
@@ -111,6 +112,7 @@ importers:
       '@wakeadmin/icons': 172.26.59.72+4873/@wakeadmin/icons/0.1.4
       '@wakeadmin/utils': 172.26.59.72+4873/@wakeadmin/utils/0.1.4
       copy-to-clipboard: 172.26.59.72+4873/copy-to-clipboard/3.3.3
+      deepmerge: 172.26.59.72+4873/deepmerge/4.3.1
       sortablejs: 172.26.59.72+4873/sortablejs/1.15.0
     devDependencies:
       '@types/sortablejs': 172.26.59.72+4873/@types/sortablejs/1.15.1
@@ -7555,6 +7557,13 @@ packages:
     name: deepmerge
     version: 1.5.2
     engines: {node: '>=0.10.0'}
+
+  172.26.59.72+4873/deepmerge/4.3.1:
+    resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/deepmerge/-/deepmerge-4.3.1.tgz}
+    name: deepmerge
+    version: 4.3.1
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   172.26.59.72+4873/default-gateway/6.0.3:
     resolution: {integrity: sha1-gZSUyIgFO9t0PtvzQ9bN9/KUOnE=, registry: http://npm.wakedata-inc.com/, tarball: http://172.26.59.72:4873/default-gateway/-/default-gateway-6.0.3.tgz}

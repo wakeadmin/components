@@ -1,5 +1,35 @@
 import { describe, test, expect } from 'vitest';
-import { unset, reactiveUnset } from './object';
+import { unset, reactiveUnset, merge } from './object';
+import m from 'lodash/merge';
+
+test('merge', () => {
+  expect(merge({ a: 1 }, { b: 2 })).toEqual({ a: 1, b: 2 });
+  expect(merge({ a: { c: { foo: 1 } } }, { a: { c: { bar: 2 } } })).toEqual({
+    a: {
+      c: {
+        bar: 2,
+        foo: 1,
+      },
+    },
+  });
+  expect(m({ a: [1] }, { a: [2] })).toEqual({ a: [2] });
+  expect(merge({ a: [1] }, { a: [2] })).toEqual({ a: [2] });
+
+  // symbol
+  const s1 = Symbol(1);
+  const s2 = Symbol(2);
+  expect(
+    merge(
+      {
+        [s1]: 1,
+      },
+      { [s2]: 2 }
+    )
+  ).toEqual({
+    [s1]: 1,
+    [s2]: 2,
+  });
+});
 
 describe('unset', () => {
   test('array', () => {

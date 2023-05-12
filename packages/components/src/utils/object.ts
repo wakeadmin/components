@@ -1,9 +1,17 @@
 import { isVue2, set as $set, isReactive, del as $del } from '@wakeadmin/demi';
 import { set, get } from '@wakeadmin/utils';
+import deepmerge from 'deepmerge';
 
 import toPath from 'lodash/toPath';
 import has from 'lodash/has';
+import m from 'lodash/merge';
 import { isDev } from './isDev';
+
+export const merge: typeof m = (...args: any[]) => {
+  return deepmerge.all(args, {
+    arrayMerge: (destinationArray, sourceArray, options) => sourceArray,
+  });
+};
 
 /**
  * 筛选可枚举的值
