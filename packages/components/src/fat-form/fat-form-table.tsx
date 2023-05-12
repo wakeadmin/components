@@ -203,6 +203,12 @@ export interface FatFormTableSortableOptions<Store extends {} = any> {
      */
     list: Store[];
   }) => false | -1 | 1 | true | void;
+
+  /**
+   * 是否忽略 form mode，默认 false
+   * 默认情况下，mode === preview 时不允许拖拽
+   */
+  ignoreMode?: boolean;
 }
 
 export interface FatFormTableProps<Store extends {} = any, Request extends {} = Store>
@@ -382,7 +388,7 @@ export const FatFormTable = declareComponent({
      * 是否支持排序
      */
     const sortable = computed(() => {
-      return props.sortable && editable.value;
+      return props.sortable && (props.sortableProps?.ignoreMode || editable.value);
     });
 
     const rowKey = (row: any) => {
