@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.2
+
+### Patch Changes
+
+- 修复 merge 方法不支持 symbol
+
 ## 1.7.1
 
 ### Patch Changes
