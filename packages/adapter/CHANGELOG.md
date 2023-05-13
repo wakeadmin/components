@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.5
+
+### Patch Changes
+
+- 修复 switch 类型没有暴露 loading
+
 ## 0.6.4
 
 ### Patch Changes

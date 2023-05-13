@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.7.6
+
+### Patch Changes
+
+- fat-table 列支持 columnMode
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.5
+
 ## 1.7.5
 
 ### Patch Changes

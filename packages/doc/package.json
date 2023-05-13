@@ -17,12 +17,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@wakeadmin/components": "workspace:1.7.5",
+    "@wakeadmin/components": "workspace:1.7.6",
     "@wakeadmin/icons": "^0.1.4",
     "element-plus": "^2.3.4",
     "imagemin-cli": "^7.0.0",
     "vitepress": "1.0.0-alpha.16",
-    "vue": "^3.2.47"
+    "vue": "^3.3.2"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

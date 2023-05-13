@@ -76,6 +76,7 @@ const FatDropListInner = declareComponent({
     });
 
     // 覆盖掉 防止子元素获取到一样的dropListGroup
+    // @ts-expect-error
     provide(FatDropListGroupToken, undefined);
 
     watch(
