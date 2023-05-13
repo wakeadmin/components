@@ -18,6 +18,11 @@ export interface SwitchProps {
   /** Width of Switch */
   width?: number | string;
 
+  /**
+   * 加载状态
+   */
+  loading?: boolean;
+
   /* 无论图标或文本是否显示在点内，只会呈现文本的第一个字符 */
   inlinePrompt?: boolean;
 
