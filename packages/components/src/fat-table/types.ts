@@ -11,7 +11,7 @@ import {
 } from '@wakeadmin/element-adapter';
 
 import { GetAtomicProps } from '../atomic';
-import { FatFormItemProps, FatFormMethods } from '../fat-form';
+import { FatFormItemProps, FatFormMethods, FatFormMode } from '../fat-form';
 import { FatFormQueryProps } from '../fat-form-layout';
 
 import { FatAction, FatActionsProps } from '../fat-actions';
@@ -669,7 +669,7 @@ export interface FatTableColumn<
   getter?: (row: T, index: number) => any;
 
   /**
-   * 和 setter 对应，如果开启了编辑态的原件，想要执行数据修改，可以提供对应的 setter
+   * 和 setter 对应，如果开启了编辑态的原件（通过 columnMode），想要执行数据修改，可以提供对应的 setter
    */
   setter?: (newValue: any, row: T, index: number) => any;
 
@@ -688,6 +688,11 @@ export interface FatTableColumn<
    * 支持传入一个函数，不过仅在单元格渲染时才支持 row 和 index 参数, 用于表单时为空
    */
   valueProps?: GetAtomicProps<ValueType> | ((row?: T, index?: number) => GetAtomicProps<ValueType>);
+
+  /**
+   * 列的表单模式。 默认情况下是 preview
+   */
+  columnMode?: FatFormMode;
 }
 
 export interface FatTableRemove<T> {

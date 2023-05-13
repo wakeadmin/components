@@ -48,3 +48,18 @@
 <<< @/fat-table/MergeFields.tsx
 
 :::
+
+<br>
+<br>
+<br>
+<br>
+
+## 如何在表格实现开关切换的需求？
+
+<iframe class="demo-frame" style="height: 800px" src="./switch.demo.html" />
+
+::: details 查看代码
+
+<<< @/fat-table/Switch.tsx
+
+:::

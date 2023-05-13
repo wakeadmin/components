@@ -111,7 +111,7 @@ const Cell = declareComponent({
       const { column, row } = props;
       return composeAtomProps(
         {
-          mode: 'preview',
+          mode: column.columnMode ?? 'preview',
           scene: 'table',
           class: column.valueClassName,
           style: column.valueStyle,
@@ -120,7 +120,6 @@ const Cell = declareComponent({
             prop: column.prop,
             values: row,
           } as BaseAtomicContext,
-          // readonly
           value: value.value,
           onChange: handleChange,
         },
