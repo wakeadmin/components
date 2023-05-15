@@ -80,6 +80,12 @@ FatLogicTree 本身并不耦合约束树的结构，可以声明树的结构、�
 <br>
 <br>
 
+### 可拖拽
+
+配合 sortablejs 实现
+
+<iframe class="demo-frame" style="height: 600px" src="./logic-tree-with-sortable.demo.html" />
+
 ## API
 
 ![](./images/fat-logic-tree.png)

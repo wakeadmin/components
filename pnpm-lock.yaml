@@ -126,11 +126,13 @@ importers:
       '@wakeadmin/icons': ^0.1.4
       element-plus: ^2.3.4
       imagemin-cli: ^7.0.0
+      sortablejs: ^1.15.0
       swrv: ^1.0.3
       vitepress: 1.0.0-alpha.16
       vue: ^3.3.2
     dependencies:
       '@element-plus/icons-vue': 172.26.59.72+4873/@element-plus/icons-vue/2.1.0
+      sortablejs: 172.26.59.72+4873/sortablejs/1.15.0
       swrv: 172.26.59.72+4873/swrv/1.0.3
     devDependencies:
       '@wakeadmin/components': link:../components

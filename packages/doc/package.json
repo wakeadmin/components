@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "sortablejs": "^1.15.0",
     "swrv": "^1.0.3"
   }
 }
