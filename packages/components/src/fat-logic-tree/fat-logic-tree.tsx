@@ -26,6 +26,11 @@ export interface FatLogicTreeNodeMethods<Item extends {} = any> {
   index: number;
 
   /**
+   * 完整的索引
+   */
+  indexs: number[];
+
+  /**
    * 树的深度
    */
   depth: number;
@@ -277,6 +282,7 @@ const TreeList = declareComponent({
       parent?: any;
       path: string;
       index: number;
+      indexs: number[];
       depth: number;
       type: LogicType;
       children?: any[];
@@ -345,6 +351,9 @@ const TreeList = declareComponent({
         },
         get index() {
           return props.innerProps.index;
+        },
+        get indexs() {
+          return props.innerProps.indexs;
         },
         get path() {
           return props.innerProps.path;
@@ -478,6 +487,7 @@ const TreeList = declareComponent({
                             type: node.type,
                             path,
                             index: idx,
+                            indexs: [...props.innerProps.indexs, idx],
                             children: node.children,
                             onChange: newValue => {
                               // 向上冒泡
@@ -571,6 +581,7 @@ const FatLogicTreeInner = declareComponent({
               children: nodeInfo?.children,
               path: basePath ?? '',
               index: 0,
+              indexs: [0],
               depth: 0,
               andText,
               andColor,
