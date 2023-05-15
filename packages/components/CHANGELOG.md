@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.7
+
+### Patch Changes
+
+- fat-logic-tree 添加 indexs 上下文
+
 ## 1.7.6
 
 ### Patch Changes
