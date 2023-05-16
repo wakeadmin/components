@@ -99,6 +99,7 @@ export interface FatTableDrawerProps<Item extends {}, Query extends {}>
 
   /**
    * 抽屉大小
+   * @alias size
    */
   drawerSize?: number | string;
 }
@@ -162,6 +163,7 @@ const FatTableDrawerInner = declareComponent({
 
     // drawer
     drawerSize: null,
+    size: null,
     modal: { type: Boolean, default: true },
     modalAppendToBody: { type: Boolean, default: false },
     customClass: String,
@@ -309,6 +311,7 @@ const FatTableDrawerInner = declareComponent({
         renderFooter: _renderFooter,
         title,
         drawerSize,
+        size,
         ...other
       } = unref(mergedProps);
 
@@ -318,7 +321,7 @@ const FatTableDrawerInner = declareComponent({
           style={attrs.style}
           modelValue={visible.value}
           title={title}
-          size={drawerSize}
+          size={size ?? drawerSize}
           v-slots={{ title: renderTitle.value }}
           {...other}
           beforeClose={handleCancel as any}

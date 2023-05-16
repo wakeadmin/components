@@ -97,7 +97,7 @@ export default {
             },
             {
               text: 'FatTableDrawer',
-              link: '/fat-table-layout/modal',
+              link: '/fat-table-layout/drawer',
             },
             {
               text: 'FatTableSelect',
