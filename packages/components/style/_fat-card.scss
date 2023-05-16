@@ -22,6 +22,10 @@
     margin-top: calc(#{$header-height} - 6px);
   }
 
+  &--borderless {
+    border: none;
+  }
+
   &--escaped &__header {
     position: absolute;
     top: calc(-#{$header-height} + 6px);

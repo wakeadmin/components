@@ -40,6 +40,12 @@ export interface FatTableModalMethods<T extends {}, S extends {}> extends FatTab
    * 是否处于关闭状态
    */
   isClose: () => boolean;
+
+  /**
+   * 默认按钮渲染
+   * @returns
+   */
+  renderButtons: () => any;
 }
 
 export interface FatTableModalSlots<T extends {}, S extends {}> extends Omit<FatTableSlots<T, S>, 'renderTitle'> {
@@ -240,6 +246,7 @@ const FatTableModalInner = declareComponent({
         return {
           ...(props.layoutProps ?? {}),
           reuseBayIfNeed: false,
+          border: false,
         };
       }
       return props.layoutProps;
@@ -256,6 +263,31 @@ const FatTableModalInner = declareComponent({
       });
     };
 
+    const renderButtons = () => {
+      const mergedPropsValue = mergedProps.value;
+      const fatTableModalConfigurable = configurable.fatTableModal ?? {};
+
+      return [
+        (mergedPropsValue.enableCancel ?? fatTableModalConfigurable.enableCancel) && (
+          <Button
+            onClick={() => close()}
+            {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}
+          >
+            {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? t('wkc.cancel')}
+          </Button>
+        ),
+        (mergedPropsValue.enableConfirm ?? fatTableModalConfigurable.enableConfirm) && (
+          <Button
+            type="primary"
+            onClick={() => handleConfirm(() => handleVisibleChange(false))}
+            {...(mergedPropsValue.confirmProps ?? fatTableModalConfigurable.confirmProps ?? {})}
+          >
+            {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? t('wkc.confirm')}
+          </Button>
+        ),
+      ];
+    };
+
     const instance = {
       open,
       close,
@@ -265,6 +297,7 @@ const FatTableModalInner = declareComponent({
       isClose: () => {
         return !visible.value;
       },
+      renderButtons,
     };
 
     const renderTitle = computed(() => {
@@ -281,29 +314,7 @@ const FatTableModalInner = declareComponent({
         return renderSlot(mergedPropsValue, slots, 'footer', instance);
       }
 
-      const fatTableModalConfigurable = configurable.fatTableModal ?? {};
-
-      return (
-        <div class="fat-table-model__footer">
-          {(mergedPropsValue.enableCancel ?? fatTableModalConfigurable.enableCancel) && (
-            <Button
-              onClick={() => close()}
-              {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}
-            >
-              {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? t('wkc.cancel')}
-            </Button>
-          )}
-          {(mergedPropsValue.enableConfirm ?? fatTableModalConfigurable.enableConfirm) && (
-            <Button
-              type="primary"
-              onClick={() => handleConfirm(() => handleVisibleChange(false))}
-              {...(mergedPropsValue.confirmProps ?? fatTableModalConfigurable.confirmProps ?? {})}
-            >
-              {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? t('wkc.confirm')}
-            </Button>
-          )}
-        </div>
-      );
+      return <div class="fat-table-model__footer">{renderButtons()}</div>;
     });
 
     forwardExpose(instance, FatTablePublicMethodKeys, tableInstance);

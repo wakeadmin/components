@@ -24,7 +24,7 @@ import { FatTableEvents, FatTableMethods, FatTableProps, FatTableSlots } from '.
 import { FatTableModalMethods } from './fat-table-modal';
 import { useLazyFalsy, useT } from '../hooks';
 
-export type FatTableDrawerMethods<Item extends {}, QUery extends {}> = FatTableModalMethods<Item, QUery>;
+export type FatTableDrawerMethods<Item extends {}, Query extends {}> = FatTableModalMethods<Item, Query>;
 
 export interface FatTableDrawerSlots<Item extends {}, Query extends {}>
   extends Omit<FatTableSlots<Item, Query>, 'renderTitle'> {
@@ -232,6 +232,7 @@ const FatTableDrawerInner = declareComponent({
         return {
           ...(props.layoutProps ?? {}),
           reuseBayIfNeed: false,
+          border: false,
         };
       }
       return props.layoutProps;
@@ -248,6 +249,33 @@ const FatTableDrawerInner = declareComponent({
       });
     };
 
+    const renderButtons = () => {
+      const mergedPropsValue = mergedProps.value;
+
+      // 共用同一个
+      const fatTableDrawerConfigurable = configurable.fatTableModal ?? {};
+
+      return [
+        (mergedPropsValue.enableCancel ?? fatTableDrawerConfigurable.enableCancel) && (
+          <Button
+            onClick={() => close()}
+            {...(mergedPropsValue.cancelProps ?? fatTableDrawerConfigurable.cancelProps ?? {})}
+          >
+            {mergedPropsValue.cancelText ?? fatTableDrawerConfigurable.cancelText ?? t('wkc.cancel')}
+          </Button>
+        ),
+        (mergedPropsValue.enableConfirm ?? fatTableDrawerConfigurable.enableConfirm) && (
+          <Button
+            type="primary"
+            onClick={() => handleConfirm(() => handleVisibleChange(false))}
+            {...(mergedPropsValue.confirmProps ?? fatTableDrawerConfigurable.confirmProps ?? {})}
+          >
+            {mergedPropsValue.confirmText ?? fatTableDrawerConfigurable.confirmText ?? t('wkc.confirm')}
+          </Button>
+        ),
+      ];
+    };
+
     const instance = {
       open,
       close,
@@ -257,6 +285,7 @@ const FatTableDrawerInner = declareComponent({
       isClose: () => {
         return !visible.value;
       },
+      renderButtons,
     };
 
     const renderTitle = computed(() => {
@@ -273,30 +302,7 @@ const FatTableDrawerInner = declareComponent({
         return renderSlot(mergedPropsValue, slots, 'footer', instance);
       }
 
-      // 共用同一个
-      const fatTableDrawerConfigurable = configurable.fatTableModal ?? {};
-
-      return (
-        <div class="fat-table-drawer__footer">
-          {(mergedPropsValue.enableCancel ?? fatTableDrawerConfigurable.enableCancel) && (
-            <Button
-              onClick={() => close()}
-              {...(mergedPropsValue.cancelProps ?? fatTableDrawerConfigurable.cancelProps ?? {})}
-            >
-              {mergedPropsValue.cancelText ?? fatTableDrawerConfigurable.cancelText ?? t('wkc.cancel')}
-            </Button>
-          )}
-          {(mergedPropsValue.enableConfirm ?? fatTableDrawerConfigurable.enableConfirm) && (
-            <Button
-              type="primary"
-              onClick={() => handleConfirm(() => handleVisibleChange(false))}
-              {...(mergedPropsValue.confirmProps ?? fatTableDrawerConfigurable.confirmProps ?? {})}
-            >
-              {mergedPropsValue.confirmText ?? fatTableDrawerConfigurable.confirmText ?? t('wkc.confirm')}
-            </Button>
-          )}
-        </div>
-      );
+      return <div class="fat-table-drawer__footer">{renderButtons()}</div>;
     });
 
     forwardExpose(instance, FatTablePublicMethodKeys, tableInstance);

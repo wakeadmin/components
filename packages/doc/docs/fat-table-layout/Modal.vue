@@ -35,12 +35,14 @@
       columns: [
         {
           prop: 'name',
+          label: '名称',
           queryable: true,
           valueProps: {
             placeholder: '名称',
           },
         },
         {
+          label: '日期',
           prop: 'date',
         },
       ],

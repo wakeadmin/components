@@ -66,6 +66,11 @@ export interface FatContainerProps extends FatContainerSlots, FatContainerEvents
    * 这个选项也可以通过 FatConfigurable 的 legacyContainer 配置
    */
   legacyMode?: boolean;
+
+  /**
+   * 是否有边框，默认为 true
+   */
+  border?: boolean;
 }
 
 /**
@@ -79,6 +84,7 @@ export const FatContainer = declareComponent({
     activeKey: null,
     reuseBayIfNeed: { type: Boolean, default: true },
     legacyMode: { type: Boolean, default: undefined },
+    border: null,
 
     // slots
     renderTitle: null,
@@ -173,6 +179,7 @@ export const FatContainer = declareComponent({
         header = (
           <FatCard
             {...(legacyMode ? undefined : rootProps)}
+            border={props.border}
             title={props.title}
             padding={false}
             v-slots={{

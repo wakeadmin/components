@@ -1,0 +1,8 @@
+@use 'config' as *;
+
+.fat-table-modal {
+  // 去除 modal 的边距
+  .#{$el-ns}-dialog__body {
+    padding: 0;
+  }
+}

@@ -44,12 +44,6 @@
           prop: 'date',
         },
       ],
-      renderBeforeForm() {
-        return 'before form';
-      },
-      onCellDblclick() {
-        console.log('cell dbclick');
-      },
     });
   });
 

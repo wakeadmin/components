@@ -1,6 +1,11 @@
+@use 'config' as *;
+
 .fat-table-drawer {
+  .#{$el-ns}-drawer__body {
+    padding: 0;
+  }
+
   &__body {
-    padding: 24px;
     padding-bottom: 80px;
   }
 
@@ -15,5 +20,6 @@
     align-items: center;
     justify-content: center;
     border-top: 1px solid #f2f6fc;
+    z-index: 100;
   }
 }
