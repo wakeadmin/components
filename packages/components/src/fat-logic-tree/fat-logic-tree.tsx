@@ -64,13 +64,13 @@ export interface FatLogicTreeNodeMethods<Item extends {} = any> {
    * 在当前节点之前插入
    * @param item
    */
-  insertBefore(item: Item): void;
+  insertBefore(...item: Item[]): void;
 
   /**
    * 在当前节点之后插入
    * @param item
    */
-  insertAfter(item: Item): void;
+  insertAfter(...item: Item[]): void;
 
   /**
    * 设置逻辑类型
@@ -83,7 +83,7 @@ export interface FatLogicTreeNodeMethods<Item extends {} = any> {
    * 添加追加子级
    * @note 仅分组支持
    */
-  append(item: Item): void;
+  append(...item: Item[]): void;
 }
 
 /**
@@ -314,7 +314,7 @@ const TreeList = declareComponent({
       /**
        * 插入子元素
        */
-      onInsert: (item: any, related: any, position: -1 | 1) => void;
+      onInsert: (items: any[], related: any, position: -1 | 1) => void;
     };
   }>({ innerProps: null }),
   setup(props) {
@@ -376,16 +376,16 @@ const TreeList = declareComponent({
 
           props.innerProps.onChange?.(newValue);
         },
-        insertBefore(item) {
-          assertObject(item);
+        insertBefore(...items) {
+          items.forEach(assertObject);
           assertParent();
 
-          props.innerProps.onInsert(item, props.innerProps.value, -1);
+          props.innerProps.onInsert(items, props.innerProps.value, -1);
         },
-        insertAfter(item) {
-          assertObject(item);
+        insertAfter(...items) {
+          items.forEach(assertObject);
           assertParent();
-          props.innerProps.onInsert(item, props.innerProps.value, 1);
+          props.innerProps.onInsert(items, props.innerProps.value, 1);
         },
         remove() {
           if (props.innerProps.parent == null) {
@@ -398,24 +398,33 @@ const TreeList = declareComponent({
          * 追加子节点
          * @param item
          */
-        append(item) {
-          assertObject(item);
-
-          // 添加默认的唯一标识符
-          const uid = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
-          (item as any)[AUTO_UNIQ_KEY] = uid;
-
-          // TODO: 追加
+        append(...items) {
+          const listToAppend: any[] = [];
           const info = getNodeInfo(props.innerProps.value, props.innerProps.treeStruct);
           if (info == null) {
             throw new Error('无法获取节点信息');
           }
 
-          const list = (info.children ?? NoopArray).slice(0);
-          list.push(item);
-          const newValue = { ...props.innerProps.value, [getChildrenKey(props.innerProps.treeStruct)]: list };
+          items.forEach(item => {
+            assertObject(item);
 
-          props.innerProps.onChange?.(newValue);
+            // 添加默认的唯一标识符
+            const uid = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
+            (item as any)[AUTO_UNIQ_KEY] = uid;
+
+            listToAppend.push(item);
+          });
+
+          if (listToAppend.length) {
+            const list = (info.children ?? NoopArray).slice(0);
+            listToAppend.forEach(i => {
+              list.push(i);
+            });
+
+            const newValue = { ...props.innerProps.value, [getChildrenKey(props.innerProps.treeStruct)]: list };
+
+            props.innerProps.onChange?.(newValue);
+          }
         },
       };
 
@@ -513,14 +522,14 @@ const TreeList = declareComponent({
                                 }
                               }
                             },
-                            onInsert(item, related, position) {
+                            onInsert(items, related, position) {
                               const index = children.indexOf(related);
                               if (index === -1) {
                                 return;
                               }
 
                               const clone = children.slice(0);
-                              clone.splice(position === -1 ? index : index + 1, 0, item);
+                              clone.splice(position === -1 ? index : index + 1, 0, ...items);
                               const newNode = { ...value, [childrenKey]: clone };
 
                               props.innerProps.onChange?.(newNode);
@@ -591,11 +600,11 @@ const FatLogicTreeInner = declareComponent({
               renderGroup: scope => {
                 return hasSlots(props, slots, 'group') ? renderSlot(props, slots, 'group', scope) : scope.vdom;
               },
-              onInsert: (item, related, position) => {
+              onInsert: (items, related, position) => {
                 const children = (nodeInfo?.children ?? NoopArray).slice(0);
                 const index = children.indexOf(related);
                 if (index !== -1) {
-                  children.splice(position === -1 ? index : index + 1, 0, item);
+                  children.splice(position === -1 ? index : index + 1, 0, ...items);
                   const newValue = { ...modelValue, [childrenKey]: children };
                   emit('update:modelValue', newValue);
                 }
