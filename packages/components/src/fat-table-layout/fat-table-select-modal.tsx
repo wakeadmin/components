@@ -201,6 +201,7 @@ const FatTableSelectModalInner = declareComponent({
         return {
           ...(props.layoutProps ?? {}),
           reuseBayIfNeed: false,
+          border: false,
         };
       }
       return props.layoutProps;
