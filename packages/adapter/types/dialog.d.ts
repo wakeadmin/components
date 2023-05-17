@@ -22,7 +22,10 @@ export interface DialogProps {
    */
   appendToBody?: boolean;
 
-  /** Whether to append modal to body element. If false, the modal will be appended to Dialog's parent element */
+  /**
+   * Whether to append modal to body element. If false, the modal will be appended to Dialog's parent element
+   * vue 2
+   */
   modalAppendToBody?: boolean;
 
   /** Whether scroll of body is disabled while Dialog is displayed */

@@ -1,6 +1,7 @@
 import { computed, Ref, ref, unref, watch } from '@wakeadmin/demi';
 import { Button, Dialog } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
+import { omit } from '@wakeadmin/utils';
 
 import { useFatConfigurable } from '../fat-configurable';
 import {
@@ -101,6 +102,8 @@ export function useFatTableSelectModalRef<
 >() {
   return ref<FatTableSelectModalMethods<Item, Query, Selection>>();
 }
+
+const OMIT_FOR_DIALOG: (keyof FatTableSelectModalProps<any, any, any>)[] = ['rowKey', 'request', 'columns', 'multiple'];
 
 // todo 提取出来
 const FatTableSelectModalInner = declareComponent({
@@ -302,8 +305,18 @@ const FatTableSelectModalInner = declareComponent({
         renderTitle: _renderTitle,
         renderFooter: _renderFooter,
         title,
+        // ignore
+        enableConfirm: _enableConfirm,
+        enableCancel: _enableCancel,
+        confirmOnSelected: _confirmOnSelected,
         ...other
       } = unref(mergedProps);
+
+      // 透传的参数
+      const passthroughProps = {
+        ...inheritProps(true),
+        ...other,
+      };
 
       return (
         <Dialog
@@ -312,15 +325,13 @@ const FatTableSelectModalInner = declareComponent({
           modelValue={visible.value}
           title={title}
           v-slots={{ title: renderTitle.value, footer: renderFooter.value }}
-          {...inheritProps(true)}
-          {...other}
+          {...omit(passthroughProps, OMIT_FOR_DIALOG)}
           beforeClose={handleCancel as any}
           onUpdate:modelValue={handleVisibleChange}
         >
           {(!destroyOnClose || !!lazyVisible.value) && (
             <FatTableSelect
-              {...inheritProps(true)}
-              {...other}
+              {...passthroughProps}
               v-slots={pickEnumerable(slots)}
               layout={layout}
               layoutProps={tableLayoutProp.value}
