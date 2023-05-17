@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.11
+
+### Patch Changes
+
+- fat-logic-tree 插入操作支持批量
+
 ## 1.7.10
 
 ### Patch Changes
