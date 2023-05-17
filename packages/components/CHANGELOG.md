@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.10
+
+### Patch Changes
+
+- 修复 fat-table-select 类型错误
+
 ## 1.7.9
 
 ### Patch Changes
