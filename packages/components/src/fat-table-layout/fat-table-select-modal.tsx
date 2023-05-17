@@ -252,15 +252,15 @@ const FatTableSelectModalInner = declareComponent({
     };
 
     const handleChange: FatTableSelectModalProps['onChange'] = evt => {
-      if (!props.multiple && props.confirmOnSelected) {
-        // 关闭弹窗
-        confirm();
-      }
-
       if (mergedProps.value.onChange) {
         mergedProps.value.onChange(evt);
       } else {
         emit('change', evt);
+      }
+
+      if (!props.multiple && props.confirmOnSelected) {
+        // 关闭弹窗
+        confirm();
       }
     };
 
