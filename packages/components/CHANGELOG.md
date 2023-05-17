@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.8
+
+### Patch Changes
+
+- fat-table-modal, fat-table-select 优化
+
 ## 1.7.7
 
 ### Patch Changes
