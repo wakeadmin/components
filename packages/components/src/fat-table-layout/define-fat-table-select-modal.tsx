@@ -38,7 +38,7 @@ export type FatTableSelectModalDefine<
   | (FatTableSelectModalProps<Item, Query, Selection> & CommonProps)
   | ((context: {
       // modal 实例 引用
-      modelRef: Ref<FatTableSelectModalMethods<Item, Query, Selection> | undefined>;
+      modalRef: Ref<FatTableSelectModalMethods<Item, Query, Selection> | undefined>;
       props: FatTableSelectModalDefineProps<Item, Query, Selection, Extra>;
       emit: (key: string, ...args: any[]) => void;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
@@ -64,7 +64,7 @@ export function defineFatTableSelectModal<
 
       const extraDefinitions =
         typeof define === 'function'
-          ? computed(define({ modelRef: modalRef, column: defineFatTableColumn, props: attrs as any, emit }))
+          ? computed(define({ modalRef, column: defineFatTableColumn, props: attrs as any, emit }))
           : define;
 
       const instance = {};

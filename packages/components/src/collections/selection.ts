@@ -1,4 +1,4 @@
-import { ref } from '@wakeadmin/demi';
+import { customRef, ref, triggerRef } from '@wakeadmin/demi';
 import { isDev } from '../utils/isDev';
 
 export interface SelectionModelChange<T> {
@@ -19,7 +19,23 @@ export interface SelectionModelChange<T> {
 export class SelectionModel<T> {
   private _selected: T[] | null = null;
 
-  private selection = new Set<T>();
+  // 响应式改造
+  private _selection = customRef<Set<T>>((track, trigger) => {
+    const value = new Set<T>();
+    return {
+      get() {
+        track();
+        return value;
+      },
+      set() {
+        throw new Error('readonly');
+      },
+    };
+  });
+
+  private get selection() {
+    return this._selection.value;
+  }
 
   private unselectedEmit: T[] = [];
 
@@ -155,6 +171,8 @@ export class SelectionModel<T> {
     this.selection.add(value);
 
     this.selectedEmit.push(value);
+
+    this.triggerChange();
     return this.calcExceeded();
   }
 
@@ -169,6 +187,7 @@ export class SelectionModel<T> {
       this.selection.delete(value);
       this.unselectedEmit.push(value);
       this.calcExceeded();
+      this.triggerChange();
     }
   }
 
@@ -177,5 +196,9 @@ export class SelectionModel<T> {
     if (this.multiple) {
       this._exceeded.value = this.size >= this.limit;
     }
+  }
+
+  private triggerChange() {
+    triggerRef(this._selection);
   }
 }

@@ -94,6 +94,19 @@ export interface FatTableSelectMethods<
    * 获取所选项
    */
   getSelected(): Selection[];
+
+  /**
+   * 是否已选中
+   * @param row
+   */
+  isSelected(row: Item): boolean;
+
+  /**
+   * 是否支持选中
+   * @param row
+   */
+  selectable(row: Item): boolean;
+
   /**
    * 获取当前页选中的数据列表
    */
@@ -110,6 +123,8 @@ export const FatTableSelectPublicMethodKeys: (keyof FatTableSelectMethods<any, a
   'clear',
   'getSelected',
   'getCurrentPageSelected',
+  'selectable',
+  'isSelected',
 ];
 
 export interface FatTableSelectSlots<
@@ -192,12 +207,18 @@ export interface FatTableSelectProps<
    * 用户可以传入一个`string`或者是一个jsx对象来控制该列的显示内容
    */
   selectActionText?: any;
+
   /**
    * 批量操作按钮
    */
   batchActions?:
     | FatTableBatchAction<Item, Query>[]
     | ((table: FatTableSelectMethods<Item, Query, Selection>) => FatTableBatchAction<Item, Query>[]);
+
+  /**
+   * 是否显示操作列, 默认 true
+   */
+  showActions?: boolean;
 }
 
 class FatTableSelectError extends Error {
@@ -266,6 +287,12 @@ export const FatTableSelectInner = declareComponent({
       type: Boolean,
     },
     value: null,
+    modelValue: null,
+
+    showActions: {
+      type: Boolean,
+      default: true,
+    },
 
     selectable: null,
 
@@ -277,8 +304,6 @@ export const FatTableSelectInner = declareComponent({
     // fat table overwrite
     columns: null,
     batchActions: null,
-
-    modelValue: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatTableSelectEvents<any, any, any>>>(),
   setup(props, { expose, emit, slots }) {
@@ -325,7 +350,7 @@ export const FatTableSelectInner = declareComponent({
     const columns = computed(() => {
       const propsColumns = props.columns;
       const hasAction = propsColumns.some(column => column.type === 'actions');
-      if (!(hasAction || props.multiple)) {
+      if (!(hasAction || props.multiple) && props.showActions) {
         return propsColumns.concat([
           {
             type: 'actions',
@@ -399,6 +424,12 @@ export const FatTableSelectInner = declareComponent({
         return true;
       }
       return !model.exceeded;
+    };
+
+    const isSelected = (row: any) => {
+      const id = toId(row, props.rowKey);
+
+      return model.isSelected(id);
     };
 
     /**
@@ -542,6 +573,8 @@ export const FatTableSelectInner = declareComponent({
       unselectAll,
       toggle,
       toggleAll,
+      selectable,
+      isSelected,
       removeSelected: () => {
         throw new FatTableSelectError(t('wkc.notSupportDeleteInMode'));
       },

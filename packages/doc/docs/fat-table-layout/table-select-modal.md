@@ -5,10 +5,11 @@
 <script setup>
   import Modal from './TableSelectModal.vue'
   import ModalMulti from './TableSelectMultiModal.vue'
+  import ModalCustomColumn from './TableSelectModalCustomColumn.vue'
 
 </script>
 
-单选
+### 单选
 
 <ClientOnly>
   <div class="wk-demo"><Modal /></div>
@@ -22,7 +23,7 @@
 <br>
 <br>
 
-多选
+### 多选
 
 <ClientOnly>
   <div class="wk-demo"><ModalMulti /></div>
@@ -31,3 +32,14 @@
 ::: details 查看代码
 <<< @/fat-table-layout/TableSelectMultiModal.vue
 :::
+
+<br>
+<br>
+<br>
+<br>
+
+### 自定义选择栏
+
+<ClientOnly>
+  <div class="wk-demo"><ModalCustomColumn /></div>
+</ClientOnly>
