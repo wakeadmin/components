@@ -126,7 +126,7 @@ export interface FatTableSelectEvents<
 > extends FatTableEvents<Item, Query> {
   onChange?(payload: SelectionModelChange<Selection>): void;
 
-  onInput?(value: Selection | Selection[]): void;
+  'onUpdate:ModelValue'?(value: Selection | Selection[]): void;
 }
 
 export interface FatTableSelectProps<
@@ -162,6 +162,7 @@ export interface FatTableSelectProps<
    * 已选择的值
    */
   value?: Selection[] | Selection;
+  modelValue?: Selection[] | Selection;
 
   /**
    * 最多允许选择多少项
@@ -277,7 +278,6 @@ export const FatTableSelectInner = declareComponent({
     columns: null,
     batchActions: null,
 
-    // @ts-expect-error
     modelValue: null,
   }),
   emits: declareEmits<ToHEmitDefinition<FatTableSelectEvents<any, any, any>>>(),
@@ -289,7 +289,6 @@ export const FatTableSelectInner = declareComponent({
 
     const globalConfiguration = useFatConfigurable();
 
-    // @ts-expect-error
     const modelValue = props.modelValue ?? props.value;
 
     const model = new SelectionModel(props.multiple, toIds(modelValue, props.rowKey), props.limit);
