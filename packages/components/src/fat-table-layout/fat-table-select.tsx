@@ -141,7 +141,7 @@ export interface FatTableSelectEvents<
 > extends FatTableEvents<Item, Query> {
   onChange?(payload: SelectionModelChange<Selection>): void;
 
-  'onUpdate:ModelValue'?(value: Selection | Selection[]): void;
+  'onUpdate:modelValue'?(value: Selection | Selection[]): void;
 }
 
 export interface FatTableSelectProps<

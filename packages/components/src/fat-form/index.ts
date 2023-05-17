@@ -10,4 +10,4 @@ export * from './fat-form-table';
 
 export * from './define-fat-form';
 
-export { useFatFormRef, provideFatFormCollection } from './hooks';
+export { useFatFormRef, useFatFormContext, provideFatFormCollection } from './hooks';
