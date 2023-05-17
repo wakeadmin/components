@@ -9,6 +9,7 @@ import {
   FatTableModalEvents,
   FatTableModalMethods,
   FatTableModalProps,
+  FatTableModalPublicMethodKeys,
   FatTableModalSlots,
   useFatTableModalRef,
 } from './fat-table-modal';
@@ -49,7 +50,7 @@ export function defineFatTableModal<T extends {}, S extends {}, Extra extends {}
           : define;
 
       const instance = {};
-      forwardExpose(instance, [...FatTablePublicMethodKeys, 'open', 'close'], modalRef);
+      forwardExpose(instance, [...FatTablePublicMethodKeys, ...FatTableModalPublicMethodKeys], modalRef);
 
       expose(instance as any);
 

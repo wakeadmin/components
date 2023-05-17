@@ -66,8 +66,8 @@ export function defineFatTableSelect<
           : define;
 
       const instance = {};
-      forwardExpose(instance, FatTableSelectPublicMethodKeys, tableRef);
       forwardExpose(instance, FatTablePublicMethodKeys, tableRef);
+      forwardExpose(instance, FatTableSelectPublicMethodKeys, tableRef);
 
       expose(instance as any);
 

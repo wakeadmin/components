@@ -5,4 +5,8 @@
   .#{$el-ns}-dialog__body {
     padding: 0;
   }
+
+  .#{$el-ns}-dialog__footer:empty {
+    display: none;
+  }
 }

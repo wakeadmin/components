@@ -9,6 +9,7 @@ import {
   FatTableDrawerEvents,
   FatTableDrawerMethods,
   FatTableDrawerProps,
+  FatTableDrawerPublicMethodKeys,
   FatTableDrawerSlots,
   useFatTableDrawerRef,
 } from './fat-table-drawer';
@@ -51,7 +52,7 @@ export function defineFatTableDrawer<Item extends {}, Query extends {}, Extra ex
           : define;
 
       const instance = {};
-      forwardExpose(instance, [...FatTablePublicMethodKeys, 'open', 'close', 'isOpen', 'isClose'], modalRef);
+      forwardExpose(instance, [...FatTablePublicMethodKeys, ...FatTableDrawerPublicMethodKeys], modalRef);
       expose(instance as any);
 
       return () => {

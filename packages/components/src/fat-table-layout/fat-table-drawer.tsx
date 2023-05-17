@@ -21,10 +21,12 @@ import { FatTable } from '../fat-table/fat-table';
 import { useFatTableRef } from '../fat-table/hooks';
 
 import { FatTableEvents, FatTableMethods, FatTableProps, FatTableSlots } from '../fat-table/types';
-import { FatTableModalMethods } from './fat-table-modal';
+import { FatTableModalMethods, FatTableModalPublicMethodKeys } from './fat-table-modal';
 import { useLazyFalsy, useT } from '../hooks';
 
 export type FatTableDrawerMethods<Item extends {}, Query extends {}> = FatTableModalMethods<Item, Query>;
+
+export const FatTableDrawerPublicMethodKeys = FatTableModalPublicMethodKeys;
 
 export interface FatTableDrawerSlots<Item extends {}, Query extends {}>
   extends Omit<FatTableSlots<Item, Query>, 'renderTitle'> {
@@ -162,6 +164,7 @@ const FatTableDrawerInner = declareComponent({
     renderFooter: null,
 
     // drawer
+    title: null,
     drawerSize: null,
     size: null,
     modal: { type: Boolean, default: true },
@@ -213,8 +216,8 @@ const FatTableDrawerInner = declareComponent({
     };
 
     const handleConfirm = (done: () => void) => {
-      if (props.beforeCancel) {
-        props.beforeCancel(done);
+      if (props.beforeConfirm) {
+        props.beforeConfirm(done);
       } else {
         done();
       }
@@ -243,6 +246,12 @@ const FatTableDrawerInner = declareComponent({
       handleVisibleChange(true);
     };
 
+    const confirm = () => {
+      handleConfirm(() => {
+        handleVisibleChange(false);
+      });
+    };
+
     const close = () => {
       handleCancel(() => {
         handleVisibleChange(false);
@@ -257,17 +266,14 @@ const FatTableDrawerInner = declareComponent({
 
       return [
         (mergedPropsValue.enableCancel ?? fatTableDrawerConfigurable.enableCancel) && (
-          <Button
-            onClick={() => close()}
-            {...(mergedPropsValue.cancelProps ?? fatTableDrawerConfigurable.cancelProps ?? {})}
-          >
+          <Button onClick={close} {...(mergedPropsValue.cancelProps ?? fatTableDrawerConfigurable.cancelProps ?? {})}>
             {mergedPropsValue.cancelText ?? fatTableDrawerConfigurable.cancelText ?? t('wkc.cancel')}
           </Button>
         ),
         (mergedPropsValue.enableConfirm ?? fatTableDrawerConfigurable.enableConfirm) && (
           <Button
             type="primary"
-            onClick={() => handleConfirm(() => handleVisibleChange(false))}
+            onClick={confirm}
             {...(mergedPropsValue.confirmProps ?? fatTableDrawerConfigurable.confirmProps ?? {})}
           >
             {mergedPropsValue.confirmText ?? fatTableDrawerConfigurable.confirmText ?? t('wkc.confirm')}
@@ -279,6 +285,7 @@ const FatTableDrawerInner = declareComponent({
     const instance = {
       open,
       close,
+      confirm,
       isOpen: () => {
         return visible.value;
       },

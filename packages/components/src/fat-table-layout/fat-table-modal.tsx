@@ -31,11 +31,24 @@ export interface FatTableModalMethods<T extends {}, S extends {}> extends FatTab
    * @param props
    */
   open: (props?: Partial<FatTableModalProps<any, any>>) => void;
+
+  /**
+   * 确认
+   * @returns
+   */
+  confirm: () => void;
+
+  /**
+   * 关闭
+   * @returns
+   */
   close: () => void;
+
   /**
    * 是否处于开启状态
    */
   isOpen: () => boolean;
+
   /**
    * 是否处于关闭状态
    */
@@ -47,6 +60,15 @@ export interface FatTableModalMethods<T extends {}, S extends {}> extends FatTab
    */
   renderButtons: () => any;
 }
+
+export const FatTableModalPublicMethodKeys: (keyof FatTableModalMethods<any, any>)[] = [
+  'open',
+  'confirm',
+  'close',
+  'isClose',
+  'isOpen',
+  'renderButtons',
+];
 
 export interface FatTableModalSlots<T extends {}, S extends {}> extends Omit<FatTableSlots<T, S>, 'renderTitle'> {
   renderTitle?: (tableModalRef: FatTableModalMethods<T, S>) => any;
@@ -177,6 +199,7 @@ const FatTableModalInner = declareComponent({
     renderFooter: null,
 
     // dialog
+    title: null,
     top: String,
     modal: { type: Boolean, default: true },
     modalAppendToBody: { type: Boolean, default: false },
@@ -227,8 +250,8 @@ const FatTableModalInner = declareComponent({
     };
 
     const handleConfirm = (done: () => void) => {
-      if (props.beforeCancel) {
-        props.beforeCancel(done);
+      if (props.beforeConfirm) {
+        props.beforeConfirm(done);
       } else {
         done();
       }
@@ -257,6 +280,12 @@ const FatTableModalInner = declareComponent({
       handleVisibleChange(true);
     };
 
+    const confirm = () => {
+      handleConfirm(() => {
+        handleVisibleChange(false);
+      });
+    };
+
     const close = () => {
       handleCancel(() => {
         handleVisibleChange(false);
@@ -269,17 +298,14 @@ const FatTableModalInner = declareComponent({
 
       return [
         (mergedPropsValue.enableCancel ?? fatTableModalConfigurable.enableCancel) && (
-          <Button
-            onClick={() => close()}
-            {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}
-          >
+          <Button onClick={close} {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}>
             {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? t('wkc.cancel')}
           </Button>
         ),
         (mergedPropsValue.enableConfirm ?? fatTableModalConfigurable.enableConfirm) && (
           <Button
             type="primary"
-            onClick={() => handleConfirm(() => handleVisibleChange(false))}
+            onClick={confirm}
             {...(mergedPropsValue.confirmProps ?? fatTableModalConfigurable.confirmProps ?? {})}
           >
             {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? t('wkc.confirm')}
@@ -291,6 +317,7 @@ const FatTableModalInner = declareComponent({
     const instance = {
       open,
       close,
+      confirm,
       isOpen: () => {
         return visible.value;
       },

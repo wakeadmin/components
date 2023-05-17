@@ -9,11 +9,11 @@ import {
   FatTableSelectModalEvents,
   FatTableSelectModalMethods,
   FatTableSelectModalProps,
+  FatTableSelectModalPublicMethodKeys,
   FatTableSelectModalSlots,
   useFatTableSelectModalRef,
 } from './fat-table-select-modal';
 import { FatTablePublicMethodKeys } from '../fat-table/constants';
-import { FatTableSelectPublicMethodKeys } from './fat-table-select';
 
 export interface FatTableSelectModalDefinition<
   Item extends {},
@@ -68,11 +68,7 @@ export function defineFatTableSelectModal<
           : define;
 
       const instance = {};
-      forwardExpose(
-        instance,
-        [...FatTableSelectPublicMethodKeys, ...FatTablePublicMethodKeys, 'open', 'close'],
-        modalRef
-      );
+      forwardExpose(instance, [...FatTableSelectModalPublicMethodKeys, ...FatTablePublicMethodKeys], modalRef);
 
       expose(instance as any);
 

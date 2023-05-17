@@ -42,30 +42,13 @@ const IgnoreFatTableProps = {
   onLoad: null,
 } as const;
 
-export const FatTableSelectPublicMethodKeys = [
-  'getSelected',
-  'clear',
-  'select',
-  'selectAll',
-  'unselect',
-  'unselectAll',
-  'toggle',
-  'toggleAll',
-  'removeSelected',
-  'remove',
-] as const;
-
-type FatTableSelectInstanceExposeMethods = Record<typeof FatTableSelectPublicMethodKeys[number], Function>;
 type IgnoreFatTablePropsKeys = keyof typeof IgnoreFatTableProps;
 
 export interface FatTableSelectMethods<
   Item extends {},
   Query extends {},
   Selection extends Partial<Item> | number | string
-> extends Omit<
-    FatTableMethods<Item, Query>,
-    keyof Omit<FatTableSelectInstanceExposeMethods, 'removeSelected' | 'remove'>
-  > {
+> extends Omit<FatTableMethods<Item, Query>, 'removeSelected' | 'remove'> {
   /**
    * 选中指定值
    * @param values 选择值
@@ -117,11 +100,23 @@ export interface FatTableSelectMethods<
   getCurrentPageSelected: () => Selection[];
 }
 
+export const FatTableSelectPublicMethodKeys: (keyof FatTableSelectMethods<any, any, any>)[] = [
+  'select',
+  'unselect',
+  'toggle',
+  'toggleAll',
+  'selectAll',
+  'unselectAll',
+  'clear',
+  'getSelected',
+  'getCurrentPageSelected',
+];
+
 export interface FatTableSelectSlots<
   Item extends {},
   Query extends {},
   Selection extends Partial<Item> | number | string
-> extends Omit<FatTableProps<Item, Query>, 'renderBottomToolbar' | 'batchActions' | 'selectable'> {
+> extends Omit<FatTableSlots<Item, Query>, 'renderBottomToolbar'> {
   renderBottomToolbar?(instance: FatTableSelectMethods<Item, Query, Selection>, selectedList: Selection[]): any;
 }
 export interface FatTableSelectEvents<
@@ -158,6 +153,8 @@ export interface FatTableSelectProps<
    * 该模式下 如果用户没有指定 `selection`列
    *
    * 那么会自动添加一个到首列
+   *
+   * 默认为 false
    */
   multiple?: boolean;
 
@@ -174,7 +171,7 @@ export interface FatTableSelectProps<
   limit?: number;
 
   /**
-   * 是否允许操作
+   * 是否允许选中
    *
    * @remarks
    * - 如果传入一个字符串 会从传入的对象里去取该值
@@ -334,6 +331,8 @@ export const FatTableSelectInner = declareComponent({
           {
             type: 'actions',
             label: t('wkc.operation'),
+            width: 100,
+            labelAlign: 'center',
             actions: [
               {
                 name: props.selectActionText ?? globalConfiguration.fatTableSelect?.selectActionText ?? '选择',
@@ -632,10 +631,10 @@ export const FatTableSelect = FatTableSelectInner as unknown as new <
   Query extends {} = any,
   Selection extends Partial<Item> | number | string = any
 >(
-  props: FatTableProps<Item, Query>
+  props: FatTableSelectProps<Item, Query, Selection>
 ) => OurComponentInstance<
   typeof props,
-  FatTableSlots<Item, Query>,
+  FatTableSelectSlots<Item, Query, Selection>,
   FatTableSelectEvents<Item, Query, Selection>,
   FatTableSelectMethods<Item, Query, Selection>
 >;

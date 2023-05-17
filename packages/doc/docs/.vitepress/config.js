@@ -92,20 +92,20 @@ export default {
           text: 'FatTable 预定义场景',
           items: [
             {
-              text: 'FatTableModal',
+              text: 'FatTableModal(alpha)',
               link: '/fat-table-layout/modal',
             },
             {
-              text: 'FatTableDrawer',
+              text: 'FatTableDrawer(alpha)',
               link: '/fat-table-layout/drawer',
             },
             {
-              text: 'FatTableSelect',
+              text: 'FatTableSelect(alpha)',
               link: '/fat-table-layout/table-select',
             },
             {
-              text: 'FatTableSelectModal',
-              link: '/fat-table-layout/table-select',
+              text: 'FatTableSelectModal(alpha)',
+              link: '/fat-table-layout/table-select-modal',
             },
           ],
         },
