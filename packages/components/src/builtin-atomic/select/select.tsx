@@ -1,6 +1,7 @@
 import { SelectProps, Select, Option, model, vLoading } from '@wakeadmin/element-adapter';
 import { computed, watchEffect } from '@wakeadmin/demi';
 import { withDirectives } from '@wakeadmin/h';
+import { NoopArray } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
@@ -60,11 +61,11 @@ export const ASelectComponent = defineAtomicComponent(
         const disposer = context?.registerValidator?.(async () => {
           const { value, requiredValueOnOptionsMessage } = props;
 
-          if (value == null || options.value == null || options.value.length === 0) {
+          if (value == null) {
             return;
           }
 
-          const existed = options.value.some(i => i.value === value);
+          const existed = (options.value || NoopArray).some(i => i.value === value);
           if (!existed) {
             throw new Error(requiredValueOnOptionsMessage ?? placeholder.value);
           }
