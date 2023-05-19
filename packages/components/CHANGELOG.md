@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.12
+
+### Patch Changes
+
+- 原件支持动态注册验证器
+
 ## 1.7.11
 
 ### Patch Changes
