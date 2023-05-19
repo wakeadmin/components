@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.13
+
+### Patch Changes
+
+- 修复 select 选项验证错误
+
 ## 1.7.12
 
 ### Patch Changes
