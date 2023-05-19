@@ -1,5 +1,5 @@
 import { SelectProps, Select, Option, model, vLoading } from '@wakeadmin/element-adapter';
-import { computed } from '@wakeadmin/demi';
+import { computed, watchEffect } from '@wakeadmin/demi';
 import { withDirectives } from '@wakeadmin/h';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
@@ -24,6 +24,16 @@ export type ASelectProps = DefineAtomicProps<
     renderPreview?: (active?: ASelectOption) => any;
 
     /**
+     * 是否需要验证 value 必须在 options 中, 默认 false
+     */
+    requiredValueOnOptions?: boolean;
+
+    /**
+     * requiredValueOnOptions 验证失败时的错误信息，默认为 placeholder 的值
+     */
+    requiredValueOnOptionsMessage?: string;
+
+    /**
      * 选项颜色的渲染模式，默认为 text
      */
     colorMode?: 'text' | 'dot';
@@ -39,6 +49,33 @@ export const ASelectComponent = defineAtomicComponent(
       return options.value.find(i => i.value === props.value);
     });
 
+    const placeholder = computed(() => {
+      return getOrCreatePlaceholder('select', props);
+    });
+
+    watchEffect(onClean => {
+      const { requiredValueOnOptions, context } = props;
+
+      if (requiredValueOnOptions) {
+        const disposer = context?.registerValidator?.(async () => {
+          const { value, requiredValueOnOptionsMessage } = props;
+
+          if (value == null || options.value == null || options.value.length === 0) {
+            return;
+          }
+
+          const existed = options.value.some(i => i.value === value);
+          if (!existed) {
+            throw new Error(requiredValueOnOptionsMessage ?? placeholder.value);
+          }
+        });
+
+        if (disposer) {
+          onClean(disposer);
+        }
+      }
+    });
+
     return () => {
       const {
         mode,
@@ -49,6 +86,8 @@ export const ASelectComponent = defineAtomicComponent(
         scene,
         options: _,
         placeholder: __,
+        requiredValueOnOptions: ___,
+        requiredValueOnOptionsMessage: ____,
         colorMode = 'text',
         ...other
       } = props;
@@ -79,7 +118,7 @@ export const ASelectComponent = defineAtomicComponent(
           loading={loading.value}
           {...other}
           {...model(value, onChange!)}
-          placeholder={getOrCreatePlaceholder('select', props)}
+          placeholder={placeholder.value}
         >
           {options.value.map((i, idx) => {
             return <Option key={i.value ?? idx} {...i}></Option>;

@@ -8,6 +8,8 @@ declare global {
   interface AtomicProps {}
 }
 
+export type AtomicValidateTrigger = 'change' | 'blur';
+
 /**
  * 预定义的上下文基础信息
  */
@@ -26,6 +28,13 @@ export interface BaseAtomicContext {
    * 原件所在的容器
    */
   values?: unknown;
+
+  /**
+   * 注入自定义验证规则，支持在原件内部实现更复杂的验证规则
+   *
+   * @returns 返回一个函数用于取消注册
+   */
+  registerValidator?: (validator: () => Promise<void>, trigger?: AtomicValidateTrigger) => () => void;
 
   // 其他属性由实现者自定义
 }
@@ -145,7 +154,7 @@ export interface Atomic<T = any, P extends AtomicCommonProps<T> = AtomicCommonPr
   /**
    * 验证触发的时机
    */
-  validateTrigger?: 'change' | 'blur';
+  validateTrigger?: AtomicValidateTrigger;
 
   /**
    * 尝试对给定值进行转换，转换为组件能够识别的格式

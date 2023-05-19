@@ -1,10 +1,10 @@
-import { computed, onBeforeUnmount, watch } from '@wakeadmin/demi';
+import { computed, onBeforeUnmount, watch, ref } from '@wakeadmin/demi';
 import { Col, ColProps, CommonProps, FormItem, Tooltip } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { Inquiry } from '@wakeadmin/icons';
 import { debounce, equal, get, NoopObject } from '@wakeadmin/utils';
 
-import { Atomic, BaseAtomicContext } from '../atomic';
+import { Atomic, AtomicValidateTrigger, BaseAtomicContext } from '../atomic';
 
 import { useAtomicRegistry, useT } from '../hooks';
 import {
@@ -256,11 +256,28 @@ const FatFormItemInner = declareComponent({
       return !hidden.value && !disabled.value && mode.value !== 'preview';
     });
 
+    const dynamicValidator = ref<[() => Promise<void>, AtomicValidateTrigger | undefined] | undefined>();
+
+    /**
+     * 注册动态验证器
+     * @param validator
+     * @returns
+     */
+    const registerDynamicValidator = (validator: () => Promise<void>, trigger?: AtomicValidateTrigger) => {
+      dynamicValidator.value = [validator, trigger];
+
+      return () => {
+        if (dynamicValidator.value?.[0] === validator) {
+          dynamicValidator.value = undefined;
+        }
+      };
+    };
+
     const rules = computed(() => {
       let values = typeof props.rules === 'function' ? props.rules(form.values, form) : props.rules;
 
       if (props.required) {
-        values = toArray(values);
+        values = toArray(values).slice(0);
 
         // 检查是否已经包含了 required 验证规则
         if (!values.some(i => i.required)) {
@@ -273,7 +290,7 @@ const FatFormItemInner = declareComponent({
 
       if (atom.value.validate) {
         // 原件内部验证器
-        values = toArray(values);
+        values = toArray(values).slice(0);
         values.push({
           async validator(_rule, val, callback) {
             try {
@@ -288,6 +305,25 @@ const FatFormItemInner = declareComponent({
         });
 
         return values;
+      }
+
+      // 动态规则
+      if (dynamicValidator.value) {
+        values = toArray(values).slice(0);
+        const [validator, trigger] = dynamicValidator.value;
+
+        values.push({
+          async validator(_rule, val, callback) {
+            try {
+              await validator();
+              callback();
+            } catch (err) {
+              // eslint-disable-next-line n/no-callback-literal
+              callback(err as Error);
+            }
+          },
+          trigger,
+        });
       }
 
       return values;
@@ -320,7 +356,7 @@ const FatFormItemInner = declareComponent({
       const widthProps = ['width', 'maxWidth', 'minWidth'] satisfies (keyof FatFormItemProps)[];
       const hasValueProps = widthProps.filter(key => props[key] !== undefined);
       if (hasValueProps.length > 0) {
-        return hasValueProps.reduce<Record<typeof widthProps[number], string>>((obj, key) => {
+        return hasValueProps.reduce<Record<(typeof widthProps)[number], string>>((obj, key) => {
           obj[key] = formItemWidth(props[key]!);
           return obj;
           // @ts-expect-error
@@ -364,6 +400,7 @@ const FatFormItemInner = declareComponent({
           label: props.label,
           prop: props.prop,
           values: form.values,
+          registerValidator: registerDynamicValidator,
         } as BaseAtomicContext,
         class: props.valueClassName,
         style: normalizeStyle(contentStyle.value, props.valueStyle),

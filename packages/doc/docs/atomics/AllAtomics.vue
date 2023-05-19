@@ -2,7 +2,7 @@
   <div>
     <div>预览模式: <el-switch v-model="previewMode" /></div>
 
-    <FatForm ref="formRef" :mode="previewMode ? 'preview' : 'editable'" class="form" :enable-submitter="false">
+    <FatForm ref="formRef" :mode="previewMode ? 'preview' : 'editable'" class="form">
       <FatFormSection title="文本类">
         <FatFormItem prop="text" label="text" value-type="text" width="small" trim required />
         <FatFormItem prop="password" label="password" value-type="password" width="small" />
@@ -43,6 +43,21 @@
           message="异步获取 options"
           :value-props="{
             options: async () => [
+              { label: '选项1', value: '1', color: 'primary' },
+              { label: '选项2', value: '2', color: 'success' },
+            ],
+          }"
+        />
+        <FatFormItem
+          prop="selectValidate"
+          label="select"
+          value-type="select"
+          width="small"
+          message="验证 value 必须在 options 中"
+          initial-value="3"
+          :value-props="{
+            requiredValueOnOptions: true,
+            options: [
               { label: '选项1', value: '1', color: 'primary' },
               { label: '选项2', value: '2', color: 'success' },
             ],

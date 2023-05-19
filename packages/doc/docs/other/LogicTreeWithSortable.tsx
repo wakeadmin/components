@@ -138,7 +138,7 @@ export default defineFatForm(({ form, group, consumer }) => {
                   }
 
                   return (
-                    <div class={s.group} ref_for>
+                    <div class={s.group}>
                       <h3>分组: {scope.index + 1}</h3>
                       <div
                         class={s.subGroup}
