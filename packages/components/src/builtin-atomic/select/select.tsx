@@ -117,6 +117,8 @@ export const ASelectComponent = defineAtomicComponent(
           {...withDirectives([[vLoading, loading.value]])}
           disabled={loading.value}
           loading={loading.value}
+          // 清除后强制设置为 undefined
+          onClear={() => onChange?.(undefined)}
           {...other}
           {...model(value, onChange!)}
           placeholder={placeholder.value}
