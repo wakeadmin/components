@@ -1,4 +1,5 @@
 import { defineFatForm } from '@wakeadmin/components';
+import { ElMessageBox } from 'element-plus';
 
 export default defineFatForm<{
   // 🔴 这里的泛型变量可以定义表单数据结构
@@ -16,6 +17,11 @@ export default defineFatForm<{
     initialValue: {
       name: 'ivan',
       nickName: '狗蛋',
+    },
+
+    submit: async values => {
+      await ElMessageBox.confirm('确认保存');
+      console.log('保存成功', values);
     },
 
     // 🔴 子节点

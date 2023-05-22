@@ -362,6 +362,14 @@ export interface FatFormBaseProps<Store extends {} = {}, Request extends {} = St
   submit?: (values: Submit) => Promise<void>;
 
   /**
+   * 判断是否为取消操作
+   * 默认判断的是 消息是否为 abort 或 cancel
+   * @param error
+   * @returns
+   */
+  isAbort?: (error: any) => boolean;
+
+  /**
    * 表单布局， 默认为 horizontal
    */
   layout?: 'horizontal' | 'vertical' | 'inline';

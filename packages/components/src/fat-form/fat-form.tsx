@@ -33,6 +33,18 @@ import { FatFormGroup } from './fat-form-group';
 import { useFatFormContext, useTouches } from './hooks';
 import { convert, transform, runInModifyContext } from './utils';
 
+const isAbort = (err: any) => {
+  if (err === 'abort' || err === 'cancel') {
+    return true;
+  }
+
+  if (err instanceof Error) {
+    return err.message === 'abort' || err.message === 'cancel' || err.name === 'AbortError';
+  }
+
+  return false;
+};
+
 export const FatForm = declareComponent({
   name: 'FatForm',
   props: declareProps<Omit<FatFormProps<any>, keyof FatFormEvents<any>>>({
@@ -42,6 +54,7 @@ export const FatForm = declareComponent({
     request: null,
     requestOnMounted: { type: Boolean, default: true },
     submit: null,
+    isAbort: null,
     layout: null,
     labelAlign: null,
     labelWidth: null,
@@ -279,6 +292,10 @@ export const FatForm = declareComponent({
         // 延迟关闭 loading
         await delay(100);
       } catch (err) {
+        if ((props.isAbort ?? isAbort)?.(err)) {
+          return;
+        }
+
         error.value = err as Error;
         console.log(`[fat-form] submit error`, err);
         emit('submitFailed', valuesToSubmit, error.value);
