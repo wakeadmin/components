@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.15
+
+### Patch Changes
+
+- 修复部分原件预览没有设置 class 和 style
+
 ## 1.7.14
 
 ### Patch Changes
