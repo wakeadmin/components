@@ -44,7 +44,9 @@ export const ADateComponent = defineAtomicComponent(
       placeholder ??= getOrCreatePlaceholder('date', props);
 
       return mode === 'preview' ? (
-        <span>{preview(value, previewFormat)}</span>
+        <span class={other.class} style={other.style}>
+          {preview(value, previewFormat)}
+        </span>
       ) : (
         <DatePicker type="date" placeholder={placeholder} {...other} {...model(value, onChange!)} />
       );

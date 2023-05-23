@@ -42,7 +42,9 @@ export const ADateTimeComponent = defineAtomicComponent(
       previewFormat ??= other.format ?? configurable.dateTimeFormat ?? 'YYYY-MM-DD HH:mm:ss';
 
       return mode === 'preview' ? (
-        <span>{preview(value, previewFormat)}</span>
+        <span class={other.class} style={other.style}>
+          {preview(value, previewFormat)}
+        </span>
       ) : (
         <DatePicker type="datetime" {...other} {...model(value, onChange!)} />
       );

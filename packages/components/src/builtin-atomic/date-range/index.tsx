@@ -55,7 +55,9 @@ export const ADateRangeComponent = defineAtomicComponent(
       const rangeSeparator = other.rangeSeparator ?? '-';
 
       return mode === 'preview' ? (
-        <span>{preview(value, previewFormat, rangeSeparator)}</span>
+        <span class={other.class} style={other.style}>
+          {preview(value, previewFormat, rangeSeparator)}
+        </span>
       ) : (
         <DatePicker type="daterange" {...other} {...model(value, onChange!)} />
       );

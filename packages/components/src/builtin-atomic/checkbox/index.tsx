@@ -56,7 +56,7 @@ export const ACheckboxComponent = defineAtomicComponent(
         return renderPreview ? (
           renderPreview(checked, labelContent.value)
         ) : (
-          <span>
+          <span class={other.class} style={other.style}>
             {checked ? checkedText : uncheckedText}
             {labelContent.value}
           </span>
