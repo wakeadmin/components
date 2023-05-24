@@ -48,3 +48,19 @@ locale,wkc.uploadFileSizeLimit,大小不能超过 {sizeLimit},大小不能超過
 locale,wkc.uploadFileLimit,最多只能上传 {limit} 个文件,最多只能上傳 {limit} 個文件,You can only upload up to {limit} files,สามารถอัปโหลดได้มากสุด {limit} ไฟล์
 locale,wkc.selectOption,请选择{label},請選擇{label},Please select {label},โปรดเลือก{label}
 locale,wkc.inputCaptcha,请输入{label},請輸入{label},Please enter {label},โปรดกรอก{label}
+locale,wkc.endDate,结束日期,結束日期,End Date,วันที่สิ้นสุด
+locale,wkc.endTime,结束时间,結束時間,End Time,เวลาสิ้นสุด
+locale,wkc.enter,请输入,請輸入,Please Enter,กรุณาป้อน
+locale,wkc.enterCaptcha,请输入验证码,請輸入驗證碼,Please enter verification code,กรุณากรอกรหัสยืนยัน
+locale,wkc.enterEmail,请输入邮箱,請輸入郵箱,Please input your email,กรุณาใส่อีเมลของคุณ
+locale,wkc.enterInteger,请输入整数,請輸入整數,Please enter an integer,กรุณาใส่จำนวนเต็ม
+locale,wkc.enterLink,请输入链接,請輸入鏈接,Please enter link,กรุณาใส่ลิงค์
+locale,wkc.enterNumber,请输入数字,請輸入數字,Please enter the number,กรุณาใส่หมายเลข
+locale,wkc.enterPassword,请输入密码,請輸入密碼,Please enter password,กรุณาใส่รหัสผ่าน
+locale,wkc.enterPhone,请输入手机号码,請輸入手機號碼,Please enter the phone number,กรุณากรอกหมายเลขโทรศัพท์
+locale,wkc.rangeSeparator,至,至,to,ถึง
+locale,wkc.select,请选择,請選擇,Please choose,กรุณาเลือก
+locale,wkc.selectDate,请选择日期,請選擇日期,Please select a date,กรุณาเลือกวันที่
+locale,wkc.selectTime,请选择时间,請選擇時間,Please select a time,กรุณาเลือกเวลา
+locale,wkc.startDate,开始日期,開始日期,Start Date,วันที่เริ่มต้น
+locale,wkc.startTime,开始时间,開始時間,Starting Time,เวลาเริ่มต้น

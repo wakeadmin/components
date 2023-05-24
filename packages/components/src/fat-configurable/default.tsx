@@ -1,133 +1,140 @@
+import { computed, Ref } from '@wakeadmin/demi';
+import { II18n } from '../i18n';
 import { FatConfigurable } from './types';
 
-/**
- * 定义默认配置
- */
-export const DEFAULT_CONFIGURABLE: FatConfigurable = {
-  undefinedPlaceholder: '——',
+export function getDefaultConfigurable(i18n: Ref<II18n>) {
+  return computed(() => {
+    const t = i18n.value.t;
 
-  dateFormat: 'YYYY-MM-DD',
+    const DEFAULT_CONFIGURABLE: FatConfigurable = {
+      undefinedPlaceholder: '——',
 
-  dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
+      dateFormat: 'YYYY-MM-DD',
 
-  timeFormat: 'HH:mm',
+      dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
 
-  pagination: {
-    pageSize: 10,
-    layout: 'prev, pager, next, jumper, sizes, total',
-    pageSizes: [10, 20, 30, 40, 50, 100],
-  },
+      timeFormat: 'HH:mm',
 
-  aTextProps: {},
+      pagination: {
+        pageSize: 10,
+        layout: 'prev, pager, next, jumper, sizes, total',
+        pageSizes: [10, 20, 30, 40, 50, 100],
+      },
 
-  aTextareaProps: {
-    placeholder: '请输入',
-    rows: 4,
-    showWordLimit: true,
-    autosize: { minRows: 4, maxRows: 10 },
-  },
+      aTextProps: {},
 
-  aPasswordProps: {
-    placeholder: '请输入密码',
-  },
+      aTextareaProps: {
+        placeholder: t('wkc.enter'),
+        rows: 4,
+        showWordLimit: true,
+        autosize: { minRows: 4, maxRows: 10 },
+      },
 
-  aSearchProps: {
-    placeholder: '请输入关键字',
-  },
+      aPasswordProps: {
+        placeholder: t('wkc.enterPassword'),
+      },
 
-  aUrlProps: {
-    placeholder: '请输入链接',
-    copyable: true,
-    ellipsis: 1,
-  },
+      aSearchProps: {
+        placeholder: t('wkc.enter'),
+      },
 
-  aEmailProps: {
-    placeholder: '请输入邮箱',
-  },
+      aUrlProps: {
+        placeholder: t('wkc.enterLink'),
+        copyable: true,
+        ellipsis: 1,
+      },
 
-  aPhoneProps: {
-    placeholder: '请输入手机号码',
-  },
+      aEmailProps: {
+        placeholder: t('wkc.enterEmail'),
+      },
 
-  aSwitchProps: {
-    previewActiveText: '开启',
-    previewInactiveText: '关闭',
-  },
+      aPhoneProps: {
+        placeholder: t('wkc.enterPhone'),
+      },
 
-  aSelectProps: {
-    placeholder: '请选择',
-  },
+      aSwitchProps: {
+        previewActiveText: t('wkc.on'),
+        previewInactiveText: t('wkc.off'),
+      },
 
-  aMultiSelectProps: {
-    placeholder: '请选择',
-  },
+      aSelectProps: {
+        placeholder: t('wkc.select'),
+      },
 
-  aDateProps: {
-    placeholder: '请选择日期',
-  },
+      aMultiSelectProps: {
+        placeholder: t('wkc.select'),
+      },
 
-  aDateTimeProps: {
-    placeholder: '请选择时间',
-  },
+      aDateProps: {
+        placeholder: t('wkc.selectDate'),
+      },
 
-  aTimeProps: {
-    placeholder: '请选择时间',
-  },
+      aDateTimeProps: {
+        placeholder: t('wkc.selectTime'),
+      },
 
-  aDateRangeProps: {
-    startPlaceholder: '开始日期',
-    endPlaceholder: '结束日期',
-    rangeSeparator: '至',
-  },
+      aTimeProps: {
+        placeholder: t('wkc.selectTime'),
+      },
 
-  aDateTimeRangeProps: {
-    startPlaceholder: '开始时间',
-    endPlaceholder: '结束时间',
-    rangeSeparator: '至',
-  },
+      aDateRangeProps: {
+        startPlaceholder: t('wkc.startDate'),
+        endPlaceholder: t('wkc.endDate'),
+        rangeSeparator: t('wkc.rangeSeparator'),
+      },
 
-  aTimeRangeProps: {
-    startPlaceholder: '开始时间',
-    endPlaceholder: '结束时间',
-    rangeSeparator: '至',
-  },
+      aDateTimeRangeProps: {
+        startPlaceholder: t('wkc.startTime'),
+        endPlaceholder: t('wkc.endTime'),
+        rangeSeparator: t('wkc.rangeSeparator'),
+      },
 
-  aCheckboxProps: {
-    previewActiveText: '开启',
-    previewInactiveText: '关闭',
-  },
+      aTimeRangeProps: {
+        startPlaceholder: t('wkc.startTime'),
+        endPlaceholder: t('wkc.endTime'),
+        rangeSeparator: t('wkc.rangeSeparator'),
+      },
 
-  aCascaderLazyProps: {
-    placeholder: '请选择',
-  },
+      aCheckboxProps: {
+        previewActiveText: t('wkc.on'),
+        previewInactiveText: t('wkc.off'),
+      },
 
-  aCascaderProps: {
-    placeholder: '请选择',
-  },
+      aCascaderLazyProps: {
+        placeholder: t('wkc.select'),
+      },
 
-  aIntegerProps: {
-    placeholder: '请输入整数',
-    max: Number.MAX_SAFE_INTEGER,
-  },
+      aCascaderProps: {
+        placeholder: t('wkc.select'),
+      },
 
-  aFloatProps: {
-    placeholder: '请输入数字',
-  },
+      aIntegerProps: {
+        placeholder: t('wkc.enterInteger'),
+        max: 0x7fffffff,
+      },
 
-  aCurrencyProps: {
-    placeholder: '请输入',
-  },
+      aFloatProps: {
+        placeholder: t('wkc.enterNumber'),
+      },
 
-  aCaptchaProps: {
-    placeholder: '请输入验证码',
-  },
+      aCurrencyProps: {
+        placeholder: t('wkc.enter'),
+      },
 
-  fatTableModal: {
-    enableCancel: true,
-    enableConfirm: false,
-  },
-  fatTableSelectModal: {
-    enableCancel: true,
-    enableConfirm: true,
-  },
-};
+      aCaptchaProps: {
+        placeholder: t('wkc.enterCaptcha'),
+      },
+
+      fatTableModal: {
+        enableCancel: true,
+        enableConfirm: false,
+      },
+      fatTableSelectModal: {
+        enableCancel: true,
+        enableConfirm: true,
+      },
+    };
+
+    return DEFAULT_CONFIGURABLE;
+  });
+}

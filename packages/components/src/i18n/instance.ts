@@ -21,10 +21,10 @@ function d(time: Date | string, format?: string) {
   if (isDev) {
     console.error('[@wakeadmin/component]: 不支持时间的国际化操作');
   }
-  return time;
+  return String(time);
 }
 
-export const defaultI18nInstance = {
+export const defaultI18nInstance: II18n = {
   t: createT(languages),
   d,
 };
@@ -46,6 +46,7 @@ export function getI18nInstance(): II18n {
  * @internal
  * @returns
  */
-export function setI18nInstance(i18n: II18n): void {
+export function setI18nInstance(i18n: II18n | undefined | null): void {
+  // @ts-expect-error
   instance = i18n;
 }
