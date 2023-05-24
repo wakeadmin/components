@@ -9,3 +9,12 @@
     }
   }
 }
+
+.vue3 .fat-form-query {
+  .#{$el-ns}-input__clear {
+    position: absolute;
+    margin-right: 8px;
+    background-color: white;
+    border-radius: 8px;
+  }
+}

@@ -130,9 +130,11 @@ export const plugin = {
       // 添加全局命名空间
       if (isVue2) {
         window.document.body.classList.add('vue2');
+        window.document.body.classList.remove('vue3');
       } else {
         // 避免样式污染
         window.document.body.classList.remove('vue2');
+        window.document.body.classList.add('vue3');
       }
     }
   },
