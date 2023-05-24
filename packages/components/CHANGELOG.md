@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.16
+
+### Patch Changes
+
+- 修复样式污染问题
+
 ## 1.7.15
 
 ### Patch Changes
