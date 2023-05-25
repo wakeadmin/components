@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.19
+
+### Patch Changes
+
+- 修复原件多语言配置更新失败
+
 ## 1.7.18
 
 ### Patch Changes
