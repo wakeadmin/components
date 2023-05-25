@@ -62,7 +62,7 @@ export function defineAtomicComponent<P extends AtomicCommonProps<any>>(
               $set(properties, key, value);
             }
           },
-          { immediate: true }
+          { immediate: true, deep: true }
         );
       }
 

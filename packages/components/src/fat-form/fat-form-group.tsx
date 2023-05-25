@@ -13,7 +13,6 @@ import {
   normalizeStyle,
   renderSlot,
   ToHSlotDefinition,
-  takeString,
   toArray,
 } from '../utils';
 
@@ -21,6 +20,7 @@ import { FatFormInheritanceContext } from './constants';
 import { useFatFormCollection, useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormGroupProps, FatFormGroupSlots, FatFormItemInheritableProps } from './types';
 import { formItemWidth, isInModifyContext } from './utils';
+import { useT } from '../hooks';
 
 const DEFAULT_ROW: RowProps & CommonProps = NoopObject;
 
@@ -69,6 +69,7 @@ export const FatFormGroup = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatFormGroupSlots<any>>>(),
   setup(props, { slots, attrs, expose }) {
     const configurable = useFatConfigurable();
+    const t = useT();
     const form = useFatFormContext()!;
     const collection = useFatFormCollection();
     const inherited = useInheritableProps();
@@ -154,7 +155,7 @@ export const FatFormGroup = declareComponent({
         if (!values.some(i => i.required)) {
           values.unshift({
             required: true,
-            message: props.requiredMessage || `${takeString(props.label)}不能为空`,
+            message: props.requiredMessage || t('wkc.valueCannotBeNull', { label: props.label }),
           });
         }
       }
@@ -219,7 +220,7 @@ export const FatFormGroup = declareComponent({
       const widthProps = ['width', 'maxWidth', 'minWidth'] satisfies (keyof FatFormGroupProps<any>)[];
       const hasValueProps = widthProps.filter(key => props[key] !== undefined);
       if (hasValueProps.length > 0) {
-        return hasValueProps.reduce<Record<typeof widthProps[number], string>>((obj, key) => {
+        return hasValueProps.reduce<Record<(typeof widthProps)[number], string>>((obj, key) => {
           obj[key] = formItemWidth(props[key]!);
           return obj;
           // @ts-expect-error
