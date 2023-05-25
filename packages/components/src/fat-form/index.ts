@@ -11,3 +11,4 @@ export * from './fat-form-table';
 export * from './define-fat-form';
 
 export { useFatFormRef, useFatFormContext, provideFatFormCollection } from './hooks';
+export { runInModifyContext } from './utils';
