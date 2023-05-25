@@ -40,11 +40,15 @@ export function isQueryable(column: FatTableColumn<any>): boolean {
  * @param columns
  */
 export function mergeAndTransformQuery(query: any, extraQuery: any, columns: FatTableColumn<any>[]) {
-  const q = query ? cloneDeep(query) : {};
+  const q = {};
 
   // 合并外部参数
   if (extraQuery != null && typeof extraQuery === 'object') {
     merge(q, extraQuery);
+  }
+
+  if (query != null && typeof query === 'object') {
+    merge(q, cloneDeep(query));
   }
 
   // 转换
