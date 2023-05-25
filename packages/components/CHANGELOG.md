@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.7.17
+
+### Patch Changes
+
+- - fix: 修复 fat-form-query 清除按钮抖动问题
+  - fix: 组件库默认配置支持多语言
+
 ## 1.7.16
 
 ### Patch Changes
