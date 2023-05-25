@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.18
+
+### Patch Changes
+
+- 修复 fat-configurable 多语言不生效
+
 ## 1.7.17
 
 ### Patch Changes
