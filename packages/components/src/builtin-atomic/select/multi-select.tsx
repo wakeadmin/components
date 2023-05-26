@@ -9,6 +9,7 @@ import { useFatConfigurable } from '../../fat-configurable';
 import { useOptions } from './loader';
 import { ASelectOption } from './shared';
 import { getOrCreatePlaceholder } from '../../utils/placeholder';
+import { FatText, FatTextOwnProps, FatTextProps } from '../../fat-text';
 
 export type AMultiSelectValue = (string | number)[];
 
@@ -39,7 +40,9 @@ export type AMultiSelectProps = DefineAtomicProps<
      * 自定义预览渲染
      */
     renderPreview?: (options: ASelectOption[]) => any;
-  }
+
+    textProps?: FatTextProps;
+  } & FatTextOwnProps
 >;
 
 export const AMultiSelectComponent = defineAtomicComponent(
@@ -83,18 +86,41 @@ export const AMultiSelectComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, value, onChange, context, scene, renderPreview, options: _, placeholder: __, ...other } = props;
+      const {
+        mode,
+        value,
+        onChange,
+        context,
+        scene,
+        renderPreview,
+        options: _,
+        placeholder: __,
+
+        // text props
+        ellipsis,
+        copyable,
+        tag,
+        underline,
+        color,
+        textProps,
+        ...other
+      } = props;
       if (mode === 'preview') {
         if (renderPreview) {
           return renderPreview(active.value);
         }
 
         return (
-          <span class={other.class} style={other.style}>
+          <FatText
+            class={other.class}
+            style={other.style}
+            {...{ ellipsis, copyable, tag, underline, color }}
+            {...textProps}
+          >
             {active.value.length
               ? active.value.map(i => i.label).join(props.separator ?? ', ')
               : configurable.undefinedPlaceholder}
-          </span>
+          </FatText>
         );
       }
 

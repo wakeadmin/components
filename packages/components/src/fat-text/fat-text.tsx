@@ -26,6 +26,11 @@ export interface FatTextOwnProps {
   ellipsis?: boolean | number;
 
   /**
+   * 是否在省略时显示 tooltip，默认为 true
+   */
+  showTooltipWhenEllipsis?: boolean;
+
+  /**
    * 是否可拷贝，默认为 false
    * 如果类型为 string，则拷贝 copyable 指定的内容
    */
@@ -46,6 +51,7 @@ export const FatText = declareComponent({
   props: declareProps<FatTextProps>({
     ellipsis: { type: [Number, Boolean] },
     copyable: { type: [Boolean, String] },
+    showTooltipWhenEllipsis: { type: Boolean, default: true },
     underline: Boolean,
     tag: null,
     color: null,
@@ -170,8 +176,7 @@ export const FatText = declareComponent({
       const Tag = tag as 'span';
 
       const children = slots.default?.();
-
-      return (
+      const content = (
         <Tag
           {...inheritProps()}
           {...other}
@@ -199,6 +204,12 @@ export const FatText = declareComponent({
             </div>
           )}
         </Tag>
+      );
+
+      return isEllipsis.value && props.showTooltipWhenEllipsis ? (
+        <Tooltip content={textContent.value}>{content}</Tooltip>
+      ) : (
+        content
       );
     };
   },

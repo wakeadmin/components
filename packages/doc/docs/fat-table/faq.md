@@ -1,6 +1,6 @@
 # 常见问题
 
-## 如何将多个字段传入原件?
+## 1. 如何将多个字段传入原件?
 
 比如我需要在一个表格列中展示头像加上姓名.
 
@@ -54,12 +54,28 @@
 <br>
 <br>
 
-## 如何在表格实现开关切换的需求？
+## 2. 如何在表格实现开关切换的需求？
 
 <iframe class="demo-frame" style="height: 800px" src="./switch.demo.html" />
 
 ::: details 查看代码
 
 <<< @/fat-table/Switch.tsx
+
+:::
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## 3. 如何控制表格的单元格换行
+
+<iframe class="demo-frame" style="height: 800px" src="./cell-line-control.demo.html" />
+
+::: details 查看代码
+
+<<< @/fat-table/CellLineControl.tsx
 
 :::

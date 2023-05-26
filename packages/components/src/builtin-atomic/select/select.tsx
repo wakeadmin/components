@@ -10,6 +10,7 @@ import { normalizeClassName, normalizeStyle } from '../../utils';
 import { useOptions } from './loader';
 import { ASelectOption, normalizeColor } from './shared';
 import { getOrCreatePlaceholder } from '../../utils/placeholder';
+import { FatText, FatTextOwnProps, FatTextProps } from '../../fat-text';
 
 export type ASelectValue = string | number;
 
@@ -38,7 +39,9 @@ export type ASelectProps = DefineAtomicProps<
      * 选项颜色的渲染模式，默认为 text
      */
     colorMode?: 'text' | 'dot';
-  }
+
+    textProps?: FatTextProps;
+  } & FatTextOwnProps
 >;
 
 export const ASelectComponent = defineAtomicComponent(
@@ -90,6 +93,14 @@ export const ASelectComponent = defineAtomicComponent(
         requiredValueOnOptions: ___,
         requiredValueOnOptionsMessage: ____,
         colorMode = 'text',
+
+        // text props
+        ellipsis,
+        copyable,
+        tag,
+        underline,
+        color,
+        textProps,
         ...other
       } = props;
 
@@ -99,15 +110,17 @@ export const ASelectComponent = defineAtomicComponent(
         }
 
         return (
-          <span
+          <FatText
             class={normalizeClassName(other.class, 'fat-a-select', 'fat-a-select--preview', {
               'fat-a-select--color': active.value?.color,
               'fat-a-select--color-dot': props.colorMode === 'dot',
             })}
             style={normalizeStyle(other.style, { '--fat-a-select-color': normalizeColor(active.value?.color) })}
+            {...{ ellipsis, copyable, tag, underline, color }}
+            {...textProps}
           >
             {active.value?.label ?? configurable.undefinedPlaceholder}
-          </span>
+          </FatText>
         );
       }
 
