@@ -82,7 +82,7 @@ export const FatContainer = declareComponent({
     title: null,
     tabs: null,
     activeKey: null,
-    reuseBayIfNeed: { type: Boolean, default: true },
+    reuseBayIfNeed: { type: Boolean, default: null },
     legacyMode: { type: Boolean, default: undefined },
     border: null,
 
@@ -100,6 +100,7 @@ export const FatContainer = declareComponent({
     const hasDefaultSlot = computed(() => hasSlots(props, slots, 'default'));
     const hasTitleSlots = computed(() => hasSlots(props, slots, 'title'));
     const hasExtraSlots = computed(() => hasSlots(props, slots, 'extra'));
+    const reuseBayIfNeed = computed(() => props.reuseBayIfNeed ?? configurable.reuseBayIfNeed ?? true);
 
     const activeKey = ref<string | number | undefined>();
 
@@ -162,7 +163,7 @@ export const FatContainer = declareComponent({
 
       let header: JSX.Element;
       // 使用 惟客云 基座实现
-      if (wakeadminBayEnabled && props.reuseBayIfNeed) {
+      if (wakeadminBayEnabled && reuseBayIfNeed.value) {
         header = (
           <wkc-header {...(legacyMode ? undefined : rootProps)} title={props.title}>
             {!!hasTitleSlots.value && <div {...ceSlot('title')}>{renderSlot(props, slots, 'title')}</div>}

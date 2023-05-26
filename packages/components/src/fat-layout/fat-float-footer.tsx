@@ -3,8 +3,9 @@
  */
 import { declareComponent, declareProps } from '@wakeadmin/h';
 import { Disposer } from '@wakeadmin/utils';
-import { ref, onMounted } from '@wakeadmin/demi';
+import { ref, onMounted, computed } from '@wakeadmin/demi';
 
+import { useFatConfigurable } from '../fat-configurable';
 import { isWakeadminBayEnabled } from './utils';
 
 export interface FatFloatFooterProps {
@@ -17,13 +18,15 @@ export interface FatFloatFooterProps {
 export const FatFloatFooter = declareComponent({
   name: 'FatFloatFooter',
   props: declareProps<FatFloatFooterProps>({
-    reuseBayIfNeed: { type: Boolean, default: true },
+    reuseBayIfNeed: { type: Boolean, default: null },
   }),
   setup(props, { slots, attrs }) {
     const disposer = new Disposer();
     const wakeadminBayEnabled = isWakeadminBayEnabled();
+    const configurable = useFatConfigurable();
     const left = ref<string | number>(0);
     const elRef = ref<HTMLDivElement>();
+    const reuseBayIfNeed = computed(() => props.reuseBayIfNeed ?? configurable.reuseBayIfNeed ?? true);
 
     onMounted(() => {
       const el = elRef.value;
@@ -44,7 +47,7 @@ export const FatFloatFooter = declareComponent({
     });
 
     return () => {
-      if (wakeadminBayEnabled && props.reuseBayIfNeed) {
+      if (wakeadminBayEnabled && reuseBayIfNeed.value) {
         return (
           <wkc-float-footer class={attrs.class} style={attrs.style}>
             {slots.default?.()}

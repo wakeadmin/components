@@ -81,6 +81,11 @@ export interface FatConfigurable {
    */
   legacyContainer?: boolean;
 
+  /**
+   * 是否复用基座的组件, 默认 true
+   */
+  reuseBayIfNeed?: boolean;
+
   // -------------- 以下是内置原件的默认配置  -------------------
 
   /**
