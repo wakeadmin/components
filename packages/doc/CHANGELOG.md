@@ -1,5 +1,13 @@
 # @wakeadmin/components-doc
 
+## 0.6.2
+
+### Patch Changes
+
+- - 支持全局配置是否复用基座的组件
+  - fat-text 支持溢出时使用 tooltip 展示完整内容
+  - select, multi-select 支持 fat-text
+
 ## 0.6.1
 
 ### Patch Changes
