@@ -186,7 +186,7 @@ export const FatText = declareComponent({
             'fat-text--copyable': copyable,
           })}
           style={style.value}
-          title={isEllipsis.value ? textContent.value : undefined}
+          title={isEllipsis.value && !props.showTooltipWhenEllipsis ? textContent.value : undefined}
         >
           {children}
 
@@ -207,7 +207,9 @@ export const FatText = declareComponent({
       );
 
       return isEllipsis.value && props.showTooltipWhenEllipsis ? (
-        <Tooltip content={textContent.value}>{content}</Tooltip>
+        <Tooltip content={textContent.value} popperClass="fat-tooltip-title" placement="bottom">
+          {content}
+        </Tooltip>
       ) : (
         content
       );
