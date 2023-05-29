@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.7.22
+
+### Patch Changes
+
+- fat-form-table 支持自定义 table column props
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.6
+
 ## 1.7.21
 
 ### Patch Changes

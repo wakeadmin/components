@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.6
+
+### Patch Changes
+
+- select 补充 fitInputWidth props
+
 ## 0.6.5
 
 ### Patch Changes
