@@ -2,7 +2,7 @@ import { declareComponent, declareProps } from '@wakeadmin/h';
 import { TableColumnProps, TableColumn, Tooltip } from '@wakeadmin/element-adapter';
 import { NoopObject, NoopArray, get } from '@wakeadmin/utils';
 import { computed, inject } from '@wakeadmin/demi';
-import { Inquiry } from '@wakeadmin/icons';
+import { InquiryFill } from '@wakeadmin/icons';
 
 import { useAtomicRegistry } from '../hooks';
 import { composeAtomProps, setByPath, normalizeClassName } from '../utils';
@@ -209,7 +209,7 @@ export const Column = declareComponent({
                     <span>
                       {column.label}
                       <Tooltip v-slots={{ content: column.tooltip }}>
-                        <Inquiry class="fat-table__tooltip" />
+                        <InquiryFill class="fat-table__tooltip" />
                       </Tooltip>
                     </span>
                   );

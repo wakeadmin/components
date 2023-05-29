@@ -1,7 +1,7 @@
 import { computed, onBeforeUnmount, watch, ref } from '@wakeadmin/demi';
 import { Col, ColProps, CommonProps, FormItem, Tooltip } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
-import { Inquiry } from '@wakeadmin/icons';
+import { InquiryFill } from '@wakeadmin/icons';
 import { debounce, equal, get, NoopObject } from '@wakeadmin/utils';
 
 import { Atomic, AtomicValidateTrigger, BaseAtomicContext } from '../atomic';
@@ -497,7 +497,7 @@ const FatFormItemInner = declareComponent({
                           : props.tooltip,
                       }}
                     >
-                      <Inquiry class="fat-form-tooltip" />
+                      <InquiryFill class="fat-form-tooltip" />
                     </Tooltip>
                   )}
                   {form.labelSuffix}

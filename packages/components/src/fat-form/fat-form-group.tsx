@@ -1,7 +1,7 @@
 import { FormItem, Col, Row, RowProps, Tooltip, ColProps, CommonProps } from '@wakeadmin/element-adapter';
 import { computed, provide, onBeforeUnmount, watch } from '@wakeadmin/demi';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
-import { Inquiry } from '@wakeadmin/icons';
+import { InquiryFill } from '@wakeadmin/icons';
 import { NoopObject, equal, debounce } from '@wakeadmin/utils';
 
 import { useFatConfigurable } from '../fat-configurable';
@@ -409,7 +409,7 @@ export const FatFormGroup = declareComponent({
                           : props.tooltip,
                       }}
                     >
-                      <Inquiry class="fat-form-tooltip" />
+                      <InquiryFill class="fat-form-tooltip" />
                     </Tooltip>
                   )}
                   {form.labelSuffix}

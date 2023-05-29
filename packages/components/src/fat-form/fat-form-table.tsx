@@ -11,10 +11,11 @@ import {
   size,
   ButtonProps,
   Message,
+  TableColumnProps,
 } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { computed, ref, set as $set, ComponentPublicInstance, watchPostEffect } from '@wakeadmin/demi';
-import { Inquiry } from '@wakeadmin/icons';
+import { InquiryFill } from '@wakeadmin/icons';
 import { get, isObject, NoopArray, set, cloneDeep } from '@wakeadmin/utils';
 import memoize from 'lodash/memoize';
 import Sortable from 'sortablejs';
@@ -117,6 +118,10 @@ export interface FatFormTableColumn<
   ValueType extends keyof AtomicProps = 'text'
 > extends CommonProps,
     Omit<FatFormItemProps<Store, Request, ValueType>, 'renderLabel' | 'renderTooltip'> {
+  /**
+   * el-table-column 的 props
+   */
+  tableColumnProps?: TableColumnProps;
   renderColumn?: (inst: FatFormTableColumnMethods<Store>) => any;
   renderLabel?: (inst: FatFormTableMethods<Store>) => any;
   renderTooltip?: (inst: FatFormTableMethods<Store>) => any;
@@ -267,7 +272,7 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
   /**
    * 创建文本， 默认为 ’新增‘
    */
-  createText?: string;
+  createText?: any;
 
   /**
    * 创建按钮的自定义属性
@@ -356,7 +361,7 @@ export const FatFormTable = declareComponent({
     beforeCreate: null,
     beforeRemove: null,
 
-    createText: String,
+    createText: null,
     moveUpText: String,
     moveDownText: String,
     removeText: String,
@@ -766,7 +771,8 @@ export const FatFormTable = declareComponent({
             >
               {renderSlot(props, slots, 'columns', instance)}
               {props.columns?.map((col, idx) => {
-                const { tooltip, prop, renderTooltip, renderLabel, renderColumn, label, ...other } = col;
+                const { tooltip, prop, renderTooltip, renderLabel, renderColumn, label, tableColumnProps, ...other } =
+                  col;
                 let renderHeader: (() => any) | undefined;
 
                 const hasTooltip = !!(tooltip || renderTooltip);
@@ -783,7 +789,7 @@ export const FatFormTable = declareComponent({
                             content: renderTooltip ? renderTooltip(instance) : tooltip,
                           }}
                         >
-                          <Inquiry class="fat-form-tooltip" />
+                          <InquiryFill class="fat-form-tooltip" />
                         </Tooltip>
                       )}
                     </span>
@@ -829,6 +835,7 @@ export const FatFormTable = declareComponent({
                     align={props.columnAlign}
                     headerAlign={props.columnHeaderAlign}
                     width={width}
+                    {...tableColumnProps}
                   >
                     {children}
                   </TableColumn>
