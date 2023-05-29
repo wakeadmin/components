@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.21
+
+### Patch Changes
+
+- 修复 fat-text tooltip 展示问题
+
 ## 1.7.20
 
 ### Patch Changes
