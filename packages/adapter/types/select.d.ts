@@ -112,6 +112,9 @@ export interface SelectProps {
 
   automaticDropdown?: boolean;
 
+  // vue 3
+  fitInputWidth?: boolean;
+
   onClear?: () => void;
   onBlur?: () => void;
   onFocus?: () => void;
