@@ -23,9 +23,9 @@ export default defineFatTable<Item>(({ column }) => {
         const r = Math.floor(Math.random() * 1000);
         return {
           id: idx,
-          one: '数据'.repeat(r % 100),
-          two: '数据'.repeat(r % 100),
-          three: '数据'.repeat(r % 100),
+          one: '1' + '数据'.repeat(r % 100),
+          two: '2' + '数据'.repeat(r % 100),
+          three: '3' + '数据'.repeat(r % 100),
           four: 1,
         };
       });

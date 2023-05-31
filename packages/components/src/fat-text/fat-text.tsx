@@ -145,19 +145,25 @@ export const FatText = declareComponent({
     );
 
     onMounted(() => {
-      if (textRef.value) {
+      if (measureRef.value) {
+        textContent.value = measureRef.value.textContent ?? '';
+      } else if (textRef.value) {
         textContent.value = textRef.value.textContent ?? '';
       }
     });
 
     onUpdated(() => {
-      if (textRef.value) {
-        const nextTextContent = textRef.value.textContent ?? '';
-        if (textContent.value !== nextTextContent) {
-          nextTick(() => {
-            textContent.value = nextTextContent;
-          });
-        }
+      let nextTextContent = '';
+      if (measureRef.value) {
+        nextTextContent = measureRef.value.textContent ?? '';
+      } else if (textRef.value) {
+        nextTextContent = textRef.value.textContent ?? '';
+      }
+
+      if (textContent.value !== nextTextContent) {
+        nextTick(() => {
+          textContent.value = nextTextContent;
+        });
       }
     });
 
