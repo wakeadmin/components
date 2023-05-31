@@ -788,6 +788,16 @@ export interface FatFormItemSlots<S extends {} = any> {
   renderTooltip?: (inst: FatFormItemMethods<S>) => any;
 }
 
+export interface FatFormItemEvents<S extends {} = any> {
+  /**
+   * 值变动
+   * @param value
+   * @param instance
+   * @returns
+   */
+  onValueChange?: (instance: FatFormItemMethods<S>) => void;
+}
+
 /**
  * 验证规则
  */
@@ -804,6 +814,7 @@ export interface FatFormItemProps<
   Request extends {} = Store,
   ValueType extends keyof AtomicProps = 'text'
 > extends FatFormItemShared,
+    FatFormItemEvents<Store>,
     FatFormItemSlots<Store> {
   /**
    * 字段路径。例如 a.b.c、b[0]

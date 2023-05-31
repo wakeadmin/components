@@ -1,6 +1,6 @@
 import { computed, onBeforeUnmount, watch, ref } from '@wakeadmin/demi';
 import { Col, ColProps, CommonProps, FormItem, Tooltip } from '@wakeadmin/element-adapter';
-import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
+import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { InquiryFill } from '@wakeadmin/icons';
 import { debounce, equal, get, NoopObject } from '@wakeadmin/utils';
 
@@ -18,10 +18,11 @@ import {
   renderSlot,
   takeString,
   toArray,
+  ToHEmitDefinition,
   ToHSlotDefinition,
 } from '../utils';
 import { useFatFormCollection, useFatFormContext, useInheritableProps } from './hooks';
-import { FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
+import { FatFormItemEvents, FatFormItemMethods, FatFormItemProps, FatFormItemSlots } from './types';
 import { formItemWidth, validateFormItemProps } from './utils';
 
 const FatFormItemInner = declareComponent({
@@ -72,7 +73,8 @@ const FatFormItemInner = declareComponent({
     renderTooltip: null,
   }),
   slots: declareSlots<ToHSlotDefinition<FatFormItemSlots<any>>>(),
-  setup(props, { attrs, expose, slots }) {
+  emits: declareEmits<ToHEmitDefinition<FatFormItemEvents<any>>>(),
+  setup(props, { attrs, expose, slots, emit }) {
     validateFormItemProps(props);
 
     const form = useFatFormContext()!;
@@ -131,14 +133,6 @@ const FatFormItemInner = declareComponent({
         return value;
       };
     });
-
-    const handleChange = (value: any) => {
-      if (beforeChange.value) {
-        value = beforeChange.value(value);
-      }
-
-      form.setFieldValue(props.prop, value);
-    };
 
     const value = computed(() => {
       return form.getFieldValue(props.prop);
@@ -209,6 +203,16 @@ const FatFormItemInner = declareComponent({
       validate() {
         return form.validateField(props.prop);
       },
+    };
+
+    const handleChange = (val: any) => {
+      if (beforeChange.value) {
+        val = beforeChange.value(val);
+      }
+
+      form.setFieldValue(props.prop, val);
+
+      emit('valueChange', instance);
     };
 
     const disabled = computed(() => {
@@ -571,4 +575,4 @@ export const FatFormItem = FatFormItemInner as new <
   ValueType extends keyof AtomicProps = 'text'
 >(
   props: FatFormItemProps<Store, Request, ValueType>
-) => OurComponentInstance<typeof props, FatFormItemSlots<Store>, {}, FatFormItemMethods<Store>>;
+) => OurComponentInstance<typeof props, FatFormItemSlots<Store>, FatFormItemEvents<Store>, FatFormItemMethods<Store>>;
