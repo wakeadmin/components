@@ -310,6 +310,13 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
   removeConfirm?: LooseMessageBoxOptions<{ instance: FatFormTableMethods }>;
 
   /**
+   * 是否支持删除
+   * @param params
+   * @returns
+   */
+  removable?: (params: { item: any; index: number; list: any[] }) => boolean;
+
+  /**
    * 自定义创建逻辑
    * 可以抛出异常来终止创建
    * 如果返回一个对象，将作为新子项插入到队列尾部
@@ -359,6 +366,7 @@ export const FatFormTable = declareComponent({
 
     enableCreate: { type: Boolean, default: true },
     beforeCreate: null,
+    removable: null,
     beforeRemove: null,
 
     createText: null,
@@ -607,6 +615,9 @@ export const FatFormTable = declareComponent({
           },
           { instance }
         ),
+        visible: () => {
+          return props.removable?.({ index, item: row, list: getValue() }) ?? true;
+        },
         onClick: () => {
           remove(row);
         },
