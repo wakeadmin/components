@@ -1,8 +1,29 @@
-import { defineFatForm } from '@wakeadmin/components';
+import { defineFatForm, FatFormMode } from '@wakeadmin/components';
+import { ElSwitch } from 'element-plus';
+import { ref } from 'vue';
 
 export default defineFatForm(({ item, table, tableColumn, consumer, group }) => {
+  const previewMode = ref<FatFormMode>('editable');
+
+  const handleModeChange = (preview: any) => {
+    if (preview) {
+      previewMode.value = 'preview';
+    } else {
+      previewMode.value = 'editable';
+    }
+  };
+
   return () => ({
+    mode: previewMode.value,
     children: [
+      consumer(() => {
+        return (
+          <div>
+            预览模式：
+            <ElSwitch modelValue={previewMode.value === 'preview'} onUpdate:modelValue={handleModeChange} />
+          </div>
+        );
+      }),
       item({ label: '标题', prop: 'title', width: 'small' }),
       table({
         prop: 'list',

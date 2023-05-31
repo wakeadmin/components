@@ -616,7 +616,7 @@ export const FatFormTable = declareComponent({
           { instance }
         ),
         visible: () => {
-          return props.removable?.({ index, item: row, list: getValue() }) ?? true;
+          return editable.value && (props.removable?.({ index, item: row, list: getValue() }) ?? true);
         },
         onClick: () => {
           remove(row);
