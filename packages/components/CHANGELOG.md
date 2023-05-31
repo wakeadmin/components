@@ -1,5 +1,19 @@
 # @wakeadmin/components
 
+## 1.7.23
+
+### Patch Changes
+
+- 功能优化:
+
+  - fat-form-table 新增 removable 参数, 配置删除操作是否显示
+  - fat-form-query 支持配置 labelWidth, 关闭 label 对齐模式
+  - fat-form-item 新增 onValueChange 事件, 监听数据变动
+
+  修复:
+
+  - 修复 useRoute 下 vue 3 下可能失效
+
 ## 1.7.22
 
 ### Patch Changes
