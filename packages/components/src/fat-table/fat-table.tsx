@@ -65,7 +65,7 @@ const FatTableInner = declareComponent({
     messageOnRemoved: { type: [Boolean, Function, Object, String] as any, default: true },
     messageOnRemoveFailed: { type: [Boolean, Function, Object, String] as any, default: true },
     columns: null,
-    enableCacheQuery: { type: Boolean, default: true },
+    enableCacheQuery: { type: Boolean, default: undefined },
     namespace: null,
     enablePagination: { type: Boolean, default: true },
     paginationProps: null,
@@ -113,8 +113,9 @@ const FatTableInner = declareComponent({
     // 搜索状态缓存 key
     const queryCacheKey = props.namespace ? `_t_${props.namespace}` : '_t';
     const queryWatchDelay = props.queryWatchDelay ?? 800;
+    const configuration = useFatConfigurable();
 
-    const enableCacheQuery = props.enableCacheQuery;
+    const enableCacheQuery = props.enableCacheQuery ?? configuration.fatTable?.enableCacheQuery ?? true;
 
     const tableRef = ref<TableMethods>();
     const formRef = ref<FatFormMethods<any>>();

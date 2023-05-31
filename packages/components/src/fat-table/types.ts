@@ -986,4 +986,9 @@ export interface FatTableGlobalConfigurations {
    * 表格异常标题
    */
   errorTitle?: string;
+
+  /**
+   * 是否开启缓存，默认开启
+   */
+  enableCacheQuery?: boolean;
 }

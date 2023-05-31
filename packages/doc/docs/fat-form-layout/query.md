@@ -1,5 +1,6 @@
 <script setup>
   import Query from './Query.vue'
+  import QueryNonAlign from './QueryNonAlign.vue'
 </script>
 
 # FatFormQuery 查询 (beta)
@@ -18,6 +19,20 @@
 
 ::: details 查看代码
 <<< @/fat-form-layout/Query.vue
+:::
+
+默认情况下，fat-form-query 会对提交按钮和标签进行对齐，以起到美观的效果。
+
+<br>
+
+你也可以通过显式配置 `labelWidth`（获取[全局配置](../fat-configurable/index.md)#fatFormQuery） 关闭掉:
+
+<ClientOnly>
+  <div class="wk-demo"><QueryNonAlign /></div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form-layout/QueryNonAlign.vue
 :::
 
 <br>

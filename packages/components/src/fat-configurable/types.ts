@@ -40,6 +40,7 @@ import {
 } from '../builtin-atomic';
 import { FatFormGlobalConfigurations } from '../fat-form';
 import { FatFormPageLayout } from '../fat-form-layout';
+import { FatFormQueryGlobalConfiguration } from '../fat-form-layout/fat-form-query';
 import { FatTableGlobalConfigurations } from '../fat-table';
 import { FatTableSelectGlobalConfigurations } from '../fat-table-layout';
 import { FatTableModalGlobalConfigurations } from '../fat-table-layout/fat-table-modal';
@@ -85,6 +86,45 @@ export interface FatConfigurable {
    * 是否复用基座的组件, 默认 true
    */
   reuseBayIfNeed?: boolean;
+
+  /**
+   * 表格全局配置
+   */
+  fatTable?: FatTableGlobalConfigurations;
+
+  /**
+   * 表格弹窗全局配置
+   */
+  fatTableModal?: FatTableModalGlobalConfigurations;
+
+  /**
+   * 表格选择全局配置
+   */
+  fatTableSelect?: FatTableSelectGlobalConfigurations;
+  /**
+   * 表格选择弹窗全局配置
+   */
+  fatTableSelectModal?: FatTableSelectModalGlobalConfigurations;
+
+  /**
+   * 表单全局配置
+   */
+  fatForm?: FatFormGlobalConfigurations;
+
+  /**
+   * 自定义表单页面布局
+   */
+  fatFormPageLayout?: FatFormPageLayout;
+
+  /**
+   * 查询表单全局配置
+   */
+  fatFormQuery?: FatFormQueryGlobalConfiguration;
+
+  /**
+   * i18n 实例
+   */
+  i18n?: II18n;
 
   // -------------- 以下是内置原件的默认配置  -------------------
 
@@ -262,38 +302,4 @@ export interface FatConfigurable {
    * tree-select 默认配置
    */
   aTreeSelectProps?: OmitAtomicCommonProps<ATreeSelectProps>;
-
-  /**
-   * 表格全局配置
-   */
-  fatTable?: FatTableGlobalConfigurations;
-
-  /**
-   * 表格弹窗全局配置
-   */
-  fatTableModal?: FatTableModalGlobalConfigurations;
-
-  /**
-   * 表格选择全局配置
-   */
-  fatTableSelect?: FatTableSelectGlobalConfigurations;
-  /**
-   * 表格选择弹窗全局配置
-   */
-  fatTableSelectModal?: FatTableSelectModalGlobalConfigurations;
-
-  /**
-   * 表单全局配置
-   */
-  fatForm?: FatFormGlobalConfigurations;
-
-  /**
-   * 自定义表单页面布局
-   */
-  fatFormPageLayout?: FatFormPageLayout;
-
-  /**
-   * i18n 实例
-   */
-  i18n?: II18n;
 }

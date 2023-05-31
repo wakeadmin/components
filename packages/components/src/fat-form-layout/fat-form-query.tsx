@@ -1,14 +1,22 @@
 // TODO: 需求不太确定
 // 展开
 
-import { computed, onMounted, ref } from '@wakeadmin/demi';
+import { computed, watchPostEffect, ref } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { debounce } from 'lodash';
 import { useFatConfigurable } from '../fat-configurable';
 
-import { FatForm, FatFormGroup, FatFormMethods, FatFormProps, FatFormSlots, FatFormEvents } from '../fat-form';
+import {
+  FatForm,
+  FatFormGroup,
+  FatFormMethods,
+  FatFormProps,
+  FatFormSlots,
+  FatFormEvents,
+  useFatFormContext,
+} from '../fat-form';
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
-import { useDisposer, useT, useUid } from '../hooks';
+import { useT, useUid } from '../hooks';
 import {
   forwardExpose,
   hasSlots,
@@ -42,6 +50,16 @@ export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Subm
 
 export type FatFormQueryMethods<Store extends {}> = FatFormMethods<Store>;
 
+/**
+ * fat-form-query 的全局配置
+ */
+export interface FatFormQueryGlobalConfiguration {
+  /**
+   * 全部配置 labelWidth
+   */
+  labelWidth?: FatFormQueryProps<any>['labelWidth'];
+}
+
 export function useFatFormQueryRef<Store extends {} = any>() {
   return ref<FatFormQueryMethods<Store>>();
 }
@@ -52,13 +70,19 @@ export const FatFormQuerySubmitter = declareComponent({
   setup(props, { slots }) {
     const uid = useUid();
     const id = `fat-submitter__${uid}`;
+    const form = useFatFormContext();
     const shouldAlignToLabel = ref(false);
     const cls = computed(() => {
       return `${id} fat-form-query__submitter ${shouldAlignToLabel.value ? 'fat-form-query__submitter--align' : ''}`;
     });
-    const disposer = useDisposer();
 
-    onMounted(() => {
+    watchPostEffect(onCleanUp => {
+      const labelWidth = form?.labelWidth;
+
+      if (labelWidth !== 'auto') {
+        return;
+      }
+
       const el = document.querySelector(`.${id}`) as HTMLElement;
       if (el == null) {
         return;
@@ -79,7 +103,10 @@ export const FatFormQuerySubmitter = declareComponent({
 
         const resizeObserver = new ResizeObserver(calc);
         resizeObserver.observe(offsetParent);
-        disposer.push(() => resizeObserver.disconnect());
+
+        onCleanUp(() => {
+          resizeObserver.disconnect();
+        });
 
         calc();
       }
@@ -144,6 +171,7 @@ const FatFormQueryInner = declareComponent({
           ref={form}
           layout={props.layout}
           submitText={props.submitText ?? configurable.fatForm?.searchText ?? t('wkc.search')}
+          labelWidth={configurable.fatFormQuery?.labelWidth}
           onValuesChange={handleValuesChange}
           hierarchyConnect={false}
           clearable
