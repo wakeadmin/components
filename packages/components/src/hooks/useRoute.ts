@@ -29,13 +29,22 @@ export interface RouterLike {
 export function useRouter() {
   const instance = getCurrentInstance();
 
-  return (instance?.proxy?.$root as { $router: RouterLike } | undefined)?.$router;
+  if (isVue2) {
+    return (instance?.proxy?.$root as { $router: RouterLike } | undefined)?.$router;
+  } else {
+    return (instance?.root?.proxy as unknown as { $router: RouterLike })?.$router;
+  }
 }
 
 export function useRoute(): RouteLike {
-  const instance = getCurrentInstance()?.proxy;
+  const instance = getCurrentInstance();
 
-  const root = instance!.$root as any;
+  const root: any = isVue2 ? instance?.props.$root : instance?.root?.proxy;
+
+  if (root == null) {
+    return { query: {}, params: {}, hash: '', path: '' };
+  }
+
   if (root._$route) {
     return root._$route;
   }

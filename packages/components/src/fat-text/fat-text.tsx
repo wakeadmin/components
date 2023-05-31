@@ -207,7 +207,11 @@ export const FatText = declareComponent({
       );
 
       return isEllipsis.value && props.showTooltipWhenEllipsis ? (
-        <Tooltip content={textContent.value} popperClass="fat-tooltip-title" placement="bottom">
+        <Tooltip
+          v-slots={{ content: <div class="fat-tooltip-content">{textContent.value}</div> }}
+          popperClass="fat-tooltip-title"
+          placement="bottom"
+        >
           {content}
         </Tooltip>
       ) : (

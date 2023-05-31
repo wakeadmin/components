@@ -4,7 +4,8 @@
   position: relative;
 
   &__submitter {
-    &--align .#{$el-ns}-form-item__label-wrap {
+    &--align > .#{$el-ns}-form-item__label-wrap,
+    &--align > .#{$el-ns}-form-item__label {
       visibility: hidden;
     }
   }
