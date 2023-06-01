@@ -663,7 +663,7 @@ export const FatFormTable = declareComponent({
           label={props.actionText ?? t('wkc.operation')}
           width={props.actionWidth ?? (sortable.value ? 180 : 80)}
           align={props.columnAlign}
-          headerAlign={props.columnHeaderAlign}
+          headerAlign={props.columnHeaderAlign ?? 'center'}
         >
           {{
             default: (scope: { row: any; $index: number }) => {

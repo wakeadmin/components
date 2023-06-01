@@ -184,6 +184,7 @@ export const Column = declareComponent({
             return <Actions row={scope.row} index={scope.$index} tableInstance={tableInstance} column={column} />;
           },
         };
+        extraProps.headerAlign = column.labelAlign ?? 'center';
       } else if (type === 'index') {
         extraProps.index = column.index;
       }
