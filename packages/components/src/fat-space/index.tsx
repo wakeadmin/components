@@ -4,6 +4,8 @@ import { normalizeChildren, normalizeClassName, normalizeStyle } from '../utils'
 
 import { FatSpaceProps, FatSpaceSize } from './types';
 
+export * from './types';
+
 // 遵循惟客云规范
 const SpaceSize: Record<string, number> = {
   xs: 8,
