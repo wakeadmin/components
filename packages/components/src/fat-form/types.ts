@@ -788,6 +788,12 @@ export interface FatFormItemSlots<S extends {} = any> {
   renderTooltip?: (inst: FatFormItemMethods<S>) => any;
 }
 
+export interface FatFormItemValueChangeEvent<S extends {} = any> {
+  value: any;
+  oldValue: any;
+  instance: FatFormItemMethods<S>;
+}
+
 export interface FatFormItemEvents<S extends {} = any> {
   /**
    * 值变动
@@ -795,7 +801,7 @@ export interface FatFormItemEvents<S extends {} = any> {
    * @param instance
    * @returns
    */
-  onValueChange?: (instance: FatFormItemMethods<S>) => void;
+  onValueChange?: (event: FatFormItemValueChangeEvent<S>) => void;
 }
 
 /**

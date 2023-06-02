@@ -210,9 +210,12 @@ const FatFormItemInner = declareComponent({
         val = beforeChange.value(val);
       }
 
-      form.setFieldValue(props.prop, val);
+      const oldValue = instance.value;
+      if (val !== oldValue) {
+        form.setFieldValue(props.prop, val);
 
-      emit('valueChange', instance);
+        emit('valueChange', { value: val, oldValue, instance });
+      }
     };
 
     const disabled = computed(() => {
