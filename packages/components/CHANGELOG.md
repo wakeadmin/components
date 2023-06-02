@@ -1,10 +1,18 @@
 # @wakeadmin/components
 
+## 1.7.25
+
+### Patch Changes
+
+- - 优化: 表格 action 列默认居中
+  - 修复: 导出 fat-space props
+  - 新增: fat-form-item 支持 valueChange 事件
+
 ## 1.7.24
 
 ### Patch Changes
 
-- 修复 fat-text tooltip 重复
+- 修复: fat-text tooltip 重复
 
 ## 1.7.23
 
@@ -13,8 +21,7 @@
 - 功能优化:
 
   - fat-form-table 新增 removable 参数, 配置删除操作是否显示
-  - fat-form-query 支持配置 labelWidth, 关闭 label 对齐模式
-  - fat-form-item 新增 onValueChange 事件, 监听数据变动
+  - fat-form-query 支持配置 labelWidth 来关闭 label 对齐模式
 
   修复:
 
@@ -38,9 +45,9 @@
 
 ### Patch Changes
 
-- - 支持全局配置是否复用基座的组件
-  - fat-text 支持溢出时使用 tooltip 展示完整内容
-  - select, multi-select 支持 fat-text
+- 支持全局配置是否复用基座的组件
+- fat-text 支持溢出时使用 tooltip 展示完整内容
+- select, multi-select 支持 fat-text
 
 ## 1.7.19
 
