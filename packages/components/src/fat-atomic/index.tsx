@@ -3,7 +3,7 @@ import { computed } from '@wakeadmin/demi';
 
 import { AtomicCommonProps, GetAtomicProps } from '../atomic';
 import { useAtomicRegistry } from '../hooks';
-import { transformListeners } from '../utils';
+import { OurComponentInstance, transformListeners } from '../utils';
 
 type FatAtomicPropsInner<
   ValueType extends keyof AtomicProps = 'text',
@@ -55,4 +55,9 @@ export const FatAtomic = declareComponent({
       });
     };
   },
-});
+}) as new <ValueType extends keyof AtomicProps>(props: FatAtomicPropsInner<ValueType>) => OurComponentInstance<
+  typeof props,
+  {},
+  {},
+  {}
+>;
