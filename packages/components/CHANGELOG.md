@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.27
+
+### Patch Changes
+
+- - 修复: fat-atomic v-slots 导致崩溃
+
 ## 1.7.26
 
 ### Patch Changes
