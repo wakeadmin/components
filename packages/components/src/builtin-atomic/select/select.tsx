@@ -23,6 +23,12 @@ export type ASelectProps = DefineAtomicProps<
      */
     options?: ASelectOption[] | (() => Promise<ASelectOption[]>);
 
+    /**
+     * 是否默认选中第一个选项，默认 false
+     * 只有当 value 为空时有效
+     */
+    selectFirstByDefault?: boolean;
+
     renderPreview?: (active?: ASelectOption) => any;
 
     /**
@@ -79,6 +85,18 @@ export const ASelectComponent = defineAtomicComponent(
         }
       }
     });
+
+    const disposeDefaultSelect = watchEffect(
+      () => {
+        const { selectFirstByDefault, value, onChange } = props;
+
+        if (selectFirstByDefault && value == null && options.value.length > 0) {
+          onChange?.(options.value[0].value);
+          disposeDefaultSelect();
+        }
+      },
+      { flush: 'post' }
+    );
 
     return () => {
       const {
