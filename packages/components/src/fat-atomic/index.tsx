@@ -50,8 +50,8 @@ export const FatAtomic = declareComponent({
         ...transformListeners(),
 
         ...context.attrs,
-        // @ts-expect-error
-        'v-slots': context.slots,
+        //  原件展示不支持插槽，可能会导致异常
+        // 'v-slots': context.slots,
       });
     };
   },
