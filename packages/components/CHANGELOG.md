@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.7.26
+
+### Patch Changes
+
+- - select 原件新增 selectFirstByDefault
+  - 修复 fat-atomic 类型无法动态扩展
+
 ## 1.7.25
 
 ### Patch Changes
