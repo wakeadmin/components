@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.28
+
+### Patch Changes
+
+- 修复: fat-table-select 关闭查询缓存
+
 ## 1.7.27
 
 ### Patch Changes
