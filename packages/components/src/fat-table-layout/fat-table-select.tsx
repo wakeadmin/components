@@ -652,6 +652,7 @@ export const FatTableSelectInner = declareComponent({
           onSelect-all={handleSelectAll}
           onLoad={handleLoad}
           rowKey={rowKey}
+          enableCacheQuery={false}
         ></FatTable>
       );
     };
