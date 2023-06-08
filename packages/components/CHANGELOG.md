@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.7.29
+
+### Patch Changes
+
+- update deps
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.7
+
 ## 1.7.28
 
 ### Patch Changes

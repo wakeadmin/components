@@ -1,5 +1,11 @@
 # @wakeadmin/components-doc
 
+## 0.6.3
+
+### Patch Changes
+
+- update deps
+
 ## 0.6.2
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.62",
+  "version": "0.1.63",
   "name": "playground-vue2",
   "imageName": "wkfe/playground-vue2",
   "workload": "wakeadmin-playground-vue2",
@@ -22,10 +22,10 @@
     "typescript": false
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:1.7.28",
-    "@wakeadmin/framework": "^0.1.5",
-    "@wakeadmin/h": "^0.2.15",
-    "@wakeadmin/i18n-legacy": "^0.1.6",
+    "@wakeadmin/components": "workspace:1.7.29",
+    "@wakeadmin/framework": "^0.1.6",
+    "@wakeadmin/h": "^0.3.0",
+    "@wakeadmin/i18n-legacy": "^0.1.7",
     "core-js": "^3.30.2",
     "element-ui": "latest",
     "vue": "^2.7.14",
@@ -36,9 +36,9 @@
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-router": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
-    "@wakeadmin/demi": "^0.2.6",
+    "@wakeadmin/demi": "^0.3.0",
     "@wakeadmin/docker-build": "^0.1.9",
-    "@wakeadmin/element-adapter": "workspace:0.6.6",
+    "@wakeadmin/element-adapter": "workspace:0.6.7",
     "@wakeadmin/vue-cli-plugin-i18n": "^0.1.1",
     "@wakeadmin/vue-cli-plugin-typescript": "^0.1.0",
     "babel-preset-wakeadmin": "latest",

@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.7
+
+### Patch Changes
+
+- update deps
+
 ## 0.6.6
 
 ### Patch Changes
