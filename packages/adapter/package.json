@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "cpx": "^1.5.0",
-    "element-plus": "^2.3.4",
+    "element-plus": "^2.3.6",
     "element-ui": "^2.15.13"
   },
   "peerDependencies": {
