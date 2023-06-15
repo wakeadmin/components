@@ -344,6 +344,12 @@ export interface FatFormBaseProps<Store extends {} = {}, Request extends {} = St
   initialValue?: Partial<Store>;
 
   /**
+   * 当 initialValue 变更时，是否强制更新表单值
+   * 默认情况下为 false，即新的 initialValue 会和旧的合并
+   */
+  forceSetInitialValue?: boolean;
+
+  /**
    * 数据请求。用于预览、编辑场景
    * request 请求的数据高于 initialValue, 不推荐同时使用
    */

@@ -51,6 +51,7 @@ export const FatForm = declareComponent({
     mode: null,
     loading: { type: Boolean, default: false },
     initialValue: null,
+    forceSetInitialValue: { type: Boolean, default: false },
     request: null,
     requestOnMounted: { type: Boolean, default: true },
     submit: null,
@@ -122,7 +123,7 @@ export const FatForm = declareComponent({
     let initialValue: any = {};
 
     const setInitialValue = (value: any, force: boolean) => {
-      const cloned = cloneDeep((initialValue = sideEffectLessMerge(initialValue, value)));
+      const cloned = cloneDeep((initialValue = force ? value ?? {} : sideEffectLessMerge(initialValue, value)));
 
       if (!force && ready) {
         // 用户已经修改的字段不能覆盖
@@ -187,7 +188,7 @@ export const FatForm = declareComponent({
 
         // 深比较，避免循环 reactive
         if (isPlainObject(value) && !equal(value, oldValue)) {
-          setInitialValue(value, false);
+          setInitialValue(value, !!props.forceSetInitialValue);
         }
       },
       { immediate: true }
