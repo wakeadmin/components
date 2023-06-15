@@ -138,7 +138,7 @@ const FatFormStepsInner = declareComponent({
     nextProps: null,
     submitText: null,
     submitProps: null,
-    enableSubmitter: { type: Boolean, default: undefined },
+    enableSubmitter: { type: Boolean, default: true },
 
     // slots
     renderSubmitter: null,
@@ -334,17 +334,13 @@ const FatFormStepsInner = declareComponent({
             {props.nextText ?? t('wkc.nextStep')}
           </Button>
         ),
-        hasSubmit.value && (
+        hasSubmit.value && props.mode !== 'preview' && (
           <Button type="primary" {...props.submitProps} onClick={submit} loading={submitting.value}>
             {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
           </Button>
         ),
       ];
     };
-
-    const enabledSubmitter = computed(() => {
-      return props.enableSubmitter ?? props.mode !== 'preview';
-    });
 
     const context: FatFormStepsContextValue = {
       register(instance) {
@@ -411,7 +407,7 @@ const FatFormStepsInner = declareComponent({
     provideFatFormStepsContext(context);
 
     const renderSubmitter = computed(() => {
-      return enabledSubmitter.value
+      return props.enableSubmitter
         ? () => {
             return hasSlots(props, slots, 'submitter') ? (
               renderSlot(props, slots, 'submitter', exposed)
