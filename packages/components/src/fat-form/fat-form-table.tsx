@@ -391,6 +391,10 @@ export const FatFormTable = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatFormTableSlots<any>>>(),
   setup(props, { slots, expose, attrs }) {
     validateFormItemProps(props, 'fat-form-table');
+    if (props.sortable && props.rowKey == null) {
+      throw new Error('prop rowKey is required when sortable is true');
+    }
+
     const form = useFatFormContext()!;
     const t = useT();
     const tableRef = ref<ComponentPublicInstance>();
