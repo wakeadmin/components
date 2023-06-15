@@ -1,5 +1,19 @@
 # @wakeadmin/components
 
+## 1.7.30
+
+### Patch Changes
+
+功能优化:
+
+- fat-form 新增 forceSetInitialValue 属性, 默认情况下为 false，即新的 initialValue 会和旧的合并
+- fat-form-table 新增 enableActions 以支持对操作栏进行手动关闭
+- fat-form-table, fat-table rowKey 支持 symbol
+
+Bug 修复:
+
+- fat-form-steps 预览模式下, 显示上一步和下一步
+
 ## 1.7.29
 
 ### Patch Changes
