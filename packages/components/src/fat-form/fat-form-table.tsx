@@ -227,7 +227,7 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
   /**
    * 子项 key
    */
-  rowKey?: TableProps['rowKey'];
+  rowKey?: string | symbol | ((row: any) => string | number);
 
   /**
    * 字段路径。例如 a.b.c、b[0]
@@ -422,6 +422,8 @@ export const FatFormTable = declareComponent({
       let key: any;
       if (typeof props.rowKey === 'string') {
         key = get(row, props.rowKey);
+      } else if (typeof props.rowKey === 'symbol') {
+        key = row[props.rowKey];
       } else if (typeof props.rowKey === 'function') {
         key = props.rowKey(row);
       }

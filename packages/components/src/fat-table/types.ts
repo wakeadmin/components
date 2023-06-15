@@ -833,7 +833,7 @@ export interface FatTableProps<Item extends {}, Query extends {}>
   /**
    * 唯一 id, 用于获取唯一 id
    */
-  rowKey?: string | ((row: Item) => string | number);
+  rowKey?: string | symbol | ((row: Item) => string | number);
 
   /**
    * 数据请求

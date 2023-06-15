@@ -11,7 +11,7 @@ import {
 } from '@wakeadmin/element-adapter';
 import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, computed } from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
-import { debounce, set as _set, cloneDeep, equal, NoopArray } from '@wakeadmin/utils';
+import { debounce, set as _set, cloneDeep, equal, NoopArray, get } from '@wakeadmin/utils';
 
 import { useRoute, useRouter, useDevtoolsExpose, useT } from '../hooks';
 import {
@@ -306,16 +306,25 @@ const FatTableInner = declareComponent({
       { leading: true }
     );
 
+    const rowKey = (row: any) => {
+      let key: any;
+      if (typeof props.rowKey === 'string') {
+        key = get(row, props.rowKey);
+      } else if (typeof props.rowKey === 'symbol') {
+        key = row[props.rowKey];
+      } else if (typeof props.rowKey === 'function') {
+        key = props.rowKey(row);
+      }
+
+      return key;
+    };
+
     const getId = (a: any) => {
       if (props.rowKey == null) {
         throw new Error(`[fat-table] 请配置 rowKey `);
       }
 
-      if (typeof props.rowKey === 'function') {
-        return props.rowKey(a);
-      }
-
-      return a[props.rowKey];
+      return rowKey(a);
     };
 
     const compare = (a: any, b: any) => {
@@ -848,7 +857,7 @@ const FatTableInner = declareComponent({
             {...withDirectives([[vLoading, loading.value]])}
             ref={tableRef}
             data={list.value}
-            rowKey={props.rowKey}
+            rowKey={rowKey}
             onSelectionChange={handleSelectionChange}
             onSortChange={handleSortChange}
             onFilterChange={handleFilterChange}
