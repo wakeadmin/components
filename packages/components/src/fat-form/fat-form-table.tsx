@@ -305,6 +305,11 @@ export interface FatFormTableProps<Store extends {} = any, Request extends {} = 
   actionWidth?: number;
 
   /**
+   * 是否开启操作栏，默认 true
+   */
+  enableActions?: boolean;
+
+  /**
    * 删除确认配置, 默认为 确认删除？
    */
   removeConfirm?: LooseMessageBoxOptions<{ instance: FatFormTableMethods }>;
@@ -359,6 +364,7 @@ export const FatFormTable = declareComponent({
     columns: null,
     max: { type: Number, default: Number.MAX_SAFE_INTEGER },
     actionWidth: { type: Number, default: undefined },
+    enableActions: { type: Boolean, default: true },
     sortable: Boolean,
     sortableProps: null,
     columnAlign: null,
@@ -651,6 +657,10 @@ export const FatFormTable = declareComponent({
 
     const renderActions = computed(() => {
       if (!editable.value) {
+        return undefined;
+      }
+
+      if (!props.enableActions) {
         return undefined;
       }
 
