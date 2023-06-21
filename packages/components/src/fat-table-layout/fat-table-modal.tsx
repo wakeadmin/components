@@ -270,6 +270,7 @@ const FatTableModalInner = declareComponent({
           ...(props.layoutProps ?? {}),
           reuseBayIfNeed: false,
           border: false,
+          padding: false,
         };
       }
       return props.layoutProps;

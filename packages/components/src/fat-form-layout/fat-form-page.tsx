@@ -229,7 +229,7 @@ const FatFormPageInner = declareComponent({
       }
 
       return () =>
-        hasSlots(props, slots, 'submitter') ? renderSlot(props, slots, 'submitter', form.value) : renderButtons();
+        hasSlots(props, slots, 'submitter') ? renderSlot(props, slots, 'submitter', exposed) : renderButtons();
     });
 
     return () => {

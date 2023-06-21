@@ -43,3 +43,7 @@
 <ClientOnly>
   <div class="wk-demo"><ModalCustomColumn /></div>
 </ClientOnly>
+
+::: details 查看代码
+<<< @/fat-table-layout/TableSelectModalCustomColumn.vue
+:::

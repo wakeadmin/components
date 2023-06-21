@@ -151,7 +151,7 @@ export default {
           ],
         },
         {
-          text: 'FatDragDrop 拖拽',
+          text: 'FatDragDrop 拖拽(alpha)',
           items: [
             { text: '基本使用', link: '/fat-drag-drop/' },
             { text: '高级', link: '/fat-drag-drop/advanced' },
@@ -190,7 +190,7 @@ export default {
             { text: 'FatLogicTree 逻辑树 (alpha)', link: '/other/logic-tree' },
             { text: 'FatVNode VNode渲染', link: '/other/vnode' },
             { text: 'FatText/FatLink 文本', link: '/other/text' },
-            { text: 'I18n 国际化', link: '/other/i18n' },
+            { text: 'I18n 国际化 (alpha)', link: '/other/i18n' },
           ],
         },
       ],
