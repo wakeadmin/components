@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.31
+
+### Patch Changes
+
+- 修复: fat-form-page submiter slot 参数传递错误
+
 ## 1.7.30
 
 ### Patch Changes

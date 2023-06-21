@@ -1,5 +1,11 @@
 # @wakeadmin/components-doc
 
+## 0.6.5
+
+### Patch Changes
+
+- 文档更新
+
 ## 0.6.4
 
 ### Patch Changes
