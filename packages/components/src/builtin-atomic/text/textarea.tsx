@@ -55,7 +55,7 @@ export const ATextareaComponent = defineAtomicComponent(
           return renderPreview(value);
         }
 
-        if (value == null) {
+        if (!value) {
           return (
             <span class={other.class} style={other.style}>
               {undefinedPlaceholder ?? configurable.undefinedPlaceholder}
