@@ -10,6 +10,11 @@ export type AIntegerProps = DefineAtomicProps<
   InputNumberProps,
   {
     renderPreview?: (value?: number) => any;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -25,7 +30,16 @@ export const AIntegerComponent = defineAtomicComponent(
     const valueInNumber = computed(() => toInt(props.value));
 
     return () => {
-      const { value: _ignoreValue, mode, onChange, renderPreview, scene, context, ...other } = props;
+      const {
+        value: _ignoreValue,
+        mode,
+        onChange,
+        renderPreview,
+        scene,
+        context,
+        undefinedPlaceholder,
+        ...other
+      } = props;
       const value = valueInNumber.value;
 
       if (mode === 'preview') {
@@ -35,7 +49,7 @@ export const AIntegerComponent = defineAtomicComponent(
 
         return (
           <span class={other.class} style={other.style}>
-            {value ?? configurable.undefinedPlaceholder}
+            {value ?? undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </span>
         );
       }

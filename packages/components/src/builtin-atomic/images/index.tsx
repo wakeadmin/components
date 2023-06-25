@@ -49,6 +49,11 @@ export type AImagesProps = DefineAtomicProps<
      * 是否隐藏默认文案提示
      */
     hideTip?: boolean;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -100,6 +105,7 @@ export const AImagesComponent = defineAtomicComponent(
         fit,
         accept: _accept, // ignore
         tip: _tip,
+        undefinedPlaceholder,
 
         ...other
       } = props;
@@ -114,7 +120,7 @@ export const AImagesComponent = defineAtomicComponent(
               style={normalizeStyle(rootStyle.value, other.style)}
             >
               {fileList.value.length === 0
-                ? configurable.undefinedPlaceholder
+                ? undefinedPlaceholder ?? configurable.undefinedPlaceholder
                 : fileList.value.map((i, idx) => {
                     return (
                       <picture class="fat-a-images__p-item" key={`${i.name}_${idx}`}>

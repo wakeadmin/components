@@ -56,6 +56,11 @@ export type AAvatarProps = DefineAtomicProps<
      * 自定义渲染用户信息
      */
     renderInfo?: (prop: AAvatarProps) => any;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   } & XOR<
     {
       /**
@@ -128,6 +133,7 @@ export const AAvatarComponent = defineAtomicComponent(
         value: _value,
         size: _size,
         context: _context,
+        undefinedPlaceholder,
         ...other
       } = props;
 
@@ -135,7 +141,7 @@ export const AAvatarComponent = defineAtomicComponent(
       const { w, h } = unref(sizes);
 
       if (!avatar) {
-        return configurable.undefinedPlaceholder;
+        return undefinedPlaceholder ?? configurable.undefinedPlaceholder;
       }
 
       const renderInfo = () => {

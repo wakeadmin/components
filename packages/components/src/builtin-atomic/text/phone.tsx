@@ -31,7 +31,7 @@ export const APhoneComponent = defineAtomicComponent(
               renderPreview(value) {
                 return (
                   <span class={props.class} style={props.style}>
-                    {value ? hidePhoneNumber(value) : configurable.undefinedPlaceholder}
+                    {value ? hidePhoneNumber(value) : props.undefinedPlaceholder ?? configurable.undefinedPlaceholder}
                   </span>
                 );
               },

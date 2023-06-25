@@ -34,6 +34,11 @@ export type ACheckboxsProps = DefineAtomicProps<
      * 自定义预览
      */
     renderPreview?: (options: ACheckboxsOption[]) => any;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -68,6 +73,7 @@ export const ACheckboxsComponent = defineAtomicComponent(
         options = NoopArray,
         vertical,
         separator = ', ',
+        undefinedPlaceholder,
         ...other
       } = props;
 
@@ -81,7 +87,7 @@ export const ACheckboxsComponent = defineAtomicComponent(
                   checkedOptions.value.map(i => (typeof i.label === 'function' ? i.label(true) : i.label)),
                   separator
                 )
-              : configurable.undefinedPlaceholder}
+              : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </span>
         );
       }

@@ -15,6 +15,11 @@ export type AUrlProps = DefineAtomicProps<
      * 透传 FatLink 的参数
      */
     linkProps?: FatLinkProps;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   } & FatTextOwnProps
 >;
 
@@ -29,8 +34,20 @@ export const AUrlComponent = defineAtomicComponent(
     const configurable = useFatConfigurable();
 
     return () => {
-      const { value, mode, onChange, renderPreview, scene, context, ellipsis, copyable, tag, linkProps, ...other } =
-        props;
+      const {
+        value,
+        mode,
+        onChange,
+        renderPreview,
+        scene,
+        context,
+        ellipsis,
+        copyable,
+        tag,
+        linkProps,
+        undefinedPlaceholder,
+        ...other
+      } = props;
 
       if (mode === 'preview') {
         if (renderPreview) {
@@ -40,7 +57,7 @@ export const AUrlComponent = defineAtomicComponent(
         if (value == null) {
           return (
             <span class={other.class} style={other.style}>
-              {configurable.undefinedPlaceholder}
+              {undefinedPlaceholder ?? configurable.undefinedPlaceholder}
             </span>
           );
         }

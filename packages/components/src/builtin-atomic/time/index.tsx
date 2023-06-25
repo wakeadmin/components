@@ -18,6 +18,11 @@ export type ATimeProps = DefineAtomicProps<
      * 自定义预览
      */
     renderPreview?: (value?: ATimeValue) => any;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -26,7 +31,8 @@ export const ATimeComponent = defineAtomicComponent(
     const configurable = useFatConfigurable();
 
     return () => {
-      let { value, mode, onChange, previewFormat, scene, context, renderPreview, ...other } = props;
+      let { value, mode, onChange, previewFormat, scene, context, renderPreview, undefinedPlaceholder, ...other } =
+        props;
 
       previewFormat ??= other.format ?? configurable.timeFormat ?? 'HH:mm';
 
@@ -37,7 +43,9 @@ export const ATimeComponent = defineAtomicComponent(
 
         return (
           <span class={other.class} style={other.style}>
-            {value != null ? formatDate(value, previewFormat) : configurable.undefinedPlaceholder}
+            {value != null
+              ? formatDate(value, previewFormat)
+              : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </span>
         );
       }

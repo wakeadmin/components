@@ -18,6 +18,10 @@ export type ATimeRangeProps = DefineAtomicProps<
      * 自定义预览
      */
     renderPreview?: (value?: ATimeRangeValue) => any;
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -27,12 +31,12 @@ export const ATimeRangeComponent = defineAtomicComponent(
 
     const preview = (value: any, format: string, rangeSeparator: string) => {
       if (value == null) {
-        return configurable.undefinedPlaceholder;
+        return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
       }
 
       const f = (v: any) => {
         if (v == null) {
-          return configurable.undefinedPlaceholder;
+          return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
         }
 
         return formatDate(v, format);

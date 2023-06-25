@@ -18,6 +18,11 @@ export type ASliderRangeProps = DefineAtomicProps<
      * 分割器，预览时用于分割开始值和结束值, 默认 ~
      */
     separator?: string;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -32,7 +37,17 @@ export const ASliderRangeComponent = defineAtomicComponent(
     const configurable = useFatConfigurable();
 
     return () => {
-      const { mode, scene, context, value, onChange, renderPreview, separator = ' ~ ', ...other } = props;
+      const {
+        mode,
+        scene,
+        context,
+        value,
+        onChange,
+        renderPreview,
+        undefinedPlaceholder,
+        separator = ' ~ ',
+        ...other
+      } = props;
 
       if (mode === 'preview') {
         if (renderPreview) {
@@ -40,7 +55,7 @@ export const ASliderRangeComponent = defineAtomicComponent(
         } else {
           return (
             <span class={other.class} style={other.style}>
-              {value ? `${value[0]}${separator}${value[1]}` : configurable.undefinedPlaceholder}
+              {value ? `${value[0]}${separator}${value[1]}` : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
             </span>
           );
         }

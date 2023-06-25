@@ -47,6 +47,11 @@ export type ASelectProps = DefineAtomicProps<
     colorMode?: 'text' | 'dot';
 
     textProps?: FatTextProps;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   } & FatTextOwnProps
 >;
 
@@ -111,6 +116,7 @@ export const ASelectComponent = defineAtomicComponent(
         requiredValueOnOptions: ___,
         requiredValueOnOptionsMessage: ____,
         colorMode = 'text',
+        undefinedPlaceholder,
 
         // text props
         ellipsis,
@@ -137,7 +143,7 @@ export const ASelectComponent = defineAtomicComponent(
             {...{ ellipsis, copyable, tag, underline, color }}
             {...textProps}
           >
-            {active.value?.label ?? configurable.undefinedPlaceholder}
+            {active.value?.label ?? undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </FatText>
         );
       }

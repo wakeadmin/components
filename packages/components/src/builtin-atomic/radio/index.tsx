@@ -37,6 +37,11 @@ export type ARadioProps = DefineAtomicProps<
      * 是否为按钮形式, 默认 false
      */
     inButton?: boolean;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 declare global {
@@ -54,7 +59,19 @@ export const ARadioComponent = defineAtomicComponent(
     });
 
     return () => {
-      const { mode, scene, context, value, onChange, renderPreview, options, inButton, vertical, ...other } = props;
+      const {
+        mode,
+        scene,
+        context,
+        value,
+        onChange,
+        renderPreview,
+        options,
+        inButton,
+        undefinedPlaceholder,
+        vertical,
+        ...other
+      } = props;
 
       if (mode === 'preview') {
         return renderPreview ? (
@@ -65,7 +82,7 @@ export const ARadioComponent = defineAtomicComponent(
               ? typeof active.value.label === 'function'
                 ? active.value.label(true)
                 : active.value.label
-              : configurable.undefinedPlaceholder}
+              : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </span>
         );
       }

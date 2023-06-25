@@ -15,6 +15,11 @@ export type ATextProps = DefineAtomicProps<
      * 透传 FatText 参数
      */
     textProps?: FatTextProps;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   } & FatTextOwnProps
 >;
 
@@ -45,6 +50,7 @@ export const ATextComponent = defineAtomicComponent(
         placeholder,
         color,
         textProps,
+        undefinedPlaceholder,
         ...other
       } = props;
 
@@ -56,7 +62,7 @@ export const ATextComponent = defineAtomicComponent(
         if (value == null) {
           return (
             <span class={other.class} style={other.style}>
-              {configurable.undefinedPlaceholder}
+              {undefinedPlaceholder ?? configurable.undefinedPlaceholder}
             </span>
           );
         }

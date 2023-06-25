@@ -1,5 +1,4 @@
 import { DatePicker, DatePickerProps, model } from '@wakeadmin/element-adapter';
-import { unref } from '@wakeadmin/demi';
 
 import { formatDate } from '../../utils';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
@@ -20,6 +19,11 @@ export type ADateTimeRangeProps = DefineAtomicProps<
      * 自定义预览
      */
     renderPreview?: (value?: ADateTimeRangeValue) => any;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -30,7 +34,7 @@ export const ADateTimeRangeComponent = defineAtomicComponent(
     const preview = (value: any, format: string, rangeSeparator: string) => {
       const f = (v: any) => {
         if (v == null) {
-          return configurable.undefinedPlaceholder;
+          return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
         }
 
         return formatDate(v, format);
@@ -46,7 +50,7 @@ export const ADateTimeRangeComponent = defineAtomicComponent(
         return f(value);
       }
 
-      return unref(configurable).undefinedPlaceholder;
+      return configurable.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
     };
 
     return () => {

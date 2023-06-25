@@ -18,6 +18,11 @@ export type ADateTimeProps = DefineAtomicProps<
      * 自定义预览
      */
     renderPreview?: (value: ADateTimeValue) => any;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -30,7 +35,7 @@ export const ADateTimeComponent = defineAtomicComponent(
       }
 
       if (value == null) {
-        return configurable.undefinedPlaceholder;
+        return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
       }
 
       return formatDate(value, format);

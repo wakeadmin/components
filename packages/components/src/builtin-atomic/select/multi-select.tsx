@@ -42,6 +42,11 @@ export type AMultiSelectProps = DefineAtomicProps<
     renderPreview?: (options: ASelectOption[]) => any;
 
     textProps?: FatTextProps;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   } & FatTextOwnProps
 >;
 
@@ -103,6 +108,7 @@ export const AMultiSelectComponent = defineAtomicComponent(
         underline,
         color,
         textProps,
+        undefinedPlaceholder,
         ...other
       } = props;
       if (mode === 'preview') {
@@ -119,7 +125,7 @@ export const AMultiSelectComponent = defineAtomicComponent(
           >
             {active.value.length
               ? active.value.map(i => i.label).join(props.separator ?? ', ')
-              : configurable.undefinedPlaceholder}
+              : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </FatText>
         );
       }

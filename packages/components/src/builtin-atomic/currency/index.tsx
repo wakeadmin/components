@@ -58,6 +58,11 @@ export type ACurrencyProps = DefineAtomicProps<
      * @warning 仅在预览模式有效
      */
     denominator?: number;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -132,6 +137,7 @@ export const ACurrencyComponent = defineAtomicComponent(
         format,
         class: className,
         style,
+        undefinedPlaceholder,
         ...other
       } = props;
       const value = valueInFloat.value;
@@ -143,7 +149,7 @@ export const ACurrencyComponent = defineAtomicComponent(
 
         return (
           <span class={className} style={style}>
-            {valueFormatted.value ?? configurable.undefinedPlaceholder}
+            {valueFormatted.value ?? undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </span>
         );
       }

@@ -13,6 +13,10 @@ export type ASliderProps = DefineAtomicProps<
      * 自定义渲染预览
      */
     renderPreview?: (value?: ASliderValue) => any;
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -27,7 +31,7 @@ export const ASliderComponent = defineAtomicComponent(
     const configurable = useFatConfigurable();
 
     return () => {
-      const { mode, scene, context, value, onChange, renderPreview, ...other } = props;
+      const { mode, scene, context, value, undefinedPlaceholder, onChange, renderPreview, ...other } = props;
 
       if (mode === 'preview') {
         if (renderPreview) {
@@ -35,7 +39,7 @@ export const ASliderComponent = defineAtomicComponent(
         } else {
           return (
             <span class={other.class} style={other.style}>
-              {value ?? configurable.undefinedPlaceholder}
+              {value ?? undefinedPlaceholder ?? configurable.undefinedPlaceholder}
             </span>
           );
         }

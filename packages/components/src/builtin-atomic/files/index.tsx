@@ -42,6 +42,11 @@ export type AFilesProps = DefineAtomicProps<
      * 是否隐藏默认文案提示
      */
     hideTip?: boolean;
+
+    /**
+     * 未定义时的占位符
+     */
+    undefinedPlaceholder?: any;
   }
 >;
 
@@ -88,6 +93,7 @@ export const AFilesComponent = defineAtomicComponent(
         filter,
         accept: _accept, // ignore
         tip: _tip,
+        undefinedPlaceholder,
 
         ...other
       } = props;
@@ -99,7 +105,7 @@ export const AFilesComponent = defineAtomicComponent(
           return (
             <div class={normalizeClassName('fat-a-files', 'fat-a-files--preview', other.class)} style={other.style}>
               {fileList.value.length === 0
-                ? configurable.undefinedPlaceholder
+                ? undefinedPlaceholder ?? configurable.undefinedPlaceholder
                 : fileList.value.map((i, idx) => {
                     return (
                       <div class="fat-a-files__p-item" key={`${i.name}_${idx}`}>
