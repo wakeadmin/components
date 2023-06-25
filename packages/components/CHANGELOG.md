@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.7.32
+
+### Patch Changes
+
+- - 内置原值支持传入 undefinedPlaceholder, 覆盖全局配置
+  - 文本原件判断逻辑变更. 旧版本通过 != null, 现在改为 !value
+
 ## 1.7.31
 
 ### Patch Changes
