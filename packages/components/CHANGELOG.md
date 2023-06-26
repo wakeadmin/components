@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.33
+
+### Patch Changes
+
+- - fatTable 全局配置新增 actionsAlign 来支持全局配置表格的操作栏对齐方式
+
 ## 1.7.32
 
 ### Patch Changes
