@@ -38,6 +38,7 @@ import { useFatFormContext, useInheritableProps } from './hooks';
 import { FatFormItem } from './fat-form-item';
 import { formItemWidth, runInModifyContext, validateFormItemProps } from './utils';
 import { useT } from '../hooks';
+import { useFatConfigurable } from '../fat-configurable';
 
 export interface FatFormTableMethods<Store extends {} = any> {
   /**
@@ -395,6 +396,7 @@ export const FatFormTable = declareComponent({
       throw new Error('prop rowKey is required when sortable is true');
     }
 
+    const configurable = useFatConfigurable();
     const form = useFatFormContext()!;
     const t = useT();
     const tableRef = ref<ComponentPublicInstance>();
@@ -679,11 +681,11 @@ export const FatFormTable = declareComponent({
           label={props.actionText ?? t('wkc.operation')}
           width={props.actionWidth ?? (sortable.value ? 180 : 80)}
           align={props.columnAlign}
-          headerAlign={props.columnHeaderAlign ?? 'center'}
+          headerAlign={props.columnHeaderAlign ?? configurable.fatTable?.actionsAlign ?? 'center'}
         >
           {{
             default: (scope: { row: any; $index: number }) => {
-              return <FatActions options={getActions(scope.row, scope.$index)} />;
+              return <FatActions class="in-table-actions" options={getActions(scope.row, scope.$index)} />;
             },
           }}
         </TableColumn>

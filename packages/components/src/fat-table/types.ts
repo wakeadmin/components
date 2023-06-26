@@ -568,6 +568,8 @@ export interface FatTableColumnFilter {
   filteredValue?: any[];
 }
 
+export type LabelAlign = 'left' | 'center' | 'right';
+
 export interface FatTableColumnLabel<T extends {}, S extends {}> {
   // -------------- 标题 --------------
   /**
@@ -588,7 +590,7 @@ export interface FatTableColumnLabel<T extends {}, S extends {}> {
   /**
    * 标题对齐
    */
-  labelAlign?: 'left' | 'center' | 'right';
+  labelAlign?: LabelAlign;
 
   /**
    * 在 label 之后展示一个 icon， hover 提示
@@ -971,6 +973,11 @@ export interface FatTableGlobalConfigurations {
    * 自定义表格布局
    */
   layout?: FatTableLayout;
+
+  /**
+   * 操作栏的对齐方式, 默认 center
+   */
+  actionsAlign?: LabelAlign;
 
   /**
    * 空数据提示图片

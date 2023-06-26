@@ -8,6 +8,7 @@ import { useAtomicRegistry } from '../hooks';
 import { composeAtomProps, setByPath, normalizeClassName } from '../utils';
 import { FatActions, FatAction } from '../fat-actions';
 import { BaseAtomicContext } from '../atomic';
+import { useFatConfigurable } from '../fat-configurable';
 
 import { FatTableColumn, FatTableFilter, FatTableMethods } from './types';
 import { genKey, getAtom } from './utils';
@@ -63,7 +64,11 @@ const Actions = declareComponent({
         <FatActions
           options={derivedActions.value}
           max={column.actionsMax}
-          class={normalizeClassName(column.actionsClassName, `fat-actions--${column.align ?? 'left'}`)}
+          class={normalizeClassName(
+            column.actionsClassName,
+            'in-table-actions',
+            `fat-actions--${column.align ?? 'left'}`
+          )}
           style={column.actionsStyle}
           type={column.actionsType}
           size={column.actionsSize}
@@ -155,6 +160,7 @@ export const Column = declareComponent({
       const column = props.column;
       const index = props.index;
       const tableInstance = inject(FatTableInstanceContext, props.tableInstance);
+      const configurable = useFatConfigurable();
       const filter = props.filter;
 
       const type = column.type ?? 'default';
@@ -184,7 +190,7 @@ export const Column = declareComponent({
             return <Actions row={scope.row} index={scope.$index} tableInstance={tableInstance} column={column} />;
           },
         };
-        extraProps.headerAlign = column.labelAlign ?? 'center';
+        extraProps.headerAlign = column.labelAlign ?? configurable.fatTable?.actionsAlign ?? 'center';
       } else if (type === 'index') {
         extraProps.index = column.index;
       }
