@@ -4,6 +4,7 @@ import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../at
 import { useFatConfigurable } from '../../fat-configurable';
 import { FatText, FatTextOwnProps, FatTextProps } from '../../fat-text';
 import { normalizeClassName } from '../../utils';
+import { isEmpty } from './utils';
 
 export type ATextareaProps = DefineAtomicProps<
   string,
@@ -55,7 +56,7 @@ export const ATextareaComponent = defineAtomicComponent(
           return renderPreview(value);
         }
 
-        if (!value) {
+        if (isEmpty(value)) {
           return (
             <span class={other.class} style={other.style}>
               {undefinedPlaceholder ?? configurable.undefinedPlaceholder}

@@ -4,6 +4,7 @@ import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../at
 import { useFatConfigurable } from '../../fat-configurable';
 import { FatLink, FatLinkProps, FatTextOwnProps } from '../../fat-text';
 import { getI18nInstance } from '../../i18n';
+import { isEmpty } from './utils';
 
 export type AUrlProps = DefineAtomicProps<
   string,
@@ -54,7 +55,7 @@ export const AUrlComponent = defineAtomicComponent(
           return renderPreview(value);
         }
 
-        if (!value) {
+        if (isEmpty(value)) {
           return (
             <span class={other.class} style={other.style}>
               {undefinedPlaceholder ?? configurable.undefinedPlaceholder}
