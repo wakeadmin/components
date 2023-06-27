@@ -7,8 +7,8 @@
         <el-radio-button label="inline"></el-radio-button>
       </el-radio-group>
     </div>
-    <FatForm :layout="layout">
-      <FatFormItem label="用户名" prop="name"></FatFormItem>
+    <FatForm :layout="layout" :submit="handleSubmit">
+      <FatFormItem label="用户名" prop="name" trim="blur"></FatFormItem>
       <FatFormItem label="密码" prop="password" value-type="password"></FatFormItem>
     </FatForm>
   </div>
@@ -19,4 +19,8 @@
   import { ref } from 'vue';
 
   const layout = ref<any>('horizontal');
+
+  const handleSubmit = async (value: any) => {
+    console.log(value);
+  };
 </script>

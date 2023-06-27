@@ -62,7 +62,7 @@ const FatFormItemInner = declareComponent({
     contentStyle: null,
     convert: null,
     transform: null,
-    trim: { type: Boolean, default: false },
+    trim: { type: [Boolean, String] as any, default: false },
     filter: { type: [RegExp, Function] as any, default: undefined },
 
     // slots here
@@ -118,7 +118,7 @@ const FatFormItemInner = declareComponent({
 
       // eslint-disable-next-line consistent-return
       return (value: any) => {
-        if (props.trim) {
+        if (props.trim && props.trim !== 'blur') {
           value = filterStringByTrim(value);
         }
 
@@ -161,6 +161,19 @@ const FatFormItemInner = declareComponent({
       return false;
     });
 
+    const transform: FatFormItemProps<any, any>['transform'] = (input: any, values, prop) => {
+      let val = input;
+      if (props.trim === 'blur') {
+        val = filterStringByTrim(val);
+      }
+
+      if (props.transform) {
+        return props.transform(val, values, prop);
+      }
+
+      return val;
+    };
+
     const instance: FatFormItemMethods<any> = {
       get form() {
         return form;
@@ -195,7 +208,7 @@ const FatFormItemInner = declareComponent({
         return atom.value;
       },
       get transform() {
-        return props.transform;
+        return transform;
       },
       get convert() {
         return props.convert;
@@ -215,6 +228,20 @@ const FatFormItemInner = declareComponent({
         form.setFieldValue(props.prop, val);
 
         emit('valueChange', { value: val, oldValue, instance });
+      }
+    };
+
+    const handleBlur = () => {
+      if (props.trim !== 'blur') {
+        return;
+      }
+
+      // 截取
+      const val = instance.value;
+
+      if (typeof val === 'string') {
+        const newVal = filterStringByTrim(val);
+        handleChange(newVal);
       }
     };
 
@@ -403,6 +430,7 @@ const FatFormItemInner = declareComponent({
         scene: 'form',
         value: value.value,
         onChange: handleChange,
+        onBlur: handleBlur,
         context: {
           label: props.label,
           prop: props.prop,

@@ -907,8 +907,9 @@ export interface FatFormItemProps<
    * 相当于 v-model 的 trim 修饰符，只能作用于字符串值类型的原件, 默认 false
    *
    * 这是 filter 的一个快捷方式
+   * blur 标识在失去焦点时移除
    */
-  trim?: boolean;
+  trim?: boolean | 'blur';
 
   /**
    * 验证规则
