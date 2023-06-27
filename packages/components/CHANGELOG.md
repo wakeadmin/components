@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.35
+
+### Patch Changes
+
+- 修复文本原件空状态没有考虑 0 false 等情况
+
 ## 1.7.34
 
 ### Patch Changes

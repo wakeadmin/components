@@ -17,7 +17,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@wakeadmin/components": "workspace:1.7.34",
+    "@wakeadmin/components": "workspace:1.7.35",
     "@wakeadmin/icons": "^0.1.5",
     "element-plus": "^2.3.6",
     "imagemin-cli": "^7.0.0",
