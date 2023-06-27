@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.34
+
+### Patch Changes
+
+- - fat-form-item trim 支持 blur, 在失去焦点后截断空格
+
 ## 1.7.33
 
 ### Patch Changes
