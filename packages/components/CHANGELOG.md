@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.36
+
+### Patch Changes
+
+- 优化 fat-actions, fat-form-steps 样式
+
 ## 1.7.35
 
 ### Patch Changes
@@ -10,20 +16,20 @@
 
 ### Patch Changes
 
-- - fat-form-item trim 支持 blur, 在失去焦点后截断空格
+- fat-form-item trim 支持 blur, 在失去焦点后截断空格
 
 ## 1.7.33
 
 ### Patch Changes
 
-- - fatTable 全局配置新增 actionsAlign 来支持全局配置表格的操作栏对齐方式
+- fatTable 全局配置新增 actionsAlign 来支持全局配置表格的操作栏对齐方式
 
 ## 1.7.32
 
 ### Patch Changes
 
-- - 内置原值支持传入 undefinedPlaceholder, 覆盖全局配置
-  - 文本原件判断逻辑变更. 旧版本通过 != null, 现在改为 !value
+- 内置原值支持传入 undefinedPlaceholder, 覆盖全局配置
+- 文本原件判断逻辑变更. 旧版本通过 != null, 现在改为 !value
 
 ## 1.7.31
 
