@@ -688,7 +688,7 @@ export const FatFormTable = declareComponent({
             default: (scope: { row: any; $index: number }) => {
               return (
                 <FatActions
-                  class={['in-table-actions', `fat-actions--${headerAlign}`]}
+                  class={normalizeClassName('in-table-actions', `fat-actions--${headerAlign}`)}
                   options={getActions(scope.row, scope.$index)}
                 />
               );
