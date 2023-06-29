@@ -676,16 +676,22 @@ export const FatFormTable = declareComponent({
         return () => renderSlot(props, slots, 'actions', instance);
       }
 
+      const headerAlign = props.columnHeaderAlign ?? configurable.fatTable?.actionsAlign ?? 'center';
       return () => (
         <TableColumn
           label={props.actionText ?? t('wkc.operation')}
           width={props.actionWidth ?? (sortable.value ? 180 : 80)}
           align={props.columnAlign}
-          headerAlign={props.columnHeaderAlign ?? configurable.fatTable?.actionsAlign ?? 'center'}
+          headerAlign={headerAlign}
         >
           {{
             default: (scope: { row: any; $index: number }) => {
-              return <FatActions class="in-table-actions" options={getActions(scope.row, scope.$index)} />;
+              return (
+                <FatActions
+                  class={['in-table-actions', `fat-actions--${headerAlign}`]}
+                  options={getActions(scope.row, scope.$index)}
+                />
+              );
             },
           }}
         </TableColumn>

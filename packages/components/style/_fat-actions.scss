@@ -2,9 +2,9 @@
 @use 'variables' as *;
 
 .fat-actions {
-  $gap: getVar(table-actions-gap, 20px);
+  $gap: getVar(table-actions-gap, 16px);
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0 $gap;
   align-items: center;
   justify-content: center;
@@ -19,6 +19,11 @@
 
   &--right {
     justify-content: flex-end;
+  }
+
+  &--empty {
+    justify-content: center;
+    color: $fat-color-gray-500;
   }
 
   &__btn {

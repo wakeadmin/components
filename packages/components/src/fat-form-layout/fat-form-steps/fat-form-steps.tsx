@@ -320,7 +320,7 @@ const FatFormStepsInner = declareComponent({
     const renderButtons = () => {
       return [
         hasPrev.value && (
-          <Button type="primary" {...props.prevProps} onClick={goPrev} loading={submitting.value}>
+          <Button type="primary" {...props.prevProps} onClick={goPrev} loading={submitting.value} plain>
             {props.prevText ?? t('wkc.previousStep')}
           </Button>
         ),

@@ -72,6 +72,11 @@ export default defineFatTable(() => {
           return [{ name: '快乐' }, { name: '星球' }];
         },
       },
+      {
+        type: 'actions',
+        label: '无操作',
+        actions: [],
+      },
     ],
   });
 });

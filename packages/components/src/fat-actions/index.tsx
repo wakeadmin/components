@@ -19,6 +19,7 @@ import { isPromise } from '@wakeadmin/utils';
 import { RouteLocation, useRouter, useT } from '../hooks';
 import { createMessageBoxOptions, LooseMessageBoxOptions, normalizeClassName, normalizeStyle } from '../utils';
 import { MouseEventButton } from '../enum';
+import { useFatConfigurable } from '../fat-configurable';
 
 export interface FatAction {
   /**
@@ -94,7 +95,7 @@ export interface FatActionsProps extends CommonProps {
   options: FatAction[];
 
   /**
-   * 最多显示多少个, 默认 3
+   * 最多显示多少个, 默认 4
    */
   max?: number;
 
@@ -107,6 +108,11 @@ export interface FatActionsProps extends CommonProps {
    * 按钮大小，默认为 default
    */
   size?: Size;
+
+  /**
+   * 空占位
+   */
+  undefinedPlaceholder?: any;
 
   /**
    * 下拉操作栏容器属性
@@ -275,11 +281,12 @@ const FatActionInner = declareComponent({
 
 export const FatActions = declareComponent({
   name: 'FatActions',
-  props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size', 'dropdownProps']),
+  props: declareProps<FatActionsProps>(['options', 'max', 'type', 'size', 'dropdownProps', 'undefinedPlaceholder']),
   setup(props, { attrs }) {
-    const propsWithDefault = withDefaults(props, { max: 3, type: 'text' });
+    const propsWithDefault = withDefaults(props, { max: 4, type: 'text' });
     const max = toRef(propsWithDefault, 'max');
     const type = toRef(propsWithDefault, 'type');
+    const configurable = useFatConfigurable();
     const size = computed(() => {
       return normalizeSize(props.size ?? 'default');
     });
@@ -296,11 +303,21 @@ export const FatActions = declareComponent({
       return rawList.value.slice(max.value);
     });
 
+    const empty = computed(() => {
+      return rawList.value.length === 0;
+    });
+
     return () => {
-      const dropdownProps = props.dropdownProps || {};
+      const dropdownProps = props.dropdownProps ?? {};
 
       return (
-        <div class={normalizeClassName('fat-actions', attrs.class)} style={attrs.style}>
+        <div
+          class={normalizeClassName('fat-actions', attrs.class, { 'fat-actions--empty': empty.value })}
+          style={attrs.style}
+        >
+          {empty.value && (
+            <span class="fat-actions__empty">{props.undefinedPlaceholder ?? configurable.undefinedPlaceholder}</span>
+          )}
           {list.value.map((i, idx) => {
             return <FatActionInner action={i} key={idx} type="button" buttonType={type.value!} size={size.value!} />;
           })}
