@@ -1,5 +1,12 @@
 # playground-vue3
 
+## 0.1.71
+
+### Patch Changes
+
+- Updated dependencies
+  - @wakeadmin/components@1.7.37
+
 ## 0.1.70
 
 ### Patch Changes

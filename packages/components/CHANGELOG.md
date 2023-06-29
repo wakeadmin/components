@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.7.37
+
+### Patch Changes
+
+- 修复 fat-form-table 下 fat-actions 类没有生效
+
 ## 1.7.36
 
 ### Patch Changes
