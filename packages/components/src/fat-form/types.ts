@@ -816,6 +816,24 @@ export interface FatFormItemEvents<S extends {} = any> {
 export type FatFormItemRules<Store extends {}> = Rule | ((values: Store, form: FatFormMethods<Store>) => Rule);
 
 /**
+ * 原件值映射
+ */
+export interface FatFormItemMapper<In = unknown, Out = unknown> {
+  /**
+   * 转换传入原件的值
+   * @returns
+   */
+  in: (value: In) => Out;
+
+  /**
+   * 转换原件传出的值
+   * @param value
+   * @returns
+   */
+  out: (value: Out) => In;
+}
+
+/**
  * fat 表单项属性
  * @template Store 表单存储值
  * @template ValueType 原件类型
@@ -849,6 +867,11 @@ export interface FatFormItemProps<
    * 原件属性
    */
   valueProps?: AtomicProps[ValueType];
+
+  /**
+   * 原件值映射
+   */
+  valueMap?: FatFormItemMapper;
 
   /**
    * 占位

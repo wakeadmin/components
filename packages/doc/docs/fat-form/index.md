@@ -23,6 +23,7 @@
   import CustomSubmitter from './CustomSubmitter.vue'
   import CustomSubmitterReuse from './CustomSubmitterReuse.vue'
   import CustomItemByConsumer from './CustomItemByConsumer.vue'
+  import ValueMapSimple from './ValueMapSimple.tsx'
 </script>
 
 # 表单
@@ -700,16 +701,55 @@ transform 返回的是 {startTime、endTime}
 <br>
 <br>
 
-## 7. API
+## 7. 原件值映射（1.8+）
 
-### 7.1 FatForm Props
+在 1.8 版本之前，表单项的数据转换只能通过 `convert` 和 `transform` props 来实现, 而这两个方法的执行时机分别是在数据请求之后和表单提交之前。无法应付以下场景：
+
+- 将日期字符串双向转换为 Date
+- 将逗号分割的字符串转换为 数组
+- 将 JSON 字符串还原
+- 将字符串转换为数字
+- 等等
+
+<br>
+
+为了应付这些场景，我们在 1.8 版本为 `FatFormItem` 引入了 valueMap 属性，使用方法如下:
+
+<ClientOnly>
+  <div class="wk-demo">
+    <ValueMapSimple />
+  </div>
+</ClientOnly>
+
+::: details 查看代码
+<<< @/fat-form/ValueMapSimple.tsx
+:::
+
+<br>
+
+@wakeadmin/components 也内置了一些常见的 valueMap 供直接导入，例如：
+
+- numberToString： 将原件的 number 类型转换为 string 类型
+- toJSONArrayString: 将原件的数组转换为 JSON 字符串, 默认值为 []
+- toJSONObjectString: 将原件的对象转换为 JSON 字符串, 默认值为 {}
+- toCommaSplitArray: 将原件的数组转换为逗号分割的字符串, 默认值为 []
+- toCommaSplitNumberArray: 将原件的数字数组转换为逗号分割的字符串, 默认值为 []
+
+<br>
+<br>
+<br>
+<br>
+
+## 8. API
+
+### 8.1 FatForm Props
 
 ![](./images/fat-form-api.png)
 
 <br>
 <br>
 
-### 7.2 FatForm Events
+### 8.2 FatForm Events
 
 ![](./images/fat-form-events.png)
 
@@ -717,7 +757,7 @@ transform 返回的是 {startTime、endTime}
 <br>
 <br>
 
-### 7.3 FatForm Methods
+### 8.3 FatForm Methods
 
 ![](./images/fat-form-methods.png)
 

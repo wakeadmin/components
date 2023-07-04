@@ -38,6 +38,7 @@ const FatFormItemInner = declareComponent({
     initialValue: null,
     valueType: null,
     valueProps: null,
+    valueMap: null,
     placeholder: null,
     rules: null,
     required: { type: Boolean, default: undefined },
@@ -425,11 +426,14 @@ const FatFormItemInner = declareComponent({
     });
 
     const atomProps = computed(() => {
+      const atomValue = props.valueMap?.in ? props.valueMap.in(value.value) : value.value;
+      const atomOnChange = props.valueMap?.out ? (val: any) => handleChange(props.valueMap!.out!(val)) : handleChange;
+
       const target: Record<string, any> = {
         mode: mode.value,
         scene: 'form',
-        value: value.value,
-        onChange: handleChange,
+        value: atomValue,
+        onChange: atomOnChange,
         onBlur: handleBlur,
         context: {
           label: props.label,
