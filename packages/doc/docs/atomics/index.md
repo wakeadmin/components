@@ -35,6 +35,19 @@
 <br>
 <br>
 
+## 在 FatForm、FatTable 之外使用原件
+
+原件支持在 FatForm、FatTable 之外使用, 这种场景下，它就像一个普通的表单组件
+
+```html
+<FatAtomic v-model="value" @blur="handleBlur" />
+<FatAtomic v-model="selectValue" value-type="select" :options="[{ label: 'one', value: 0 }]" />
+```
+
+<br>
+<br>
+<br>
+
 ## API
 
 ### 文本类

@@ -28,6 +28,7 @@ import {
   ACascaderLazyProps,
   ACascaderProps,
   AFloatProps,
+  ANumberProps,
   ACurrencyProps,
   AEmailProps,
   AFilesProps,
@@ -237,6 +238,11 @@ export interface FatConfigurable {
    * float 默认配置
    */
   aFloatProps?: OmitAtomicCommonProps<AFloatProps>;
+
+  /**
+   * number 默认配置
+   */
+  aNumberProps?: OmitAtomicCommonProps<ANumberProps>;
 
   /**
    * currency 默认配置

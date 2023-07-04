@@ -146,6 +146,7 @@
       <FatFormSection title="数字类">
         <FatFormItem prop="integer" label="integer" value-type="integer"></FatFormItem>
         <FatFormItem prop="float" label="float" value-type="float"></FatFormItem>
+        <FatFormItem prop="number" label="number" value-type="number"></FatFormItem>
         <FatFormItem prop="currency" label="currency" value-type="currency"></FatFormItem>
       </FatFormSection>
 

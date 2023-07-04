@@ -117,6 +117,10 @@ export function getDefaultConfigurable(i18n: Ref<II18n>) {
         placeholder: t('wkc.enterNumber'),
       },
 
+      aNumberProps: {
+        placeholder: t('wkc.enterNumber'),
+      },
+
       aCurrencyProps: {
         placeholder: t('wkc.enter'),
       },

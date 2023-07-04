@@ -1,21 +1,15 @@
 import { InputNumberProps, InputNumber, model } from '@wakeadmin/element-adapter';
 import { computed } from '@wakeadmin/demi';
-import { trimEndingZero } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 import { useFatConfigurable } from '../../fat-configurable';
 import { toFloat } from '../../utils';
 
-export type AFloatProps = DefineAtomicProps<
+export type ANumberProps = DefineAtomicProps<
   number,
   InputNumberProps,
   {
     renderPreview?: (value?: number) => any;
-
-    /**
-     * 小数点精度, 默认为 2
-     */
-    precision?: number;
 
     /**
      * 未定义时的占位符
@@ -26,27 +20,17 @@ export type AFloatProps = DefineAtomicProps<
 
 declare global {
   interface AtomicProps {
-    float: AFloatProps;
+    number: ANumberProps;
   }
 }
 
-export const AFloatComponent = defineAtomicComponent(
-  (props: AFloatProps) => {
+export const ANumberComponent = defineAtomicComponent(
+  (props: ANumberProps) => {
     const configurable = useFatConfigurable();
     const valueInNumber = computed(() => toFloat(props.value));
 
     return () => {
-      const {
-        value: _value,
-        mode,
-        onChange,
-        renderPreview,
-        undefinedPlaceholder,
-        scene,
-        context,
-        precision = 2,
-        ...other
-      } = props;
+      const { value: _value, mode, onChange, renderPreview, undefinedPlaceholder, scene, context, ...other } = props;
       const value = valueInNumber.value;
 
       if (mode === 'preview') {
@@ -56,22 +40,20 @@ export const AFloatComponent = defineAtomicComponent(
 
         return (
           <span class={other.class} style={other.style}>
-            {value != null
-              ? trimEndingZero(value, precision)
-              : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
+            {value != null ? value : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </span>
         );
       }
 
-      return <InputNumber controlsPosition="right" precision={precision} {...other} {...model(value, onChange!)} />;
+      return <InputNumber controlsPosition="right" {...other} {...model(value, onChange!)} />;
     };
   },
-  { name: 'AFloat', globalConfigKey: 'aFloatProps' }
+  { name: 'ANumber', globalConfigKey: 'aNumberProps' }
 );
 
-export const AFloat = defineAtomic({
-  name: 'float',
-  component: AFloatComponent,
-  description: '浮点数输入',
+export const ANumber = defineAtomic({
+  name: 'number',
+  component: ANumberComponent,
+  description: '数字输入',
   author: 'ivan-lee',
 });
