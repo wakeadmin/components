@@ -55,8 +55,9 @@ export interface FatConfigurable {
   /**
    * 字段未定义时展示的字符。默认为 --
    * 在表格、表单预览时有效
+   * 支持 JSX
    */
-  undefinedPlaceholder?: string;
+  undefinedPlaceholder?: any;
 
   /**
    * 日期格式, 默认为 YYYY-MM-DD
