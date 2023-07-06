@@ -39,7 +39,7 @@ export function useRouter() {
 export function useRoute(): RouteLike {
   const instance = getCurrentInstance();
 
-  const root: any = isVue2 ? instance?.props.$root : instance?.root?.proxy;
+  const root: any = isVue2 ? instance?.proxy?.$root : instance?.root?.proxy;
 
   if (root == null) {
     return { query: {}, params: {}, hash: '', path: '' };
