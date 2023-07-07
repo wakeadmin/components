@@ -1,5 +1,20 @@
 # @wakeadmin/components
 
+## 1.8.0 (2023/7/7)
+
+### Minor Changes
+
+新增功能:
+
+- fat-form-item 新增 valueMap 属性, 可以对原件的值进行输入输出转换
+- 新增 number 原件
+- 暴露了 fat-table, fat-form-page 的默认布局实现, 供开发者进行组合
+
+bug 修复
+
+- undefinedPlaceholder 不限制类型, 支持传入 vnode, 实现复杂的样式展示
+- 修复 useRoute 在 vue 2 下报错
+
 ## 1.7.37
 
 ### Patch Changes
