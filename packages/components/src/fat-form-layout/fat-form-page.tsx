@@ -142,6 +142,8 @@ const DefaultLayout: FatFormPageLayout = ctx => {
   );
 };
 
+export { DefaultLayout as FAT_FORM_PAGE_DEFAULT_LAYOUT };
+
 /**
  * 表单页面
  */
