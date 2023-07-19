@@ -33,7 +33,7 @@ locale,wkc.previousStep,上一步,上一步,Previous step,ขั้นตอน�
 locale,wkc.reset,重置,重置,Reset,รีเซ็ต
 locale,wkc.retrievalFailed,获取失败,獲取失敗,Retrieval failed,การเรียกข้อมูลล้มเหลว
 locale,wkc.retrieving,获取中,獲取中,Retrieving,กำลังเรียกข้อมูล
-locale,wkc.save,保存,保持,Save,บันทึก
+locale,wkc.save,保存,儲存,Save,บันทึก
 locale,wkc.search,搜索,搜索,Search,ค้นหา
 locale,wkc.selectFileFormat,请选择 {format} 格式的文件,請選擇 {format} 格式的文件,Please select a {format} format file,กรุณาเลือกไฟล์รูปแบบ {format}
 locale,wkc.selectFileLessThan,请选择小于 {size} 的文件,請選擇小於 {size} 的文件,Please select a file smaller than {size},กรุณาเลือกไฟล์ขนาดเล็กกว่า {size}
