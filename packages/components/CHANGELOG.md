@@ -1,5 +1,16 @@
 # @wakeadmin/components
 
+## 1.8.1
+
+### Patch Changes
+
+- 实验性组件:
+
+  - 新增 FatImageVerification 图形验证码组件
+
+  修复:
+  修复一些多语言翻译错误
+
 ## 1.8.0 (2023/7/7)
 
 ### Minor Changes
