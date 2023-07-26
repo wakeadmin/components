@@ -188,6 +188,7 @@ export default {
             { text: 'FatSwitch 开关', link: '/other/switch' },
             { text: 'FatTreeSelect 树选择器', link: '/other/tree-select' },
             { text: 'FatLogicTree 逻辑树 (alpha)', link: '/other/logic-tree' },
+            { text: 'FatImageVerification 图片验证码 (alpha)', link: '/other/image-verification' },
             { text: 'FatVNode VNode渲染', link: '/other/vnode' },
             { text: 'FatText/FatLink 文本', link: '/other/text' },
             { text: 'I18n 国际化 (alpha)', link: '/other/i18n' },

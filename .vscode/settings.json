@@ -23,5 +23,14 @@
     "wakeapp",
     "wakedata"
   ],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "i18n-ally.localesPaths": ["packages/**/locale"],
+  "i18n-ally.pathMatcher": "{locale}.tr",
+  "i18n-ally.parsers.extendFileExtensions": {
+    "tr": "json"
+  },
+  "i18n-ally.sourceLanguage": "zh",
+  "i18n-ally.displayLanguage": "zh",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.enabledFrameworks": ["vue"]
 }

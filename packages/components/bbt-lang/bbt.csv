@@ -64,3 +64,5 @@ locale,wkc.selectDate,请选择日期,請選擇日期,Please select a date,ก�
 locale,wkc.selectTime,请选择时间,請選擇時間,Please select a time,กรุณาเลือกเวลา
 locale,wkc.startDate,开始日期,開始日期,Start Date,วันที่เริ่มต้น
 locale,wkc.startTime,开始时间,開始時間,Starting Time,เวลาเริ่มต้น
+locale,wkc.refresh,刷新,刷新,to refresh,เพื่อรีเฟรช
+locale,wkc.imageVerificationPlaceholder,拖动滑块验证,拖動滑塊驗證,Drag the slider to verify,ลากแถบเลื่อนเพื่อตรวจสอบ
