@@ -1,0 +1,79 @@
+@use 'variables' as *;
+@use 'config' as *;
+
+.fat-import {
+  &__modal .#{$el-ns}-dialog__body {
+    padding-top: 10px;
+  }
+
+  &__message {
+    font-size: $fat-font-size-h6;
+    color: $fat-color-gray-900;
+    line-height: 1.5;
+    &:not(:empty) {
+      margin-bottom: 18px;
+    }
+  }
+
+  &__upload {
+    position: relative;
+    width: 100%;
+    color: $fat-color-gray-900;
+
+    .#{$el-ns}-upload {
+      width: 100%;
+    }
+
+    // 修复 el-ui focus 时颜色高亮
+    &:focus-within &-body {
+      color: $fat-color-gray-900;
+    }
+
+    &-body {
+      width: 100%;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-icon {
+      font-size: 63px;
+      color: $fat-color-gray-600;
+    }
+  }
+
+  &__upload-message {
+    color: $fat-color-gray-700;
+    font-size: $fat-font-size-h6;
+    margin-top: 10px;
+  }
+
+  &__icon {
+    font-size: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  &__body.is-success &__icon {
+    color: $fat-color-success;
+  }
+
+  &__body.is-error &__icon {
+    color: $fat-color-danger;
+  }
+
+  &__detail {
+    margin-top: 16px;
+  }
+
+  &__subtitle {
+    color: $fat-color-gray-900;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+  }
+}

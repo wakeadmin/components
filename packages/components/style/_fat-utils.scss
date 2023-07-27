@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .is-justify-center {
   justify-content: center;
 }
@@ -32,4 +34,12 @@
 
 .is-align-bottom {
   align-items: flex-end;
+}
+
+.is-link {
+  color: $fat-color-link;
+
+  &:hover {
+    color: $fat-color-link-hover;
+  }
 }

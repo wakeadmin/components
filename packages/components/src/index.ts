@@ -15,6 +15,7 @@ export * from './fat-table-layout';
 export * from './fat-drag-drop';
 export * from './fat-logic-tree';
 export * from './fat-image-verification';
+export * from './fat-import';
 
 export * from './atomic';
 

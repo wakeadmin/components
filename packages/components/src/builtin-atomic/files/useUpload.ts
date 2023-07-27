@@ -9,8 +9,8 @@ import {
 import { formatFileSize, isPromise, NoopArray, queryString } from '@wakeadmin/utils';
 import memoize from 'lodash/memoize';
 import { useT } from '../../hooks';
-import { isDev } from '../../utils/isDev';
 import { useTrigger } from './useTrigger';
+import { useUploadAccept } from '../../hooks/useUploadAccept';
 
 // 尝试从 url 中提取原始文件名称
 const tryPickNameFromUrl = memoize((value: string) => {
@@ -113,19 +113,10 @@ export function useUpload(
   // 缓存文件名称，用于回显
   const nameCache: Map<any, string> = new Map();
 
-  const accept = computed(() => {
-    if (Array.isArray(props.accept)) {
-      if (isDev) {
-        // 检查是否为扩展名
-        if (props.accept.some(i => !i.startsWith('.'))) {
-          throw new Error(`[wakeadmin/components] ${options.name} atomic accept 需要传入扩展名数组，例如 [".png"]`);
-        }
-      }
-      return props.accept.join(',');
-    }
-
-    return props.accept ?? options.defaultAccept;
-  });
+  const accept = useUploadAccept(
+    `${options.name} atomic accept`,
+    computed(() => props.accept ?? options.defaultAccept)
+  );
 
   const fileList = computed(() => {
     fileListTrigger.track();
