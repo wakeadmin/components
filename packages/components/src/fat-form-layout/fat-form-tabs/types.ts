@@ -1,11 +1,9 @@
 import { TabPaneProps, TabsProps, ButtonProps, CommonProps } from '@wakeadmin/element-adapter';
 import { FatFormBaseProps, FatFormEvents, FatFormMethods, FatFormSlots } from '../../fat-form';
 
-export type FatFormTabsMethods<
-  Store extends {} = {},
-  Request extends {} = Store,
-  Submit extends {} = Store
-> = FatFormMethods<Store, Request, Submit>;
+export type FatFormTabsMethods<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store> = Partial<
+  FatFormMethods<Store, Request, Submit>
+>;
 
 export type FatFormTabsSlots<Store extends {}> = FatFormSlots<Store>;
 

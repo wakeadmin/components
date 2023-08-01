@@ -164,7 +164,6 @@ const FatFormTabsInner = declareComponent({
       ];
     };
 
-    // @ts-expect-error
     const exposed: FatFormTabsMethods<any> = { submit, renderButtons };
 
     forwardExpose(exposed as any, FatFormPublicMethodKeys, form);

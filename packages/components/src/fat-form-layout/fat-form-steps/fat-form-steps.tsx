@@ -392,7 +392,6 @@ const FatFormStepsInner = declareComponent({
       emit('activeChange', value);
     });
 
-    // @ts-expect-error
     const exposed: FatFormStepsMethods<any> = {
       goPrev,
       goNext,

@@ -20,7 +20,7 @@ import {
 import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
 
-export interface FatFormModalMethods<Store extends {}> extends FatFormMethods<Store> {
+export interface FatFormModalMethods<Store extends {}> extends Partial<FatFormMethods<Store>> {
   /**
    * 可以传递临时参数
    * @param tempProps

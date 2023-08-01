@@ -19,7 +19,7 @@ import {
 import { useLazyFalsy, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
 
-export interface FatFormDrawerMethods<Store extends {}> extends FatFormMethods<Store> {
+export interface FatFormDrawerMethods<Store extends {}> extends Partial<FatFormMethods<Store>> {
   /**
    * 可以传递临时参数
    * @param tempProps

@@ -15,7 +15,7 @@ export const Query = declareComponent({
     initialValue: any;
     columns: FatTableColumn<any>[];
     query: () => Ref<any>;
-    formRef?: () => Ref<FatFormMethods<any> | undefined>;
+    formRef?: () => Ref<Partial<FatFormMethods<any>> | undefined>;
   }>(['loading', 'query', 'formProps', 'initialValue', 'columns', 'formRef']),
   emits: declareEmits<{
     submit: () => void;

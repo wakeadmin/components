@@ -19,7 +19,7 @@ import { FatFormPublicMethodKeys } from '../fat-form/constants';
 import { useFatConfigurable } from '../fat-configurable';
 import { useT } from '../hooks';
 
-export type FatFormPageMethods<Store extends {}> = FatFormMethods<Store>;
+export type FatFormPageMethods<Store extends {}> = Partial<FatFormMethods<Store>>;
 
 export interface FatFormPageSlots<Store extends {}> extends Omit<FatFormSlots<Store>, 'renderSubmitter'> {
   renderTitle?: (form?: FatFormPageMethods<Store>) => any;

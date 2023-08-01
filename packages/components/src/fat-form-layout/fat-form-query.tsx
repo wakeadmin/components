@@ -48,7 +48,7 @@ export type FatFormQueryProps<Store extends {}, Request extends {} = Store, Subm
   queryWatchDelay?: number;
 };
 
-export type FatFormQueryMethods<Store extends {}> = FatFormMethods<Store>;
+export type FatFormQueryMethods<Store extends {}> = Partial<FatFormMethods<Store>>;
 
 /**
  * fat-form-query 的全局配置

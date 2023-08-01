@@ -13,7 +13,7 @@ export interface FatFormStepsEvents<Store extends {}, Submit extends {} = Store>
 }
 
 export interface FatFormStepsMethods<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
-  extends FatFormMethods<Store, Request, Submit> {
+  extends Partial<FatFormMethods<Store, Request, Submit>> {
   /**
    * 跳转到上一步
    */
