@@ -1,5 +1,18 @@
 # @wakeadmin/components
 
+## 1.8.3
+
+### Patch Changes
+
+- 新功能
+
+  - define\* 方法新增 p 方法, 用于需要类型检查 prop 定义
+
+  修复
+
+  - fat-form-group 在 preview 模式不应该显示必填星号
+  - 修复日期相关的原件在指定 valueFormat 情况下, 可能日期可能会解析失败
+
 ## 1.8.2
 
 ### Patch Changes
