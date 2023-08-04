@@ -9,7 +9,17 @@ import {
   Message,
   MessageBox,
 } from '@wakeadmin/element-adapter';
-import { ref, onMounted, reactive, nextTick, watch, readonly, set as $set, computed } from '@wakeadmin/demi';
+import {
+  ref,
+  onMounted,
+  reactive,
+  nextTick,
+  watch,
+  readonly,
+  set as $set,
+  computed,
+  onBeforeUnmount,
+} from '@wakeadmin/demi';
 import { declareComponent, declareEmits, declareProps, declareSlots, withDirectives } from '@wakeadmin/h';
 import { debounce, set as _set, cloneDeep, equal, NoopArray, get } from '@wakeadmin/utils';
 
@@ -817,6 +827,12 @@ const FatTableInner = declareComponent({
               />
             )
         : undefined;
+    });
+
+    onBeforeUnmount(() => {
+      saveCache.cancel();
+      debouncedSearch.cancel();
+      leadingDebouncedSearch.cancel();
     });
 
     return () => {
