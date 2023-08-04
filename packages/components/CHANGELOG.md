@@ -1,5 +1,14 @@
 # @wakeadmin/components
 
+## 1.8.2
+
+### Patch Changes
+
+- 功能修复:
+
+  - 修复 fat-table 卸载后没有清理 debounce
+  - 修复 FatForm\* 相关 ref 类型可能为空
+
 ## 1.8.1
 
 ### Patch Changes
