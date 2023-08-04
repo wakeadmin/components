@@ -128,6 +128,7 @@ const FatFormDrawerInner = declareComponent({
   name: 'FatFormDrawer',
   // NOTE: 这里要注意，不止这里定义的所有字段都可以通过 props 访问，只有下面函数参数中声明的 props 才支持
   props: declareProps<FatFormDrawerProps<any>>({
+    mode: null,
     visible: Boolean,
     drawerSize: null,
     enableSubmitter: { type: Boolean, default: true },
@@ -223,14 +224,16 @@ const FatFormDrawerInner = declareComponent({
             {props.cancelText ?? configurable.fatForm?.cancelText ?? t('wkc.cancel')}
           </Button>
         ),
-        !!props.enableReset && (
+        !!props.enableReset && props.mode !== 'preview' && (
           <Button onClick={form.value?.reset} {...props.resetProps}>
             {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
-        <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
-        </Button>,
+        props.mode !== 'preview' && (
+          <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
+            {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
+          </Button>
+        ),
       ];
     };
 
@@ -284,6 +287,7 @@ const FatFormDrawerInner = declareComponent({
                 {...tempProps}
                 initialValue={initialValue}
                 ref={form}
+                mode={props.mode}
                 enableSubmitter={false}
                 hierarchyConnect={false}
                 onFinish={handleFinish}

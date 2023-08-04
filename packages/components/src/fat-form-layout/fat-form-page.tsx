@@ -206,14 +206,16 @@ const FatFormPageInner = declareComponent({
             {props.cancelText ?? configurable.fatForm?.backText ?? t('wkc.cancel')}
           </Button>
         ),
-        !!props.enableReset && (
+        !!props.enableReset && props.mode !== 'preview' && (
           <Button onClick={form.value?.reset} {...props.resetProps}>
             {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
-        <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
-        </Button>,
+        props.mode !== 'preview' && (
+          <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
+            {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
+          </Button>
+        ),
       ];
     };
 

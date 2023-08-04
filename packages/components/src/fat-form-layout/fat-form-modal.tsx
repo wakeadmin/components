@@ -117,6 +117,7 @@ export const FatFormModalMethodKeys = [...FatFormPublicMethodKeys, 'open', 'clos
 const FatFormModalInner = declareComponent({
   name: 'FatFormModal',
   props: declareProps<FatFormModalProps<any>>({
+    mode: null,
     visible: Boolean,
     enableSubmitter: { type: Boolean, default: true },
     cancelText: String,
@@ -215,14 +216,16 @@ const FatFormModalInner = declareComponent({
             {props.cancelText ?? configurable.fatForm?.cancelText ?? t('wkc.cancel')}
           </Button>
         ),
-        !!props.enableReset && (
+        !!props.enableReset && props.mode !== 'preview' && (
           <Button onClick={form.value?.reset} {...props.resetProps}>
             {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
-        <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
-        </Button>,
+        props.mode !== 'preview' && (
+          <Button onClick={form.value?.submit} loading={form.value?.submitting} type="primary" {...props.submitProps}>
+            {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
+          </Button>
+        ),
       ];
     };
 
@@ -271,6 +274,7 @@ const FatFormModalInner = declareComponent({
             <Form
               {...passthroughProps}
               {...tempProps}
+              mode={props.mode}
               initialValue={initialValue}
               ref={form}
               enableSubmitter={false}

@@ -153,14 +153,16 @@ const FatFormTabsInner = declareComponent({
             {props.cancelText ?? configurable.fatForm?.backText ?? t('wkc.cancel')}
           </Button>
         ),
-        !!props.enableReset && (
+        !!props.enableReset && props.mode !== 'preview' && (
           <Button onClick={form.value?.reset} {...props.resetProps}>
             {props.resetText ?? configurable.fatForm?.resetText ?? t('wkc.reset')}
           </Button>
         ),
-        <Button type="primary" onClick={submit} loading={submitting.value} {...props.submitProps}>
-          {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
-        </Button>,
+        props.mode !== 'preview' && (
+          <Button type="primary" onClick={submit} loading={submitting.value} {...props.submitProps}>
+            {props.submitText ?? configurable.fatForm?.saveText ?? t('wkc.save')}
+          </Button>
+        ),
       ];
     };
 
