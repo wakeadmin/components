@@ -30,7 +30,7 @@ export type ADateProps = DefineAtomicProps<
 export const ADateComponent = defineAtomicComponent(
   (props: ADateProps) => {
     const configurable = useFatConfigurable();
-    const preview = (value: any, format: string) => {
+    const preview = (value: any, format: string, valueFormat: string | undefined) => {
       if (props.renderPreview) {
         return props.renderPreview(value);
       }
@@ -39,7 +39,7 @@ export const ADateComponent = defineAtomicComponent(
         return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
       }
 
-      return formatDate(value, format);
+      return formatDate(value, format, valueFormat);
     };
 
     return () => {
@@ -50,7 +50,7 @@ export const ADateComponent = defineAtomicComponent(
 
       return mode === 'preview' ? (
         <span class={other.class} style={other.style}>
-          {preview(value, previewFormat)}
+          {preview(value, previewFormat, other.valueFormat)}
         </span>
       ) : (
         <DatePicker type="date" placeholder={placeholder} {...other} {...model(value, onChange!)} />

@@ -44,7 +44,7 @@ export const ATimeComponent = defineAtomicComponent(
         return (
           <span class={other.class} style={other.style}>
             {value != null
-              ? formatDate(value, previewFormat)
+              ? formatDate(value, previewFormat, other.valueFormat)
               : undefinedPlaceholder ?? configurable.undefinedPlaceholder}
           </span>
         );

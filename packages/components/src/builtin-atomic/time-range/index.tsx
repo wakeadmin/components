@@ -29,7 +29,7 @@ export const ATimeRangeComponent = defineAtomicComponent(
   (props: ATimeRangeProps) => {
     const configurable = useFatConfigurable();
 
-    const preview = (value: any, format: string, rangeSeparator: string) => {
+    const preview = (value: any, format: string, valueFormat: string | undefined, rangeSeparator: string) => {
       if (value == null) {
         return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
       }
@@ -39,7 +39,7 @@ export const ATimeRangeComponent = defineAtomicComponent(
           return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
         }
 
-        return formatDate(v, format);
+        return formatDate(v, format, valueFormat);
       };
 
       if (Array.isArray(value)) {
@@ -62,7 +62,7 @@ export const ATimeRangeComponent = defineAtomicComponent(
 
         return (
           <span class={other.class} style={other.style}>
-            {preview(value, previewFormat, rangeSeparator)}
+            {preview(value, previewFormat, other.valueFormat, rangeSeparator)}
           </span>
         );
       }

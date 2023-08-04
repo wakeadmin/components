@@ -31,13 +31,13 @@ export const ADateTimeRangeComponent = defineAtomicComponent(
   (props: ADateTimeRangeProps) => {
     const configurable = useFatConfigurable();
 
-    const preview = (value: any, format: string, rangeSeparator: string) => {
+    const preview = (value: any, format: string, valueFormat: string | undefined, rangeSeparator: string) => {
       const f = (v: any) => {
         if (v == null) {
           return props.undefinedPlaceholder ?? configurable.undefinedPlaceholder;
         }
 
-        return formatDate(v, format);
+        return formatDate(v, format, valueFormat);
       };
 
       if (props.renderPreview) {
@@ -61,7 +61,7 @@ export const ADateTimeRangeComponent = defineAtomicComponent(
 
       return mode === 'preview' ? (
         <span class={other.class} style={other.style}>
-          {preview(value, previewFormat, rangeSeparator)}
+          {preview(value, previewFormat, other.valueFormat, rangeSeparator)}
         </span>
       ) : (
         <DatePicker type="datetimerange" {...other} {...model(value, onChange!)} />
