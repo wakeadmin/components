@@ -2,7 +2,7 @@ import { CommonProps, KeyType } from '@wakeadmin/element-adapter';
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { declareComponent } from '@wakeadmin/h';
 
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, identity, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { FatForm } from './fat-form';
 import { FatFormConsumer } from './fat-form-consumer';
@@ -97,6 +97,11 @@ export interface FatFormDefinition<Store extends {}, Request extends {} = Store,
 export type OmitType<T> = Omit<T, typeof FAT_FORM_CHILD_TYPE>;
 
 export interface FatFormDefineHelpers<Store extends {}, Request extends {} = Store, Submit extends {} = Store> {
+  /**
+   * 支持简单的 prop 类型安全验证
+   */
+  p: (key: keyof Store) => string;
+
   /**
    * 分组, FatFormGroup
    */
@@ -297,6 +302,7 @@ export function defineFatForm<
           renderChild,
           renderChildren,
           props: attrs as any,
+          p: identity as any,
           emit,
         })
       );

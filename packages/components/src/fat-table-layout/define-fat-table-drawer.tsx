@@ -1,7 +1,7 @@
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, identity, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { defineFatTableColumn, FatTableColumn } from '../fat-table';
 import {
@@ -31,6 +31,7 @@ export type FatTableDrawerDefine<Item extends {}, Query extends {}, Extra extend
       props: FatTableDrawerDefineProps<Item, Query, Extra>;
       emit: (key: string, ...args: any[]) => void;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
+      p: (key: keyof Item) => string;
     }) => () => FatTableDrawerDefinition<Item, Query>);
 
 export function defineFatTableDrawer<Item extends {}, Query extends {}, Extra extends {} = {}>(
@@ -48,7 +49,15 @@ export function defineFatTableDrawer<Item extends {}, Query extends {}, Extra ex
 
       const extraDefinitions =
         typeof define === 'function'
-          ? computed(define({ modelRef: modalRef, column: defineFatTableColumn, props: attrs as any, emit }))
+          ? computed(
+              define({
+                modelRef: modalRef,
+                column: defineFatTableColumn,
+                props: attrs as any,
+                emit,
+                p: identity as any,
+              })
+            )
           : define;
 
       const instance = {};

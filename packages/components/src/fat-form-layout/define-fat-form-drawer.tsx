@@ -3,7 +3,7 @@ import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
 
 import { FatFormDefineHelpers, FatFormChild, useFatFormDefineUtils } from '../fat-form';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, identity, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import {
   FatFormDrawer,
@@ -81,6 +81,7 @@ export function defineFatFormDrawer<
           renderChildren,
           props: attrs as any,
           emit,
+          p: identity as any,
         })
       );
 

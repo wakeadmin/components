@@ -2,6 +2,10 @@ export function toUndefined<T>(value: T | undefined | null): T | undefined {
   return value != null ? value : undefined;
 }
 
+export function identity<T>(value: T): T {
+  return value;
+}
+
 /**
  * 转换为数组
  */

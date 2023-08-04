@@ -1,7 +1,7 @@
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, identity, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { defineFatTableColumn, FatTableColumn } from '../fat-table';
 import {
@@ -28,6 +28,7 @@ export type FatTableModalDefine<T extends {}, S extends {}, Extra extends {} = {
       modelRef: Ref<FatTableModalMethods<T, S> | undefined>;
       props: FatTableModalDefineProps<T, S, Extra>;
       emit: (key: string, ...args: any[]) => void;
+      p: (key: keyof T) => string;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<T, S, ValueType>) => any;
     }) => () => FatTableModalDefinition<T, S>);
 
@@ -46,7 +47,15 @@ export function defineFatTableModal<T extends {}, S extends {}, Extra extends {}
 
       const extraDefinitions =
         typeof define === 'function'
-          ? computed(define({ modelRef: modalRef, column: defineFatTableColumn, props: attrs as any, emit }))
+          ? computed(
+              define({
+                modelRef: modalRef,
+                column: defineFatTableColumn,
+                props: attrs as any,
+                emit,
+                p: identity as any,
+              })
+            )
           : define;
 
       const instance = {};

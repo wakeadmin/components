@@ -1,7 +1,7 @@
 import { computed, Ref, unref } from '@wakeadmin/demi';
 import { CommonProps } from '@wakeadmin/element-adapter';
 import { declareComponent } from '@wakeadmin/h';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../utils';
+import { DefineOurComponent, forwardExpose, identity, inheritProps, mergeProps, pickEnumerable } from '../utils';
 
 import { defineFatTableColumn, FatTableColumn, FatTableSlots } from '../fat-table';
 import { FatTablePublicMethodKeys } from '../fat-table/constants';
@@ -40,6 +40,7 @@ export type FatTableSelectDefine<
       props: FatTableSelectDefineProps<Item, Query, Selection, Extra>;
       emit: (key: string, ...args: any[]) => void;
       column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
+      p: (key: keyof Item) => string;
     }) => () => FatTableSelectDefinition<Item, Query, Selection>);
 
 export function defineFatTableSelect<
@@ -62,7 +63,7 @@ export function defineFatTableSelect<
 
       const extraDefinitions =
         typeof define === 'function'
-          ? computed(define({ tableRef, column: defineFatTableColumn, props: attrs as any, emit }))
+          ? computed(define({ tableRef, column: defineFatTableColumn, props: attrs as any, emit, p: identity as any }))
           : define;
 
       const instance = {};

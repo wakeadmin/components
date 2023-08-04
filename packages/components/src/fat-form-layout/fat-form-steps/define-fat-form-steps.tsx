@@ -10,7 +10,7 @@ import {
   CommonDefinitionProps,
   OmitType,
 } from '../../fat-form';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../../utils';
+import { DefineOurComponent, forwardExpose, identity, inheritProps, mergeProps, pickEnumerable } from '../../utils';
 import { FatFormStep, FatFormStepProps } from './fat-form-step';
 import { FatFormStepsPublicMethodKeys, useFatFormStepsRef, FatFormSteps } from './fat-form-steps';
 
@@ -115,6 +115,7 @@ export function defineFatFormSteps<
           renderChild,
           renderChildren,
           props: attrs as any,
+          p: identity as any,
           emit,
         })
       );

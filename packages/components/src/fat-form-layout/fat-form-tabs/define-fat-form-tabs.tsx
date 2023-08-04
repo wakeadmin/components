@@ -10,7 +10,7 @@ import {
   CommonDefinitionProps,
   OmitType,
 } from '../../fat-form';
-import { DefineOurComponent, forwardExpose, inheritProps, mergeProps, pickEnumerable } from '../../utils';
+import { DefineOurComponent, forwardExpose, identity, inheritProps, mergeProps, pickEnumerable } from '../../utils';
 
 import { FatFormTabPane } from './fat-form-tab-pane';
 import { FatFormTabs, useFatFormTabsRef, FatFormTabsPublicMethodKeys } from './fat-form-tabs';
@@ -124,6 +124,7 @@ export function defineFatFormTabs<
           renderChildren,
           props: attrs as any,
           emit,
+          p: identity as any,
         })
       );
 
