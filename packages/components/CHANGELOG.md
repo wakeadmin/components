@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.4
+
+### Patch Changes
+
+- 修复: fat-form-\* renderButton 在 preview 模式隐藏提交和重置按钮
+
 ## 1.8.3
 
 ### Patch Changes

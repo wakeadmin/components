@@ -122,7 +122,7 @@ importers:
   packages/doc:
     specifiers:
       '@element-plus/icons-vue': ^2.1.0
-      '@wakeadmin/components': workspace:1.8.3
+      '@wakeadmin/components': workspace:1.8.4
       '@wakeadmin/icons': ^0.1.5
       element-plus: ^2.3.6
       imagemin-cli: ^7.0.0
@@ -153,7 +153,7 @@ importers:
       '@vue/cli-plugin-babel': ~5.0.8
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
-      '@wakeadmin/components': workspace:1.8.3
+      '@wakeadmin/components': workspace:1.8.4
       '@wakeadmin/demi': ^0.3.0
       '@wakeadmin/docker-build': ^0.1.9
       '@wakeadmin/element-adapter': workspace:0.6.7
@@ -203,7 +203,7 @@ importers:
       '@vue/cli-plugin-router': ~5.0.8
       '@vue/cli-service': ~5.0.8
       '@wakeadmin/bay': ^0.8.4
-      '@wakeadmin/components': workspace:1.8.3
+      '@wakeadmin/components': workspace:1.8.4
       '@wakeadmin/docker-build': ^0.1.9
       '@wakeadmin/framework': ^0.1.6
       '@wakeadmin/h': ^0.3.0
