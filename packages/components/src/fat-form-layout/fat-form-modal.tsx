@@ -188,6 +188,7 @@ const FatFormModalInner = declareComponent({
       const doit = () => {
         handleVisibleChange(false);
         emit('finish', values);
+        (tempProps as FatFormModalProps<any>).onFinish?.(values);
       };
 
       if (props.beforeFinish) {

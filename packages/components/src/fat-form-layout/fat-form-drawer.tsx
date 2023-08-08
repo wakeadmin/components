@@ -197,6 +197,8 @@ const FatFormDrawerInner = declareComponent({
       const doit = () => {
         handleVisibleChange(false);
         emit('finish', values);
+
+        (tempProps as FatFormDrawerProps<any>).onFinish?.(values);
       };
 
       if (props.beforeFinish) {
