@@ -12,7 +12,8 @@
 }
 
 .vue3 .fat-form-query {
-  .#{$el-ns}-input__clear {
+  .#{$el-ns}-input__clear,
+  .clear-icon {
     position: absolute;
     margin-right: 8px;
     background-color: white;
