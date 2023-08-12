@@ -344,6 +344,11 @@ export interface FatFormBaseProps<Store extends {} = {}, Request extends {} = St
   initialValue?: Partial<Store>;
 
   /**
+   * 表单额外值，会在提交时自动合并到表单里
+   */
+  extraValue?: () => Partial<Submit>;
+
+  /**
    * 当 initialValue 变更时，是否强制更新表单值
    * 默认情况下为 false，即新的 initialValue 会和旧的合并
    */

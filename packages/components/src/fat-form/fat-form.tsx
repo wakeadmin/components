@@ -52,6 +52,7 @@ export const FatForm = declareComponent({
     loading: { type: Boolean, default: false },
     initialValue: null,
     forceSetInitialValue: { type: Boolean, default: false },
+    extraValue: null,
     request: null,
     requestOnMounted: { type: Boolean, default: true },
     submit: null,
@@ -263,7 +264,7 @@ export const FatForm = declareComponent({
       // 数据转换
       transform(valuesToSubmit, items);
 
-      return valuesToSubmit;
+      return Object.assign(valuesToSubmit, props.extraValue?.() || {});
     };
 
     const submit = async () => {
