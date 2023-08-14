@@ -1,7 +1,11 @@
 import { isVue2 } from '@wakeadmin/demi';
 
+/**
+ * @deprecated
+ * @returns
+ */
 export const isWakeadminBayEnabled = () => {
-  return '__MAPP_SERVICES__' in window;
+  return false;
 };
 
 /**

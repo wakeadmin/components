@@ -225,16 +225,10 @@ const FatTableDrawerInner = declareComponent({
 
     const mergedProps = computed(() => mergeProps(props, tempProps.value));
 
-    /**
-     * 默认情况下 在微前端下会使用微前端的布局进行渲染
-     *
-     * 但是在modal下 强制默认使用fatCard进行渲染
-     */
     const tableLayoutProp = computed(() => {
       if (props.layout == null) {
         return {
           ...(props.layoutProps ?? {}),
-          reuseBayIfNeed: false,
           border: false,
         };
       }

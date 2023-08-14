@@ -1,11 +1,10 @@
-import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { computed, ref, watch } from '@wakeadmin/demi';
+import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 
-import { hasSlots, renderSlot, ToHSlotDefinition, ToHEmitDefinition } from '../utils';
+import { ToHEmitDefinition, ToHSlotDefinition, hasSlots, renderSlot } from '../utils';
 
-import { isWakeadminBayEnabled, ceSlot } from './utils';
-import { FatCard } from './fat-card';
 import { useFatConfigurable } from '../fat-configurable';
+import { FatCard } from './fat-card';
 
 export interface FatContainerSlots {
   /**
@@ -56,11 +55,6 @@ export interface FatContainerProps extends FatContainerSlots, FatContainerEvents
   activeKey?: string | number;
 
   /**
-   * 在微前端环境是否直接使用基座提供的 wkc-header，默认 true
-   */
-  reuseBayIfNeed?: boolean;
-
-  /**
    * 传统模式，即将筛选区和内容区分离的形式，默认 false
    *
    * 这个选项也可以通过 FatConfigurable 的 legacyContainer 配置
@@ -82,7 +76,6 @@ export const FatContainer = declareComponent({
     title: null,
     tabs: null,
     activeKey: null,
-    reuseBayIfNeed: { type: Boolean, default: null },
     legacyMode: { type: Boolean, default: undefined },
     border: null,
 
@@ -100,7 +93,6 @@ export const FatContainer = declareComponent({
     const hasDefaultSlot = computed(() => hasSlots(props, slots, 'default'));
     const hasTitleSlots = computed(() => hasSlots(props, slots, 'title'));
     const hasExtraSlots = computed(() => hasSlots(props, slots, 'extra'));
-    const reuseBayIfNeed = computed(() => props.reuseBayIfNeed ?? configurable.reuseBayIfNeed ?? true);
 
     const activeKey = ref<string | number | undefined>();
 
@@ -155,49 +147,31 @@ export const FatContainer = declareComponent({
     );
 
     return () => {
-      const wakeadminBayEnabled = isWakeadminBayEnabled();
       const legacyMode = (props.legacyMode ?? configurable.legacyContainer) && hasDefaultSlot.value;
       const className = ['fat-container', attrs.class, { 'fat-container--legacy': legacyMode }];
       const style = attrs.style;
       const rootProps = { class: className, style };
 
-      let header: JSX.Element;
-      // 使用 惟客云 基座实现
-      if (wakeadminBayEnabled && reuseBayIfNeed.value) {
-        header = (
-          <wkc-header {...(legacyMode ? undefined : rootProps)} title={props.title}>
-            {!!hasTitleSlots.value && <div {...ceSlot('title')}>{renderSlot(props, slots, 'title')}</div>}
-            {!!hasExtraSlots.value && <div {...ceSlot('extra')}>{renderSlot(props, slots, 'extra')}</div>}
-            {/* 筛选区， 通常是条件筛选 */}
-            {hasQuerySlots.value && <div class="fat-container__query">{renderSlot(props, slots, 'query')}</div>}
-            {/* 内容区， 可以放置列表或表格 */}
-            {hasDefaultSlot.value && !legacyMode && (
-              <div class="fat-container__body">{renderSlot(props, slots, 'default')}</div>
-            )}
-          </wkc-header>
-        );
-      } else {
-        header = (
-          <FatCard
-            {...(legacyMode ? undefined : rootProps)}
-            border={props.border}
-            title={props.title}
-            padding={false}
-            v-slots={{
-              title: titleRenderOrSlot.value,
-              /* 扩展区域，通常放置按钮 */
-              extra: hasExtraSlots.value ? () => renderSlot(props, slots, 'extra') : undefined,
-            }}
-          >
-            {/* 筛选区， 通常是条件筛选 */}
-            {hasQuerySlots.value && <div class="fat-container__query">{renderSlot(props, slots, 'query')}</div>}
-            {/* 内容区， 可以放置列表或表格 */}
-            {hasDefaultSlot.value && !legacyMode && (
-              <div class="fat-container__body">{renderSlot(props, slots, 'default')}</div>
-            )}
-          </FatCard>
-        );
-      }
+      const header = (
+        <FatCard
+          {...(legacyMode ? undefined : rootProps)}
+          border={props.border}
+          title={props.title}
+          padding={false}
+          v-slots={{
+            title: titleRenderOrSlot.value,
+            /* 扩展区域，通常放置按钮 */
+            extra: hasExtraSlots.value ? () => renderSlot(props, slots, 'extra') : undefined,
+          }}
+        >
+          {/* 筛选区， 通常是条件筛选 */}
+          {hasQuerySlots.value && <div class="fat-container__query">{renderSlot(props, slots, 'query')}</div>}
+          {/* 内容区， 可以放置列表或表格 */}
+          {hasDefaultSlot.value && !legacyMode && (
+            <div class="fat-container__body">{renderSlot(props, slots, 'default')}</div>
+          )}
+        </FatCard>
+      );
 
       if (legacyMode) {
         return (

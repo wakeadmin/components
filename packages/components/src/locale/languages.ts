@@ -35,6 +35,7 @@ export default {
     fillForm: '请按照要求完成表单填写',
     getCaptcha: '获取验证码',
     image: '图片',
+    imageVerificationPlaceholder: '拖动滑块验证',
     inputCaptcha: '请输入{label}',
     moveDown: '下移',
     moveUp: '上移',
@@ -47,6 +48,7 @@ export default {
     optionLoadFailed: '选项加载失败：{message}',
     previousStep: '上一步',
     rangeSeparator: '至',
+    refresh: '刷新',
     reset: '重置',
     retrievalFailed: '获取失败',
     retrieving: '获取中',
@@ -67,7 +69,5 @@ export default {
     uploadFormat: '请上传 {accept} 格式的文件',
     valueCannotBeNull: '{label} 不能为空',
     video: '视频',
-    refresh: '刷新',
-    imageVerificationPlaceholder: '拖动滑块验证',
   },
 };
