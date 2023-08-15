@@ -4,7 +4,8 @@
   "description": "wakeadmin components",
   "private": true,
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">= 16.0.0",
+    "pnpm": ">= 8"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
