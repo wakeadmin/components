@@ -23,7 +23,7 @@ import { useFatTableRef } from '../fat-table/hooks';
 import { FatTableEvents, FatTableMethods, FatTableProps, FatTableSlots } from '../fat-table/types';
 import { useLazyFalsy, useT } from '../hooks';
 
-export interface FatTableModalMethods<T extends {}, S extends {}> extends FatTableMethods<T, S> {
+export interface FatTableModalMethods<Item extends {}, Query extends {}> extends FatTableMethods<Item, Query> {
   /**
    * 显示弹窗
    *
@@ -70,25 +70,29 @@ export const FatTableModalPublicMethodKeys: (keyof FatTableModalMethods<any, any
   'renderButtons',
 ];
 
-export interface FatTableModalSlots<T extends {}, S extends {}> extends Omit<FatTableSlots<T, S>, 'renderTitle'> {
-  renderTitle?: (tableModalRef: FatTableModalMethods<T, S>) => any;
+export interface FatTableModalSlots<Item extends {}, Query extends {}>
+  extends Omit<FatTableSlots<Item, Query>, 'renderTitle'> {
+  renderTitle?: (tableModalRef: FatTableModalMethods<Item, Query>) => any;
 
-  renderFooter?: (tableModalRef: FatTableModalMethods<T, S>) => any;
+  renderFooter?: (tableModalRef: FatTableModalMethods<Item, Query>) => any;
 }
 
-export interface FatTableModalEvents<T extends {}, S extends {}> {
+export interface FatTableModalEvents<Item extends {}, Query extends {}> {
   onOpen?: () => void;
   onOpened?: () => void;
   onClose?: () => void;
   onClosed?: () => void;
 }
 
-export interface FatTableModalProps<T extends {}, S extends {}>
+export interface FatTableModalProps<Item extends {}, Query extends {}>
   extends Omit<
-      FatTableProps<T, S>,
-      'width' | keyof FatTableSlots<T, S> | keyof FatTableMethods<T, S> | keyof FatTableEvents<T, S>
+      FatTableProps<Item, Query>,
+      | 'width'
+      | keyof FatTableSlots<Item, Query>
+      | keyof FatTableMethods<Item, Query>
+      | keyof FatTableEvents<Item, Query>
     >,
-    FatTableModalSlots<S, T>,
+    FatTableModalSlots<Query, Item>,
     Omit<DialogProps, 'modelValue' | 'onUpdate:modelValue' | 'beforeClose'> {
   /**
    * 标题
@@ -172,8 +176,8 @@ export interface FatTableModalGlobalConfigurations {
   confirmProps?: ButtonProps;
 }
 
-export function useFatTableModalRef<S extends {} = any, T extends {} = any>() {
-  return ref<FatTableModalMethods<S, T>>();
+export function useFatTableModalRef<Query extends {} = any, Item extends {} = any>() {
+  return ref<FatTableModalMethods<Query, Item>>();
 }
 
 const FatTableModalInner = declareComponent({
@@ -221,7 +225,7 @@ const FatTableModalInner = declareComponent({
   setup(props, { attrs, expose, slots }) {
     const visible = ref(false);
     const lazyVisible = useLazyFalsy(visible);
-    const t = useT();
+    const Item = useT();
 
     const configurable = useFatConfigurable();
 
@@ -300,7 +304,7 @@ const FatTableModalInner = declareComponent({
       return [
         (mergedPropsValue.enableCancel ?? fatTableModalConfigurable.enableCancel) && (
           <Button onClick={close} {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}>
-            {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? t('wkc.cancel')}
+            {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? Item('wkc.cancel')}
           </Button>
         ),
         (mergedPropsValue.enableConfirm ?? fatTableModalConfigurable.enableConfirm) && (
@@ -309,7 +313,7 @@ const FatTableModalInner = declareComponent({
             onClick={confirm}
             {...(mergedPropsValue.confirmProps ?? fatTableModalConfigurable.confirmProps ?? {})}
           >
-            {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? t('wkc.confirm')}
+            {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? Item('wkc.confirm')}
           </Button>
         ),
       ];
@@ -389,11 +393,11 @@ const FatTableModalInner = declareComponent({
   },
 });
 
-export const FatTableModal = FatTableModalInner as new <T extends {} = any, S extends {} = any>(
-  props: FatTableModalProps<T, S>
+export const FatTableModal = FatTableModalInner as new <Item extends {} = any, Query extends {} = any>(
+  props: FatTableModalProps<Item, Query>
 ) => OurComponentInstance<
   typeof props,
-  FatTableModalSlots<T, S>,
-  FatTableModalEvents<T, S>,
-  FatTableModalMethods<T, S>
+  FatTableModalSlots<Item, Query>,
+  FatTableModalEvents<Item, Query>,
+  FatTableModalMethods<Item, Query>
 >;
