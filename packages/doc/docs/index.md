@@ -26,10 +26,10 @@ features:
     details: 留多点时间，做真正有价值的事情
 ---
 
-<div class="join-group">
+<!-- <div class="join-group">
   <img class="join-group__img" src="/group.png">
   <div class="join-group__text">进入交流群</div>
-</div>
+</div> -->
 
 <style scoped>
 .join-group {

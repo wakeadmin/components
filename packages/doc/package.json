@@ -21,7 +21,7 @@
     "@wakeadmin/icons": "^0.1.5",
     "element-plus": "^2.3.6",
     "imagemin-cli": "^7.0.0",
-    "vitepress": "1.0.0-alpha.16",
+    "vitepress": "1.0.0-rc.4",
     "vue": "^3.3.4"
   },
   "dependencies": {
