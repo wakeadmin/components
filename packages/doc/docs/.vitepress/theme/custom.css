@@ -29,3 +29,7 @@ body {
   height: 50vh;
   border-radius: 5px;
 }
+
+.codesandbox-icon {
+  fill: transparent !important;
+}
