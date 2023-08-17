@@ -225,7 +225,7 @@ const FatTableModalInner = declareComponent({
   setup(props, { attrs, expose, slots }) {
     const visible = ref(false);
     const lazyVisible = useLazyFalsy(visible);
-    const Item = useT();
+    const t = useT();
 
     const configurable = useFatConfigurable();
 
@@ -304,7 +304,7 @@ const FatTableModalInner = declareComponent({
       return [
         (mergedPropsValue.enableCancel ?? fatTableModalConfigurable.enableCancel) && (
           <Button onClick={close} {...(mergedPropsValue.cancelProps ?? fatTableModalConfigurable.cancelProps ?? {})}>
-            {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? Item('wkc.cancel')}
+            {mergedPropsValue.cancelText ?? fatTableModalConfigurable.cancelText ?? t('wkc.cancel')}
           </Button>
         ),
         (mergedPropsValue.enableConfirm ?? fatTableModalConfigurable.enableConfirm) && (
@@ -313,7 +313,7 @@ const FatTableModalInner = declareComponent({
             onClick={confirm}
             {...(mergedPropsValue.confirmProps ?? fatTableModalConfigurable.confirmProps ?? {})}
           >
-            {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? Item('wkc.confirm')}
+            {mergedPropsValue.confirmText ?? fatTableModalConfigurable.confirmText ?? t('wkc.confirm')}
           </Button>
         ),
       ];
