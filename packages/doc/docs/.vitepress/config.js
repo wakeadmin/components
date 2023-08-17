@@ -197,5 +197,18 @@ export default {
         },
       ],
     },
+    socialLinks: [
+      {
+        icon: 'github',
+        link: 'https://github.com/wakeadmin/components',
+      },
+      {
+        icon: {
+          svg: `<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="codesandbox-icon"><title>codesandbox</title><path d="M14 4.69998L8.01676 7.99562C8.00621 8.00143 7.99379 8.00143 7.98324 7.99562L2 4.69998M8 7.99998V14.6666M13.9897 11.3381L8.00838 14.6644C8.00311 14.6674 7.99689 14.6674 7.99162 14.6644L2.01033 11.3381C2.004 11.3346 2 11.3274 2 11.3195L2 4.70712C2 4.69929 2.00397 4.69212 2.01027 4.68859L7.99156 1.33554C7.99687 1.33257 8.00313 1.33257 8.00843 1.33554L13.9897 4.68859C13.996 4.69212 14 4.69929 14 4.70712V11.3195C14 11.3274 13.996 11.3346 13.9897 11.3381Z" stroke="currentColor" stroke-linejoin="round"></path></svg>`,
+        },
+        link: 'https://codesandbox.io/p/sandbox/wakeadmin-components-fc4x8x',
+        ariaLabel: 'codesandbox',
+      },
+    ],
   },
 };
