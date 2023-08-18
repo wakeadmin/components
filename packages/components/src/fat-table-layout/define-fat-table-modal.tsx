@@ -15,30 +15,32 @@ import {
 } from './fat-table-modal';
 import { FatTablePublicMethodKeys } from '../fat-table/constants';
 
-export interface FatTableModalDefinition<T extends {}, S extends {}> extends FatTableModalProps<T, S>, CommonProps {}
+export interface FatTableModalDefinition<Item extends {}, Query extends {}>
+  extends FatTableModalProps<Item, Query>,
+    CommonProps {}
 
-export type FatTableModalDefineProps<T extends {}, S extends {}, Extra extends {} = {}> = Partial<
-  FatTableModalProps<T, S> & { extra: Extra }
+export type FatTableModalDefineProps<Item extends {}, Query extends {}, Extra extends {} = {}> = Partial<
+  FatTableModalProps<Item, Query> & { extra: Extra }
 >;
 
-export type FatTableModalDefine<T extends {}, S extends {}, Extra extends {} = {}> =
-  | (FatTableModalProps<T, S> & CommonProps)
+export type FatTableModalDefine<Item extends {}, Query extends {}, Extra extends {} = {}> =
+  | (FatTableModalProps<Item, Query> & CommonProps)
   | ((context: {
       // modal 实例 引用
-      modelRef: Ref<FatTableModalMethods<T, S> | undefined>;
-      props: FatTableModalDefineProps<T, S, Extra>;
+      modelRef: Ref<FatTableModalMethods<Item, Query> | undefined>;
+      props: FatTableModalDefineProps<Item, Query, Extra>;
       emit: (key: string, ...args: any[]) => void;
-      p: (key: keyof T) => string;
-      column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<T, S, ValueType>) => any;
-    }) => () => FatTableModalDefinition<T, S>);
+      p: (key: keyof Item) => string;
+      column: <ValueType extends keyof AtomicProps = 'text'>(column: FatTableColumn<Item, Query, ValueType>) => any;
+    }) => () => FatTableModalDefinition<Item, Query>);
 
-export function defineFatTableModal<T extends {}, S extends {}, Extra extends {} = {}>(
-  define: FatTableModalDefine<T, S, Extra>
+export function defineFatTableModal<Item extends {}, Query extends {}, Extra extends {} = {}>(
+  define: FatTableModalDefine<Item, Query, Extra>
 ): DefineOurComponent<
-  FatTableModalDefineProps<T, S, Extra>,
-  FatTableModalSlots<T, S>,
-  FatTableModalEvents<T, S>,
-  FatTableModalMethods<T, S>
+  FatTableModalDefineProps<Item, Query, Extra>,
+  FatTableModalSlots<Item, Query>,
+  FatTableModalEvents<Item, Query>,
+  FatTableModalMethods<Item, Query>
 > {
   return declareComponent({
     name: 'PreDefineFatTableModal',
