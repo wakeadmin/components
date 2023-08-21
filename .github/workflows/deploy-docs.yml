@@ -1,8 +1,8 @@
 name: Deploy docs
 
 on:
-  push:
-    branches: ["master"]
+  release:
+    types: [created]
 
 concurrency:
   group: "deploy-docs"
