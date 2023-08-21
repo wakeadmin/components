@@ -16,7 +16,7 @@ node -v
 
 echo "开始每周发布"
 
-corepack enable
+npm i -g pnpm@8
 pnpm install
 
 # 构建

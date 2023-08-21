@@ -19,8 +19,7 @@ node -v
 
 echo "开始每日发布"
 
-corepack enable
-npm i -g npm-cli-login --registry=$NPM_REGISTRY
+npm i -g pnpm@8 npm-cli-login --registry=$NPM_REGISTRY
 pnpm install
 
 # 构建
