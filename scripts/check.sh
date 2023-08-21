@@ -10,7 +10,7 @@ node -v
 
 echo "开始规范化检查"
 
-npm i -g pnpm@7
+corepack enable
 pnpm install --no-frozen-lockfile
 
 pnpm build:deps
