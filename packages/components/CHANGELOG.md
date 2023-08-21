@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.8.5
+
+### Patch Changes
+
+- 修复 fat-form-modal/drawer 通过 open 方法传入的 onFinish 没有被调用
+- 修复 element-plus 时间选择起 clear 跳动问题
+- fat-form 支持 extraValue 参数
+
 ## 1.8.4
 
 ### Patch Changes
