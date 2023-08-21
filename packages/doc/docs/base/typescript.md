@@ -1,6 +1,16 @@
 # 支持 Typescript 和 JSX
 
+大部分场景，我们推荐你使用 Vue 的 [SFC](https://vuejs.org/guide/scaling-up/sfc.html) + [setup + TypeScript](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) 来编写组件。
+
+然而，在你们使用 `@wakeadmin/components` 时，为了灵活定义组件库，你会经常用到 JSX。
+
 **在 Vue 中开启 Typescript 和 JSX 支持并不是一件容易的事情**。 因此我们单独出一份文档来说明一下。
+
+<br>
+
+---
+
+<br>
 
 [[toc]]
 
@@ -8,17 +18,26 @@
 <br>
 <br>
 
-## 依赖
+## 安装依赖
 
 如果你想要使用 `TSX`/`JSX` 开发，并且获取到更好的 `Typescript` 类型检查，需要安装以下依赖:
 
 ```shell
-$ pnpm add babel-preset-wakeadmin @wakeadmin/h @wakeadmin/demi vue-tsc -D
+$ pnpm add @wakeadmin/h @wakeadmin/demi vue-tsc -D
 
 # 升级 @wakeadmin/* 相关依赖到最新版本
 $ pnpm up -r -L \"@wakeadmin/*\"
 ```
 
+<br>
+
+::: warning 如果构建工具使用的是`Vue-cli`的话 需要额外安装以下依赖
+
+```shell
+pnpm add babel-preset-wakeadmin -D
+```
+
+:::
 <br>
 <br>
 
@@ -30,31 +49,6 @@ $ pnpm up -r -L \"@wakeadmin/*\"
 <br>
 <br>
 
-::: warning 建议将 @wakeadmin/\* 相关库都升级到最新版本
-:::
-
-<br>
-<br>
-<br>
-<br>
-
-## 构建
-
-首先根据你使用的构建工具，配置相关的 Typescript 构建支持：
-
-- `Vite`: [内置支持转换](https://vitejs.dev/guide/features.html#typescript), 但是类型检查需要借助 `vue-tsc`
-- `Vue CLI`: 卸载掉 [`@vue/cli-plugin-typescript`](https://cli.vuejs.org/core-plugins/typescript.html), 并安装 `@wakeadmin/vue-cli-plugin-typescript`。这个插件底层基于 `esbuild` 进行编译，**不会进行类型检查**, 因此还是需要借助 `vue-tsx`, 详见[下文](#开启类型检查)。
-
-<br>
-<br>
-<br>
-
-::: danger 💥 不推荐使用 `@vue/cli-plugin-typescript` 插件:
-
-为什么不使用它？ [**Vue 官方也不推荐使用它**](https://vuejs.org/guide/typescript/overview.html#note-on-vue-cli-and-ts-loader)。一个比较重要的问题是，它的执行结果未必和 IDE 一致，异常也很难排查。性能也较差、无法同 vue-tsc 一样真正检查 `*.vue` 文件。
-
-:::
-
 <br>
 <br>
 <br>
@@ -62,12 +56,16 @@ $ pnpm up -r -L \"@wakeadmin/*\"
 
 ## 配置
 
-接着配置 tsconfig.json:
+### 类型检查
 
 ```json
+// tsconfig.json:
 {
   "compilerOptions": {
-    "types": ["@wakeadmin/demi"]
+    "types": ["@wakeadmin/demi"],
+    // 如果使用 @wakeadmin/h， 则加上以下配置
+    "jsx": "react-jsx",
+    "jsxImportSource": "@wakeadmin/h"
   },
   // 如果是 vue 2, 则加上以下配置
   "vueCompilerOptions": {
@@ -99,6 +97,100 @@ declare module '*.vue' {
 
 <br>
 
+### 添加`@wakeadmin/h`（可选）
+
+<br>
+<br>
+
+这里，我们使用 [`@wakeadmin/h`](https://wakeadmin.wakedata.com/base/h.html) 来编写 JSX。好处是：
+
+1. Vue 2 / 3 JSX 书写上[相差非常大](https://www.notion.so/Vue-2-3-302cbe0e37794345bbfbd89e32d617db), **不管你用的是 Vue 2, 还是 Vue 3, 使用 `@wakeadmin/h` 可以提供一致的编写方式**, 更接近我们在 React 上的使用习惯。
+2. 除此之外，`@wakeadmin/h` 也优化了 Vue JSX 在 Typescript 支持上的一些问题。
+3. `@wakeadmin/h`优化了`slots`以及`Directive`的写法，使其更加简便。
+
+<br>
+
+当然，在性能上会有一点点的损失。
+
+<br>
+
+- `Vue-Cli`
+
+```js
+// babel.config.js
+module.exports = {
+  // 关闭 vue 默认的 jsx 转换， 统一使用标准的 JSX
+  presets: [['@vue/cli-plugin-babel/preset', { jsx: false }], 'babel-preset-wakeadmin'],
+};
+```
+
+<br>
+<br>
+
+- `Vite`
+
+```js
+// vite.config.ts
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vuejsx from '@vitejs/plugin-vue-jsx'; // [!code --]
+
+export default defineConfig({
+  esbuild: {
+    jsx: 'automatic', // [!code ++]
+    jsxImportSource: '@wakeadmin/h', // [!code ++]
+  },
+  plugins: [
+    vue(),
+    vuejsx(), // [!code --]
+  ],
+});
+```
+
+<br>
+<br>
+<br>
+
+<br>
+<br>
+
+使用示例：
+
+```jsx
+<div onClick={handleClick} class="hello" />; // 使用 on* 的语法进行事件监听
+<div onClick={handleClick} class={[hello, { active: isActive }]} style={{ color: 'red' }} />;
+
+// 插槽的使用，使用 v-slots
+<Tooltip v-slots={{ content: <div>hello</div>, named: scope => <div>命名插槽</div> }}>
+  <span class="fat-actions__btn">{content}</span>
+</Tooltip>;
+
+// 指令：https://vuejs.org/api/render-function.html#withdirectives
+<div {...withDirectives([[vLoading, loading.value]])}>加载中</div>;
+```
+
+<br>
+<br>
+<br>
+
+## 构建
+
+首先根据你使用的构建工具，配置相关的 Typescript 构建支持：
+
+- `Vite`: [内置支持转换](https://vitejs.dev/guide/features.html#typescript), 但是类型检查需要借助 `vue-tsc`
+- `Vue CLI`: 卸载掉 [`@vue/cli-plugin-typescript`](https://cli.vuejs.org/core-plugins/typescript.html), 并安装 `@wakeadmin/vue-cli-plugin-typescript`。这个插件底层基于 `esbuild` 进行编译，**不会进行类型检查**, 因此还是需要借助 `vue-tsx`, 详见[下文](#开启类型检查)。
+
+<br>
+<br>
+<br>
+
+::: danger 💥 不推荐使用 `@vue/cli-plugin-typescript` 插件:
+
+为什么不使用它？ [**Vue 官方也不推荐使用它**](https://vuejs.org/guide/typescript/overview.html#note-on-vue-cli-and-ts-loader)。一个比较重要的问题是，它的执行结果未必和 IDE 一致，异常也很难排查。性能也较差、无法同 vue-tsc 一样真正检查 `*.vue` 文件。
+
+:::
+
+<br>
 <br>
 <br>
 <br>
@@ -141,81 +233,6 @@ declare module '*.vue' {
   // typescript 检查命令
   "typescriptCmd": "vue-tsc --noEmit"
 }
-```
-
-<br>
-<br>
-<br>
-<br>
-
-## 更好地支持 JSX/TSX
-
-<br>
-
-大部分场景，我们推荐你使用 Vue 的 [SFC](https://vuejs.org/guide/scaling-up/sfc.html) + [setup + TypeScript](https://vuejs.org/guide/typescript/composition-api.html#typing-component-props) 来编写组件。
-
-<br>
-
-然而，在你们使用 `@wakeadmin/components` 时，为了灵活定义组件库，你会经常用到 JSX。
-
-<br>
-
-假设你的项目使用是 Vue-cli, 第一步先修改 `babel.config.js`
-
-```js
-module.exports = {
-  // 关闭 vue 默认的 jsx 转换， 统一使用标准的 JSX
-  presets: [['@vue/cli-plugin-babel/preset', { jsx: false }], 'babel-preset-wakeadmin'],
-};
-```
-
-<br>
-<br>
-
-接着修改 `tsconfig.json` 配置:
-
-```json{3,4}
-{
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "@wakeadmin/h",
-    "types": ["@wakeadmin/demi"],
-  },
-}
-
-```
-
-<br>
-<br>
-<br>
-
-这里，我们使用 [`@wakeadmin/h`](https://wakeadmin.wakedata.com/base/h.html) 来编写 JSX。好处是：
-
-<br>
-
-1. **不管你用的是 Vue 2, 还是 Vue 3, 使用 `@wakeadmin/h` 可以提供一致的编写方式**, 更接近我们在 React 上的使用习惯。
-
-   - Vue 2 / 3 JSX 书写上[相差非常大](https://www.notion.so/Vue-2-3-302cbe0e37794345bbfbd89e32d617db)
-   - Vue 官方的 JSX 库携带了很多语法糖。这依赖于 Babel 的转换，这意味着你无法直接使用 esbuild、Typescript 这类工具进行编译。
-
-2. 除此之外，`@wakeadmin/h` 也优化了 Vue JSX 在 Typescript 支持上的一些问题。
-
-<br>
-<br>
-
-使用示例：
-
-```jsx
-<div onClick={handleClick} class="hello" />; // 使用 on* 的语法进行事件监听
-<div onClick={handleClick} class={[hello, { active: isActive }]} style={{ color: 'red' }} />;
-
-// 插槽的使用，使用 v-slots
-<Tooltip v-slots={{ content: <div>hello</div>, named: scope => <div>命名插槽</div> }}>
-  <span class="fat-actions__btn">{content}</span>
-</Tooltip>;
-
-// 指令：https://vuejs.org/api/render-function.html#withdirectives
-<div {...withDirectives([[vLoading, loading.value]])}>加载中</div>;
 ```
 
 <br>
