@@ -11,7 +11,7 @@ const commonHeads = [
 
 export default {
   outDir: '../dist',
-  base: process.env.NODE_ENV === 'production' ? '/components-doc/' : '/',
+  base: '/',
   title: '@wakeadmin/components',
   description: '惟客云组件库',
   lastUpdated: true,
