@@ -10,8 +10,8 @@ concurrency:
 
 
 permissions:
-  contents: wirte
-  deployments: wirte
+  contents: write
+  deployments: write
   
 jobs:
   deploy:
