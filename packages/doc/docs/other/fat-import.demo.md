@@ -12,9 +12,3 @@ layout: false
     <Page />
   </div>
 </ClientOnly>
-
-<style>
-  body {
-    color: #111;
-  }
-</style>
