@@ -1,5 +1,7 @@
 const { defineConfig } = require('@vue/cli-service');
 const { defineMappChild } = require('@wakeadmin/vue-cli-plugin-mapp-child');
+const WakeadminComponentPlugin = require('unplugin-wakeadmin-components/webpack').default;
+
 // 后台服务器地址
 const SERVER = process.env.SERVER || 'https://www.wakecloud.com';
 
@@ -24,6 +26,7 @@ module.exports = defineConfig({
       },
       // 可以获取更好的调试体验
       devtool: 'source-map',
+      plugins: [WakeadminComponentPlugin()],
     };
   },
   devServer: {

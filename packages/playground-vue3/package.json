@@ -37,6 +37,7 @@
     "@wakeadmin/vue-cli-plugin-typescript": "^0.1.0",
     "babel-preset-wakeadmin": "latest",
     "sass": "^1.63.3",
-    "sass-loader": "^12.6.0"
+    "sass-loader": "^12.6.0",
+    "unplugin-wakeadmin-components": "workspace:^"
   }
 }

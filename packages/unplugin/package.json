@@ -2,7 +2,8 @@
   "name": "unplugin-wakeadmin-components",
   "type": "module",
   "version": "0.1.0",
-  "description": "wakeadmin components dev plugin",
+  "author": "ivan-lee",
+  "description": "Wakeadmin components development plugin",
   "license": "MIT",
   "homepage": "https://github.com/wakeadmin/components#readme",
   "repository": {
@@ -75,7 +76,6 @@
     "build": "tsup",
     "dev": "tsup --watch src",
     "build:fix": "esno scripts/postbuild.ts",
-    "lint": "eslint .",
     "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts"
