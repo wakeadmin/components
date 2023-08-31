@@ -1,0 +1,23 @@
+{
+  "name": "playground-vite",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 && vite",
+    "build": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 && vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@wakeadmin/components": "workspace:^",
+    "@wakeadmin/h": "^0.3.0",
+    "element-plus": "^2.3.6",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vue-tsc": "^1.8.5"
+  }
+}
