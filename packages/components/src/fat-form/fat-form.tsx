@@ -1,7 +1,7 @@
 import { Form, FormMethods, size, Button, Message } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
 import { isVue2, ref, provide, computed, watch, onMounted, onBeforeUnmount, nextTick } from '@wakeadmin/demi';
-import { cloneDeep, isPlainObject, get, set, equal, isObject, delay } from '@wakeadmin/utils';
+import { cloneDeep, isPlainObject, get, set, equal, isObject, delay, Disposer } from '@wakeadmin/utils';
 
 import {
   hasByPath,
@@ -118,6 +118,7 @@ export const FatForm = declareComponent({
     const touches = useTouches();
     const childForms = new Set<FatFormMethods<any>>();
     const items = new Set<FatFormItemMethods<any>>();
+    const disposer = new Disposer();
     let instance: FatFormMethods<any>;
 
     /**
@@ -212,26 +213,6 @@ export const FatForm = declareComponent({
       },
       { immediate: true }
     );
-
-    if (process.env.NODE_ENV === 'development') {
-      // 从缓存获取
-      const cacheValues = hmr?.loadState();
-
-      if (cacheValues) {
-        values.value = cacheValues;
-      }
-
-      // 缓存值
-      watch(
-        values,
-        value => {
-          hmr?.saveState(values.value);
-        },
-        {
-          deep: true,
-        }
-      );
-    }
 
     const validate = async () => {
       try {
@@ -593,10 +574,36 @@ export const FatForm = declareComponent({
       }
 
       // 初始化请求
-      if (props.request && props.requestOnMounted) {
-        if (!(process.env.NODE_ENV === 'development' && hmr?.loadState())) {
+      const fetchOnMount = () => {
+        if (props.request && props.requestOnMounted) {
           fetch();
         }
+      };
+
+      if (process.env.NODE_ENV === 'development') {
+        // 从缓存获取
+        const cacheValues = hmr?.loadState();
+
+        if (cacheValues) {
+          values.value = cacheValues;
+        } else {
+          fetchOnMount();
+        }
+
+        // 监听并缓存值
+        disposer.push(
+          watch(
+            values,
+            () => {
+              hmr?.saveState(values.value);
+            },
+            {
+              deep: true,
+            }
+          )
+        );
+      } else {
+        fetchOnMount();
       }
 
       ready = true;
@@ -606,6 +613,8 @@ export const FatForm = declareComponent({
       if (parentForm && props.hierarchyConnect) {
         parentForm.__unregisterChildForm(instance);
       }
+
+      disposer.release();
 
       ready = false;
     });

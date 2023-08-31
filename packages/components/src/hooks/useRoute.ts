@@ -24,6 +24,7 @@ export interface RouterLike {
   back(): void;
   forward(): void;
   go(delta: number): void;
+  afterEach(guard: () => void): () => void;
 }
 
 export function useRouter() {

@@ -1,5 +1,6 @@
-import { ComponentInternalInstance, getCurrentInstance, isVue3 } from '@wakeadmin/demi';
+import { ComponentInternalInstance, onBeforeUnmount, getCurrentInstance, isVue3 } from '@wakeadmin/demi';
 import { set, get } from '@wakeadmin/utils';
+import { useRouter } from '../hooks';
 
 function isHMRComponent(instance: ComponentInternalInstance) {
   return !!Object.prototype.hasOwnProperty.call(instance.type, '__wkhmr');
@@ -22,8 +23,13 @@ export function useHMR() {
     }
 
     if (parent && isHMRComponent(parent)) {
+      const router = useRouter();
+
       const id = (parent.type as any).__wkhmr;
       const grandParent = parent.parent;
+
+      // TODO:
+      // 可能冲突
 
       const saveState = (state: any) => {
         if (grandParent?.proxy) {
@@ -38,6 +44,17 @@ export function useHMR() {
 
         return undefined;
       };
+
+      // 路由变动后清理掉缓存，避免脏引用
+      const dispose = router?.afterEach(() => {
+        if (grandParent?.proxy) {
+          set(grandParent.proxy, `__hmrState__.${id}`, undefined);
+        }
+      });
+
+      onBeforeUnmount(() => {
+        dispose?.();
+      });
 
       return {
         parent,
