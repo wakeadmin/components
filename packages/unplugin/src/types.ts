@@ -1,3 +1,6 @@
+import { FilterPattern } from '@rollup/pluginutils';
+
 export interface Options {
-  // define your plugin options here
+  include?: FilterPattern;
+  exclude?: FilterPattern;
 }
