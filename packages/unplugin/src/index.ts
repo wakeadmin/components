@@ -7,7 +7,16 @@ import babel, { PluginObj, ParserOptions } from '@babel/core';
 const PLUGIN_NAME = 'unplugin-wakeadmin-components';
 const t = babel.types;
 
-const DEFINE_FACTORIES = new Set(['defineFatTable', 'defineFatForm']);
+const DEFINE_FACTORIES = new Set([
+  'defineFatTable',
+  'defineFatTableModal',
+  'defineFatForm',
+  'defineFatFormTabs',
+  'defineFatFormSteps',
+  'defineFatFormModal',
+  'defineFatFormDrawer',
+  'defineFatFormPage',
+]);
 const DEFAULT_LOCAL_NAME = '__default__';
 
 function isDefineCall(node: babel.types.CallExpression) {
