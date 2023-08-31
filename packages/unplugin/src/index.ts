@@ -85,7 +85,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (options, m
     DEFINE_FACTORIES.add('defineComponent');
   }
 
-  const REGEXP = new RegExp(`(${Array.from(DEFINE_FACTORIES).join('|')})\\(`, 'g');
+  const REGEXP = new RegExp(`(${Array.from(DEFINE_FACTORIES).join('|')})`, 'g');
 
   return {
     name: PLUGIN_NAME,
