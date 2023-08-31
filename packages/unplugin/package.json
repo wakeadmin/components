@@ -1,7 +1,7 @@
 {
   "name": "unplugin-wakeadmin-components",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "ivan-lee",
   "description": "Wakeadmin components development plugin",
   "license": "MIT",
