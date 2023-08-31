@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.6
+
+### Patch Changes
+
+- 支持和 unplugin-wakeadmin-components 配置实现热更新
+
 ## 1.8.5
 
 ### Patch Changes
