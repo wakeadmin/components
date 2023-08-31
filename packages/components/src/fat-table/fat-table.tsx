@@ -52,8 +52,10 @@ import {
   FatTableEvents,
   FatTableLayout,
   FatTableSlots,
+  FatTableRequestResponse,
 } from './types';
 import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
+import { useHMR } from '../utils/hmr';
 import { Query } from './query';
 import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
@@ -132,6 +134,7 @@ const FatTableInner = declareComponent({
     const router = useRouter();
     const route = useRoute();
     const configurable = useFatConfigurable();
+    const hmr = useHMR();
 
     const t = useT();
 
@@ -262,13 +265,30 @@ const FatTableInner = declareComponent({
     /**
      * 数据请求
      */
-    const fetch = async () => {
+    const fetch = async (initial: boolean = false) => {
       try {
         loading.value = true;
         error.value = null;
         const params = getRequestParams();
 
-        const response = await props.request(params);
+        let response: FatTableRequestResponse<any> | undefined;
+
+        if (process.env.NODE_ENV === 'development' && initial) {
+          const cache = hmr?.loadState();
+
+          if (cache) {
+            response = cache as any;
+          }
+        }
+
+        if (!response) {
+          response = await props.request(params);
+
+          if (process.env.NODE_ENV === 'development' && initial) {
+            // 缓存
+            hmr?.saveState(response);
+          }
+        }
 
         pagination.total = response.total ?? 0;
         list.value = response.list ?? [];
@@ -422,18 +442,18 @@ const FatTableInner = declareComponent({
         if (route?.query?.[queryCacheKey] != null) {
           if (props.requestOnMounted) {
             await nextTick();
-            fetch();
+            fetch(true);
           }
         } else {
           // 初始化缓存
           await initialCacheIfNeed();
           if (props.requestOnMounted) {
             await nextTick();
-            fetch();
+            fetch(true);
           }
         }
       } else if (props.requestOnMounted) {
-        fetch();
+        fetch(true);
       }
     });
 

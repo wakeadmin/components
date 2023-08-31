@@ -24,7 +24,7 @@ function isDefineCall(node: babel.types.CallExpression) {
 }
 
 function getHash(text: string) {
-  return createHash('sha256').update(text).digest('hex').substring(0, 8);
+  return createHash('sha256').update(text).digest('hex').substring(0, 12);
 }
 
 interface HotComponent {
@@ -44,7 +44,9 @@ function patchHotComponents(
   const debugCode = debug ? `\n  console.log('HMR reloading for ${id}')` : '';
 
   for (const c of hotComponents) {
-    hmrCode += `\n  ${c.local}.__hmrId = '${c.id}'` + `\n  __VUE_HMR_RUNTIME__.createRecord('${c.id}', ${c.local})`;
+    hmrCode +=
+      `\n  ${c.local}.__hmrId = ${c.local}.__wkhmr = '${c.id}'` +
+      `\n  __VUE_HMR_RUNTIME__.createRecord('${c.id}', ${c.local})`;
     callbackCode += `\n  __VUE_HMR_RUNTIME__.reload("${c.id}", __${c.exported})`;
   }
 

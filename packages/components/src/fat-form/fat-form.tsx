@@ -16,6 +16,7 @@ import {
   unset,
   sideEffectLessMerge,
 } from '../utils';
+import { useHMR } from '../utils/hmr';
 import { useDevtoolsExpose, useT } from '../hooks';
 import { useFatConfigurable } from '../fat-configurable';
 import { provideAtomicHost } from '../atomic/host';
@@ -110,6 +111,7 @@ export const FatForm = declareComponent({
     });
     const submitting = ref(false);
     const error = ref<Error>();
+    const hmr = useHMR();
 
     const values = props.getValues ? props.getValues() : ref({});
 
@@ -210,6 +212,26 @@ export const FatForm = declareComponent({
       },
       { immediate: true }
     );
+
+    if (process.env.NODE_ENV === 'development') {
+      // 从缓存获取
+      const cacheValues = hmr?.loadState();
+
+      if (cacheValues) {
+        values.value = cacheValues;
+      }
+
+      // 缓存值
+      watch(
+        values,
+        value => {
+          hmr?.saveState(values.value);
+        },
+        {
+          deep: true,
+        }
+      );
+    }
 
     const validate = async () => {
       try {
@@ -572,7 +594,9 @@ export const FatForm = declareComponent({
 
       // 初始化请求
       if (props.request && props.requestOnMounted) {
-        fetch();
+        if (!(process.env.NODE_ENV === 'development' && hmr?.loadState())) {
+          fetch();
+        }
       }
 
       ready = true;
