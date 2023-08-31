@@ -8,11 +8,10 @@ concurrency:
   group: 'deploy-docs'
   cancel-in-progress: true
 
-
 permissions:
   contents: write
   deployments: write
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -26,7 +25,8 @@ jobs:
         with:
           node-version: 16
       - run: pnpm i
-      - run: pnpm build
+      - run: pnpm build:deps
+      - run: pnpm build:doc
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3
         with:

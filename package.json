@@ -15,8 +15,9 @@
     "switch:2": "wk-demi-switch 2.7 vue2 && wakeadmin-adapter-switch 2",
     "update:wakeadmin": "pnpm up -r -L \"@wakeadmin/*\"",
     "prepare": "husky install",
-    "build": "pnpm run -r --filter=!playground-* build",
+    "build": "pnpm run -r --filter=!playground-* --filter=!components-doc build",
     "build:deps": "pnpm run -r --filter=!playground-* --filter=!components-doc build",
+    "build:doc": "pnpm run -r --filter=components-doc build",
     "test": "pnpm run -r --filter=!playground-* --workspace-concurrency=1 test --passWithNoTests --silent",
     "type-check": "pnpm run -r type-check"
   },
