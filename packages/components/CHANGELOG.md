@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.7
+
+### Patch Changes
+
+- fix: 优化 fat-form 热更新，路由切换后销毁缓存状态
+
 ## 1.8.6
 
 ### Patch Changes
