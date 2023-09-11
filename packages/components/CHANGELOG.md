@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.8
+
+### Patch Changes
+
+- 修复多语言翻译问题
+
 ## 1.8.7
 
 ### Patch Changes
