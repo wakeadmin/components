@@ -11,6 +11,7 @@ export default {
     confirm: '确定',
     confirmDelete: '确认删除?',
     copied: '已拷贝',
+    choose: '选择',
     copy: '拷贝',
     dataLoadFailed: '数据加载失败',
     delete: '删除',

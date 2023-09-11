@@ -325,6 +325,7 @@ const FatTableSelectModalInner = declareComponent({
           style={attrs.style}
           modelValue={visible.value}
           title={title}
+          appendToBody
           v-slots={{ title: renderTitle.value, footer: renderFooter.value }}
           {...omit(passthroughProps, OMIT_FOR_DIALOG)}
           beforeClose={handleCancel as any}

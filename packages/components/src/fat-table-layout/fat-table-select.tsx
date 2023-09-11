@@ -359,7 +359,7 @@ export const FatTableSelectInner = declareComponent({
             labelAlign: 'center',
             actions: [
               {
-                name: props.selectActionText ?? globalConfiguration.fatTableSelect?.selectActionText ?? '选择',
+                name: props.selectActionText ?? globalConfiguration.fatTableSelect?.selectActionText ?? t('wkc.choose'),
                 disabled(_, row) {
                   return !selectableFn.value(row);
                 },
