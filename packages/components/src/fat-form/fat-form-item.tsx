@@ -551,7 +551,11 @@ const FatFormItemInner = declareComponent({
 
       const message = (props.message || hasSlots(props, slots, 'message')) && !hideMessage.value && (
         <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
-          {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', instance) : props.message}
+          {hasSlots(props, slots, 'message') ? (
+            renderSlot(props, slots, 'message', instance)
+          ) : (
+            <span class="fat-form-message__content">{props.message}</span>
+          )}
         </div>
       );
 

@@ -365,6 +365,7 @@ export const FatTableSelectInner = declareComponent({
             type: 'actions',
             label: t('wkc.operation'),
             width: 200,
+            labelAlign: 'center',
             align: 'center',
             actions: [
               {

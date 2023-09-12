@@ -424,7 +424,11 @@ export const FatFormGroup = declareComponent({
 
       const message = (props.message || hasSlots(props, slots, 'message')) && !hideMessage.value && (
         <div class={normalizeClassName('fat-form-message', { 'fat-form-message--inline': inlineMessage })}>
-          {hasSlots(props, slots, 'message') ? renderSlot(props, slots, 'message', form) : props.message}
+          {hasSlots(props, slots, 'message') ? (
+            renderSlot(props, slots, 'message', form)
+          ) : (
+            <span class="fat-form-message__content">{props.message}</span>
+          )}
         </div>
       );
 
