@@ -863,6 +863,12 @@ export interface FatTableProps<Item extends {}, Query extends {}>
   columns: FatTableColumn<Item, Query, any>[];
 
   /**
+   * 列最小宽度设置, 可以用于实现列宽度自适应
+   * @returns
+   */
+  columnMinWidth?: (column: FatTableColumn<Item, Query, any>) => string | number | undefined;
+
+  /**
    * 是否显示 request 错误信息, 默认开启
    */
   enableErrorCapture?: boolean;

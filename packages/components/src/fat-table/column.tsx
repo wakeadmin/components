@@ -154,7 +154,8 @@ export const Column = declareComponent({
     index: number;
     tableInstance: FatTableMethods<any, any>;
     filter: FatTableFilter;
-  }>(['column', 'index', 'tableInstance', 'filter']),
+    columnMinWidth?: (column: FatTableColumn<any>) => number | string | undefined;
+  }>(['column', 'index', 'tableInstance', 'filter', 'columnMinWidth']),
   setup(props) {
     return () => {
       const column = props.column;
@@ -227,7 +228,7 @@ export const Column = declareComponent({
           className={column.className}
           labelClassName={column.labelClassName}
           width={column.width}
-          minWidth={column.minWidth}
+          minWidth={props.columnMinWidth?.(column) ?? column.minWidth}
           align={column.align}
           headerAlign={column.labelAlign}
           fixed={column.fixed}

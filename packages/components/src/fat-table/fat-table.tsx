@@ -77,6 +77,7 @@ const FatTableInner = declareComponent({
     messageOnRemoved: { type: [Boolean, Function, Object, String] as any, default: true },
     messageOnRemoveFailed: { type: [Boolean, Function, Object, String] as any, default: true },
     columns: null,
+    columnMinWidth: null,
     enableCacheQuery: { type: Boolean, default: undefined },
     namespace: null,
     enablePagination: { type: Boolean, default: true },
@@ -912,6 +913,7 @@ const FatTableInner = declareComponent({
                   column={column}
                   index={index}
                   filter={filter}
+                  columnMinWidth={props.columnMinWidth}
                   tableInstance={tableInstance}
                 />
               );
