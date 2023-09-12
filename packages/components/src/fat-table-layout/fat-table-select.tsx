@@ -9,6 +9,8 @@ import { FatTable } from '../fat-table/fat-table';
 import { useFatTableRef } from '../fat-table/hooks';
 import {
   FatTableBatchAction,
+  FatTableColumnLabel,
+  FatTableColumnStyle,
   FatTableEvents,
   FatTableMethods,
   FatTableProps,
@@ -219,6 +221,11 @@ export interface FatTableSelectProps<
    * 是否显示操作列, 默认 true
    */
   showActions?: boolean;
+
+  /**
+   * 内置操作栏配置
+   */
+  actionColumnProps?: FatTableColumnStyle & FatTableColumnLabel<Item, Query>;
 }
 
 class FatTableSelectError extends Error {
@@ -301,6 +308,8 @@ export const FatTableSelectInner = declareComponent({
     // slots
     renderBottomToolbar: null,
 
+    actionColumnProps: null,
+
     // fat table overwrite
     columns: null,
     batchActions: null,
@@ -355,8 +364,8 @@ export const FatTableSelectInner = declareComponent({
           {
             type: 'actions',
             label: t('wkc.operation'),
-            minWidth: 100,
-            labelAlign: 'center',
+            width: 200,
+            align: 'center',
             actions: [
               {
                 name: props.selectActionText ?? globalConfiguration.fatTableSelect?.selectActionText ?? t('wkc.choose'),
@@ -369,6 +378,7 @@ export const FatTableSelectInner = declareComponent({
                 },
               },
             ],
+            ...props.actionColumnProps,
           },
         ]);
       }
