@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.10
+
+### Patch Changes
+
+- - fat-form-item、fat-form-group message 支持设置宽度
+
 ## 1.8.9
 
 ### Patch Changes
