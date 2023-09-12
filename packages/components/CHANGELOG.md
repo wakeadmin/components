@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.8.9
+
+### Patch Changes
+
+- - fat-table-select 支持 actionColumnProps 的定制操作栏样式
+  - fat-table 新增 columnMinWidth 支持动态配置所有列的 minWidth
+
 ## 1.8.8
 
 ### Patch Changes
