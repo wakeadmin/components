@@ -5,6 +5,7 @@ import { computed } from '@wakeadmin/demi';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { OurComponentInstance, ToHSlotDefinition, normalizeClassName, renderSlot, hasSlots } from '../utils';
 import { NoopArray, isObject } from '@wakeadmin/utils';
+import { useT } from '../hooks';
 
 /**
  * 节点渲染参数
@@ -435,14 +436,15 @@ const TreeList = declareComponent({
       const nextType = instance.value?.logicType === LogicType.AND ? LogicType.OR : LogicType.AND;
       instance.value?.setLogicType(nextType);
     };
+    const t = useT();
 
     return () => {
       const {
         value,
         type,
         children,
-        andText = '且',
-        orText = '或',
+        andText = t('wkc.and'),
+        orText = t('wkc.or'),
         andColor = 'var(--fat-color-primary)',
         orColor = '#2AC2D4',
       } = props.innerProps;

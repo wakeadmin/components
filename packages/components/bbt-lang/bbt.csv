@@ -67,3 +67,5 @@ locale,wkc.startTime,开始时间,開始時間,Starting Time,เวลาเร�
 locale,wkc.refresh,刷新,刷新,to refresh,เพื่อรีเฟรช
 locale,wkc.imageVerificationPlaceholder,拖动滑块验证,拖動滑塊驗證,Drag the slider to verify,ลากแถบเลื่อนเพื่อตรวจสอบ
 locale,wkc.choose,选择,選擇,choose,เลือก
+locale,wkc.and,且,且,And,และ
+locale,wkc.or,或,或,Or,หรือ

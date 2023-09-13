@@ -70,5 +70,7 @@ export default {
     video: '视频',
     refresh: '刷新',
     imageVerificationPlaceholder: '拖动滑块验证',
+    and: '且',
+    or: '或',
   },
 };
