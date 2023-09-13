@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.8.11
+
+### Patch Changes
+
+- - fat-table 新增 columnWidth
+  - fat-logic-tree 多语言支持
+
 ## 1.8.10
 
 ### Patch Changes
