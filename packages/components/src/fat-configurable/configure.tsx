@@ -1,4 +1,4 @@
-import { InjectionKey, inject, provide, computed, unref, reactive, ref, watchEffect } from '@wakeadmin/demi';
+import { InjectionKey, inject, provide, computed, unref, reactive, ref, watch } from '@wakeadmin/demi';
 import { declareComponent, declareProps, MaybeRef } from '@wakeadmin/h';
 import { merge, NoopObject } from '@wakeadmin/utils';
 import { setI18nInstance, defaultI18nInstance } from '../i18n';
@@ -34,18 +34,21 @@ export function provideFatConfigurable(config: MaybeRef<FatConfigurable>) {
   const defaultValue = getDefaultConfigurable(i18n);
   const value = reactive(defaultValue.value);
 
-  watchEffect(
-    () => {
-      const nextValue = unref(config);
+  watch(
+    () => ({
+      nextValue: unref(config),
+      defaultValue: defaultValue.value,
+    }),
+    ({ nextValue, defaultValue: _defaultValue }) => {
       // 这里允许传入一个null
       setI18nInstance(nextValue?.i18n);
       if (nextValue?.i18n && nextValue.i18n !== i18n.value) {
         i18n.value = nextValue.i18n;
       }
 
-      merge(value, defaultValue.value, nextValue ?? NoopObject);
+      merge(value, _defaultValue, nextValue ?? NoopObject);
     },
-    { flush: 'sync' }
+    { flush: 'sync', immediate: true }
   );
 
   // FIXME: 这里会报错:  Type instantiation is excessively deep and possibly infinite
