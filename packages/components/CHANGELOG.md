@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.13
+
+### Patch Changes
+
+- 修复在 vue 2 下多语言导致死循环
+
 ## 1.8.12
 
 ### Patch Changes
