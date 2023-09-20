@@ -57,7 +57,7 @@ export interface RuleItem {
   ) => void;
 
   // element-ui 扩展
-  trigger?: 'blur' | 'change';
+  trigger?: 'blur' | 'change' | ('blur' | 'change')[];
 }
 
 export type Rule = RuleItem | RuleItem[];

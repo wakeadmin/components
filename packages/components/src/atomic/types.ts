@@ -8,7 +8,7 @@ declare global {
   interface AtomicProps {}
 }
 
-export type AtomicValidateTrigger = 'change' | 'blur';
+export type AtomicValidateTrigger = 'change' | 'blur' | ('change' | 'blur')[];
 
 /**
  * 预定义的上下文基础信息
@@ -28,6 +28,11 @@ export interface BaseAtomicContext {
    * 原件所在的容器
    */
   values?: unknown;
+
+  /**
+   * 是否为必填属性
+   */
+  required?: boolean;
 
   /**
    * 注入自定义验证规则，支持在原件内部实现更复杂的验证规则

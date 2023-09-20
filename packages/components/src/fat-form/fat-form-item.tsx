@@ -439,6 +439,7 @@ const FatFormItemInner = declareComponent({
           label: props.label,
           prop: props.prop,
           values: form.values,
+          required: props.required,
           registerValidator: registerDynamicValidator,
         } as BaseAtomicContext,
         class: props.valueClassName,

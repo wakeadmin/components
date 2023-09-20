@@ -26,3 +26,4 @@ export { plugin } from './plugin';
 export { Portal as DANGEROUS_Portal, type IPortal } from './utils';
 export * from './utils';
 export * from './mapper';
+export { useFormItemValidate } from '@wakeadmin/element-adapter';
