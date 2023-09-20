@@ -1,5 +1,15 @@
 # @wakeadmin/components
 
+## 1.8.12
+
+### Patch Changes
+
+- - 验证规则 trigger 支持传入数组
+  - atomic 上下文新增 required
+  - 暴露 useFormItemValidate 用于自定义表单场景
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.8
+
 ## 1.8.11
 
 ### Patch Changes
