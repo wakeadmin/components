@@ -1,0 +1,87 @@
+@use 'variables' as *;
+
+.fat-i18n-content {
+  $gap: 8px;
+  &-wrapper {
+    position: relative;
+  }
+
+  &__menu-item {
+    &.active {
+      font-weight: bold;
+      color: $fat-color-info-700;
+    }
+  }
+
+  &__error {
+    color: $fat-color-danger;
+    padding: $fat-spacing-base;
+  }
+
+  &__dropdown {
+    position: absolute;
+
+    &.leftTop,
+    &.leftBottom,
+    &.leftCenter {
+      left: $gap;
+    }
+
+    &.rightTop,
+    &.rightBottom,
+    &.rightCenter {
+      right: $gap;
+    }
+
+    &.topLeft,
+    &.topRight {
+      top: $gap;
+    }
+
+    &.bottomLeft,
+    &.bottomRight {
+      bottom: $gap;
+    }
+
+    &.leftCenter,
+    &.rightCenter {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &.leftBottom,
+    &.rightBottom {
+      bottom: $gap;
+    }
+  }
+
+  &__badge {
+    outline: none;
+    cursor: pointer;
+    background-color: $fat-color-gray-200;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    color: $fat-color-gray-700;
+    gap: 2px;
+    opacity: 0.7;
+
+    &:hover,
+    &.active {
+      opacity: 1;
+    }
+
+    &.active {
+      background-color: $fat-color-info-200;
+      color: $fat-color-info-700;
+    }
+  }
+
+  &__lang {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.7em;
+  }
+}

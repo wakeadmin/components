@@ -6,3 +6,4 @@ export * from './useLazyFalsy';
 export * from './useLazyOptions';
 export * from './useRoute';
 export * from './useUid';
+export * from './usePromise';
