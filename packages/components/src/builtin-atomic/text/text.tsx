@@ -21,6 +21,11 @@ export type ATextProps = DefineAtomicProps<
      * 未定义时的占位符
      */
     undefinedPlaceholder?: any;
+
+    /**
+     * 自定义 Input 实现
+     */
+    customInput?: any;
   } & FatTextOwnProps
 >;
 
@@ -52,6 +57,9 @@ export const ATextComponent = defineAtomicComponent(
         color,
         textProps,
         undefinedPlaceholder,
+
+        customInput,
+
         ...other
       } = props;
 
@@ -82,7 +90,9 @@ export const ATextComponent = defineAtomicComponent(
 
       placeholder ??= t('wkc.enterValue', { value: takeString(context?.label) });
 
-      return <Input {...other} placeholder={placeholder} {...model(value, onChange!)} />;
+      const Tag = customInput ?? Input;
+
+      return <Tag {...other} placeholder={placeholder} {...model(value, onChange!)} />;
     };
   },
   { name: 'AText', globalConfigKey: 'aTextProps' }

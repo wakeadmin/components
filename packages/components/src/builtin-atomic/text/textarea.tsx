@@ -20,6 +20,11 @@ export type ATextareaProps = DefineAtomicProps<
      * 未定义时的占位符
      */
     undefinedPlaceholder?: any;
+
+    /**
+     * 自定义 Input 实现
+     */
+    customInput?: any;
   } & FatTextOwnProps
 >;
 
@@ -48,6 +53,8 @@ export const ATextareaComponent = defineAtomicComponent(
         color,
         textProps,
         undefinedPlaceholder,
+
+        customInput,
         ...other
       } = props;
 
@@ -82,7 +89,9 @@ export const ATextareaComponent = defineAtomicComponent(
         );
       }
 
-      return <Input type="textarea" {...other} {...model(value, onChange!)} />;
+      const Tag = customInput ?? Input;
+
+      return <Tag type="textarea" {...other} {...model(value, onChange!)} />;
     };
   },
   { name: 'ATextarea', globalConfigKey: 'aTextareaProps' }

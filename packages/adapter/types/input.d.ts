@@ -10,12 +10,16 @@ export interface AutoSize {
   /** Maximum rows to show */
   maxRows: number;
 }
+
 export interface InputProps {
   /** Type of input */
   type?: InputType;
 
   /** Binding value */
   value?: string;
+
+  // vue 3
+  modelValue?: string;
 
   /** Maximum Input text length */
   maxlength?: number;
@@ -90,6 +94,10 @@ export interface InputProps {
   onFocus?: () => void;
   onChange?: (value: string) => void;
   onInput?: (value: string) => void;
+
+  // vue 3
+  'onUpdate:modelValue'?: (value: string) => void;
+
   onClear?: () => void;
 }
 

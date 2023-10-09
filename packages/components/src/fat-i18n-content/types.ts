@@ -95,7 +95,7 @@ export interface FatI18nContentOptions {
    * @param target 被包装的组件库
    * @returns
    */
-  inject?: (badge: (props?: any) => any, target: (props?: any) => any) => any;
+  inject?: (badge: (props?: Record<string, any>) => any, target: (props?: Record<string, any>) => any) => any;
 
   /**
    * 语言包存储
