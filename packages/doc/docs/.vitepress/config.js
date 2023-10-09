@@ -190,6 +190,7 @@ export default {
             { text: 'FatLogicTree 逻辑树 (alpha)', link: '/other/logic-tree' },
             { text: 'FatImageVerification 图片验证码 (alpha)', link: '/other/image-verification' },
             { text: 'FatImport 导入模块框 (alpha)', link: '/other/fat-import' },
+            { text: 'FatI18nContent 内容多语言 (alpha)', link: '/other/fat-i18n-content' },
             { text: 'FatVNode VNode渲染', link: '/other/vnode' },
             { text: 'FatText/FatLink 文本', link: '/other/text' },
             { text: 'I18n 国际化 (alpha)', link: '/other/i18n' },
