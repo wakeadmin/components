@@ -55,9 +55,14 @@
     }
   }
 
+  &__dropdown {
+    vertical-align: middle;
+  }
+
   &__badge {
     outline: none;
     cursor: pointer;
+    line-height: 1.6;
     background-color: $fat-color-gray-200;
     padding: 2px;
     display: flex;
@@ -76,6 +81,11 @@
     &.active {
       background-color: $fat-color-info-200;
       color: $fat-color-info-700;
+    }
+
+    &.error {
+      background-color: $fat-color-danger-200;
+      color: $fat-color-danger-700;
     }
   }
 

@@ -144,6 +144,10 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
       };
 
       const handleLanguageChange = (tag: string) => {
+        if (!tag) {
+          return;
+        }
+
         currentLanguage.value = tag;
       };
 
@@ -298,7 +302,11 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
                 v-slots={{
                   ..._props?.['v-slots'],
                   dropdown: error.value ? (
-                    <div class="fat-i18n-content__error">{error.value.message}</div>
+                    <DropdownMenu>
+                      <DropdownItem command="">
+                        <div class="fat-i18n-content__error">{error.value.message}</div>
+                      </DropdownItem>
+                    </DropdownMenu>
                   ) : (
                     <DropdownMenu>
                       {languageList.result.value?.map(i => {
