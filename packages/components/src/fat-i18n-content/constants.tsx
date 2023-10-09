@@ -29,7 +29,7 @@ export const FatI18nContentDefaultOptions = {
     return `${Math.random()}${Date.now()}${uuid++}`;
   },
   format: '__i18n__({default}, {uuid})',
-  inject: (badge, target) => {
+  inject: (props, badge, target) => {
     return (
       <div class="fat-i18n-content-wrapper">
         {target()}

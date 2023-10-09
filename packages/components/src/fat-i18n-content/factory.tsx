@@ -284,7 +284,10 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
           );
         }
 
+        const outerProps = inheritProps(false);
+
         return finalOptions.inject(
+          outerProps,
           _props => {
             const active = currentLanguage.value && currentLanguage.value !== sourceLanguage.result.value;
 
@@ -342,19 +345,22 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
             );
           },
           _props => {
-            const outerProps = inheritProps(false);
+            const factoryProps =
+              typeof finalOptions.targetProps === 'function'
+                ? finalOptions.targetProps(outerProps)
+                : finalOptions.targetProps;
 
             const targetProps = {
               ...outerProps,
-              ...finalOptions.targetProps,
+              ...factoryProps,
               ..._props,
               // class 合并,
-              class: normalizeClassName(outerProps.class, finalOptions.targetProps?.class, _props?.class),
-              style: normalizeStyle(outerProps.style, finalOptions.targetProps?.style, _props?.style),
+              class: normalizeClassName(outerProps.class, factoryProps?.class, _props?.class),
+              style: normalizeStyle(outerProps.style, factoryProps?.style, _props?.style),
               // 插槽合并
               'v-slots': {
                 ...outerProps['v-slots'],
-                ...finalOptions.targetProps?.['v-slots'],
+                ...factoryProps?.['v-slots'],
                 ..._props?.['v-slots'],
               },
               [isVue2 ? 'value' : 'modelValue']: computedValue.value,
@@ -362,6 +368,7 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
               onFocus: handleFocus,
               onBlur: handleBlur,
             };
+
             // @ts-expect-error
             return <Tag disabled={loading.value} {...targetProps}></Tag>;
           }

@@ -49,6 +49,8 @@ export default defineFatForm(({ item, form, consumer, group }) => {
         width: 'medium',
         valueProps: {
           customInput: FatI18nInput,
+          showWordLimit: true,
+          maxlength: 100,
         },
       }),
       item({
@@ -58,6 +60,8 @@ export default defineFatForm(({ item, form, consumer, group }) => {
         width: 'medium',
         valueProps: {
           customInput: FatI18nTextarea,
+          showWordLimit: true,
+          maxlength: 100,
         },
       }),
 
