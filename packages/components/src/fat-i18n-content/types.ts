@@ -14,7 +14,7 @@ export interface FatI18nLanguage {
   /**
    * 语言图标
    */
-  icon: string;
+  icon?: string;
 }
 
 export interface FatI18nDesc {

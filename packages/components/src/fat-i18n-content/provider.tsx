@@ -19,35 +19,42 @@ export function providerI18nContentOptions(options: FatI18nContentOptions, batch
     ...options,
   };
 
-  const save = async (uuid: string, changed: FatI18nPackage[], all: FatI18nPackage[]) => {
-    if (!pending.has(uuid)) {
-      pending.set(uuid, { changed: changed.slice(0), all });
-    } else {
-      const entry = pending.get(uuid)!;
+  if (batchSave) {
+    const save = async (uuid: string, changed: FatI18nPackage[], all: FatI18nPackage[]) => {
+      if (!pending.has(uuid)) {
+        pending.set(uuid, { changed: changed.slice(0), all });
+      } else {
+        const entry = pending.get(uuid)!;
 
-      for (const item of changed) {
-        const idx = entry.changed.findIndex(it => it.code === item.code);
-        if (idx === -1) {
-          entry.changed.push(item);
-        } else {
-          entry.changed[idx] = item;
+        for (const item of changed) {
+          const idx = entry.changed.findIndex(it => it.code === item.code);
+          if (idx === -1) {
+            entry.changed.push(item);
+          } else {
+            entry.changed[idx] = item;
+          }
         }
+
+        entry.all = all;
       }
-
-      entry.all = all;
-    }
-  };
-
-  provide(FatI18nContentKey, {
-    ...finalOptions,
-    save,
-  });
+    };
+    provide(FatI18nContentKey, {
+      ...finalOptions,
+      save,
+    });
+  } else {
+    provide(FatI18nContentKey, finalOptions);
+  }
 
   return {
     /**
      * 保存变更
      */
     async flush() {
+      if (!batchSave) {
+        throw new Error('You must enable batchSave when you call flush');
+      }
+
       if (!pending.size) {
         return;
       }
