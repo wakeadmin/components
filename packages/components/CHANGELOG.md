@@ -1,5 +1,12 @@
 # @wakeadmin/components
 
+## 1.8.15
+
+### Patch Changes
+
+- - 修复 images tip 渲染问题
+  - 修复内容多语言正则匹配问题
+
 ## 1.8.14
 
 ### Patch Changes
