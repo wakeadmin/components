@@ -76,12 +76,10 @@ export const AImagesComponent = defineAtomicComponent(
     }));
 
     const tip = computed(() => {
-      if (props.tip) {
-        return props.tip;
-      }
       if (props.hideTip) {
         return undefined;
       }
+
       return (
         <div class="fat-form-item-placeholder">
           {getOrCreatePlaceholder('files', { ...props, accept: accept.value })}
