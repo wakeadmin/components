@@ -139,7 +139,7 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@wakeadmin/element-adapter':
-        specifier: workspace:^0.6.8
+        specifier: workspace:^0.6.9
         version: link:../adapter
       '@wakeadmin/h':
         specifier: ^0.3.0
@@ -189,7 +189,7 @@ importers:
         version: 1.0.3
     devDependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.8.13
+        specifier: workspace:1.8.14
         version: link:../components
       '@wakeadmin/icons':
         specifier: ^0.1.5
@@ -247,7 +247,7 @@ importers:
   packages/playground-vue2:
     dependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.8.13
+        specifier: workspace:1.8.14
         version: link:../components
       '@wakeadmin/framework':
         specifier: ^0.1.6
@@ -290,7 +290,7 @@ importers:
         specifier: ^0.1.9
         version: 0.1.9
       '@wakeadmin/element-adapter':
-        specifier: workspace:0.6.8
+        specifier: workspace:0.6.9
         version: link:../adapter
       '@wakeadmin/vue-cli-plugin-i18n':
         specifier: ^0.1.1
@@ -317,7 +317,7 @@ importers:
   packages/playground-vue3:
     dependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.8.13
+        specifier: workspace:1.8.14
         version: link:../components
       '@wakeadmin/framework':
         specifier: ^0.1.6

@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.8.14
+
+### Patch Changes
+
+- 引入实验性的内容多语言组件
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.9
+
 ## 1.8.13
 
 ### Patch Changes

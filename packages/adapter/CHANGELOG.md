@@ -1,5 +1,11 @@
 # @wakeadmin/element-adapter
 
+## 0.6.9
+
+### Patch Changes
+
+- 优化类型声明
+
 ## 0.6.8
 
 ### Patch Changes
