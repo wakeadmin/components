@@ -17,7 +17,7 @@ export const formatToMatcher = memoize((format: string) => {
   const groupOfUUID = indexOfDefault < indexOfUUID ? 2 : 1;
 
   const group = '([\\s\\S]+?)';
-  const groupOptional = '([\\s\\S]*?)';
+  const groupOptional = '([\\s\\S]*)';
 
   let normalizedFormat = format
     .replace(DEFAULT_PLACEHOLDER, '____default____')
@@ -26,7 +26,7 @@ export const formatToMatcher = memoize((format: string) => {
     .replace('____default____', groupOptional)
     .replace('____uuid____', group);
 
-  const regexp = new RegExp(normalizedFormat, 'm');
+  const regexp = new RegExp('^' + normalizedFormat + '$', 'm');
 
   const match = (content: string) => {
     if (!content) {

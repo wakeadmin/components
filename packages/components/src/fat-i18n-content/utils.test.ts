@@ -7,7 +7,7 @@ test('formatToMatcher', () => {
   }).toThrow('format 必须包含 {default} 和 {uuid}');
 
   const res = formatToMatcher('__i18n__({default}, {uuid})');
-  expect(String(res.regexp)).toBe(String(/__i18n__\(([\s\S]*?), ([\s\S]+?)\)/m));
+  expect(String(res.regexp)).toBe(String(/^__i18n__\(([\s\S]*), ([\s\S]+?)\)$/m));
 
   expect(res.match('__i18n__(a 121212,  121212b)')).toEqual({
     default: 'a 121212',
@@ -25,6 +25,12 @@ test('formatToMatcher', () => {
     uuid: '123',
   });
 
+  // 冲突字符
+  expect(res.match('__i18n__(__i18n__(hello, world), 123)')).toEqual({
+    default: '__i18n__(hello, world)',
+    uuid: '123',
+  });
+
   // 多行
   expect(res.match('__i18n__(你好\n\n \r\n 世界 () {} , 123)')).toEqual({
     default: '你好\n\n \r\n 世界 () {} ',
@@ -37,7 +43,7 @@ test('formatToMatcher', () => {
   });
 
   const res2 = formatToMatcher('{{uuid}, {default}}');
-  expect(String(res2.regexp)).toBe(String(/\{([\s\S]+?), ([\s\S]*?)\}/m));
+  expect(String(res2.regexp)).toBe(String(/^\{([\s\S]+?), ([\s\S]*)\}$/m));
   expect(res2.match('{you, ok?}')).toEqual({
     default: 'ok?',
     uuid: 'you',
