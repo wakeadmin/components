@@ -28,7 +28,7 @@ export const FatI18nContentDefaultOptions = {
     console.warn('FatI18nContent: genUUID is not implemented');
     return `${Math.random()}${Date.now()}${uuid++}`;
   },
-  format: '__i18n__({default}, {uuid})',
+  format: '__i18n__({default},{uuid})',
   inject: (props, badge, target) => {
     return (
       <div class="fat-i18n-content-wrapper">

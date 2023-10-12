@@ -82,13 +82,14 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
       const localPack = reactive({} as Record<string, string>);
       let uuidLoading = false;
       let focusing = false;
+      const uuidError = ref<Error>();
 
       const loading = computed(() => {
         return sourceLanguage.loading.value || languageList.loading.value || remotePack.loading.value;
       });
 
       const error = computed(() => {
-        return sourceLanguage.error.value || languageList.error.value || remotePack.error.value;
+        return sourceLanguage.error.value || languageList.error.value || remotePack.error.value || uuidError.value;
       });
 
       const computedValue = computed(() => {
@@ -138,6 +139,8 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
           emitChange(targetValue);
         } catch (err) {
           console.error(`生成 UUID 失败`, err);
+          uuidError.value = err as Error;
+          throw err;
         } finally {
           uuidLoading = false;
         }
@@ -208,7 +211,9 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
           return;
         }
 
-        console.assert(originValue.value.uuid != null);
+        if (!originValue.value.uuid) {
+          throw new Error(`uuid 不存在`);
+        }
 
         try {
           const merged = remote.slice();
