@@ -905,6 +905,11 @@ export interface FatTableProps<Item extends {}, Query extends {}>
   batchActions?:
     | FatTableBatchAction<Item, Query>[]
     | ((table: FatTableMethods<Item, Query>) => FatTableBatchAction<Item, Query>[]);
+
+  /**
+   * 是否开启 HMR, 默认 true
+   */
+  __hmr__?: boolean;
 }
 
 export interface PaginationState {

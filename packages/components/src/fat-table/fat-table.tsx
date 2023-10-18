@@ -116,6 +116,9 @@ const FatTableInner = declareComponent({
     renderBottomToolbar: null,
     renderAfterTable: null,
     renderBeforeTable: null,
+
+    // private
+    __hmr__: { type: Boolean, default: true },
   }),
   emits: declareEmits<ToHEmitDefinition<FatTableEvents<any, any>>>(),
   slots: declareSlots<ToHSlotDefinition<FatTableSlots<any, any>>>(),
@@ -136,7 +139,7 @@ const FatTableInner = declareComponent({
     const router = useRouter();
     const route = useRoute();
     const configurable = useFatConfigurable();
-    const hmr = useHMR();
+    const hmr = useHMR(props.__hmr__);
 
     const t = useT();
 

@@ -498,7 +498,12 @@ export interface FatFormBaseProps<Store extends {} = {}, Request extends {} = St
 export interface FatFormProps<Store extends {} = {}, Request extends {} = Store, Submit extends {} = Store>
   extends FatFormBaseProps<Store, Request, Submit>,
     FatFormEvents<Store, Submit>,
-    FatFormSlots<Store> {}
+    FatFormSlots<Store> {
+  /**
+   * 是否开启 HMR, 默认 true
+   */
+  __hmr__?: boolean;
+}
 
 /**
  * 用于获取表单实例，实现一些表单联动的场景

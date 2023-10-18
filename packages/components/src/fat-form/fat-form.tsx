@@ -88,6 +88,7 @@ export const FatForm = declareComponent({
 
     // private
     getValues: null,
+    __hmr__: { type: Boolean, default: true },
     // slots
     renderSubmitter: null,
   }),
@@ -111,7 +112,7 @@ export const FatForm = declareComponent({
     });
     const submitting = ref(false);
     const error = ref<Error>();
-    const hmr = useHMR();
+    const hmr = useHMR(props.__hmr__);
 
     const values = props.getValues ? props.getValues() : ref({});
 

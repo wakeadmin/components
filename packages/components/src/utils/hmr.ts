@@ -6,7 +6,11 @@ function isHMRComponent(instance: ComponentInternalInstance) {
   return !!Object.prototype.hasOwnProperty.call(instance.type, '__wkhmr');
 }
 
-export function useHMR() {
+export function useHMR(enable = true) {
+  if (!enable) {
+    return null;
+  }
+
   if (isVue3 && process.env.NODE_ENV === 'development') {
     const instance = getCurrentInstance();
 
