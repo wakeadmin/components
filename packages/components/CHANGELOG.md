@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.18
+
+### Patch Changes
+
+- fix: 修复 fat-table column 变化没有触发 actions 渲染
+
 ## 1.8.17
 
 ### Patch Changes
