@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.17
+
+### Patch Changes
+
+- fix: 修复 mergeProps 会转换非 kebab-case
+
 ## 1.8.16
 
 ### Patch Changes
