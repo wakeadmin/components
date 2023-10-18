@@ -180,7 +180,7 @@ export const Column = declareComponent({
             const row = scope.row;
             const idx = scope.$index;
 
-            return <Cell row={row} index={idx} column={column} />;
+            return <Cell row={row} index={idx} column={props.column} />;
           },
         };
       } else if (type === 'selection') {
@@ -189,7 +189,7 @@ export const Column = declareComponent({
         // 操作
         children = {
           default: (scope: { row: any; $index: number }) => {
-            return <Actions row={scope.row} index={scope.$index} tableInstance={tableInstance} column={column} />;
+            return <Actions row={scope.row} index={scope.$index} tableInstance={tableInstance} column={props.column} />;
           },
         };
         extraProps.headerAlign = column.labelAlign ?? configurable.fatTable?.actionsAlign ?? 'center';
