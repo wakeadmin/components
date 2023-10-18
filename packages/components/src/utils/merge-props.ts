@@ -64,8 +64,12 @@ export function mergeProps(...args: any[]) {
       } else if (isVue2 && isVue2Listener(key)) {
         // vue2 事件处理器
         ret[key] = mergeListeners(ret[key], toMerge[key]);
-      } else if (key !== '') {
+      } else if (key !== '' && key.includes('-')) {
+        // 转换为 camelCase
+        // vue template 中通常会使用 kebab-case
         ret[camelize(key)] = toMerge[key];
+      } else if (key !== '') {
+        ret[key] = toMerge[key];
       }
     }
   }

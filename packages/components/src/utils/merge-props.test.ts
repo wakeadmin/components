@@ -23,10 +23,11 @@ test('mergeProps', () => {
   });
 
   // kebab-case
-  expect(mergeProps({ 'initial-value': 123 }, { S: 's' }, { ni: 'Mi' }, {})).toEqual({
+  expect(mergeProps({ 'initial-value': 123 }, { S: 's' }, { ni: 'Mi', __hello__: 'world' }, {})).toEqual({
     initialValue: 123,
-    s: 's',
+    S: 's',
     ni: 'Mi',
+    __hello__: 'world',
   });
   expect(mergeProps({ 'initial-value': 123 }, { 'initial-value': 'Mi' })).toEqual({ initialValue: 'Mi' });
   expect(mergeProps({ initialValue: 123 }, { 'initial-value': 'Mi' })).toEqual({ initialValue: 'Mi' });
