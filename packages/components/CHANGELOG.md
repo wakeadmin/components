@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.16
+
+### Patch Changes
+
+- fix: fat-table、fat-form 支持关闭 hmr
+
 ## 1.8.15
 
 ### Patch Changes
