@@ -305,6 +305,8 @@ export const FatForm = declareComponent({
         error.value = err as Error;
         console.log(`[fat-form] submit error`, err);
         emit('submitFailed', valuesToSubmit, error.value);
+
+        throw err;
       } finally {
         submitting.value = false;
       }
