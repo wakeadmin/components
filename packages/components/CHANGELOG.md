@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.19
+
+### Patch Changes
+
+- fix: fat-form submit 向上抛出错误
+
 ## 1.8.18
 
 ### Patch Changes
