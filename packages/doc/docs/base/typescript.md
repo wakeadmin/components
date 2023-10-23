@@ -133,16 +133,14 @@ module.exports = {
 // vite.config.ts
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import vuejsx from '@vitejs/plugin-vue-jsx'; // [!code --]
 
 export default defineConfig({
   esbuild: {
-    jsx: 'automatic', // [!code ++]
-    jsxImportSource: '@wakeadmin/h', // [!code ++]
+    jsx: 'automatic', 
+    jsxImportSource: '@wakeadmin/h'
   },
   plugins: [
-    vue(),
-    vuejsx(), // [!code --]
+    vue()
   ],
 });
 ```
