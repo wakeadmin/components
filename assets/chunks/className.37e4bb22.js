@@ -1,0 +1,1 @@
+function r(...o){let n="";const i=t=>{const e=t.trim();e&&(n+=" "+e)};for(const t of o)if(t){if(typeof t=="string")i(t);else if(Array.isArray(t))i(r.apply(null,t));else if(typeof t=="object")for(const e in t)t[e]&&i(e)}return n.trim()}export{r as n};

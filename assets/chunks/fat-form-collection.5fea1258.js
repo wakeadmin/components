@@ -1,0 +1,1 @@
+import{d as a}from"./fat-form-item.84b07d40.js";import{d as l,b as t}from"./declareComponent.31328cf8.js";const d=l({name:"FatFormItemCollection",props:t({value:null}),setup(e,{slots:r}){return a(e.value),()=>{var o;return(o=r.default)===null||o===void 0?void 0:o.call(r)}}});export{d as F};

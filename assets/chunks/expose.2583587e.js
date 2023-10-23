@@ -1,0 +1,1 @@
+function t(o,r,u){for(const n of r)n in o||Object.defineProperty(o,n,{configurable:!0,enumerable:!0,get(){var e;return(e=u.value)===null||e===void 0?void 0:e[n]},set(e){u.value!=null&&(u.value[n]=e)}})}export{t as f};

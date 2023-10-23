@@ -1,0 +1,1 @@
+import{g as t}from"./fat-form-item.84b07d40.js";import{d as n,b as s,e as l}from"./declareComponent.31328cf8.js";const d=n({name:"FatFormConsumer",props:s(["renderDefault"]),slots:l(),setup(r,{slots:o}){const a=t();return()=>{var e;return o.default?o.default(a):(e=r.renderDefault)===null||e===void 0?void 0:e.call(r,a)}}});export{d as F};

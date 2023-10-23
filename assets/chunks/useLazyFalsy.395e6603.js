@@ -1,0 +1,1 @@
+import{h as r,v as i,a5 as s}from"./framework.15c48641.js";function f(t,a=500){const e=r();let n;e.value=t.value;const u=()=>{n!=null&&(window.clearTimeout(n),n=void 0)};return i(t,o=>{u(),o?e.value=o:n=window.setTimeout(()=>{e.value=o},a)}),s(u),e}export{f as u};
