@@ -134,11 +134,16 @@ export const FatFormGroup = declareComponent({
       return true;
     });
 
+    const readonly = computed(() => {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      return hidden.value || disabled.value || mode.value === 'preview';
+    });
+
     /**
      * 是否开启字段验证
      */
     const validateEnabled = computed(() => {
-      return !!props.prop && !hidden.value && !disabled.value && mode.value !== 'preview';
+      return !!props.prop && !readonly.value;
     });
 
     const rules = computed(() => {
@@ -444,7 +449,7 @@ export const FatFormGroup = declareComponent({
           label={props.label}
           labelWidth={labelWidth.value}
           size={inheritProps.size}
-          required={validateEnabled.value ? props.required : undefined}
+          required={!readonly.value ? props.required : undefined}
           prop={props.prop}
           rules={validateEnabled.value ? rules.value : undefined}
           v-slots={labelSlot}
