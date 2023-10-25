@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.20
+
+### Patch Changes
+
+- fix: 修复 fat-form-group required 没有设置 prop 不生效
+
 ## 1.8.19
 
 ### Patch Changes
