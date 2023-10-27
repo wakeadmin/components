@@ -2,6 +2,7 @@ import { provide, inject } from '@wakeadmin/demi';
 
 import { FatI18nContentOptions, FatI18nPackage } from './types';
 import { FatI18nContentDefaultOptions, FatI18nContentKey } from './constants';
+import { parse, serialize } from './utils';
 
 /**
  * 提供全局配置
@@ -9,7 +10,7 @@ import { FatI18nContentDefaultOptions, FatI18nContentKey } from './constants';
  * @param batchSave 是否批量保存, 如果开启了批量保存，你需要调用 flush 方法来触发保存, 比如在表单提交时，默认为 false。建议在表单页面开启
  * @returns
  */
-export function providerI18nContentOptions(options: FatI18nContentOptions, batchSave = false) {
+export function provideI18nContentOptions(options: FatI18nContentOptions, batchSave = false) {
   let pending: Map<string, { changed: FatI18nPackage[]; all: FatI18nPackage[] }> = new Map();
 
   // 支持继承父层配置
@@ -74,6 +75,51 @@ export function providerI18nContentOptions(options: FatI18nContentOptions, batch
       }
 
       await Promise.all(tasks);
+    },
+  };
+}
+
+/**
+ * @deprecated 重构为 provideI18nContentOptions
+ */
+export const providerI18nContentOptions = provideI18nContentOptions;
+
+/**
+ * 开启批量保存模式
+ * @returns
+ */
+export const provideI18nContentBatchUpdate = () => {
+  return provideI18nContentOptions({}, true);
+};
+
+/**
+ * 访问 i18n content 配置和一些内部方法
+ * @returns
+ */
+export function useI18nContent() {
+  const options = inject(FatI18nContentKey, {});
+
+  const _parse = (value: string) => {
+    return parse(value ?? '', options.format ?? FatI18nContentDefaultOptions.format, options.parse);
+  };
+
+  const _serialize = (value: string, uuid?: string) => {
+    return serialize(
+      {
+        default: value,
+        uuid,
+      },
+      options.format ?? FatI18nContentDefaultOptions.format,
+      options.serialize
+    );
+  };
+
+  return {
+    options,
+    parse: _parse,
+    serialize: _serialize,
+    getDefaultValue(value: string) {
+      return _parse(value).default;
     },
   };
 }
