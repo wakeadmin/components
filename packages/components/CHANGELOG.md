@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.21
+
+### Patch Changes
+
+- 重构 providerI18nContentOptions 为 providerI18nContentOptions, 新增 useI18nContent
+
 ## 1.8.20
 
 ### Patch Changes
