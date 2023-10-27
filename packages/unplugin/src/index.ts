@@ -95,7 +95,7 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (options, m
 
       return filter(id) || filter(filepath);
     },
-    transform(code, id) {
+    async transform(code, id) {
       if (code.match(REGEXP) == null) {
         // 没有包含 define* 跳过
         return null;
@@ -192,34 +192,40 @@ export const unpluginFactory: UnpluginFactory<Options | undefined> = (options, m
         });
       }
 
-      const result = babel.transformSync(code, {
-        sourceFileName: id,
-        sourceMaps: true,
-        babelrc: false,
-        configFile: false,
-        plugins,
-        parserOpts: {
-          plugins: parserPlugins,
-        },
-      });
+      try {
+        const result = await babel.transformAsync(code, {
+          sourceFileName: id,
+          sourceMaps: true,
+          babelrc: false,
+          configFile: false,
+          plugins,
+          parserOpts: {
+            plugins: parserPlugins,
+          },
+        });
 
-      if (result?.code == null) {
+        if (result?.code == null) {
+          return null;
+        }
+
+        if (hotComponents.length !== 0) {
+          const hmrCode = patchHotComponents(hotComponents, meta.framework as 'vite' | 'webpack', id, options?.debug);
+          result.code = result.code + hmrCode;
+
+          if (options?.debug) {
+            console.log(`patch HMR for ${id}: \n`, result.code);
+          }
+        }
+
+        return {
+          code: result.code,
+          map: result?.map,
+        };
+      } catch (err) {
+        console.error((err as Error).message);
+
         return null;
       }
-
-      if (hotComponents.length !== 0) {
-        const hmrCode = patchHotComponents(hotComponents, meta.framework as 'vite' | 'webpack', id, options?.debug);
-        result.code = result.code + hmrCode;
-
-        if (options?.debug) {
-          console.log(`patch HMR for ${id}: \n`, result.code);
-        }
-      }
-
-      return {
-        code: result.code,
-        map: result?.map,
-      };
     },
   };
 };
