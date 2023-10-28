@@ -25,6 +25,7 @@ import { parse, serialize, toPromiseFunction } from './utils';
 
 /**
  * 高阶函数，用于创建内容多语言控件
+ * @param {Tag} 被包装的组件，该组件需要符合 v-model 协议，切需要有 blur/focus 事件，组件会在 blur 事件触发时惰性保存
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export function createFatI18nContentControl<T extends Component>(Tag: T, options?: FatI18nContentProps): T {
@@ -180,6 +181,7 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
           set(localPack, lang, value);
 
           // 生成 UUID
+          // 值不为空时才初始化
           if (originValue.value.uuid == null && value && !uuidLoading) {
             loadUUID();
           }
@@ -200,8 +202,10 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
         const toSave = local.filter(i => {
           const r = remote.find(j => j.code === i.code);
 
+          // 远程模块中不存在
           if (r == null) {
-            return true;
+            // 如果设置的值就保存，排除掉空字符串的情况
+            return !!i.content;
           }
 
           return i.content !== r.content;
