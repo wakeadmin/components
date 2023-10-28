@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.22
+
+### Patch Changes
+
+- fix: 修复内容多语言在 blur 事件触发时报错，待保存项过滤掉值为空的情况
+
 ## 1.8.21
 
 ### Patch Changes
