@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.8.23
+
+### Patch Changes
+
+- fix: 内容多语言批量保存时支持缓存，修复组件切换销毁后状态丢失
+
 ## 1.8.22
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.94",
+  "version": "0.1.95",
   "name": "playground-vue3",
   "imageName": "wkfe/playground-vue3",
   "workload": "wakeadmin-playground-vue3",
@@ -18,7 +18,7 @@
     "publish:docker": "node ./scripts/docker-publish.js"
   },
   "dependencies": {
-    "@wakeadmin/components": "workspace:1.8.22",
+    "@wakeadmin/components": "workspace:1.8.23",
     "@wakeadmin/framework": "^0.1.6",
     "@wakeadmin/h": "^0.3.0",
     "core-js": "^3.30.2",
