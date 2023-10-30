@@ -34,7 +34,6 @@ export default {
         ]
       : [...commonHeads],
   footer: {
-    message: '客户经营，找惟客',
     copyright: 'Copyright © 2022-present WakeData',
   },
   themeConfig: {
