@@ -1,7 +1,7 @@
 import { provide, inject } from '@wakeadmin/demi';
 
 import { FatI18nContentOptions, FatI18nPackage } from './types';
-import { FatI18nContentDefaultOptions, FatI18nContentKey } from './constants';
+import { FatI18nContentDefaultOptions, FatI18nContentCacheKey, FatI18nContentKey } from './constants';
 import { parse, serialize } from './utils';
 
 /**
@@ -42,6 +42,22 @@ export function provideI18nContentOptions(options: FatI18nContentOptions, batchS
     provide(FatI18nContentKey, {
       ...finalOptions,
       save,
+    });
+
+    // 本地缓存, 避免表单切换时丢失状态
+    const cache: Map<string, Map<string, any>> = new Map();
+    provide(FatI18nContentCacheKey, {
+      save(uuid, key, value) {
+        if (cache.has(uuid)) {
+          cache.get(uuid)!.set(key, value);
+        } else {
+          cache.set(uuid, new Map([[key, value]]));
+        }
+      },
+      get(uuid, key) {
+        return cache.get(uuid)?.get(key);
+      },
+      localPromiseCache: new Map(),
     });
   } else {
     provide(FatI18nContentKey, finalOptions);

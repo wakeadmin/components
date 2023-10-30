@@ -1,7 +1,21 @@
 import { InjectionKey } from '@wakeadmin/demi';
 import { FatI18nContentOptions } from './types';
+import { UsePromiseCacheState } from '../hooks';
 
 export const FatI18nContentKey: InjectionKey<FatI18nContentOptions> = Symbol('FatI18nContent');
+
+/**
+ * 本地缓存
+ */
+export interface FatI18nContentCache {
+  save(uuid: string, key: string, value: any): void;
+  get(uuid: string, key: string): any;
+
+  // 本地 promise 缓存
+  localPromiseCache: Map<string, UsePromiseCacheState>;
+}
+
+export const FatI18nContentCacheKey: InjectionKey<FatI18nContentCache> = Symbol('FatI18nContentCache');
 
 let uuid = 0;
 

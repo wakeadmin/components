@@ -20,7 +20,7 @@ import { FatIcon } from '../fat-icon';
 import { normalizeClassName, inheritProps, normalizeStyle } from '../utils';
 
 import { FatI18nContentProps } from './types';
-import { FatI18nContentDefaultOptions, FatI18nContentKey } from './constants';
+import { FatI18nContentCacheKey, FatI18nContentDefaultOptions, FatI18nContentKey } from './constants';
 import { parse, serialize, toPromiseFunction } from './utils';
 
 /**
@@ -41,8 +41,10 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
       i18nContentOptions: null,
     },
     setup(props, { emit }) {
-      const localPromiseCache = new Map<string, UsePromiseCacheState>();
+      const cacheStore = inject(FatI18nContentCacheKey, null);
+      const localPromiseCache = cacheStore?.localPromiseCache ?? new Map<string, UsePromiseCacheState>();
       const injected = inject(FatI18nContentKey, {});
+
       const finalOptions = {
         ...FatI18nContentDefaultOptions,
         ...injected,
@@ -53,15 +55,27 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
       const sourceLanguage = usePromise('fat-i18n-source-language', toPromiseFunction(finalOptions.sourceLanguage));
       const languageList = usePromise('fat-i18n-languages', toPromiseFunction(finalOptions.list));
 
-      /**
-       * 当前选择的语言
-       */
-      const currentLanguage = ref();
-
       const originValue = computed(() => {
         const val = isVue2 ? props.value : props.modelValue;
         return parse(val ?? '', finalOptions.format, finalOptions.parse);
       });
+
+      const uuid = computed(() => {
+        return originValue.value.uuid;
+      });
+
+      /**
+       * 当前选择的语言
+       */
+      const currentLanguage = ref(uuid.value ? cacheStore?.get(uuid.value, 'currentLanguage') : undefined);
+      const setCurrentLanguage = (lang: string) => {
+        currentLanguage.value = lang;
+
+        // 缓存状态, 便于在销毁时恢复
+        if (uuid.value) {
+          cacheStore?.save(uuid.value, 'currentLanguage', lang);
+        }
+      };
 
       /**
        * 语言包
@@ -70,8 +84,8 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
         computed(() => {
           return originValue.value.uuid;
         }),
-        uuid => {
-          return finalOptions.get(uuid);
+        _uuid => {
+          return finalOptions.get(_uuid);
         },
         // 本地缓存
         localPromiseCache
@@ -80,7 +94,20 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
       /**
        * 本地语言包
        */
-      const localPack = reactive({} as Record<string, string>);
+      const localPack = reactive<Record<string, string>>(
+        // 从内存中恢复
+        uuid.value ? cacheStore?.get(uuid.value, 'localPack') ?? {} : {}
+      );
+
+      const setLocalPack = (lang: string, value: string) => {
+        set(localPack, lang, value);
+
+        // 缓存
+        if (uuid.value) {
+          cacheStore?.save(uuid.value, 'localPack', localPack);
+        }
+      };
+
       let uuidLoading = false;
       let focusing = false;
       const uuidError = ref<Error>();
@@ -152,7 +179,7 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
           return;
         }
 
-        currentLanguage.value = tag;
+        setCurrentLanguage(tag);
       };
 
       const handleChange = (value: string) => {
@@ -178,7 +205,7 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
 
           emitChange(targetValue);
         } else {
-          set(localPack, lang, value);
+          setLocalPack(lang, value);
 
           // 生成 UUID
           // 值不为空时才初始化
@@ -262,7 +289,7 @@ export function createFatI18nContentControl<T extends Component>(Tag: T, options
         source => {
           // 同步
           if (source && currentLanguage.value == null) {
-            currentLanguage.value = source;
+            setCurrentLanguage(source);
           }
         },
         { immediate: true }
