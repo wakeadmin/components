@@ -7,7 +7,7 @@ import { Ref, watch, ref, onBeforeUnmount } from '@wakeadmin/demi';
  * @param delay
  * @returns
  */
-export function useLazyFalsy<T>(value: Ref<T>, delay: number = 500) {
+export function useLazyFalsy<T>(value: Ref<T>, delay: number = 350) {
   const deferValue = ref<T>();
   let timer: number | undefined;
 
