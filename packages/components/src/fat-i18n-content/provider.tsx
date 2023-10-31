@@ -8,9 +8,10 @@ import { parse, serialize } from './utils';
  * 提供全局配置
  * @param options 全局配置
  * @param batchSave 是否批量保存, 如果开启了批量保存，你需要调用 flush 方法来触发保存, 比如在表单提交时，默认为 false。建议在表单页面开启
+ * @param enableCache 是否开启本地缓存
  * @returns
  */
-export function provideI18nContentOptions(options: FatI18nContentOptions, batchSave = false) {
+export function provideI18nContentOptions(options: FatI18nContentOptions, batchSave = false, enableCache = true) {
   let pending: Map<string, { changed: FatI18nPackage[]; all: FatI18nPackage[] }> = new Map();
 
   // 支持继承父层配置
@@ -44,21 +45,23 @@ export function provideI18nContentOptions(options: FatI18nContentOptions, batchS
       save,
     });
 
-    // 本地缓存, 避免表单切换时丢失状态
-    const cache: Map<string, Map<string, any>> = new Map();
-    provide(FatI18nContentCacheKey, {
-      save(uuid, key, value) {
-        if (cache.has(uuid)) {
-          cache.get(uuid)!.set(key, value);
-        } else {
-          cache.set(uuid, new Map([[key, value]]));
-        }
-      },
-      get(uuid, key) {
-        return cache.get(uuid)?.get(key);
-      },
-      localPromiseCache: new Map(),
-    });
+    if (enableCache) {
+      // 本地缓存, 避免表单切换时丢失状态
+      const cache: Map<string, Map<string, any>> = new Map();
+      provide(FatI18nContentCacheKey, {
+        save(uuid, key, value) {
+          if (cache.has(uuid)) {
+            cache.get(uuid)!.set(key, value);
+          } else {
+            cache.set(uuid, new Map([[key, value]]));
+          }
+        },
+        get(uuid, key) {
+          return cache.get(uuid)?.get(key);
+        },
+        localPromiseCache: new Map(),
+      });
+    }
   } else {
     provide(FatI18nContentKey, finalOptions);
   }
@@ -102,10 +105,11 @@ export const providerI18nContentOptions = provideI18nContentOptions;
 
 /**
  * 开启批量保存模式
+ * @param enableCache 是否开启本地缓存
  * @returns
  */
-export const provideI18nContentBatchUpdate = () => {
-  return provideI18nContentOptions({}, true);
+export const provideI18nContentBatchUpdate = (enableCache = true) => {
+  return provideI18nContentOptions({}, true, enableCache);
 };
 
 /**
