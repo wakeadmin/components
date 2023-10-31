@@ -71,6 +71,7 @@ const FatTableInner = declareComponent({
     requestOnSortChange: { type: Boolean, default: true },
     requestOnFilterChange: { type: Boolean, default: true },
     requestOnQueryChange: { type: Boolean, default: false },
+    requestOnExtraQueryChange: { type: Boolean, default: false },
     requestOnRemoved: { type: Boolean, default: true },
     remove: null,
     confirmBeforeRemove: { type: [Boolean, Function, Object, String] as any, default: true },
@@ -414,13 +415,21 @@ const FatTableInner = declareComponent({
     setInitialValue();
 
     // 监听 query 变动
-    if (props.requestOnQueryChange) {
+    if (props.requestOnQueryChange || props.requestOnExtraQueryChange) {
       watch(
-        () => [query.value, props.extraQuery],
+        () => {
+          if (props.requestOnQueryChange) {
+            return [query.value, props.extraQuery];
+          }
+
+          // 仅仅监听 extraQuery
+          return [props.extraQuery];
+        },
         () => {
           if ((!ready.value && props.requestOnMounted) || loading.value) {
             return;
           }
+
           debouncedSearch();
         },
         {

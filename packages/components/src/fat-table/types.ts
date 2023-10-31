@@ -743,11 +743,20 @@ export interface FatTableQuery<T extends {}, S extends {}> {
    * 缓存命名空间，用于避免在同一个页面中缓存键冲突
    */
   namespace?: string;
+
   /**
    * 是否在表单查询数据变更时重新请求，默认为 false
    * 可以通过 queryWatchDelay 调整 debounce 的时长
    */
   requestOnQueryChange?: boolean;
+
+  /**
+   * 是否在 extraQuery 变更时重新请求，默认为 false
+   *
+   * requestOnQueryChange 会同时监听 query 和 extraQuery
+   * requestOnExtraQueryChange 只会监听 extraQuery
+   */
+  requestOnExtraQueryChange?: boolean;
 
   /**
    * 用于 request 查询的额外参数，一旦变化会触发重新加载(需开启 requestOnQueryChange)
