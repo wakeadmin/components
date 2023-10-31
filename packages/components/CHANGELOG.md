@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.8.24
+
+### Patch Changes
+
+- - feat: fat-table 新增 requestOnExtraQueryChange, 独立监听 extraQuery 的变化
+  - feat: fat-i18n-content 支持关闭本地缓存
+  - fix: 缩短 useLazyFalsy 的等待时间，降低重用的概率
+
 ## 1.8.23
 
 ### Patch Changes
