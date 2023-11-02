@@ -1,5 +1,15 @@
 # @wakeadmin/components
 
+## 1.8.25
+
+### Patch Changes
+
+- - feat: fat-logic-tree 扩展 nodeClass、nodeStyle、groupClass、groupStyle 属性
+  - feat: fat-import 支持多语言
+  - feat: fat-form-section 支持 disabled 选项
+  - feat: fat-table-select-modal，新增 confirm 事件
+  - fix: 修复 fat-table-select-modal onChange 会触发两次
+
 ## 1.8.24
 
 ### Patch Changes
