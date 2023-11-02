@@ -16,6 +16,13 @@
       <FatFormSection title="日期类">
         <FatFormItem prop="date" label="date" value-type="date" width="medium" />
         <FatFormItem prop="time" label="time" value-type="time" width="medium" />
+        <FatFormItem
+          prop="time-select"
+          label="time-select"
+          value-type="time-select"
+          width="medium"
+          :value-props="{ start: '03:00', step: '00:60' }"
+        />
         <FatFormItem prop="dateTime" label="date-time" value-type="date-time" width="medium" />
         <FatFormItem prop="dateRange" label="date-range" value-type="date-range" width="large" />
         <FatFormItem prop="dateTimeRange" label="date-time-range" value-type="date-time-range" width="large" />

@@ -14,6 +14,7 @@ export * from './rate';
 export * from './slider';
 export * from './progress';
 export * from './time';
+export * from './time-select';
 export * from './time-range';
 export * from './checkboxs';
 export * from './images';

@@ -1,7 +1,7 @@
 import { PaginationProps } from '@wakeadmin/element-adapter';
 import { OmitAtomicCommonProps } from '../atomic';
 
-import {
+import type {
   ADateRangeProps,
   AMultiSelectProps,
   APasswordProps,
@@ -19,6 +19,7 @@ import {
   ADateTimeRangeProps,
   ATextareaProps,
   ATimeProps,
+  ATimeSelectProps,
   ATimeRangeProps,
   ACheckboxsProps,
   AImagesProps,
@@ -209,6 +210,11 @@ export interface FatConfigurable {
    * time 默认配置
    */
   aTimeProps?: OmitAtomicCommonProps<ATimeProps>;
+
+  /**
+   * time-select 默认配置
+   */
+  aTimeSelectProps?: OmitAtomicCommonProps<ATimeSelectProps>;
 
   /**
    * time-range 默认配置

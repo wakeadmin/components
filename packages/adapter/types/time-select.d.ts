@@ -55,3 +55,5 @@ export interface TimeSelectProps {
   // vue3 only
   format?: string;
 }
+
+export const TimeSelect: (props: TimeSelectProps) => any;
