@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * 将中文语言包内嵌进去，作为默认语言
+ */
 function run() {
   const text = fs.readFileSync(path.resolve(process.cwd(), './locale/zh.tr'));
   fs.writeFileSync(

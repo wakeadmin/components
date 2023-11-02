@@ -7,7 +7,8 @@
   "typings": "./dist/index.d.ts",
   "files": [
     "style",
-    "dist"
+    "dist",
+    "locale"
   ],
   "sideEffects": [
     "**/*.scss",
@@ -23,8 +24,8 @@
     "build:common": "tsc -b tsconfig.build.common.json",
     "postbuild": "node ../../scripts/replace-export.js && npm run copyLocale",
     "type-check": "npm run switch && tsc",
-    "syncLocale": "bbt-tools collection && bbt-tools build",
-    "copyLocale": "bbt-tools build -c bbt.build.config.json"
+    "syncLocale": "bbt collect && bbt write",
+    "copyLocale": "cp -rf ./locale/* ./dist/locale"
   },
   "keywords": [
     "wakeadmin",
@@ -57,7 +58,7 @@
   },
   "devDependencies": {
     "@types/sortablejs": "^1.15.1",
-    "@wakeapp/bbt-tools": "^1.1.4",
+    "@wakeadmin/bbt": "^0.1.6",
     "vitest": "^0.23.4"
   }
 }

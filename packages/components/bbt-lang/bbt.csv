@@ -2,7 +2,10 @@
 locale,wkc.add,新增,新增,Add,เพิ่ม
 locale,wkc.alertMessage,提示信息,提示信息,Alert Message,ข้อความแจ้งเตือน
 locale,wkc.alertTitle,提示,提示,Alert,เตือน
+locale,wkc.and,且,且,And,และ
+locale,wkc.audio,音频,音頻,Audio,เสียง
 locale,wkc.cancel,取消,取消,Cancel,ยกเลิก
+locale,wkc.choose,选择,選擇,choose,เลือก
 locale,wkc.clickToUpload,点击上传,點擊上傳,Click to Upload,คลิกเพื่ออัปโหลด
 locale,wkc.confirm,确定,確定,Confirm,ยืนยัน
 locale,wkc.confirmDelete,确认删除?,確認刪除?,Confirm deletion?,ยืนยันการลบ?
@@ -13,13 +16,26 @@ locale,wkc.delete,删除,刪除,Delete,ลบ
 locale,wkc.deleteFail,删除失败：{message},刪除失敗：{message},Delete failed: {message},การลบล้มเหลว: {message}
 locale,wkc.deleteSuccess,删除成功,刪除成功,Delete successful,ลบสำเร็จ
 locale,wkc.dragAndDropFileOrClickToUpload,将文件拖到此处，或点击上传,將文件拖到此處，或點擊上傳,"Drag and drop files here, or click to upload",ลากไฟล์มาที่นี่หรือคลิกเพื่ออัปโหลด
+locale,wkc.endDate,结束日期,結束日期,End Date,วันที่สิ้นสุด
+locale,wkc.endTime,结束时间,結束時間,End Time,เวลาสิ้นสุด
+locale,wkc.enter,请输入,請輸入,Please Enter,กรุณาป้อน
+locale,wkc.enterCaptcha,请输入验证码,請輸入驗證碼,Please enter verification code,กรุณากรอกรหัสยืนยัน
 locale,wkc.enterCorrectEmail,请输入正确的邮箱地址,請輸入正確的郵箱地址,Please enter a valid email address,กรุณาใส่ที่อยู่อีเมลที่ถูกต้อง
 locale,wkc.enterCorrectPhoneNumber,请输入正确的手机号码,請輸入正確的手機號碼,Please enter a valid phone number,กรุณาใส่เบอร์โทรศัพท์ที่ถูกต้อง
+locale,wkc.enterEmail,请输入邮箱,請輸入郵箱,Please input your email,กรุณาใส่อีเมลของคุณ
+locale,wkc.enterInteger,请输入整数,請輸入整數,Please enter an integer,กรุณาใส่จำนวนเต็ม
+locale,wkc.enterLink,请输入链接,請輸入鏈接,Please enter link,กรุณาใส่ลิงค์
+locale,wkc.enterNumber,请输入数字,請輸入數字,Please enter the number,กรุณาใส่หมายเลข
+locale,wkc.enterPassword,请输入密码,請輸入密碼,Please enter password,กรุณาใส่รหัสผ่าน
+locale,wkc.enterPhone,请输入手机号码,請輸入手機號碼,Please enter the phone number,กรุณากรอกหมายเลขโทรศัพท์
 locale,wkc.enterValidURL,请输入合法 URL,請輸入合法 URL,Please enter a valid URL,กรุณาใส่ URL ที่ถูกต้อง
 locale,wkc.enterValue,请输入 {value},請輸入 {value},Please enter {value},กรุณากรอก {value}
 locale,wkc.fatTableRemoveParamRequired,[fat-table] 删除需要配置 remove 参数,[fat-table] 刪除需要配置 remove 參數,[fat-table] Remove parameter required,[fat-table] การลบต้องมีการตั้งค่าพารามิเตอร์ remove
 locale,wkc.fillForm,请按照要求完成表单填写,請按照要求完成表單填寫,Please complete the form as required,โปรดกรอกแบบฟอร์มตามความต้องการ
 locale,wkc.getCaptcha,获取验证码,獲取驗證碼,Get captcha,รับรหัสยืนยัน
+locale,wkc.image,图片,圖片,Image,รูปภาพ
+locale,wkc.imageVerificationPlaceholder,拖动滑块验证,拖動滑塊驗證,Drag the slider to verify,ลากแถบเลื่อนเพื่อตรวจสอบ
+locale,wkc.inputCaptcha,请输入{label},請輸入{label},Please enter {label},โปรดกรอก{label}
 locale,wkc.moveDown,下移,下移,Move down,ย้ายลง
 locale,wkc.moveUp,上移,上移,Move up,ย้ายขึ้น
 locale,wkc.nextStep,下一步,下一步,Next step,ขั้นตอนถัดไป
@@ -29,43 +45,27 @@ locale,wkc.off,关闭,關閉,Off,ปิด
 locale,wkc.on,开启,開啟,On,เปิด
 locale,wkc.operation,操作,操作,Operation,การดำเนินการ
 locale,wkc.optionLoadFailed,选项加载失败：{message},選項加載失敗：{message},Option load failed: {message},การโหลดตัวเลือกล้มเหลว: {message}
+locale,wkc.or,或,或,Or,หรือ
 locale,wkc.previousStep,上一步,上一步,Previous step,ขั้นตอนก่อนหน้า
+locale,wkc.rangeSeparator,至,至,to,ถึง
+locale,wkc.refresh,刷新,刷新,to refresh,เพื่อรีเฟรช
 locale,wkc.reset,重置,重置,Reset,รีเซ็ต
 locale,wkc.retrievalFailed,获取失败,獲取失敗,Retrieval failed,การเรียกข้อมูลล้มเหลว
 locale,wkc.retrieving,获取中,獲取中,Retrieving,กำลังเรียกข้อมูล
 locale,wkc.save,保存,儲存,Save,บันทึก
 locale,wkc.search,搜索,搜索,Search,ค้นหา
+locale,wkc.select,请选择,請選擇,Please choose,กรุณาเลือก
+locale,wkc.selectDate,请选择日期,請選擇日期,Please select a date,กรุณาเลือกวันที่
 locale,wkc.selectFileFormat,请选择 {format} 格式的文件,請選擇 {format} 格式的文件,Please select a {format} format file,กรุณาเลือกไฟล์รูปแบบ {format}
 locale,wkc.selectFileLessThan,请选择小于 {size} 的文件,請選擇小於 {size} 的文件,Please select a file smaller than {size},กรุณาเลือกไฟล์ขนาดเล็กกว่า {size}
 locale,wkc.selectMaxFiles,最多只能选择 {limit} 个文件,最多只能選擇 {limit} 個文件,You can only select up to {limit} files,สามารถเลือกได้มากสุด {limit} ไฟล์
-locale,wkc.selected,已选择,已選擇,Selected,เลือกแล้ว
-locale,wkc.valueCannotBeNull,{label} 不能为空,{label} 不能為空,{label} cannot be empty,{label} ต้องไม่ว่างเปล่า
-locale,wkc.image,图片,圖片,Image,รูปภาพ
-locale,wkc.video,视频,視頻,Video,วิดีโอ
-locale,wkc.audio,音频,音頻,Audio,เสียง
-locale,wkc.uploadFormat,请上传 {accept} 格式的文件,請上傳 {accept} 格式的文件,Please upload {accept} format file,โปรดอัปโหลดไฟล์รูปแบบ {accept}
-locale,wkc.uploadFileSizeLimit,大小不能超过 {sizeLimit},大小不能超過 {sizeLimit},Size cannot exceed {sizeLimit},ขนาดไม่เกิน {sizeLimit}
-locale,wkc.uploadFileLimit,最多只能上传 {limit} 个文件,最多只能上傳 {limit} 個文件,You can only upload up to {limit} files,สามารถอัปโหลดได้มากสุด {limit} ไฟล์
 locale,wkc.selectOption,请选择{label},請選擇{label},Please select {label},โปรดเลือก{label}
-locale,wkc.inputCaptcha,请输入{label},請輸入{label},Please enter {label},โปรดกรอก{label}
-locale,wkc.endDate,结束日期,結束日期,End Date,วันที่สิ้นสุด
-locale,wkc.endTime,结束时间,結束時間,End Time,เวลาสิ้นสุด
-locale,wkc.enter,请输入,請輸入,Please Enter,กรุณาป้อน
-locale,wkc.enterCaptcha,请输入验证码,請輸入驗證碼,Please enter verification code,กรุณากรอกรหัสยืนยัน
-locale,wkc.enterEmail,请输入邮箱,請輸入郵箱,Please input your email,กรุณาใส่อีเมลของคุณ
-locale,wkc.enterInteger,请输入整数,請輸入整數,Please enter an integer,กรุณาใส่จำนวนเต็ม
-locale,wkc.enterLink,请输入链接,請輸入鏈接,Please enter link,กรุณาใส่ลิงค์
-locale,wkc.enterNumber,请输入数字,請輸入數字,Please enter the number,กรุณาใส่หมายเลข
-locale,wkc.enterPassword,请输入密码,請輸入密碼,Please enter password,กรุณาใส่รหัสผ่าน
-locale,wkc.enterPhone,请输入手机号码,請輸入手機號碼,Please enter the phone number,กรุณากรอกหมายเลขโทรศัพท์
-locale,wkc.rangeSeparator,至,至,to,ถึง
-locale,wkc.select,请选择,請選擇,Please choose,กรุณาเลือก
-locale,wkc.selectDate,请选择日期,請選擇日期,Please select a date,กรุณาเลือกวันที่
 locale,wkc.selectTime,请选择时间,請選擇時間,Please select a time,กรุณาเลือกเวลา
+locale,wkc.selected,已选择,已選擇,Selected,เลือกแล้ว
 locale,wkc.startDate,开始日期,開始日期,Start Date,วันที่เริ่มต้น
 locale,wkc.startTime,开始时间,開始時間,Starting Time,เวลาเริ่มต้น
-locale,wkc.refresh,刷新,刷新,to refresh,เพื่อรีเฟรช
-locale,wkc.imageVerificationPlaceholder,拖动滑块验证,拖動滑塊驗證,Drag the slider to verify,ลากแถบเลื่อนเพื่อตรวจสอบ
-locale,wkc.choose,选择,選擇,choose,เลือก
-locale,wkc.and,且,且,And,และ
-locale,wkc.or,或,或,Or,หรือ
+locale,wkc.uploadFileLimit,最多只能上传 {limit} 个文件,最多只能上傳 {limit} 個文件,You can only upload up to {limit} files,สามารถอัปโหลดได้มากสุด {limit} ไฟล์
+locale,wkc.uploadFileSizeLimit,大小不能超过 {sizeLimit},大小不能超過 {sizeLimit},Size cannot exceed {sizeLimit},ขนาดไม่เกิน {sizeLimit}
+locale,wkc.uploadFormat,请上传 {accept} 格式的文件,請上傳 {accept} 格式的文件,Please upload {accept} format file,โปรดอัปโหลดไฟล์รูปแบบ {accept}
+locale,wkc.valueCannotBeNull,{label} 不能为空,{label} 不能為空,{label} cannot be empty,{label} ต้องไม่ว่างเปล่า
+locale,wkc.video,视频,視頻,Video,วิดีโอ
