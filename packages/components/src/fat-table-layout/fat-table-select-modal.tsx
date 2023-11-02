@@ -1,7 +1,7 @@
 import { computed, Ref, ref, unref, watch } from '@wakeadmin/demi';
 import { Button, Dialog } from '@wakeadmin/element-adapter';
 import { declareComponent, declareEmits, declareProps, declareSlots } from '@wakeadmin/h';
-import { omit } from '@wakeadmin/utils';
+import { Noop, omit } from '@wakeadmin/utils';
 
 import { useFatConfigurable } from '../fat-configurable';
 import {
@@ -79,6 +79,12 @@ export interface FatTableSelectModalEvents<
   onOpened?: () => void;
   onClose?: () => void;
   onClosed?: () => void;
+
+  /**
+   * 确认事件
+   * @returns
+   */
+  onConfirm?: (selections: Selection[]) => void;
 }
 
 export interface FatTableSelectModalProps<
@@ -103,7 +109,13 @@ export function useFatTableSelectModalRef<
   return ref<FatTableSelectModalMethods<Item, Query, Selection>>();
 }
 
-const OMIT_FOR_DIALOG: (keyof FatTableSelectModalProps<any, any, any>)[] = ['rowKey', 'request', 'columns', 'multiple'];
+const OMIT_FOR_DIALOG: (keyof FatTableSelectModalProps<any, any, any>)[] = [
+  'rowKey',
+  'request',
+  'columns',
+  'multiple',
+  'selectable',
+];
 
 // todo 提取出来
 const FatTableSelectModalInner = declareComponent({
@@ -164,6 +176,10 @@ const FatTableSelectModalInner = declareComponent({
 
     const tempProps: Ref<Partial<FatTableSelectModalProps<any, any, any>>> = ref({});
 
+    // 缓存当前选中的值
+    let currentSelect: any[] = [];
+
+    // 支持受控模式
     watch(
       () => props.visible,
       val => {
@@ -174,6 +190,8 @@ const FatTableSelectModalInner = declareComponent({
 
     const handleVisibleChange = (val: boolean) => {
       visible.value = val;
+      // 清空缓冲值
+      currentSelect = [];
     };
 
     const handleCancel = (done: () => void) => {
@@ -224,6 +242,9 @@ const FatTableSelectModalInner = declareComponent({
 
     const confirm = () => {
       handleConfirm(() => {
+        // 触发 confirm 事件
+        emit('confirm', currentSelect);
+
         handleVisibleChange(false);
       });
     };
@@ -253,6 +274,8 @@ const FatTableSelectModalInner = declareComponent({
     };
 
     const handleChange: FatTableSelectModalProps['onChange'] = evt => {
+      currentSelect = evt.values || [];
+
       if (mergedProps.value.onChange) {
         mergedProps.value.onChange(evt);
       } else {
@@ -310,6 +333,8 @@ const FatTableSelectModalInner = declareComponent({
         enableConfirm: _enableConfirm,
         enableCancel: _enableCancel,
         confirmOnSelected: _confirmOnSelected,
+        beforeConfirm: _beforeConfirm,
+        beforeCancel: _beforeCancel,
         ...other
       } = unref(mergedProps);
 
@@ -330,6 +355,8 @@ const FatTableSelectModalInner = declareComponent({
           {...omit(passthroughProps, OMIT_FOR_DIALOG)}
           beforeClose={handleCancel as any}
           onUpdate:modelValue={handleVisibleChange}
+          // @ts-expect-error 避免 change 事件触发两次
+          onChange={Noop}
         >
           {(!destroyOnClose || !!lazyVisible.value) && (
             <FatTableSelect
