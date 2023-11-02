@@ -1010,7 +1010,14 @@ export { Rules, Rule } from '@wakeadmin/element-adapter';
 /**
  * 表单分段
  */
-export type FatFormSectionProps = FatCardProps;
+export interface FatFormSectionProps<Store extends {}> extends FatCardProps {
+  /**
+   * 是否禁用。下级 form-item 会继承
+   *
+   * 禁用后当前字段将不会进行校验
+   */
+  disabled?: boolean | ((instance: FatFormMethods<Store>) => boolean);
+}
 
 /**
  * 支持全局配置的参数

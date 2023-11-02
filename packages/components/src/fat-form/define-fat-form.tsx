@@ -47,7 +47,7 @@ export interface FatFormItemDefinition<
  * fat-section 分节
  */
 export interface FatFormSectionDefinition<Store extends {}, Request extends {} = Store>
-  extends FatFormSectionProps,
+  extends FatFormSectionProps<Store>,
     CommonDefinitionProps {
   [FAT_FORM_CHILD_TYPE]: 'section';
   children?: FatFormChild<Store, Request>[] | FatFormChild<Store, Request>;
