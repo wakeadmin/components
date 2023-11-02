@@ -1,5 +1,16 @@
 # @wakeadmin/components
 
+## 1.9.0
+
+### Minor Changes
+
+- 新增 time-select 原件
+
+### Patch Changes
+
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.10
+
 ## 1.8.25
 
 ### Patch Changes
