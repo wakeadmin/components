@@ -131,7 +131,6 @@ export const FatImport = declareComponent({
   props: declareProps<FatImportProps>({
     title: {
       type: [String, Object],
-      default: '批量导入',
     },
     message: {
       type: [String, Object],
@@ -139,7 +138,6 @@ export const FatImport = declareComponent({
     },
     uploadMessage: {
       type: [String, Object],
-      default: '只能上传xlsx、xls格式文件',
     },
     accept: {
       type: [String, Array],
@@ -203,7 +201,7 @@ export const FatImport = declareComponent({
 
     const handleSubmit = () => {
       if (files.value.length === 0) {
-        Message.warning('请选择文件');
+        Message.warning(t('wkc.import.selectFile'));
         return;
       }
 
@@ -269,7 +267,7 @@ export const FatImport = declareComponent({
             } else {
               return {
                 status: 'error',
-                message: '文件上传失败',
+                message: t('wkc.import.uploadFailed'),
               };
             }
           });
@@ -302,19 +300,21 @@ export const FatImport = declareComponent({
 
     const titleSlot = computed(() => {
       if (status.value === Status.Pending) {
-        return hasSlots(props, slots, 'title') ? renderSlot(props, slots, 'title') : props.title ?? '批量导入';
+        return hasSlots(props, slots, 'title')
+          ? renderSlot(props, slots, 'title')
+          : props.title ?? t('wkc.import.title');
       }
 
-      return '导入结果';
+      return t('wkc.import.result');
     });
 
     const footerSlot = computed(() => {
       if (status.value === Status.Pending) {
         return (
           <div class="fat-import__footer">
-            <Button onClick={close}>取消</Button>
+            <Button onClick={close}>{t('wkc.cancel')}</Button>
             <Button type="primary" onClick={handleSubmit} loading={submitting.value}>
-              导入
+              {t('wkc.import.submit')}
             </Button>
           </div>
         );
@@ -323,7 +323,7 @@ export const FatImport = declareComponent({
       return (
         <div class="fat-import__footer">
           <Button type="primary" onClick={close}>
-            确定
+            {t('wkc.confirm')}
           </Button>
         </div>
       );
@@ -384,14 +384,15 @@ export const FatImport = declareComponent({
                         </svg>
                       </FatIcon>
                       <div>
-                        将文件拖到此处，或<a class="is-link">点击上传</a>
+                        {t('wkc.import.dragAndDropFileOr')}
+                        <a class="is-link">{t('wkc.import.clickToUpload')}</a>
                       </div>
                     </div>
                   </Upload>
                   <div class="fat-import__upload-message">
                     {hasSlots(props, slots, 'uploadMessage')
                       ? renderSlot(props, slots, 'uploadMessage')
-                      : props.uploadMessage}
+                      : props.uploadMessage ?? t('wkc.import.uploadMessage')}
                   </div>
                 </div>
               ) : status.value === Status.Success ? (
@@ -399,20 +400,20 @@ export const FatImport = declareComponent({
                   <FatIcon class="fat-import__icon">
                     <CheckCircleFill />
                   </FatIcon>
-                  <span>{importResult.value?.message ?? '导入成功'}</span>
+                  <span>{importResult.value?.message ?? t('wkc.import.success')}</span>
                 </div>
               ) : (
                 <div class="fat-import__body is-error">
                   <FatIcon class="fat-import__icon">
                     <WarningFill />
                   </FatIcon>
-                  <span>{importResult.value?.message ?? '导入失败'}</span>
+                  <span>{importResult.value?.message ?? t('wkc.import.failed')}</span>
                   {!!(importResult.value?.status === 'error' && importResult.value.details?.length) && (
                     <div class="fat-import__detail">
-                      <header class="fat-import__subtitle">失败数据</header>
+                      <header class="fat-import__subtitle">{t('wkc.import.errorData')}</header>
                       <Table data={importResult.value.details} size="small" maxHeight={400}>
-                        <TableColumn label="数据所在行" prop="row"></TableColumn>
-                        <TableColumn label="导入失败原因" prop="reason"></TableColumn>
+                        <TableColumn label={t('wkc.import.errorLine')} prop="row"></TableColumn>
+                        <TableColumn label={t('wkc.import.errorReason')} prop="reason"></TableColumn>
                       </Table>
                     </div>
                   )}

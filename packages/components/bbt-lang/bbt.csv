@@ -35,6 +35,19 @@ locale,wkc.fillForm,请按照要求完成表单填写,請按照要求完成表�
 locale,wkc.getCaptcha,获取验证码,獲取驗證碼,Get captcha,รับรหัสยืนยัน
 locale,wkc.image,图片,圖片,Image,รูปภาพ
 locale,wkc.imageVerificationPlaceholder,拖动滑块验证,拖動滑塊驗證,Drag the slider to verify,ลากแถบเลื่อนเพื่อตรวจสอบ
+locale,wkc.import.clickToUpload,点击上传,點擊上傳,Click to upload,คลิกเพื่ออัพโหลด
+locale,wkc.import.dragAndDropFileOr,将文件拖到此处，或,將文件拖到此處，或,"Drag files here, or",ลากไฟล์มาที่นี่ หรือ
+locale,wkc.import.errorData,失败数据,失敗數據,Failure data,ข้อมูลความล้มเหลว
+locale,wkc.import.errorLine,数据所在行,資料所在行,Row of data,แถวของข้อมูล
+locale,wkc.import.errorReason,导入失败原因,導入失敗原因,Reason for import failure,สาเหตุของการนำเข้าล้มเหลว
+locale,wkc.import.failed,导入失败,導入失敗,Import failed,การนำเข้าล้มเหลว
+locale,wkc.import.result,导入结果,導入結果,Import results,นำเข้าผลลัพธ์
+locale,wkc.import.selectFile,请选择文件,請選擇文件,Please select file,กรุณาเลือกไฟล์
+locale,wkc.import.submit,导入,導入,import,นำเข้า
+locale,wkc.import.success,导入成功,導入成功,Import successful,นำเข้าสำเร็จ
+locale,wkc.import.title,批量导入,批次導入,Batch Import,การนำเข้าเป็นกลุ่ม
+locale,wkc.import.uploadFailed,文件上传失败,文件上傳失敗,File upload failed,การอัปโหลดไฟล์ล้มเหลว
+locale,wkc.import.uploadMessage,只能上传xlsx、xls格式文件,只能上傳xlsx、xls格式文件,Only xlsx and xls format files can be uploaded,สามารถอัปโหลดได้เฉพาะไฟล์รูปแบบ xlsx และ xls เท่านั้น
 locale,wkc.inputCaptcha,请输入{label},請輸入{label},Please enter {label},โปรดกรอก{label}
 locale,wkc.moveDown,下移,下移,Move down,ย้ายลง
 locale,wkc.moveUp,上移,上移,Move up,ย้ายขึ้น
