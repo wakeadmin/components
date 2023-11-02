@@ -2,6 +2,7 @@
  * 逻辑树
  */
 import { computed } from '@wakeadmin/demi';
+import { ClassValue, StyleValue } from '@wakeadmin/element-adapter';
 import { declareComponent, declareProps, declareSlots } from '@wakeadmin/h';
 import { OurComponentInstance, ToHSlotDefinition, normalizeClassName, renderSlot, hasSlots } from '../utils';
 import { NoopArray, isObject } from '@wakeadmin/utils';
@@ -186,6 +187,25 @@ export interface FatLogicTreeProps<Item extends {} = any> extends FatLogicTreeSl
    * 默认为辅助色
    */
   orColor?: string;
+
+  /**
+   * 节点 class
+   */
+  nodeClass?: ClassValue;
+  /**
+   * 分组 class
+   */
+  groupClass?: ClassValue;
+
+  /**
+   * 节点 style
+   */
+  nodeStyle?: StyleValue;
+
+  /**
+   * 节点 style
+   */
+  groupStyle?: StyleValue;
 }
 
 interface InnerNode {
@@ -291,6 +311,10 @@ const TreeList = declareComponent({
       orText?: any;
       andColor?: string;
       orColor?: string;
+      nodeClass?: ClassValue;
+      groupClass?: ClassValue;
+      nodeStyle?: StyleValue;
+      groupStyle?: StyleValue;
 
       /**
        * 渲染子元素
@@ -319,6 +343,7 @@ const TreeList = declareComponent({
     };
   }>({ innerProps: null }),
   setup(props) {
+    const t = useT();
     const instance = computed(() => {
       if (props.innerProps.value == null) {
         return null;
@@ -436,7 +461,6 @@ const TreeList = declareComponent({
       const nextType = instance.value?.logicType === LogicType.AND ? LogicType.OR : LogicType.AND;
       instance.value?.setLogicType(nextType);
     };
-    const t = useT();
 
     return () => {
       const {
@@ -474,7 +498,10 @@ const TreeList = declareComponent({
                       <span class="fat-logic-tree__label-content">{type === LogicType.AND ? andText : orText}</span>
                     </div>
                   )}
-                  <div class="fat-logic-tree__group">
+                  <div
+                    class={normalizeClassName('fat-logic-tree__group', props.innerProps.groupClass)}
+                    style={props.innerProps.groupStyle}
+                  >
                     {children?.map((i, idx) => {
                       const node = getNodeInfo(i, props.innerProps.treeStruct);
 
@@ -545,7 +572,12 @@ const TreeList = declareComponent({
               ),
             })
           ) : (
-            <div class="fat-logic-tree__node">{props.innerProps.renderNode(instance.value!)}</div>
+            <div
+              class={normalizeClassName('fat-logic-tree__node', props.innerProps.nodeClass)}
+              style={props.innerProps.nodeStyle}
+            >
+              {props.innerProps.renderNode(instance.value!)}
+            </div>
           )}
         </div>
       );
@@ -566,6 +598,12 @@ const FatLogicTreeInner = declareComponent({
     orText: null,
     andColor: null,
     orColor: null,
+
+    // 节点样式定制
+    nodeClass: null,
+    nodeStyle: null,
+    groupClass: null,
+    groupStyle: null,
 
     // slots
     renderNode: null,
