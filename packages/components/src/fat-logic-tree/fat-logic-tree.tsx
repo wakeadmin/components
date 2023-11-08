@@ -482,7 +482,13 @@ const TreeList = declareComponent({
       const hasLabel = isGroup && children && children.length > 1;
 
       return (
-        <div class="fat-logic-tree__content">
+        <div
+          class={normalizeClassName(
+            'fat-logic-tree__content',
+            isGroup ? props.innerProps.groupClass : props.innerProps.nodeClass
+          )}
+          style={isGroup ? props.innerProps.groupStyle : props.innerProps.nodeStyle}
+        >
           {isGroup ? (
             /* 分组 */
             props.innerProps.renderGroup({
@@ -498,10 +504,7 @@ const TreeList = declareComponent({
                       <span class="fat-logic-tree__label-content">{type === LogicType.AND ? andText : orText}</span>
                     </div>
                   )}
-                  <div
-                    class={normalizeClassName('fat-logic-tree__group', props.innerProps.groupClass)}
-                    style={props.innerProps.groupStyle}
-                  >
+                  <div class="fat-logic-tree__group">
                     {children?.map((i, idx) => {
                       const node = getNodeInfo(i, props.innerProps.treeStruct);
 
@@ -572,12 +575,7 @@ const TreeList = declareComponent({
               ),
             })
           ) : (
-            <div
-              class={normalizeClassName('fat-logic-tree__node', props.innerProps.nodeClass)}
-              style={props.innerProps.nodeStyle}
-            >
-              {props.innerProps.renderNode(instance.value!)}
-            </div>
+            <div class="fat-logic-tree__node">{props.innerProps.renderNode(instance.value!)}</div>
           )}
         </div>
       );

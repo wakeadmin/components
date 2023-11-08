@@ -30,6 +30,8 @@ export function useInheritableProps() {
   return inject(FatFormInheritanceContext);
 }
 
+export const useFatFormInheritableProps = useInheritableProps;
+
 export function useTouches() {
   let touched: Record<string, boolean> = {};
   const np = memoize(normalizeKeyPath);
