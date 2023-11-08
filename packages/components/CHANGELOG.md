@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.2
+
+### Patch Changes
+
+- feat: 暴露 useFatFormInheritableProps Hooks
+
 ## 1.9.1
 
 ### Patch Changes
