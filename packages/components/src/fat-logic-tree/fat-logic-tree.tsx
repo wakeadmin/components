@@ -612,7 +612,19 @@ const FatLogicTreeInner = declareComponent({
   slots: declareSlots<ToHSlotDefinition<FatLogicTreeSlots<any>>>(),
   setup(props, { slots, attrs, emit }) {
     return () => {
-      const { treeStruct, modelValue, basePath, andText, andColor, orText, orColor } = props;
+      const {
+        treeStruct,
+        modelValue,
+        basePath,
+        andText,
+        andColor,
+        orText,
+        orColor,
+        nodeClass,
+        nodeStyle,
+        groupClass,
+        groupStyle,
+      } = props;
       const nodeInfo = getNodeInfo(modelValue, treeStruct);
       const childrenKey = getChildrenKey(treeStruct);
 
@@ -636,6 +648,10 @@ const FatLogicTreeInner = declareComponent({
               andColor,
               orText,
               orColor,
+              nodeClass,
+              nodeStyle,
+              groupClass,
+              groupStyle,
               renderNode: scope => renderSlot(props, slots, 'node', scope),
               renderGroup: scope => {
                 return hasSlots(props, slots, 'group') ? renderSlot(props, slots, 'group', scope) : scope.vdom;
