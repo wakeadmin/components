@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.1
+
+### Patch Changes
+
+- fix: 修复 fat-logic-tree 没有向下穿的 nodeClass
+
 ## 1.9.0
 
 ### Minor Changes

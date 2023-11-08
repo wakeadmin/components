@@ -1,7 +1,7 @@
 {
   "name": "playground-vite",
   "private": true,
-  "version": "0.0.21",
+  "version": "0.0.22",
   "type": "module",
   "scripts": {
     "dev": "wk-demi-switch 3 && wakeadmin-adapter-switch 3 && vite",
