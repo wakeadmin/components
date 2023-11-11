@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.3
+
+### Patch Changes
+
+- feat: fat-table 支持自定义渲染 table
+
 ## 1.9.2
 
 ### Patch Changes

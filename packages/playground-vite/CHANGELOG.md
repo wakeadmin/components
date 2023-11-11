@@ -1,5 +1,12 @@
 # playground-vite
 
+## 0.0.24
+
+### Patch Changes
+
+- Updated dependencies
+  - @wakeadmin/components@1.9.3
+
 ## 0.0.23
 
 ### Patch Changes
