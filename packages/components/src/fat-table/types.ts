@@ -9,6 +9,7 @@ import {
   ButtonProps,
   CommonProps,
 } from '@wakeadmin/element-adapter';
+import type { Ref } from '@wakeadmin/demi';
 
 import { GetAtomicProps } from '../atomic';
 import { FatFormItemProps, FatFormMethods, FatFormMode } from '../fat-form';
@@ -129,6 +130,18 @@ export interface FatTableMethods<Item extends {}, Query extends {}> {
   list: Item[];
 
   /**
+   * 排序
+   * @param prop
+   * @param order
+   */
+  sortByProp(prop: string, order: SortOrder): void;
+
+  /**
+   * 清除排序
+   */
+  clearSort(): void;
+
+  /**
    * 选中指定记录
    * @param items
    */
@@ -191,6 +204,75 @@ export interface FatTableMethods<Item extends {}, Query extends {}> {
    * 获取 request 参数
    */
   getRequestParams: () => FatTableRequestParams<Item, Query>;
+}
+
+/**
+ * 自定义表格渲染 scope
+ */
+export interface FatTableCustomTableScope<T extends {}, S extends {}> {
+  /**
+   * fatTable 实例
+   */
+  table: FatTableMethods<T, S>;
+
+  /**
+   * 表格就绪状态
+   */
+  ready: boolean;
+
+  /**
+   * 加载状态
+   */
+  loading: boolean;
+
+  /**
+   * 排序状态
+   */
+  sort?: FatTableSort;
+  /**
+   * 排序变化
+   */
+  onSortChange: (evt: { column: FatTableColumn<T, S>; prop?: string; order?: SortOrder }) => void;
+
+  /**
+   * 过滤条件
+   */
+  filter?: FatTableFilter;
+  onFilterChange: (evt: { [columnKey: string]: any[] }) => void;
+
+  /**
+   * 选择状态
+   */
+  selection?: T[];
+  onSelectionChange: (selection: T[]) => void;
+
+  rowKey?: (row: T) => any;
+
+  /**
+   * 表格数据
+   */
+  list: T[];
+
+  /**
+   * column 定义
+   */
+  columns: FatTableColumn<T, S>[];
+
+  /**
+   * 表格引用
+   */
+  ref: Ref<TableMethods | undefined>;
+
+  // 插槽渲染
+  renderEmpty(): any;
+  renderTableHeading(): any;
+  renderTableTrailing(): any;
+
+  // FatTable 属性
+  fatTableProps: FatTableProps<T, S>;
+
+  // 外部透传 props
+  inheritProps: any;
 }
 
 export interface FatTableSlots<T extends {}, S extends {}> {
@@ -279,6 +361,12 @@ export interface FatTableSlots<T extends {}, S extends {}> {
    * 渲染底部工具栏
    */
   renderBottomToolbar?: (table: FatTableMethods<T, S>) => any;
+
+  /**
+   * 自定义表格渲染
+   * @returns
+   */
+  renderTable?: (scope: FatTableCustomTableScope<T, S>) => any;
 }
 
 /**

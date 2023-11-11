@@ -53,6 +53,7 @@ import {
   FatTableLayout,
   FatTableSlots,
   FatTableRequestResponse,
+  FatTableCustomTableScope,
 } from './types';
 import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { useHMR } from '../utils/hmr';
@@ -117,6 +118,7 @@ const FatTableInner = declareComponent({
     renderBottomToolbar: null,
     renderAfterTable: null,
     renderBeforeTable: null,
+    renderTable: null,
 
     // private
     __hmr__: { type: Boolean, default: true },
@@ -713,6 +715,12 @@ const FatTableInner = declareComponent({
       get sort() {
         return toUndefined(sort.value);
       },
+      sortByProp(prop, order) {
+        tableRef.value?.sort(prop, order);
+      },
+      clearSort() {
+        tableRef.value?.clearSort();
+      },
       get pagination() {
         return readonly(pagination);
       },
@@ -902,39 +910,64 @@ const FatTableInner = declareComponent({
         renderToolbar: renderToolbar.value,
         renderTable: () => [
           renderSlot(props, slots, 'beforeTable', tableInstance),
-          <Table
-            {...inheritProps()}
-            {...withDirectives([[vLoading, loading.value]])}
-            ref={tableRef}
-            data={list.value}
-            rowKey={rowKey}
-            onSelectionChange={handleSelectionChange}
-            onSortChange={handleSortChange}
-            onFilterChange={handleFilterChange}
-            defaultSort={toUndefined(sort.value)}
-            v-slots={{
-              empty: renderEmpty.value,
-            }}
-            class={normalizeClassName([{ 'fat-table--ready': ready.value }])}
-          >
-            {renderSlot(props, slots, 'tableHeading', tableInstance)}
+          // 自定义渲染
+          hasSlots(props, slots, 'table') ? (
+            renderSlot(props, slots, 'table', {
+              table: tableInstance,
+              ready: ready.value,
+              loading: loading.value,
+              sort: toUndefined(sort.value),
+              onSortChange: handleSortChange,
+              filter,
+              onFilterChange: handleFilterChange,
+              selection: selected.value,
+              onSelectionChange: handleSelectionChange,
+              rowKey,
+              list: list.value,
+              columns,
+              ref: tableRef,
+              renderEmpty: renderEmpty.value,
+              renderTableHeading: () => renderSlot(props, slots, 'tableHeading', tableInstance),
+              renderTableTrailing: () => renderSlot(props, slots, 'tableTrailing', tableInstance),
 
-            {columns?.map((column, index) => {
-              return (
-                <Column
-                  key={genKey(column, index)}
-                  column={column}
-                  index={index}
-                  filter={filter}
-                  columnMinWidth={props.columnMinWidth}
-                  columnWidth={props.columnWidth}
-                  tableInstance={tableInstance}
-                />
-              );
-            })}
+              fatTableProps: props,
+              inheritProps: inheritProps(),
+            } satisfies FatTableCustomTableScope<any, any>)
+          ) : (
+            <Table
+              {...inheritProps()}
+              {...withDirectives([[vLoading, loading.value]])}
+              ref={tableRef}
+              data={list.value}
+              rowKey={rowKey}
+              onSelectionChange={handleSelectionChange}
+              onSortChange={handleSortChange}
+              onFilterChange={handleFilterChange}
+              defaultSort={toUndefined(sort.value)}
+              v-slots={{
+                empty: renderEmpty.value,
+              }}
+              class={normalizeClassName([{ 'fat-table--ready': ready.value }])}
+            >
+              {renderSlot(props, slots, 'tableHeading', tableInstance)}
 
-            {renderSlot(props, slots, 'tableTrailing', tableInstance)}
-          </Table>,
+              {columns?.map((column, index) => {
+                return (
+                  <Column
+                    key={genKey(column, index)}
+                    column={column}
+                    index={index}
+                    filter={filter}
+                    columnMinWidth={props.columnMinWidth}
+                    columnWidth={props.columnWidth}
+                    tableInstance={tableInstance}
+                  />
+                );
+              })}
+
+              {renderSlot(props, slots, 'tableTrailing', tableInstance)}
+            </Table>
+          ),
           renderSlot(props, slots, 'afterTable', tableInstance),
         ],
         renderBottomToolbar: renderBottomToolbar.value,

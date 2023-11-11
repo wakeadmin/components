@@ -79,3 +79,19 @@
 <<< @/fat-table/CellLineControl.tsx
 
 :::
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## 4. 如何自定义表格渲染
+
+<iframe class="demo-frame" style="height: 800px" src="./custom-table.demo.html" />
+
+::: details 查看代码
+
+<<< @/fat-table/CustomTable.tsx
+
+:::

@@ -91,8 +91,13 @@ export interface FatTableSelectModalProps<
   Item extends {} = any,
   Query extends {} = any,
   Selection extends Partial<Item> | number | string = any
-> extends Omit<FatTableModalProps<Item, Query>, keyof FatTableSelectProps<Item, Query, Selection>>,
-    FatTableSelectProps<Item, Query, Selection> {
+> extends Omit<
+      Omit<FatTableModalProps<Item, Query>, 'renderFooter' | 'renderTitle'>,
+      keyof FatTableSelectProps<Item, Query, Selection>
+    >,
+    Omit<FatTableSelectProps<Item, Query, Selection>, 'renderFooter' | 'renderTitle' | 'renderBottomToolbar'>,
+    FatTableSelectModalEvents<Item, Query, Selection>,
+    FatTableSelectModalSlots<Item, Query, Selection> {
   /**
    * 选中的时候是否自动关闭弹窗, 只有单选的情况支持,  默认为 `true`
    */
