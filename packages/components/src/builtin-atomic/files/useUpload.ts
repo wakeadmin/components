@@ -122,7 +122,7 @@ export function useUpload(
     fileListTrigger.track();
     return props.value == null
       ? NoopArray
-      : props.value.map(item => {
+      : props.value.filter(Boolean).map(item => {
           const transform = props.transformToFileListItem ?? defaultTransformToFileList;
           const result = transform(item);
 

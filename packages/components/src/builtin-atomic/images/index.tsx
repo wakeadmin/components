@@ -2,7 +2,7 @@
  * 多图片上传
  */
 import { FileListItem, Upload, UploadProps } from '@wakeadmin/element-adapter';
-import { computed } from '@wakeadmin/demi';
+import { computed, defineComponent, ref, watch } from '@wakeadmin/demi';
 import { Plus } from '@wakeadmin/icons';
 
 import { FatIcon } from '../../fat-icon';
@@ -36,10 +36,17 @@ export type AImagesProps = DefineAtomicProps<
      * 默认为 `cover`
      */
     fit?: ImageObjectFit;
+
     /**
      * 自定义渲染
      */
     renderPreview?: (list: FileListItem[]) => any;
+
+    /**
+     * 默认图片
+     */
+    defaultImage?: string;
+
     /*
      * 文案提示
      */
@@ -62,6 +69,36 @@ declare global {
     images: AImagesProps;
   }
 }
+
+const ImagePreview = defineComponent({
+  props: {
+    src: String,
+    fallback: String,
+    alt: String,
+    loading: String,
+  },
+  setup(props) {
+    const hasError = ref(false);
+
+    const handleError = () => {
+      hasError.value = true;
+    };
+
+    watch(
+      () => props.src,
+      () => {
+        // src 更新，重置错误状态
+        hasError.value = false;
+      },
+      { flush: 'post' }
+    );
+
+    return () => {
+      const { src, fallback, ...other } = props;
+      return <img {...other} onError={handleError} src={hasError.value && fallback ? fallback : src} />;
+    };
+  },
+});
 
 export const AImagesComponent = defineAtomicComponent(
   (props: AImagesProps) => {
@@ -104,6 +141,7 @@ export const AImagesComponent = defineAtomicComponent(
         accept: _accept, // ignore
         tip: _tip,
         undefinedPlaceholder,
+        defaultImage,
 
         ...other
       } = props;
@@ -122,13 +160,13 @@ export const AImagesComponent = defineAtomicComponent(
                 : fileList.value.map((i, idx) => {
                     return (
                       <picture class="fat-a-images__p-item" key={`${i.name}_${idx}`}>
-                        <img
+                        <ImagePreview
                           class="fat-a-images__p-item-img"
                           alt={i.name}
                           style={{ objectFit: fit ?? 'cover' }}
-                          // @ts-expect-error
                           loading="lazy"
                           src={i.url}
+                          fallback={defaultImage}
                         />
                       </picture>
                     );
