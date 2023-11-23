@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.4
+
+### Patch Changes
+
+- - images 原件支持默认图片
+
 ## 1.9.3
 
 ### Patch Changes
