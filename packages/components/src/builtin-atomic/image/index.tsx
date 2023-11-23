@@ -2,6 +2,7 @@
  * 图片上传
  */
 import { computed } from '@wakeadmin/demi';
+import { NoopArray } from '@wakeadmin/utils';
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
 
 import { AImagesProps, AImagesComponent } from '../images';
@@ -25,7 +26,11 @@ export const AImageComponent = defineAtomicComponent(
      * 转换为数组形式
      */
     const valueInArray = computed(() => {
-      return props.value && [props.value];
+      if (props.value) {
+        return [props.value];
+      }
+
+      return NoopArray;
     });
 
     const handleChange = (arr?: any[]) => {
