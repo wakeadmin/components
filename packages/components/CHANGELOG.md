@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.7
+
+### Patch Changes
+
+- fat-table column 扩展 columnKey 字段，支持查询字段显式设置关联的列
+
 ## 1.9.6
 
 ### Patch Changes
