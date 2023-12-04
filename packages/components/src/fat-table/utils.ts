@@ -84,6 +84,15 @@ export function genKey(column: FatTableColumn<any>, index: number): string {
 }
 
 /**
+ * 获取列标识符
+ * @param column
+ * @returns
+ */
+export function getColumnKey(column: FatTableColumn<any>): string | undefined {
+  return column.columnKey ?? column.key ?? column.prop;
+}
+
+/**
  * 获取原件
  * @param column
  * @returns

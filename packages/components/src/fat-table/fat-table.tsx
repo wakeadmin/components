@@ -56,7 +56,7 @@ import {
   FatTableCustomTableScope,
 } from './types';
 import { FatTableSettingPayload } from './types-inner';
-import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
+import { validateColumns, genKey, mergeAndTransformQuery, isQueryable, getColumnKey } from './utils';
 import { useHMR } from '../utils/hmr';
 import { Query } from './query';
 import { Column } from './column';
@@ -815,13 +815,7 @@ const FatTableInner = declareComponent({
      * 表格列
      */
     const tableColumns = computed(() => {
-      const columns: FatTableColumn<any>[] = (props.columns ?? NoopArray)
-        .filter(i => i.type !== 'query')
-        .map(i => {
-          const key = i.key ?? i.prop ?? i.type;
-
-          return { ...i, key };
-        });
+      const columns: FatTableColumn<any>[] = (props.columns ?? NoopArray).filter(i => i.type !== 'query');
 
       // 注入选择行
       if (props.enableSelect && !isSelectionColumnDefined) {
@@ -833,20 +827,24 @@ const FatTableInner = declareComponent({
         });
       }
 
-      return columns;
+      return columns.map(i => {
+        const columnKey = getColumnKey(i) ?? i.type;
+
+        return { ...i, columnKey };
+      });
     });
 
     const tableConfigurableColumns = computed(() => {
       return tableColumns.value.filter(i => i.type !== 'selection' && i.type !== 'expand');
     });
 
-    const isVisible = (key: string) => {
+    const isVisible = (columnKey: string | number) => {
       if (!settings.value) {
         return true;
       }
 
-      if (key in settings.value) {
-        return settings.value[key].visible;
+      if (columnKey in settings.value) {
+        return settings.value[columnKey].visible;
       }
 
       // 未配置的可能是新增的字段，默认显示
@@ -860,9 +858,9 @@ const FatTableInner = declareComponent({
       return (props.columns ?? NoopArray)
         .filter(i => i.type === 'query' || i.queryable)
         .map(i => {
-          const key = i.key ?? i.prop ?? i.type;
+          const columnKey = getColumnKey(i);
 
-          return { ...i, key };
+          return { ...i, columnKey };
         });
     });
 
@@ -871,7 +869,7 @@ const FatTableInner = declareComponent({
         return tableColumns.value;
       }
 
-      return tableColumns.value.filter(i => i.type === 'selection' || i.type === 'expand' || isVisible(i.key!));
+      return tableColumns.value.filter(i => i.type === 'selection' || i.type === 'expand' || isVisible(i.columnKey!));
     });
 
     const customizeQueryColumns = computed(() => {
@@ -881,7 +879,7 @@ const FatTableInner = declareComponent({
 
       return queryColumns.value.filter(i => {
         // 可见的列 或者 没有在表格列中定义的列
-        return isVisible(i.key!);
+        return isVisible(i.columnKey!);
       });
     });
 
@@ -1031,17 +1029,17 @@ const FatTableInner = declareComponent({
         const columnKeySet = new Set();
 
         for (const c of configurableColumns) {
-          if (c.key == null) {
+          if (c.columnKey == null) {
             console.log(c);
-            throw new Error(`[fat-table]: column key is required`);
+            throw new Error(`[fat-table]: column key/columnKey/prop is required`);
           }
 
-          if (columnKeySet.has(c.key)) {
+          if (columnKeySet.has(c.columnKey)) {
             console.log(c);
-            throw new Error(`[fat-table]: column key must be unique`);
+            throw new Error(`[fat-table]: column key/columnKey/prop must be unique`);
           }
 
-          columnKeySet.add(c.key);
+          columnKeySet.add(c.columnKey);
         }
       }
 

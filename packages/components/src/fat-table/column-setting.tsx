@@ -29,12 +29,12 @@ export const ColumnSetting = declareComponent({
     });
 
     const allSelected = computed(() => {
-      return props.columns.every(column => selectedInSet.value.has(column.key!));
+      return props.columns.every(column => selectedInSet.value.has(column.columnKey!));
     });
 
     const handleToggleSelectAll = (value: boolean) => {
       if (value) {
-        tempSelected.value = props.columns.map(column => column.key!).filter(booleanPredicate);
+        tempSelected.value = props.columns.map(column => column.columnKey!).filter(booleanPredicate);
       } else {
         tempSelected.value = [];
       }
@@ -48,22 +48,22 @@ export const ColumnSetting = declareComponent({
       if (props.modelValue) {
         tempSelected.value = props.columns
           .filter(i => {
-            if (i.key == null) {
+            if (i.columnKey == null) {
               console.error(i);
-              throw new Error('[fat-table] column key/prop is required');
+              throw new Error('[fat-table] column column/key/prop is required');
             }
 
-            if (i.key in props.modelValue!) {
-              return props.modelValue![i.key].visible;
+            if (i.columnKey in props.modelValue!) {
+              return props.modelValue![i.columnKey].visible;
             }
 
             // 新字段，默认显示
             return true;
           })
-          .map(i => i.key!);
+          .map(i => i.columnKey!);
       } else {
         // 如果为空，则默认全部显示
-        tempSelected.value = props.columns.map(i => i.key!);
+        tempSelected.value = props.columns.map(i => i.columnKey!);
       }
 
       handleVisibleChange(true);
@@ -84,7 +84,7 @@ export const ColumnSetting = declareComponent({
       emit(
         'update:modelValue',
         props.columns.reduce<FatTableSettingPayload>((acc, column) => {
-          const k = column.key!;
+          const k = column.columnKey!;
           acc[k] = {
             ...props.modelValue?.[k],
             visible: selectedSet.has(k),
@@ -130,11 +130,11 @@ export const ColumnSetting = declareComponent({
             {props.columns.map((column, idx) => {
               return (
                 <Checkbox
-                  {...model(selectedInSet.value.has(column.key!), checked => {
+                  {...model(selectedInSet.value.has(column.columnKey!), checked => {
                     if (checked) {
-                      tempSelected.value.push(column.key!);
+                      tempSelected.value.push(column.columnKey!);
                     } else {
-                      tempSelected.value.splice(tempSelected.value.indexOf(column.key!), 1);
+                      tempSelected.value.splice(tempSelected.value.indexOf(column.columnKey!), 1);
                     }
                   })}
                   class="fat-table__column-setting-ck"

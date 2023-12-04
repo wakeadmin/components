@@ -56,12 +56,19 @@ export default defineFatTable(({ column }) => {
       }),
       column({
         type: 'query',
-        prop: 'createdAt',
-        label: '创建时间',
-        valueType: 'date-range',
-        transform: (value: any) => {
-          return value && { start: value[0], end: value[1] };
-        },
+        prop: 'start',
+        // 关联到 createdAt 字段的设置
+        columnKey: 'createdAt',
+        label: '开始时间',
+        valueType: 'date',
+      }),
+      column({
+        type: 'query',
+        prop: 'end',
+        // 关联到 createdAt 字段的设置
+        columnKey: 'createdAt',
+        label: '结束时间',
+        valueType: 'date',
       }),
       // 不受控制
       column({

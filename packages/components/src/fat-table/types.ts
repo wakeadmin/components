@@ -754,6 +754,12 @@ export interface FatTableColumn<
   key?: string;
 
   /**
+   * 用于标记列，如果不指定，将回退使用 key 或 prop
+   * 不需要保证唯一，用于需要将多个列、查询条件关联到一个的情况，比如想要将开始时间和结束时间关联到一个 createBy 字段
+   */
+  columnKey?: string;
+
+  /**
    * 手动从行数据中提取单元格数据, 用于取代 prop 以实现复杂数据的提取和格式化
    */
   getter?: (row: T, index: number) => any;
