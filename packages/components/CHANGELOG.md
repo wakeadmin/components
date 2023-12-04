@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.6
+
+### Patch Changes
+
+- 优化 fat-table 设置存储协议
+
 ## 1.9.5
 
 ### Patch Changes
