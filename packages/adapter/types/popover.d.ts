@@ -17,48 +17,48 @@ export type PopoverPlacement =
 
 export interface PopoverProps {
   /** How the popover is triggered */
-  trigger: PopoverTrigger;
+  trigger?: PopoverTrigger;
 
   /** Popover title */
-  title: string;
+  title?: string;
 
   /** Popover content, can be replaced with a default slot */
-  content: string;
+  content?: string;
 
   /** Popover width */
-  width: string | number;
+  width?: string | number;
 
   /** Popover placement */
-  placement: PopoverPlacement;
+  placement?: PopoverPlacement;
 
   /** Whether Popover is disabled */
-  disabled: boolean;
+  disabled?: boolean;
 
   /** Popover offset */
-  offset: number;
+  offset?: number;
 
   /** Popover transition animation */
-  transition: string;
+  transition?: string;
 
   /** Parameters for popper.js */
-  popperOptions: object;
+  popperOptions?: object;
 
   /** Custom class name for popover */
-  popperClass: string;
+  popperClass?: string;
 
   /** Delay before appearing when trigger is hover, in milliseconds */
-  openDelay: number;
+  openDelay?: number;
 
   /** Delay before disappearing when trigger is hover, in milliseconds */
-  closeDelay: number;
+  closeDelay?: number;
 
   /** Popover tabindex */
-  tabindex: number;
+  tabindex?: number;
 
   /** Visibility of Tooltip */
   // vue2 v-model
   /** Whether popover is visible */
-  value: boolean;
+  value?: boolean;
   onInput?: (value: boolean) => void;
 
   // vue3 v-model

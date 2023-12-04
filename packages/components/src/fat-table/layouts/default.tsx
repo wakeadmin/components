@@ -16,7 +16,12 @@ const DefaultLayout: FatTableLayout = props => {
     >
       <div class="fat-table__body">
         {!!props.renderError && <div class="fat-table__error">{props.renderError()}</div>}
-        {!!props.renderToolbar && <div class="fat-table__toolbar">{props.renderToolbar()}</div>}
+        {(!!props.renderToolbar || !!props.renderSettings) && (
+          <div class="fat-table__toolbar">
+            <main class="fat-table__toolbar-main">{props.renderToolbar?.()}</main>
+            {!!props.renderSettings && <div class="fat-table__settings">{props.renderSettings()}</div>}
+          </div>
+        )}
 
         <div class="fat-table__table">{props.renderTable?.()}</div>
       </div>

@@ -214,7 +214,7 @@ FatTable 中通过 actions 来定义表格的操作:
 <br>
 <br>
 
-## 6. 批量操作按钮
+## 6. 批量操作按钮 / 表格设置
 
 和操作按钮类似， FatTable 也支持快速创建批量操作按钮:
 
@@ -228,6 +228,21 @@ FatTable 中通过 actions 来定义表格的操作:
 
 :::
 
+<br>
+<br>
+<br>
+
+表格设置
+
+<iframe class="demo-frame" style="height: 720px" src="./setting.demo.html" />
+
+::: details 查看代码
+
+<<< @/fat-table/Setting.tsx
+
+:::
+
+<br>
 <br>
 <br>
 <br>

@@ -11,4 +11,14 @@
     align-items: center;
     justify-content: flex-end;
   }
+
+  .fat-table__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-main {
+      flex: 1;
+    }
+  }
 }

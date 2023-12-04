@@ -899,6 +899,35 @@ export interface FatTablePagination {
   paginationProps?: FatTablePaginationProps;
 }
 
+export interface FatTableSettingProps {
+  /**
+   * 缓存 key，用于区分不同的表格设置
+   *
+   * 默认是路由的路径, 如果获取失败，会抛出异常
+   */
+  persistentKey?: string;
+
+  /**
+   * 存储的形式，默认为 local
+   */
+  persistentType?: 'local' | 'session';
+}
+
+/**
+ * 表格设置
+ */
+export interface FatTableSetting {
+  /**
+   * 是否开启表格设置，默认关闭
+   */
+  enableSetting?: boolean;
+
+  /**
+   * 表格设置属性
+   */
+  settingProps?: FatTableSettingProps;
+}
+
 /**
  * 原始 table 参数
  */
@@ -911,6 +940,7 @@ export interface FatTableProps<Item extends {}, Query extends {}>
   extends FatTableRemove<Item>,
     FatTableQuery<Item, Query>,
     FatTableSelect<Item>,
+    FatTableSetting,
     FatTablePagination,
     FatTableRawProps,
     FatTableEvents<Item, Query>,
@@ -1062,6 +1092,12 @@ export type FatTableLayout = (slots: {
    * 渲染工具栏
    */
   renderToolbar?: () => any;
+
+  /**
+   * 渲染表格设置
+   * @returns
+   */
+  renderSettings?: () => any;
 
   /**
    * 渲染表格

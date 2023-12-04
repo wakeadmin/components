@@ -55,6 +55,7 @@ import {
   FatTableRequestResponse,
   FatTableCustomTableScope,
 } from './types';
+import { FatTableSettingPayload } from './types-inner';
 import { validateColumns, genKey, mergeAndTransformQuery, isQueryable } from './utils';
 import { useHMR } from '../utils/hmr';
 import { Query } from './query';
@@ -62,6 +63,7 @@ import { Column } from './column';
 import { BUILTIN_LAYOUTS } from './layouts';
 import { BatchActions } from './batch-actions';
 import { provideAtomicHost } from '../atomic/host';
+import { ColumnSetting } from './column-setting';
 
 const FatTableInner = declareComponent({
   name: 'FatTable',
@@ -85,6 +87,8 @@ const FatTableInner = declareComponent({
     namespace: null,
     enablePagination: { type: Boolean, default: true },
     paginationProps: null,
+    enableSetting: { type: Boolean, default: false },
+    settingProps: null,
     enableSelect: { type: Boolean, default: false },
     selectable: null,
     enableQuery: { type: Boolean, default: true },
@@ -180,6 +184,41 @@ const FatTableInner = declareComponent({
     const sort = ref<FatTableSort | undefined | null>();
     // 过滤条件
     const filter = reactive<FatTableFilter>({});
+
+    const settings = ref<FatTableSettingPayload | undefined>();
+
+    const restoreSetting = () => {
+      if (!props.enableSetting) {
+        return;
+      }
+
+      // 表格配置初始化
+      if (!props.settingProps?.persistentKey) {
+        throw new Error(`[fat-table] 开启 enableSetting 后请配置 settingProps.persistentKey `);
+      }
+
+      const storage = props.settingProps.persistentType === 'session' ? window.sessionStorage : window.localStorage;
+      const data = storage.getItem(`_fat-table_.` + props.settingProps.persistentKey);
+
+      if (data != null) {
+        settings.value = JSON.parse(data);
+      }
+    };
+
+    const saveSetting = () => {
+      if (!props.enableSetting) {
+        return;
+      }
+
+      // 表格配置初始化
+      if (!props.settingProps?.persistentKey) {
+        throw new Error(`[fat-table] 开启 enableSetting 后请配置 settingProps.persistentKey `);
+      }
+
+      const storage = props.settingProps.persistentType === 'session' ? window.sessionStorage : window.localStorage;
+      const data = JSON.stringify(settings.value);
+      storage.setItem(`_fat-table_.` + props.settingProps.persistentKey, data);
+    };
 
     /**
      * 初始化缓存
@@ -445,6 +484,8 @@ const FatTableInner = declareComponent({
      * 启动
      */
     onMounted(async () => {
+      restoreSetting();
+
       // 缓存恢复
       if (enableCacheQuery && route?.query?.[queryCacheKey] != null) {
         // 开启了缓存
@@ -532,6 +573,12 @@ const FatTableInner = declareComponent({
       emit('reset');
 
       debouncedSearch();
+    };
+
+    const handleSettingChange = (value: FatTableSettingPayload) => {
+      settings.value = value;
+
+      saveSetting();
     };
 
     /**
@@ -768,6 +815,45 @@ const FatTableInner = declareComponent({
       return queryable.value || hasSlots(props, slots, 'beforeForm') || hasSlots(props, slots, 'afterForm');
     });
 
+    /**
+     * 表格列
+     */
+    const tableColumns = computed(() => {
+      const columns: FatTableColumn<any>[] = (props.columns ?? NoopArray)
+        .filter(i => i.type !== 'query')
+        .map(i => {
+          const key = i.key ?? i.prop ?? i.type;
+
+          return { ...i, key };
+        });
+
+      // 注入选择行
+      if (props.enableSelect && !isSelectionColumnDefined) {
+        columns.unshift({
+          type: 'selection',
+          width: '40',
+          selectable: props.selectable,
+          className: 'fat-table__selection-cell',
+        });
+      }
+
+      return columns;
+    });
+
+    const tableConfigurableColumns = computed(() => {
+      return tableColumns.value.filter(i => i.type !== 'selection' && i.type !== 'expand');
+    });
+
+    const customizeTableColumns = computed(() => {
+      if (!props.enableSetting || settings.value == null || settings.value.visible == null) {
+        return tableColumns.value;
+      }
+
+      const visibleSet = new Set(settings.value.visible);
+
+      return tableColumns.value.filter(i => i.type === 'selection' || i.type === 'expand' || visibleSet.has(i.key!));
+    });
+
     const renderQuery = computed(() =>
       enableQuerySlot.value
         ? () => [
@@ -848,6 +934,20 @@ const FatTableInner = declareComponent({
       return undefined;
     });
 
+    const renderSettings = computed(() => {
+      return props.enableSetting
+        ? () => {
+            return (
+              <ColumnSetting
+                columns={tableConfigurableColumns.value}
+                modelValue={settings.value}
+                onUpdate:modelValue={handleSettingChange}
+              />
+            );
+          }
+        : undefined;
+    });
+
     const renderBottomToolbar = computed(() => {
       return hasSlots(props, slots, 'bottomToolbar')
         ? () => renderSlot(props, slots, 'bottomToolbar', tableInstance)
@@ -885,16 +985,26 @@ const FatTableInner = declareComponent({
         throw new Error(`[fat-table]: unknown layout: ${layout}`);
       }
 
-      const columns = (props.columns ?? NoopArray).filter(i => i.type !== 'query');
+      const columns = customizeTableColumns.value;
+      const configurableColumns = tableConfigurableColumns.value;
 
-      // 注入选择行
-      if (props.enableSelect && !isSelectionColumnDefined) {
-        columns.unshift({
-          type: 'selection',
-          width: '40',
-          selectable: props.selectable,
-          className: 'fat-table__selection-cell',
-        });
+      // 检查 key 是否唯一, 如果不唯一就抛出异常
+      if (props.enableSetting && process.env.NODE_ENV === 'development') {
+        const columnKeySet = new Set();
+
+        for (const c of configurableColumns) {
+          if (c.key == null) {
+            console.log(c);
+            throw new Error(`[fat-table]: column key is required`);
+          }
+
+          if (columnKeySet.has(c.key)) {
+            console.log(c);
+            throw new Error(`[fat-table]: column key must be unique`);
+          }
+
+          columnKeySet.add(c.key);
+        }
       }
 
       return layoutImpl({
@@ -908,6 +1018,7 @@ const FatTableInner = declareComponent({
         renderQuery: renderQuery.value,
         renderError: renderError.value,
         renderToolbar: renderToolbar.value,
+        renderSettings: renderSettings.value,
         renderTable: () => [
           renderSlot(props, slots, 'beforeTable', tableInstance),
           // 自定义渲染
