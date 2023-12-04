@@ -198,7 +198,7 @@ const FatTableInner = declareComponent({
       }
 
       const storage = props.settingProps.persistentType === 'session' ? window.sessionStorage : window.localStorage;
-      const data = storage.getItem(`_fat-table_.` + props.settingProps.persistentKey);
+      const data = storage.getItem(`_fat-table_v1.` + props.settingProps.persistentKey);
 
       if (data != null) {
         settings.value = JSON.parse(data);
@@ -217,7 +217,7 @@ const FatTableInner = declareComponent({
 
       const storage = props.settingProps.persistentType === 'session' ? window.sessionStorage : window.localStorage;
       const data = JSON.stringify(settings.value);
-      storage.setItem(`_fat-table_.` + props.settingProps.persistentKey, data);
+      storage.setItem(`_fat-table_v1.` + props.settingProps.persistentKey, data);
     };
 
     /**
@@ -836,13 +836,22 @@ const FatTableInner = declareComponent({
       return columns;
     });
 
-    const tableColumnsKeySet = computed(() => {
-      return new Set(tableColumns.value.map(i => i.key!));
-    });
-
     const tableConfigurableColumns = computed(() => {
       return tableColumns.value.filter(i => i.type !== 'selection' && i.type !== 'expand');
     });
+
+    const isVisible = (key: string) => {
+      if (!settings.value) {
+        return true;
+      }
+
+      if (key in settings.value) {
+        return settings.value[key].visible;
+      }
+
+      // 未配置的可能是新增的字段，默认显示
+      return true;
+    };
 
     /**
      * 表单列
@@ -858,30 +867,21 @@ const FatTableInner = declareComponent({
     });
 
     const customizeTableColumns = computed(() => {
-      if (!props.enableSetting || settings.value == null || settings.value.visible == null) {
+      if (!props.enableSetting || settings.value == null) {
         return tableColumns.value;
       }
 
-      const visibleSet = new Set(settings.value.visible);
-
-      return tableColumns.value.filter(i => i.type === 'selection' || i.type === 'expand' || visibleSet.has(i.key!));
+      return tableColumns.value.filter(i => i.type === 'selection' || i.type === 'expand' || isVisible(i.key!));
     });
 
     const customizeQueryColumns = computed(() => {
-      if (
-        !props.enableSetting ||
-        settings.value == null ||
-        settings.value.visible == null ||
-        props.settingProps?.query === false
-      ) {
+      if (!props.enableSetting || settings.value == null || props.settingProps?.query === false) {
         return queryColumns.value;
       }
 
-      const visibleSet = new Set(settings.value.visible);
-
       return queryColumns.value.filter(i => {
         // 可见的列 或者 没有在表格列中定义的列
-        return visibleSet.has(i.key!) || !tableColumnsKeySet.value.has(i.key!);
+        return isVisible(i.key!);
       });
     });
 

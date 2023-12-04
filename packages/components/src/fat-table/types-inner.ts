@@ -1,3 +1,5 @@
 export interface FatTableSettingPayload {
-  visible?: string[];
+  [key: string]: {
+    visible: boolean;
+  };
 }

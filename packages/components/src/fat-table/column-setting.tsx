@@ -45,7 +45,27 @@ export const ColumnSetting = declareComponent({
     };
 
     const show = () => {
-      tempSelected.value = (props.modelValue?.visible ?? NoopArray).slice();
+      if (props.modelValue) {
+        tempSelected.value = props.columns
+          .filter(i => {
+            if (i.key == null) {
+              console.error(i);
+              throw new Error('[fat-table] column key/prop is required');
+            }
+
+            if (i.key in props.modelValue!) {
+              return props.modelValue![i.key].visible;
+            }
+
+            // 新字段，默认显示
+            return true;
+          })
+          .map(i => i.key!);
+      } else {
+        // 如果为空，则默认全部显示
+        tempSelected.value = props.columns.map(i => i.key!);
+      }
+
       handleVisibleChange(true);
     };
 
@@ -59,7 +79,20 @@ export const ColumnSetting = declareComponent({
         return;
       }
 
-      emit('update:modelValue', { visible: tempSelected.value.slice() });
+      const selectedSet = new Set(tempSelected.value);
+
+      emit(
+        'update:modelValue',
+        props.columns.reduce<FatTableSettingPayload>((acc, column) => {
+          const k = column.key!;
+          acc[k] = {
+            ...props.modelValue?.[k],
+            visible: selectedSet.has(k),
+          };
+
+          return acc;
+        }, {})
+      );
       hide();
     };
 

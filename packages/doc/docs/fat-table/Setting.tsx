@@ -63,6 +63,12 @@ export default defineFatTable(({ column }) => {
           return value && { start: value[0], end: value[1] };
         },
       }),
+      // 不受控制
+      column({
+        type: 'query',
+        prop: 'fake',
+        label: '额外请求条件',
+      }),
       column({
         type: 'actions',
         label: '操作',
