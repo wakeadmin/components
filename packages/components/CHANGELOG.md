@@ -1,5 +1,13 @@
 # @wakeadmin/components
 
+## 1.9.5
+
+### Patch Changes
+
+- - fat-table 支持列设置
+- Updated dependencies
+  - @wakeadmin/element-adapter@0.6.11
+
 ## 1.9.4
 
 ### Patch Changes
