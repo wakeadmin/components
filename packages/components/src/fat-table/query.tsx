@@ -77,10 +77,7 @@ export const Query = declareComponent({
           >
             {ctx.slots.before?.(scope)}
             {props.columns
-              ?.filter(column => {
-                return column.type === 'query' || column.queryable;
-              })
-              .sort((i, j) => (i.order ?? 1000) - (j.order ?? 1000))
+              ?.sort((i, j) => (i.order ?? 1000) - (j.order ?? 1000))
               .map((column, index) => {
                 if (column.renderFormItem) {
                   // 自定义渲染

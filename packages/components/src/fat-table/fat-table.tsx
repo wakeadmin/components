@@ -811,10 +811,6 @@ const FatTableInner = declareComponent({
 
     const queryable = computed(() => props.enableQuery && props.columns.some(isQueryable));
 
-    const enableQuerySlot = computed(() => {
-      return queryable.value || hasSlots(props, slots, 'beforeForm') || hasSlots(props, slots, 'afterForm');
-    });
-
     /**
      * 表格列
      */
@@ -840,8 +836,25 @@ const FatTableInner = declareComponent({
       return columns;
     });
 
+    const tableColumnsKeySet = computed(() => {
+      return new Set(tableColumns.value.map(i => i.key!));
+    });
+
     const tableConfigurableColumns = computed(() => {
       return tableColumns.value.filter(i => i.type !== 'selection' && i.type !== 'expand');
+    });
+
+    /**
+     * 表单列
+     */
+    const queryColumns = computed(() => {
+      return (props.columns ?? NoopArray)
+        .filter(i => i.type === 'query' || i.queryable)
+        .map(i => {
+          const key = i.key ?? i.prop ?? i.type;
+
+          return { ...i, key };
+        });
     });
 
     const customizeTableColumns = computed(() => {
@@ -852,6 +865,31 @@ const FatTableInner = declareComponent({
       const visibleSet = new Set(settings.value.visible);
 
       return tableColumns.value.filter(i => i.type === 'selection' || i.type === 'expand' || visibleSet.has(i.key!));
+    });
+
+    const customizeQueryColumns = computed(() => {
+      if (
+        !props.enableSetting ||
+        settings.value == null ||
+        settings.value.visible == null ||
+        props.settingProps?.query === false
+      ) {
+        return queryColumns.value;
+      }
+
+      const visibleSet = new Set(settings.value.visible);
+
+      return queryColumns.value.filter(i => {
+        // 可见的列 或者 没有在表格列中定义的列
+        return visibleSet.has(i.key!) || !tableColumnsKeySet.value.has(i.key!);
+      });
+    });
+
+    const enableQuerySlot = computed(() => {
+      return (
+        (queryable.value || hasSlots(props, slots, 'beforeForm') || hasSlots(props, slots, 'afterForm')) &&
+        !!customizeQueryColumns.value.length
+      );
     });
 
     const renderQuery = computed(() =>
@@ -865,7 +903,7 @@ const FatTableInner = declareComponent({
                 formRef={() => formRef}
                 query={() => query}
                 formProps={props.formProps}
-                columns={props.columns}
+                columns={customizeQueryColumns.value}
                 onSubmit={handleSearch}
                 onReset={handleReset}
                 v-slots={{

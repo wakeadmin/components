@@ -7,6 +7,9 @@ locale,wkc.audio,音频,音頻,Audio,เสียง
 locale,wkc.cancel,取消,取消,Cancel,ยกเลิก
 locale,wkc.choose,选择,選擇,choose,เลือก
 locale,wkc.clickToUpload,点击上传,點擊上傳,Click to Upload,คลิกเพื่ออัปโหลด
+locale,wkc.columnSelectAlert,请至少选择一列,請至少選擇一列,Please select at least one column,โปรดเลือกอย่างน้อยหนึ่งคอลัมน์
+locale,wkc.columnSetting,列设置,列設定,Column settings,การตั้งค่าคอลัมน์
+locale,wkc.columnVisible,列展示,列展示,Column display,การแสดงคอลัมน์
 locale,wkc.confirm,确定,確定,Confirm,ยืนยัน
 locale,wkc.confirmDelete,确认删除?,確認刪除?,Confirm deletion?,ยืนยันการลบ?
 locale,wkc.copied,已拷贝,已拷貝,Copied,คัดลอกแล้ว

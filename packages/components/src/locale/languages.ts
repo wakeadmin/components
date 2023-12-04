@@ -87,5 +87,8 @@ export default {
     uploadFormat: '请上传 {accept} 格式的文件',
     valueCannotBeNull: '{label} 不能为空',
     video: '视频',
+    columnVisible: '列展示',
+    columnSetting: '列设置',
+    columnSelectAlert: '请至少选择一列',
   },
 };

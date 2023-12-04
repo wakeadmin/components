@@ -911,6 +911,12 @@ export interface FatTableSettingProps {
    * 存储的形式，默认为 local
    */
   persistentType?: 'local' | 'session';
+
+  /**
+   * 列隐藏是否影响查询条件，默认为 true
+   * 需要列的 key/prop 相等才会生效
+   */
+  query?: boolean;
 }
 
 /**

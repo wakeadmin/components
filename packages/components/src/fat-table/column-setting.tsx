@@ -1,6 +1,6 @@
 import { declareComponent, declareEmits, declareProps } from '@wakeadmin/h';
 import { Setting } from '@wakeadmin/icons';
-import { Popover, Checkbox, model } from '@wakeadmin/element-adapter';
+import { Popover, Checkbox, model, Message } from '@wakeadmin/element-adapter';
 import { ref, computed } from '@wakeadmin/demi';
 
 import { FatIcon } from '../fat-icon';
@@ -8,6 +8,7 @@ import { FatTableColumn } from './types';
 import { NoopArray, booleanPredicate } from '@wakeadmin/utils';
 
 import { FatTableSettingPayload } from './types-inner';
+import { useT } from '../hooks';
 
 export const ColumnSetting = declareComponent({
   name: 'FatTableColumnSetting',
@@ -21,6 +22,7 @@ export const ColumnSetting = declareComponent({
   setup(props, { emit }) {
     const visible = ref(false);
     const tempSelected = ref<string[]>([]);
+    const t = useT();
 
     const selectedInSet = computed(() => {
       return new Set(tempSelected.value ?? NoopArray);
@@ -52,6 +54,11 @@ export const ColumnSetting = declareComponent({
     };
 
     const confirm = () => {
+      if (!tempSelected.value.length) {
+        Message.warning(t('wkc.columnSelectAlert'));
+        return;
+      }
+
       emit('update:modelValue', { visible: tempSelected.value.slice() });
       hide();
     };
@@ -70,19 +77,19 @@ export const ColumnSetting = declareComponent({
                 <FatIcon>
                   <Setting />
                 </FatIcon>
-                <span>列设置</span>
+                <span>{t('wkc.columnSetting')}</span>
               </div>
             ),
           }}
         >
           <div class="fat-table__column-setting-hd">
-            <Checkbox {...model(allSelected.value, handleToggleSelectAll)}>列展示</Checkbox>
+            <Checkbox {...model(allSelected.value, handleToggleSelectAll)}>{t('wkc.columnVisible')}</Checkbox>
             <div class="fat-table__column-setting-btn">
               <div role="cancel" onClick={hide}>
-                取消
+                {t('wkc.cancel')}
               </div>
               <div role="confirm" onClick={confirm}>
-                确定
+                {t('wkc.confirm')}
               </div>
             </div>
           </div>

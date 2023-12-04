@@ -12,7 +12,9 @@ const DefaultLayout: FatTableLayout = props => {
       {...props.layoutProps}
       {...props.rootProps}
       class={normalizeClassName(props.rootProps.class, 'fat-table', 'fat-table--default')}
-      v-slots={{ title: props.renderTitle, extra: props.renderNavBar, query: props.renderQuery }}
+      renderQuery={props.renderQuery}
+      renderTitle={props.renderTitle}
+      renderExtra={props.renderNavBar}
     >
       <div class="fat-table__body">
         {!!props.renderError && <div class="fat-table__error">{props.renderError()}</div>}

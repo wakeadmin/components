@@ -42,12 +42,26 @@ export default defineFatTable(({ column }) => {
     ],
     columns: [
       column({
+        queryable: true,
         label: 'ID',
         prop: 'id',
       }),
       column({
         label: '名称',
         prop: 'name',
+      }),
+      column({
+        label: '创建时间',
+        prop: 'createdAt',
+      }),
+      column({
+        type: 'query',
+        prop: 'createdAt',
+        label: '创建时间',
+        valueType: 'date-range',
+        transform: (value: any) => {
+          return value && { start: value[0], end: value[1] };
+        },
       }),
       column({
         type: 'actions',
