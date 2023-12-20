@@ -17,8 +17,8 @@ jobs:
       # 安装 Node
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
-      - run: pnpm i -f
+          node-version: 16
+      - run: pnpm i
       - run: pnpm build
       - run: npm config set //registry.npmjs.org/:_authToken  $NODE_AUTH_TOKEN
         env:
