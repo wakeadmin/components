@@ -1,5 +1,5 @@
 import { Radio, RadioGroup, RadioGroupProps, model, RadioButton } from '@wakeadmin/element-adapter';
-import { computed, VNodeChild } from '@wakeadmin/demi';
+import { computed, VNodeChild, watchEffect } from '@wakeadmin/demi';
 import { NoopArray } from '@wakeadmin/utils';
 
 import { defineAtomic, defineAtomicComponent, DefineAtomicProps } from '../../atomic';
@@ -22,6 +22,12 @@ export type ARadioProps = DefineAtomicProps<
      * 选项
      */
     options?: ARadioOption[];
+
+    /**
+     * 是否默认选中第一个选项，默认 false
+     * 只有当 value 为空时有效
+     */
+    selectFirstByDefault?: boolean;
 
     /**
      * 自定义预览渲染
@@ -57,6 +63,19 @@ export const ARadioComponent = defineAtomicComponent(
     const active = computed(() => {
       return (props.options ?? NoopArray).find(i => i.value === props.value);
     });
+
+    // 自动选择第一个选项
+    const disposeDefaultSelect = watchEffect(
+      () => {
+        const { selectFirstByDefault, value, onChange, options } = props;
+
+        if (selectFirstByDefault && value == null && options?.length) {
+          onChange?.(options[0].value);
+          disposeDefaultSelect();
+        }
+      },
+      { flush: 'post' }
+    );
 
     return () => {
       const {

@@ -484,6 +484,7 @@ const FatTableInner = declareComponent({
      * 启动
      */
     onMounted(async () => {
+      // 注意：这里是在挂载后初始化的，这么做的好处是可以预留时间给下级组件(比如表单组件)设置初始值
       restoreSetting();
 
       // 缓存恢复
