@@ -24,7 +24,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: pnpm i
+          cache: 'pnpm'
+      - run: pnpm i -f
       - run: pnpm build:deps
       - run: pnpm build:doc
       - name: Deploy to GitHub Pages
