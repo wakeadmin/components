@@ -1,5 +1,12 @@
 # playground-vue2
 
+## 0.1.106
+
+### Patch Changes
+
+- Updated dependencies
+  - @wakeadmin/components@1.9.8
+
 ## 0.1.105
 
 ### Patch Changes

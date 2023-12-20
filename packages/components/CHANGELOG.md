@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.8
+
+### Patch Changes
+
+- radio 原件支持 selectFirstByDefault
+
 ## 1.9.7
 
 ### Patch Changes
