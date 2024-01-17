@@ -18,9 +18,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: pnpm i
+      - run: pnpm i -f
       - run: pnpm build
       - run: npm config set //registry.npmjs.org/:_authToken  $NODE_AUTH_TOKEN
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-      - run: pnpm publish -r --no-git-checks --registry=$NPM_REGISTRY --access public
+      - run: pnpm publish -r --no-git-checks --access public
