@@ -20,7 +20,7 @@ jobs:
           node-version: 16
       - run: pnpm i -f
       - run: pnpm build
-      - run: npm config set //registry.npmjs.org/:_authToken  $NODE_AUTH_TOKEN
+      - run: npm config set //registry.npmjs.org/:_authToken $NODE_AUTH_TOKEN
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-      - run: pnpm publish -r --no-git-checks --access public
+      - run: pnpm publish -r --no-git-checks --access public --registry=https://registry.npmjs.org/
