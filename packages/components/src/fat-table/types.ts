@@ -1,15 +1,15 @@
-import {
-  FilterList,
-  SortOrder,
-  TableProps,
-  StyleValue,
-  ClassValue,
-  PaginationProps,
-  TableMethods,
-  ButtonProps,
-  CommonProps,
-} from '@wakeadmin/element-adapter';
 import type { Ref } from '@wakeadmin/demi';
+import {
+  ButtonProps,
+  ClassValue,
+  CommonProps,
+  FilterList,
+  PaginationProps,
+  SortOrder,
+  StyleValue,
+  TableMethods,
+  TableProps,
+} from '@wakeadmin/element-adapter';
 
 import { GetAtomicProps } from '../atomic';
 import { FatFormItemProps, FatFormMethods, FatFormMode } from '../fat-form';
@@ -204,6 +204,11 @@ export interface FatTableMethods<Item extends {}, Query extends {}> {
    * 获取 request 参数
    */
   getRequestParams: () => FatTableRequestParams<Item, Query>;
+
+  /**
+   * 获取 Columns
+   */
+  getColumns: () => FatTableColumn<any>[];
 }
 
 /**
@@ -731,12 +736,18 @@ export interface FatTableColumn<
     FatTableColumnSelect<T> {
   /**
    * 列类型
-   * index 索引
-   * selection 选择器
-   * expand 展开
-   * actions 表单操作
-   * query 纯表单字段, 该列不会出现在表格中
-   * default 默认
+   *
+   * `index` 索引
+   *
+   * `selection` 选择器
+   *
+   * `expand` 展开
+   *
+   * `actions` 表单操作
+   *
+   * `query` 纯表单字段, 该列不会出现在表格中
+   *
+   * `default` 默认
    */
   type?: 'index' | 'selection' | 'expand' | 'actions' | 'default' | 'query';
 

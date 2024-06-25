@@ -295,7 +295,7 @@ export class Vue3Portal<T extends {} = any> extends BasePortal<T> {
  */
 export const Portal = (isVue2 ? Vue2Portal : Vue3Portal) as unknown as new <T>(
   component: () => any,
-  options: {
+  options?: {
     /**
      * 挂载目标
      *

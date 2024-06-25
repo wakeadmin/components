@@ -729,6 +729,29 @@ const FatTableInner = declareComponent({
     const doLayout = () => tableRef.value?.doLayout();
     const gotoPage = (page: number) => handlePageCurrentChange(page);
 
+    /**
+     * 表格列
+     */
+    const tableColumns = computed(() => {
+      const columns: FatTableColumn<any>[] = (props.columns ?? NoopArray).filter(i => i.type !== 'query');
+
+      // 注入选择行
+      if (props.enableSelect && !isSelectionColumnDefined) {
+        columns.unshift({
+          type: 'selection',
+          width: '40',
+          selectable: props.selectable,
+          className: 'fat-table__selection-cell',
+        });
+      }
+
+      return columns.map(i => {
+        const columnKey = getColumnKey(i) ?? i.type;
+
+        return { ...i, columnKey };
+      });
+    });
+
     const tableInstance: FatTableMethods<any, any> = {
       get tableRef() {
         return tableRef.value;
@@ -784,6 +807,9 @@ const FatTableInner = declareComponent({
       refresh: fetch,
       reset,
       getRequestParams,
+      getColumns() {
+        return tableColumns.value;
+      },
     };
 
     expose(tableInstance);
@@ -811,29 +837,6 @@ const FatTableInner = declareComponent({
     });
 
     const queryable = computed(() => props.enableQuery && props.columns.some(isQueryable));
-
-    /**
-     * 表格列
-     */
-    const tableColumns = computed(() => {
-      const columns: FatTableColumn<any>[] = (props.columns ?? NoopArray).filter(i => i.type !== 'query');
-
-      // 注入选择行
-      if (props.enableSelect && !isSelectionColumnDefined) {
-        columns.unshift({
-          type: 'selection',
-          width: '40',
-          selectable: props.selectable,
-          className: 'fat-table__selection-cell',
-        });
-      }
-
-      return columns.map(i => {
-        const columnKey = getColumnKey(i) ?? i.type;
-
-        return { ...i, columnKey };
-      });
-    });
 
     const tableConfigurableColumns = computed(() => {
       return tableColumns.value.filter(i => i.type !== 'selection' && i.type !== 'expand');

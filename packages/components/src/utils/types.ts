@@ -124,3 +124,7 @@ export type GetParameterInSet<S extends Set<any>> = S extends Set<infer F extend
 
 type Without<T> = { [K in keyof T]?: never };
 export type XOR<T, U> = (Without<T> & U) | (Without<U> & T);
+
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
