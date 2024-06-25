@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.9
+
+### Patch Changes
+
+- fat-table 新增对外暴露 getColumns
+
 ## 1.9.8
 
 ### Patch Changes

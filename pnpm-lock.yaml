@@ -189,7 +189,7 @@ importers:
         version: 1.0.3
     devDependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.9.8
+        specifier: workspace:1.9.9
         version: link:../components
       '@wakeadmin/icons':
         specifier: ^0.1.5
@@ -247,7 +247,7 @@ importers:
   packages/playground-vue2:
     dependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.9.8
+        specifier: workspace:1.9.9
         version: link:../components
       '@wakeadmin/framework':
         specifier: ^0.1.6
@@ -317,7 +317,7 @@ importers:
   packages/playground-vue3:
     dependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.9.8
+        specifier: workspace:1.9.9
         version: link:../components
       '@wakeadmin/framework':
         specifier: ^0.1.6
@@ -8850,6 +8850,7 @@ packages:
   /glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -15087,6 +15088,7 @@ packages:
 
   /vue@2.7.14:
     resolution: {integrity: sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ==}
+    deprecated: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
     dependencies:
       '@vue/compiler-sfc': 2.7.14
       csstype: 3.1.3
