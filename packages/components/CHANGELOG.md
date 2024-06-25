@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.10
+
+### Patch Changes
+
+- fix: 修复 fat-table 实例方法没有正常导出的问题
+
 ## 1.9.9
 
 ### Patch Changes

@@ -26,6 +26,8 @@ export const FatTablePublicMethodKeys: (keyof FatTableMethods<any, any>)[] = [
   'search',
   'refresh',
   'reset',
+  "getRequestParams",
+  "getColumns"
 ];
 
 /**
