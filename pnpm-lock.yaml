@@ -189,7 +189,7 @@ importers:
         version: 1.0.3
     devDependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.9.9
+        specifier: workspace:1.9.10
         version: link:../components
       '@wakeadmin/icons':
         specifier: ^0.1.5
@@ -247,7 +247,7 @@ importers:
   packages/playground-vue2:
     dependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.9.9
+        specifier: workspace:1.9.10
         version: link:../components
       '@wakeadmin/framework':
         specifier: ^0.1.6
@@ -317,7 +317,7 @@ importers:
   packages/playground-vue3:
     dependencies:
       '@wakeadmin/components':
-        specifier: workspace:1.9.9
+        specifier: workspace:1.9.10
         version: link:../components
       '@wakeadmin/framework':
         specifier: ^0.1.6
@@ -2943,6 +2943,7 @@ packages:
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
+    requiresBuild: true
     dev: true
 
   /@tsd/typescript@4.7.4:
@@ -6450,6 +6451,7 @@ packages:
   /css-tree@1.1.3:
     resolution: {integrity: sha512-tRpdppF7TRazZrjJ6v3stzv93qxRcSsFmW6cX0Zm2NVKpxE1WV1HblnghVv9TreireHkqI/VDEsfolRF1p6y7Q==}
     engines: {node: '>=8.0.0'}
+    requiresBuild: true
     dependencies:
       mdn-data: 2.0.14
       source-map: 0.6.1
@@ -6458,6 +6460,7 @@ packages:
   /css-what@6.1.0:
     resolution: {integrity: sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==}
     engines: {node: '>= 6'}
+    requiresBuild: true
     dev: true
 
   /cssesc@3.0.0:
@@ -6528,6 +6531,7 @@ packages:
   /csso@4.2.0:
     resolution: {integrity: sha512-wvlcdIbf6pwKEk7vHj8/Bkc0B4ylXZruLvOgs9doS5eOsOpuodOV2zJChSpkp+pRpYQLQMeF04nr3Z68Sta9jA==}
     engines: {node: '>=8.0.0'}
+    requiresBuild: true
     dependencies:
       css-tree: 1.1.3
     dev: true
@@ -6887,6 +6891,7 @@ packages:
 
   /dom-serializer@1.4.1:
     resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==}
+    requiresBuild: true
     dependencies:
       domelementtype: 2.3.0
       domhandler: 4.3.1
@@ -13465,6 +13470,7 @@ packages:
   /stable@0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
     deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
+    requiresBuild: true
     dev: true
 
   /stackframe@1.3.4:
