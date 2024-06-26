@@ -1,5 +1,11 @@
 # @wakeadmin/components
 
+## 1.9.11
+
+### Patch Changes
+
+- fix: 修复 fatTableModal `width` 未生效的问题
+
 ## 1.9.10
 
 ### Patch Changes

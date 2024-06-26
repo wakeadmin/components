@@ -42,6 +42,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../views/drag.vue'),
   },
   {
+    path: '/fat-table-modal',
+    name: 'FatTableModalPage',
+    component: () => import('../views/fatTableModal.tsx'),
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting

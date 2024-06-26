@@ -10,7 +10,7 @@ module.exports = defineConfig({
   pluginOptions: {
     ...defineMappChild({
       mapp: {
-        activeRule: '/dsp.html',
+        activeRule: '/dsp-vue3.html',
       },
     }),
   },

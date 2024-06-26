@@ -205,6 +205,7 @@ const FatTableModalInner = declareComponent({
     // dialog
     title: null,
     top: String,
+    width: null,
     modal: { type: Boolean, default: true },
     modalAppendToBody: { type: Boolean, default: false },
     lockScroll: { type: Boolean, default: true },

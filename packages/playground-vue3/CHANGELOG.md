@@ -1,5 +1,13 @@
 # playground-vue3
 
+## 0.1.109
+
+### Patch Changes
+
+- feat: 新增 fatTableModal
+- Updated dependencies
+  - @wakeadmin/components@1.9.11
+
 ## 0.1.108
 
 ### Patch Changes
